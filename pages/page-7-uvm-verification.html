@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 7 | UVM / Verification | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/guidebook-common.css">
+</head>
+<body class="page-standalone" data-page-id="page-7">
+    <main class="page-shell">
+        <section class="page-section active" id="page-7">
+            <div class="mb-4"><span class="badge">Part 7</span></div>
+            <h2 class="section-title">UVM / Verification</h2>
+
+            <div class="space-y-8">
+                <div class="card bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.09),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(59,130,246,0.08),_transparent_26%),linear-gradient(180deg,_#ffffff_0%,_#f8fcff_100%)]">
+                    <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-5 mb-6">
+                        <div>
+                            <div class="text-xs font-extrabold text-emerald-600 uppercase tracking-[0.2em] mb-2">Class-Based Verification</div>
+                            <h3 class="text-[28px] leading-tight font-black text-slate-900 mb-3">UVM은 “테스트벤치를 큰 설계처럼 조직하는 방법”입니다</h3>
+                            <p class="text-base leading-8 text-slate-600 max-w-[920px]">UVM은 Universal Verification Methodology의 약자로, <strong class="text-slate-900">SystemVerilog class 기반 검증 프레임워크</strong>입니다. 단순 testbench 한 파일이 아니라 <strong class="text-slate-900">transaction, sequence, driver, monitor, scoreboard, coverage</strong>를 계층적으로 나눠 대규모 IP/SoC 검증을 반복 가능하게 만드는 방식이라고 이해하면 가장 빠릅니다.</p>
+                        </div>
+                        <div class="inline-flex items-center gap-2 self-start rounded-full border border-emerald-100 bg-emerald-50 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.14em] text-emerald-600">
+                            <span>Reusable TB</span>
+                            <span class="text-emerald-300">/</span>
+                            <span>Factory</span>
+                            <span class="text-emerald-300">/</span>
+                            <span>TLM</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="rounded-[24px] border border-blue-100 bg-white/90 p-5 shadow-[0_12px_30px_rgba(59,130,246,0.05)]">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-2">Why UVM</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">재사용성</div>
+                            <p class="text-sm leading-7 text-slate-600">같은 agent, sequence, scoreboard를 IP 검증과 subsystem 검증, SoC 통합 검증에서 반복 활용하기 좋습니다.</p>
+                        </div>
+                        <div class="rounded-[24px] border border-emerald-100 bg-white/90 p-5 shadow-[0_12px_30px_rgba(16,185,129,0.05)]">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-500 mb-2">Core View</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">transaction 중심</div>
+                            <p class="text-sm leading-7 text-slate-600">pin 토글을 바로 쓰기보다 sequence item이라는 추상 데이터 단위로 stimulus를 만들고, driver가 이를 signal로 변환합니다.</p>
+                        </div>
+                        <div class="rounded-[24px] border border-violet-100 bg-white/90 p-5 shadow-[0_12px_30px_rgba(139,92,246,0.05)]">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-500 mb-2">Interview Point</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">“언어”가 아니라 방법론</div>
+                            <p class="text-sm leading-7 text-slate-600">SystemVerilog 위에서 동작하는 methodology라는 점, factory override와 config_db, objection이 실무 핵심이라는 점을 같이 말하면 좋습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border border-blue-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fbff_100%)]">
+                    <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-6">
+                        <div>
+                            <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">7-1. UVM Testbench Architecture</div>
+                            <h3 class="text-[24px] leading-tight font-black text-slate-900">테스트벤치 계층 구조</h3>
+                        </div>
+                        <div class="text-sm font-bold text-slate-500">test → env → agent → sequencer / driver / monitor</div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-[28px] border border-blue-100 bg-gradient-to-br from-white via-[#f9fcff] to-[#eef7ff]">
+                        <svg viewBox="0 0 1180 500" class="block w-full h-auto" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="uvmFlowLine" x1="0%" x2="100%" y1="0%" y2="0%">
+                                    <stop offset="0%" stop-color="#60a5fa"/>
+                                    <stop offset="100%" stop-color="#10b981"/>
+                                </linearGradient>
+                                <marker id="uvmArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563"/>
+                                </marker>
+                            </defs>
+
+                            <rect x="44" y="40" width="1092" height="420" rx="34" fill="#f8fbff" stroke="#dbeafe" stroke-width="2"/>
+
+                            <rect x="92" y="82" width="220" height="82" rx="24" fill="#ffffff" stroke="#93c5fd" stroke-width="2.5"/>
+                            <text x="202" y="116" text-anchor="middle" fill="#2563eb" font-size="15" font-weight="900">uvm_test</text>
+                            <text x="202" y="139" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">scenario selection / configuration</text>
+
+                            <rect x="368" y="82" width="220" height="82" rx="24" fill="#ffffff" stroke="#93c5fd" stroke-width="2.5"/>
+                            <text x="478" y="116" text-anchor="middle" fill="#2563eb" font-size="15" font-weight="900">uvm_env</text>
+                            <text x="478" y="139" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">agent, scoreboard, coverage assemble</text>
+
+                            <path d="M312 123H366" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#uvmArrow)"/>
+
+                            <rect x="136" y="232" width="250" height="176" rx="28" fill="#ffffff" stroke="#bfdbfe" stroke-width="2.5"/>
+                            <text x="261" y="268" text-anchor="middle" fill="#2563eb" font-size="18" font-weight="900">uvm_agent</text>
+                            <text x="261" y="292" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">active or passive</text>
+
+                            <rect x="168" y="320" width="104" height="54" rx="18" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+                            <text x="220" y="352" text-anchor="middle" fill="#2563eb" font-size="13" font-weight="900">sequencer</text>
+
+                            <rect x="282" y="320" width="72" height="54" rx="18" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+                            <text x="318" y="352" text-anchor="middle" fill="#2563eb" font-size="13" font-weight="900">driver</text>
+
+                            <rect x="448" y="232" width="142" height="176" rx="28" fill="#ffffff" stroke="#a7f3d0" stroke-width="2.5"/>
+                            <text x="519" y="268" text-anchor="middle" fill="#059669" font-size="18" font-weight="900">monitor</text>
+                            <text x="519" y="295" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">pin sampling</text>
+                            <text x="519" y="316" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">transaction rebuild</text>
+
+                            <rect x="666" y="232" width="182" height="176" rx="28" fill="#ffffff" stroke="#c4b5fd" stroke-width="2.5"/>
+                            <text x="757" y="268" text-anchor="middle" fill="#7c3aed" font-size="18" font-weight="900">scoreboard</text>
+                            <text x="757" y="295" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">expected vs actual compare</text>
+                            <text x="757" y="316" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">reference model / checker</text>
+
+                            <rect x="910" y="232" width="146" height="176" rx="28" fill="#ffffff" stroke="#f9a8d4" stroke-width="2.5"/>
+                            <text x="983" y="268" text-anchor="middle" fill="#db2777" font-size="18" font-weight="900">coverage</text>
+                            <text x="983" y="295" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">functional coverage</text>
+                            <text x="983" y="316" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">scenario completion</text>
+
+                            <path d="M478 164V206H261V230" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#uvmArrow)"/>
+                            <path d="M478 164V206H519V230" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#uvmArrow)"/>
+                            <path d="M478 164V206H757V230" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#uvmArrow)"/>
+                            <path d="M478 164V206H983V230" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#uvmArrow)"/>
+
+                            <rect x="408" y="430" width="366" height="40" rx="20" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.8"/>
+                            <text x="591" y="455" text-anchor="middle" fill="#2563eb" font-size="13" font-weight="900">sequence_item → sequencer → driver → DUT → monitor → scoreboard / coverage</text>
+
+                            <path d="M272 347H280" fill="none" stroke="url(#uvmFlowLine)" stroke-width="6" marker-end="url(#uvmArrow)"/>
+                            <path d="M354 347H642" fill="none" stroke="url(#uvmFlowLine)" stroke-width="6" marker-end="url(#uvmArrow)"/>
+                            <path d="M590 347H664" fill="none" stroke="url(#uvmFlowLine)" stroke-width="6" marker-end="url(#uvmArrow)"/>
+                            <path d="M590 362C660 402 915 402 948 362" fill="none" stroke="#f472b6" stroke-width="4" stroke-dasharray="6 6" marker-end="url(#uvmArrow)"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="card">
+                        <div class="text-xs font-extrabold text-violet-600 uppercase tracking-[0.2em] mb-2">7-2. Build to Run Phases</div>
+                        <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-5">UVM phase는 “언제 무엇을 준비하는가”를 나누는 시간표입니다</h3>
+                        <div class="space-y-3">
+                            <div class="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                <div class="font-black text-slate-900 mb-1">build_phase</div>
+                                <p class="text-sm leading-7 text-slate-600">컴포넌트 생성. env 안에서 agent, scoreboard, coverage collector를 new/create 합니다.</p>
+                            </div>
+                            <div class="rounded-2xl border border-blue-100 bg-blue-50/60 p-4">
+                                <div class="font-black text-blue-700 mb-1">connect_phase</div>
+                                <p class="text-sm leading-7 text-slate-600">TLM port/export 연결. monitor의 analysis port를 scoreboard, coverage에 연결하는 단계입니다.</p>
+                            </div>
+                            <div class="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4">
+                                <div class="font-black text-emerald-700 mb-1">run_phase</div>
+                                <p class="text-sm leading-7 text-slate-600">실제 stimulus 진행. sequence가 item을 만들고 driver가 DUT interface에 신호를 넣습니다.</p>
+                            </div>
+                            <div class="rounded-2xl border border-amber-100 bg-amber-50/60 p-4">
+                                <div class="font-black text-amber-700 mb-1">extract / check / report</div>
+                                <p class="text-sm leading-7 text-slate-600">결과 정리, mismatch 개수, coverage 도달 여부, pass/fail 메시지를 최종 출력합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border border-emerald-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fffb_100%)]">
+                        <div class="text-xs font-extrabold text-emerald-600 uppercase tracking-[0.2em] mb-2">7-3. Sequence Flow</div>
+                        <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-5">stimulus는 이렇게 DUT까지 전달됩니다</h3>
+                        <div class="space-y-4">
+                            <div class="rounded-[22px] border border-emerald-100 bg-white p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">1. sequence_item</div>
+                                <p class="text-sm leading-7 text-slate-600">addr, data, burst_len 같은 transaction payload를 담는 객체입니다.</p>
+                            </div>
+                            <div class="rounded-[22px] border border-emerald-100 bg-white p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">2. sequence</div>
+                                <p class="text-sm leading-7 text-slate-600">랜덤화와 scenario 조합을 담당합니다. directed test + random test의 교차점으로 많이 쓰입니다.</p>
+                            </div>
+                            <div class="rounded-[22px] border border-emerald-100 bg-white p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">3. sequencer</div>
+                                <p class="text-sm leading-7 text-slate-600">sequence와 driver 사이 arbitration 지점입니다. 어떤 item이 먼저 나갈지 조정합니다.</p>
+                            </div>
+                            <div class="rounded-[22px] border border-emerald-100 bg-white p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">4. driver</div>
+                                <p class="text-sm leading-7 text-slate-600">transaction을 pin-level signal로 변환해 DUT interface에 넣습니다.</p>
+                            </div>
+                            <div class="rounded-[22px] border border-rose-100 bg-rose-50/70 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">5. monitor / scoreboard</div>
+                                <p class="text-sm leading-7 text-slate-600">DUT 응답을 transaction으로 재구성하고, 기대값과 실제값을 비교해 버그를 잡습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    <div class="card">
+                        <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-2">Key Object</div>
+                        <h3 class="text-lg font-black text-slate-900 mb-4">factory / config_db</h3>
+                        <p class="text-sm leading-7 text-slate-600 mb-4">UVM의 실무 포인트는 클래스 계층만이 아니라 <strong class="text-slate-900">factory override</strong>와 <strong class="text-slate-900">uvm_config_db</strong>를 이용해 코드를 크게 바꾸지 않고 동작을 갈아끼울 수 있다는 점입니다.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-extrabold text-blue-600">override</span>
+                            <span class="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-extrabold text-blue-600">agent mode</span>
+                            <span class="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-extrabold text-blue-600">virtual interface</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-500 mb-2">Key Object</div>
+                        <h3 class="text-lg font-black text-slate-900 mb-4">objection</h3>
+                        <p class="text-sm leading-7 text-slate-600 mb-4">run_phase가 너무 빨리 끝나지 않도록 시뮬레이션 종료 타이밍을 제어합니다. <strong class="text-slate-900">raise_objection / drop_objection</strong>을 왜 쓰는지 설명할 수 있으면 이해도가 높아 보입니다.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="rounded-full border border-violet-100 bg-violet-50 px-3 py-1 text-xs font-extrabold text-violet-600">run control</span>
+                            <span class="rounded-full border border-violet-100 bg-violet-50 px-3 py-1 text-xs font-extrabold text-violet-600">test end</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-rose-500 mb-2">Key Object</div>
+                        <h3 class="text-lg font-black text-slate-900 mb-4">analysis port / scoreboard</h3>
+                        <p class="text-sm leading-7 text-slate-600 mb-4">monitor가 뽑은 actual transaction을 scoreboard와 coverage로 fan-out하는 경로입니다. UVM에서는 이 비침투적 전달 구조가 특히 중요합니다.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="rounded-full border border-rose-100 bg-rose-50 px-3 py-1 text-xs font-extrabold text-rose-600">TLM</span>
+                            <span class="rounded-full border border-rose-100 bg-rose-50 px-3 py-1 text-xs font-extrabold text-rose-600">checker</span>
+                            <span class="rounded-full border border-rose-100 bg-rose-50 px-3 py-1 text-xs font-extrabold text-rose-600">coverage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#fbfcfe_100%)]">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+                        <div>
+                            <div class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-2">7-4. Minimal Skeleton</div>
+                            <h3 class="text-[22px] leading-tight font-black text-slate-900">UVM 코드 뼈대는 이 정도 그림으로 기억하면 충분합니다</h3>
+                        </div>
+                        <div class="inline-flex items-center rounded-full bg-slate-50 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-slate-500 border border-slate-200">Interview-friendly View</div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-950">
+<pre class="overflow-x-auto p-5 text-[13px] leading-6 text-slate-100"><code>class my_txn extends uvm_sequence_item;
+  rand bit [15:0] addr;
+  rand bit [31:0] data;
+endclass
+
+class my_sequence extends uvm_sequence #(my_txn);
+  task body();
+    my_txn req = my_txn::type_id::create("req");
+    start_item(req);
+    assert(req.randomize());
+    finish_item(req);
+  endtask
+endclass
+
+class my_driver extends uvm_driver #(my_txn);
+  task run_phase(uvm_phase phase);
+    forever begin
+      seq_item_port.get_next_item(req);
+      // req를 DUT pin-level signal로 변환
+      seq_item_port.item_done();
+    end
+  endtask
+endclass</code></pre>
+                    </div>
+                </div>
+
+                <div class="card bg-[radial-gradient(circle_at_top_right,_rgba(14,165,233,0.08),_transparent_26%),linear-gradient(180deg,_#ffffff_0%,_#f8fbff_100%)]">
+                    <div class="text-xs font-extrabold text-sky-600 uppercase tracking-[0.2em] mb-2">7-5. Practical Memory Hooks</div>
+                    <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-6">시험이나 면접에서 자주 묻는 UVM 포인트</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                        <div class="rounded-2xl border border-sky-100 bg-white p-4">
+                            <div class="text-sm font-black text-slate-900 mb-2">UVM과 SV 차이</div>
+                            <p class="text-sm leading-7 text-slate-600">SV는 언어, UVM은 그 위의 검증 방법론입니다.</p>
+                        </div>
+                        <div class="rounded-2xl border border-emerald-100 bg-white p-4">
+                            <div class="text-sm font-black text-slate-900 mb-2">active / passive agent</div>
+                            <p class="text-sm leading-7 text-slate-600">active는 sequencer+driver 포함, passive는 monitor 중심으로 관찰만 합니다.</p>
+                        </div>
+                        <div class="rounded-2xl border border-violet-100 bg-white p-4">
+                            <div class="text-sm font-black text-slate-900 mb-2">scoreboard 역할</div>
+                            <p class="text-sm leading-7 text-slate-600">reference model 기반 expected와 DUT actual을 비교합니다.</p>
+                        </div>
+                        <div class="rounded-2xl border border-rose-100 bg-white p-4">
+                            <div class="text-sm font-black text-slate-900 mb-2">coverage closure</div>
+                            <p class="text-sm leading-7 text-slate-600">랜덤만 돌리는 것이 아니라 빈 시나리오를 채우는 방향으로 sequence를 보강합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="../assets/guidebook-page-common.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            window.GuidebookPage.initStandalonePage();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 9 | Off-Chip Interface | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/guidebook-common.css">
+</head>
+<body class="page-standalone" data-page-id="page-9">
+    <main class="page-shell">
+        <section class="page-section active" id="page-9">
+            <div class="mb-4"><span class="badge">Part 9</span></div>
+            <h2 class="section-title">Off-Chip Interface</h2>
+
+            <div class="space-y-8">
+                <div class="card bg-[radial-gradient(circle_at_top_right,_rgba(244,114,182,0.09),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(59,130,246,0.07),_transparent_24%),linear-gradient(180deg,_#ffffff_0%,_#fffafe_100%)]">
+                    <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-5 mb-6">
+                        <div>
+                            <div class="text-xs font-extrabold text-rose-500 uppercase tracking-[0.2em] mb-2">Chip Boundary</div>
+                            <h3 class="text-[28px] leading-tight font-black text-slate-900 mb-3">Off-Chip Interface는 칩 바깥 세상과 연결되는 관문입니다</h3>
+                            <p class="text-base leading-8 text-slate-600 max-w-[960px]">메모리, 저장장치, 보드, 다른 칩과 통신하려면 외부 인터페이스가 필요합니다. 이 영역은 단순 protocol 이름 암기보다 <strong class="text-slate-900">controller + PHY + signal integrity + timing margin</strong> 관점으로 설명할 수 있어야 실무 감각이 살아납니다.</p>
+                        </div>
+                        <div class="inline-flex items-center gap-2 self-start rounded-full border border-rose-100 bg-rose-50 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.14em] text-rose-600">
+                            <span>DDR</span>
+                            <span class="text-rose-300">/</span>
+                            <span>PCIe</span>
+                            <span class="text-rose-300">/</span>
+                            <span>USB</span>
+                            <span class="text-rose-300">/</span>
+                            <span>SerDes</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="rounded-[24px] border border-rose-100 bg-white/90 p-5">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-rose-500 mb-2">Boundary Role</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">외부 장치 연결</div>
+                            <p class="text-sm leading-7 text-slate-600">DDR 메모리, SSD, 카메라, 다른 SoC, PC host 같은 외부 장치와 실제로 신호를 주고받습니다.</p>
+                        </div>
+                        <div class="rounded-[24px] border border-blue-100 bg-white/90 p-5">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-2">Key Layer</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">Controller + PHY</div>
+                            <p class="text-sm leading-7 text-slate-600">상위 protocol 처리 logic와 전기적 신호를 담당하는 PHY를 분리해서 보는 습관이 중요합니다.</p>
+                        </div>
+                        <div class="rounded-[24px] border border-emerald-100 bg-white/90 p-5">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-500 mb-2">Physical Risk</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">SI / PI / Timing</div>
+                            <p class="text-sm leading-7 text-slate-600">패키지, 보드, 채널 손실, jitter, skew, termination 조건까지 함께 묶어서 봐야 합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border border-rose-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#fff9fc_100%)]">
+                    <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-6">
+                        <div>
+                            <div class="text-xs font-extrabold text-rose-500 uppercase tracking-[0.2em] mb-2">9-1. Interface Stack</div>
+                            <h3 class="text-[24px] leading-tight font-black text-slate-900">Protocol 위에 logic이, 아래에는 PHY가 있습니다</h3>
+                        </div>
+                        <div class="text-sm font-bold text-slate-500">Software / Protocol / Controller / PHY / Package / Board</div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-[28px] border border-rose-100 bg-gradient-to-br from-white via-[#fffafd] to-[#fff3f8]">
+                        <svg viewBox="0 0 1160 420" class="block w-full h-auto" aria-hidden="true">
+                            <rect x="82" y="50" width="996" height="318" rx="30" fill="#fffafd" stroke="#fbcfe8" stroke-width="2"/>
+
+                            <rect x="132" y="86" width="896" height="44" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+                            <text x="580" y="114" text-anchor="middle" fill="#334155" font-size="16" font-weight="900">Software Driver / OS / Firmware</text>
+
+                            <rect x="132" y="144" width="896" height="52" rx="20" fill="#ffffff" stroke="#f9a8d4"/>
+                            <text x="580" y="175" text-anchor="middle" fill="#db2777" font-size="18" font-weight="900">Protocol Layer (PCIe / USB / LPDDR / UFS)</text>
+
+                            <rect x="132" y="212" width="896" height="56" rx="22" fill="#ffffff" stroke="#93c5fd"/>
+                            <text x="580" y="246" text-anchor="middle" fill="#2563eb" font-size="18" font-weight="900">Controller / Link / Scheduler / Buffer / Training Logic</text>
+
+                            <rect x="132" y="284" width="896" height="56" rx="22" fill="#ffffff" stroke="#6ee7b7"/>
+                            <text x="580" y="318" text-anchor="middle" fill="#059669" font-size="18" font-weight="900">PHY / SerDes / DLL / PLL / Tx-Rx Analog Front End</text>
+
+                            <rect x="892" y="98" width="112" height="226" rx="22" fill="#fff1f2" stroke="#fda4af" stroke-dasharray="6 6"/>
+                            <text x="948" y="182" text-anchor="middle" fill="#e11d48" font-size="16" font-weight="900">Package</text>
+                            <text x="948" y="204" text-anchor="middle" fill="#e11d48" font-size="16" font-weight="900">Board</text>
+
+                            <rect x="88" y="142" width="24" height="198" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+                            <text x="100" y="248" text-anchor="middle" fill="#64748b" font-size="12" font-weight="900" transform="rotate(-90 100 248)">Chip Boundary</text>
+
+                            <rect x="232" y="350" width="696" height="28" rx="14" fill="#ffffff" stroke="#fbcfe8"/>
+                            <text x="580" y="369" text-anchor="middle" fill="#db2777" font-size="12" font-weight="900">문제 포인트: protocol 이해 + PHY 제약 + package/board 채널 영향</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="card">
+                        <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">9-2. Common Interfaces</div>
+                        <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-5">자주 나오는 외부 인터페이스</h3>
+                        <div class="space-y-3">
+                            <div class="rounded-2xl border border-blue-100 bg-blue-50/60 p-4">
+                                <div class="font-black text-blue-700 mb-1">DDR / LPDDR</div>
+                                <p class="text-sm leading-7 text-slate-600">메모리 인터페이스. controller, PHY, training, timing margin, DQ/DQS 관계가 핵심입니다.</p>
+                            </div>
+                            <div class="rounded-2xl border border-violet-100 bg-violet-50/60 p-4">
+                                <div class="font-black text-violet-700 mb-1">PCIe</div>
+                                <p class="text-sm leading-7 text-slate-600">고속 serial interconnect. lane 수, link training, LTSSM, equalization, throughput가 포인트입니다.</p>
+                            </div>
+                            <div class="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4">
+                                <div class="font-black text-emerald-700 mb-1">USB / UFS / Ethernet</div>
+                                <p class="text-sm leading-7 text-slate-600">외부 장치, 저장장치, 네트워크 연결 축입니다. protocol stack과 PHY 조건을 함께 봐야 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#fbfcfe_100%)]">
+                        <div class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-2">9-3. Debug Checklist</div>
+                        <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-5">문제가 났을 때 어디를 의심하나</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">Protocol Violation</div>
+                                <p class="text-sm text-slate-600">packet format, state transition 오류</p>
+                            </div>
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">Training Fail</div>
+                                <p class="text-sm text-slate-600">link up 실패, calibration 실패</p>
+                            </div>
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">Clock / Reset Sequence</div>
+                                <p class="text-sm text-slate-600">bring-up 순서 이상</p>
+                            </div>
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">Signal Integrity</div>
+                                <p class="text-sm text-slate-600">jitter, skew, eye margin 부족</p>
+                            </div>
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">Power / Termination</div>
+                                <p class="text-sm text-slate-600">I/O 전압, impedance, termination 설정</p>
+                            </div>
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">Package / Board Path</div>
+                                <p class="text-sm text-slate-600">chip 밖 채널 손실과 routing 영향</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="../assets/guidebook-page-common.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            window.GuidebookPage.initStandalonePage();
+        });
+    </script>
+</body>
+</html>

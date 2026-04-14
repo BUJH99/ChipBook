@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 10 | Solution | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/guidebook-common.css">
+</head>
+<body class="page-standalone" data-page-id="page-10">
+    <main class="page-shell">
+        <section class="page-section active" id="page-10">
+            <div class="mb-4"><span class="badge">Part 10</span></div>
+            <h2 class="section-title">Solution</h2>
+
+            <div class="space-y-8">
+                <div class="card bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.10),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(59,130,246,0.07),_transparent_24%),linear-gradient(180deg,_#ffffff_0%,_#fffdf7_100%)]">
+                    <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-5 mb-6">
+                        <div>
+                            <div class="text-xs font-extrabold text-amber-600 uppercase tracking-[0.2em] mb-2">System Integration View</div>
+                            <h3 class="text-[28px] leading-tight font-black text-slate-900 mb-3">Solution은 블록을 따로 설명하는 것이 아니라, 제품처럼 묶어서 설명하는 관점입니다</h3>
+                            <p class="text-base leading-8 text-slate-600 max-w-[980px]">SoC에서 좋은 solution은 CPU, NPU, memory subsystem, on-chip bus, off-chip interface, software bring-up까지 한 덩어리로 맞물릴 때 완성됩니다. 그래서 solution page는 <strong class="text-slate-900">“무슨 IP가 있나”</strong>보다 <strong class="text-slate-900">“어떻게 연결해 제품 문제를 푸나”</strong>에 집중하는 것이 좋습니다.</p>
+                        </div>
+                        <div class="inline-flex items-center gap-2 self-start rounded-full border border-amber-100 bg-amber-50 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.14em] text-amber-700">
+                            <span>Architecture</span>
+                            <span class="text-amber-300">/</span>
+                            <span>Integration</span>
+                            <span class="text-amber-300">/</span>
+                            <span>Bring-up</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="rounded-[24px] border border-amber-100 bg-white/90 p-5">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-amber-600 mb-2">Perspective</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">Subsystem 단위 사고</div>
+                            <p class="text-sm leading-7 text-slate-600">DDR controller, PHY, scheduler, cache, AXI interconnect를 따로 보지 않고 memory solution으로 봅니다.</p>
+                        </div>
+                        <div class="rounded-[24px] border border-blue-100 bg-white/90 p-5">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-2">Execution</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">HW + SW 연결</div>
+                            <p class="text-sm leading-7 text-slate-600">register map, interrupt, boot flow, driver model까지 이어져야 실제 product solution이 됩니다.</p>
+                        </div>
+                        <div class="rounded-[24px] border border-emerald-100 bg-white/90 p-5">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-500 mb-2">Evaluation</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">성능/전력/면적 trade-off</div>
+                            <p class="text-sm leading-7 text-slate-600">통합 관점에서는 block 개별 최적화보다, 전체 시스템 bottleneck 제거가 더 중요할 때가 많습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border border-amber-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#fffaf2_100%)]">
+                    <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-6">
+                        <div>
+                            <div class="text-xs font-extrabold text-amber-600 uppercase tracking-[0.2em] mb-2">10-1. Integration Stack</div>
+                            <h3 class="text-[24px] leading-tight font-black text-slate-900">하나의 SoC solution이 만들어지는 방식</h3>
+                        </div>
+                        <div class="text-sm font-bold text-slate-500">Compute / Bus / Memory / Interface / Software</div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-[28px] border border-amber-100 bg-gradient-to-br from-white via-[#fffdf8] to-[#fff7ea]">
+                        <svg viewBox="0 0 1180 470" class="block w-full h-auto" aria-hidden="true">
+                            <defs>
+                                <marker id="solArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                                    <path d="M0 0L10 5L0 10Z" fill="#64748b"/>
+                                </marker>
+                            </defs>
+                            <rect x="42" y="42" width="1096" height="386" rx="32" fill="#fffaf3" stroke="#fde68a" stroke-width="2"/>
+
+                            <rect x="90" y="88" width="172" height="84" rx="24" fill="#ffffff" stroke="#93c5fd" stroke-width="2.4"/>
+                            <text x="176" y="122" text-anchor="middle" fill="#2563eb" font-size="18" font-weight="900">Compute</text>
+                            <text x="176" y="145" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">CPU / GPU / NPU / DSP</text>
+
+                            <rect x="320" y="88" width="172" height="84" rx="24" fill="#ffffff" stroke="#60a5fa" stroke-width="2.4"/>
+                            <text x="406" y="122" text-anchor="middle" fill="#2563eb" font-size="18" font-weight="900">On-Chip Bus</text>
+                            <text x="406" y="145" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">AXI / NoC / APB Bridge</text>
+
+                            <rect x="550" y="88" width="172" height="84" rx="24" fill="#ffffff" stroke="#c4b5fd" stroke-width="2.4"/>
+                            <text x="636" y="122" text-anchor="middle" fill="#7c3aed" font-size="18" font-weight="900">Memory System</text>
+                            <text x="636" y="145" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">Cache / SRAM / DDR</text>
+
+                            <rect x="780" y="88" width="172" height="84" rx="24" fill="#ffffff" stroke="#f9a8d4" stroke-width="2.4"/>
+                            <text x="866" y="122" text-anchor="middle" fill="#db2777" font-size="18" font-weight="900">Off-Chip I/F</text>
+                            <text x="866" y="145" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">PCIe / USB / UFS / Ethernet</text>
+
+                            <rect x="270" y="244" width="602" height="122" rx="28" fill="#ffffff" stroke="#f59e0b" stroke-width="2.8"/>
+                            <text x="571" y="280" text-anchor="middle" fill="#d97706" font-size="22" font-weight="900">Integrated Solution Layer</text>
+                            <text x="571" y="307" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">Address map / QoS / power state / boot flow / firmware / driver / verification</text>
+
+                            <rect x="344" y="324" width="454" height="26" rx="13" fill="#fffbeb" stroke="#fde68a"/>
+                            <text x="571" y="341" text-anchor="middle" fill="#b45309" font-size="11" font-weight="900">Block optimization보다 system bottleneck 제거가 중요</text>
+
+                            <rect x="920" y="246" width="160" height="120" rx="28" fill="#ffffff" stroke="#6ee7b7" stroke-width="2.4"/>
+                            <text x="1000" y="282" text-anchor="middle" fill="#059669" font-size="18" font-weight="900">Bring-up</text>
+                            <text x="1000" y="306" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">FW / Driver / Test / Debug</text>
+                            <text x="1000" y="326" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">Lab validation</text>
+
+                            <path d="M262 130H318" fill="none" stroke="#64748b" stroke-width="4" marker-end="url(#solArrow)"/>
+                            <path d="M492 130H548" fill="none" stroke="#64748b" stroke-width="4" marker-end="url(#solArrow)"/>
+                            <path d="M722 130H778" fill="none" stroke="#64748b" stroke-width="4" marker-end="url(#solArrow)"/>
+
+                            <path d="M176 172V220H420V242" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#solArrow)"/>
+                            <path d="M406 172V220H520V242" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#solArrow)"/>
+                            <path d="M636 172V220H620V242" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#solArrow)"/>
+                            <path d="M866 172V220H720V242" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#solArrow)"/>
+                            <path d="M872 304H918" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#solArrow)"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="card">
+                        <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">10-2. Solution Thinking</div>
+                        <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-5">solution 관점에서 자주 묻는 질문</h3>
+                        <div class="space-y-3">
+                            <div class="rounded-2xl border border-blue-100 bg-blue-50/60 p-4">
+                                <div class="font-black text-blue-700 mb-1">이 제품의 병목은 어디인가?</div>
+                                <p class="text-sm leading-7 text-slate-600">compute가 느린지, memory bandwidth가 모자란지, bus contention이 심한지 먼저 분리해서 봅니다.</p>
+                            </div>
+                            <div class="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4">
+                                <div class="font-black text-emerald-700 mb-1">HW와 SW 경계는 어디서 맞물리나?</div>
+                                <p class="text-sm leading-7 text-slate-600">register map, interrupt, DMA descriptor, driver API가 실제 제품 완성도를 좌우합니다.</p>
+                            </div>
+                            <div class="rounded-2xl border border-violet-100 bg-violet-50/60 p-4">
+                                <div class="font-black text-violet-700 mb-1">확장성이 있는가?</div>
+                                <p class="text-sm leading-7 text-slate-600">1개의 accelerator에서 4개로 커졌을 때 bus와 memory 구조가 버틸 수 있는지까지 봐야 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#fbfcfe_100%)]">
+                        <div class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-2">10-3. Interview Memory Hooks</div>
+                        <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-5">짧게 말하면 좋은 키워드</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">System Bottleneck</div>
+                                <p class="text-sm text-slate-600">가장 느린 축이 전체 성능을 결정</p>
+                            </div>
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">HW/SW Co-Design</div>
+                                <p class="text-sm text-slate-600">firmware와 driver까지 이어지는 설계</p>
+                            </div>
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">Scalability</div>
+                                <p class="text-sm text-slate-600">core 수, interface 수 증가에 대응</p>
+                            </div>
+                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
+                                <div class="text-sm font-black text-slate-900 mb-1">Validation Loop</div>
+                                <p class="text-sm text-slate-600">DV, FPGA, bring-up, silicon feedback</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="../assets/guidebook-page-common.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            window.GuidebookPage.initStandalonePage();
+        });
+    </script>
+</body>
+</html>

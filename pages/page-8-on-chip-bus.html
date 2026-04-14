@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 8 | On-Chip Bus | 반도체 디지털 회로설계 가이드북</title>
+  <link rel="icon" href="data:,">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.1.0/skins/default.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.1.0/wavedrom.min.js" type="text/javascript"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/guidebook-common.css">
+
+  <style>
+    body {
+      font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .tab-content.active { display: block; }
+
+    #page-8.page-section {
+      min-height: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="page-standalone bg-[#F9FAFB] text-gray-900 selection:bg-blue-100" data-page-id="page-8">
+  <main class="page-shell">
+    <section class="page-section active" id="page-8">
+      <div class="mb-4"><span class="badge">Part 8</span></div>
+      <h2 class="section-title">On-Chip Bus</h2>
+
+      <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start lg:gap-8">
+        <div class="min-w-0">
+          <header class="mb-10 rounded-[32px] border border-blue-100 bg-[radial-gradient(circle_at_top_right,_rgba(49,130,246,0.10),_transparent_30%),linear-gradient(180deg,_#ffffff_0%,_#f8fbff_100%)] p-8 md:p-10 shadow-[0_18px_40px_rgba(37,99,235,0.06)]">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100 font-semibold text-sm mb-4">
+          <i data-lucide="cpu" class="w-4 h-4"></i>
+          <span id="current-tab-label">8-1. AMBA Protocol</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4 leading-tight">
+          SoC 속의 도로망,<br />
+          <span class="text-[#3182F6]">AMBA 프로토콜</span> 이해하기
+        </h1>
+        <p class="text-lg text-gray-500 max-w-2xl">
+          스마트폰의 두뇌인 SoC(System on Chip) 내부에서 CPU, 메모리, 주변기기들이
+          데이터를 주고받는 규칙, AMBA와 on-chip bus 구조를 5개 목차로 정리합니다.
+        </p>
+          </header>
+
+      <div id="tab-amba" class="tab-content active space-y-12">
+        <section class="bg-gray-50 rounded-[32px] p-8 md:p-10">
+          <h2 class="text-2xl font-bold mb-4">AMBA가 무엇인가요?</h2>
+          <p class="text-gray-600 text-lg leading-relaxed mb-8">
+            <strong>AMBA(Advanced Microcontroller Bus Architecture)</strong>는 ARM에서 정의한 온칩(On-Chip) 버스 프로토콜 집합입니다.
+            하나의 SoC 안에서 CPU, DMA, 메모리, 각종 주변장치가 같은 규칙으로 통신하게 해주는 표준 도로망이라고 이해하면 쉽습니다.
+          </p>
+
+          <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100">
+            <h3 class="font-bold text-gray-800 mb-6 text-center">SoC 내부 AMBA 버스 구조도</h3>
+            <div class="w-full flex justify-center">
+              <svg width="100%" viewBox="0 0 800 350" class="max-w-3xl">
+                <defs>
+                  <linearGradient id="axiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#3182F6" />
+                    <stop offset="100%" stop-color="#6B9AFF" />
+                  </linearGradient>
+                  <linearGradient id="ahbGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#22C55E" />
+                    <stop offset="100%" stop-color="#4ADE80" />
+                  </linearGradient>
+                  <linearGradient id="apbGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#F59E0B" />
+                    <stop offset="100%" stop-color="#FBBF24" />
+                  </linearGradient>
+                </defs>
+                <rect x="150" y="80" width="500" height="40" rx="20" fill="url(#axiGrad)" opacity="0.9" />
+                <text x="400" y="105" fill="white" font-weight="bold" font-size="16" text-anchor="middle">AXI Interconnect (초고속 도로)</text>
+                <rect x="150" y="170" width="500" height="30" rx="15" fill="url(#ahbGrad)" opacity="0.9" />
+                <text x="400" y="190" fill="white" font-weight="bold" font-size="14" text-anchor="middle">AHB Bus (고속 간선도로)</text>
+                <rect x="350" y="270" width="300" height="24" rx="12" fill="url(#apbGrad)" opacity="0.9" />
+                <text x="500" y="287" fill="white" font-weight="bold" font-size="12" text-anchor="middle">APB Bus (저속 골목길)</text>
+
+                <rect x="450" y="120" width="60" height="50" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2" />
+                <text x="480" y="148" fill="#475569" font-size="12" font-weight="bold" text-anchor="middle">Bridge</text>
+                <rect x="450" y="200" width="60" height="70" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2" />
+                <text x="480" y="238" fill="#475569" font-size="12" font-weight="bold" text-anchor="middle">Bridge</text>
+
+                <rect x="180" y="10" width="100" height="60" rx="12" fill="#1E293B" />
+                <text x="230" y="45" fill="white" font-weight="bold" font-size="16" text-anchor="middle">CPU (ARM)</text>
+                <line x1="230" y1="70" x2="230" y2="80" stroke="#3182F6" stroke-width="4" />
+                <rect x="330" y="10" width="100" height="60" rx="12" fill="#334155" />
+                <text x="380" y="45" fill="white" font-weight="bold" font-size="16" text-anchor="middle">DMA</text>
+                <line x1="380" y1="70" x2="380" y2="80" stroke="#3182F6" stroke-width="4" />
+                <rect x="520" y="10" width="100" height="60" rx="12" fill="#334155" />
+                <text x="570" y="45" fill="white" font-weight="bold" font-size="16" text-anchor="middle">DDR RAM</text>
+                <line x1="570" y1="70" x2="570" y2="80" stroke="#3182F6" stroke-width="4" />
+
+                <rect x="200" y="220" width="90" height="50" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+                <text x="245" y="250" fill="#334155" font-weight="bold" font-size="14" text-anchor="middle">SRAM</text>
+                <line x1="245" y1="200" x2="245" y2="220" stroke="#22C55E" stroke-width="3" />
+                <rect x="380" y="310" width="80" height="40" rx="8" fill="#FFFBEB" stroke="#FDE68A" stroke-width="2" />
+                <text x="420" y="335" fill="#B45309" font-weight="bold" font-size="12" text-anchor="middle">UART</text>
+                <line x1="420" y1="294" x2="420" y2="310" stroke="#F59E0B" stroke-width="2" />
+                <rect x="480" y="310" width="80" height="40" rx="8" fill="#FFFBEB" stroke="#FDE68A" stroke-width="2" />
+                <text x="520" y="335" fill="#B45309" font-weight="bold" font-size="12" text-anchor="middle">Timer</text>
+                <line x1="520" y1="294" x2="520" y2="310" stroke="#F59E0B" stroke-width="2" />
+                <rect x="580" y="310" width="80" height="40" rx="8" fill="#FFFBEB" stroke="#FDE68A" stroke-width="2" />
+                <text x="620" y="335" fill="#B45309" font-weight="bold" font-size="12" text-anchor="middle">Keypad</text>
+                <line x1="620" y1="294" x2="620" y2="310" stroke="#F59E0B" stroke-width="2" />
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-gray-50 rounded-[24px] p-6 flex flex-col justify-center items-center text-center">
+            <div class="px-4 py-1.5 rounded-full font-bold mb-3 bg-amber-50 text-amber-600">APB</div>
+            <p class="text-gray-600 font-medium">저속 주변장치용 (타이머, UART, GPIO)</p>
+          </div>
+          <div class="bg-gray-50 rounded-[24px] p-6 flex flex-col justify-center items-center text-center">
+            <div class="px-4 py-1.5 rounded-full font-bold mb-3 bg-green-50 text-green-600">AHB</div>
+            <p class="text-gray-600 font-medium">고속 모듈용 (SRAM, DMA, Flash)</p>
+          </div>
+          <div class="bg-gray-50 rounded-[24px] p-6 flex flex-col justify-center items-center text-center">
+            <div class="px-4 py-1.5 rounded-full font-bold mb-3 bg-blue-50 text-blue-600">AXI</div>
+            <p class="text-gray-600 font-medium">초고속 대역폭용 (CPU, DDR, Accelerator)</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-[32px] p-8 md:p-10 shadow-sm border border-gray-100">
+          <h3 class="font-bold text-gray-800 mb-8 text-xl flex items-center gap-2">
+            <i data-lucide="book-open" class="w-6 h-6 text-blue-500"></i>
+            AMBA 규격의 진화 역사 (Key AMBA Specifications)
+          </h3>
+
+          <div class="w-full overflow-x-auto pb-4 scrollbar-hide">
+            <div class="min-w-[900px]">
+              <div class="flex mb-6 px-2 items-center">
+                <div class="w-[440px] font-bold text-gray-900 text-lg">Key AMBA specifications</div>
+                <div class="flex-1 grid grid-cols-5 gap-3 text-center font-bold text-gray-900 text-base">
+                  <div>AMBA</div>
+                  <div>AMBA 2</div>
+                  <div>AMBA 3</div>
+                  <div>AMBA 4</div>
+                  <div>AMBA 5</div>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#112A46] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">CHI</div>
+                    <div class="text-xs opacity-90">Coherent Hub Interface</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    Coherent protocol
+                    Layered architecture for scalability
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div></div><div></div><div></div><div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#112A46] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">CHI</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#00779E] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">ACE</div>
+                    <div class="text-xs opacity-90">AXI Coherency Extensions</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    AXI 기반의 coherency 확장
+                    멀티코어 클러스터 system-wide coherence
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div></div><div></div><div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#00779E] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">ACE</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#00779E] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">ACE5</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#009CDB] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">AXI</div>
+                    <div class="text-xs opacity-90">Adv. eXtensible Interface</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    Separate address/data phases, bursts,
+                    outstanding transactions, high throughput
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div></div><div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#009CDB] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AXI3</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#009CDB] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AXI4</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite, +Stream</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#009CDB] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AXI5</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#8BC53F] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">AHB</div>
+                    <div class="text-xs opacity-90">Adv. High-performance Bus</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    Pipelined shared bus
+                    AHB-Lite for simpler single-manager systems
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#8BC53F] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AHB</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#8BC53F] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AHB</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite</span>
+                      </div>
+                    </div>
+                    <div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#8BC53F] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AHB5</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#FAB100] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">APB</div>
+                    <div class="text-xs opacity-90">Advanced Peripheral Bus</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    System bus for low
+                    bandwidth peripherals
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB2</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB3</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB4</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB5</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="text-center text-sm text-gray-400 mt-6">
+            * 버전에 따라 도입된 새로운 프로토콜과 지원 기능을 보여줍니다.
+          </p>
+        </div>
+      </div>
+
+      <div id="tab-bus" class="tab-content space-y-8">
+        <div class="bg-slate-50 rounded-[32px] p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-slate-700 text-white p-2 rounded-xl"><i data-lucide="git-branch" class="w-6 h-6"></i></div>
+            <h2 class="text-3xl font-bold text-gray-900">BUS (공통 개념)</h2>
+          </div>
+          <p class="text-gray-700 text-lg mb-6">
+            BUS는 단순한 선 묶음이 아니라 <b>주소(Address), 데이터(Data), 제어(Control)</b>를 정해진 타이밍에 교환하는 통신 규칙입니다.
+            누가 요청하는지(<b>Master</b>), 누가 응답하는지(<b>Slave</b>), 언제 전송이 끝나는지(<b>Ready / Response</b>)를 함께 봐야 구조가 이해됩니다.
+          </p>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="git-merge" class="w-5 h-5 text-slate-600"></i>
+              BUS 기본 데이터 흐름
+            </h3>
+            <div class="w-full flex justify-center">
+              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-3xl">
+                <svg width="100%" viewBox="0 0 820 360" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBus" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <rect x="30" y="70" width="170" height="220" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="115" y="160" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="22" text-anchor="middle">Master</text>
+                  <text x="115" y="188" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(CPU / DMA / Bridge)</text>
+
+                  <rect x="325" y="42" width="170" height="84" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="410" y="90" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">Arbiter / Decoder</text>
+
+                  <rect x="325" y="156" width="170" height="134" rx="0" fill="#F8FAFC" stroke="#111827" stroke-width="1.5" stroke-dasharray="4,4" />
+                  <text x="410" y="222" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">Bus Fabric</text>
+                  <text x="410" y="248" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Address / Data / Control</text>
+
+                  <rect x="620" y="70" width="170" height="220" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="705" y="152" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="22" text-anchor="middle">Slave</text>
+                  <text x="705" y="180" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(SRAM / UART / Timer)</text>
+
+                  <path d="M 200 116 L 315 116" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBus)" />
+                  <text x="257" y="104" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Request</text>
+
+                  <path d="M 200 170 L 315 170" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBus)" />
+                  <text x="257" y="158" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Address + Control</text>
+
+                  <path d="M 495 170 L 610 170" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBus)" />
+                  <text x="552" y="158" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Select + Address</text>
+
+                  <path d="M 495 222 L 610 222" stroke="#111827" stroke-width="2.8" fill="none" marker-end="url(#arrowBus)" />
+                  <text x="552" y="210" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Write Data</text>
+
+                  <path d="M 620 258 L 505 258" stroke="#111827" stroke-width="2.8" fill="none" marker-end="url(#arrowBus)" />
+                  <text x="562" y="246" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Read Data</text>
+
+                  <path d="M 325 94 L 210 94" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowBus)" />
+                  <text x="266" y="82" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Grant</text>
+
+                  <path d="M 610 118 L 495 118" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowBus)" />
+                  <text x="552" y="106" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Ready / Resp</text>
+                </svg>
+                <div class="mt-6 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 1-1</strong> Generic Bus Communication Model
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-6 px-4">
+              모든 bus는 요청자와 응답자, 그리고 중간에서 주소를 해석하고 연결하는 interconnect 관점으로 읽으면 구조가 단순해집니다.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100 overflow-hidden">
+              <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <i data-lucide="layers" class="w-5 h-5 text-slate-600"></i>
+                BUS를 볼 때 먼저 확인할 것
+              </h3>
+              <div class="space-y-3">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="font-black text-slate-800 mb-1">Master / Slave 관계</div>
+                  <p class="text-sm leading-7 text-slate-600">누가 요청을 시작하고 누가 응답하는지부터 정리하면 신호 방향이 쉬워집니다.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="font-black text-slate-800 mb-1">Address / Data / Control 분리</div>
+                  <p class="text-sm leading-7 text-slate-600">주소, 실제 데이터, 제어 정보는 역할이 다르므로 별도 신호군으로 봐야 합니다.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="font-black text-slate-800 mb-1">Ready / Response</div>
+                  <p class="text-sm leading-7 text-slate-600">전송 완료와 대기, 에러를 어떻게 표현하는지가 protocol 차이의 핵심입니다.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100 overflow-hidden">
+              <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <i data-lucide="map" class="w-5 h-5 text-slate-600"></i>
+                Address Map 예시
+              </h3>
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-3 px-3 font-bold text-gray-700">Address Range</th>
+                    <th class="py-3 px-3 font-bold text-gray-700">Target</th>
+                    <th class="py-3 px-3 font-bold text-gray-700">Role</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr>
+                    <td class="py-3 px-3 font-mono text-slate-700">0x0000_0000 - 0x0FFF_FFFF</td>
+                    <td class="py-3 px-3 font-semibold text-slate-900">SRAM / ROM</td>
+                    <td class="py-3 px-3 text-slate-600">빠른 instruction / data access</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 px-3 font-mono text-slate-700">0x1000_0000 - 0x1FFF_FFFF</td>
+                    <td class="py-3 px-3 font-semibold text-slate-900">AHB Peripheral</td>
+                    <td class="py-3 px-3 text-slate-600">DMA, high-speed control blocks</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 px-3 font-mono text-slate-700">0x4000_0000 - 0x4000_FFFF</td>
+                    <td class="py-3 px-3 font-semibold text-slate-900">APB Peripheral</td>
+                    <td class="py-3 px-3 text-slate-600">UART, GPIO, Timer register map</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="text-sm text-gray-500 mt-4">
+                실제 SoC에서는 decoder가 이 memory map을 보고 어떤 slave를 선택할지 결정합니다.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="route" class="w-5 h-5 text-slate-600"></i>
+              BUS를 APB / AHB / AXI로 나누는 이유
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="rounded-[20px] bg-amber-50 p-5 border border-amber-100">
+                <div class="font-black text-amber-700 mb-2">APB</div>
+                <p class="text-sm leading-7 text-amber-900/80">설정값을 읽고 쓰는 저속 peripheral은 단순함과 저전력이 더 중요합니다.</p>
+              </div>
+              <div class="rounded-[20px] bg-green-50 p-5 border border-green-100">
+                <div class="font-black text-green-700 mb-2">AHB</div>
+                <p class="text-sm leading-7 text-green-900/80">중간 대역폭과 공유형 backbone이 필요할 때 pipeline과 burst가 유리합니다.</p>
+              </div>
+              <div class="rounded-[20px] bg-blue-50 p-5 border border-blue-100">
+                <div class="font-black text-blue-700 mb-2">AXI</div>
+                <p class="text-sm leading-7 text-blue-900/80">CPU, DMA, DDR처럼 동시성과 높은 throughput이 필요한 경로는 채널 분리가 필요합니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-apb" class="tab-content space-y-8">
+        <div class="bg-amber-50 rounded-[32px] p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-amber-500 text-white p-2 rounded-xl"><i data-lucide="activity" class="w-6 h-6"></i></div>
+            <h2 class="text-3xl font-bold text-gray-900">APB (Advanced Peripheral Bus)</h2>
+          </div>
+          <p class="text-gray-700 text-lg mb-6">
+            데이터 전송 속도보다는 <b>전력 소모를 줄이고 설계를 단순화</b>하는 데 목적이 있는 버스입니다.
+            신호등이 없는 한적한 시골길이나 골목길처럼, 한 번에 하나씩 천천히 안전하게 통신합니다.
+          </p>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="cpu" class="w-5 h-5 text-amber-500"></i>
+              APB Master-Slave Interface Diagram (공식 문서 규격)
+            </h3>
+            <div class="w-full flex justify-center">
+              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-2xl">
+                <svg width="100%" viewBox="0 0 700 360" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlackMS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <rect x="50" y="20" width="160" height="320" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="130" y="175" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">Master</text>
+                  <text x="130" y="195" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(APB Bridge)</text>
+
+                  <rect x="490" y="20" width="160" height="320" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="570" y="175" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">Slave</text>
+                  <text x="570" y="195" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(APB Peripheral)</text>
+
+                  <path d="M 210 50 L 480 50" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="42" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PADDR</text>
+
+                  <path d="M 210 90 L 480 90" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="82" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PSELx</text>
+
+                  <path d="M 210 130 L 480 130" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="122" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PENABLE</text>
+
+                  <path d="M 210 170 L 480 170" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="162" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PWRITE</text>
+
+                  <path d="M 210 210 L 480 210" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="202" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PWDATA</text>
+
+                  <path d="M 490 250 L 220 250" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="242" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PREADY</text>
+
+                  <path d="M 490 290 L 220 290" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="282" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PRDATA</text>
+
+                  <path d="M 490 330 L 220 330" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="322" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PSLVERR</text>
+                </svg>
+                <div class="mt-6 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 2-1</strong> APB Master-Slave Interface
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-6 px-4">
+              APB 브릿지(Master)와 주변장치(Slave) 간의 물리적 신호 연결 다이어그램입니다. 공식 문서의 학술적 스타일(흑백, 직각 선)을 반영했습니다.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8 overflow-hidden">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="book-open" class="w-5 h-5 text-amber-500"></i>
+              Table 4-1 APB Signal Descriptions
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[700px]">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap">Signal</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap">Source</th>
+                    <th class="py-4 px-4 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PCLK</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Clock source</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Clock. APB의 모든 전송은 PCLK의 상승 에지(rising edge)에 동기화됩니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PRESETn</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">System bus equivalent</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Reset. Active LOW 리셋 신호입니다. 일반적으로 시스템 버스 리셋과 직접 연결됩니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PADDR</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Address. 주변장치 버스 브릿지가 구동하는 주소 버스입니다. (최대 32 bits)</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PSELx</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Select. 슬레이브 장치가 선택되었음을 알립니다. 슬레이브마다 각각 독립적인 PSELx 신호가 존재합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PENABLE</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Enable. APB 전송의 두 번째 사이클(ACCESS 단계) 및 그 이후를 나타내는 신호입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PWRITE</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Direction. HIGH일 때 쓰기(Write) 액세스를, LOW일 때 읽기(Read) 액세스를 의미합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PWDATA</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Write data. 쓰기 사이클 동안 브릿지가 구동하는 쓰기 데이터 버스입니다. (최대 32 bits)</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PREADY</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave interface</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Ready. 슬레이브가 처리를 완료했는지(HIGH), 혹은 전송 사이클을 연장할지(LOW) 결정하는 신호입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PRDATA</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave interface</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Read Data. 읽기 사이클 동안 선택된 슬레이브가 구동하는 읽기 데이터 버스입니다. (최대 32 bits)</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PSLVERR</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave interface</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Transfer Error. 전송 실패를 나타냅니다. 지원하지 않는 주변장치의 경우 해당 핀은 LOW로 고정됩니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="git-commit" class="w-5 h-5 text-amber-500"></i>
+              APB State Machine (공식 문서 규격)
+            </h3>
+            <div class="w-full flex justify-center">
+              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-2xl">
+                <svg width="100%" viewBox="0 0 600 550" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlack" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <ellipse cx="300" cy="100" rx="80" ry="55" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="300" y="85" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">IDLE</text>
+                  <text x="300" y="105" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PSELx = 0</text>
+                  <text x="300" y="125" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PENABLE = 0</text>
+
+                  <ellipse cx="300" cy="270" rx="80" ry="55" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="300" y="255" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">SETUP</text>
+                  <text x="300" y="275" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PSELx = 1</text>
+                  <text x="300" y="295" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PENABLE = 0</text>
+
+                  <ellipse cx="300" cy="440" rx="80" ry="55" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="300" y="425" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">ACCESS</text>
+                  <text x="300" y="445" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PSELx = 1</text>
+                  <text x="300" y="465" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PENABLE = 1</text>
+
+                  <path d="M 330 50 C 400 -10, 470 60, 380 95" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="445" y="45" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">No transfer</text>
+
+                  <path d="M 300 155 L 300 210" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="300" y="190" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">Transfer</text>
+
+                  <path d="M 300 325 L 300 380" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+
+                  <path d="M 350 480 C 430 520, 460 410, 375 425" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="440" y="470" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PREADY = 0</text>
+
+                  <path d="M 365 400 Q 480 340 375 285" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="460" y="340" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PREADY = 1</text>
+                  <text x="460" y="360" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">and transfer</text>
+
+                  <path d="M 220 440 Q 50 270 220 100" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="120" y="260" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PREADY = 1</text>
+                  <text x="120" y="280" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">and no</text>
+                  <text x="120" y="300" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">transfer</text>
+                </svg>
+                <div class="mt-6 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 3-1</strong> State diagram
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-6 px-4">
+              데이터 요청이 들어오면 SETUP 상태로 이동한 뒤, ACCESS 상태에서 데이터를 읽고 씁니다. 공식 문서의 표준 상태도 구조입니다.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+              <h3 class="font-bold text-gray-800 flex items-center gap-2 text-xl">
+                <i data-lucide="activity" class="w-6 h-6 text-amber-500"></i>
+                APB Transfer Timing Diagram (WaveDrom)
+              </h3>
+
+              <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit" id="waveform-controls">
+                <button data-wave="write_nowait" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200">Write (No Wait)</button>
+                <button data-wave="write_wait" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Write (Wait)</button>
+                <button data-wave="read_nowait" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read (No Wait)</button>
+                <button data-wave="read_wait" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read (Wait)</button>
+                <button data-wave="error_response" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Error Response</button>
+              </div>
+            </div>
+
+            <div class="w-full overflow-x-auto pb-4">
+              <div class="flex justify-center bg-white border-2 border-gray-100 rounded-xl py-6 min-h-[350px]">
+                <div id="WaveDrom_Display_0"></div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 mt-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+              <i data-lucide="info" class="w-5 h-5 text-gray-600 shrink-0 mt-0.5"></i>
+              <p class="text-gray-600 text-sm">
+                <b>엔지니어링 타이밍 분석:</b>
+                <br />- 실제 하드웨어 데이터시트와 동일한 <b>WaveDrom</b> 라이브러리를 사용해 렌더링했습니다.
+                <br />- 모든 신호 변화는 <code>PCLK</code>의 상승 에지 직후에 발생합니다.
+                <br />- 회색 빗금 영역은 <b>Unknown 또는 Invalid</b> 상태를 뜻합니다.
+                <br />- <b class="text-red-500">Error Response:</b> 에러 발생 시 Access 단계에서 <code>PSLVERR</code> 신호가 HIGH가 됩니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-ahb" class="tab-content space-y-8">
+        <div class="bg-green-50 rounded-[32px] p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-green-500 text-white p-2 rounded-xl"><i data-lucide="zap" class="w-6 h-6"></i></div>
+            <h2 class="text-3xl font-bold text-gray-900">AHB (Advanced High-performance Bus)</h2>
+          </div>
+          <p class="text-gray-700 text-lg mb-6">
+            시스템 성능 향상을 위해 <b>파이프라인(Pipelining)</b> 기법과 <b>버스트(Burst)</b> 전송을 지원하는 고속 버스입니다.
+            여러 개의 마스터(Multiple Masters)가 버스를 공유할 수 있으므로, 버스 사용 권한을 제어하는 <b>Arbiter(중재자)</b>가 필수적으로 존재합니다.
+          </p>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="git-merge" class="w-5 h-5 text-green-600"></i>
+              AHB Architecture Diagram (Master, Slave, Arbiter)
+            </h3>
+            <div class="w-full flex justify-center">
+              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-3xl">
+                <svg width="100%" viewBox="0 0 800 400" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlackAHB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <rect x="320" y="20" width="160" height="100" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="400" y="70" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">Arbiter</text>
+
+                  <rect x="50" y="160" width="160" height="200" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="130" y="250" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">AHB Master</text>
+                  <text x="130" y="270" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(CPU, DMA)</text>
+
+                  <rect x="590" y="160" width="160" height="200" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="670" y="250" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">AHB Slave</text>
+                  <text x="670" y="270" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(SRAM, Mem Ctrl)</text>
+
+                  <rect x="320" y="160" width="160" height="200" rx="0" fill="#F8FAFC" stroke="#111827" stroke-width="1.5" stroke-dasharray="4,4" />
+                  <text x="400" y="250" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="16" text-anchor="middle">Bus Interconnect</text>
+                  <text x="400" y="270" fill="#111827" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">(Multiplexors & Decoder)</text>
+
+                  <path d="M 130 160 L 130 50 L 310 50" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="210" y="42" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HBUSREQx, HLOCKx</text>
+
+                  <path d="M 310 90 L 170 90 L 170 160" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="230" y="82" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HGRANTx</text>
+
+                  <path d="M 400 120 L 400 150" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="405" y="140" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="start">HMASTER</text>
+
+                  <path d="M 210 190 L 310 190" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="260" y="182" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HADDR, HTRANS...</text>
+
+                  <path d="M 210 230 L 310 230" stroke="#111827" stroke-width="2.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="260" y="222" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HWDATA</text>
+
+                  <path d="M 480 190 L 580 190" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="530" y="182" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HADDR, HSELx...</text>
+
+                  <path d="M 480 230 L 580 230" stroke="#111827" stroke-width="2.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="530" y="222" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HWDATA</text>
+
+                  <path d="M 580 290 L 490 290" stroke="#111827" stroke-width="2.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="535" y="282" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HRDATA</text>
+
+                  <path d="M 580 330 L 490 330" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="535" y="322" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HREADY, HRESP</text>
+
+                  <path d="M 310 290 L 220 290" stroke="#111827" stroke-width="2.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="265" y="282" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HRDATA</text>
+
+                  <path d="M 310 330 L 220 330" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackAHB)" />
+                  <text x="265" y="322" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">HREADY, HRESP</text>
+                </svg>
+                <div class="mt-6 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 3-1</strong> AHB Architecture Block Diagram
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-6 px-4">
+              AHB 시스템의 기본 구성요소인 마스터, 슬레이브, 아비터, 그리고 이들을 연결하는 상호연결망의 데이터 흐름입니다.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8 overflow-hidden">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="book-open" class="w-5 h-5 text-green-600"></i>
+              AHB Signal Descriptions
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[750px]">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap">Signal</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap">Source</th>
+                    <th class="py-4 px-4 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HCLK</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Clock source</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Bus clock. 모든 버스 전송은 HCLK의 상승 에지에 동기화됩니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HRESETn</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Reset controller</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Reset. 시스템과 버스를 리셋하는 Active LOW 신호입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HADDR[31:0]</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Address bus. 32비트 시스템 주소 버스입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HTRANS[1:0]</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Transfer type. 현재 전송의 유형(IDLE, BUSY, NONSEQ, SEQ)을 나타냅니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HWRITE</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Transfer direction. HIGH일 때 쓰기, LOW일 때 읽기 동작을 의미합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HSIZE[2:0]</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">전송 데이터 크기(Byte, Halfword, Word 등)를 나타냅니다. (최대 1024비트 지원)</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HBURST[2:0]</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Single, INCR, WRAP 계열 burst 유형을 나타냅니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HWDATA[31:0]</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">쓰기 데이터 버스입니다. 넓은 대역폭을 위해 더 확장될 수 있습니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HSELx</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Decoder</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">주소 디코더가 생성하며 특정 슬레이브가 선택되었음을 알립니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HRDATA[31:0]</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">슬레이브가 구동하는 읽기 데이터 버스입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HREADY</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">버스 전송 완료를 나타내거나 추가 wait state를 요청합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HRESP[1:0]</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">OKAY, ERROR, RETRY, SPLIT 같은 전송 결과 상태를 알려줍니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="book-open" class="w-5 h-5 text-green-600"></i>
+              AHB Arbitration Signal Descriptions
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[750px]">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap">Signal</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap">Source</th>
+                    <th class="py-4 px-4 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HBUSREQx</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">버스 마스터 x가 아비터에게 버스 사용 권한을 요청하는 신호입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HLOCKx</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">연속적인 locked transfer를 원할 때 HIGH로 구동합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HGRANTx</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Arbiter</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">아비터가 마스터 x에게 버스 소유권을 부여했음을 알립니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HMASTER[3:0]</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Arbiter</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">현재 어느 마스터가 버스를 점유 중인지 알려주는 번호입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HMASTLOCK</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Arbiter</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">현재 진행 중인 마스터 전송이 locked 상태임을 슬레이브에게 알립니다.</td>
+                  </tr>
+                  <tr class="hover:bg-green-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">HSPLITx[15:0]</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">SPLIT 응답을 보냈던 슬레이브가 재개 가능 시점을 아비터에게 알려줍니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100 overflow-hidden">
+              <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <i data-lucide="layers" class="w-5 h-5 text-green-600"></i>
+                HSIZE[2:0] Encoding
+              </h3>
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-2 px-3 font-bold text-gray-700">HSIZE[2:0]</th>
+                    <th class="py-2 px-3 font-bold text-gray-700">Size (Bits)</th>
+                    <th class="py-2 px-3 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr><td class="py-2 px-3 font-mono">000</td><td class="py-2 px-3">8</td><td class="py-2 px-3">Byte</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">001</td><td class="py-2 px-3">16</td><td class="py-2 px-3">Halfword</td></tr>
+                  <tr class="bg-green-50/50"><td class="py-2 px-3 font-mono font-bold text-green-700">010</td><td class="py-2 px-3 font-bold text-green-700">32</td><td class="py-2 px-3 font-bold text-green-700">Word</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">011</td><td class="py-2 px-3">64</td><td class="py-2 px-3">Doubleword</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">100</td><td class="py-2 px-3">128</td><td class="py-2 px-3">4-word line</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">101</td><td class="py-2 px-3">256</td><td class="py-2 px-3">8-word line</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">110</td><td class="py-2 px-3">512</td><td class="py-2 px-3">-</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">111</td><td class="py-2 px-3">1024</td><td class="py-2 px-3">-</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100 overflow-hidden">
+              <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <i data-lucide="fast-forward" class="w-5 h-5 text-green-600"></i>
+                HBURST[2:0] Encoding
+              </h3>
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-2 px-3 font-bold text-gray-700">HBURST[2:0]</th>
+                    <th class="py-2 px-3 font-bold text-gray-700">Type</th>
+                    <th class="py-2 px-3 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr><td class="py-2 px-3 font-mono">000</td><td class="py-2 px-3">SINGLE</td><td class="py-2 px-3">Single transfer</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">001</td><td class="py-2 px-3">INCR</td><td class="py-2 px-3">Incrementing burst</td></tr>
+                  <tr class="bg-green-50/50"><td class="py-2 px-3 font-mono font-bold text-green-700">010</td><td class="py-2 px-3 font-bold text-green-700">WRAP4</td><td class="py-2 px-3 font-bold text-green-700">4-beat wrapping burst</td></tr>
+                  <tr class="bg-green-50/50"><td class="py-2 px-3 font-mono font-bold text-green-700">011</td><td class="py-2 px-3 font-bold text-green-700">INCR4</td><td class="py-2 px-3 font-bold text-green-700">4-beat incrementing burst</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">100</td><td class="py-2 px-3">WRAP8</td><td class="py-2 px-3">8-beat wrapping burst</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">101</td><td class="py-2 px-3">INCR8</td><td class="py-2 px-3">8-beat incrementing burst</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">110</td><td class="py-2 px-3">WRAP16</td><td class="py-2 px-3">16-beat wrapping burst</td></tr>
+                  <tr><td class="py-2 px-3 font-mono">111</td><td class="py-2 px-3">INCR16</td><td class="py-2 px-3">16-beat incrementing burst</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+              <h3 class="font-bold text-gray-800 flex items-center gap-2 text-xl">
+                <i data-lucide="zap" class="w-6 h-6 text-green-500"></i>
+                AHB Transfer Timing Diagram (WaveDrom)
+              </h3>
+
+              <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit" id="ahb-waveform-controls">
+                <button data-wave="ahb_single" class="ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-green-600 shadow-sm border border-gray-200">Single Transfer</button>
+                <button data-wave="ahb_incr4" class="ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">INCR4 Burst</button>
+                <button data-wave="ahb_wrap4" class="ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">WRAP4 Burst</button>
+                <button data-wave="ahb_burst_wait" class="ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Burst (Wait State)</button>
+              </div>
+            </div>
+
+            <div class="w-full overflow-x-auto pb-4">
+              <div class="flex justify-center bg-white border-2 border-gray-100 rounded-xl py-6 min-h-[350px]">
+                <div id="WaveDrom_Display_1"></div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 mt-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+              <i data-lucide="info" class="w-5 h-5 text-gray-600 shrink-0 mt-0.5"></i>
+              <p class="text-gray-600 text-sm">
+                <b>AHB 파이프라이닝 분석:</b>
+                <br />- <b>Address Phase</b>와 <b>Data Phase</b>가 서로 교차하며 실행되는 <b>파이프라인</b> 구조입니다.
+                <br />- 주소 <code>HADDR</code>가 전달된 다음 클럭에 <code>HWDATA</code>를 쓰거나 <code>HRDATA</code>를 읽습니다.
+                <br />- <b class="text-green-600">INCR4 vs WRAP4:</b> <code>INCR</code>는 주소가 계속 증가하고, <code>WRAP</code>은 특정 경계에 도달하면 시작 주소로 되돌아갑니다.
+                <br />- <b class="text-amber-600">Wait State:</b> 슬레이브가 <code>HREADY</code>를 LOW로 구동하면 현재 Data Phase와 다음 Address Phase가 함께 연장됩니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-axi" class="tab-content space-y-8">
+        <div class="bg-blue-50 rounded-[32px] p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-blue-500 text-white p-2 rounded-xl"><i data-lucide="cpu" class="w-6 h-6"></i></div>
+            <h2 class="text-3xl font-bold text-gray-900">AXI (Advanced eXtensible Interface)</h2>
+          </div>
+          <p class="text-gray-700 text-lg mb-6">
+            현재 가장 고성능을 자랑하는 AMBA 프로토콜입니다. <b>5개의 독립적인 채널</b>을 사용해 주소와 데이터를 분리하고, 읽기와 쓰기를 동시에 처리할 수 있습니다.
+            또한 <b>비순차적(Out-of-Order) 전송</b>과 outstanding transaction을 지원해 시스템 효율을 극대화합니다.
+          </p>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="git-merge" class="w-5 h-5 text-blue-500"></i>
+              AXI Channel Architecture Diagram
+            </h3>
+            <div class="w-full flex justify-center">
+              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-3xl">
+                <svg width="100%" viewBox="0 0 800 350" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlackAXI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <rect x="50" y="20" width="140" height="280" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="120" y="155" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle">Master</text>
+
+                  <rect x="610" y="20" width="140" height="280" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="680" y="155" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle">Slave</text>
+
+                  <path d="M 190 60 L 600 60" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="52" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Write Address Channel (AW)</text>
+
+                  <path d="M 190 110 L 600 110" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="102" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Write Data Channel (W)</text>
+
+                  <path d="M 610 160 L 200 160" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="152" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Write Response Channel (B)</text>
+
+                  <path d="M 190 220 L 600 220" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="212" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Read Address Channel (AR)</text>
+
+                  <path d="M 610 270 L 200 270" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="262" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Read Data Channel (R)</text>
+
+                  <line x1="190" y1="185" x2="610" y2="185" stroke="#94A3B8" stroke-width="1" stroke-dasharray="8,8" />
+                </svg>
+                <div class="mt-4 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 1-1</strong> Channel architecture of AXI
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-6 px-4">
+              쓰기 동작을 위한 3개 채널과 읽기 동작을 위한 2개 채널이 완전히 독립적으로 존재해 양방향 동시 전송이 가능합니다.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="handshake" class="w-5 h-5 text-blue-500"></i>
+              AXI VALID / READY Handshake Diagram
+            </h3>
+            <div class="flex flex-col lg:flex-row gap-8 items-center justify-center">
+              <div class="border border-gray-400 bg-white p-6 inline-block w-full lg:w-1/2">
+                <svg width="100%" viewBox="0 0 500 220" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlackHand" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <rect x="20" y="40" width="140" height="140" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="90" y="105" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="16" text-anchor="middle">Source</text>
+                  <text x="90" y="125" fill="#111827" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">(Initiator)</text>
+
+                  <rect x="340" y="40" width="140" height="140" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="410" y="105" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="16" text-anchor="middle">Destination</text>
+                  <text x="410" y="125" fill="#111827" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">(Receiver)</text>
+
+                  <path d="M 160 70 L 330 70" stroke="#111827" stroke-width="3" fill="none" marker-end="url(#arrowBlackHand)" />
+                  <text x="250" y="62" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Information (Data/Addr)</text>
+
+                  <path d="M 160 110 L 330 110" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackHand)" />
+                  <text x="250" y="102" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">VALID</text>
+
+                  <path d="M 340 150 L 170 150" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackHand)" />
+                  <text x="250" y="170" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">READY</text>
+                </svg>
+                <div class="mt-4 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 1-2</strong> Fundamental Handshake
+                </div>
+              </div>
+
+              <div class="w-full lg:w-1/2 space-y-4 text-gray-700">
+                <p>
+                  AXI의 모든 5개 채널은 동일한 <b>VALID / READY 핸드셰이크 메커니즘</b>을 사용하여 정보(주소, 데이터, 응답)를 전송합니다.
+                </p>
+                <ul class="list-disc pl-5 space-y-2">
+                  <li><b>VALID 신호:</b> 정보를 보내는 측(Source)에서 구동하며, 채널의 주소나 데이터가 유효함을 나타냅니다.</li>
+                  <li><b>READY 신호:</b> 정보를 받는 측(Destination)에서 구동하며, 데이터를 받아들일 준비가 완료되었음을 나타냅니다.</li>
+                  <li><b>전송 발생 조건:</b> <code>VALID</code>와 <code>READY</code>가 모두 HIGH인 클럭 상승 에지에서 전송이 이루어집니다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-8 border-t border-gray-100 pt-8">
+              <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+                <h4 class="font-bold text-gray-800 flex items-center gap-2">
+                  <i data-lucide="clock" class="w-5 h-5 text-blue-500"></i>
+                  Handshake Timing Examples
+                </h4>
+                <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit" id="axi-waveform-controls">
+                  <button data-wave="axi_valid_before" class="axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200">VALID before READY</button>
+                  <button data-wave="axi_ready_before" class="axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">READY before VALID</button>
+                  <button data-wave="axi_concurrent" class="axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Concurrent VALID & READY</button>
+                </div>
+              </div>
+              <div class="w-full overflow-x-auto pb-4">
+                <div class="flex justify-center bg-white border-2 border-gray-100 rounded-xl py-6 min-h-[220px]">
+                  <div id="WaveDrom_Display_2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="book-open" class="w-5 h-5 text-blue-500"></i>
+              AXI Signal Descriptions (주요 신호 요약)
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[800px]">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap w-48">Signal</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap w-32">Source</th>
+                    <th class="py-4 px-4 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="bg-gray-50/50"><td colspan="3" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Global Signals</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">ACLK, ARESETn</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">System</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">AXI 글로벌 클럭과 리셋 신호입니다. 모든 신호는 ACLK 상승 에지에 샘플링됩니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="3" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Write Address Channel (AW)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">AWADDR[31:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기 버스트 전송의 첫 번째 데이터가 저장될 주소를 지정합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">AWVALID / AWREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master / Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기 주소 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="3" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Write Data Channel (W)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">WDATA[31:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">슬레이브에 기록될 데이터입니다. 데이터 버스 폭은 유연하게 확장 가능합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">WLAST</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">버스트 전송의 마지막 데이터임을 나타냅니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">WVALID / WREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master / Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기 데이터 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="3" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Write Response Channel (B)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">BRESP[1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기 전송이 성공했는지 오류가 발생했는지 응답합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">BVALID / BREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave / Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기 응답 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="3" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Read Address Channel (AR)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">ARADDR[31:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">읽기 버스트 전송의 첫 번째 데이터를 읽어올 주소를 지정합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">ARVALID / ARREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master / Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">읽기 주소 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="3" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Read Data Channel (R)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">RDATA[31:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">마스터로 전송되는 읽기 데이터 버스입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">RRESP[1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">읽기 데이터의 상태 응답입니다. 데이터와 함께 전달됩니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">RLAST</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">읽기 버스트 전송의 마지막 데이터임을 나타냅니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">RVALID / RREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave / Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">읽기 데이터 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+	          </div>
+	        </div>
+	        </div>
+        </div>
+	        <aside class="mt-8 lg:mt-0 lg:sticky lg:top-8">
+          <div class="rounded-[28px] border border-gray-200 bg-white/95 p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)] backdrop-blur">
+            <div class="flex items-center gap-2 text-[#3182F6] font-bold text-xl mb-2">
+              <i data-lucide="cpu" class="w-6 h-6"></i>
+              <span>AMBA Learn</span>
+            </div>
+            <p class="text-sm text-gray-500 font-medium mb-5">Part 8 내부 목차</p>
+
+            <nav class="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0" id="nav-menu">
+              <button data-tab="amba" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base bg-[#3182F6] border-blue-200 text-white shadow-md shadow-blue-200/50">
+                <i data-lucide="book-open" class="w-5 h-5" stroke-width="2.5"></i>
+                8-1. AMBA Protocol
+              </button>
+              <button data-tab="bus" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="git-branch" class="w-5 h-5" stroke-width="2"></i>
+                8-2. BUS
+              </button>
+              <button data-tab="apb" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="activity" class="w-5 h-5" stroke-width="2"></i>
+                8-3. APB
+              </button>
+              <button data-tab="ahb" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="zap" class="w-5 h-5" stroke-width="2"></i>
+                8-4. AHB
+              </button>
+              <button data-tab="axi" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="cpu" class="w-5 h-5" stroke-width="2"></i>
+                8-5. AXI
+              </button>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <script>
+    lucide.createIcons();
+
+    const pageId = document.body.dataset.pageId || 'page-8';
+    const isEmbedded = () => window.parent && window.parent !== window;
+    const postParent = (payload) => {
+      if (isEmbedded()) {
+        window.parent.postMessage(payload, '*');
+      }
+    };
+    const notifyEmbeddedHeight = () => {
+      const pageShell = document.querySelector('.page-shell');
+      const height = Math.max(
+        pageShell ? Math.ceil(pageShell.getBoundingClientRect().height) : 0,
+        document.body ? document.body.scrollHeight : 0,
+        document.body ? document.body.offsetHeight : 0
+      );
+      postParent({ type: 'adt:page-height', pageId, height });
+    };
+    const scheduleEmbeddedHeight = () => {
+      window.requestAnimationFrame(() => {
+        notifyEmbeddedHeight();
+      });
+    };
+
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const currentTabLabel = document.getElementById('current-tab-label');
+    const tabBtnBaseClass = 'tab-btn flex min-w-max items-center gap-3 rounded-[16px] border px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base';
+    const tabBtnInactiveClass = `${tabBtnBaseClass} border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900`;
+    const tabBtnActiveClass = `${tabBtnBaseClass} bg-[#3182F6] border-blue-200 text-white shadow-md shadow-blue-200/50`;
+    const syncPageHeight = () => scheduleEmbeddedHeight();
+
+    tabBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach((b) => {
+          b.className = tabBtnInactiveClass;
+          const icon = b.querySelector('svg');
+          if (icon) icon.setAttribute('stroke-width', '2');
+        });
+
+        btn.className = tabBtnActiveClass;
+        const activeIcon = btn.querySelector('svg');
+        if (activeIcon) activeIcon.setAttribute('stroke-width', '2.5');
+
+        const targetTab = btn.getAttribute('data-tab');
+        currentTabLabel.textContent = btn.textContent.trim();
+
+        tabContents.forEach((content) => {
+          content.classList.remove('active');
+          if (content.id === `tab-${targetTab}`) content.classList.add('active');
+        });
+        syncPageHeight();
+      });
+    });
+
+    const waveData = {
+      write_nowait: {
+        signal: [
+          { name: 'PCLK', wave: 'p....' },
+          { name: 'PADDR', wave: 'x=.x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '01.0.' },
+          { name: 'PSELx', wave: '01.0.' },
+          { name: 'PENABLE', wave: '0.10.' },
+          { name: 'PWDATA', wave: 'x=.x.', data: ['WData'] },
+          { name: 'PREADY', wave: '1....' },
+          { name: 'PRDATA', wave: 'x....' },
+          { name: 'PSLVERR', wave: '0....' }
+        ],
+        head: { text: 'Write Transfer (No Wait States)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      write_wait: {
+        signal: [
+          { name: 'PCLK', wave: 'p......' },
+          { name: 'PADDR', wave: 'x=...x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '01...0.' },
+          { name: 'PSELx', wave: '01...0.' },
+          { name: 'PENABLE', wave: '0.1..0.' },
+          { name: 'PWDATA', wave: 'x=...x.', data: ['WData'] },
+          { name: 'PREADY', wave: '1.0.1..' },
+          { name: 'PRDATA', wave: 'x......' },
+          { name: 'PSLVERR', wave: '0......' }
+        ],
+        head: { text: 'Write Transfer (With Wait States)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      read_nowait: {
+        signal: [
+          { name: 'PCLK', wave: 'p....' },
+          { name: 'PADDR', wave: 'x=.x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '0....' },
+          { name: 'PSELx', wave: '01.0.' },
+          { name: 'PENABLE', wave: '0.10.' },
+          { name: 'PWDATA', wave: 'x....' },
+          { name: 'PREADY', wave: '1....' },
+          { name: 'PRDATA', wave: 'x.=.x', data: ['RData'] },
+          { name: 'PSLVERR', wave: '0....' }
+        ],
+        head: { text: 'Read Transfer (No Wait States)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      read_wait: {
+        signal: [
+          { name: 'PCLK', wave: 'p......' },
+          { name: 'PADDR', wave: 'x=...x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '0......' },
+          { name: 'PSELx', wave: '01...0.' },
+          { name: 'PENABLE', wave: '0.1..0.' },
+          { name: 'PWDATA', wave: 'x......' },
+          { name: 'PREADY', wave: '1.0.1..' },
+          { name: 'PRDATA', wave: 'x...=.x', data: ['RData'] },
+          { name: 'PSLVERR', wave: '0......' }
+        ],
+        head: { text: 'Read Transfer (With Wait States)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      error_response: {
+        signal: [
+          { name: 'PCLK', wave: 'p....' },
+          { name: 'PADDR', wave: 'x=.x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '01.0.' },
+          { name: 'PSELx', wave: '01.0.' },
+          { name: 'PENABLE', wave: '0.10.' },
+          { name: 'PWDATA', wave: 'x=.x.', data: ['WData'] },
+          { name: 'PREADY', wave: '1....' },
+          { name: 'PRDATA', wave: 'x....' },
+          { name: 'PSLVERR', wave: '0.10.' }
+        ],
+        head: { text: 'Error Response (Write, No Wait)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      ahb_single: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x==x....', data: ['Addr A', 'Addr B'] },
+          { name: 'HWRITE', wave: 'x10x....' },
+          { name: 'HSIZE', wave: 'x22x....', data: ['WORD', 'WORD'] },
+          { name: 'HBURST', wave: 'x22x....', data: ['SINGLE', 'SINGLE'] },
+          { name: 'HTRANS', wave: 'x==x....', data: ['NONSEQ', 'NONSEQ'] },
+          { name: 'HWDATA', wave: 'xx=x....', data: ['WData(A)'] },
+          { name: 'HRDATA', wave: 'xxx=....', data: ['RData(B)'] },
+          { name: 'HREADY', wave: '1.......' }
+        ],
+        head: { text: 'AHB Basic Single Transfers (Write followed by Read)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      ahb_incr4: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x====xx.', data: ['0x38', '0x3C', '0x40', '0x44'] },
+          { name: 'HWRITE', wave: 'x1...xx.' },
+          { name: 'HSIZE', wave: 'x2...xx.', data: ['WORD'] },
+          { name: 'HBURST', wave: 'x2...xx.', data: ['INCR4'] },
+          { name: 'HTRANS', wave: 'x====xx.', data: ['NONSEQ', 'SEQ', 'SEQ', 'SEQ'] },
+          { name: 'HWDATA', wave: 'xx====x.', data: ['D(0x38)', 'D(0x3C)', 'D(0x40)', 'D(0x44)'] },
+          { name: 'HREADY', wave: '1.......' }
+        ],
+        head: { text: 'AHB 4-Beat Incrementing Burst (INCR4, Word Size)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      ahb_wrap4: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x====xx.', data: ['0x38', '0x3C', '0x30', '0x34'] },
+          { name: 'HWRITE', wave: 'x1...xx.' },
+          { name: 'HSIZE', wave: 'x2...xx.', data: ['WORD'] },
+          { name: 'HBURST', wave: 'x2...xx.', data: ['WRAP4'] },
+          { name: 'HTRANS', wave: 'x====xx.', data: ['NONSEQ', 'SEQ', 'SEQ', 'SEQ'] },
+          { name: 'HWDATA', wave: 'xx====x.', data: ['D(0x38)', 'D(0x3C)', 'D(0x30)', 'D(0x34)'] },
+          { name: 'HREADY', wave: '1.......' }
+        ],
+        head: { text: 'AHB 4-Beat Wrapping Burst (WRAP4, Word Size)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      ahb_burst_wait: {
+        signal: [
+          { name: 'HCLK', wave: 'p........' },
+          { name: 'HADDR', wave: 'x==..=xx.', data: ['0x38', '0x3C', '0x40'] },
+          { name: 'HWRITE', wave: 'x1....xx.' },
+          { name: 'HSIZE', wave: 'x2....xx.', data: ['WORD'] },
+          { name: 'HBURST', wave: 'x2....xx.', data: ['INCR4'] },
+          { name: 'HTRANS', wave: 'x==..=xx.', data: ['NONSEQ', 'SEQ', 'SEQ'] },
+          { name: 'HWDATA', wave: 'xx=..==x.', data: ['D(0x38)', 'D(0x3C)', 'D(0x40)'] },
+          { name: 'HREADY', wave: '1.0.1....' }
+        ],
+        head: { text: 'AHB Burst with Wait States (INCR4)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      axi_valid_before: {
+        signal: [
+          { name: 'ACLK', wave: 'p....' },
+          { name: 'Information', wave: 'x=...x', data: ['Valid Data'] },
+          { name: 'VALID', wave: '01...0' },
+          { name: 'READY', wave: '0..10.' }
+        ],
+        head: { text: 'VALID before READY (Source가 먼저 데이터 준비)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      axi_ready_before: {
+        signal: [
+          { name: 'ACLK', wave: 'p....' },
+          { name: 'Information', wave: 'x..=.x', data: ['Valid Data'] },
+          { name: 'VALID', wave: '0..10.' },
+          { name: 'READY', wave: '01...0' }
+        ],
+        head: { text: 'READY before VALID (Destination이 먼저 받을 준비)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      axi_concurrent: {
+        signal: [
+          { name: 'ACLK', wave: 'p....' },
+          { name: 'Information', wave: 'x=.x..', data: ['Valid Data'] },
+          { name: 'VALID', wave: '010...' },
+          { name: 'READY', wave: '010...' }
+        ],
+        head: { text: 'Concurrent VALID & READY (동시에 준비됨)', tick: 0 },
+        config: { hscale: 1.5 }
+      }
+    };
+
+    function renderWaveDrom(type) {
+      if (typeof WaveDrom === 'undefined') return;
+
+      const sourceJson = waveData[type];
+      const isAHB = type.startsWith('ahb_');
+      const isAXI = type.startsWith('axi_');
+      let targetIndex = 0;
+      if (isAHB) targetIndex = 1;
+      if (isAXI) targetIndex = 2;
+
+      const containerId = 'WaveDrom_Display_' + targetIndex;
+      const container = document.getElementById(containerId);
+      if (container) container.innerHTML = '';
+      WaveDrom.RenderWaveForm(targetIndex, sourceJson, 'WaveDrom_Display_');
+      window.setTimeout(syncPageHeight, 60);
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        renderWaveDrom('write_nowait');
+        renderWaveDrom('ahb_single');
+        renderWaveDrom('axi_valid_before');
+      }, 150);
+    });
+
+    const waveBtns = document.querySelectorAll('.wave-btn');
+    waveBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        waveBtns.forEach((b) => {
+          b.className = 'wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+        });
+        btn.className = 'wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200';
+        renderWaveDrom(btn.getAttribute('data-wave'));
+      });
+    });
+
+    const ahbWaveBtns = document.querySelectorAll('.ahb-wave-btn');
+    ahbWaveBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        ahbWaveBtns.forEach((b) => {
+          b.className = 'ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+        });
+        btn.className = 'ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-green-600 shadow-sm border border-gray-200';
+        renderWaveDrom(btn.getAttribute('data-wave'));
+      });
+    });
+
+    const axiWaveBtns = document.querySelectorAll('.axi-wave-btn');
+    axiWaveBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        axiWaveBtns.forEach((b) => {
+          b.className = 'axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+        });
+        btn.className = 'axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200';
+        renderWaveDrom(btn.getAttribute('data-wave'));
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (isEmbedded()) {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        postParent({ type: 'adt:ready', pageId });
+
+        if (typeof ResizeObserver !== 'undefined') {
+          const observer = new ResizeObserver(() => scheduleEmbeddedHeight());
+          const pageShell = document.querySelector('.page-shell');
+          if (pageShell) observer.observe(pageShell);
+          if (document.body) observer.observe(document.body);
+        } else {
+          window.setInterval(notifyEmbeddedHeight, 1000);
+        }
+
+        document.addEventListener('keydown', (event) => {
+          const target = event.target;
+          const isFormTarget = target instanceof Element &&
+            (Boolean(target.closest('input, textarea, select, button, [contenteditable=\"true\"]')) || target.isContentEditable);
+          if (isFormTarget) return;
+          if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+            postParent({
+              type: 'adt:navigate',
+              pageId,
+              delta: event.key === 'ArrowRight' ? 1 : -1,
+            });
+            event.preventDefault();
+          }
+        });
+      }
+
+      window.addEventListener('load', scheduleEmbeddedHeight);
+      window.addEventListener('resize', scheduleEmbeddedHeight);
+      window.setTimeout(scheduleEmbeddedHeight, 0);
+      window.setTimeout(scheduleEmbeddedHeight, 180);
+      window.setTimeout(scheduleEmbeddedHeight, 720);
+      syncPageHeight();
+    });
+  </script>
+</body>
+</html>

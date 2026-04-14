@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반도체 산업 개요와 설계 지도 | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/guidebook-common.css">
+    <style>
+        .diagram-grid {
+            background-color: #ffffff;
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+            background-size: 16px 16px;
+            background-position: center center;
+        }
+
+        .diagram-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.8rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background-color: #ffffff;
+        }
+
+        .diagram-grid svg text {
+            font-family: 'Pretendard', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        .wsts-article {
+            position: relative;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbff 48%, #ffffff 100%);
+            border-color: #dbeafe;
+            box-shadow: 0 18px 44px rgba(37, 99, 235, 0.08);
+        }
+
+        .wsts-surface {
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 0.96) 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.96),
+                0 18px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .wsts-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            line-height: 1;
+            background: #ffffff;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .wsts-chip::before {
+            content: "";
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 9999px;
+            background: currentColor;
+            opacity: 0.9;
+        }
+
+        .wsts-chip-discrete {
+            color: #d97706;
+            border-color: #fcd34d;
+            background: #fff7ed;
+        }
+
+        .wsts-chip-memory {
+            color: #0f766e;
+            border-color: #99f6e4;
+            background: #ecfeff;
+        }
+
+        .wsts-chip-system {
+            color: #7c3aed;
+            border-color: #c4b5fd;
+            background: #f5f3ff;
+        }
+
+        .wsts-chip-micro {
+            color: #db2777;
+            border-color: #f9a8d4;
+            background: #fdf2f8;
+        }
+    </style>
+</head>
+<body class="page-standalone" data-page-id="page-1">
+    <main class="page-shell">
+        <section class="page-section active" id="page-1">
+            <div class="mb-4"><span class="badge">Part 1</span></div>
+            <h2 class="section-title">반도체 산업 개요와 설계 지도</h2>
+
+            <div class="mb-8">
+                <div class="card">
+                    <div class="flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">1-1. Semiconductor Landscape</div>
+                        </div>
+                        <div class="bg-blue-50 text-blue-600 px-4 py-2 rounded-2xl text-sm font-extrabold shrink-0">Industry Map</div>
+                    </div>
+
+                    <div class="mb-8">
+                        <div class="grid grid-cols-1 gap-5">
+                            <article class="wsts-article rounded-[34px] border border-slate-200 overflow-hidden p-4 md:p-6">
+                                <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-5">
+                                    <div>
+                                        <h5 class="text-[1.55rem] tracking-[-0.04em] font-black text-slate-900">Product Category</h5>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="wsts-chip wsts-chip-discrete">Discrete</span>
+                                        <span class="wsts-chip wsts-chip-memory">Memory</span>
+                                        <span class="wsts-chip wsts-chip-system">System IC</span>
+                                        <span class="wsts-chip wsts-chip-micro">Micro</span>
+                                    </div>
+                                </div>
+                                <div class="wsts-surface svg-container rounded-[30px] p-3 md:p-5">
+                                    <svg viewBox="0 0 1520 900" class="w-full h-auto" aria-label="Semiconductor product category tree">
+                                        <defs>
+                                            <pattern id="wstsGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+                                                <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(99,102,241,0.06)" stroke-width="1"></path>
+                                            </pattern>
+                                            <linearGradient id="wstsBoard" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#fcfeff"></stop>
+                                                <stop offset="48%" stop-color="#f8fbff"></stop>
+                                                <stop offset="100%" stop-color="#fefefe"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsRoot" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#1e3a8a"></stop>
+                                                <stop offset="100%" stop-color="#2563eb"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsDiscretePanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"></stop>
+                                                <stop offset="100%" stop-color="#fff7ed"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsICPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"></stop>
+                                                <stop offset="100%" stop-color="#eef4ff"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsDiscreteBranch" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#fffaf3"></stop>
+                                                <stop offset="100%" stop-color="#ffedd5"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsMemoryPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#f6feff"></stop>
+                                                <stop offset="100%" stop-color="#ecfeff"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsSystemPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#faf8ff"></stop>
+                                                <stop offset="100%" stop-color="#f5f3ff"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsAnalogPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#f7fff9"></stop>
+                                                <stop offset="100%" stop-color="#ecfdf5"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsLogicPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#f8fbff"></stop>
+                                                <stop offset="100%" stop-color="#eef2ff"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsMicroPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#fff8fc"></stop>
+                                                <stop offset="100%" stop-color="#fdf2f8"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsMemoryLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"></stop>
+                                                <stop offset="100%" stop-color="#f0fdff"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsAnalogLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"></stop>
+                                                <stop offset="100%" stop-color="#f7fff9"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsLogicLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"></stop>
+                                                <stop offset="100%" stop-color="#f7f8ff"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="wstsMicroLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"></stop>
+                                                <stop offset="100%" stop-color="#fff7fb"></stop>
+                                            </linearGradient>
+                                            <filter id="wstsShadow" x="-20%" y="-20%" width="140%" height="160%">
+                                                <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.08"></feDropShadow>
+                                            </filter>
+                                        </defs>
+
+                                        <rect x="0" y="0" width="1520" height="900" rx="32" fill="url(#wstsBoard)"></rect>
+                                        <rect x="0" y="0" width="1520" height="900" rx="32" fill="url(#wstsGrid)"></rect>
+                                        <g stroke="rgba(99,102,241,0.14)" stroke-width="2" stroke-dasharray="8 12">
+                                            <path d="M 648 150 V 791"></path>
+                                            <path d="M 962 220 V 791"></path>
+                                            <path d="M 1214 236 V 821"></path>
+                                        </g>
+
+                                            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <g stroke="#f59e0b" stroke-width="4.5">
+                                                <path d="M 290 337 H 326 V 176 H 360"></path>
+                                                <path d="M 610 176 H 648 V 133 H 690"></path>
+                                                <path d="M 648 176 V 220 H 690"></path>
+                                            </g>
+                                            <g stroke="#3b82f6" stroke-width="4.5">
+                                                <path d="M 326 337 V 497 H 360"></path>
+                                            </g>
+                                            <g stroke="#14b8a6" stroke-width="4.5">
+                                                <path d="M 610 497 H 648 V 319 H 690"></path>
+                                                <path d="M 920 319 H 960 V 293 H 992"></path>
+                                                <path d="M 960 319 V 369 H 992"></path>
+                                                <path d="M 1162 293 H 1200 V 267 H 1246"></path>
+                                                <path d="M 1200 293 V 318 H 1246"></path>
+                                                <path d="M 1162 369 H 1246"></path>
+                                            </g>
+                                            <g stroke="#8b5cf6" stroke-width="4.5">
+                                                <path d="M 648 497 V 675 H 690"></path>
+                                                <path d="M 920 675 H 960 V 497 H 992"></path>
+                                                <path d="M 960 675 H 992"></path>
+                                                <path d="M 960 675 V 803 H 992"></path>
+                                            </g>
+                                            <g stroke="#10b981" stroke-width="4">
+                                                <path d="M 1162 497 H 1200 V 420 H 1246"></path>
+                                                <path d="M 1200 497 V 471 H 1246"></path>
+                                                <path d="M 1200 497 V 522 H 1246"></path>
+                                                <path d="M 1200 497 V 573 H 1246"></path>
+                                            </g>
+                                            <g stroke="#6366f1" stroke-width="4">
+                                                <path d="M 1162 675 H 1200 V 624 H 1246"></path>
+                                                <path d="M 1200 675 H 1246"></path>
+                                                <path d="M 1200 675 V 726 H 1246"></path>
+                                            </g>
+                                            <g stroke="#ec4899" stroke-width="4">
+                                                <path d="M 1162 803 H 1200 V 777 H 1246"></path>
+                                                <path d="M 1200 803 V 828 H 1246"></path>
+                                            </g>
+                                        </g>
+
+                                        <g>
+                                            <circle cx="326" cy="337" r="8" fill="#ffffff" stroke="#3b82f6" stroke-width="3"></circle>
+                                            <circle cx="648" cy="176" r="7" fill="#ffffff" stroke="#f59e0b" stroke-width="3"></circle>
+                                            <circle cx="648" cy="497" r="7" fill="#ffffff" stroke="#3b82f6" stroke-width="3"></circle>
+                                            <circle cx="960" cy="319" r="7" fill="#ffffff" stroke="#14b8a6" stroke-width="3"></circle>
+                                            <circle cx="1200" cy="293" r="6" fill="#ffffff" stroke="#14b8a6" stroke-width="3"></circle>
+                                            <circle cx="960" cy="675" r="7" fill="#ffffff" stroke="#8b5cf6" stroke-width="3"></circle>
+                                            <circle cx="1200" cy="497" r="6" fill="#ffffff" stroke="#10b981" stroke-width="3"></circle>
+                                            <circle cx="1200" cy="675" r="6" fill="#ffffff" stroke="#6366f1" stroke-width="3"></circle>
+                                            <circle cx="1200" cy="803" r="6" fill="#ffffff" stroke="#ec4899" stroke-width="3"></circle>
+                                        </g>
+
+                                        <g filter="url(#wstsShadow)">
+                                            <rect x="70" y="274" width="220" height="126" rx="28" fill="url(#wstsRoot)" stroke="#1d4ed8" stroke-width="2"></rect>
+                                            <rect x="360" y="107" width="250" height="138" rx="24" fill="url(#wstsDiscretePanel)" stroke="#fdba74" stroke-width="2"></rect>
+                                            <rect x="360" y="428" width="250" height="138" rx="24" fill="url(#wstsICPanel)" stroke="#93c5fd" stroke-width="2"></rect>
+
+                                            <rect x="690" y="98" width="210" height="69" rx="18" fill="url(#wstsDiscreteBranch)" stroke="#fdba74" stroke-width="1.8"></rect>
+                                            <rect x="690" y="185" width="210" height="69" rx="18" fill="url(#wstsDiscreteBranch)" stroke="#fdba74" stroke-width="1.8"></rect>
+                                            <rect x="690" y="277" width="230" height="84" rx="20" fill="url(#wstsMemoryPanel)" stroke="#67e8f9" stroke-width="1.8"></rect>
+                                            <rect x="690" y="633" width="230" height="84" rx="20" fill="url(#wstsSystemPanel)" stroke="#c4b5fd" stroke-width="1.8"></rect>
+
+                                            <rect x="992" y="263" width="170" height="60" rx="16" fill="url(#wstsMemoryPanel)" stroke="#67e8f9" stroke-width="1.6"></rect>
+                                            <rect x="992" y="339" width="170" height="60" rx="16" fill="url(#wstsMemoryPanel)" stroke="#67e8f9" stroke-width="1.6"></rect>
+                                            <rect x="992" y="467" width="170" height="60" rx="16" fill="url(#wstsAnalogPanel)" stroke="#86efac" stroke-width="1.6"></rect>
+                                            <rect x="992" y="645" width="170" height="60" rx="16" fill="url(#wstsLogicPanel)" stroke="#a5b4fc" stroke-width="1.6"></rect>
+                                            <rect x="992" y="773" width="170" height="60" rx="16" fill="url(#wstsMicroPanel)" stroke="#f9a8d4" stroke-width="1.6"></rect>
+
+                                            <rect x="1246" y="245" width="210" height="45" rx="12" fill="url(#wstsMemoryLeaf)" stroke="#99f6e4" stroke-width="1.3"></rect>
+                                            <rect x="1246" y="296" width="210" height="45" rx="12" fill="url(#wstsMemoryLeaf)" stroke="#99f6e4" stroke-width="1.3"></rect>
+                                            <rect x="1246" y="347" width="210" height="45" rx="12" fill="url(#wstsMemoryLeaf)" stroke="#99f6e4" stroke-width="1.3"></rect>
+
+                                            <rect x="1246" y="398" width="210" height="45" rx="12" fill="url(#wstsAnalogLeaf)" stroke="#bbf7d0" stroke-width="1.3"></rect>
+                                            <rect x="1246" y="449" width="210" height="45" rx="12" fill="url(#wstsAnalogLeaf)" stroke="#bbf7d0" stroke-width="1.3"></rect>
+                                            <rect x="1246" y="500" width="210" height="45" rx="12" fill="url(#wstsAnalogLeaf)" stroke="#bbf7d0" stroke-width="1.3"></rect>
+                                            <rect x="1246" y="551" width="210" height="45" rx="12" fill="url(#wstsAnalogLeaf)" stroke="#bbf7d0" stroke-width="1.3"></rect>
+
+                                            <rect x="1246" y="602" width="210" height="45" rx="12" fill="url(#wstsLogicLeaf)" stroke="#c7d2fe" stroke-width="1.3"></rect>
+                                            <rect x="1246" y="653" width="210" height="45" rx="12" fill="url(#wstsLogicLeaf)" stroke="#c7d2fe" stroke-width="1.3"></rect>
+                                            <rect x="1246" y="704" width="210" height="45" rx="12" fill="url(#wstsLogicLeaf)" stroke="#c7d2fe" stroke-width="1.3"></rect>
+
+                                            <rect x="1246" y="755" width="210" height="45" rx="12" fill="url(#wstsMicroLeaf)" stroke="#fbcfe8" stroke-width="1.3"></rect>
+                                            <rect x="1246" y="806" width="210" height="45" rx="12" fill="url(#wstsMicroLeaf)" stroke="#fbcfe8" stroke-width="1.3"></rect>
+                                        </g>
+
+                                        <text x="180" y="337" text-anchor="middle" font-size="28" font-weight="900" fill="#ffffff" dominant-baseline="middle">Semiconductor</text>
+
+                                        <text x="390" y="143" font-size="11" font-weight="900" fill="#d97706" letter-spacing="1.6" dominant-baseline="middle">POWER / SENSOR</text>
+                                        <text x="485" y="185" text-anchor="middle" font-size="22" font-weight="900" fill="#0f172a" dominant-baseline="middle">Discrete</text>
+                                        <text x="485" y="211" text-anchor="middle" font-size="13" font-weight="700" fill="#9a3412" dominant-baseline="middle">Diode · Transistor</text>
+
+                                        <text x="390" y="464" font-size="11" font-weight="900" fill="#2563eb" letter-spacing="1.6" dominant-baseline="middle">COMPUTE / MEMORY</text>
+                                        <text x="485" y="496" text-anchor="middle" font-size="22" font-weight="900" fill="#0f172a" dominant-baseline="middle">IC</text>
+                                        <text x="485" y="522" text-anchor="middle" font-size="16" font-weight="800" fill="#475569" dominant-baseline="middle">Integrated Circuit</text>
+
+                                        <text x="722" y="122" font-size="10.5" font-weight="900" fill="#d97706" letter-spacing="1.5">DISCRETE CLASS</text>
+                                        <text x="795" y="142" text-anchor="middle" font-size="18" font-weight="900" fill="#9a3412">Diode</text>
+                                        <text x="722" y="209" font-size="10.5" font-weight="900" fill="#d97706" letter-spacing="1.5">DISCRETE CLASS</text>
+                                        <text x="795" y="229" text-anchor="middle" font-size="18" font-weight="900" fill="#9a3412">Transistor</text>
+
+                                        <text x="722" y="304" font-size="10.5" font-weight="900" fill="#0f766e" letter-spacing="1.5">STORAGE LAYER</text>
+                                        <text x="805" y="329" text-anchor="middle" font-size="19" font-weight="900" fill="#0f172a">Memory</text>
+                                        <text x="805" y="349" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0f766e">RAM · ROM</text>
+
+                                        <text x="1024" y="286" font-size="10.5" font-weight="900" fill="#0891b2" letter-spacing="1.4" dominant-baseline="middle">VOLATILE</text>
+                                        <text x="1077" y="302" text-anchor="middle" font-size="17" font-weight="900" fill="#0f766e" dominant-baseline="middle">RAM</text>
+
+                                        <text x="1024" y="362" font-size="10.5" font-weight="900" fill="#0891b2" letter-spacing="1.4" dominant-baseline="middle">NON-VOLATILE</text>
+                                        <text x="1077" y="378" text-anchor="middle" font-size="17" font-weight="900" fill="#0f766e" dominant-baseline="middle">ROM</text>
+
+                                        <text x="722" y="660" font-size="10.5" font-weight="900" fill="#7c3aed" letter-spacing="1.5" dominant-baseline="middle">FUNCTIONAL IC</text>
+                                        <text x="805" y="685" text-anchor="middle" font-size="19" font-weight="900" fill="#0f172a" dominant-baseline="middle">System IC</text>
+                                        <text x="805" y="705" text-anchor="middle" font-size="12.5" font-weight="700" fill="#7c3aed" dominant-baseline="middle">Analog · Logic · Micro</text>
+
+                                        <text x="1024" y="490" font-size="10.5" font-weight="900" fill="#059669" letter-spacing="1.4" dominant-baseline="middle">MIXED SIGNAL</text>
+                                        <text x="1077" y="506" text-anchor="middle" font-size="17" font-weight="900" fill="#065f46" dominant-baseline="middle">Analog</text>
+
+                                        <text x="1024" y="668" font-size="10.5" font-weight="900" fill="#4f46e5" letter-spacing="1.4" dominant-baseline="middle">DIGITAL</text>
+                                        <text x="1077" y="684" text-anchor="middle" font-size="17" font-weight="900" fill="#3730a3" dominant-baseline="middle">Logic</text>
+
+                                        <text x="1024" y="796" font-size="10.5" font-weight="900" fill="#db2777" letter-spacing="1.4" dominant-baseline="middle">CONTROLLER</text>
+                                        <text x="1077" y="812" text-anchor="middle" font-size="17" font-weight="900" fill="#9d174d" dominant-baseline="middle">Micro</text>
+
+                                        <g fill="#14b8a6">
+                                            <circle cx="1272" cy="267" r="5"></circle>
+                                            <circle cx="1272" cy="318" r="5"></circle>
+                                            <circle cx="1272" cy="369" r="5"></circle>
+                                        </g>
+                                        <g fill="#10b981">
+                                            <circle cx="1272" cy="420" r="5"></circle>
+                                            <circle cx="1272" cy="471" r="5"></circle>
+                                            <circle cx="1272" cy="522" r="5"></circle>
+                                            <circle cx="1272" cy="573" r="5"></circle>
+                                        </g>
+                                        <g fill="#6366f1">
+                                            <circle cx="1272" cy="624" r="5"></circle>
+                                            <circle cx="1272" cy="675" r="5"></circle>
+                                            <circle cx="1272" cy="726" r="5"></circle>
+                                        </g>
+                                        <g fill="#ec4899">
+                                            <circle cx="1272" cy="777" r="5"></circle>
+                                            <circle cx="1272" cy="828" r="5"></circle>
+                                        </g>
+
+                                        <text x="1292" y="275" font-size="14" font-weight="800" fill="#0f172a">DRAM</text>
+                                        <text x="1292" y="326" font-size="14" font-weight="800" fill="#0f172a">SRAM</text>
+                                        <text x="1292" y="377" font-size="14" font-weight="800" fill="#0f172a">Flash</text>
+
+                                        <text x="1292" y="428" font-size="13.5" font-weight="800" fill="#0f172a">PMIC</text>
+                                        <text x="1292" y="479" font-size="13.5" font-weight="800" fill="#0f172a">Image Sensor</text>
+                                        <text x="1292" y="530" font-size="13.5" font-weight="800" fill="#0f172a">Touch Controller</text>
+                                        <text x="1292" y="581" font-size="13.5" font-weight="800" fill="#0f172a">T-CON</text>
+
+                                        <text x="1292" y="632" font-size="13.5" font-weight="800" fill="#0f172a">DDI</text>
+                                        <text x="1292" y="683" font-size="13.5" font-weight="800" fill="#0f172a">Media IC</text>
+                                        <text x="1292" y="734" font-size="13.5" font-weight="800" fill="#0f172a">FPLDs</text>
+
+                                        <text x="1292" y="785" font-size="13.5" font-weight="800" fill="#0f172a">MCU</text>
+                                        <text x="1292" y="836" font-size="13.5" font-weight="800" fill="#0f172a">DSP</text>
+                                    </svg>
+                                </div>
+                                <div class="mt-4 rounded-[24px] border border-slate-200/70 bg-white/78 px-4 py-3">
+                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.18em] text-slate-400 mb-2">Quick Notes</div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+                                        <div class="rounded-[18px] border border-slate-200/80 bg-white/90 px-4 py-3">
+                                            <div class="text-sm font-black text-slate-900 mb-2">DDI</div>
+                                            <div class="text-[11px] font-bold text-slate-400 mb-1">설명</div>
+                                            <p class="text-[12.5px] leading-5 text-slate-600"><strong class="font-bold text-slate-800">Display Driver IC</strong>: smartphone·TV panel의 image data를 실제 pixel drive signal로 바꿔 화면을 구동하는 chip입니다.</p>
+                                        </div>
+                                        <div class="rounded-[18px] border border-slate-200/80 bg-white/90 px-4 py-3">
+                                            <div class="text-sm font-black text-slate-900 mb-2">FPLDs</div>
+                                            <div class="text-[11px] font-bold text-slate-400 mb-1">설명</div>
+                                            <p class="text-[12.5px] leading-5 text-slate-600"><strong class="font-bold text-slate-800">Field-Programmable Logic Devices</strong>: logic을 현장에서 다시 구성할 수 있어 prototyping이나 low-volume customization에 많이 쓰입니다.</p>
+                                        </div>
+                                        <div class="rounded-[18px] border border-slate-200/80 bg-white/90 px-4 py-3">
+                                            <div class="text-sm font-black text-slate-900 mb-2">T-CON</div>
+                                            <div class="text-[11px] font-bold text-slate-400 mb-1">설명</div>
+                                            <p class="text-[12.5px] leading-5 text-slate-600"><strong class="font-bold text-slate-800">Timing Controller</strong>: panel 내부에서 frame timing과 source/gate synchronization을 맞춰 display 흐름을 안정적으로 제어합니다.</p>
+                                        </div>
+                                        <div class="rounded-[18px] border border-slate-200/80 bg-white/90 px-4 py-3">
+                                            <div class="text-sm font-black text-slate-900 mb-2">PMIC</div>
+                                            <div class="text-[11px] font-bold text-slate-400 mb-1">설명</div>
+                                            <p class="text-[12.5px] leading-5 text-slate-600"><strong class="font-bold text-slate-800">Power Management IC</strong>: AP·memory·sensor에 필요한 voltage rail을 분배하고 charging, sequencing, protection을 담당합니다.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="rounded-[34px] border border-slate-100 overflow-hidden p-4 md:p-6" style="background: radial-gradient(circle at 84% 16%, rgba(6,182,212,0.09), transparent 22%), radial-gradient(circle at 14% 84%, rgba(245,158,11,0.08), transparent 24%), linear-gradient(180deg, #ffffff 0%, #f8fbff 100%); box-shadow: 0 18px 40px rgba(15, 23, 42, 0.05);">
+                                <div class="flex items-end justify-between gap-4 mb-5">
+                                    <div>
+                                        <h5 class="text-[1.45rem] tracking-[-0.03em] font-black text-slate-900">Value Chain</h5>
+                                    </div>
+                                </div>
+                                <div class="svg-container rounded-[28px] border border-white bg-white/80 p-2 md:p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.95)]">
+                                    <svg viewBox="0 0 1520 450" class="w-full h-auto min-w-[980px]" aria-label="Semiconductor industry flow map by company type and stage">
+                                        <defs>
+                                            <pattern id="industryFlowGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+                                                <path d="M 36 0 L 0 0 0 36" fill="none" stroke="rgba(148,163,184,0.1)" stroke-width="1"></path>
+                                            </pattern>
+                                            <linearGradient id="industryFlowBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"></stop>
+                                                <stop offset="100%" stop-color="#f4f9ff"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="industryStageArrow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#38bdf8"></stop>
+                                                <stop offset="100%" stop-color="#2563eb"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="industryBarStrong" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#60a5fa"></stop>
+                                                <stop offset="100%" stop-color="#38bdf8"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="industryBarLight" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#93c5fd"></stop>
+                                                <stop offset="100%" stop-color="#60a5fa"></stop>
+                                            </linearGradient>
+                                            <filter id="industryFlowShadow" x="-10%" y="-20%" width="120%" height="160%">
+                                                <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.08"></feDropShadow>
+                                            </filter>
+                                        </defs>
+
+                                        <rect x="0" y="0" width="1520" height="450" rx="32" fill="url(#industryFlowBg)"></rect>
+                                        <rect x="0" y="0" width="1520" height="450" rx="32" fill="url(#industryFlowGrid)"></rect>
+                                        <text x="72" y="34" fill="#94a3b8" font-size="12.5" font-weight="900" letter-spacing="2.8">INDUSTRY FLOW MAP</text>
+
+                                        <rect x="36" y="150" width="196" height="276" rx="24" fill="#f8fbff" stroke="#dbe7f5" stroke-width="1.5"></rect>
+                                        <rect x="250" y="150" width="1230" height="276" rx="28" fill="white" stroke="#dbe7f5" stroke-width="1.5"></rect>
+
+                                        <g filter="url(#industryFlowShadow)">
+                                            <path d="M 260 50 H 530 L 565 82 L 530 114 H 260 L 295 82 Z" fill="url(#industryStageArrow)"></path>
+                                            <path d="M 565 50 H 835 L 870 82 L 835 114 H 565 L 600 82 Z" fill="url(#industryStageArrow)"></path>
+                                            <path d="M 870 50 H 1140 L 1175 82 L 1140 114 H 870 L 905 82 Z" fill="url(#industryStageArrow)"></path>
+                                            <path d="M 1175 50 H 1445 L 1480 82 L 1445 114 H 1175 L 1210 82 Z" fill="url(#industryStageArrow)"></path>
+                                        </g>
+
+                                        <line x1="555" y1="150" x2="555" y2="426" stroke="#e5edf7" stroke-width="2"></line>
+                                        <line x1="860" y1="150" x2="860" y2="426" stroke="#e5edf7" stroke-width="2"></line>
+                                        <line x1="1165" y1="150" x2="1165" y2="426" stroke="#e5edf7" stroke-width="2"></line>
+
+                                        <line x1="52" y1="196" x2="1462" y2="196" stroke="#edf2f7" stroke-width="2"></line>
+                                        <line x1="52" y1="242" x2="1462" y2="242" stroke="#edf2f7" stroke-width="2"></line>
+                                        <line x1="52" y1="288" x2="1462" y2="288" stroke="#edf2f7" stroke-width="2"></line>
+                                        <line x1="52" y1="334" x2="1462" y2="334" stroke="#edf2f7" stroke-width="2"></line>
+                                        <line x1="52" y1="380" x2="1462" y2="380" stroke="#edf2f7" stroke-width="2"></line>
+
+                                        <text x="412" y="88" text-anchor="middle" fill="white" font-size="22" font-weight="900">Design</text>
+                                        <text x="718" y="88" text-anchor="middle" fill="white" font-size="22" font-weight="900">Wafer Production</text>
+                                        <text x="1023" y="88" text-anchor="middle" fill="white" font-size="22" font-weight="900">Packaging &amp; Test</text>
+                                        <text x="1328" y="88" text-anchor="middle" fill="white" font-size="22" font-weight="900">Sales &amp; Distribution</text>
+
+                                        <text x="134" y="173" text-anchor="middle" fill="#334155" font-size="16.5" font-weight="900">IDM</text>
+                                        <text x="134" y="219" text-anchor="middle" fill="#334155" font-size="16.5" font-weight="900">IP Company</text>
+                                        <text x="134" y="265" text-anchor="middle" fill="#334155" font-size="16.5" font-weight="900">Fabless</text>
+                                        <text x="134" y="311" text-anchor="middle" fill="#334155" font-size="16.5" font-weight="900">Design House</text>
+                                        <text x="134" y="357" text-anchor="middle" fill="#334155" font-size="16.5" font-weight="900">Foundry</text>
+                                        <text x="134" y="403" text-anchor="middle" fill="#334155" font-size="16.5" font-weight="900">OSAT</text>
+
+                                        <g filter="url(#industryFlowShadow)">
+                                            <path d="M 270 160 H 1430 L 1462 173 L 1430 186 H 270 L 302 173 Z" fill="url(#industryBarStrong)"></path>
+                                            <path d="M 270 206 H 490 L 522 219 L 490 232 H 270 L 302 219 Z" fill="url(#industryBarLight)"></path>
+                                            <path d="M 270 252 H 478 L 510 265 L 478 278 H 270 L 302 265 Z" fill="url(#industryBarLight)"></path>
+                                            <path d="M 1186 252 H 1426 L 1458 265 L 1426 278 H 1186 L 1218 265 Z" fill="url(#industryBarLight)"></path>
+                                            <path d="M 360 298 H 548 L 580 311 L 548 324 H 360 L 392 311 Z" fill="url(#industryBarLight)"></path>
+                                            <path d="M 566 344 H 1108 L 1140 357 L 1108 370 H 566 L 598 357 Z" fill="url(#industryBarStrong)"></path>
+                                            <path d="M 870 390 H 1108 L 1140 403 L 1108 416 H 870 L 902 403 Z" fill="url(#industryBarLight)"></path>
+                                        </g>
+
+                                    </svg>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="mb-16">
+                        <div class="text-sm font-extrabold uppercase tracking-widest text-slate-400 mb-4">Industry Domains</div>
+                        <h4 class="text-[1.75rem] tracking-[-0.04em] font-black text-slate-900 mb-6">반도체 산업 분야</h4>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <article class="bg-white rounded-[24px] border border-blue-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Memory Semiconductors</h5>
+                                <div class="relative w-full h-[220px] rounded-xl border border-blue-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 420 220" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="memory-array-glow" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="8" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                            <filter id="memory-card-shadow" x="-20%" y="-20%" width="140%" height="160%">
+                                                <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.08"></feDropShadow>
+                                            </filter>
+                                        </defs>
+
+                                        <g filter="url(#memory-card-shadow)">
+                                            <rect x="28" y="50" width="138" height="118" rx="14" fill="white" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4 4"></rect>
+                                            <rect x="42" y="22" width="110" height="24" rx="12" fill="white" stroke="#93c5fd" stroke-width="1.5"></rect>
+                                            <text x="97" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#2563eb">Array View</text>
+
+                                            <rect x="184" y="22" width="108" height="24" rx="12" fill="white" stroke="#38bdf8" stroke-width="1.5"></rect>
+                                            <text x="238" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#0284c7">Memory Type Map</text>
+                                        </g>
+
+                                        <text x="97" y="188" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#64748b">Cell Array &amp; Bank Density</text>
+                                        <g transform="translate(50, 74)">
+                                            <rect x="0" y="0" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <rect x="30" y="0" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <rect x="60" y="0" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <rect x="90" y="0" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <rect x="0" y="30" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <circle cx="41" cy="41" r="20" fill="#3b82f6" opacity="0.25" filter="url(#memory-array-glow)"></circle>
+                                            <rect x="30" y="30" width="22" height="22" rx="4" fill="#3b82f6"></rect>
+                                            <rect x="60" y="30" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <rect x="90" y="30" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <rect x="0" y="60" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <rect x="30" y="60" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <rect x="60" y="60" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                            <rect x="90" y="60" width="22" height="22" rx="4" fill="#bfdbfe"></rect>
+                                        </g>
+                                        <path d="M 97 96 L 97 76" stroke="#3b82f6" stroke-width="1.5" fill="none" stroke-dasharray="2"></path>
+                                        <g transform="translate(58, 50)">
+                                            <rect width="78" height="24" rx="12" fill="white" stroke="#3b82f6" stroke-width="1.5"></rect>
+                                            <text x="35" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#3b82f6">DRAM bank</text>
+                                        </g>
+
+                                        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M 292 76 H 306 V 64 H 322" stroke="#38bdf8" stroke-width="2"></path>
+                                            <path d="M 306 76 V 96 H 322" stroke="#38bdf8" stroke-width="2"></path>
+                                            <path d="M 292 142 H 318" stroke="#06b6d4" stroke-width="2"></path>
+                                        </g>
+
+                                        <rect x="210" y="58" width="82" height="36" rx="10" fill="#e0f2fe" stroke="#38bdf8" stroke-width="1.5"></rect>
+                                        <text x="251" y="73" text-anchor="middle" font-size="12" font-weight="900" fill="#0369a1">RAM</text>
+                                        <text x="251" y="87" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0284c7">Volatile</text>
+
+                                        <rect x="210" y="122" width="82" height="40" rx="10" fill="#ecfeff" stroke="#06b6d4" stroke-width="1.5"></rect>
+                                        <text x="251" y="138" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e">ROM / NVM</text>
+                                        <text x="251" y="153" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0d9488">Non-Volatile</text>
+
+                                        <rect x="322" y="52" width="58" height="24" rx="8" fill="white" stroke="#60a5fa" stroke-width="1.5"></rect>
+                                        <text x="351" y="68" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#2563eb">DRAM</text>
+
+                                        <rect x="322" y="84" width="58" height="24" rx="8" fill="white" stroke="#60a5fa" stroke-width="1.5"></rect>
+                                        <text x="351" y="100" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#2563eb">SRAM</text>
+
+                                        <rect x="318" y="122" width="92" height="40" rx="10" fill="white" stroke="#14b8a6" stroke-width="1.5"></rect>
+                                        <text x="364" y="138" text-anchor="middle" font-size="11" font-weight="900" fill="#0f766e">Flash</text>
+                                        <text x="364" y="153" text-anchor="middle" font-size="9" font-weight="700" fill="#0d9488">NAND / NOR</text>
+
+                                        <text x="300" y="188" font-size="11.5" font-weight="bold" fill="#64748b">RAM + NVM Hierarchy</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    DRAM·SRAM 같은 휘발성 메모리와 Flash(NAND/NOR) 중심의 비휘발성 메모리가 함께 시장을 구성합니다. 반복되는 Array 집적도와 함께 메모리 계층 구조, 인터페이스, 전력 관리가 핵심 설계 포인트입니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">RAM / NVM</span>
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">DRAM / NAND</span>
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">HBM</span>
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">Density</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-indigo-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">System Semiconductors (Logic/SoC)</h5>
+                                <div class="relative w-full h-[220px] rounded-xl border border-indigo-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 220" class="absolute inset-0">
+                                        <rect x="50" y="40" width="240" height="140" rx="12" fill="white" stroke="#818cf8" stroke-width="1.5" stroke-dasharray="4 4"></rect>
+                                        <text x="170" y="200" text-anchor="middle" font-size="12" font-weight="bold" fill="#64748b">다양한 IP 블록들의 Bus interconnect 통합</text>
+                                        <rect x="70" y="60" width="60" height="50" rx="6" fill="#818cf8"></rect>
+                                        <text x="100" y="89" text-anchor="middle" font-size="12" font-weight="bold" fill="white">CPU</text>
+                                        <rect x="145" y="60" width="60" height="50" rx="6" fill="#a78bfa"></rect>
+                                        <text x="175" y="89" text-anchor="middle" font-size="12" font-weight="bold" fill="white">GPU</text>
+                                        <rect x="220" y="60" width="50" height="50" rx="6" fill="#c084fc"></rect>
+                                        <text x="245" y="89" text-anchor="middle" font-size="12" font-weight="bold" fill="white">NPU</text>
+                                        <rect x="70" y="140" width="40" height="25" rx="4" fill="#e0e7ff"></rect>
+                                        <text x="90" y="156" text-anchor="middle" font-size="10" font-weight="bold" fill="#4f46e5">I/O</text>
+                                        <rect x="125" y="140" width="60" height="25" rx="4" fill="#e0e7ff"></rect>
+                                        <text x="155" y="156" text-anchor="middle" font-size="10" font-weight="bold" fill="#4f46e5">Mem Ctrl</text>
+                                        <path d="M 70 125 L 270 125" stroke="#6366f1" stroke-width="4" stroke-linecap="round"></path>
+                                        <path d="M 100 110 L 100 125 M 175 110 L 175 125 M 245 110 L 245 125" stroke="#6366f1" stroke-width="2"></path>
+                                        <path d="M 90 125 L 90 140 M 155 125 L 155 140" stroke="#6366f1" stroke-width="2"></path>
+                                        <g transform="translate(260, 20)">
+                                            <rect width="80" height="24" rx="12" fill="white" stroke="#6366f1" stroke-width="1.5"></rect>
+                                            <text x="40" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#4f46e5">System Bus</text>
+                                        </g>
+                                        <path d="M 280 44 L 250 125" stroke="#6366f1" stroke-width="1" fill="none" stroke-dasharray="2"></path>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    연산과 제어를 담당하는 디지털 회로설계의 중심 축입니다. RTL 아키텍처, 기능 검증(DV), 합성, 저전력 통합 기술이 가장 활발하게 적용됩니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-indigo-200 text-indigo-600">RTL Architecture</span>
+                                    <span class="diagram-tag border border-indigo-200 text-indigo-600">DV / IP Subsystem</span>
+                                    <span class="diagram-tag border border-indigo-200 text-indigo-600">AI Accelerator</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-emerald-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Analog / Power / RF</h5>
+                                <div class="relative w-full h-[220px] rounded-xl border border-emerald-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 220" class="absolute inset-0">
+                                        <path d="M 40 110 Q 70 40, 100 110 T 160 110" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"></path>
+                                        <text x="100" y="160" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">Continuous Signal</text>
+                                        <rect x="170" y="70" width="60" height="80" rx="8" fill="#34d399"></rect>
+                                        <text x="200" y="115" text-anchor="middle" font-size="14" font-weight="bold" fill="white">ADC</text>
+                                        <path d="M 240 120 L 260 120 L 260 90 L 280 90 L 280 120 L 300 120 L 300 90 L 320 90" fill="none" stroke="#059669" stroke-width="3" stroke-linejoin="round"></path>
+                                        <text x="280" y="160" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">Discrete Signal</text>
+                                        <g transform="translate(160, 20)">
+                                            <rect width="80" height="24" rx="12" fill="white" stroke="#059669" stroke-width="1.5"></rect>
+                                            <text x="40" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">Mixed-Signal</text>
+                                        </g>
+                                        <path d="M 200 44 L 200 70" stroke="#059669" stroke-width="1.5" fill="none" stroke-dasharray="2"></path>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    디지털 시스템이 실제 물리 환경과 소통하도록 돕는 혼합신호 영역입니다. 고전압/전류 제어(PMIC)와 고속 통신(SerDes), 노이즈 제어가 중요합니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-emerald-200 text-emerald-600">PMIC</span>
+                                    <span class="diagram-tag border border-emerald-200 text-emerald-600">ADC/DAC</span>
+                                    <span class="diagram-tag border border-emerald-200 text-emerald-600">SerDes / PLL</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-rose-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Sensors / Discretes</h5>
+                                <div class="relative w-full h-[220px] rounded-xl border border-rose-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 220" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-rose" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <path d="M 30 70 Q 60 50, 90 70 T 150 70" fill="none" stroke="#fb7185" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"></path>
+                                        <path d="M 30 100 Q 60 80, 90 100 T 150 100" fill="none" stroke="#f43f5e" stroke-width="2.5"></path>
+                                        <path d="M 30 130 Q 60 110, 90 130 T 150 130" fill="none" stroke="#fb7185" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"></path>
+                                        <text x="70" y="160" text-anchor="middle" font-size="11" font-weight="bold" fill="#e11d48">Physical Stimulus (Light, Motion)</text>
+                                        <path d="M 170 50 Q 190 100, 170 150 Q 160 100, 170 50" fill="#ffe4e6" stroke="#f43f5e" stroke-width="1.5"></path>
+                                        <g transform="translate(210, 60)">
+                                            <rect x="0" y="0" width="80" height="80" rx="4" fill="white" stroke="#fda4af" stroke-width="2"></rect>
+                                            <line x1="20" y1="0" x2="20" y2="80" stroke="#ffe4e6" stroke-width="1"></line>
+                                            <line x1="40" y1="0" x2="40" y2="80" stroke="#ffe4e6" stroke-width="1"></line>
+                                            <line x1="60" y1="0" x2="60" y2="80" stroke="#ffe4e6" stroke-width="1"></line>
+                                            <line x1="0" y1="20" x2="80" y2="20" stroke="#ffe4e6" stroke-width="1"></line>
+                                            <line x1="0" y1="40" x2="80" y2="40" stroke="#ffe4e6" stroke-width="1"></line>
+                                            <line x1="0" y1="60" x2="80" y2="60" stroke="#ffe4e6" stroke-width="1"></line>
+                                            <rect x="20" y="20" width="20" height="20" fill="#f43f5e" filter="url(#glow-rose)"></rect>
+                                            <rect x="22" y="22" width="16" height="16" fill="white" opacity="0.3"></rect>
+                                        </g>
+                                        <path d="M 290 100 L 330 100" stroke="#e11d48" stroke-width="2" stroke-linecap="round"></path>
+                                        <path d="M 320 90 L 330 100 L 320 110" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round"></path>
+                                        <text x="330" y="85" font-size="10" font-weight="bold" fill="#e11d48">RAW Data</text>
+                                        <g transform="translate(210, 20)">
+                                            <rect width="80" height="24" rx="12" fill="white" stroke="#e11d48" stroke-width="1.5"></rect>
+                                            <text x="40" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#e11d48">CMOS / MEMS</text>
+                                        </g>
+                                        <path d="M 250 44 L 250 60" stroke="#e11d48" stroke-width="1.5" fill="none" stroke-dasharray="2"></path>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    빛, 온도, 모션 등 물리적 세상의 정보를 감지하여 전기 신호로 변환합니다. 이미지 센서(CIS)의 화질 개선 및 내장형 ISP 논리 회로 설계가 포함됩니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">CMOS Image Sensor</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">MEMS</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">ISP</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-amber-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] lg:col-span-2">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Advanced Packaging / Chiplet</h5>
+                                <div class="grid lg:grid-cols-2 gap-6 items-center">
+                                    <div class="relative w-full h-[200px] rounded-xl border border-amber-100/60 overflow-hidden diagram-grid flex items-center justify-center">
+                                        <svg width="100%" height="100%" viewBox="0 0 400 220" class="absolute inset-0">
+                                            <defs>
+                                                <filter id="glow-red-pkg" x="-20%" y="-20%" width="140%" height="140%">
+                                                    <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
+                                                    <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                                </filter>
+                                            </defs>
+                                            <rect x="50" y="150" width="300" height="20" rx="4" fill="#e2e8f0" stroke="#cbd5e1"></rect>
+                                            <text x="200" y="190" text-anchor="middle" font-size="12" font-weight="bold" fill="#64748b">성능 한계 극복을 위한 이종 다이(Heterogeneous Die) 집적</text>
+                                            <rect x="70" y="130" width="260" height="15" rx="2" fill="#94a3b8"></rect>
+                                            <g fill="#64748b">
+                                                <circle cx="80" cy="125" r="2"></circle><circle cx="95" cy="125" r="2"></circle><circle cx="110" cy="125" r="2"></circle>
+                                                <circle cx="170" cy="125" r="2"></circle><circle cx="185" cy="125" r="2"></circle><circle cx="200" cy="125" r="2"></circle>
+                                                <circle cx="260" cy="125" r="2"></circle><circle cx="275" cy="125" r="2"></circle><circle cx="290" cy="125" r="2"></circle>
+                                            </g>
+                                            <rect x="75" y="70" width="50" height="55" rx="4" fill="#f59e0b"></rect>
+                                            <text x="100" y="102" text-anchor="middle" font-size="11" font-weight="bold" fill="white">I/O</text>
+                                            <rect x="140" y="50" width="90" height="75" rx="4" fill="#fbbf24"></rect>
+                                            <text x="185" y="92" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Core ASIC</text>
+                                            <rect x="245" y="95" width="40" height="30" rx="2" fill="#fcd34d"></rect>
+                                            <rect x="245" y="60" width="40" height="30" rx="2" fill="#fcd34d"></rect>
+                                            <rect x="245" y="25" width="40" height="30" rx="2" fill="#fcd34d"></rect>
+                                            <text x="265" y="70" text-anchor="middle" font-size="11" font-weight="bold" fill="#d97706">HBM</text>
+                                            <circle cx="185" cy="130" r="15" fill="#ef4444" opacity="0.4" filter="url(#glow-red-pkg)"></circle>
+                                            <g transform="translate(150, 15)">
+                                                <rect width="70" height="24" rx="12" fill="white" stroke="#ef4444" stroke-width="1.5"></rect>
+                                                <text x="35" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">Thermal</text>
+                                            </g>
+                                            <path d="M 185 39 L 185 110" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-dasharray="2"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                            무어의 법칙 한계를 넘기 위해 여러 다이와 고대역폭 메모리(HBM)를 하나의 기판 위에 시스템처럼 묶는 차세대 핵심 기술입니다. Die-to-die 인터페이스, 열 분산, 신호 무결성 확보가 디지털 및 물리적 설계의 성패를 가릅니다.
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="diagram-tag border border-amber-200 text-amber-600">2.5D / 3D IC</span>
+                                            <span class="diagram-tag border border-amber-200 text-amber-600">UCIe / Die-to-Die</span>
+                                            <span class="diagram-tag border border-amber-200 text-amber-600">CoWoS</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="mb-20">
+                        <div class="text-sm font-extrabold uppercase tracking-widest text-slate-400 mb-4">Value Chain</div>
+                        <h4 class="text-[1.75rem] tracking-[-0.04em] font-black text-slate-900 mb-6">반도체 산업 밸류체인</h4>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                            <article class="bg-white rounded-[24px] border border-blue-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-[11px] font-extrabold uppercase tracking-[0.18em] text-blue-500">Value 01</span>
+                                    <span class="diagram-tag border border-blue-100 text-blue-600 bg-blue-50">Design Owner</span>
+                                </div>
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Fabless</h5>
+                                <div class="relative w-full h-[140px] rounded-xl border border-blue-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 160" class="absolute inset-0">
+                                        <rect x="100" y="110" width="200" height="8" rx="4" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5"></rect>
+                                        <rect x="140" y="30" width="120" height="80" rx="6" fill="#f8fafc" stroke="#93c5fd" stroke-width="2"></rect>
+                                        <rect x="160" y="45" width="80" height="50" rx="4" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3 3"></rect>
+                                        <circle cx="180" cy="70" r="4" fill="#3b82f6"></circle>
+                                        <circle cx="220" cy="70" r="4" fill="#3b82f6"></circle>
+                                        <path d="M 184 70 L 216 70" stroke="#60a5fa" stroke-width="1.5"></path>
+                                        <circle cx="200" cy="55" r="15" fill="#3b82f6" opacity="0.15"></circle>
+                                        <text x="200" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#3b82f6">Architecture &amp; RTL Design</text>
+                                    </svg>
+                                </div>
+                                <div class="space-y-3 text-[13px] text-slate-600 leading-relaxed">
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">역할</span>
+                                        <span class="ml-2 flex-1">설계와 마케팅에 집중하며, 아키텍처 및 논리 회로(RTL) 최적화의 주체입니다.</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">산출물</span>
+                                        <span class="ml-2 flex-1 font-medium">Spec, RTL, Netlist(Synthesis), 제품 로드맵</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">대표 기업</span>
+                                        <span class="ml-2 flex-1">Qualcomm, NVIDIA, AMD, MediaTek</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-teal-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-[11px] font-extrabold uppercase tracking-[0.18em] text-teal-500">Value 02</span>
+                                    <span class="diagram-tag border border-teal-100 text-teal-600 bg-teal-50">Bridge &amp; Backend</span>
+                                </div>
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Design House</h5>
+                                <div class="relative w-full h-[140px] rounded-xl border border-teal-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 160" class="absolute inset-0">
+                                        <rect x="80" y="45" width="70" height="50" rx="4" fill="white" stroke="#14b8a6" stroke-width="2" stroke-dasharray="2 2"></rect>
+                                        <text x="115" y="74" text-anchor="middle" font-size="11" font-weight="bold" fill="#0d9488">Netlist</text>
+                                        <path d="M 160 70 L 230 70" stroke="#0f766e" stroke-width="2" stroke-linecap="round"></path>
+                                        <path d="M 220 60 L 230 70 L 220 80" fill="none" stroke="#0f766e" stroke-width="2" stroke-linecap="round"></path>
+                                        <circle cx="195" cy="70" r="14" fill="#ccfbf1" stroke="#14b8a6" stroke-width="1.5"></circle>
+                                        <path d="M 191 66 L 199 74 M 199 66 L 191 74" stroke="#0d9488" stroke-width="1.5"></path>
+                                        <rect x="240" y="40" width="80" height="60" rx="4" fill="#f0fdfa" stroke="#14b8a6" stroke-width="2"></rect>
+                                        <rect x="248" y="48" width="20" height="20" fill="#2dd4bf"></rect>
+                                        <rect x="272" y="48" width="40" height="44" fill="#2dd4bf"></rect>
+                                        <rect x="248" y="72" width="20" height="20" fill="#2dd4bf"></rect>
+                                        <text x="280" y="125" text-anchor="middle" font-size="11" font-weight="bold" fill="#0d9488">GDS Layout (Physical)</text>
+                                        <text x="195" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f766e">Implementation &amp; Signoff</text>
+                                    </svg>
+                                </div>
+                                <div class="space-y-3 text-[13px] text-slate-600 leading-relaxed">
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">역할</span>
+                                        <span class="ml-2 flex-1">Fabless의 논리 회로를 Foundry의 특정 공정에 맞게 물리적 배치(P&amp;R)하고 Signoff 검증을 대행하는 백엔드 전문가입니다.</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">산출물</span>
+                                        <span class="ml-2 flex-1 font-medium">Physical Layout, Final GDS, STA/DRC Report</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">대표 기업</span>
+                                        <span class="ml-2 flex-1">Faraday, Alchip, 가온칩스, 에이디테크놀로지, 에이직랜드</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-indigo-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-[11px] font-extrabold uppercase tracking-[0.18em] text-indigo-500">Value 03</span>
+                                    <span class="diagram-tag border border-indigo-100 text-indigo-600 bg-indigo-50">Tools &amp; Reuse</span>
+                                </div>
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">IP / EDA</h5>
+                                <div class="relative w-full h-[140px] rounded-xl border border-indigo-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 160" class="absolute inset-0">
+                                        <rect x="110" y="20" width="180" height="90" rx="6" fill="white" stroke="#a5b4fc" stroke-width="2"></rect>
+                                        <rect x="130" y="40" width="50" height="50" rx="6" fill="#818cf8"></rect>
+                                        <text x="155" y="69" text-anchor="middle" font-size="12" font-weight="bold" fill="white">CPU</text>
+                                        <rect x="190" y="40" width="40" height="20" rx="4" fill="#c7d2fe"></rect>
+                                        <text x="210" y="54" text-anchor="middle" font-size="10" font-weight="bold" fill="#4f46e5">Mem</text>
+                                        <rect x="190" y="70" width="40" height="20" rx="4" fill="#c7d2fe"></rect>
+                                        <text x="210" y="84" text-anchor="middle" font-size="10" font-weight="bold" fill="#4f46e5">I/O</text>
+                                        <rect x="240" y="40" width="30" height="50" rx="6" fill="#e0e7ff" stroke="#818cf8" stroke-dasharray="2 2"></rect>
+                                        <path d="M 130 125 L 270 125" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4"></path>
+                                        <circle cx="155" cy="125" r="5" fill="#6366f1"></circle>
+                                        <circle cx="200" cy="125" r="5" fill="#6366f1"></circle>
+                                        <circle cx="245" cy="125" r="5" fill="#6366f1"></circle>
+                                        <text x="200" y="145" text-anchor="middle" font-size="10" font-weight="bold" fill="#6366f1">EDA Toolchain</text>
+                                    </svg>
+                                </div>
+                                <div class="space-y-3 text-[13px] text-slate-600 leading-relaxed">
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">역할</span>
+                                        <span class="ml-2 flex-1">설계 툴과 검증된 IP 블록을 제공해 칩 개발의 진입장벽을 낮추고 Time-to-Market을 단축합니다.</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">산출물</span>
+                                        <span class="ml-2 flex-1 font-medium">RTL IP, Hard Macro, Synthesis/P&amp;R Toolchain</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">대표 기업</span>
+                                        <span class="ml-2 flex-1">Arm, Synopsys, Cadence, Siemens EDA</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-emerald-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-[11px] font-extrabold uppercase tracking-[0.18em] text-emerald-500">Value 04</span>
+                                    <span class="diagram-tag border border-emerald-100 text-emerald-600 bg-emerald-50">Manufacturing</span>
+                                </div>
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Foundry</h5>
+                                <div class="relative w-full h-[140px] rounded-xl border border-emerald-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 160" class="absolute inset-0">
+                                        <circle cx="160" cy="70" r="50" fill="#d1fae5" stroke="#34d399" stroke-width="2"></circle>
+                                        <path d="M 130 30 L 130 110 M 150 20 L 150 120 M 170 20 L 170 120 M 190 30 L 190 110" stroke="#6ee7b7" stroke-width="1"></path>
+                                        <path d="M 120 40 L 200 40 M 110 60 L 210 60 M 110 80 L 210 80 M 120 100 L 200 100" stroke="#6ee7b7" stroke-width="1"></path>
+                                        <rect x="150" y="60" width="20" height="20" fill="#10b981"></rect>
+                                        <rect x="170" y="80" width="20" height="20" fill="#10b981"></rect>
+                                        <path d="M 230 30 L 250 30 L 250 50 L 270 50 L 270 80 L 230 80 Z" fill="#a7f3d0" stroke="#10b981" stroke-width="2"></path>
+                                        <path d="M 250 80 L 250 110" stroke="#10b981" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <ellipse cx="250" cy="110" rx="15" ry="5" fill="none" stroke="#10b981" stroke-width="1.5"></ellipse>
+                                        <text x="200" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">Wafer Fabrication Process</text>
+                                    </svg>
+                                </div>
+                                <div class="space-y-3 text-[13px] text-slate-600 leading-relaxed">
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">역할</span>
+                                        <span class="ml-2 flex-1">팹리스/DSP가 넘긴 GDS 데이터를 기반으로 실제 웨이퍼를 가공 생산하며, 공정 PDK를 배포합니다.</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">산출물</span>
+                                        <span class="ml-2 flex-1 font-medium">Wafer, PDK, Design Rule, SPICE Model</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">대표 기업</span>
+                                        <span class="ml-2 flex-1">TSMC, Samsung Foundry, UMC, GlobalFoundries</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-cyan-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-[11px] font-extrabold uppercase tracking-[0.18em] text-cyan-500">Value 05</span>
+                                    <span class="diagram-tag border border-cyan-100 text-cyan-600 bg-cyan-50">Package &amp; Test</span>
+                                </div>
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">OSAT (Packaging &amp; Test)</h5>
+                                <div class="relative w-full h-[140px] rounded-xl border border-cyan-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 160" class="absolute inset-0">
+                                        <rect x="100" y="90" width="200" height="12" rx="2" fill="#cffafe" stroke="#06b6d4" stroke-width="1.5"></rect>
+                                        <circle cx="120" cy="106" r="4" fill="#94a3b8"></circle><circle cx="140" cy="106" r="4" fill="#94a3b8"></circle><circle cx="160" cy="106" r="4" fill="#94a3b8"></circle>
+                                        <circle cx="240" cy="106" r="4" fill="#94a3b8"></circle><circle cx="260" cy="106" r="4" fill="#94a3b8"></circle><circle cx="280" cy="106" r="4" fill="#94a3b8"></circle>
+                                        <rect x="150" y="50" width="100" height="30" rx="2" fill="#06b6d4"></rect>
+                                        <text x="200" y="69" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Silicon Die</text>
+                                        <path d="M 160 50 Q 140 30 120 90" fill="none" stroke="#0891b2" stroke-width="1.5" stroke-dasharray="3 3"></path>
+                                        <path d="M 240 50 Q 260 30 280 90" fill="none" stroke="#0891b2" stroke-width="1.5" stroke-dasharray="3 3"></path>
+                                        <path d="M 110 90 L 110 30 L 290 30 L 290 90" fill="none" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5 3"></path>
+                                        <text x="200" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#0891b2">Assembly &amp; Yield Test</text>
+                                    </svg>
+                                </div>
+                                <div class="space-y-3 text-[13px] text-slate-600 leading-relaxed">
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">역할</span>
+                                        <span class="ml-2 flex-1">웨이퍼를 개별 칩으로 자르고 외부 기판과 연결한 뒤 출하 전 최종 테스트를 담당합니다.</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">산출물</span>
+                                        <span class="ml-2 flex-1 font-medium">완제품 패키지(SIP, MCM 등), Final Test 결과</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">대표 기업</span>
+                                        <span class="ml-2 flex-1">ASE, Amkor, JCET, PTI, 하나마이크론</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-violet-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-[11px] font-extrabold uppercase tracking-[0.18em] text-violet-500">Value 06</span>
+                                    <span class="diagram-tag border border-violet-100 text-violet-600 bg-violet-50">IDM &amp; Infra</span>
+                                </div>
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">IDM &amp; Infrastructure</h5>
+                                <div class="relative w-full h-[140px] rounded-xl border border-violet-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 160" class="absolute inset-0">
+                                        <path d="M 130 75 A 40 40 0 1 1 210 75 A 40 40 0 1 1 130 75" fill="none" stroke="#ede9fe" stroke-width="12"></path>
+                                        <path d="M 170 35 A 40 40 0 0 1 205 60" fill="none" stroke="#8b5cf6" stroke-width="12" stroke-linecap="round"></path>
+                                        <circle cx="170" cy="75" r="20" fill="white" stroke="#8b5cf6" stroke-width="2"></circle>
+                                        <text x="170" y="79" text-anchor="middle" font-size="12" font-weight="black" fill="#8b5cf6">IDM</text>
+                                        <rect x="250" y="45" width="40" height="40" rx="4" fill="white" stroke="#d97706" stroke-width="2"></rect>
+                                        <path d="M 260 85 L 265 100 L 275 100 L 280 85 Z" fill="#fef3c7" stroke="#d97706" stroke-width="2"></path>
+                                        <rect x="245" y="115" width="50" height="6" rx="2" fill="#fcd34d" stroke="#d97706" stroke-width="1.5"></rect>
+                                        <text x="270" y="35" text-anchor="middle" font-size="10" font-weight="bold" fill="#d97706">Equipment / Materials</text>
+                                        <text x="200" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#7c3aed">Integrated System &amp; Infrastructure</text>
+                                    </svg>
+                                </div>
+                                <div class="space-y-3 text-[13px] text-slate-600 leading-relaxed">
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">IDM</span>
+                                        <span class="ml-2 flex-1">설계부터 공정 제조, 패키징까지 모두 내재화한 통합형 사업입니다. 대표 기업으로 Intel, Samsung, TI 등이 있습니다.</span>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <span class="w-[70px] shrink-0 font-bold text-slate-900 bg-slate-100 rounded px-1.5 py-0.5 text-[11px] mt-0.5 text-center">Infrastructure</span>
+                                        <span class="ml-2 flex-1">노광/식각 장비 및 필수 특수가스, 웨이퍼 공급 생태계가 전체 산업의 토대를 이룹니다.</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="mt-20">
+                        <div class="text-sm font-extrabold uppercase tracking-widest text-slate-400 mb-4">Future Tech Trends</div>
+                        <h4 class="text-[1.75rem] tracking-[-0.04em] font-black text-slate-900 mb-6">차세대 반도체 핵심 기술</h4>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <article class="bg-white rounded-[24px] border border-sky-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">GAA &amp; CFET</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-sky-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <path d="M 60 140 L 140 140 L 140 90 L 120 90 L 120 140 Z" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3 3"></path>
+                                        <text x="100" y="160" text-anchor="middle" font-size="10" font-weight="bold" fill="#94a3b8">FinFET (3D)</text>
+                                        <path d="M 160 140 L 170 140" stroke="#94a3b8" stroke-width="2" stroke-dasharray="2 2" stroke-linecap="round"></path>
+                                        <rect x="200" y="70" width="30" height="70" rx="4" fill="#bae6fd" stroke="#38bdf8" stroke-width="1.5"></rect>
+                                        <rect x="310" y="70" width="30" height="70" rx="4" fill="#bae6fd" stroke="#38bdf8" stroke-width="1.5"></rect>
+                                        <rect x="230" y="80" width="80" height="10" fill="#0ea5e9"></rect>
+                                        <rect x="230" y="100" width="80" height="10" fill="#0ea5e9"></rect>
+                                        <rect x="230" y="120" width="80" height="10" fill="#0ea5e9"></rect>
+                                        <rect x="250" y="60" width="40" height="90" rx="4" fill="#0284c7" opacity="0.8"></rect>
+                                        <path d="M 270 45 L 270 60" stroke="#0284c7" stroke-width="2" stroke-dasharray="2 2"></path>
+                                        <g transform="translate(250, 20)">
+                                            <rect width="40" height="20" rx="10" fill="white" stroke="#0284c7" stroke-width="1.5"></rect>
+                                            <text x="20" y="14" text-anchor="middle" font-size="9" font-weight="bold" fill="#0284c7">Gate</text>
+                                        </g>
+                                        <path d="M 290 95 Q 330 60 350 70" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="3 3"></path>
+                                        <text x="350" y="85" font-size="10" font-weight="bold" fill="#0ea5e9">4-Side Control</text>
+                                        <text x="270" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#0284c7">GAA Nanosheet Architecture</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    3나노 이하 미세 공정에서 채널 4면을 게이트가 감싸는 구조로 전류 제어력을 높이는 기술입니다. 이후 CFET으로 진화하면서 디지털 설계 단계부터 새로운 전력/타이밍 모델 대응이 중요해집니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">GAA (MBCFET)</span>
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">CFET</span>
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">Sub-3nm</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-violet-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">PIM</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-violet-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-violet" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <rect x="100" y="40" width="200" height="120" rx="8" fill="white" stroke="#c4b5fd" stroke-width="2"></rect>
+                                        <g fill="#ede9fe" stroke="#a78bfa" stroke-width="1">
+                                            <rect x="120" y="60" width="40" height="30" rx="4"></rect>
+                                            <rect x="170" y="60" width="40" height="30" rx="4"></rect>
+                                            <rect x="120" y="100" width="40" height="30" rx="4"></rect>
+                                            <rect x="170" y="100" width="40" height="30" rx="4"></rect>
+                                        </g>
+                                        <rect x="230" y="60" width="50" height="70" rx="6" fill="#8b5cf6" filter="url(#glow-violet)"></rect>
+                                        <text x="255" y="95" text-anchor="middle" font-size="12" font-weight="black" fill="white">MAC</text>
+                                        <text x="255" y="110" text-anchor="middle" font-size="9" font-weight="bold" fill="#ddd6fe">(ALU)</text>
+                                        <path d="M 210 75 L 230 75 M 210 115 L 230 115" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"></path>
+                                        <circle cx="210" cy="75" r="3" fill="#8b5cf6"></circle><circle cx="210" cy="115" r="3" fill="#8b5cf6"></circle>
+                                        <path d="M 120 160 L 120 180" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"></path>
+                                        <text x="120" y="195" text-anchor="middle" font-size="10" font-weight="bold" fill="#94a3b8">To CPU/GPU</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    메모리 안에 연산기를 직접 통합해 데이터 이동 전력을 줄이는 구조입니다. AI 가속기에서 폰노이만 병목을 완화하는 핵심 축으로 부상하고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-violet-200 text-violet-600">Processing-in-Memory</span>
+                                    <span class="diagram-tag border border-violet-200 text-violet-600">HBM-PIM</span>
+                                    <span class="diagram-tag border border-violet-200 text-violet-600">AI Accelerator</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-fuchsia-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">CXL</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-fuchsia-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="90" y="30" width="80" height="40" rx="6" fill="white" stroke="#c026d3" stroke-width="2"></rect>
+                                        <text x="130" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#a21caf">CPU Node</text>
+                                        <rect x="230" y="30" width="80" height="40" rx="6" fill="white" stroke="#c026d3" stroke-width="2"></rect>
+                                        <text x="270" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#a21caf">GPU / NPU</text>
+                                        <rect x="150" y="90" width="100" height="30" rx="4" fill="#f0abfc" stroke="#c026d3" stroke-width="2"></rect>
+                                        <text x="200" y="110" text-anchor="middle" font-size="11" font-weight="bold" fill="#701a75">CXL Switch</text>
+                                        <path d="M 130 70 L 130 80 L 180 80 L 180 90" fill="none" stroke="#c026d3" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <path d="M 270 70 L 270 80 L 220 80 L 220 90" fill="none" stroke="#c026d3" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <rect x="100" y="140" width="200" height="40" rx="6" fill="#fdf4ff" stroke="#e879f9" stroke-width="2"></rect>
+                                        <g fill="#e879f9">
+                                            <rect x="110" y="145" width="30" height="30" rx="2"></rect>
+                                            <rect x="150" y="145" width="30" height="30" rx="2"></rect>
+                                            <rect x="220" y="145" width="30" height="30" rx="2"></rect>
+                                            <rect x="260" y="145" width="30" height="30" rx="2"></rect>
+                                        </g>
+                                        <text x="200" y="165" text-anchor="middle" font-size="12" font-weight="bold" fill="#701a75">Shared Memory Pool</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    CPU, GPU, NPU가 메모리 풀을 공유하도록 만드는 고속 인터페이스 표준입니다. 서버 시스템에서 메모리 확장성과 자원 유연성을 끌어올리는 핵심 기술입니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-fuchsia-200 text-fuchsia-600">Memory Pooling</span>
+                                    <span class="diagram-tag border border-fuchsia-200 text-fuchsia-600">Cache Coherency</span>
+                                    <span class="diagram-tag border border-fuchsia-200 text-fuchsia-600">PCIe 5.0+</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-orange-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">BSPDN</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-orange-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="80" y="90" width="240" height="20" rx="4" fill="#fed7aa" stroke="#f97316" stroke-width="2"></rect>
+                                        <text x="200" y="105" text-anchor="middle" font-size="11" font-weight="bold" fill="#c2410c">Silicon Substrate</text>
+                                        <path d="M 120 70 Q 150 50, 180 70 T 240 70 T 280 50" fill="none" stroke="#cbd5e1" stroke-width="2"></path>
+                                        <path d="M 100 80 Q 130 60, 160 80 T 220 80 T 260 60" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+                                        <path d="M 140 160 L 140 125" stroke="#f97316" stroke-width="6" stroke-linecap="square"></path>
+                                        <path d="M 260 160 L 260 125" stroke="#f97316" stroke-width="6" stroke-linecap="square"></path>
+                                        <path d="M 100 160 L 300 160" stroke="#fdba74" stroke-width="8" stroke-linecap="round"></path>
+                                        <text x="200" y="185" text-anchor="middle" font-size="10" font-weight="bold" fill="#ea580c">Power Delivery Network (Bottom)</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    초미세 공정에서 신호 배선과 전력 배선을 분리해 혼잡도를 낮추는 2나노 이하 핵심 기술입니다. IR Drop 완화와 표준 셀 밀도 향상에 직접적인 효과가 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-orange-200 text-orange-600">Backside Power</span>
+                                    <span class="diagram-tag border border-orange-200 text-orange-600">IR Drop</span>
+                                    <span class="diagram-tag border border-orange-200 text-orange-600">Routing Congestion</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-lime-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">On-Device AI / NPU</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-lime-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="160" y="40" width="200" height="130" rx="16" fill="white" stroke="#65a30d" stroke-width="2"></rect>
+                                        <text x="260" y="160" text-anchor="middle" font-size="11" font-weight="bold" fill="#4d7c0f">Edge Device (Mobile/IoT)</text>
+                                        <rect x="190" y="60" width="140" height="70" rx="8" fill="#ecfccb" stroke="#84cc16" stroke-width="1.5"></rect>
+                                        <g stroke="#84cc16" stroke-width="1.5">
+                                            <circle cx="210" cy="80" r="4" fill="#a3e635"></circle>
+                                            <circle cx="210" cy="110" r="4" fill="#a3e635"></circle>
+                                            <circle cx="260" cy="70" r="5" fill="#84cc16"></circle>
+                                            <circle cx="260" cy="95" r="5" fill="#84cc16"></circle>
+                                            <circle cx="260" cy="120" r="5" fill="#84cc16"></circle>
+                                            <circle cx="310" cy="80" r="4" fill="#a3e635"></circle>
+                                            <circle cx="310" cy="110" r="4" fill="#a3e635"></circle>
+                                            <line x1="214" y1="80" x2="255" y2="70"></line>
+                                            <line x1="214" y1="80" x2="255" y2="95"></line>
+                                            <line x1="214" y1="110" x2="255" y2="95"></line>
+                                            <line x1="214" y1="110" x2="255" y2="120"></line>
+                                            <line x1="265" y1="70" x2="306" y2="80"></line>
+                                            <line x1="265" y1="95" x2="306" y2="80"></line>
+                                            <line x1="265" y1="95" x2="306" y2="110"></line>
+                                            <line x1="265" y1="120" x2="306" y2="110"></line>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    스마트폰과 자동차 같은 엣지 기기에서 직접 AI 연산을 수행하는 전용 칩입니다. 저전력 아키텍처와 데이터 재사용 최적화가 설계의 핵심 과제로 떠오르고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-lime-200 text-lime-600">NPU</span>
+                                    <span class="diagram-tag border border-lime-200 text-lime-600">Low Power</span>
+                                    <span class="diagram-tag border border-lime-200 text-lime-600">Data Reuse</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-cyan-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Automotive SDV SoC</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-cyan-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <path d="M 80 120 L 100 80 L 280 80 L 320 120 L 340 120 L 340 150 L 60 150 L 60 120 Z" fill="none" stroke="#e2e8f0" stroke-width="3"></path>
+                                        <circle cx="120" cy="150" r="15" fill="white" stroke="#cbd5e1" stroke-width="3"></circle>
+                                        <circle cx="280" cy="150" r="15" fill="white" stroke="#cbd5e1" stroke-width="3"></circle>
+                                        <rect x="170" y="90" width="60" height="40" rx="6" fill="#cffafe" stroke="#06b6d4" stroke-width="2"></rect>
+                                        <text x="200" y="115" text-anchor="middle" font-size="12" font-weight="black" fill="#0891b2">Central</text>
+                                        <rect x="100" y="100" width="30" height="20" rx="4" fill="white" stroke="#06b6d4" stroke-width="1.5"></rect>
+                                        <rect x="270" y="100" width="30" height="20" rx="4" fill="white" stroke="#06b6d4" stroke-width="1.5"></rect>
+                                        <rect x="200" y="140" width="30" height="20" rx="4" fill="white" stroke="#06b6d4" stroke-width="1.5"></rect>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    수십 개의 ECU를 중앙 집중형 SoC로 통합하는 소프트웨어 정의 차량의 핵심 칩입니다. 성능뿐 아니라 ISO 26262, ASIL, fault tolerance까지 함께 검증해야 합니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-600">Zonal Architecture</span>
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-600">ISO 26262 / ASIL</span>
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-600">Fault Tolerance</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-pink-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">AiM / CiM</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-pink-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-pink" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                            <marker id="cim-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#be185d"></path>
+                                            </marker>
+                                        </defs>
+                                        <g stroke="#f472b6" stroke-width="2.5">
+                                            <path d="M 70 50 L 270 50"></path>
+                                            <path d="M 70 90 L 270 90"></path>
+                                            <path d="M 70 130 L 270 130"></path>
+                                            <path d="M 120 20 L 120 160"></path>
+                                            <path d="M 180 20 L 180 160"></path>
+                                            <path d="M 240 20 L 240 160"></path>
+                                        </g>
+                                        <g fill="#ec4899" filter="url(#glow-pink)">
+                                            <circle cx="120" cy="50" r="5"></circle><circle cx="120" cy="90" r="5"></circle><circle cx="120" cy="130" r="5"></circle>
+                                            <circle cx="180" cy="50" r="5"></circle><circle cx="180" cy="90" r="5"></circle><circle cx="180" cy="130" r="5"></circle>
+                                            <circle cx="240" cy="50" r="5"></circle><circle cx="240" cy="90" r="5"></circle><circle cx="240" cy="130" r="5"></circle>
+                                        </g>
+                                        <path d="M 120 160 L 120 170" stroke="#be185d" stroke-width="2" marker-end="url(#cim-arrow)"></path>
+                                        <path d="M 180 160 L 180 170" stroke="#be185d" stroke-width="2" marker-end="url(#cim-arrow)"></path>
+                                        <path d="M 240 160 L 240 170" stroke="#be185d" stroke-width="2" marker-end="url(#cim-arrow)"></path>
+                                        <text x="120" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#be185d">Σ I₁</text>
+                                        <text x="180" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#be185d">Σ I₂</text>
+                                        <text x="240" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#be185d">Σ I₃</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    메모리 소자의 전도도를 가중치로 사용하고, 입력 전압을 인가해 행렬-벡터 곱셈을 아날로그 회로 수준에서 병렬 처리하는 구조입니다. 차세대 AI 가속기에서 에너지 효율을 크게 높일 수 있는 후보 기술입니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-pink-200 text-pink-600">Analog CiM</span>
+                                    <span class="diagram-tag border border-pink-200 text-pink-600">Crossbar Array</span>
+                                    <span class="diagram-tag border border-pink-200 text-pink-600">MVM Acceleration</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-indigo-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">HBM</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-indigo-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="58" y="164" width="284" height="16" rx="4" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"></rect>
+                                        <text x="200" y="194" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">Package Substrate</text>
+                                        <rect x="78" y="142" width="244" height="14" rx="4" fill="#a5b4fc" stroke="#6366f1" stroke-width="2"></rect>
+                                        <text x="200" y="136" text-anchor="middle" font-size="10" font-weight="bold" fill="#4f46e5">Silicon Interposer</text>
+
+                                        <g transform="translate(92, 0)">
+                                            <rect x="0" y="120" width="56" height="16" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="2"></rect>
+                                            <g stroke="#818cf8" stroke-width="1.5">
+                                                <rect x="4" y="98" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="78" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="58" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="38" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                            </g>
+                                            <path d="M 18 38 L 18 136 M 28 38 L 28 136 M 38 38 L 38 136" stroke="#4f46e5" stroke-width="1.8" stroke-dasharray="2 2"></path>
+                                            <g fill="#6366f1">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="22" cy="140" r="2.5"></circle>
+                                                <circle cx="32" cy="140" r="2.5"></circle>
+                                                <circle cx="42" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <rect x="7" y="81" width="42" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="88.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#4338ca">DRAM Die</text>
+                                            <rect x="8" y="123" width="40" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="130.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#4338ca">Base Die</text>
+                                            <text x="28" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#4338ca">HBM Stack</text>
+                                        </g>
+
+                                        <g transform="translate(156, 0)">
+                                            <rect x="0" y="98" width="88" height="38" rx="6" fill="#4f46e5" stroke="#3730a3" stroke-width="2"></rect>
+                                            <g fill="#818cf8">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="24" cy="140" r="2.5"></circle>
+                                                <circle cx="36" cy="140" r="2.5"></circle>
+                                                <circle cx="48" cy="140" r="2.5"></circle>
+                                                <circle cx="60" cy="140" r="2.5"></circle>
+                                                <circle cx="72" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <text x="44" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Logic Die</text>
+                                            <text x="44" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#4338ca">GPU / NPU</text>
+                                        </g>
+
+                                        <g transform="translate(260, 0)">
+                                            <rect x="0" y="120" width="56" height="16" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="2"></rect>
+                                            <g stroke="#818cf8" stroke-width="1.5">
+                                                <rect x="4" y="98" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="78" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="58" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="38" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                            </g>
+                                            <path d="M 18 38 L 18 136 M 28 38 L 28 136 M 38 38 L 38 136" stroke="#4f46e5" stroke-width="1.8" stroke-dasharray="2 2"></path>
+                                            <g fill="#6366f1">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="22" cy="140" r="2.5"></circle>
+                                                <circle cx="32" cy="140" r="2.5"></circle>
+                                                <circle cx="42" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <rect x="7" y="81" width="42" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="88.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#4338ca">DRAM Die</text>
+                                            <rect x="8" y="123" width="40" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="130.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#4338ca">Base Die</text>
+                                            <text x="28" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#4338ca">HBM Stack</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    여러 DRAM 다이를 TSV로 수직 연결해 대역폭을 극대화한 메모리입니다. GPU/NPU와 같은 패키지에 탑재되어 AI 시대의 메모리 월을 해결하는 핵심 부품으로 자리 잡았습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-indigo-200 text-indigo-600">3D TSV Stacking</span>
+                                    <span class="diagram-tag border border-indigo-200 text-indigo-600">High Bandwidth</span>
+                                    <span class="diagram-tag border border-indigo-200 text-indigo-600">AI Accelerator</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-cyan-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">HBF</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-cyan-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="58" y="164" width="284" height="16" rx="4" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"></rect>
+                                        <text x="200" y="194" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">Package Substrate</text>
+                                        <rect x="78" y="142" width="244" height="14" rx="4" fill="#99f6e4" stroke="#14b8a6" stroke-width="2"></rect>
+                                        <text x="200" y="136" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">Silicon Interposer</text>
+
+                                        <g transform="translate(92, 0)">
+                                            <rect x="0" y="120" width="56" height="16" rx="4" fill="#99f6e4" stroke="#14b8a6" stroke-width="2"></rect>
+                                            <g stroke="#2dd4bf" stroke-width="1.5">
+                                                <rect x="4" y="98" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="78" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="58" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="38" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                            </g>
+                                            <path d="M 18 38 L 18 136 M 28 38 L 28 136 M 38 38 L 38 136" stroke="#0f766e" stroke-width="1.8" stroke-dasharray="2 2"></path>
+                                            <g fill="#14b8a6">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="22" cy="140" r="2.5"></circle>
+                                                <circle cx="32" cy="140" r="2.5"></circle>
+                                                <circle cx="42" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <rect x="7" y="81" width="42" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="88.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#0f766e">NAND Die</text>
+                                            <rect x="8" y="123" width="40" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="130.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#0f766e">Base Die</text>
+                                            <text x="28" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">HBF Stack</text>
+                                        </g>
+
+                                        <g transform="translate(156, 0)">
+                                            <rect x="0" y="98" width="88" height="38" rx="6" fill="#14b8a6" stroke="#0f766e" stroke-width="2"></rect>
+                                            <g fill="#5eead4">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="24" cy="140" r="2.5"></circle>
+                                                <circle cx="36" cy="140" r="2.5"></circle>
+                                                <circle cx="48" cy="140" r="2.5"></circle>
+                                                <circle cx="60" cy="140" r="2.5"></circle>
+                                                <circle cx="72" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <text x="44" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Logic Die</text>
+                                            <text x="44" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">GPU / NPU</text>
+                                        </g>
+
+                                        <g transform="translate(260, 0)">
+                                            <rect x="0" y="120" width="56" height="16" rx="4" fill="#99f6e4" stroke="#14b8a6" stroke-width="2"></rect>
+                                            <g stroke="#2dd4bf" stroke-width="1.5">
+                                                <rect x="4" y="98" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="78" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="58" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="38" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                            </g>
+                                            <path d="M 18 38 L 18 136 M 28 38 L 28 136 M 38 38 L 38 136" stroke="#0f766e" stroke-width="1.8" stroke-dasharray="2 2"></path>
+                                            <g fill="#14b8a6">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="22" cy="140" r="2.5"></circle>
+                                                <circle cx="32" cy="140" r="2.5"></circle>
+                                                <circle cx="42" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <rect x="7" y="81" width="42" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="88.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#0f766e">NAND Die</text>
+                                            <rect x="8" y="123" width="40" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="130.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#0f766e">Base Die</text>
+                                            <text x="28" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">HBF Stack</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    HBF는 NAND Flash를 HBM처럼 고대역폭 패키지로 재구성해 AI 추론 시스템의 메모리 용량 병목을 완화하려는 차세대 메모리입니다. HBM을 완전히 대체하기보다는 더 큰 용량과 비휘발성을 활용해 AI 가속기 옆의 보조 메모리 계층으로 주목받고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-700">High Bandwidth Flash</span>
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-700">NAND-Based Memory Tier</span>
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-700">AI Inference</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-sky-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">LPDDR</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-sky-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="80" y="60" width="80" height="60" rx="6" fill="white" stroke="#0ea5e9" stroke-width="2"></rect>
+                                        <text x="120" y="95" text-anchor="middle" font-size="14" font-weight="black" fill="#0284c7">SoC</text>
+                                        <rect x="240" y="60" width="80" height="60" rx="6" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"></rect>
+                                        <text x="280" y="90" text-anchor="middle" font-size="12" font-weight="black" fill="#0284c7">LPDDR5X</text>
+                                        <text x="280" y="105" text-anchor="middle" font-size="9" font-weight="bold" fill="#0369a1">Low Power DRAM</text>
+                                        <path d="M 160 70 L 240 70 M 160 85 L 240 85 M 160 100 L 240 100 M 160 115 L 240 115" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <g transform="translate(142, 22)">
+                                            <rect width="116" height="24" rx="12" fill="white" stroke="#0ea5e9" stroke-width="1.5"></rect>
+                                            <text x="58" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#0284c7">Wide I/O &amp; Low Voltage</text>
+                                        </g>
+                                        <path d="M 100 160 L 140 160 L 140 180 L 260 180 L 260 160 L 300 160" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"></path>
+                                        <text x="200" y="194" text-anchor="middle" font-size="9" font-weight="bold" fill="#0284c7">Deep Sleep / Self Refresh</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    모바일과 AI PC, 온디바이스 AI 시스템에서 쓰이는 초저전력 DRAM 계열입니다. 높은 I/O 속도와 낮은 동작 전압, 대기 전력 최소화가 핵심이라 메모리 컨트롤러와 전력 관리 설계가 함께 중요해집니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">LPDDR5X / LPDDR6</span>
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">Mobile Memory</span>
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">On-Device AI</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-amber-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Emerging Memory</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-amber-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <path d="M 200 150 L 200 120" stroke="#d97706" stroke-width="3"></path>
+                                        <path d="M 170 150 L 230 150" stroke="#d97706" stroke-width="4" stroke-linecap="round"></path>
+                                        <text x="200" y="170" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">Selector / Access Device</text>
+                                        <rect x="180" y="50" width="40" height="70" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"></rect>
+                                        <rect x="180" y="60" width="40" height="15" fill="#fcd34d"></rect>
+                                        <rect x="180" y="80" width="40" height="10" fill="#fde68a"></rect>
+                                        <rect x="180" y="95" width="40" height="15" fill="#fcd34d"></rect>
+                                        <path d="M 225 85 L 250 85" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2 2"></path>
+                                        <g transform="translate(250, 75)">
+                                            <rect width="104" height="20" rx="10" fill="white" stroke="#f59e0b" stroke-width="1.5"></rect>
+                                            <text x="52" y="14" text-anchor="middle" font-size="9" font-weight="bold" fill="#d97706">Storage Layer</text>
+                                        </g>
+                                        <text x="160" y="70" text-anchor="end" font-size="14" font-weight="black" fill="#d97706">MRAM</text>
+                                        <text x="160" y="90" text-anchor="end" font-size="14" font-weight="black" fill="#d97706">ReRAM</text>
+                                        <text x="160" y="110" text-anchor="end" font-size="14" font-weight="black" fill="#d97706">PRAM</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    MRAM, ReRAM, PRAM 같은 신소자 기반 메모리는 DRAM의 속도와 NAND의 비휘발성 사이 간극을 메우려는 기술입니다. 임베디드 NVM, AI 가속기, 저전력 시스템에서 차세대 주력 후보로 검토됩니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-amber-200 text-amber-600">MRAM</span>
+                                    <span class="diagram-tag border border-amber-200 text-amber-600">ReRAM / PRAM</span>
+                                    <span class="diagram-tag border border-amber-200 text-amber-600">Non-Volatile</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-emerald-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">4D NAND</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-emerald-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="120" y="140" width="160" height="30" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"></rect>
+                                        <text x="200" y="160" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">Periphery Under Cell</text>
+                                        <g stroke="#6ee7b7" stroke-width="6">
+                                            <line x1="140" y1="120" x2="260" y2="120"></line>
+                                            <line x1="140" y1="105" x2="260" y2="105"></line>
+                                            <line x1="140" y1="90" x2="260" y2="90"></line>
+                                            <line x1="140" y1="75" x2="260" y2="75"></line>
+                                            <line x1="140" y1="60" x2="260" y2="60"></line>
+                                        </g>
+                                        <path d="M 160 45 L 160 135 M 180 45 L 180 135 M 200 45 L 200 135 M 220 45 L 220 135 M 240 45 L 240 135" stroke="#059669" stroke-width="4"></path>
+                                        <g transform="translate(14, 80)">
+                                            <rect width="110" height="24" rx="12" fill="white" stroke="#10b981" stroke-width="1.5"></rect>
+                                            <text x="55" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">PUC / COP</text>
+                                        </g>
+                                        <path d="M 124 92 L 150 120" stroke="#10b981" stroke-width="1.5" fill="none" stroke-dasharray="2 2"></path>
+                                        <text x="280" y="90" text-anchor="start" font-size="11" font-weight="bold" fill="#10b981">300+ Layers</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    4D NAND는 셀 적층뿐 아니라 주변 회로를 셀 아래로 내리는 PUC 구조까지 포함해 면적 효율을 극대화한 플래시 메모리입니다. 초고단 적층과 주변회로 집적이 함께 용량, 성능, 원가 경쟁력을 좌우합니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-emerald-200 text-emerald-600">Peri Under Cell</span>
+                                    <span class="diagram-tag border border-emerald-200 text-emerald-600">3D V-NAND</span>
+                                    <span class="diagram-tag border border-emerald-200 text-emerald-600">High Density</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-rose-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Neuromorphic</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-rose-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-rose-snn" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <g stroke="#fecdd3" stroke-width="1.5" stroke-dasharray="3 3">
+                                            <line x1="120" y1="70" x2="190" y2="100"></line>
+                                            <line x1="120" y1="130" x2="190" y2="100"></line>
+                                            <line x1="190" y1="100" x2="260" y2="70"></line>
+                                            <line x1="190" y1="100" x2="260" y2="130"></line>
+                                            <line x1="190" y1="50" x2="260" y2="70"></line>
+                                            <line x1="190" y1="150" x2="260" y2="130"></line>
+                                        </g>
+                                        <path d="M 120 70 L 155 85" stroke="#f43f5e" stroke-width="2"></path>
+                                        <circle cx="155" cy="85" r="3" fill="#f43f5e" filter="url(#glow-rose-snn)"></circle>
+                                        <path d="M 190 100 L 225 85" stroke="#f43f5e" stroke-width="2"></path>
+                                        <circle cx="225" cy="85" r="3" fill="#f43f5e" filter="url(#glow-rose-snn)"></circle>
+                                        <circle cx="120" cy="70" r="10" fill="#fda4af" stroke="#f43f5e" stroke-width="2"></circle>
+                                        <circle cx="120" cy="130" r="10" fill="#ffe4e6" stroke="#fb7185" stroke-width="2"></circle>
+                                        <circle cx="190" cy="50" r="10" fill="#ffe4e6" stroke="#fb7185" stroke-width="2"></circle>
+                                        <circle cx="190" cy="100" r="14" fill="#f43f5e" filter="url(#glow-rose-snn)"></circle>
+                                        <text x="190" y="104" text-anchor="middle" font-size="9" font-weight="bold" fill="white">SNN</text>
+                                        <circle cx="190" cy="150" r="10" fill="#ffe4e6" stroke="#fb7185" stroke-width="2"></circle>
+                                        <circle cx="260" cy="70" r="10" fill="#fda4af" stroke="#f43f5e" stroke-width="2"></circle>
+                                        <circle cx="260" cy="130" r="10" fill="#ffe4e6" stroke="#fb7185" stroke-width="2"></circle>
+                                        <path d="M 300 130 L 320 130 L 325 90 L 330 140 L 335 130 L 360 130" fill="none" stroke="#e11d48" stroke-width="1.5" stroke-linejoin="round"></path>
+                                        <text x="330" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#e11d48">Event-Driven Spike</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    뉴런과 시냅스의 동작 방식을 모사해 이벤트가 있을 때만 연산하는 초저전력 AI 칩 아키텍처입니다. 센서 융합, 엣지 인식, 배터리 기반 시스템에서 기존 딥러닝 가속기 대비 높은 효율을 기대할 수 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">SNN</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">Event-Driven</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">Ultra-Low Power</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-teal-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Silicon Photonics</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-teal-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-teal" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                            <linearGradient id="optical-grad-overview" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#2dd4bf"></stop>
+                                                <stop offset="100%" stop-color="#fcd34d"></stop>
+                                            </linearGradient>
+                                        </defs>
+                                        <rect x="50" y="60" width="100" height="80" rx="8" fill="#f0fdfa" stroke="#14b8a6" stroke-width="2"></rect>
+                                        <text x="100" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f766e">ASIC</text>
+                                        <text x="100" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#0d9488">Electrical</text>
+                                        <path d="M 150 85 L 180 85 M 150 115 L 180 115" stroke="#14b8a6" stroke-width="2" stroke-dasharray="2 2"></path>
+                                        <rect x="180" y="50" width="60" height="100" rx="6" fill="#0d9488"></rect>
+                                        <text x="210" y="105" text-anchor="middle" font-size="12" font-weight="bold" fill="white">O/E PHY</text>
+                                        <path d="M 240 85 Q 270 85 300 70 L 350 70" fill="none" stroke="url(#optical-grad-overview)" stroke-width="6" stroke-linecap="round" filter="url(#glow-teal)"></path>
+                                        <path d="M 240 115 Q 270 115 300 130 L 350 130" fill="none" stroke="url(#optical-grad-overview)" stroke-width="6" stroke-linecap="round" filter="url(#glow-teal)"></path>
+                                        <text x="320" y="55" font-size="10" font-weight="bold" fill="#d97706">Photonic Link</text>
+                                        <g transform="translate(168, 15)">
+                                            <rect width="84" height="20" rx="10" fill="white" stroke="#0d9488" stroke-width="1.5"></rect>
+                                            <text x="42" y="14" text-anchor="middle" font-size="10" font-weight="bold" fill="#0d9488">Transceiver</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    전기 신호를 광 신호로 바꿔 칩 간 또는 랙 간 데이터 전송 병목과 발열을 줄이는 기술입니다. AI 데이터센터의 스위치, 패키지, 광 인터커넥트 구조에서 대역폭 확장 수단으로 빠르게 주목받고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-teal-200 text-teal-600">Optical I/O</span>
+                                    <span class="diagram-tag border border-teal-200 text-teal-600">PIC</span>
+                                    <span class="diagram-tag border border-teal-200 text-teal-600">Data Center Interconnect</span>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="../assets/guidebook-page-common.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            window.GuidebookPage.initStandalonePage();
+        });
+    </script>
+</body>
+</html>

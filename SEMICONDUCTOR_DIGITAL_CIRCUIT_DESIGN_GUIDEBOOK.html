@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>반도체 디지털 회로설계 가이드북</title>
+        <link rel="icon" href="data:,">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./assets/guidebook-common.css">
+    </head>
+    <body class="flex flex-col min-h-screen">
+        <header class="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm h-18">
+            <div class="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between py-3">
+                <div class="flex items-center gap-4">
+                    <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-extrabold text-xl shadow-md">A</div>
+                    <div>
+                        <span class="text-xl font-extrabold text-gray-900 tracking-tight block leading-tight">반도체 디지털 <span class="text-blue-600">회로설계 가이드북</span></span>
+                        <span class="text-sm font-semibold text-gray-400">핵심 개념부터 설계 흐름, 실전 문제까지 한 번에 정리</span>
+                    </div>
+                </div>
+                <div class="text-sm font-semibold text-gray-500 hidden md:flex items-center gap-3 bg-gray-50 px-5 py-2.5 rounded-2xl border border-gray-100">
+                    <kbd class="bg-white px-2 py-1 rounded-lg border border-gray-200 shadow-sm font-mono text-gray-800 text-xs">←</kbd>
+                    <span>방향키로 이동</span>
+                    <kbd class="bg-white px-2 py-1 rounded-lg border border-gray-200 shadow-sm font-mono text-gray-800 text-xs">→</kbd>
+                </div>
+            </div>
+        </header>
+
+        <div class="max-w-[2000px] mx-auto flex flex-col lg:flex-row gap-10 mt-8 px-4 sm:px-6 lg:px-8 flex-1 w-full">
+            <aside class="w-full lg:w-72 shrink-0 lg:sticky sidebar overflow-y-auto hidden lg:block pr-6 bg-transparent border-none">
+                <h3 class="font-extrabold text-gray-400 mb-6 text-xs uppercase tracking-widest px-2">Table of Contents</h3>
+                <nav class="space-y-1" id="toc-nav">
+                <button type="button" class="nav-item active" data-go-page="1"><span class="text-gray-400 font-mono text-xs w-6 mr-1">01</span> 반도체 산업 개요</button>
+                <button type="button" class="nav-item" data-go-page="2"><span class="text-gray-400 font-mono text-xs w-6 mr-1">02</span> 반도체/디지털 설계 Flow</button>
+                <button type="button" class="nav-item" data-go-page="3"><span class="text-gray-400 font-mono text-xs w-6 mr-1">03</span> RTL/Frontend</button>
+                <button type="button" class="nav-item" data-go-page="4"><span class="text-gray-400 font-mono text-xs w-6 mr-1">04</span> Physical Design / Backend</button>
+                <button type="button" class="nav-item" data-go-page="5"><span class="text-gray-400 font-mono text-xs w-6 mr-1">05</span> 메모리 / 스토리지 / 소자</button>
+                <button type="button" class="nav-item" data-go-page="6"><span class="text-gray-400 font-mono text-xs w-6 mr-1">06</span> 직무별 Flow 분석</button>
+                <button type="button" class="nav-item" data-go-page="7"><span class="text-gray-400 font-mono text-xs w-6 mr-1">07</span> UVM / Verification</button>
+                <button type="button" class="nav-item" data-go-page="8"><span class="text-gray-400 font-mono text-xs w-6 mr-1">08</span> On-Chip Bus</button>
+                <button type="button" class="nav-item" data-go-page="9"><span class="text-gray-400 font-mono text-xs w-6 mr-1">09</span> Off-Chip Interface</button>
+                <button type="button" class="nav-item" data-go-page="10"><span class="text-gray-400 font-mono text-xs w-6 mr-1">10</span> Solution</button>
+                <button type="button" class="nav-item" data-go-page="11"><span class="text-gray-400 font-mono text-xs w-6 mr-1">11</span> AI Accelerator</button>
+                <button type="button" class="nav-item" data-go-page="12"><span class="text-gray-400 font-mono text-xs w-6 mr-1">12</span> ADT 기술 & 최종 요약</button>
+                    <div class="pt-6 mt-6 border-t border-gray-200 space-y-2">
+                    <button type="button" class="nav-item text-blue-600 bg-white border border-gray-200 shadow-sm hover:border-blue-300 hover:text-blue-600" data-go-page="13"><span class="mr-3 text-lg">📝</span> 13 예상 기출문제</button>
+                    <button type="button" class="nav-item text-red-600 bg-white border border-gray-200 shadow-sm hover:border-red-300 hover:text-red-600" data-go-page="14"><span class="mr-3 text-lg">⏱️</span> 13 실전 모의고사</button>
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="w-full lg:flex-1 relative pb-24">
+
+<section class="page-section active" id="page-1">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">반도체 산업 개요 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="반도체 산업 개요"
+            data-page-frame
+            data-page-id="page-1"
+            data-page-src="./pages/page-1-overview.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-2">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">반도체/디지털 설계 Flow 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="반도체/디지털 설계 Flow"
+            data-page-frame
+            data-page-id="page-2"
+            data-page-src="./pages/page-2-flow.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-3">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">RTL/Frontend 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="RTL/Frontend"
+            data-page-frame
+            data-page-id="page-3"
+            data-page-src="./pages/page-3-rtl-frontend.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-4">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">Physical Design / Backend 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="Physical Design / Backend"
+            data-page-frame
+            data-page-id="page-4"
+            data-page-src="./pages/page-4-physical-design.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-5">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">메모리 / 스토리지 / 소자 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="메모리 / 스토리지 / 소자"
+            data-page-frame
+            data-page-id="page-5"
+            data-page-src="./pages/page-5-memory-device.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-6">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">직무별 Flow 분석 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="직무별 Flow 분석"
+            data-page-frame
+            data-page-id="page-6"
+            data-page-src="./pages/page-6-role-flow.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-7">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">Part 7 | UVM / Verification 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="Part 7 | UVM / Verification"
+            data-page-frame
+            data-page-id="page-7"
+            data-page-src="./pages/page-7-uvm-verification.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-8">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">Part 8 | On-Chip Bus 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="Part 8 | On-Chip Bus"
+            data-page-frame
+            data-page-id="page-8"
+            data-page-src="./pages/page-8-on-chip-bus.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-9">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">Part 9 | Off-Chip Interface 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="Part 9 | Off-Chip Interface"
+            data-page-frame
+            data-page-id="page-9"
+            data-page-src="./pages/page-9-off-chip-interface.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-10">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">Part 10 | Solution 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="Part 10 | Solution"
+            data-page-frame
+            data-page-id="page-10"
+            data-page-src="./pages/page-10-solution.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-11">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">Part 11 | AI Accelerator 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="Part 11 | AI Accelerator"
+            data-page-frame
+            data-page-id="page-11"
+            data-page-src="./pages/page-11-ai-accelerator.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-12">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">Part 12 | ADT 기술 & 최종 요약 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="Part 12 | ADT 기술 & 최종 요약"
+            data-page-frame
+            data-page-id="page-12"
+            data-page-src="./pages/page-12-adt-summary.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-13">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">Part 13 | 예상 기출문제 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="Part 13 | 예상 기출문제"
+            data-page-frame
+            data-page-id="page-13"
+            data-page-src="./pages/page-13-practice-bank.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+<section class="page-section" id="page-14">
+    <div class="page-frame-shell" data-page-shell>
+        <div class="page-frame-loading">Part 13 | 실전 모의고사 페이지를 불러오는 중입니다...</div>
+        <iframe
+            class="page-frame"
+            title="Part 13 | 실전 모의고사"
+            data-page-frame
+            data-page-id="page-14"
+            data-page-src="./pages/page-14-mock-exam.html"
+            loading="lazy"
+        ></iframe>
+    </div>
+</section>
+
+                <div class="mt-16 pt-8 border-t border-gray-200 flex justify-between items-center" id="page-controls">
+                    <button id="btn-prev" class="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center disabled:opacity-30 disabled:cursor-not-allowed">
+                        <span class="mr-2">←</span> 이전 페이지
+                    </button>
+                    <span class="text-gray-400 font-bold text-sm" id="page-indicator">Page 1 of 14</span>
+                    <button id="btn-next" class="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-xl font-bold shadow-[0_4px_12px_rgba(49,130,246,0.3)] transition-all flex items-center disabled:opacity-30 disabled:cursor-not-allowed">
+                        다음 페이지 <span class="ml-2">→</span>
+                    </button>
+                </div>
+            </main>
+        </div>
+
+        <script src="./assets/guidebook-main.js"></script>
+    </body>
+    </html>

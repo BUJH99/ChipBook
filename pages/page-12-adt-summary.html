@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 12 | ADT 기술 & 최종 요약 | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/guidebook-common.css">
+</head>
+<body class="page-standalone" data-page-id="page-12">
+    <main class="page-shell">
+        <section class="page-section active" id="page-12">
+                        <div class="grid grid-cols-1 gap-10">
+                            <div>
+                                <div class="mb-4"><span class="badge">Part 12</span></div>
+                                <h2 class="section-title">ADT 기술 관련 문항 정리</h2>
+                                <div class="card p-8 bg-[#f8faff] border-blue-100 text-base text-gray-700 leading-relaxed">
+                                    <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">12-1. ADT 사내기술</div>
+                                    에이디테크놀로지(ADT)는 팹리스의 아이디어와 파운드리 제조 사이를 연결하는 <strong class="text-blue-600">디자인 솔루션 파트너(DSP)</strong>입니다. 공개 자료를 보면 단순 백엔드 회사가 아니라 <strong>Design Service, Foundation IP, Advanced Platform, Verification, Security, Chiplet</strong>까지 묶어 보는 구조가 뚜렷합니다.
+                                </div>
+
+                                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6">
+                                    <div class="card">
+                                        <h3 class="text-lg font-extrabold text-gray-900 mb-4">Design Service Ladder</h3>
+                                        <p class="text-sm text-gray-600 mb-4">공개 솔루션 페이지는 서비스를 세 단계로 제시합니다. 입력이 어디까지 주어지느냐에 따라 ADT가 맡는 범위가 달라집니다.</p>
+                                        <div class="space-y-3 text-sm">
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">Spec-to-GDSII</strong>아키텍처 정의부터 RTL, 구현, Tapeout까지 전체를 맡는 턴키 서비스</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">RTL-to-GDSII</strong>고객 RTL을 받아 합성, DFT, 물리구현, Signoff를 진행하는 서비스</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">Netlist-to-GDSII</strong>이미 합성된 Netlist를 받아 PnR과 Signoff 중심으로 마무리하는 서비스</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <h3 class="text-lg font-extrabold text-gray-900 mb-4">Foundation IP</h3>
+                                        <p class="text-sm text-gray-600 mb-4">ADT 공개 IP Solutions는 Value-added Foundation IP를 전면에 둡니다. 시험에서는 Standard Cell Library와 SRAM Compiler의 차이를 물을 수 있습니다.</p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                            <div class="rounded-2xl bg-blue-50 border border-blue-100 p-4"><strong class="text-blue-600 block mb-1">Standard Cell Library</strong>고성능, 저전력, 비용형 add-on cell로 합성과 PD의 기반을 제공합니다.</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">SRAM Compiler</strong>Configurable SRAM, sleep/power off, wide voltage, column redundancy 등을 제공합니다.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <h3 class="text-lg font-extrabold text-gray-900 mb-4">Interface IP Solution</h3>
+                                        <p class="text-sm text-gray-600 mb-4">공개 기술 정리 기준으로 보면, ADT는 인터페이스 블록을 단품이 아니라 <strong class="text-gray-900">통합 관점의 IP Solution</strong>으로 설명합니다. DP, SoC 통합, 검증과 자연스럽게 이어지는 축입니다.</p>
+                                        <div class="space-y-3 text-sm">
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">무엇을 다루나</strong>DDR, PCIe, USB 같은 고속 Interface IP와 그 주변 subsystem을 함께 봅니다.</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">공개 표현 포인트</strong>IP selection, licensing, vendor selection, feasibility check, IP generation, subsystem design, ASIC integration까지 연결됩니다.</div>
+                                            <div class="rounded-2xl bg-blue-50 border border-blue-100 p-4"><strong class="text-blue-600 block mb-1">시험 연결</strong>Interface IP는 단순 I/O 블록이 아니라 플랫폼 통합과 검증 복잡도를 키우는 핵심 요소입니다.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <h3 class="text-lg font-extrabold text-gray-900 mb-4">Advanced Design Platform</h3>
+                                        <p class="text-sm text-gray-600 mb-4">ADT 공개 Platform Solutions는 Arm CPU 기반 플랫폼 라인업을 보여줍니다. 직무 문제와 회사 기술 문제를 연결할 때 좋은 축입니다.</p>
+                                        <div class="grid grid-cols-2 gap-3 text-sm">
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">ADP500</strong>A53 기반 5nm Edge-AI</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">ADP510</strong>A53 + R52 기반 5nm Automotive</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">ADP520</strong>A78AE 기반 4/5nm Automotive</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">ADP600</strong>Neoverse 기반 HPC</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <h3 class="text-lg font-extrabold text-gray-900 mb-4">Chiplet Solution</h3>
+                                        <p class="text-sm text-gray-600 mb-4">ADT 공개 Design Solutions 문맥에서 chiplet은 단순 패키지 용어가 아니라, 여러 다이를 하나의 시스템처럼 묶어 성능·수율·확장성을 높이는 설계 솔루션으로 소개됩니다.</p>
+                                        <div class="space-y-3 text-sm">
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">무엇을 뜻하나</strong>큰 단일 다이를 그대로 키우는 대신, 기능별 다이를 나눠 설계한 뒤 패키지 수준에서 하나의 시스템으로 연결하는 방식입니다.</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">함께 묶이는 키워드</strong>Multi-die, Si-interposer, HBM, 고속 인터페이스 SI/PI, advanced packaging 같은 표현이 함께 따라옵니다.</div>
+                                            <div class="rounded-2xl bg-orange-50 border border-orange-100 p-4"><strong class="text-orange-600 block mb-1">시험 연결</strong>칩렛은 단순히 다이를 쪼갠다는 개념보다, 대형 단일 다이의 수율 부담을 낮추고 HPC/AI 시스템의 확장성과 대역폭을 높이는 접근이라는 점까지 같이 기억하는 것이 좋습니다.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <h3 class="text-lg font-extrabold text-gray-900 mb-4">Verification / Security</h3>
+                                        <div class="space-y-3 text-sm">
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">Verification Platform</strong>FPGA, Emulation 기반으로 ASIC 검증 플랫폼을 확장합니다.</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">Security Stack</strong>Secure Boot, Trusted Firmware, Root of Trust, Secure Enclave가 함께 언급됩니다.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <h3 class="text-lg font-extrabold text-gray-900 mb-4">응용 분야와 출제 연결</h3>
+                                        <p class="text-sm text-gray-600 mb-4">ADT 공개 페이지 기준 주요 적용 시장은 <strong class="text-gray-900">AI, Automotive, HPC, Consumer</strong>입니다. 기술 키워드를 시장 축과 연결해 기억하면 응용 문항에 강해집니다.</p>
+                                        <div class="grid grid-cols-2 gap-3 text-sm">
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">AI</strong>Edge-AI 플랫폼과 연산/메모리 대역폭 최적화 문맥</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">Automotive</strong>R52/A78AE, 안전성, 테스트 품질, Secure Boot와 연결</div>
+                                            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4"><strong class="text-gray-900 block mb-1">HPC</strong>Neoverse 기반 고성능 플랫폼과 Chiplet/HBM 문맥</div>
+                                            <div class="rounded-2xl bg-blue-50 border border-blue-100 p-4"><strong class="text-blue-600 block mb-1">Consumer</strong>플랫폼 재사용성과 비용/전력 최적화 포인트로 연결</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card xl:col-span-2">
+                                        <h3 class="text-lg font-extrabold text-gray-900 mb-4">참고한 ADT 공개 자료</h3>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                            <a href="https://recruit.adtek.co.kr/m41.php" target="_blank" rel="noreferrer" class="rounded-2xl bg-gray-50 border border-gray-100 p-4 block hover:border-blue-200 transition-colors">
+                                                <strong class="text-gray-900 block mb-1">ADT 채용 직무소개</strong>
+                                                <span class="text-gray-600">PI, PD, DFT, DV, DP, AP, SC, MC, DT, CS 등 공개 직무군 설명</span>
+                                            </a>
+                                            <a href="https://www.adtek.co.kr/m22.php" target="_blank" rel="noreferrer" class="rounded-2xl bg-gray-50 border border-gray-100 p-4 block hover:border-blue-200 transition-colors">
+                                                <strong class="text-gray-900 block mb-1">ADT Design Solutions</strong>
+                                                <span class="text-gray-600">Spec-to-GDSII / RTL-to-GDSII / Netlist-to-GDSII, DFT, Chiplet 정보</span>
+                                            </a>
+                                            <a href="https://www.adtek.co.kr/m23.php" target="_blank" rel="noreferrer" class="rounded-2xl bg-gray-50 border border-gray-100 p-4 block hover:border-blue-200 transition-colors">
+                                                <strong class="text-gray-900 block mb-1">ADT IP Solutions</strong>
+                                                <span class="text-gray-600">Foundation IP, Standard Cell Library, SRAM Compiler, Interface IP 공개 정보</span>
+                                            </a>
+                                            <a href="https://www.adtek.co.kr/m24.php" target="_blank" rel="noreferrer" class="rounded-2xl bg-gray-50 border border-gray-100 p-4 block hover:border-blue-200 transition-colors">
+                                                <strong class="text-gray-900 block mb-1">ADT Platform Solutions</strong>
+                                                <span class="text-gray-600">ADP500/510/520/600, FPGA/Emulation, Secure Boot 관련 정보</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <div>
+                                <div class="mb-4"><span class="badge">Part 12</span></div>
+                                <h2 class="section-title">최종 요약</h2>
+                                <p class="text-gray-500 text-base mb-8 font-medium">이 페이지는 학습자료 전체를 빠르게 회상하기 위한 통합 단어장입니다. 단어를 볼 때는 <strong>정의 + 어디서 쓰는지 + 무엇과 자주 묶이는지</strong>까지 같이 떠올리면 훨씬 강해집니다.</p>
+
+                                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                                    <div class="card p-0 overflow-hidden">
+                                        <div class="p-5 border-b border-gray-100 bg-white">
+                                            <h3 class="font-extrabold text-gray-900">Flow / Output 용어</h3>
+                                        </div>
+                                        <table class="w-full text-left modern-table">
+                                            <tbody class="text-sm">
+                                                <tr><td class="font-extrabold text-gray-900 w-1/3">Spec</td><td>제품 요구사항과 목표 성능, 기능을 정의한 출발점</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Spec-to-GDSII</td><td>고객 요구사항 정의부터 최종 GDSII 산출까지 전체 설계를 맡는 턴키 범위</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">RTL-to-GDSII</td><td>고객 RTL을 받아 합성, DFT, 물리구현, Signoff까지 수행하는 서비스 범위</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Netlist-to-GDSII</td><td>이미 합성된 Netlist를 받아 PnR과 Signoff 중심으로 마무리하는 서비스 범위</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">RTL</td><td>레지스터와 데이터 이동 수준으로 기술된 하드웨어 설계 표현</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Netlist</td><td>합성 후 만들어지는 게이트 연결 정보</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">GDSII</td><td>제조용 레이아웃 데이터 포맷</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">IP</td><td>재사용 가능한 설계 블록을 뜻하며 CPU, DDR, PCIe, USB 같은 자산이 여기에 해당합니다.</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Interface IP</td><td>DDR, PCIe, USB처럼 블록 간 표준 인터페이스를 제공하는 IP</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Subsystem</td><td>여러 IP를 묶어 특정 기능을 담당하는 SoC 내부 중간 규모 블록 집합</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Logic Synthesis</td><td>RTL을 Standard Cell 기반 Gate-level Netlist로 바꾸는 과정</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">DFT</td><td>양산 테스트 가능성을 높이기 위해 테스트 로직을 넣는 설계</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Signoff</td><td>제조로 넘기기 전에 모든 핵심 검증을 최종 승인하는 단계</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Tapeout</td><td>최종 GDSII를 파운드리에 전달하는 행위/시점</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">PDK / Design Kit</td><td>설계와 공정 규칙을 연결하는 공정 정보 묶음</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">PPA</td><td>Power, Performance, Area 세 가지 설계 핵심 지표</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Standard Cell Library</td><td>합성과 배치배선에서 사용하는 기본 논리 셀 집합</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">SRAM Compiler</td><td>옵션에 맞는 SRAM 매크로를 생성하는 메모리 생성 솔루션</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="card p-0 overflow-hidden">
+                                        <div class="p-5 border-b border-gray-100 bg-white">
+                                            <h3 class="font-extrabold text-gray-900">Digital / Verification 용어</h3>
+                                        </div>
+                                        <table class="w-full text-left modern-table">
+                                            <tbody class="text-sm">
+                                                <tr><td class="font-extrabold text-gray-900 w-1/3">HDL</td><td>하드웨어 구조와 동작을 기술하는 언어</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Verilog</td><td>디지털 회로를 기술하는 대표 HDL 중 하나</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">SystemVerilog</td><td>설계와 검증 양쪽에서 널리 쓰이는 하드웨어 언어</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">VHDL</td><td>RTL 코딩에 쓰이는 또 다른 대표 HDL</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Combinational Logic</td><td>현재 입력만으로 출력이 결정되는 조합로직</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Sequential Logic</td><td>과거 상태를 기억하며 클럭에 동기화되는 순차로직</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Hierarchical Design</td><td>대형 칩을 상위/하위 블록으로 나눠 설계하는 방식</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">SoC</td><td>여러 시스템 기능을 하나의 칩에 통합한 구조</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">DV</td><td>설계가 의도한 기능을 수행하는지 검증하는 영역</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">UVM</td><td>SystemVerilog 기반의 대표적 검증 방법론</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">CDC</td><td>서로 다른 클럭 도메인 사이의 신호 전달 문제를 분석하는 검증 항목</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Lint</td><td>HDL 코드의 잠재 오류와 코딩 규칙 위반을 정적으로 검사하는 과정</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Formal Verification</td><td>수학적 방법으로 속성이나 등가성을 검증하는 기법</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">LEC</td><td>변환 전후 회로가 논리적으로 동일한지 보는 등가성 검증</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">STA</td><td>벡터 없이 경로 지연을 계산해 타이밍을 보는 정적 분석</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Timing Constraint</td><td>합성과 STA가 따라야 하는 클럭, 입출력, 지연 조건</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Critical Path</td><td>회로에서 지연이 가장 긴 경로</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Setup Time</td><td>클럭 엣지 전에 데이터가 안정돼 있어야 하는 시간</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Hold Time</td><td>클럭 엣지 후에도 데이터가 유지돼야 하는 시간</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="card p-0 overflow-hidden">
+                                        <div class="p-5 border-b border-gray-100 bg-white">
+                                            <h3 class="font-extrabold text-gray-900">Backend / Low Power 용어</h3>
+                                        </div>
+                                        <table class="w-full text-left modern-table">
+                                            <tbody class="text-sm">
+                                                <tr><td class="font-extrabold text-gray-900 w-1/3">Floorplan</td><td>칩 크기, 매크로, I/O, 전원망 구조를 먼저 정하는 단계</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Placement</td><td>Standard Cell을 물리 영역에 배치하는 과정</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">CTS</td><td>클럭 스큐를 줄이기 위해 클럭 트리를 만드는 과정</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Routing</td><td>셀과 매크로를 금속 배선으로 연결하는 과정</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">PnR</td><td>Placement와 Routing을 포함한 물리구현 핵심 단계</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Congestion</td><td>배선 자원이 부족해 특정 영역에 연결이 몰리는 혼잡 현상</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">DRC</td><td>공정의 물리 규칙 위반 여부를 보는 검사</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">LVS</td><td>레이아웃과 원본 회로 연결이 일치하는지 보는 검사</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">IR Drop</td><td>전원망 저항 때문에 공급 전압이 떨어지는 현상</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">EM</td><td>전류로 인해 금속 원자가 이동하며 신뢰성이 낮아지는 현상</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">UPF</td><td>저전력 설계 의도를 툴에 전달하는 표준 파일</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Low Power</td><td>전압, 클럭, 파워 도메인 최적화로 소비 전력을 줄이는 설계 접근</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Clock Gating</td><td>불필요한 클럭 토글을 막아 동적 전력을 줄이는 기법</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Power Gating</td><td>블록 전원을 차단해 누설 전력을 줄이는 기법</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">PI / PD</td><td>PI는 구현 준비, PD는 실제 레이아웃 완성 역할에 가깝습니다.</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="card p-0 overflow-hidden">
+                                        <div class="p-5 border-b border-gray-100 bg-white">
+                                            <h3 class="font-extrabold text-gray-900">Memory / Device / ADT 기술 용어</h3>
+                                        </div>
+                                        <table class="w-full text-left modern-table">
+                                            <tbody class="text-sm">
+                                                <tr><td class="font-extrabold text-gray-900 w-1/3">SRAM</td><td>빠르지만 면적이 크고 비싼 휘발성 메모리, 캐시에 주로 사용</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">DRAM</td><td>고집적이 가능하지만 Refresh가 필요한 메인 메모리용 메모리</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Flash</td><td>전원이 꺼져도 데이터가 유지되는 비휘발성 메모리</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">SSD</td><td>Flash 기반의 저장장치 시스템</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">MOS</td><td>Gate 전압으로 채널 전류를 제어하는 기본 트랜지스터 구조</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">CMOS</td><td>NMOS와 PMOS를 함께 사용해 저전력 논리를 구현하는 기본 소자 구조</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">NMOS / PMOS</td><td>CMOS를 구성하는 상보적 MOS 트랜지스터 쌍</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Planar</td><td>평면형 MOSFET 구조</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">FinFET</td><td>게이트가 채널을 더 많이 감싸 누설을 줄인 3차원 구조</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">GAA</td><td>채널 사방을 게이트가 감싸는 차세대 트랜지스터 구조</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">FPGA</td><td>현장에서 재구성 가능한 논리 소자로, ASIC 이전 검증 플랫폼으로도 자주 사용</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Prototyping / Emulation</td><td>칩 제작 전 기능과 시스템 동작을 더 큰 규모로 검증하는 플랫폼/방식</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Secure Boot</td><td>신뢰된 코드만 부팅되도록 검증하는 보안 기술</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Trusted Firmware</td><td>부팅과 보안 세계 초기화를 담당하는 신뢰 기반 펌웨어</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Root of Trust</td><td>시스템 보안 신뢰가 시작되는 최소 기반</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Secure Enclave</td><td>민감한 키와 보안 처리를 보호하는 격리 영역</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">Chiplet / Si-interposer</td><td>다이를 나눠 패키지 수준에서 연결하는 구조와 그 중간 연결 기판</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">HBM</td><td>2.5D/3D 패키징과 함께 쓰이는 고대역폭 메모리</td></tr>
+                                                <tr><td class="font-extrabold text-gray-900">ADP500/510/520/600</td><td>ADT 공개 Advanced Design Platform 라인업</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+    </main>
+    <script src="../assets/guidebook-page-common.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            window.GuidebookPage.initStandalonePage();
+        });
+    </script>
+</body>
+</html>
