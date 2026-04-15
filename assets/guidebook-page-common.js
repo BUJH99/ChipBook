@@ -5845,6 +5845,137 @@ function escapeHtml(value) {
 (function () {
     const embedded = () => window.self !== window.top;
     const getPageId = () => document.body.dataset.pageId || document.documentElement.dataset.pageId || 'unknown';
+    const normalizeText = (value) => (value || '').replace(/\s+/g, ' ').trim();
+    const slugify = (value) => normalizeText(value)
+        .toLowerCase()
+        .replace(/[^a-z0-9\u3131-\u318e\uac00-\ud7a3]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'section';
+    const tocConfigByPage = {
+        'page-1': {
+            items: [
+                { match: 'Product Category' },
+                { match: 'Value Chain' },
+                { match: '반도체 산업 분야', label: '산업 분야' },
+                { match: '반도체 산업 밸류체인', label: '밸류체인' },
+                { match: '차세대 반도체 핵심 기술', label: '핵심 기술' },
+            ],
+        },
+        'page-2': {
+            items: [
+                { match: 'Design to Product Flow' },
+                { match: '단계별 상세 역할' },
+                { match: '디지털 설계 FLOW 핵심 키워드 사전', label: '핵심 키워드 사전' },
+                { match: '자주 같이 묶이는 입력 · 검증 키워드', label: '입력·검증 키워드' },
+            ],
+        },
+        'page-3': {
+            items: [
+                { match: 'FPGA에서 보는 조합로직과 순차로직', label: '조합/순차로직' },
+                { match: '계층적 설계 개념과 장점', label: '계층적 설계' },
+                { match: 'SoC 정의, 구성 요소, 설계 관점 의미', label: 'SoC 개념' },
+                { match: 'Static Timing Analysis 정의와 기능 검증과의 차이', label: 'STA' },
+                { match: 'RTL 패턴과 FPGA 자원 매핑', label: 'FPGA 자원 매핑' },
+                { match: '함께 챙겨두면 좋은 코드 스타일 메모', label: '코드 스타일' },
+            ],
+        },
+        'page-4': {
+            items: [
+                { match: 'Floorplan', label: 'Floorplan' },
+                { match: 'Placement, Routing, 그리고 물리설계 안에서의 위치', label: 'Placement / Routing' },
+                { match: '최종 검증 의미와 주요 항목', label: '최종 검증' },
+                { match: 'Tapeout은 Signoff 결과를 제조용 데이터로 넘기는 최종 인계 단계', label: 'Tapeout' },
+                { match: '설계와 공정을 연결하는 역할', label: '공정 연계' },
+            ],
+        },
+        'page-5': {
+            items: [
+                { match: '구조 / 속도 / 집적도 / 가격 / 사용처', label: '메모리 비교' },
+                { match: 'Standard 6T SRAM Cell', label: 'SRAM Cell' },
+                { match: 'Standard 1T1C DRAM Cell', label: 'DRAM Cell' },
+                { match: 'Flash 메모리 개념과 SSD와의 관계', label: 'Flash / SSD' },
+                { match: '구조 차이, 등장 배경, 장단점 비교', label: '저장소 비교' },
+            ],
+        },
+        'page-6': {
+            items: [
+                { match: 'Role Map' },
+                { match: '전체 설계 흐름 안에서 직무 찾기', label: '직무 찾기' },
+                { match: 'Foundation IP' },
+                { match: 'DP (Design Platform)', label: 'DP' },
+                { match: 'DV (Design Verification)', label: 'DV' },
+                { match: 'DFT (Design For Test)', label: 'DFT' },
+                { match: 'PI (Physical Implementation)', label: 'PI' },
+                { match: 'PD (Physical Design)', label: 'PD' },
+                { match: 'AP (Application Platform)', label: 'AP' },
+                { match: '함께 알아두면 좋은 연관 직무', label: '연관 직무' },
+                { match: '심화 키워드 정리', label: '심화 키워드' },
+            ],
+        },
+        'page-7': {
+            items: [
+                { match: 'UVM은 “테스트벤치를 큰 설계처럼 조직하는 방법”입니다', label: 'UVM 개념' },
+                { match: '테스트벤치 계층 구조', label: '계층 구조' },
+                { match: 'UVM phase는 “언제 무엇을 준비하는가”를 나누는 시간표입니다', label: 'UVM Phase' },
+                { match: 'stimulus는 이렇게 DUT까지 전달됩니다', label: 'Stimulus 경로' },
+                { match: 'factory / config_db', label: 'factory / config_db' },
+                { match: 'objection' },
+                { match: 'analysis port / scoreboard', label: 'analysis / scoreboard' },
+                { match: 'UVM 코드 뼈대는 이 정도 그림으로 기억하면 충분합니다', label: '코드 뼈대' },
+                { match: '시험이나 면접에서 자주 묻는 UVM 포인트', label: '면접 포인트' },
+            ],
+        },
+        'page-9': {
+            items: [
+                { match: 'Off-Chip Interface는 칩 바깥 세상과 연결되는 관문입니다', label: '개념' },
+                { match: 'Protocol 위에 logic이, 아래에는 PHY가 있습니다', label: 'Layer 구조' },
+                { match: '자주 나오는 외부 인터페이스', label: '주요 인터페이스' },
+                { match: '문제가 났을 때 어디를 의심하나', label: '디버그 포인트' },
+            ],
+        },
+        'page-10': {
+            items: [
+                { match: 'Solution은 블록을 따로 설명하는 것이 아니라, 제품처럼 묶어서 설명하는 관점입니다', label: 'Solution 개념' },
+                { match: '하나의 SoC solution이 만들어지는 방식', label: 'SoC solution 흐름' },
+                { match: 'solution 관점에서 자주 묻는 질문', label: '자주 묻는 질문' },
+                { match: '짧게 말하면 좋은 키워드', label: '면접 키워드' },
+            ],
+        },
+        'page-11': {
+            items: [
+                { match: 'AI Accelerator는 행렬 연산을 빠르고 효율적으로 처리하도록 특화된 연산 블록입니다', label: 'AI Accelerator 개념' },
+                { match: 'AI Accelerator를 블록 단위로 보면 이렇게 나뉩니다', label: '블록 구조' },
+                { match: '자주 나오는 dataflow 키워드', label: 'Dataflow' },
+                { match: '면접에서 같이 말하면 좋은 포인트', label: '면접 포인트' },
+            ],
+        },
+        'page-12': {
+            items: [
+                { match: 'ADT 기술 관련 문항 정리', label: 'ADT 정리' },
+                { match: 'Design Service Ladder' },
+                { match: 'Foundation IP' },
+                { match: 'Interface IP Solution', label: 'Interface IP' },
+                { match: 'Advanced Design Platform', label: 'ADP' },
+                { match: 'Chiplet Solution' },
+                { match: 'Verification / Security', label: 'Verification' },
+                { match: '응용 분야와 출제 연결', label: '출제 연결' },
+                { match: '최종 요약' },
+                { match: 'Flow / Output 용어', label: 'Flow / Output' },
+                { match: 'Digital / Verification 용어', label: 'Digital / Verification' },
+                { match: 'Backend / Low Power 용어', label: 'Backend / Low Power' },
+                { match: 'Memory / Device / ADT 기술 용어', label: 'Memory / Device' },
+            ],
+        },
+        'page-13': {
+            dynamicSelector: '.practice-group-title',
+        },
+        'page-14': {
+            items: [
+                { selector: '#mock-start-screen', label: '시험 안내' },
+                { selector: '#mock-exam-container', label: '문항 풀이' },
+                { selector: '#mock-result-screen', label: '채점 결과' },
+            ],
+        },
+    };
     const lockEmbeddedScroll = () => {
         if (!embedded()) return;
         document.documentElement.style.overflowX = 'hidden';
@@ -5862,33 +5993,212 @@ function escapeHtml(value) {
         if (!embedded()) return;
         window.parent.postMessage(payload, '*');
     };
+    const getCustomTocPayload = () => {
+        if (typeof window.GuidebookPageCustomToc !== 'function') return null;
+        const payload = window.GuidebookPageCustomToc();
+        return payload && typeof payload === 'object' ? payload : null;
+    };
+    const getIndexedTocPartNumber = () => {
+        const badgeText = normalizeText(document.querySelector('.badge')?.textContent || '');
+        const badgeMatch = badgeText.match(/(\d+)/);
+        if (badgeMatch) return badgeMatch[1];
+        const pageMatch = getPageId().match(/(\d+)$/);
+        return pageMatch ? pageMatch[1] : '';
+    };
+    const stripLeadingTocIndex = (text) => normalizeText(text).replace(/^\d+\s*-\s*\d+\.\s*/, '').trim();
+    const readActionTocTitle = (element, options = {}) => {
+        if (!(element instanceof Element)) return '';
+        const titleAttribute = options.titleAttribute || 'data-guidebook-toc-title';
+        const titleSelectors = Array.isArray(options.titleSelector)
+            ? options.titleSelector
+            : options.titleSelector
+                ? [options.titleSelector]
+                : [];
+
+        const directAttribute = titleAttribute ? stripLeadingTocIndex(element.getAttribute(titleAttribute) || '') : '';
+        if (directAttribute) return directAttribute;
+
+        for (const selector of titleSelectors) {
+            const candidate = element.matches(selector) ? element : element.querySelector(selector);
+            const text = stripLeadingTocIndex(candidate?.textContent || '');
+            if (text) return text;
+        }
+
+        return stripLeadingTocIndex(element.textContent || '');
+    };
+    const buildIndexedActionTocItems = (options = {}) => {
+        const {
+            panelSelector,
+            keyDataset,
+            activeKey,
+            titleSelector,
+            titleAttribute = 'data-guidebook-toc-title',
+            partNumber = getIndexedTocPartNumber(),
+            startIndex = 1,
+        } = options;
+
+        if (!panelSelector || !keyDataset) return [];
+
+        const seen = new Set();
+        return Array.from(document.querySelectorAll(panelSelector)).reduce((items, element) => {
+            const key = element.dataset[keyDataset];
+            if (!key || seen.has(key)) return items;
+            seen.add(key);
+
+            const title = readActionTocTitle(element, { titleSelector, titleAttribute });
+            if (!title) return items;
+
+            const label = partNumber ? `${partNumber}-${startIndex + items.length}. ${title}` : title;
+            items.push({
+                key,
+                label,
+                active: key === activeKey,
+            });
+            return items;
+        }, []);
+    };
     const notifyHeight = () => {
         const pageShell = document.querySelector('.page-shell');
-        const height = Math.max(
-            pageShell ? Math.ceil(pageShell.getBoundingClientRect().height) : 0,
+        const shellHeight = pageShell
+            ? Math.max(
+                Math.ceil(pageShell.getBoundingClientRect().height),
+                pageShell.scrollHeight || 0,
+                pageShell.offsetHeight || 0
+            )
+            : 0;
+        const fallbackHeight = Math.max(
             document.body ? document.body.scrollHeight : 0,
             document.body ? document.body.offsetHeight : 0,
             document.documentElement ? document.documentElement.scrollHeight : 0,
             document.documentElement ? document.documentElement.offsetHeight : 0
         );
+        const height = shellHeight || fallbackHeight;
         postParent({ type: 'adt:page-height', pageId: getPageId(), height });
+    };
+    const isElementVisible = (element) => {
+        if (!(element instanceof Element)) return false;
+        if (element.hidden || element.getAttribute('aria-hidden') === 'true') return false;
+        const style = window.getComputedStyle(element);
+        if (style.display === 'none' || style.visibility === 'hidden') return false;
+        const rect = element.getBoundingClientRect();
+        return rect.width > 0 || rect.height > 0;
+    };
+    const ensureAnchorId = (element, label, index = 0) => {
+        if (element.id) return element.id;
+        const base = `${getPageId()}-${slugify(label)}`;
+        const nextId = index > 0 ? `${base}-${index}` : base;
+        element.id = nextId;
+        return nextId;
+    };
+    const headingCandidates = () => Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, .practice-group-title'));
+    const matchesText = (text, match) => {
+        if (match instanceof RegExp) return match.test(text);
+        return text.includes(normalizeText(match));
+    };
+    const findCandidateByText = (match, occurrence = 1) => {
+        let seen = 0;
+        return headingCandidates().find((element) => {
+            const text = normalizeText(element.textContent);
+            if (!text || !matchesText(text, match)) return false;
+            seen += 1;
+            return seen === occurrence;
+        }) || null;
+    };
+    const buildSelectorItems = (selector) => Array.from(document.querySelectorAll(selector))
+        .filter(isElementVisible)
+        .map((element, index) => {
+            const label = normalizeText(element.textContent);
+            const id = ensureAnchorId(element, label || `item-${index + 1}`, index);
+            return {
+                key: id,
+                id,
+                label,
+                top: Math.max(0, Math.round(element.getBoundingClientRect().top + window.scrollY)),
+            };
+        });
+    const buildConfiguredItems = () => {
+        const config = tocConfigByPage[getPageId()];
+        if (!config) return [];
+        if (config.dynamicSelector) {
+            return buildSelectorItems(config.dynamicSelector);
+        }
+        return (config.items || []).map((spec, index) => {
+            let element = null;
+            if (spec.selector) {
+                element = document.querySelector(spec.selector);
+            } else if (spec.match) {
+                element = findCandidateByText(spec.match, spec.occurrence || 1);
+            }
+            if (!element || !isElementVisible(element)) return null;
+            const label = spec.label || normalizeText(element.textContent);
+            const id = ensureAnchorId(element, label || `item-${index + 1}`, index);
+            return {
+                key: id,
+                id,
+                label,
+                top: Math.max(0, Math.round(element.getBoundingClientRect().top + window.scrollY)),
+            };
+        }).filter(Boolean);
+    };
+    const notifyPageToc = () => {
+        const customPayload = getCustomTocPayload();
+        if (customPayload && Array.isArray(customPayload.items)) {
+            postParent(Object.assign({
+                type: 'adt:page-toc',
+                pageId: getPageId(),
+                title: customPayload.title || '이 페이지',
+                mode: customPayload.mode === 'action' ? 'action' : 'scroll',
+            }, customPayload));
+            return;
+        }
+        const title = normalizeText(document.querySelector('.section-title, h1, h2')?.textContent || '');
+        const items = buildConfiguredItems();
+        postParent({
+            type: 'adt:page-toc',
+            pageId: getPageId(),
+            mode: 'scroll',
+            title: title || '이 페이지',
+            items,
+        });
     };
     const initParentBridge = () => {
         if (!embedded()) return;
 
         lockEmbeddedScroll();
-        const scheduleHeightSync = () => window.requestAnimationFrame(() => notifyHeight());
+        let syncRaf = 0;
+        const scheduleBridgeSync = () => {
+            if (syncRaf) return;
+            syncRaf = window.requestAnimationFrame(() => {
+                syncRaf = 0;
+                notifyHeight();
+                notifyPageToc();
+            });
+        };
+
         postParent({ type: 'adt:ready', pageId: getPageId() });
 
-        window.addEventListener('load', scheduleHeightSync);
-        window.addEventListener('resize', scheduleHeightSync);
+        window.addEventListener('load', scheduleBridgeSync);
+        window.addEventListener('resize', scheduleBridgeSync);
 
         if (typeof ResizeObserver !== 'undefined') {
-            const observer = new ResizeObserver(scheduleHeightSync);
+            const observer = new ResizeObserver(scheduleBridgeSync);
             if (document.documentElement) observer.observe(document.documentElement);
             if (document.body) observer.observe(document.body);
         } else {
-            window.setInterval(notifyHeight, 1000);
+            window.setInterval(() => {
+                notifyHeight();
+                notifyPageToc();
+            }, 1000);
+        }
+
+        if (typeof MutationObserver !== 'undefined' && document.body) {
+            const mutationObserver = new MutationObserver(scheduleBridgeSync);
+            mutationObserver.observe(document.body, {
+                subtree: true,
+                childList: true,
+                attributes: true,
+                attributeFilter: ['class', 'style', 'hidden', 'aria-hidden'],
+            });
         }
 
         document.addEventListener('keydown', (event) => {
@@ -5903,9 +6213,17 @@ function escapeHtml(value) {
             }
         });
 
-        window.setTimeout(scheduleHeightSync, 0);
-        window.setTimeout(scheduleHeightSync, 180);
-        window.setTimeout(scheduleHeightSync, 720);
+        window.addEventListener('message', (event) => {
+            const data = event.data;
+            if (!data || typeof data !== 'object') return;
+            if (data.type === 'adt:page-toc-activate' && data.pageId === getPageId() && typeof window.GuidebookPageHandleTocActivation === 'function') {
+                window.GuidebookPageHandleTocActivation(data.key);
+            }
+        });
+
+        window.setTimeout(scheduleBridgeSync, 0);
+        window.setTimeout(scheduleBridgeSync, 180);
+        window.setTimeout(scheduleBridgeSync, 720);
     };
 
     const initStandalonePage = () => {
@@ -5920,10 +6238,13 @@ function escapeHtml(value) {
         updateMockTimerDisplay();
         initParentBridge();
         notifyHeight();
+        notifyPageToc();
     };
 
     window.GuidebookPage = Object.assign(window.GuidebookPage || {}, {
+        buildIndexedActionTocItems,
         initStandalonePage,
         notifyHeight,
+        notifyPageToc,
     });
 })();

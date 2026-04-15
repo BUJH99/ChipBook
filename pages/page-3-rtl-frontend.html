@@ -8,7 +8,42 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/guidebook-common.css">
+    <style>
+        .part3-tab-shell {
+            --part3-tab-accent: #2563eb;
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding: 0 0 1rem 0;
+            border-bottom: 2px solid #2563eb;
+        }
+
+        .part3-tab-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 1rem;
+        }
+
+        .part3-tab-top > div:first-child {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .part3-tab-label {
+            display: inline-flex;
+            align-items: center;
+            font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+            font-size: clamp(1.6rem, 2.3vw, 1.68rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            color: var(--part3-tab-accent);
+            line-height: 1.08;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 <body class="page-standalone" data-page-id="page-3">
     <main class="page-shell">
@@ -16,19 +51,16 @@
                         <div class="mb-4"><span class="badge">Part 3</span></div>
                         <h2 class="section-title">RTL/Frontend</h2>
 
-                        <div class="space-y-8 mb-8">
-                            <div class="card bg-[radial-gradient(circle_at_top_right,_rgba(49,130,246,0.08),_transparent_38%),linear-gradient(180deg,_#ffffff_0%,_#fbfdff_100%)]">
-                                <div class="flex flex-col gap-3 mb-6">
-                                    <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em]">3-1. 조합로직과 순차로직</div>
-                                    <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-3">
-                                        <div class="inline-flex items-center gap-2 self-start rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.14em] text-blue-600">
-                                            <span>Input Flow</span>
-                                            <span class="text-blue-300">/</span>
-                                            <span>Clocked State</span>
-                                        </div>
-                                    </div>
+                        <div id="part3-current-shell" class="part3-tab-shell" hidden>
+                            <div class="part3-tab-top">
+                                <div>
+                                    <div id="part3-current-label" class="part3-tab-label">3-1. CL, SL</div>
                                 </div>
+                            </div>
+                        </div>
 
+                        <div class="space-y-8 mb-8" data-part3-panel="logic-basics" data-guidebook-toc-title="CL, SL">
+                            <div class="card">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
                                     <div class="rounded-[28px] border border-blue-100 bg-gradient-to-b from-white to-[#f7fbff] p-5 shadow-[0_16px_34px_rgba(49,130,246,0.06)]">
                                         <div class="flex items-start gap-3 mb-4">
@@ -153,7 +185,7 @@
                                     </div>
                                 </div>
 
-                                <div id="fpga-logic-lab" data-mode="comb" class="rounded-[30px] border border-slate-100 bg-gradient-to-br from-white via-[#fbfdff] to-[#f7fbff] p-6 shadow-[0_16px_34px_rgba(15,23,42,0.04)]">
+                                <div id="fpga-logic-lab" data-mode="comb" class="rounded-[30px] border border-slate-100 bg-white p-6 shadow-[0_16px_34px_rgba(15,23,42,0.04)]">
                                     <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-3 mb-5">
                                         <div>
                                             <div class="text-[12px] font-extrabold uppercase tracking-[0.16em] text-blue-600 mb-2">FPGA View</div>
@@ -340,8 +372,9 @@
 
                             </div>
 
-                            <div class="card bg-[#f8faff] border-blue-100">
-                                <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">3-2. HDL과 Logic Synthesis</div>
+                        </div>
+
+                            <div class="card" data-part3-panel="hdl-synthesis" data-guidebook-toc-title="HDL / Logic Synthesis" hidden>
                                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
                                     <div class="rounded-[30px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef5ff] p-6">
                                         <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">HDL</div>
@@ -515,10 +548,8 @@
 
                         </div>
 
-                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8 items-start">
+                        <div class="mb-8" data-part3-panel="hierarchical-design" data-guidebook-toc-title="Hierarchical Design" hidden>
                             <div class="card">
-                                <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">3-3. Hierarchical Design</div>
-                                <h4 class="font-extrabold text-gray-900 text-xl mb-5">계층적 설계 개념과 장점</h4>
                                 <div class="mb-5 overflow-hidden rounded-[30px] border border-indigo-100 bg-gradient-to-br from-white via-[#f8faff] to-[#f3f6ff]">
                                     <svg viewBox="0 0 960 320" class="block h-[280px] w-full" aria-hidden="true">
                                         <defs>
@@ -597,9 +628,10 @@
                                 </div>
                             </div>
 
+                        </div>
+
+                        <div class="mb-8" data-part3-panel="soc-concept" data-guidebook-toc-title="SoC 개념" hidden>
                             <div class="card">
-                            <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">3-4. SoC 개념</div>
-                            <h4 class="font-extrabold text-gray-900 text-xl mb-6">SoC 정의, 구성 요소, 설계 관점 의미</h4>
                             <div class="space-y-5">
                                 <div class="overflow-hidden rounded-[30px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef6ff]">
                                     <svg viewBox="0 0 620 360" class="block h-[320px] w-full" aria-hidden="true">
@@ -673,11 +705,10 @@
                                 </div>
                             </div>
                         </div>
+
                         </div>
 
-                        <div class="diagram-box">
-                            <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">3-5. STA 개념</div>
-                            <h4 class="font-extrabold text-gray-900 text-xl mb-3 flex items-center gap-2">Static Timing Analysis 정의와 기능 검증과의 차이</h4>
+                        <div class="diagram-box mb-8" data-part3-panel="sta-concept" data-guidebook-toc-title="STA 개념" hidden>
                             <p class="text-sm text-gray-600 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100">STA는 논리 기능을 시뮬레이션하는 것이 아니라, <span class="highlight">최악 경로(Critical Path)의 지연을 계산</span>해 주어진 클럭 주기 안에 데이터가 도착하는지 보는 분석입니다.</p>
 
                             <div class="svg-container">
@@ -894,19 +925,7 @@
                             </div>
                         </div>
 
-                        <div class="card mt-8 bg-[radial-gradient(circle_at_top_right,_rgba(59,130,246,0.08),_transparent_34%),linear-gradient(180deg,_#ffffff_0%,_#fbfdff_100%)]">
-                            <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-6">
-                                <div>
-                                    <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">3-6. RTL 코드 작성 기법</div>
-                                    <h4 class="font-extrabold text-gray-900 text-xl mb-2">RTL 패턴과 FPGA 자원 매핑</h4>
-                                    <p class="text-sm text-gray-600 leading-7">같은 기능이라도 코드를 어떻게 쓰느냐에 따라 FPGA는 <strong class="text-gray-900">LUT / FF / DSP / BRAM / Carry / IOB</strong>로 다르게 매핑됩니다. 시험에서는 문법보다 <strong class="text-gray-900">어떤 코드가 어떤 자원을 유도하는지</strong>를 묻는 문제가 자주 나옵니다.</p>
-                                </div>
-                                <div class="inline-flex items-center gap-2 self-start rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.14em] text-blue-600">
-                                    <span>20 Core Patterns</span>
-                                    <span class="text-blue-300">+</span>
-                                    <span>Bonus Notes</span>
-                                </div>
-                            </div>
+                        <div class="card bg-[radial-gradient(circle_at_top_right,_rgba(59,130,246,0.08),_transparent_34%),linear-gradient(180deg,_#ffffff_0%,_#fbfdff_100%)]" data-part3-panel="rtl-patterns" data-guidebook-toc-title="RTL 코드 작성 기법" hidden>
 
                             <div class="mb-8 overflow-hidden rounded-[30px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef6ff]">
                                 <svg viewBox="0 0 1120 240" class="block h-[230px] w-full" aria-hidden="true">
@@ -2818,8 +2837,90 @@
     </main>
     <script src="../assets/guidebook-page-common.js"></script>
     <script>
+        const part3TabMeta = {
+            'logic-basics': {},
+            'hdl-synthesis': {},
+            'hierarchical-design': {},
+            'soc-concept': {},
+            'sta-concept': {},
+            'rtl-patterns': {},
+        };
+
+        let activePart3Tab = 'logic-basics';
+
+        const getPart3TocItems = () => window.GuidebookPage.buildIndexedActionTocItems({
+            panelSelector: '[data-part3-panel]',
+            keyDataset: 'part3Panel',
+            activeKey: activePart3Tab,
+            titleSelector: '.text-xs.font-extrabold',
+        });
+
+        window.GuidebookPageCustomToc = () => ({
+            mode: 'action',
+            title: 'Part3',
+            items: getPart3TocItems(),
+        });
+
+        const syncPart3Bridge = () => {
+            if (!window.GuidebookPage) return;
+            [0, 120, 360].forEach((delay) => {
+                window.setTimeout(() => {
+                    window.GuidebookPage.notifyPageToc();
+                    window.GuidebookPage.notifyHeight();
+                }, delay);
+            });
+        };
+
+        function applyPart3CurrentHeader() {
+            const shellEl = document.getElementById('part3-current-shell');
+            if (!shellEl) return;
+
+            shellEl.style.setProperty('--part3-tab-accent', '#2563eb');
+        }
+
+        function mountPart3CurrentHeader() {
+            const shellEl = document.getElementById('part3-current-shell');
+            if (!shellEl) return;
+
+            const panelEl = document.querySelector(`[data-part3-panel="${activePart3Tab}"]`);
+            const targetEl = panelEl?.matches('.card, .diagram-box')
+                ? panelEl
+                : panelEl?.querySelector('.card, .diagram-box');
+
+            if (!targetEl) return;
+            targetEl.prepend(shellEl);
+            shellEl.hidden = false;
+        }
+
+        function setPart3Tab(nextKey) {
+            activePart3Tab = Object.prototype.hasOwnProperty.call(part3TabMeta, nextKey) ? nextKey : 'logic-basics';
+            const label = getPart3TocItems().find((item) => item.key === activePart3Tab)?.label || '';
+
+            document.querySelectorAll('[data-part3-panel]').forEach((panel) => {
+                const isActive = panel.dataset.part3Panel === activePart3Tab;
+                panel.hidden = !isActive;
+                panel.setAttribute('aria-hidden', String(!isActive));
+            });
+
+            const labelEl = document.getElementById('part3-current-label');
+            if (labelEl) labelEl.textContent = label;
+            applyPart3CurrentHeader();
+            mountPart3CurrentHeader();
+
+            window.scrollTo({ top: 0, behavior: 'auto' });
+
+            window.requestAnimationFrame(() => {
+                syncPart3Bridge();
+            });
+        }
+
+        window.GuidebookPageHandleTocActivation = (key) => {
+            setPart3Tab(key);
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             window.GuidebookPage.initStandalonePage();
+            setPart3Tab(activePart3Tab);
         });
     </script>
 </body>

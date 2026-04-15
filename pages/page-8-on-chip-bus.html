@@ -33,6 +33,100 @@
       min-height: 0;
     }
 
+    body.is-embedded .page-8-layout {
+      display: block !important;
+    }
+
+    body.is-embedded [data-page-8-inline-nav] {
+      display: none !important;
+    }
+
+    .protocol-summary-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 168px;
+      border: 1px solid rgba(255, 255, 255, 0.84);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(249, 250, 251, 0.92) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 18px 38px rgba(148, 163, 184, 0.08);
+    }
+
+    .protocol-summary-card::after {
+      content: "";
+      position: absolute;
+      top: -34px;
+      left: 50%;
+      width: 148px;
+      height: 148px;
+      transform: translateX(-50%);
+      border-radius: 9999px;
+      filter: blur(30px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .protocol-summary-card.apb::after { background: rgba(245, 158, 11, 0.34); }
+    .protocol-summary-card.ahb::after { background: rgba(34, 197, 94, 0.28); }
+    .protocol-summary-card.axi::after { background: rgba(49, 130, 246, 0.28); }
+
+    .protocol-summary-chip {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 118px;
+      min-height: 60px;
+      padding: 0.85rem 1.6rem;
+      border-radius: 22px;
+      border: 1px solid transparent;
+      font-size: clamp(1.375rem, 1.1rem + 0.55vw, 1.75rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    }
+
+    .protocol-summary-chip.apb {
+      background: linear-gradient(180deg, #FFF7DB 0%, #FFE8A3 100%);
+      border-color: rgba(245, 158, 11, 0.24);
+      color: #C46B00;
+      box-shadow: 0 16px 30px rgba(245, 158, 11, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    }
+
+    .protocol-summary-chip.ahb {
+      background: linear-gradient(180deg, #E9FBF0 0%, #D6F7E3 100%);
+      border-color: rgba(34, 197, 94, 0.2);
+      color: #14974C;
+      box-shadow: 0 16px 30px rgba(34, 197, 94, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    }
+
+    .protocol-summary-chip.axi {
+      background: linear-gradient(180deg, #EBF4FF 0%, #D7E8FF 100%);
+      border-color: rgba(49, 130, 246, 0.2);
+      color: #2B6FF0;
+      box-shadow: 0 16px 30px rgba(49, 130, 246, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    }
+
+    .protocol-summary-card p {
+      position: relative;
+      z-index: 1;
+      max-width: 18rem;
+      font-size: 1.04rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 767px) {
+      .protocol-summary-card {
+        min-height: 148px;
+      }
+
+      .protocol-summary-chip {
+        min-width: 104px;
+        min-height: 54px;
+        padding: 0.75rem 1.35rem;
+      }
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -45,21 +139,13 @@
       <div class="mb-4"><span class="badge">Part 8</span></div>
       <h2 class="section-title">On-Chip Bus</h2>
 
-      <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start lg:gap-8">
+      <div class="page-8-layout lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start lg:gap-8">
         <div class="min-w-0">
           <header class="mb-10 rounded-[32px] border border-blue-100 bg-[radial-gradient(circle_at_top_right,_rgba(49,130,246,0.10),_transparent_30%),linear-gradient(180deg,_#ffffff_0%,_#f8fbff_100%)] p-8 md:p-10 shadow-[0_18px_40px_rgba(37,99,235,0.06)]">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100 font-semibold text-sm mb-4">
           <i data-lucide="cpu" class="w-4 h-4"></i>
           <span id="current-tab-label">8-1. AMBA Protocol</span>
         </div>
-        <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4 leading-tight">
-          SoC 속의 도로망,<br />
-          <span class="text-[#3182F6]">AMBA 프로토콜</span> 이해하기
-        </h1>
-        <p class="text-lg text-gray-500 max-w-2xl">
-          스마트폰의 두뇌인 SoC(System on Chip) 내부에서 CPU, 메모리, 주변기기들이
-          데이터를 주고받는 규칙, AMBA와 on-chip bus 구조를 5개 목차로 정리합니다.
-        </p>
           </header>
 
       <div id="tab-amba" class="tab-content active space-y-12">
@@ -127,17 +213,17 @@
           </div>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-gray-50 rounded-[24px] p-6 flex flex-col justify-center items-center text-center">
-            <div class="px-4 py-1.5 rounded-full font-bold mb-3 bg-amber-50 text-amber-600">APB</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="protocol-summary-card apb rounded-[28px] px-6 py-8 md:px-8 flex flex-col justify-center items-center text-center gap-4">
+            <div class="protocol-summary-chip apb">APB</div>
             <p class="text-gray-600 font-medium">저속 주변장치용 (타이머, UART, GPIO)</p>
           </div>
-          <div class="bg-gray-50 rounded-[24px] p-6 flex flex-col justify-center items-center text-center">
-            <div class="px-4 py-1.5 rounded-full font-bold mb-3 bg-green-50 text-green-600">AHB</div>
+          <div class="protocol-summary-card ahb rounded-[28px] px-6 py-8 md:px-8 flex flex-col justify-center items-center text-center gap-4">
+            <div class="protocol-summary-chip ahb">AHB</div>
             <p class="text-gray-600 font-medium">고속 모듈용 (SRAM, DMA, Flash)</p>
           </div>
-          <div class="bg-gray-50 rounded-[24px] p-6 flex flex-col justify-center items-center text-center">
-            <div class="px-4 py-1.5 rounded-full font-bold mb-3 bg-blue-50 text-blue-600">AXI</div>
+          <div class="protocol-summary-card axi rounded-[28px] px-6 py-8 md:px-8 flex flex-col justify-center items-center text-center gap-4">
+            <div class="protocol-summary-chip axi">AXI</div>
             <p class="text-gray-600 font-medium">초고속 대역폭용 (CPU, DDR, Accelerator)</p>
           </div>
         </div>
@@ -319,149 +405,245 @@
         <div class="bg-slate-50 rounded-[32px] p-8 md:p-10">
           <div class="flex items-center gap-3 mb-4">
             <div class="bg-slate-700 text-white p-2 rounded-xl"><i data-lucide="git-branch" class="w-6 h-6"></i></div>
-            <h2 class="text-3xl font-bold text-gray-900">BUS (공통 개념)</h2>
+            <h2 class="text-3xl font-bold text-gray-900">BUS (공통 동작 원리)</h2>
           </div>
-          <p class="text-gray-700 text-lg mb-6">
-            BUS는 단순한 선 묶음이 아니라 <b>주소(Address), 데이터(Data), 제어(Control)</b>를 정해진 타이밍에 교환하는 통신 규칙입니다.
-            누가 요청하는지(<b>Master</b>), 누가 응답하는지(<b>Slave</b>), 언제 전송이 끝나는지(<b>Ready / Response</b>)를 함께 봐야 구조가 이해됩니다.
+          <p class="text-gray-700 text-lg mb-6 leading-relaxed">
+            BUS는 단순한 배선 집합이 아니라, <b>주소(Address)</b>, <b>데이터(Data)</b>, <b>제어(Control)</b> 정보를
+            정해진 순서와 타이밍에 따라 교환하는 온칩 통신 구조입니다. 따라서 구조를 해석할 때는
+            <b>트랜잭션을 개시하는 주체(Master)</b>, <b>응답을 제공하는 대상(Slave)</b>, 그리고 그 사이에서
+            <b>중재·디코딩·연결을 수행하는 interconnect</b>를 함께 확인해야 합니다.
           </p>
 
           <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
-            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
               <i data-lucide="git-merge" class="w-5 h-5 text-slate-600"></i>
-              BUS 기본 데이터 흐름
+              BUS 트랜잭션의 기본 데이터 흐름
             </h3>
+            <p class="text-sm md:text-[15px] leading-7 text-slate-600 mb-6">
+              버스 동작은 일반적으로 <b>요청 발생 → 중재 및 주소 해석 → 대상 선택 → 데이터 전송 및 응답 반환</b>의 순서로 전개됩니다.
+              아래 도식은 이 과정을 공통 모델로 정리한 것입니다.
+            </p>
             <div class="w-full flex justify-center">
-              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-3xl">
-                <svg width="100%" viewBox="0 0 820 360" class="max-w-full">
+              <div class="rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] p-5 md:p-8 lg:px-10 inline-block w-full max-w-[1120px] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+                <svg width="100%" viewBox="0 0 1180 500" class="max-w-full">
                   <defs>
-                    <marker id="arrowBus" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    <filter id="busCardShadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.08" />
+                    </filter>
+                    <linearGradient id="busMasterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#FFFFFF" />
+                      <stop offset="100%" stop-color="#F8FAFC" />
+                    </linearGradient>
+                    <linearGradient id="busFabricGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#F8FAFC" />
+                      <stop offset="100%" stop-color="#EEF2FF" />
+                    </linearGradient>
+                    <linearGradient id="busSlaveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#FFFFFF" />
+                      <stop offset="100%" stop-color="#F8FAFC" />
+                    </linearGradient>
+                    <marker id="arrowAmberBus" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+                      <path d="M 0 0 L 12 6 L 0 12 z" fill="#D97706" />
+                    </marker>
+                    <marker id="arrowBlueBus" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+                      <path d="M 0 0 L 12 6 L 0 12 z" fill="#2563EB" />
+                    </marker>
+                    <marker id="arrowGreenBus" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+                      <path d="M 0 0 L 12 6 L 0 12 z" fill="#059669" />
+                    </marker>
+                    <marker id="arrowSlateBus" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+                      <path d="M 0 0 L 12 6 L 0 12 z" fill="#475569" />
                     </marker>
                   </defs>
 
-                  <rect x="30" y="70" width="170" height="220" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
-                  <text x="115" y="160" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="22" text-anchor="middle">Master</text>
-                  <text x="115" y="188" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(CPU / DMA / Bridge)</text>
+                  <rect x="16" y="18" width="1148" height="454" rx="32" fill="#F8FAFC" stroke="#E2E8F0" />
 
-                  <rect x="325" y="42" width="170" height="84" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
-                  <text x="410" y="90" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">Arbiter / Decoder</text>
+                  <line x1="198" y1="74" x2="412" y2="74" stroke="#CBD5E1" stroke-width="2.5" />
+                  <line x1="468" y1="74" x2="682" y2="74" stroke="#CBD5E1" stroke-width="2.5" />
+                  <line x1="738" y1="74" x2="952" y2="74" stroke="#CBD5E1" stroke-width="2.5" />
 
-                  <rect x="325" y="156" width="170" height="134" rx="0" fill="#F8FAFC" stroke="#111827" stroke-width="1.5" stroke-dasharray="4,4" />
-                  <text x="410" y="222" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">Bus Fabric</text>
-                  <text x="410" y="248" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Address / Data / Control</text>
+                  <g>
+                    <circle cx="170" cy="74" r="31" fill="#0F172A" />
+                    <text x="170" y="84" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="26" text-anchor="middle">1</text>
+                    <text x="170" y="128" fill="#0F172A" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle">Request</text>
+                    <text x="170" y="154" fill="#64748B" font-family="Arial, sans-serif" font-size="13" text-anchor="middle">트랜잭션 개시</text>
+                  </g>
+                  <g>
+                    <circle cx="440" cy="74" r="31" fill="#334155" />
+                    <text x="440" y="84" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="26" text-anchor="middle">2</text>
+                    <text x="440" y="128" fill="#0F172A" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle">Arbitrate</text>
+                    <text x="440" y="154" fill="#64748B" font-family="Arial, sans-serif" font-size="13" text-anchor="middle">중재 및 디코딩</text>
+                  </g>
+                  <g>
+                    <circle cx="710" cy="74" r="31" fill="#334155" />
+                    <text x="710" y="84" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="26" text-anchor="middle">3</text>
+                    <text x="710" y="128" fill="#0F172A" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle">Transfer</text>
+                    <text x="710" y="154" fill="#64748B" font-family="Arial, sans-serif" font-size="13" text-anchor="middle">대상 선택 및 전송</text>
+                  </g>
+                  <g>
+                    <circle cx="980" cy="74" r="31" fill="#334155" />
+                    <text x="980" y="84" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="26" text-anchor="middle">4</text>
+                    <text x="980" y="128" fill="#0F172A" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle">Complete</text>
+                    <text x="980" y="154" fill="#64748B" font-family="Arial, sans-serif" font-size="13" text-anchor="middle">응답 및 종료</text>
+                  </g>
 
-                  <rect x="620" y="70" width="170" height="220" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
-                  <text x="705" y="152" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="22" text-anchor="middle">Slave</text>
-                  <text x="705" y="180" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(SRAM / UART / Timer)</text>
+                  <rect x="60" y="176" width="250" height="176" rx="28" fill="url(#busMasterGrad)" stroke="#CBD5E1" stroke-width="2" filter="url(#busCardShadow)" />
+                  <rect x="88" y="198" width="96" height="30" rx="15" fill="#E2E8F0" />
+                  <text x="136" y="218" fill="#334155" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Initiator</text>
+                  <text x="185" y="266" fill="#0F172A" font-family="Arial, sans-serif" font-weight="bold" font-size="26" text-anchor="middle">Master</text>
+                  <text x="185" y="300" fill="#475569" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">CPU / DMA / Bridge</text>
+                  <rect x="96" y="318" width="178" height="32" rx="16" fill="#FFF7ED" />
+                  <text x="185" y="339" fill="#C2410C" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">요청 생성 · 주소 제시</text>
 
-                  <path d="M 200 116 L 315 116" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBus)" />
-                  <text x="257" y="104" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Request</text>
+                  <rect x="430" y="146" width="320" height="244" rx="30" fill="url(#busFabricGrad)" stroke="#C7D2FE" stroke-width="2" filter="url(#busCardShadow)" />
+                  <text x="590" y="202" fill="#0F172A" font-family="Arial, sans-serif" font-weight="bold" font-size="28" text-anchor="middle">Interconnect</text>
+                  <text x="590" y="232" fill="#64748B" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">Arbiter · Decoder · Bus Fabric</text>
+                  <rect x="492" y="256" width="196" height="34" rx="17" fill="#E0E7FF" />
+                  <text x="590" y="279" fill="#3730A3" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">중재 및 대상 선택</text>
+                  <rect x="492" y="300" width="196" height="34" rx="17" fill="#DBEAFE" />
+                  <text x="590" y="323" fill="#1D4ED8" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">데이터 경로 연결</text>
+                  <rect x="492" y="344" width="196" height="34" rx="17" fill="#DCFCE7" />
+                  <text x="590" y="367" fill="#047857" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">응답 수집 및 반환</text>
 
-                  <path d="M 200 170 L 315 170" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBus)" />
-                  <text x="257" y="158" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Address + Control</text>
+                  <rect x="870" y="176" width="250" height="176" rx="28" fill="url(#busSlaveGrad)" stroke="#CBD5E1" stroke-width="2" filter="url(#busCardShadow)" />
+                  <rect x="898" y="198" width="82" height="30" rx="15" fill="#E2E8F0" />
+                  <text x="939" y="218" fill="#334155" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Target</text>
+                  <text x="995" y="266" fill="#0F172A" font-family="Arial, sans-serif" font-weight="bold" font-size="26" text-anchor="middle">Slave</text>
+                  <text x="995" y="300" fill="#475569" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">SRAM / UART / Timer</text>
+                  <rect x="908" y="318" width="176" height="32" rx="16" fill="#ECFDF5" />
+                  <text x="996" y="339" fill="#047857" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">데이터 제공 · 상태 응답</text>
 
-                  <path d="M 495 170 L 610 170" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBus)" />
-                  <text x="552" y="158" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Select + Address</text>
+                  <rect x="328" y="164" width="104" height="28" rx="14" fill="#E2E8F0" />
+                  <text x="380" y="183" fill="#475569" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Grant</text>
+                  <path d="M 430 206 L 322 206" stroke="#475569" stroke-width="4" fill="none" marker-end="url(#arrowSlateBus)" />
 
-                  <path d="M 495 222 L 610 222" stroke="#111827" stroke-width="2.8" fill="none" marker-end="url(#arrowBus)" />
-                  <text x="552" y="210" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Write Data</text>
+                  <rect x="298" y="228" width="188" height="30" rx="15" fill="#FFF7ED" />
+                  <text x="392" y="248" fill="#B45309" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Request / Address / Control</text>
+                  <path d="M 310 266 L 430 266" stroke="#D97706" stroke-width="6" fill="none" marker-end="url(#arrowAmberBus)" />
 
-                  <path d="M 620 258 L 505 258" stroke="#111827" stroke-width="2.8" fill="none" marker-end="url(#arrowBus)" />
-                  <text x="562" y="246" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Read Data</text>
+                  <rect x="694" y="228" width="162" height="30" rx="15" fill="#FFF7ED" />
+                  <text x="775" y="248" fill="#B45309" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Select / Forward</text>
+                  <path d="M 750 266 L 870 266" stroke="#D97706" stroke-width="6" fill="none" marker-end="url(#arrowAmberBus)" />
 
-                  <path d="M 325 94 L 210 94" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowBus)" />
-                  <text x="266" y="82" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Grant</text>
+                  <rect x="496" y="382" width="188" height="28" rx="14" fill="#DBEAFE" />
+                  <text x="590" y="401" fill="#1D4ED8" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Write Data Path</text>
+                  <path d="M 310 418 L 870 418" stroke="#2563EB" stroke-width="7" fill="none" marker-end="url(#arrowBlueBus)" />
 
-                  <path d="M 610 118 L 495 118" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowBus)" />
-                  <text x="552" y="106" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">Ready / Resp</text>
+                  <rect x="448" y="426" width="284" height="28" rx="14" fill="#DCFCE7" />
+                  <text x="590" y="445" fill="#047857" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Read Data / Response Return</text>
+                  <path d="M 870 460 L 310 460" stroke="#059669" stroke-width="7" fill="none" marker-end="url(#arrowGreenBus)" />
                 </svg>
-                <div class="mt-6 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
-                  <strong style="font-family: Arial, sans-serif;">Figure 1-1</strong> Generic Bus Communication Model
+                <div class="mt-6 pt-4 border-t border-slate-200 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 1-1</strong> Generic Bus Transaction Flow
                 </div>
               </div>
             </div>
-            <p class="text-center text-sm text-gray-500 mt-6 px-4">
-              모든 bus는 요청자와 응답자, 그리고 중간에서 주소를 해석하고 연결하는 interconnect 관점으로 읽으면 구조가 단순해집니다.
+            <p class="text-center text-sm text-gray-500 mt-6 px-4 leading-6">
+              버스 구조는 <b>요청 발생, 중재 및 주소 해석, 대상 선택, 데이터 전송, 완료 응답</b>의 순서로 판독하면
+              각 신호의 역할과 진행 방향을 체계적으로 구분할 수 있습니다.
             </p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100 overflow-hidden">
-              <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
                 <i data-lucide="layers" class="w-5 h-5 text-slate-600"></i>
-                BUS를 볼 때 먼저 확인할 것
+                BUS 해석의 핵심 확인 항목
               </h3>
-              <div class="space-y-3">
-                <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-                  <div class="font-black text-slate-800 mb-1">Master / Slave 관계</div>
-                  <p class="text-sm leading-7 text-slate-600">누가 요청을 시작하고 누가 응답하는지부터 정리하면 신호 방향이 쉬워집니다.</p>
+              <p class="text-sm md:text-[15px] leading-7 text-slate-600 mb-5">
+                버스 규격서를 읽을 때는 아래 세 항목을 먼저 확정한 뒤 세부 신호와 타이밍도를 해석하는 것이 효율적입니다.
+              </p>
+              <div class="space-y-4">
+                <div class="rounded-[22px] border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] p-5">
+                  <div class="flex items-start gap-4">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-900 text-white font-bold text-sm">01</div>
+                    <div>
+                      <div class="font-black text-slate-900 mb-1">트랜잭션 개시 주체와 응답 대상</div>
+                      <p class="text-sm leading-7 text-slate-600">Master가 트랜잭션을 시작하고 Slave가 이에 응답한다는 점을 먼저 고정해야, 각 신호의 진행 방향과 반환 방향을 정확히 판단할 수 있습니다.</p>
+                    </div>
+                  </div>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-                  <div class="font-black text-slate-800 mb-1">Address / Data / Control 분리</div>
-                  <p class="text-sm leading-7 text-slate-600">주소, 실제 데이터, 제어 정보는 역할이 다르므로 별도 신호군으로 봐야 합니다.</p>
+                <div class="rounded-[22px] border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] p-5">
+                  <div class="flex items-start gap-4">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-900 text-white font-bold text-sm">02</div>
+                    <div>
+                      <div class="font-black text-slate-900 mb-1">신호군의 기능과 타이밍 분리</div>
+                      <p class="text-sm leading-7 text-slate-600">Address, Data, Control 신호군은 역할과 유효 시점이 서로 다르므로, 하나의 묶음으로 보지 말고 단계별 기능에 따라 분리하여 해석해야 합니다.</p>
+                    </div>
+                  </div>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-                  <div class="font-black text-slate-800 mb-1">Ready / Response</div>
-                  <p class="text-sm leading-7 text-slate-600">전송 완료와 대기, 에러를 어떻게 표현하는지가 protocol 차이의 핵심입니다.</p>
+                <div class="rounded-[22px] border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] p-5">
+                  <div class="flex items-start gap-4">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-900 text-white font-bold text-sm">03</div>
+                    <div>
+                      <div class="font-black text-slate-900 mb-1">완료 조건과 예외 응답 방식</div>
+                      <p class="text-sm leading-7 text-slate-600">Ready / Response 정의는 wait state 처리, 정상 종료, 오류 보고 방식을 결정하므로, 프로토콜 간 성능과 복잡도를 비교할 때 가장 중요한 판단 기준이 됩니다.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100 overflow-hidden">
-              <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
                 <i data-lucide="map" class="w-5 h-5 text-slate-600"></i>
-                Address Map 예시
+                Address Map 해석 예시
               </h3>
+              <p class="text-sm md:text-[15px] leading-7 text-slate-600 mb-5">
+                주소 범위는 단순한 메모리 배치가 아니라, 어떤 Slave로 트랜잭션을 라우팅할지 결정하는 하드웨어 규칙입니다.
+              </p>
               <table class="w-full text-left border-collapse text-sm">
                 <thead>
                   <tr class="bg-gray-50 border-b-2 border-gray-200">
-                    <th class="py-3 px-3 font-bold text-gray-700">Address Range</th>
-                    <th class="py-3 px-3 font-bold text-gray-700">Target</th>
-                    <th class="py-3 px-3 font-bold text-gray-700">Role</th>
+                    <th class="py-3 px-3 font-bold text-gray-700">주소 범위</th>
+                    <th class="py-3 px-3 font-bold text-gray-700">선택 대상</th>
+                    <th class="py-3 px-3 font-bold text-gray-700">용도</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                   <tr>
                     <td class="py-3 px-3 font-mono text-slate-700">0x0000_0000 - 0x0FFF_FFFF</td>
                     <td class="py-3 px-3 font-semibold text-slate-900">SRAM / ROM</td>
-                    <td class="py-3 px-3 text-slate-600">빠른 instruction / data access</td>
+                    <td class="py-3 px-3 text-slate-600">명령어 및 데이터의 저지연 접근 영역</td>
                   </tr>
                   <tr>
                     <td class="py-3 px-3 font-mono text-slate-700">0x1000_0000 - 0x1FFF_FFFF</td>
                     <td class="py-3 px-3 font-semibold text-slate-900">AHB Peripheral</td>
-                    <td class="py-3 px-3 text-slate-600">DMA, high-speed control blocks</td>
+                    <td class="py-3 px-3 text-slate-600">DMA 등 고속 제어 블록 연결 영역</td>
                   </tr>
                   <tr>
                     <td class="py-3 px-3 font-mono text-slate-700">0x4000_0000 - 0x4000_FFFF</td>
                     <td class="py-3 px-3 font-semibold text-slate-900">APB Peripheral</td>
-                    <td class="py-3 px-3 text-slate-600">UART, GPIO, Timer register map</td>
+                    <td class="py-3 px-3 text-slate-600">UART, GPIO, Timer의 레지스터 접근 영역</td>
                   </tr>
                 </tbody>
               </table>
-              <p class="text-sm text-gray-500 mt-4">
-                실제 SoC에서는 decoder가 이 memory map을 보고 어떤 slave를 선택할지 결정합니다.
+              <p class="text-sm text-gray-500 mt-4 leading-6">
+                실제 SoC에서는 decoder가 이 memory map에 따라 대상 Slave를 선택하므로, 주소 범위는 곧 버스 라우팅 규칙을 의미합니다.
               </p>
             </div>
           </div>
 
           <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100">
-            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
               <i data-lucide="route" class="w-5 h-5 text-slate-600"></i>
-              BUS를 APB / AHB / AXI로 나누는 이유
+              AMBA 버스를 APB / AHB / AXI로 분화하는 이유
             </h3>
+            <p class="text-sm md:text-[15px] leading-7 text-slate-600 mb-6">
+              하나의 BUS 구조로 모든 요구사항을 만족시키기 어렵기 때문에, AMBA는 대역폭, 복잡도, 전력, 동시성 요구에 따라 프로토콜을 계층적으로 분화했습니다.
+            </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div class="rounded-[20px] bg-amber-50 p-5 border border-amber-100">
                 <div class="font-black text-amber-700 mb-2">APB</div>
-                <p class="text-sm leading-7 text-amber-900/80">설정값을 읽고 쓰는 저속 peripheral은 단순함과 저전력이 더 중요합니다.</p>
+                <p class="text-sm leading-7 text-amber-900/80">레지스터 접근 중심의 저속 주변장치는 구조의 단순성, 구현 용이성, 저전력 특성이 우선되므로 APB가 적합합니다.</p>
               </div>
               <div class="rounded-[20px] bg-green-50 p-5 border border-green-100">
                 <div class="font-black text-green-700 mb-2">AHB</div>
-                <p class="text-sm leading-7 text-green-900/80">중간 대역폭과 공유형 backbone이 필요할 때 pipeline과 burst가 유리합니다.</p>
+                <p class="text-sm leading-7 text-green-900/80">중간 수준의 대역폭과 공유형 시스템 버스가 필요한 구간에서는 burst와 pipeline을 지원하는 AHB 구조가 효율적입니다.</p>
               </div>
               <div class="rounded-[20px] bg-blue-50 p-5 border border-blue-100">
                 <div class="font-black text-blue-700 mb-2">AXI</div>
-                <p class="text-sm leading-7 text-blue-900/80">CPU, DMA, DDR처럼 동시성과 높은 throughput이 필요한 경로는 채널 분리가 필요합니다.</p>
+                <p class="text-sm leading-7 text-blue-900/80">CPU, DMA, DDR처럼 높은 처리량과 동시 전송이 필요한 구간에서는 독립 채널 기반의 AXI 구조가 필요합니다.</p>
               </div>
             </div>
           </div>
@@ -1231,7 +1413,7 @@
 	        </div>
 	        </div>
         </div>
-	        <aside class="mt-8 lg:mt-0 lg:sticky lg:top-8">
+	        <aside class="mt-8 lg:mt-0 lg:sticky lg:top-8" data-page-8-inline-nav>
           <div class="rounded-[28px] border border-gray-200 bg-white/95 p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)] backdrop-blur">
             <div class="flex items-center gap-2 text-[#3182F6] font-bold text-xl mb-2">
               <i data-lucide="cpu" class="w-6 h-6"></i>
@@ -1276,13 +1458,21 @@
         window.parent.postMessage(payload, '*');
       }
     };
+    const normalizeText = (value) => (value || '').replace(/\s+/g, ' ').trim();
     const notifyEmbeddedHeight = () => {
       const pageShell = document.querySelector('.page-shell');
-      const height = Math.max(
-        pageShell ? Math.ceil(pageShell.getBoundingClientRect().height) : 0,
+      const shellHeight = pageShell
+        ? Math.max(
+            Math.ceil(pageShell.getBoundingClientRect().height),
+            pageShell.scrollHeight || 0,
+            pageShell.offsetHeight || 0
+          )
+        : 0;
+      const fallbackHeight = Math.max(
         document.body ? document.body.scrollHeight : 0,
         document.body ? document.body.offsetHeight : 0
       );
+      const height = shellHeight || fallbackHeight;
       postParent({ type: 'adt:page-height', pageId, height });
     };
     const scheduleEmbeddedHeight = () => {
@@ -1298,6 +1488,21 @@
     const tabBtnInactiveClass = `${tabBtnBaseClass} border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900`;
     const tabBtnActiveClass = `${tabBtnBaseClass} bg-[#3182F6] border-blue-200 text-white shadow-md shadow-blue-200/50`;
     const syncPageHeight = () => scheduleEmbeddedHeight();
+    let activeTab = 'amba';
+
+    const postPageToc = () => {
+      postParent({
+        type: 'adt:page-toc',
+        pageId,
+        mode: 'action',
+        title: normalizeText(document.querySelector('.section-title')?.textContent || 'On-Chip Bus'),
+        items: Array.from(tabBtns).map((btn) => ({
+          key: btn.getAttribute('data-tab'),
+          label: normalizeText(btn.textContent),
+          active: btn.getAttribute('data-tab') === activeTab,
+        })),
+      });
+    };
 
     tabBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -1312,6 +1517,7 @@
         if (activeIcon) activeIcon.setAttribute('stroke-width', '2.5');
 
         const targetTab = btn.getAttribute('data-tab');
+        activeTab = targetTab;
         currentTabLabel.textContent = btn.textContent.trim();
 
         tabContents.forEach((content) => {
@@ -1319,6 +1525,7 @@
           if (content.id === `tab-${targetTab}`) content.classList.add('active');
         });
         syncPageHeight();
+        postPageToc();
       });
     });
 
@@ -1547,6 +1754,10 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       if (isEmbedded()) {
+        document.body.classList.add('is-embedded');
+      }
+
+      if (isEmbedded()) {
         document.documentElement.style.overflow = 'hidden';
         document.body.style.overflow = 'hidden';
         postParent({ type: 'adt:ready', pageId });
@@ -1576,12 +1787,24 @@
         });
       }
 
+      window.addEventListener('message', (event) => {
+        const data = event.data;
+        if (!data || typeof data !== 'object') return;
+        if (data.type === 'adt:page-toc-activate' && data.pageId === pageId && typeof data.key === 'string') {
+          const targetButton = document.querySelector(`.tab-btn[data-tab="${data.key}"]`);
+          if (targetButton instanceof HTMLElement) {
+            targetButton.click();
+          }
+        }
+      });
+
       window.addEventListener('load', scheduleEmbeddedHeight);
       window.addEventListener('resize', scheduleEmbeddedHeight);
       window.setTimeout(scheduleEmbeddedHeight, 0);
       window.setTimeout(scheduleEmbeddedHeight, 180);
       window.setTimeout(scheduleEmbeddedHeight, 720);
       syncPageHeight();
+      postPageToc();
     });
   </script>
 </body>
