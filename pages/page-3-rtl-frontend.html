@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RTL/Frontend | 반도체 디지털 회로설계 가이드북</title>
+    <title>RTL / Frontend | 반도체 디지털 회로설계 가이드북</title>
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
@@ -49,7 +49,7 @@
     <main class="page-shell">
         <section class="page-section active" id="page-3">
                         <div class="mb-4"><span class="badge">Part 3</span></div>
-                        <h2 class="section-title">RTL/Frontend</h2>
+                        <h2 class="section-title">RTL / Frontend</h2>
 
                         <div id="part3-current-shell" class="part3-tab-shell" hidden>
                             <div class="part3-tab-top">
@@ -630,7 +630,7 @@
 
                         </div>
 
-                        <div class="mb-8" data-part3-panel="soc-concept" data-guidebook-toc-title="SoC 개념" hidden>
+                        <div class="mb-8" data-part3-panel="soc-concept" data-guidebook-toc-title="SoC" hidden>
                             <div class="card">
                             <div class="space-y-5">
                                 <div class="overflow-hidden rounded-[30px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef6ff]">
@@ -708,7 +708,7 @@
 
                         </div>
 
-                        <div class="diagram-box mb-8" data-part3-panel="sta-concept" data-guidebook-toc-title="STA 개념" hidden>
+                        <div class="diagram-box mb-8" data-part3-panel="sta-concept" data-guidebook-toc-title="STA" hidden>
                             <p class="text-sm text-gray-600 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100">STA는 논리 기능을 시뮬레이션하는 것이 아니라, <span class="highlight">최악 경로(Critical Path)의 지연을 계산</span>해 주어진 클럭 주기 안에 데이터가 도착하는지 보는 분석입니다.</p>
 
                             <div class="svg-container">
@@ -925,7 +925,7 @@
                             </div>
                         </div>
 
-                        <div class="card bg-[radial-gradient(circle_at_top_right,_rgba(59,130,246,0.08),_transparent_34%),linear-gradient(180deg,_#ffffff_0%,_#fbfdff_100%)]" data-part3-panel="rtl-patterns" data-guidebook-toc-title="RTL 코드 작성 기법" hidden>
+                        <div class="card" data-part3-panel="rtl-patterns" data-guidebook-toc-title="Methodology for RTL coding" hidden>
 
                             <div class="mb-8 overflow-hidden rounded-[30px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef6ff]">
                                 <svg viewBox="0 0 1120 240" class="block h-[230px] w-full" aria-hidden="true">
@@ -940,9 +940,9 @@
                                     <text x="136" y="124" text-anchor="middle" fill="#111827" font-size="24" font-weight="900">Code Shape</text>
                                     <text x="136" y="146" text-anchor="middle" fill="#60a5fa" font-size="12" font-weight="800">assign / always / constraint</text>
 
-                                    <path d="M236 116H346" fill="none" stroke="#93c5fd" stroke-width="6" stroke-linecap="round"/>
+                                    <path d="M236 140H346" fill="none" stroke="#93c5fd" stroke-width="6" stroke-linecap="round"/>
                                     <circle r="7" fill="#2563eb">
-                                        <animateMotion dur="3.2s" repeatCount="indefinite" path="M236 116H346"/>
+                                        <animateMotion dur="3.2s" repeatCount="indefinite" path="M236 140H346"/>
                                     </circle>
 
                                     <rect x="346" y="40" width="140" height="60" rx="22" fill="#ffffff" stroke="#60a5fa" stroke-width="3"/>
@@ -965,20 +965,20 @@
                                     <text x="1033" y="64" text-anchor="middle" fill="#dc2626" font-size="14" font-weight="900">IOB</text>
                                     <text x="1033" y="83" text-anchor="middle" fill="#ef4444" font-size="11" font-weight="900">Pin Timing</text>
 
-                                    <path d="M 416 100 V 132" fill="none" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
-                                    <path d="M 580 100 V 132" fill="none" stroke="#34d399" stroke-width="4" stroke-linecap="round"/>
-                                    <path d="M 734 100 V 132" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round"/>
-                                    <path d="M 888 100 V 132" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
-                                    <path d="M 1033 100 V 132" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
-                                    <path d="M 346 150 H 1084" fill="none" stroke="#cbd5e1" stroke-width="6" stroke-linecap="round"/>
+                                    <path d="M 416 100 V 140" fill="none" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
+                                    <path d="M 580 100 V 140" fill="none" stroke="#34d399" stroke-width="4" stroke-linecap="round"/>
+                                    <path d="M 734 100 V 140" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round"/>
+                                    <path d="M 888 100 V 140" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                                    <path d="M 1033 100 V 140" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+                                    <path d="M 346 140 H 1084" fill="none" stroke="#cbd5e1" stroke-width="6" stroke-linecap="round"/>
                                     <circle r="6" fill="#2563eb">
-                                        <animateMotion dur="5.4s" repeatCount="indefinite" path="M346 150H1084"/>
+                                        <animateMotion dur="5.4s" repeatCount="indefinite" path="M346 140H1084"/>
                                     </circle>
                                     <circle r="6" fill="#10b981">
-                                        <animateMotion dur="5.4s" begin="0.75s" repeatCount="indefinite" path="M346 150H1084"/>
+                                        <animateMotion dur="5.4s" begin="0.75s" repeatCount="indefinite" path="M346 140H1084"/>
                                     </circle>
                                     <circle r="6" fill="#8b5cf6">
-                                        <animateMotion dur="5.4s" begin="1.4s" repeatCount="indefinite" path="M346 150H1084"/>
+                                        <animateMotion dur="5.4s" begin="1.4s" repeatCount="indefinite" path="M346 140H1084"/>
                                     </circle>
 
                                     <rect x="368" y="166" width="220" height="28" rx="14" fill="#eff6ff" stroke="#bfdbfe"/>
@@ -2837,90 +2837,20 @@
     </main>
     <script src="../assets/guidebook-page-common.js"></script>
     <script>
-        const part3TabMeta = {
-            'logic-basics': {},
-            'hdl-synthesis': {},
-            'hierarchical-design': {},
-            'soc-concept': {},
-            'sta-concept': {},
-            'rtl-patterns': {},
-        };
-
-        let activePart3Tab = 'logic-basics';
-
-        const getPart3TocItems = () => window.GuidebookPage.buildIndexedActionTocItems({
+        window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'logic-basics',
             panelSelector: '[data-part3-panel]',
-            keyDataset: 'part3Panel',
-            activeKey: activePart3Tab,
-            titleSelector: '.text-xs.font-extrabold',
-        });
-
-        window.GuidebookPageCustomToc = () => ({
-            mode: 'action',
-            title: 'Part3',
-            items: getPart3TocItems(),
-        });
-
-        const syncPart3Bridge = () => {
-            if (!window.GuidebookPage) return;
-            [0, 120, 360].forEach((delay) => {
-                window.setTimeout(() => {
-                    window.GuidebookPage.notifyPageToc();
-                    window.GuidebookPage.notifyHeight();
-                }, delay);
-            });
-        };
-
-        function applyPart3CurrentHeader() {
-            const shellEl = document.getElementById('part3-current-shell');
-            if (!shellEl) return;
-
-            shellEl.style.setProperty('--part3-tab-accent', '#2563eb');
-        }
-
-        function mountPart3CurrentHeader() {
-            const shellEl = document.getElementById('part3-current-shell');
-            if (!shellEl) return;
-
-            const panelEl = document.querySelector(`[data-part3-panel="${activePart3Tab}"]`);
-            const targetEl = panelEl?.matches('.card, .diagram-box')
-                ? panelEl
-                : panelEl?.querySelector('.card, .diagram-box');
-
-            if (!targetEl) return;
-            targetEl.prepend(shellEl);
-            shellEl.hidden = false;
-        }
-
-        function setPart3Tab(nextKey) {
-            activePart3Tab = Object.prototype.hasOwnProperty.call(part3TabMeta, nextKey) ? nextKey : 'logic-basics';
-            const label = getPart3TocItems().find((item) => item.key === activePart3Tab)?.label || '';
-
-            document.querySelectorAll('[data-part3-panel]').forEach((panel) => {
-                const isActive = panel.dataset.part3Panel === activePart3Tab;
-                panel.hidden = !isActive;
-                panel.setAttribute('aria-hidden', String(!isActive));
-            });
-
-            const labelEl = document.getElementById('part3-current-label');
-            if (labelEl) labelEl.textContent = label;
-            applyPart3CurrentHeader();
-            mountPart3CurrentHeader();
-
-            window.scrollTo({ top: 0, behavior: 'auto' });
-
-            window.requestAnimationFrame(() => {
-                syncPart3Bridge();
-            });
-        }
-
-        window.GuidebookPageHandleTocActivation = (key) => {
-            setPart3Tab(key);
-        };
-
-        window.addEventListener('DOMContentLoaded', () => {
-            window.GuidebookPage.initStandalonePage();
-            setPart3Tab(activePart3Tab);
+            panelKeyDataset: 'part3Panel',
+            titleAttribute: 'data-guidebook-toc-title',
+            tocTitle: 'Part3',
+            currentHeader: {
+                shellId: 'part3-current-shell',
+                labelId: 'part3-current-label',
+                mode: 'mount',
+                apply: ({ shell }) => {
+                    shell.style.setProperty('--part3-tab-accent', '#2563eb');
+                },
+            },
         });
     </script>
 </body>

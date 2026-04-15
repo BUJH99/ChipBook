@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>반도체 산업 개요와 설계 지도 | 반도체 디지털 회로설계 가이드북</title>
+    <title>반도체 산업 개요 | 반도체 디지털 회로설계 가이드북</title>
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
@@ -258,7 +258,7 @@
     <main class="page-shell">
         <section class="page-section active" id="page-1">
             <div class="mb-4"><span class="badge">Part 1</span></div>
-            <h2 class="section-title">반도체 산업 개요와 설계 지도</h2>
+            <h2 class="section-title">반도체 산업 개요</h2>
 
             <div class="mb-8">
                 <div class="card">
@@ -1088,7 +1088,7 @@
                         </div>
                     </div>
 
-                    <div data-part1-panel="future-tech" hidden>
+                    <div data-part1-panel="future-tech" data-guidebook-toc-title="Future Tech Trends" hidden>
                         <div data-part1-section-head="future-tech-primary"></div>
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1693,24 +1693,9 @@
             }
         };
 
-        let activePart1Tab = 'landscape';
-
-        const getPart1TocItems = () => window.GuidebookPage.buildIndexedActionTocItems({
-            panelSelector: '[data-part1-panel]',
-            keyDataset: 'part1Panel',
-            activeKey: activePart1Tab,
-            titleSelector: [
-                '.part1-section-line span:last-child',
-                '.part1-section-titleline',
-                '.part1-section-kicker',
-            ],
-        });
-
-        window.GuidebookPageCustomToc = () => ({
-            mode: 'action',
-            title: 'Part1',
-            items: getPart1TocItems(),
-        });
+        const part1CurrentLabelOverride = {
+            'future-tech': 'Future Tech Trends',
+        };
 
         function renderPart1SectionHeads() {
             const classMap = {
@@ -1760,48 +1745,33 @@
             });
         }
 
-        function setPart1Tab(nextKey) {
-            activePart1Tab = Object.prototype.hasOwnProperty.call(part1TabMeta, nextKey) ? nextKey : 'landscape';
-            const meta = part1TabMeta[activePart1Tab];
-            const label = getPart1TocItems().find((item) => item.key === activePart1Tab)?.label || '';
-
-            document.querySelectorAll('[data-part1-tab]').forEach((button) => {
-                const isActive = button.dataset.part1Tab === activePart1Tab;
-                button.classList.toggle('is-active', isActive);
-                button.setAttribute('aria-pressed', String(isActive));
-            });
-
-            document.querySelectorAll('[data-part1-panel]').forEach((panel) => {
-                panel.hidden = panel.dataset.part1Panel !== activePart1Tab;
-            });
-
-            updatePart1GroupVisibility();
-
-            const labelEl = document.getElementById('part1-current-label');
-            const copyEl = document.getElementById('part1-current-copy');
-            if (labelEl) labelEl.textContent = label;
-            applyPart1CurrentHeader();
-            if (copyEl) {
-                copyEl.textContent = meta.copy;
-                copyEl.hidden = !meta.copy;
-            }
-
-            if (window.GuidebookPage) {
-                window.requestAnimationFrame(() => {
-                    window.GuidebookPage.notifyPageToc();
-                    window.GuidebookPage.notifyHeight();
-                });
-            }
-        }
-
-        window.GuidebookPageHandleTocActivation = (key) => {
-            setPart1Tab(key);
-        };
-
-        window.addEventListener('DOMContentLoaded', () => {
-            renderPart1SectionHeads();
-            window.GuidebookPage.initStandalonePage();
-            setPart1Tab(activePart1Tab);
+        window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'landscape',
+            panelSelector: '[data-part1-panel]',
+            panelKeyDataset: 'part1Panel',
+            titleAttribute: 'data-guidebook-toc-title',
+            tocTitle: 'Part1',
+            currentHeader: {
+                shellId: 'part1-current-shell',
+                labelId: 'part1-current-label',
+                copyId: 'part1-current-copy',
+                mode: 'static',
+                apply: ({ shell }) => {
+                    shell.style.setProperty('--part1-tab-accent', '#2563eb');
+                },
+                getCopy: ({ activeKey }) => part1TabMeta[activeKey]?.copy || '',
+            },
+            beforeInit: () => {
+                renderPart1SectionHeads();
+            },
+            onAfterSet: ({ activeKey, item }) => {
+                const labelEl = document.getElementById('part1-current-label');
+                if (!labelEl) return;
+                labelEl.textContent = part1CurrentLabelOverride[activeKey] || item?.label || '';
+            },
+            syncGroups: () => {
+                updatePart1GroupVisibility();
+            },
         });
     </script>
 </body>

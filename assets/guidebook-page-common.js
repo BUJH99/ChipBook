@@ -5850,131 +5850,13 @@ function escapeHtml(value) {
         .toLowerCase()
         .replace(/[^a-z0-9\u3131-\u318e\uac00-\ud7a3]+/g, '-')
         .replace(/^-+|-+$/g, '') || 'section';
-    const tocConfigByPage = {
-        'page-1': {
-            items: [
-                { match: 'Product Category' },
-                { match: 'Value Chain' },
-                { match: '반도체 산업 분야', label: '산업 분야' },
-                { match: '반도체 산업 밸류체인', label: '밸류체인' },
-                { match: '차세대 반도체 핵심 기술', label: '핵심 기술' },
-            ],
-        },
-        'page-2': {
-            items: [
-                { match: 'Design to Product Flow' },
-                { match: '단계별 상세 역할' },
-                { match: '디지털 설계 FLOW 핵심 키워드 사전', label: '핵심 키워드 사전' },
-                { match: '자주 같이 묶이는 입력 · 검증 키워드', label: '입력·검증 키워드' },
-            ],
-        },
-        'page-3': {
-            items: [
-                { match: 'FPGA에서 보는 조합로직과 순차로직', label: '조합/순차로직' },
-                { match: '계층적 설계 개념과 장점', label: '계층적 설계' },
-                { match: 'SoC 정의, 구성 요소, 설계 관점 의미', label: 'SoC 개념' },
-                { match: 'Static Timing Analysis 정의와 기능 검증과의 차이', label: 'STA' },
-                { match: 'RTL 패턴과 FPGA 자원 매핑', label: 'FPGA 자원 매핑' },
-                { match: '함께 챙겨두면 좋은 코드 스타일 메모', label: '코드 스타일' },
-            ],
-        },
-        'page-4': {
-            items: [
-                { match: 'Floorplan', label: 'Floorplan' },
-                { match: 'Placement, Routing, 그리고 물리설계 안에서의 위치', label: 'Placement / Routing' },
-                { match: '최종 검증 의미와 주요 항목', label: '최종 검증' },
-                { match: 'Tapeout은 Signoff 결과를 제조용 데이터로 넘기는 최종 인계 단계', label: 'Tapeout' },
-                { match: '설계와 공정을 연결하는 역할', label: '공정 연계' },
-            ],
-        },
-        'page-5': {
-            items: [
-                { match: '구조 / 속도 / 집적도 / 가격 / 사용처', label: '메모리 비교' },
-                { match: 'Standard 6T SRAM Cell', label: 'SRAM Cell' },
-                { match: 'Standard 1T1C DRAM Cell', label: 'DRAM Cell' },
-                { match: 'Flash 메모리 개념과 SSD와의 관계', label: 'Flash / SSD' },
-                { match: '구조 차이, 등장 배경, 장단점 비교', label: '저장소 비교' },
-            ],
-        },
-        'page-6': {
-            items: [
-                { match: 'Role Map' },
-                { match: '전체 설계 흐름 안에서 직무 찾기', label: '직무 찾기' },
-                { match: 'Foundation IP' },
-                { match: 'DP (Design Platform)', label: 'DP' },
-                { match: 'DV (Design Verification)', label: 'DV' },
-                { match: 'DFT (Design For Test)', label: 'DFT' },
-                { match: 'PI (Physical Implementation)', label: 'PI' },
-                { match: 'PD (Physical Design)', label: 'PD' },
-                { match: 'AP (Application Platform)', label: 'AP' },
-                { match: '함께 알아두면 좋은 연관 직무', label: '연관 직무' },
-                { match: '심화 키워드 정리', label: '심화 키워드' },
-            ],
-        },
-        'page-7': {
-            items: [
-                { match: 'UVM은 “테스트벤치를 큰 설계처럼 조직하는 방법”입니다', label: 'UVM 개념' },
-                { match: '테스트벤치 계층 구조', label: '계층 구조' },
-                { match: 'UVM phase는 “언제 무엇을 준비하는가”를 나누는 시간표입니다', label: 'UVM Phase' },
-                { match: 'stimulus는 이렇게 DUT까지 전달됩니다', label: 'Stimulus 경로' },
-                { match: 'factory / config_db', label: 'factory / config_db' },
-                { match: 'objection' },
-                { match: 'analysis port / scoreboard', label: 'analysis / scoreboard' },
-                { match: 'UVM 코드 뼈대는 이 정도 그림으로 기억하면 충분합니다', label: '코드 뼈대' },
-                { match: '시험이나 면접에서 자주 묻는 UVM 포인트', label: '면접 포인트' },
-            ],
-        },
-        'page-9': {
-            items: [
-                { match: 'Off-Chip Interface는 칩 바깥 세상과 연결되는 관문입니다', label: '개념' },
-                { match: 'Protocol 위에 logic이, 아래에는 PHY가 있습니다', label: 'Layer 구조' },
-                { match: '자주 나오는 외부 인터페이스', label: '주요 인터페이스' },
-                { match: '문제가 났을 때 어디를 의심하나', label: '디버그 포인트' },
-            ],
-        },
-        'page-10': {
-            items: [
-                { match: 'Solution은 블록을 따로 설명하는 것이 아니라, 제품처럼 묶어서 설명하는 관점입니다', label: 'Solution 개념' },
-                { match: '하나의 SoC solution이 만들어지는 방식', label: 'SoC solution 흐름' },
-                { match: 'solution 관점에서 자주 묻는 질문', label: '자주 묻는 질문' },
-                { match: '짧게 말하면 좋은 키워드', label: '면접 키워드' },
-            ],
-        },
-        'page-11': {
-            items: [
-                { match: 'AI Accelerator는 행렬 연산을 빠르고 효율적으로 처리하도록 특화된 연산 블록입니다', label: 'AI Accelerator 개념' },
-                { match: 'AI Accelerator를 블록 단위로 보면 이렇게 나뉩니다', label: '블록 구조' },
-                { match: '자주 나오는 dataflow 키워드', label: 'Dataflow' },
-                { match: '면접에서 같이 말하면 좋은 포인트', label: '면접 포인트' },
-            ],
-        },
-        'page-12': {
-            items: [
-                { match: 'ADT 기술 관련 문항 정리', label: 'ADT 정리' },
-                { match: 'Design Service Ladder' },
-                { match: 'Foundation IP' },
-                { match: 'Interface IP Solution', label: 'Interface IP' },
-                { match: 'Advanced Design Platform', label: 'ADP' },
-                { match: 'Chiplet Solution' },
-                { match: 'Verification / Security', label: 'Verification' },
-                { match: '응용 분야와 출제 연결', label: '출제 연결' },
-                { match: '최종 요약' },
-                { match: 'Flow / Output 용어', label: 'Flow / Output' },
-                { match: 'Digital / Verification 용어', label: 'Digital / Verification' },
-                { match: 'Backend / Low Power 용어', label: 'Backend / Low Power' },
-                { match: 'Memory / Device / ADT 기술 용어', label: 'Memory / Device' },
-            ],
-        },
-        'page-13': {
-            dynamicSelector: '.practice-group-title',
-        },
-        'page-14': {
-            items: [
-                { selector: '#mock-start-screen', label: '시험 안내' },
-                { selector: '#mock-exam-container', label: '문항 풀이' },
-                { selector: '#mock-result-screen', label: '채점 결과' },
-            ],
-        },
+    const scrollTocHeadingSelector = 'h1, h2, h3, h4, h5, .practice-group-title';
+    const buildParsedTocSelector = () => {
+        const selectors = ['[data-guidebook-toc-title]', 'h3', '.practice-group-title'];
+        if (document.querySelectorAll('.section-title').length > 1) {
+            selectors.unshift('.section-title');
+        }
+        return selectors.join(', ');
     };
     const lockEmbeddedScroll = () => {
         if (!embedded()) return;
@@ -6057,6 +5939,276 @@ function escapeHtml(value) {
             return items;
         }, []);
     };
+    const findByIdOrSelector = (value) => {
+        if (!value || typeof value !== 'string') return null;
+        return document.getElementById(value) || document.querySelector(value);
+    };
+    const createActionSectionEngine = (options = {}) => {
+        const settings = Object.assign({
+            defaultKey: '',
+            labelSourceSelector: '',
+            labelKeyDataset: '',
+            titleAttribute: 'data-guidebook-toc-title',
+            titleSelector: null,
+            tocTitle: `Part${getIndexedTocPartNumber()}`,
+            startIndex: 1,
+            partNumber: getIndexedTocPartNumber(),
+            panelStateMode: 'hidden',
+            panelActiveClass: 'active',
+            setAriaHidden: true,
+            syncDelays: [0, 120, 360],
+            scrollOnChange: true,
+            scrollBehavior: 'auto',
+            buttonLabelSelector: '',
+            buttonKeyDataset: '',
+            currentHeader: null,
+        }, options);
+
+        let activeKey = settings.defaultKey;
+
+        const readKey = (element, datasetName, resolver) => {
+            if (!(element instanceof Element)) return '';
+            if (typeof resolver === 'function') {
+                const resolved = resolver(element);
+                if (resolved) return resolved;
+            }
+            if (!datasetName || typeof datasetName !== 'string') return '';
+            return element.dataset[datasetName] || '';
+        };
+
+        const getPanels = () => {
+            if (!settings.panelSelector) return [];
+            return Array.from(document.querySelectorAll(settings.panelSelector));
+        };
+
+        const getButtons = () => {
+            if (!settings.buttonSelector) return [];
+            return Array.from(document.querySelectorAll(settings.buttonSelector));
+        };
+
+        const buildItems = () => {
+            if (typeof settings.buildItems === 'function') {
+                return settings.buildItems({ activeKey }).map((item) => Object.assign({}, item, {
+                    key: item.key,
+                    label: normalizeText(item.label),
+                    active: item.key === activeKey,
+                }));
+            }
+
+            const keyDataset = settings.labelKeyDataset || settings.panelKeyDataset;
+            const selector = settings.labelSourceSelector || settings.panelSelector;
+            if (!selector || !keyDataset) return [];
+
+            return buildIndexedActionTocItems({
+                panelSelector: selector,
+                keyDataset,
+                activeKey,
+                titleSelector: settings.titleSelector,
+                titleAttribute: settings.titleAttribute,
+                partNumber: settings.partNumber,
+                startIndex: settings.startIndex,
+            });
+        };
+
+        const getActiveItem = (items = buildItems()) => {
+            const matched = items.find((item) => item.key === activeKey);
+            return matched || items[0] || null;
+        };
+
+        const syncBridge = () => {
+            (Array.isArray(settings.syncDelays) ? settings.syncDelays : [0]).forEach((delay) => {
+                window.setTimeout(() => {
+                    notifyPageToc();
+                    notifyHeight();
+                }, Math.max(0, Number(delay) || 0));
+            });
+        };
+
+        const updateCurrentHeader = (item, items) => {
+            const config = settings.currentHeader;
+            if (!config) return;
+
+            const shell = findByIdOrSelector(config.shellId || config.shellSelector);
+            const labelEl = findByIdOrSelector(config.labelId || config.labelSelector);
+            const copyEl = findByIdOrSelector(config.copyId || config.copySelector);
+            const copyText = typeof config.getCopy === 'function'
+                ? normalizeText(config.getCopy({ activeKey, item, items }) || '')
+                : '';
+
+            if (labelEl && item?.label) {
+                labelEl.textContent = item.label;
+            }
+
+            if (copyEl) {
+                copyEl.textContent = copyText;
+                copyEl.hidden = !copyText;
+            }
+
+            if (shell) {
+                if (typeof config.apply === 'function') {
+                    config.apply({ shell, activeKey, item, items });
+                }
+
+                if (config.mode === 'mount') {
+                    const panel = getPanels().find((candidate) => readKey(candidate, settings.panelKeyDataset, settings.resolvePanelKey) === activeKey) || null;
+                    let target = null;
+
+                    if (typeof config.resolveTarget === 'function') {
+                        target = config.resolveTarget({ activeKey, item, items, panel });
+                    } else if (panel instanceof Element) {
+                        const selector = config.targetSelector || '.card, .diagram-box';
+                        target = panel.matches(selector) ? panel : panel.querySelector(selector);
+                    }
+
+                    if (target instanceof Element) {
+                        target.prepend(shell);
+                        shell.hidden = false;
+                    }
+                } else {
+                    shell.hidden = false;
+                }
+            }
+        };
+
+        const applyPanelState = (panel, isActive) => {
+            if (!(panel instanceof Element)) return;
+
+            if (typeof settings.applyPanelState === 'function') {
+                settings.applyPanelState({ panel, isActive, activeKey });
+                return;
+            }
+
+            if (settings.panelStateMode === 'class') {
+                panel.classList.toggle(settings.panelActiveClass, isActive);
+            } else {
+                panel.hidden = !isActive;
+            }
+
+            if (settings.setAriaHidden) {
+                panel.setAttribute('aria-hidden', String(!isActive));
+            }
+        };
+
+        const updateButtons = (items) => {
+            const buttons = getButtons();
+            if (!buttons.length) return;
+
+            buttons.forEach((button, index) => {
+                const key = readKey(button, settings.buttonKeyDataset || settings.panelKeyDataset, settings.resolveButtonKey);
+                const item = items.find((entry) => entry.key === key) || null;
+                const isActive = key === activeKey;
+
+                if (item) {
+                    const labelEl = settings.buttonLabelSelector
+                        ? (button.matches(settings.buttonLabelSelector) ? button : button.querySelector(settings.buttonLabelSelector))
+                        : null;
+                    if (labelEl instanceof Element) {
+                        labelEl.textContent = item.label;
+                    }
+                }
+
+                if (typeof settings.applyButtonState === 'function') {
+                    settings.applyButtonState({ button, isActive, item, index, items, activeKey });
+                    return;
+                }
+
+                button.classList.toggle('is-active', isActive);
+                button.setAttribute('aria-pressed', String(isActive));
+            });
+        };
+
+        const setActive = (nextKey, behavior = {}) => {
+            const items = buildItems();
+            const fallbackKey = items[0]?.key || settings.defaultKey || '';
+            activeKey = items.some((item) => item.key === nextKey) ? nextKey : fallbackKey;
+            const activeItem = getActiveItem(items);
+
+            getPanels().forEach((panel) => {
+                const key = readKey(panel, settings.panelKeyDataset, settings.resolvePanelKey);
+                applyPanelState(panel, key === activeKey);
+            });
+
+            if (typeof settings.syncGroups === 'function') {
+                settings.syncGroups({ activeKey, item: activeItem, items });
+            }
+
+            updateButtons(items);
+            updateCurrentHeader(activeItem, items);
+
+            if (typeof settings.onAfterSet === 'function') {
+                settings.onAfterSet({ activeKey, item: activeItem, items });
+            }
+
+            if (behavior.scroll !== false && settings.scrollOnChange) {
+                window.scrollTo({ top: 0, behavior: settings.scrollBehavior });
+            }
+
+            if (behavior.sync !== false) {
+                window.requestAnimationFrame(() => {
+                    syncBridge();
+                });
+            }
+
+            return activeItem;
+        };
+
+        const bindButtons = () => {
+            getButtons().forEach((button) => {
+                if (button.dataset.guidebookSectionBound === 'true') return;
+                button.dataset.guidebookSectionBound = 'true';
+                button.addEventListener('click', () => {
+                    const key = readKey(button, settings.buttonKeyDataset || settings.panelKeyDataset, settings.resolveButtonKey);
+                    setActive(key);
+                });
+            });
+        };
+
+        const init = (behavior = {}) => {
+            bindButtons();
+            return setActive(activeKey || settings.defaultKey, {
+                scroll: behavior.scroll,
+                sync: behavior.sync,
+            });
+        };
+
+        return {
+            init,
+            setActive,
+            syncBridge,
+            getActiveKey: () => activeKey,
+            getItems: () => buildItems(),
+            getTocPayload: () => ({
+                mode: 'action',
+                title: typeof settings.tocTitle === 'function' ? settings.tocTitle() : settings.tocTitle,
+                items: buildItems(),
+            }),
+        };
+    };
+    const initActionSectionPage = (options = {}) => {
+        const engine = createActionSectionEngine(options);
+
+        window.GuidebookPageCustomToc = () => engine.getTocPayload();
+        window.GuidebookPageHandleTocActivation = (key) => {
+            engine.setActive(key);
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof options.beforeInit === 'function') {
+                options.beforeInit(engine);
+            }
+
+            engine.init({ scroll: false, sync: false });
+            initStandalonePage();
+
+            if (typeof options.afterInit === 'function') {
+                options.afterInit(engine);
+            }
+
+            engine.syncBridge();
+        });
+
+        return engine;
+    };
     const notifyHeight = () => {
         const pageShell = document.querySelector('.page-shell');
         const shellHeight = pageShell
@@ -6090,24 +6242,15 @@ function escapeHtml(value) {
         element.id = nextId;
         return nextId;
     };
-    const headingCandidates = () => Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, .practice-group-title'));
-    const matchesText = (text, match) => {
-        if (match instanceof RegExp) return match.test(text);
-        return text.includes(normalizeText(match));
-    };
-    const findCandidateByText = (match, occurrence = 1) => {
-        let seen = 0;
-        return headingCandidates().find((element) => {
-            const text = normalizeText(element.textContent);
-            if (!text || !matchesText(text, match)) return false;
-            seen += 1;
-            return seen === occurrence;
-        }) || null;
-    };
-    const buildSelectorItems = (selector) => Array.from(document.querySelectorAll(selector))
+    const collectParsedTocCandidates = () => Array.from(document.querySelectorAll(buildParsedTocSelector()))
         .filter(isElementVisible)
+        .filter((element, index, candidates) => !candidates.slice(0, index).some((previous) => previous.contains(element)));
+    const buildParsedTocItems = () => collectParsedTocCandidates()
         .map((element, index) => {
-            const label = normalizeText(element.textContent);
+            const label = readActionTocTitle(element, {
+                titleSelector: scrollTocHeadingSelector,
+            });
+            if (!label) return null;
             const id = ensureAnchorId(element, label || `item-${index + 1}`, index);
             return {
                 key: id,
@@ -6115,31 +6258,8 @@ function escapeHtml(value) {
                 label,
                 top: Math.max(0, Math.round(element.getBoundingClientRect().top + window.scrollY)),
             };
-        });
-    const buildConfiguredItems = () => {
-        const config = tocConfigByPage[getPageId()];
-        if (!config) return [];
-        if (config.dynamicSelector) {
-            return buildSelectorItems(config.dynamicSelector);
-        }
-        return (config.items || []).map((spec, index) => {
-            let element = null;
-            if (spec.selector) {
-                element = document.querySelector(spec.selector);
-            } else if (spec.match) {
-                element = findCandidateByText(spec.match, spec.occurrence || 1);
-            }
-            if (!element || !isElementVisible(element)) return null;
-            const label = spec.label || normalizeText(element.textContent);
-            const id = ensureAnchorId(element, label || `item-${index + 1}`, index);
-            return {
-                key: id,
-                id,
-                label,
-                top: Math.max(0, Math.round(element.getBoundingClientRect().top + window.scrollY)),
-            };
-        }).filter(Boolean);
-    };
+        })
+        .filter(Boolean);
     const notifyPageToc = () => {
         const customPayload = getCustomTocPayload();
         if (customPayload && Array.isArray(customPayload.items)) {
@@ -6152,7 +6272,7 @@ function escapeHtml(value) {
             return;
         }
         const title = normalizeText(document.querySelector('.section-title, h1, h2')?.textContent || '');
-        const items = buildConfiguredItems();
+        const items = buildParsedTocItems();
         postParent({
             type: 'adt:page-toc',
             pageId: getPageId(),
@@ -6243,7 +6363,9 @@ function escapeHtml(value) {
 
     window.GuidebookPage = Object.assign(window.GuidebookPage || {}, {
         buildIndexedActionTocItems,
+        createActionSectionEngine,
         initStandalonePage,
+        initActionSectionPage,
         notifyHeight,
         notifyPageToc,
     });

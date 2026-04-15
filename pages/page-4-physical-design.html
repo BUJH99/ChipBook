@@ -8,18 +8,59 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/guidebook-common.css">
+    <style>
+        .part4-tab-shell {
+            --part4-tab-accent: #2563eb;
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding: 0 0 1rem 0;
+            border-bottom: 2px solid #2563eb;
+        }
+
+        .part4-tab-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 1rem;
+        }
+
+        .part4-tab-top > div:first-child {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .part4-tab-label {
+            display: inline-flex;
+            align-items: center;
+            font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+            font-size: clamp(1.6rem, 2.3vw, 1.68rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            color: var(--part4-tab-accent);
+            line-height: 1.08;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 <body class="page-standalone" data-page-id="page-4">
     <main class="page-shell">
         <section class="page-section active" id="page-4">
                         <div class="mb-4"><span class="badge">Part 4</span></div>
-                        <h2 class="section-title">Physical Design / Backend 핵심</h2>
+                        <h2 class="section-title">Physical Design / Backend</h2>
 
-                        <div class="grid grid-cols-1 gap-8 mb-8 items-start">
-                            <div class="card bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.09),_transparent_38%),linear-gradient(180deg,_#ffffff_0%,_#f8fbff_100%)] border border-blue-50">
-                                <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">4-1. Floorplan</div>
-                                <h4 class="font-extrabold text-gray-900 text-[1.7rem] mb-6 text-center xl:text-left">Floorplan (플로어플랜)</h4>
+                        <div id="part4-current-shell" class="part4-tab-shell" hidden>
+                            <div class="part4-tab-top">
+                                <div>
+                                    <div id="part4-current-label" class="part4-tab-label">4-1. Floorplan</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-8 mb-8 items-start" id="part4-core-group">
+                            <div class="card border border-slate-200 bg-white" data-part4-panel="floorplan" data-guidebook-toc-title="Floorplan">
                                 <div class="grid grid-cols-1 xl:grid-cols-[0.92fr,1.08fr] gap-8 items-center">
                                     <div>
                                         <div class="chip-mockup">
@@ -42,9 +83,7 @@
                             </div>
 
                             <div class="space-y-6">
-                                <div class="card p-6">
-                                    <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">4-2. PnR</div>
-                                    <h4 class="font-extrabold text-gray-900 text-lg mb-5">Placement, Routing, 그리고 물리설계 안에서의 위치</h4>
+                                <div class="card p-6" data-part4-panel="pnr" data-guidebook-toc-title="PnR / CTS / Routing" hidden>
                                     <div class="space-y-4">
                                         <div class="rounded-2xl border border-gray-100 bg-gray-50 p-5">
                                             <div class="flex items-center gap-3 mb-2">
@@ -818,9 +857,7 @@
                                     </div>
                                 </div>
 
-                                <div class="card p-6">
-                                    <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">4-3. Signoff</div>
-                                    <h4 class="font-extrabold text-gray-900 text-lg mb-5">최종 검증 의미와 주요 항목</h4>
+                                <div class="card p-6" data-part4-panel="signoff" data-guidebook-toc-title="Signoff" hidden>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                                         <div class="bg-gray-50 p-4 rounded-xl border border-gray-100"><strong class="text-blue-600 block mb-1">Timing</strong>STA로 Setup/Hold, corner/mode, 경로 closure를 확인합니다.</div>
                                         <div class="bg-gray-50 p-4 rounded-xl border border-gray-100"><strong class="text-blue-600 block mb-1">DRC / LVS</strong>제조 가능 룰과 회로 연결 일치 여부를 검사합니다.</div>
@@ -832,15 +869,11 @@
                             </div>
                         </div>
 
-                        <div class="space-y-8">
-                            <div class="card border border-blue-100 bg-[radial-gradient(circle_at_top_right,_rgba(59,130,246,0.10),_transparent_34%),linear-gradient(180deg,_#ffffff_0%,_#f7fbff_100%)] overflow-hidden">
+                        <div class="space-y-8" id="part4-tail-group">
+                            <div class="space-y-8" data-part4-panel="tapeout" data-guidebook-toc-title="Tapeout" hidden>
+                                <div class="card border border-slate-200 bg-white overflow-hidden">
                                 <div class="flex flex-col gap-3 mb-6">
-                                    <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em]">4-4. Tapeout</div>
                                     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3">
-                                        <div>
-                                            <h4 class="font-extrabold text-gray-900 text-[1.65rem] leading-tight">Tapeout은 Signoff 결과를 제조용 데이터로 넘기는 최종 인계 단계</h4>
-                                            <p class="mt-3 max-w-3xl text-sm leading-7 text-gray-600">Tapeout은 단순히 설계가 끝났다고 선언하는 단계가 아니라, Signoff를 통과한 물리설계 결과를 <strong class="text-gray-900">GDSII/OASIS, signoff report, release checklist, 버전 정보</strong>와 함께 정리해 파운드리에 공식 전달하는 최종 제출 단계입니다.</p>
-                                        </div>
                                         <div class="inline-flex items-center self-start rounded-full border border-blue-100 bg-white/90 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-blue-600 shadow-[0_10px_24px_rgba(59,130,246,0.08)]">
                                             Signoff Decision
                                             <span class="mx-2 text-blue-200">→</span>
@@ -1024,10 +1057,9 @@
                                 </div>
                             </div>
 
-                            <div class="card">
-                                <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">4-5. Design Kit</div>
-                                <h4 class="font-extrabold text-gray-900 text-xl mb-5">설계와 공정을 연결하는 역할</h4>
-                                <p class="text-sm text-gray-600 mb-5">Design Kit 또는 PDK(Process Design Kit)는 파운드리가 제공하는 공정 정보 묶음입니다. 설계자가 “어떻게 만들면 공정에서 구현 가능한지”를 알 수 있게 해주는 연결 다리입니다.</p>
+                            </div>
+
+                            <div class="card" data-part4-panel="design-kit" data-guidebook-toc-title="Design Kit / PDK" hidden>
                                 <div class="mb-6 rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.05)]">
                                     <div class="px-5 pt-5 pb-3 flex items-center justify-between gap-4">
                                         <div>
@@ -1156,8 +1188,35 @@
     </main>
     <script src="../assets/guidebook-page-common.js"></script>
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            window.GuidebookPage.initStandalonePage();
+        function syncPart4Groups(activeKey) {
+            const coreGroupEl = document.getElementById('part4-core-group');
+            if (coreGroupEl) {
+                coreGroupEl.hidden = !['floorplan', 'pnr', 'signoff'].includes(activeKey);
+            }
+
+            const tailGroupEl = document.getElementById('part4-tail-group');
+            if (tailGroupEl) {
+                tailGroupEl.hidden = !['tapeout', 'design-kit'].includes(activeKey);
+            }
+        }
+
+        window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'floorplan',
+            panelSelector: '[data-part4-panel]',
+            panelKeyDataset: 'part4Panel',
+            titleAttribute: 'data-guidebook-toc-title',
+            tocTitle: 'Part4',
+            currentHeader: {
+                shellId: 'part4-current-shell',
+                labelId: 'part4-current-label',
+                mode: 'mount',
+                apply: ({ shell }) => {
+                    shell.style.setProperty('--part4-tab-accent', '#2563eb');
+                },
+            },
+            syncGroups: ({ activeKey }) => {
+                syncPart4Groups(activeKey);
+            },
         });
     </script>
 </body>

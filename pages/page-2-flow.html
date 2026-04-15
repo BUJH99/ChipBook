@@ -1531,28 +1531,7 @@
             },
         };
 
-        const part2TabMeta = {
-            'flow-overview': {},
-            'stage-detail': {},
-            'keyword-dictionary': {},
-            'paired-inputs': {},
-        };
-
-        let activePart2Tab = 'flow-overview';
-        const part2TabOrder = Object.keys(part2TabMeta);
-
-        const getPart2TocItems = () => window.GuidebookPage.buildIndexedActionTocItems({
-            panelSelector: '[data-part2-section-head]',
-            keyDataset: 'part2SectionHead',
-            activeKey: activePart2Tab,
-            titleSelector: '.part2-section-kicker',
-        });
-
-        window.GuidebookPageCustomToc = () => ({
-            mode: 'action',
-            title: 'Part2',
-            items: getPart2TocItems(),
-        });
+        const part2TabOrder = Object.keys(part2SectionHeaderMeta);
 
         function getPart2SectionLabel(key) {
             const index = part2TabOrder.indexOf(key);
@@ -1595,29 +1574,17 @@
             });
         }
 
-        function setPart2Tab(nextKey) {
-            activePart2Tab = Object.prototype.hasOwnProperty.call(part2TabMeta, nextKey) ? nextKey : 'flow-overview';
-
-            document.querySelectorAll('[data-part2-panel]').forEach((panel) => {
-                panel.hidden = panel.dataset.part2Panel !== activePart2Tab;
-            });
-
-            if (window.GuidebookPage) {
-                window.requestAnimationFrame(() => {
-                    window.GuidebookPage.notifyPageToc();
-                    window.GuidebookPage.notifyHeight();
-                });
-            }
-        }
-
-        window.GuidebookPageHandleTocActivation = (key) => {
-            setPart2Tab(key);
-        };
-
-        window.addEventListener('DOMContentLoaded', () => {
-            renderPart2SectionHeads();
-            window.GuidebookPage.initStandalonePage();
-            setPart2Tab(activePart2Tab);
+        window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'flow-overview',
+            panelSelector: '[data-part2-panel]',
+            panelKeyDataset: 'part2Panel',
+            labelSourceSelector: '[data-part2-section-head]',
+            labelKeyDataset: 'part2SectionHead',
+            titleSelector: '.part2-section-kicker',
+            tocTitle: 'Part2',
+            beforeInit: () => {
+                renderPart2SectionHeads();
+            },
         });
     </script>
 </body>

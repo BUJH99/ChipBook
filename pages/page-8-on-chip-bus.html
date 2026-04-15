@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/guidebook-common.css">
 
   <style>
@@ -39,6 +40,28 @@
 
     body.is-embedded [data-page-8-inline-nav] {
       display: none !important;
+    }
+
+    .part8-section-head {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #2563eb;
+    }
+
+    .part8-section-shell {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .part8-section-kicker {
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: clamp(1.6rem, 2.3vw, 1.68rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #2563eb;
+      line-height: 1.08;
+      font-variant-numeric: tabular-nums;
     }
 
     .protocol-summary-card {
@@ -141,14 +164,13 @@
 
       <div class="page-8-layout lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start lg:gap-8">
         <div class="min-w-0">
-          <header class="mb-10 rounded-[32px] border border-blue-100 bg-[radial-gradient(circle_at_top_right,_rgba(49,130,246,0.10),_transparent_30%),linear-gradient(180deg,_#ffffff_0%,_#f8fbff_100%)] p-8 md:p-10 shadow-[0_18px_40px_rgba(37,99,235,0.06)]">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100 font-semibold text-sm mb-4">
-          <i data-lucide="cpu" class="w-4 h-4"></i>
-          <span id="current-tab-label">8-1. AMBA Protocol</span>
-        </div>
-          </header>
+          <div id="part8-current-shell" class="part8-section-head">
+            <div class="part8-section-shell">
+              <div id="part8-current-label" class="part8-section-kicker">8-1. AMBA Protocol</div>
+            </div>
+          </div>
 
-      <div id="tab-amba" class="tab-content active space-y-12">
+      <div id="tab-amba" class="tab-content active space-y-12" data-part8-panel="amba" data-guidebook-toc-title="AMBA Protocol">
         <section class="bg-gray-50 rounded-[32px] p-8 md:p-10">
           <h2 class="text-2xl font-bold mb-4">AMBA가 무엇인가요?</h2>
           <p class="text-gray-600 text-lg leading-relaxed mb-8">
@@ -401,7 +423,7 @@
         </div>
       </div>
 
-      <div id="tab-bus" class="tab-content space-y-8">
+      <div id="tab-bus" class="tab-content space-y-8" data-part8-panel="bus" data-guidebook-toc-title="BUS">
         <div class="bg-slate-50 rounded-[32px] p-8 md:p-10">
           <div class="flex items-center gap-3 mb-4">
             <div class="bg-slate-700 text-white p-2 rounded-xl"><i data-lucide="git-branch" class="w-6 h-6"></i></div>
@@ -650,7 +672,7 @@
         </div>
       </div>
 
-      <div id="tab-apb" class="tab-content space-y-8">
+      <div id="tab-apb" class="tab-content space-y-8" data-part8-panel="apb" data-guidebook-toc-title="APB">
         <div class="bg-amber-50 rounded-[32px] p-8 md:p-10">
           <div class="flex items-center gap-3 mb-4">
             <div class="bg-amber-500 text-white p-2 rounded-xl"><i data-lucide="activity" class="w-6 h-6"></i></div>
@@ -882,7 +904,7 @@
         </div>
       </div>
 
-      <div id="tab-ahb" class="tab-content space-y-8">
+      <div id="tab-ahb" class="tab-content space-y-8" data-part8-panel="ahb" data-guidebook-toc-title="AHB">
         <div class="bg-green-50 rounded-[32px] p-8 md:p-10">
           <div class="flex items-center gap-3 mb-4">
             <div class="bg-green-500 text-white p-2 rounded-xl"><i data-lucide="zap" class="w-6 h-6"></i></div>
@@ -1184,7 +1206,7 @@
         </div>
       </div>
 
-      <div id="tab-axi" class="tab-content space-y-8">
+      <div id="tab-axi" class="tab-content space-y-8" data-part8-panel="axi" data-guidebook-toc-title="AXI">
         <div class="bg-blue-50 rounded-[32px] p-8 md:p-10">
           <div class="flex items-center gap-3 mb-4">
             <div class="bg-blue-500 text-white p-2 rounded-xl"><i data-lucide="cpu" class="w-6 h-6"></i></div>
@@ -1424,23 +1446,23 @@
             <nav class="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0" id="nav-menu">
               <button data-tab="amba" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base bg-[#3182F6] border-blue-200 text-white shadow-md shadow-blue-200/50">
                 <i data-lucide="book-open" class="w-5 h-5" stroke-width="2.5"></i>
-                8-1. AMBA Protocol
+                <span data-tab-label>8-1. AMBA Protocol</span>
               </button>
               <button data-tab="bus" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
                 <i data-lucide="git-branch" class="w-5 h-5" stroke-width="2"></i>
-                8-2. BUS
+                <span data-tab-label>8-2. BUS</span>
               </button>
               <button data-tab="apb" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
                 <i data-lucide="activity" class="w-5 h-5" stroke-width="2"></i>
-                8-3. APB
+                <span data-tab-label>8-3. APB</span>
               </button>
               <button data-tab="ahb" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
                 <i data-lucide="zap" class="w-5 h-5" stroke-width="2"></i>
-                8-4. AHB
+                <span data-tab-label>8-4. AHB</span>
               </button>
               <button data-tab="axi" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
                 <i data-lucide="cpu" class="w-5 h-5" stroke-width="2"></i>
-                8-5. AXI
+                <span data-tab-label>8-5. AXI</span>
               </button>
             </nav>
           </div>
@@ -1448,85 +1470,51 @@
       </div>
     </section>
   </main>
+  <script src="../assets/guidebook-page-common.js"></script>
   <script>
-    lucide.createIcons();
-
-    const pageId = document.body.dataset.pageId || 'page-8';
-    const isEmbedded = () => window.parent && window.parent !== window;
-    const postParent = (payload) => {
-      if (isEmbedded()) {
-        window.parent.postMessage(payload, '*');
-      }
-    };
-    const normalizeText = (value) => (value || '').replace(/\s+/g, ' ').trim();
-    const notifyEmbeddedHeight = () => {
-      const pageShell = document.querySelector('.page-shell');
-      const shellHeight = pageShell
-        ? Math.max(
-            Math.ceil(pageShell.getBoundingClientRect().height),
-            pageShell.scrollHeight || 0,
-            pageShell.offsetHeight || 0
-          )
-        : 0;
-      const fallbackHeight = Math.max(
-        document.body ? document.body.scrollHeight : 0,
-        document.body ? document.body.offsetHeight : 0
-      );
-      const height = shellHeight || fallbackHeight;
-      postParent({ type: 'adt:page-height', pageId, height });
-    };
-    const scheduleEmbeddedHeight = () => {
-      window.requestAnimationFrame(() => {
-        notifyEmbeddedHeight();
-      });
-    };
-
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const currentTabLabel = document.getElementById('current-tab-label');
     const tabBtnBaseClass = 'tab-btn flex min-w-max items-center gap-3 rounded-[16px] border px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base';
     const tabBtnInactiveClass = `${tabBtnBaseClass} border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900`;
     const tabBtnActiveClass = `${tabBtnBaseClass} bg-[#3182F6] border-blue-200 text-white shadow-md shadow-blue-200/50`;
-    const syncPageHeight = () => scheduleEmbeddedHeight();
-    let activeTab = 'amba';
-
-    const postPageToc = () => {
-      postParent({
-        type: 'adt:page-toc',
-        pageId,
-        mode: 'action',
-        title: normalizeText(document.querySelector('.section-title')?.textContent || 'On-Chip Bus'),
-        items: Array.from(tabBtns).map((btn) => ({
-          key: btn.getAttribute('data-tab'),
-          label: normalizeText(btn.textContent),
-          active: btn.getAttribute('data-tab') === activeTab,
-        })),
+    let part8SectionEngine = null;
+    const syncPageHeight = () => {
+      window.requestAnimationFrame(() => {
+        if (part8SectionEngine) {
+          part8SectionEngine.syncBridge();
+          return;
+        }
+        window.GuidebookPage.notifyHeight();
       });
     };
 
-    tabBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        tabBtns.forEach((b) => {
-          b.className = tabBtnInactiveClass;
-          const icon = b.querySelector('svg');
-          if (icon) icon.setAttribute('stroke-width', '2');
-        });
-
-        btn.className = tabBtnActiveClass;
-        const activeIcon = btn.querySelector('svg');
-        if (activeIcon) activeIcon.setAttribute('stroke-width', '2.5');
-
-        const targetTab = btn.getAttribute('data-tab');
-        activeTab = targetTab;
-        currentTabLabel.textContent = btn.textContent.trim();
-
-        tabContents.forEach((content) => {
-          content.classList.remove('active');
-          if (content.id === `tab-${targetTab}`) content.classList.add('active');
-        });
-        syncPageHeight();
-        postPageToc();
-      });
+    part8SectionEngine = window.GuidebookPage.initActionSectionPage({
+      defaultKey: 'amba',
+      panelSelector: '[data-part8-panel]',
+      panelKeyDataset: 'part8Panel',
+      titleAttribute: 'data-guidebook-toc-title',
+      tocTitle: 'Part8',
+      panelStateMode: 'class',
+      panelActiveClass: 'active',
+      buttonSelector: '.tab-btn',
+      buttonKeyDataset: 'tab',
+      buttonLabelSelector: '[data-tab-label]',
+      currentHeader: {
+        shellId: 'part8-current-shell',
+        labelId: 'part8-current-label',
+      },
+      beforeInit: () => {
+        if (window.parent && window.parent !== window) {
+          document.body.classList.add('is-embedded');
+        }
+        lucide.createIcons();
+      },
+      applyButtonState: ({ button, isActive }) => {
+        button.className = isActive ? tabBtnActiveClass : tabBtnInactiveClass;
+        button.setAttribute('aria-pressed', String(isActive));
+        const icon = button.querySelector('svg');
+        if (icon) {
+          icon.setAttribute('stroke-width', isActive ? '2.5' : '2');
+        }
+      },
     });
 
     const waveData = {
@@ -1752,60 +1740,6 @@
       });
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      if (isEmbedded()) {
-        document.body.classList.add('is-embedded');
-      }
-
-      if (isEmbedded()) {
-        document.documentElement.style.overflow = 'hidden';
-        document.body.style.overflow = 'hidden';
-        postParent({ type: 'adt:ready', pageId });
-
-        if (typeof ResizeObserver !== 'undefined') {
-          const observer = new ResizeObserver(() => scheduleEmbeddedHeight());
-          const pageShell = document.querySelector('.page-shell');
-          if (pageShell) observer.observe(pageShell);
-          if (document.body) observer.observe(document.body);
-        } else {
-          window.setInterval(notifyEmbeddedHeight, 1000);
-        }
-
-        document.addEventListener('keydown', (event) => {
-          const target = event.target;
-          const isFormTarget = target instanceof Element &&
-            (Boolean(target.closest('input, textarea, select, button, [contenteditable=\"true\"]')) || target.isContentEditable);
-          if (isFormTarget) return;
-          if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-            postParent({
-              type: 'adt:navigate',
-              pageId,
-              delta: event.key === 'ArrowRight' ? 1 : -1,
-            });
-            event.preventDefault();
-          }
-        });
-      }
-
-      window.addEventListener('message', (event) => {
-        const data = event.data;
-        if (!data || typeof data !== 'object') return;
-        if (data.type === 'adt:page-toc-activate' && data.pageId === pageId && typeof data.key === 'string') {
-          const targetButton = document.querySelector(`.tab-btn[data-tab="${data.key}"]`);
-          if (targetButton instanceof HTMLElement) {
-            targetButton.click();
-          }
-        }
-      });
-
-      window.addEventListener('load', scheduleEmbeddedHeight);
-      window.addEventListener('resize', scheduleEmbeddedHeight);
-      window.setTimeout(scheduleEmbeddedHeight, 0);
-      window.setTimeout(scheduleEmbeddedHeight, 180);
-      window.setTimeout(scheduleEmbeddedHeight, 720);
-      syncPageHeight();
-      postPageToc();
-    });
   </script>
 </body>
 </html>

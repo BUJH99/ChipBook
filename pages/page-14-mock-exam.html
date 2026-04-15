@@ -29,12 +29,12 @@
                                 </div>
                             </div>
 
-                            <div id="mock-start-screen" class="text-center py-20 relative z-10">
+                            <div id="mock-start-screen" class="text-center py-20 relative z-10" data-guidebook-toc-title="시험 안내">
                                 <p class="mb-10 text-gray-600 text-lg leading-relaxed max-w-xl mx-auto">준비가 완료되면 아래 버튼을 눌러 실전 모의고사를 시작하세요. <br><span class="text-sm opacity-80">(시작 시 문제은행에서 랜덤 20문제가 출력됩니다.)</span></p>
                                 <button onclick="startMockExam()" class="bg-blue-600 text-white hover:bg-blue-700 font-extrabold text-lg py-5 px-16 rounded-2xl shadow-[0_8px_20px_rgba(49,130,246,0.3)] transition-all">시험 시작하기</button>
                             </div>
 
-                            <div id="mock-exam-container" class="hidden space-y-8 mt-6 relative z-10">
+                            <div id="mock-exam-container" class="hidden space-y-8 mt-6 relative z-10" data-guidebook-toc-title="문항 풀이">
                                 <!-- Real Exam Questions Injected by JS -->
                             </div>
 
@@ -42,7 +42,7 @@
                                 <button onclick="submitMockExam()" class="bg-gray-900 hover:bg-black text-white font-extrabold text-lg py-5 px-16 rounded-2xl shadow-lg transition-all">답안 최종 제출 및 채점</button>
                             </div>
 
-                            <div id="mock-result-screen" class="hidden text-center py-20 bg-gray-50 rounded-3xl mt-10 relative z-10 border border-gray-100">
+                            <div id="mock-result-screen" class="hidden text-center py-20 bg-gray-50 rounded-3xl mt-10 relative z-10 border border-gray-100" data-guidebook-toc-title="채점 결과">
                                 <h3 class="text-3xl font-extrabold text-gray-900 mb-2">시험 종료</h3>
                                 <p class="text-lg text-gray-500 mb-8 font-medium">수고하셨습니다. 당신의 점수는...</p>
                                 <div id="score-display" class="text-7xl font-black text-blue-600 mb-10"></div>
