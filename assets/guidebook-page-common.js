@@ -5850,6 +5850,7 @@ function escapeHtml(value) {
         .toLowerCase()
         .replace(/[^a-z0-9\u3131-\u318e\uac00-\ud7a3]+/g, '-')
         .replace(/^-+|-+$/g, '') || 'section';
+    const guidebookTitleSuffixPattern = /\s*\|\s*반도체 디지털 회로설계 가이드북\s*$/;
     const scrollTocHeadingSelector = 'h1, h2, h3, h4, h5, .practice-group-title';
     const buildParsedTocSelector = () => {
         const selectors = ['[data-guidebook-toc-title]', 'h3', '.practice-group-title'];
@@ -5858,6 +5859,7 @@ function escapeHtml(value) {
         }
         return selectors.join(', ');
     };
+    const getPageTocTitle = () => normalizeText(document.title.replace(guidebookTitleSuffixPattern, ''));
     const lockEmbeddedScroll = () => {
         if (!embedded()) return;
         document.documentElement.style.overflowX = 'hidden';
@@ -5888,32 +5890,25 @@ function escapeHtml(value) {
         return pageMatch ? pageMatch[1] : '';
     };
     const stripLeadingTocIndex = (text) => normalizeText(text).replace(/^\d+\s*-\s*\d+\.\s*/, '').trim();
-    const readActionTocTitle = (element, options = {}) => {
+    const readActionTocTitle = (element, titleAttribute = 'data-guidebook-toc-title') => {
+        if (!(element instanceof Element) || !titleAttribute) return '';
+        return stripLeadingTocIndex(element.getAttribute(titleAttribute) || '');
+    };
+    const readParsedTocTitle = (element) => {
         if (!(element instanceof Element)) return '';
-        const titleAttribute = options.titleAttribute || 'data-guidebook-toc-title';
-        const titleSelectors = Array.isArray(options.titleSelector)
-            ? options.titleSelector
-            : options.titleSelector
-                ? [options.titleSelector]
-                : [];
-
-        const directAttribute = titleAttribute ? stripLeadingTocIndex(element.getAttribute(titleAttribute) || '') : '';
-        if (directAttribute) return directAttribute;
-
-        for (const selector of titleSelectors) {
-            const candidate = element.matches(selector) ? element : element.querySelector(selector);
-            const text = stripLeadingTocIndex(candidate?.textContent || '');
-            if (text) return text;
+        if (element.hasAttribute('data-guidebook-toc-title')) {
+            return stripLeadingTocIndex(element.getAttribute('data-guidebook-toc-title') || '');
         }
-
-        return stripLeadingTocIndex(element.textContent || '');
+        if (element.matches(scrollTocHeadingSelector)) {
+            return stripLeadingTocIndex(element.textContent || '');
+        }
+        return '';
     };
     const buildIndexedActionTocItems = (options = {}) => {
         const {
             panelSelector,
             keyDataset,
             activeKey,
-            titleSelector,
             titleAttribute = 'data-guidebook-toc-title',
             partNumber = getIndexedTocPartNumber(),
             startIndex = 1,
@@ -5927,7 +5922,7 @@ function escapeHtml(value) {
             if (!key || seen.has(key)) return items;
             seen.add(key);
 
-            const title = readActionTocTitle(element, { titleSelector, titleAttribute });
+            const title = readActionTocTitle(element, titleAttribute);
             if (!title) return items;
 
             const label = partNumber ? `${partNumber}-${startIndex + items.length}. ${title}` : title;
@@ -5949,8 +5944,6 @@ function escapeHtml(value) {
             labelSourceSelector: '',
             labelKeyDataset: '',
             titleAttribute: 'data-guidebook-toc-title',
-            titleSelector: null,
-            tocTitle: `Part${getIndexedTocPartNumber()}`,
             startIndex: 1,
             partNumber: getIndexedTocPartNumber(),
             panelStateMode: 'hidden',
@@ -6003,7 +5996,6 @@ function escapeHtml(value) {
                 panelSelector: selector,
                 keyDataset,
                 activeKey,
-                titleSelector: settings.titleSelector,
                 titleAttribute: settings.titleAttribute,
                 partNumber: settings.partNumber,
                 startIndex: settings.startIndex,
@@ -6179,7 +6171,7 @@ function escapeHtml(value) {
             getItems: () => buildItems(),
             getTocPayload: () => ({
                 mode: 'action',
-                title: typeof settings.tocTitle === 'function' ? settings.tocTitle() : settings.tocTitle,
+                title: getPageTocTitle(),
                 items: buildItems(),
             }),
         };
@@ -6247,9 +6239,7 @@ function escapeHtml(value) {
         .filter((element, index, candidates) => !candidates.slice(0, index).some((previous) => previous.contains(element)));
     const buildParsedTocItems = () => collectParsedTocCandidates()
         .map((element, index) => {
-            const label = readActionTocTitle(element, {
-                titleSelector: scrollTocHeadingSelector,
-            });
+            const label = readParsedTocTitle(element);
             if (!label) return null;
             const id = ensureAnchorId(element, label || `item-${index + 1}`, index);
             return {
@@ -6266,18 +6256,17 @@ function escapeHtml(value) {
             postParent(Object.assign({
                 type: 'adt:page-toc',
                 pageId: getPageId(),
-                title: customPayload.title || '이 페이지',
+                title: getPageTocTitle(),
                 mode: customPayload.mode === 'action' ? 'action' : 'scroll',
             }, customPayload));
             return;
         }
-        const title = normalizeText(document.querySelector('.section-title, h1, h2')?.textContent || '');
         const items = buildParsedTocItems();
         postParent({
             type: 'adt:page-toc',
             pageId: getPageId(),
             mode: 'scroll',
-            title: title || '이 페이지',
+            title: getPageTocTitle(),
             items,
         });
     };

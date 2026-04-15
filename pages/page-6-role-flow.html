@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>직무별 Flow 분석 | 반도체 디지털 회로설계 가이드북</title>
+    <title>Design Flow with Role | 반도체 디지털 회로설계 가이드북</title>
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
@@ -15,57 +15,21 @@
             display: none !important;
         }
 
-        .part6-section-head {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #2563eb;
-        }
-
-        .part6-section-shell {
-            display: flex;
-            flex-direction: column;
-            gap: 0.9rem;
-        }
-
-        .part6-section-copy {
-            color: #64748b;
-            font-weight: 500;
-            line-height: 1.7;
-        }
-
-        .part6-section-copy-base {
-            font-size: 1rem;
-        }
-
-        .part6-section-copy-sm {
-            font-size: 0.875rem;
-        }
-
-        .part6-section-kicker {
-            font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
-            font-size: clamp(1.6rem, 2.3vw, 1.68rem);
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            color: #2563eb;
-            line-height: 1.08;
-            font-variant-numeric: tabular-nums;
-        }
     </style>
 </head>
-<body class="page-standalone" data-page-id="page-6">
+<body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-6">
     <main class="page-shell">
         <section class="page-section active" id="page-6">
                         <div class="mb-4"><span class="badge">Part 6</span></div>
                         <h2 class="section-title">Design Flow with Role</h2>
 
-                        <div id="adt-role-flow" class="job-flow-root card bg-white border-blue-100 mb-8" data-active-role="all" data-part6-panel="role-map" data-guidebook-toc-title="Role Map">
-                            <div data-part6-section-head="role-map"></div>
-                            <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-6">
-                                <div>
-                                    <h3 class="text-xl font-extrabold text-gray-900">Role Map</h3>
-                                </div>
+                        <div id="part6-current-shell" class="guidebook-section-head">
+                            <div class="guidebook-section-shell">
+                                <div id="part6-current-label" class="guidebook-section-kicker">6-1. Role Map</div>
                             </div>
+                        </div>
 
+                        <div id="adt-role-flow" class="job-flow-root card bg-white border-blue-100 mb-8" data-active-role="all" data-part6-panel="role-map" data-guidebook-toc-title="Role Map">
                             <div class="flex flex-wrap gap-2 mb-6">
                                 <button type="button" class="job-role-filter is-active" data-role-flow-filter="all">전체</button>
                                 <button type="button" class="job-role-filter" data-role-flow-filter="foundation">Foundation IP</button>
@@ -250,7 +214,6 @@
 
                         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                             <div class="card p-6 border-l-4 border-slate-500 rounded-l-none xl:col-span-2" data-part6-panel="foundation-ip" data-guidebook-toc-title="Foundation IP" hidden>
-                                <div data-part6-section-head="foundation-ip"></div>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-2</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">Foundation IP</h3>
@@ -283,7 +246,6 @@
                             </div>
 
                             <div class="card p-6 border-l-4 border-blue-500 rounded-l-none xl:col-span-2" data-part6-panel="design-platform" data-guidebook-toc-title="DP" hidden>
-                                <div data-part6-section-head="design-platform"></div>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-3</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">DP (Design Platform)</h3>
@@ -317,7 +279,6 @@
                             </div>
 
                             <div class="card p-6 border-l-4 border-green-500 rounded-l-none xl:col-span-2" data-part6-panel="design-verification" data-guidebook-toc-title="DV" hidden>
-                                <div data-part6-section-head="design-verification"></div>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-4</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">DV (Design Verification)</h3>
@@ -351,7 +312,6 @@
                             </div>
 
                             <div class="card p-6 border-l-4 border-purple-500 rounded-l-none xl:col-span-2" data-part6-panel="design-for-test" data-guidebook-toc-title="DFT" hidden>
-                                <div data-part6-section-head="design-for-test"></div>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-5</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">DFT (Design For Test)</h3>
@@ -385,7 +345,6 @@
                             </div>
 
                             <div class="card p-6 border-l-4 border-teal-500 rounded-l-none xl:col-span-2" data-part6-panel="physical-implementation" data-guidebook-toc-title="PI" hidden>
-                                <div data-part6-section-head="physical-implementation"></div>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-6</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">PI (Physical Implementation)</h3>
@@ -419,7 +378,6 @@
                             </div>
 
                             <div class="card p-6 border-l-4 border-orange-500 rounded-l-none xl:col-span-2" data-part6-panel="physical-design" data-guidebook-toc-title="PD" hidden>
-                                <div data-part6-section-head="physical-design"></div>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-7</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">PD (Physical Design)</h3>
@@ -453,7 +411,6 @@
                             </div>
 
                             <div class="card p-6 border-l-4 border-red-500 rounded-l-none xl:col-span-2" data-part6-panel="application-platform" data-guidebook-toc-title="AP" hidden>
-                                <div data-part6-section-head="application-platform"></div>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-8</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">AP (Application Platform)</h3>
@@ -495,7 +452,6 @@
                         </div>
 
                         <div class="card p-6 border-l-4 border-cyan-500 rounded-l-none mt-8" data-part6-panel="related-roles" data-guidebook-toc-title="연관 직무" hidden>
-                            <div data-part6-section-head="related-roles"></div>
                             <div class="flex items-center gap-3 mb-4">
                                 <span class="badge">6-9</span>
                                 <h3 class="text-xl font-extrabold text-gray-900">함께 알아두면 좋은 연관 직무</h3>
@@ -591,7 +547,6 @@
                         </div>
 
                         <div class="card p-6 border-l-4 border-amber-500 rounded-l-none mt-8" data-part6-panel="advanced-keywords" data-guidebook-toc-title="심화 키워드" hidden>
-                            <div data-part6-section-head="advanced-keywords"></div>
                             <div class="flex items-center gap-3 mb-4">
                                 <span class="badge">6-10</span>
                                 <h3 class="text-xl font-extrabold text-gray-900">심화 키워드 정리</h3>
@@ -645,92 +600,14 @@
     </main>
     <script src="../assets/guidebook-page-common.js"></script>
     <script>
-        const part6SectionHeaderMeta = {
-            'role-map': {
-                text: 'Role Map',
-            },
-            'foundation-ip': {
-                text: 'Foundation IP',
-            },
-            'design-platform': {
-                text: 'DP',
-            },
-            'design-verification': {
-                text: 'DV',
-            },
-            'design-for-test': {
-                text: 'DFT',
-            },
-            'physical-implementation': {
-                text: 'PI',
-            },
-            'physical-design': {
-                text: 'PD',
-            },
-            'application-platform': {
-                text: 'AP',
-            },
-            'related-roles': {
-                text: '연관 직무',
-            },
-            'advanced-keywords': {
-                text: '심화 키워드',
-            },
-        };
-
-        const part6TabOrder = Object.keys(part6SectionHeaderMeta);
-
-        function getPart6SectionLabel(key) {
-            const index = part6TabOrder.indexOf(key);
-            const meta = part6SectionHeaderMeta[key];
-            if (!meta || index === -1) return '';
-            return `6-${index + 1}. ${meta.text}`;
-        }
-
-        function renderPart6SectionHeads() {
-            const copyClassMap = {
-                base: 'part6-section-copy part6-section-copy-base',
-                sm: 'part6-section-copy part6-section-copy-sm',
-            };
-
-            document.querySelectorAll('[data-part6-section-head]').forEach((container) => {
-                const key = container.dataset.part6SectionHead;
-                const meta = part6SectionHeaderMeta[key];
-                if (!meta) return;
-
-                container.className = 'part6-section-head';
-                container.setAttribute('data-guidebook-toc-title', meta.text);
-                container.replaceChildren();
-
-                const shell = document.createElement('div');
-                shell.className = 'part6-section-shell';
-
-                const kicker = document.createElement('div');
-                kicker.className = 'part6-section-kicker';
-                kicker.textContent = getPart6SectionLabel(key);
-                shell.appendChild(kicker);
-
-                if (meta.copy) {
-                    const copy = document.createElement('p');
-                    copy.className = copyClassMap[meta.copyStyle] || copyClassMap.base;
-                    copy.textContent = meta.copy;
-                    shell.appendChild(copy);
-                }
-
-                container.appendChild(shell);
-            });
-        }
-
         window.GuidebookPage.initActionSectionPage({
             defaultKey: 'role-map',
             panelSelector: '[data-part6-panel]',
             panelKeyDataset: 'part6Panel',
-            labelSourceSelector: '[data-part6-section-head]',
-            labelKeyDataset: 'part6SectionHead',
-            titleSelector: '.part6-section-kicker',
-            tocTitle: 'Part6',
-            beforeInit: () => {
-                renderPart6SectionHeads();
+            currentHeader: {
+                shellId: 'part6-current-shell',
+                labelId: 'part6-current-label',
+                mode: 'static',
             },
         });
     </script>

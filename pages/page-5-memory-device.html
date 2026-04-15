@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메모리 / 스토리지 / 소자 | 반도체 디지털 회로설계 가이드북</title>
+    <title>Memory / Storage / Materials | 반도체 디지털 회로설계 가이드북</title>
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
@@ -15,54 +15,22 @@
             display: none !important;
         }
 
-        .part5-section-head {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #2563eb;
-        }
-
-        .part5-section-shell {
-            display: flex;
-            flex-direction: column;
-            gap: 0.9rem;
-        }
-
-        .part5-section-copy {
-            color: #64748b;
-            font-weight: 500;
-            line-height: 1.7;
-        }
-
-        .part5-section-copy-base {
-            font-size: 1rem;
-        }
-
-        .part5-section-copy-sm {
-            font-size: 0.875rem;
-        }
-
-        .part5-section-kicker {
-            font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
-            font-size: clamp(1.6rem, 2.3vw, 1.68rem);
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            color: #2563eb;
-            line-height: 1.08;
-            font-variant-numeric: tabular-nums;
-        }
     </style>
 </head>
-<body class="page-standalone" data-page-id="page-5">
+<body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-5">
     <main class="page-shell">
         <section class="page-section active" id="page-5">
                         <div class="mb-4"><span class="badge">Part 5</span></div>
                         <h2 class="section-title">Memory / Storage / Materials</h2>
 
+                        <div id="part5-current-shell" class="guidebook-section-head">
+                            <div class="guidebook-section-shell">
+                                <div id="part5-current-label" class="guidebook-section-kicker">5-1. SRAM / DRAM</div>
+                            </div>
+                        </div>
+
                         <div class="space-y-8 mb-8">
-                            <div class="card p-0 overflow-hidden flex flex-col" data-part5-panel="memory-basics">
-                                <div class="px-6 pt-6 bg-white">
-                                    <div data-part5-section-head="memory-basics"></div>
-                                </div>
+                            <div class="card p-0 overflow-hidden flex flex-col" data-part5-panel="memory-basics" data-guidebook-toc-title="SRAM / DRAM">
                                 <div class="p-6 pb-0 bg-white">
                                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
                                         <div id="sram-memory-lab" data-memory-lab data-memory-kind="sram" data-memory-tone="blue" data-running="false" data-action="idle" data-stage="idle" data-write-value="1" class="rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.06)]">
@@ -271,8 +239,7 @@
                                 </div>
                             </div>
 
-                            <div class="card" data-part5-panel="flash-ssd" hidden>
-                                <div data-part5-section-head="flash-ssd"></div>
+                            <div class="card" data-part5-panel="flash-ssd" data-guidebook-toc-title="Flash / SSD" hidden>
                                 <div class="mb-6 rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.05)]">
                                     <div class="px-5 pt-5 pb-3 flex items-center justify-between gap-4">
                                         <div>
@@ -858,8 +825,7 @@
                                 </div>
                             </div>
 
-                            <div class="card bg-white border-blue-100" data-part5-panel="mos-basics" hidden>
-                                <div data-part5-section-head="mos-basics"></div>
+                            <div class="card bg-white border-blue-100" data-part5-panel="mos-basics" data-guidebook-toc-title="MOS Basic" hidden>
                                 <div class="bg-white rounded-3xl border border-gray-100 p-6 mb-5 overflow-hidden shadow-[0_12px_30px_rgba(15,23,42,0.04)]">
                                     <div class="flex items-center justify-between gap-4 mb-4">
                                         <div>
@@ -1112,8 +1078,7 @@
                                 </div>
                             </div>
 
-                            <div class="card bg-white border-blue-100" data-part5-panel="finfet-planar" hidden>
-                                <div data-part5-section-head="finfet-planar"></div>
+                            <div class="card bg-white border-blue-100" data-part5-panel="finfet-planar" data-guidebook-toc-title="FinFET / Planar" hidden>
                                 <p class="text-sm text-gray-600 mb-8 leading-relaxed">미세화가 심해질수록 Planar 구조는 채널 통제력이 떨어져 누설 전류가 커집니다. 이를 개선하려고 게이트가 채널을 더 많이 감싸는 3차원 구조인 FinFET이 등장했습니다.</p>
 
                                 <div class="rounded-[32px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef7ff] p-6 shadow-sm mb-6">
@@ -1348,74 +1313,14 @@
     </main>
     <script src="../assets/guidebook-page-common.js"></script>
     <script>
-        const part5SectionHeaderMeta = {
-            'memory-basics': {
-                text: 'SRAM / DRAM',
-            },
-            'flash-ssd': {
-                text: 'Flash / SSD',
-            },
-            'mos-basics': {
-                text: 'MOS Basic',
-            },
-            'finfet-planar': {
-                text: 'FinFET / Planar',
-            },
-        };
-
-        const part5TabOrder = Object.keys(part5SectionHeaderMeta);
-
-        function getPart5SectionLabel(key) {
-            const index = part5TabOrder.indexOf(key);
-            const meta = part5SectionHeaderMeta[key];
-            if (!meta || index === -1) return '';
-            return `5-${index + 1}. ${meta.text}`;
-        }
-
-        function renderPart5SectionHeads() {
-            const copyClassMap = {
-                base: 'part5-section-copy part5-section-copy-base',
-                sm: 'part5-section-copy part5-section-copy-sm',
-            };
-
-            document.querySelectorAll('[data-part5-section-head]').forEach((container) => {
-                const key = container.dataset.part5SectionHead;
-                const meta = part5SectionHeaderMeta[key];
-                if (!meta) return;
-
-                container.className = 'part5-section-head';
-                container.setAttribute('data-guidebook-toc-title', meta.text);
-                container.replaceChildren();
-
-                const shell = document.createElement('div');
-                shell.className = 'part5-section-shell';
-
-                const kicker = document.createElement('div');
-                kicker.className = 'part5-section-kicker';
-                kicker.textContent = getPart5SectionLabel(key);
-                shell.appendChild(kicker);
-
-                if (meta.copy) {
-                    const copy = document.createElement('p');
-                    copy.className = copyClassMap[meta.copyStyle] || copyClassMap.base;
-                    copy.textContent = meta.copy;
-                    shell.appendChild(copy);
-                }
-
-                container.appendChild(shell);
-            });
-        }
-
         window.GuidebookPage.initActionSectionPage({
             defaultKey: 'memory-basics',
             panelSelector: '[data-part5-panel]',
             panelKeyDataset: 'part5Panel',
-            labelSourceSelector: '[data-part5-section-head]',
-            labelKeyDataset: 'part5SectionHead',
-            titleSelector: '.part5-section-kicker',
-            tocTitle: 'Part5',
-            beforeInit: () => {
-                renderPart5SectionHeads();
+            currentHeader: {
+                shellId: 'part5-current-shell',
+                labelId: 'part5-current-label',
+                mode: 'static',
             },
         });
     </script>

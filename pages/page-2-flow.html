@@ -3,59 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>반도체/디지털 설계 Flow | 반도체 디지털 회로설계 가이드북</title>
+    <title>Design Flow | 반도체 디지털 회로설계 가이드북</title>
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/guidebook-common.css">
-    <style>
-        .part2-section-head {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #2563eb;
-        }
-
-        .part2-section-shell {
-            display: flex;
-            flex-direction: column;
-            gap: 0.9rem;
-        }
-
-        .part2-section-copy {
-            color: #64748b;
-            font-weight: 500;
-            line-height: 1.7;
-        }
-
-        .part2-section-copy-base {
-            font-size: 1rem;
-        }
-
-        .part2-section-copy-sm {
-            font-size: 0.875rem;
-        }
-
-        .part2-section-kicker {
-            font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
-            font-size: clamp(1.6rem, 2.3vw, 1.68rem);
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            color: #2563eb;
-            line-height: 1.08;
-            font-variant-numeric: tabular-nums;
-        }
-    </style>
 </head>
-<body class="page-standalone" data-page-id="page-2">
+<body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-2">
     <main class="page-shell">
         <section class="page-section active" id="page-2">
                         <div class="mb-4"><span class="badge">Part 2</span></div>
-                        <h2 class="section-title">반도체/디지털 설계 FLOW</h2>
+                        <h2 class="section-title">Design Flow</h2>
 
-                        <div class="diagram-box mb-8" data-part2-panel="flow-overview">
-                            <div data-part2-section-head="flow-overview"></div>
+                        <div id="part2-current-shell" class="guidebook-section-head">
+                            <div class="guidebook-section-shell">
+                                <div id="part2-current-label" class="guidebook-section-kicker">2-1. Design to Product Flow</div>
+                            </div>
+                        </div>
+
+                        <div class="diagram-box mb-8" data-part2-panel="flow-overview" data-guidebook-toc-title="Design to Product Flow">
                             <div class="svg-container">
                                 <svg viewBox="0 0 1450 560" style="min-width: 1240px; width: 100%; height: auto;" class="font-sans">
                                     <defs>
@@ -275,8 +243,7 @@
                             </div>
                         </div>
 
-                        <div class="card mb-8" data-part2-panel="stage-detail" hidden>
-                            <div data-part2-section-head="stage-detail"></div>
+                        <div class="card mb-8" data-part2-panel="stage-detail" data-guidebook-toc-title="Stage Detail" hidden>
 
                             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
                                 <div class="rounded-[28px] border border-blue-100 bg-gradient-to-br from-white to-blue-50/70 p-6">
@@ -806,8 +773,7 @@
                             </div>
                         </div>
 
-                        <div class="card overflow-hidden" data-part2-panel="keyword-dictionary" hidden>
-                            <div data-part2-section-head="keyword-dictionary"></div>
+                        <div class="card overflow-hidden" data-part2-panel="keyword-dictionary" data-guidebook-toc-title="Keyword Dictionary" hidden>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                                 <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
@@ -1283,8 +1249,7 @@
                             </div>
                         </div>
 
-                        <div class="card overflow-hidden" data-part2-panel="paired-inputs" hidden>
-                            <div data-part2-section-head="paired-inputs"></div>
+                        <div class="card overflow-hidden" data-part2-panel="paired-inputs" data-guidebook-toc-title="Additional Keyword" hidden>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                                 <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
@@ -1516,74 +1481,14 @@
     </main>
     <script src="../assets/guidebook-page-common.js"></script>
     <script>
-        const part2SectionHeaderMeta = {
-            'flow-overview': {
-                text: 'Design to Product Flow',
-            },
-            'stage-detail': {
-                text: 'Stage Detail',
-            },
-            'keyword-dictionary': {
-                text: 'Keyword Dictionary',
-            },
-            'paired-inputs': {
-                text: 'Additional Keyword',
-            },
-        };
-
-        const part2TabOrder = Object.keys(part2SectionHeaderMeta);
-
-        function getPart2SectionLabel(key) {
-            const index = part2TabOrder.indexOf(key);
-            const meta = part2SectionHeaderMeta[key];
-            if (!meta || index === -1) return '';
-            return `2-${index + 1}. ${meta.text}`;
-        }
-
-        function renderPart2SectionHeads() {
-            const copyClassMap = {
-                base: 'part2-section-copy part2-section-copy-base',
-                sm: 'part2-section-copy part2-section-copy-sm',
-            };
-
-            document.querySelectorAll('[data-part2-section-head]').forEach((container) => {
-                const key = container.dataset.part2SectionHead;
-                const meta = part2SectionHeaderMeta[key];
-                if (!meta) return;
-
-                container.className = 'part2-section-head';
-                container.setAttribute('data-guidebook-toc-title', meta.text);
-                container.replaceChildren();
-
-                const shell = document.createElement('div');
-                shell.className = 'part2-section-shell';
-
-                const kicker = document.createElement('div');
-                kicker.className = 'part2-section-kicker';
-                kicker.textContent = getPart2SectionLabel(key);
-                shell.appendChild(kicker);
-
-                if (meta.copy) {
-                    const copy = document.createElement('p');
-                    copy.className = copyClassMap[meta.copyStyle] || copyClassMap.base;
-                    copy.textContent = meta.copy;
-                    shell.appendChild(copy);
-                }
-
-                container.appendChild(shell);
-            });
-        }
-
         window.GuidebookPage.initActionSectionPage({
             defaultKey: 'flow-overview',
             panelSelector: '[data-part2-panel]',
             panelKeyDataset: 'part2Panel',
-            labelSourceSelector: '[data-part2-section-head]',
-            labelKeyDataset: 'part2SectionHead',
-            titleSelector: '.part2-section-kicker',
-            tocTitle: 'Part2',
-            beforeInit: () => {
-                renderPart2SectionHeads();
+            currentHeader: {
+                shellId: 'part2-current-shell',
+                labelId: 'part2-current-label',
+                mode: 'static',
             },
         });
     </script>

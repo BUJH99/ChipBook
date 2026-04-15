@@ -54,6 +54,32 @@
 
         /* Typography & Accents */
         .section-title { font-size: 2rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1.5rem; letter-spacing: -0.03em; display: flex; align-items: center; }
+        .guidebook-section-head {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--color-blue);
+        }
+        .guidebook-section-shell {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+        .guidebook-section-kicker {
+            font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+            font-size: clamp(1.6rem, 2.3vw, 1.68rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            color: var(--color-blue);
+            line-height: 1.08;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 0;
+        }
+        .guidebook-section-copy {
+            color: #64748b;
+            font-weight: 500;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
         .badge { background-color: var(--color-blue-light); color: var(--color-blue); padding: 4px 12px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; }
         .highlight { background-color: var(--color-blue-light); color: var(--color-blue); padding: 0.1rem 0.4rem; border-radius: 6px; font-weight: 700; }
 

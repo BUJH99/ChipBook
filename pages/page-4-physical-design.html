@@ -13,10 +13,7 @@
     <style>
         .part4-tab-shell {
             --part4-tab-accent: #2563eb;
-            position: relative;
             margin-bottom: 1.5rem;
-            padding: 0 0 1rem 0;
-            border-bottom: 2px solid #2563eb;
         }
 
         .part4-tab-top {
@@ -45,16 +42,16 @@
         }
     </style>
 </head>
-<body class="page-standalone" data-page-id="page-4">
+<body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-4">
     <main class="page-shell">
         <section class="page-section active" id="page-4">
                         <div class="mb-4"><span class="badge">Part 4</span></div>
                         <h2 class="section-title">Physical Design / Backend</h2>
 
-                        <div id="part4-current-shell" class="part4-tab-shell" hidden>
-                            <div class="part4-tab-top">
+                        <div id="part4-current-shell" class="part4-tab-shell guidebook-section-head" hidden>
+                            <div class="part4-tab-top guidebook-section-shell">
                                 <div>
-                                    <div id="part4-current-label" class="part4-tab-label">4-1. Floorplan</div>
+                                    <div id="part4-current-label" class="part4-tab-label guidebook-section-kicker">4-1. Floorplan</div>
                                 </div>
                             </div>
                         </div>
@@ -1205,11 +1202,10 @@
             panelSelector: '[data-part4-panel]',
             panelKeyDataset: 'part4Panel',
             titleAttribute: 'data-guidebook-toc-title',
-            tocTitle: 'Part4',
             currentHeader: {
                 shellId: 'part4-current-shell',
                 labelId: 'part4-current-label',
-                mode: 'mount',
+                mode: 'static',
                 apply: ({ shell }) => {
                     shell.style.setProperty('--part4-tab-accent', '#2563eb');
                 },

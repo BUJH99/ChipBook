@@ -13,10 +13,7 @@
     <style>
         .part3-tab-shell {
             --part3-tab-accent: #2563eb;
-            position: relative;
             margin-bottom: 1.5rem;
-            padding: 0 0 1rem 0;
-            border-bottom: 2px solid #2563eb;
         }
 
         .part3-tab-top {
@@ -45,16 +42,16 @@
         }
     </style>
 </head>
-<body class="page-standalone" data-page-id="page-3">
+<body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-3">
     <main class="page-shell">
         <section class="page-section active" id="page-3">
                         <div class="mb-4"><span class="badge">Part 3</span></div>
                         <h2 class="section-title">RTL / Frontend</h2>
 
-                        <div id="part3-current-shell" class="part3-tab-shell" hidden>
-                            <div class="part3-tab-top">
+                        <div id="part3-current-shell" class="part3-tab-shell guidebook-section-head" hidden>
+                            <div class="part3-tab-top guidebook-section-shell">
                                 <div>
-                                    <div id="part3-current-label" class="part3-tab-label">3-1. CL, SL</div>
+                                    <div id="part3-current-label" class="part3-tab-label guidebook-section-kicker">3-1. CL, SL</div>
                                 </div>
                             </div>
                         </div>
@@ -2842,11 +2839,10 @@
             panelSelector: '[data-part3-panel]',
             panelKeyDataset: 'part3Panel',
             titleAttribute: 'data-guidebook-toc-title',
-            tocTitle: 'Part3',
             currentHeader: {
                 shellId: 'part3-current-shell',
                 labelId: 'part3-current-label',
-                mode: 'mount',
+                mode: 'static',
                 apply: ({ shell }) => {
                     shell.style.setProperty('--part3-tab-accent', '#2563eb');
                 },
