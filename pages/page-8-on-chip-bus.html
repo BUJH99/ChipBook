@@ -1220,9 +1220,9 @@
     .arbiter-internal-card {
       position: relative;
       background:
-        radial-gradient(circle at 0% 0%, rgba(187, 247, 208, 0.16), transparent 24%),
-        radial-gradient(circle at 100% 0%, rgba(191, 219, 254, 0.18), transparent 28%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%);
+        radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.1), transparent 20%),
+        radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.14), transparent 26%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 249, 253, 0.96) 100%);
     }
 
     .arbiter-internal-heading {
@@ -1250,10 +1250,10 @@
       height: 2.9rem;
       flex-shrink: 0;
       border-radius: 18px;
-      border: 1px solid rgba(134, 239, 172, 0.68);
-      background: linear-gradient(180deg, rgba(240, 253, 244, 0.98) 0%, rgba(219, 234, 254, 0.9) 100%);
-      color: #15803d;
-      box-shadow: 0 14px 26px rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(96, 165, 250, 0.34);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(231, 241, 255, 0.92) 100%);
+      color: #2563eb;
+      box-shadow: 0 14px 26px rgba(37, 99, 235, 0.08);
     }
 
     .arbiter-internal-heading-mark i {
@@ -1276,7 +1276,7 @@
       font-weight: 800;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #0f766e;
+      color: #2563eb;
     }
 
     .arbiter-internal-heading-title {
@@ -1301,19 +1301,19 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 2.5rem;
+      min-height: 2.35rem;
       align-self: center;
       border-radius: 9999px;
-      border: 1px solid rgba(147, 197, 253, 0.58);
-      background: linear-gradient(180deg, rgba(239, 246, 255, 0.98) 0%, rgba(224, 242, 254, 0.9) 100%);
-      padding: 0.7rem 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.34);
+      background: rgba(255, 255, 255, 0.84);
+      padding: 0.62rem 0.95rem;
       font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #1d4ed8;
-      box-shadow: 0 12px 22px rgba(59, 130, 246, 0.08);
+      color: #334155;
+      box-shadow: 0 10px 18px rgba(148, 163, 184, 0.08);
       white-space: nowrap;
     }
 
@@ -1321,35 +1321,26 @@
       position: relative;
       overflow: hidden;
       border-radius: 28px;
-      border: 1px solid rgba(187, 247, 208, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.22);
       background:
-        radial-gradient(circle at 12% 18%, rgba(34, 197, 94, 0.12), transparent 28%),
-        radial-gradient(circle at 86% 18%, rgba(59, 130, 246, 0.12), transparent 26%),
-        linear-gradient(135deg, rgba(248, 250, 252, 0.96) 0%, rgba(240, 253, 244, 0.94) 52%, rgba(239, 246, 255, 0.94) 100%);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 22px 44px rgba(148, 163, 184, 0.08);
+        radial-gradient(circle at 14% 16%, rgba(59, 130, 246, 0.08), transparent 24%),
+        radial-gradient(circle at 86% 18%, rgba(34, 197, 94, 0.08), transparent 24%),
+        linear-gradient(180deg, rgba(248, 251, 255, 0.98) 0%, rgba(240, 246, 252, 0.95) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92), 0 22px 44px rgba(148, 163, 184, 0.08);
       padding: 1rem;
     }
 
     .arbiter-internal-panel {
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
       overflow: hidden;
-      border-radius: 24px;
-      border: 1px solid rgba(226, 232, 240, 0.88);
-      background:
-        radial-gradient(circle at 14% 22%, rgba(59, 130, 246, 0.1), transparent 28%),
-        radial-gradient(circle at 82% 16%, rgba(16, 185, 129, 0.1), transparent 26%),
-        linear-gradient(180deg, rgba(248, 250, 252, 0.98) 0%, rgba(255, 255, 255, 0.94) 100%);
-    }
-
-    .arbiter-internal-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(148, 163, 184, 0.06) 0, rgba(148, 163, 184, 0.06) 1px, transparent 1px, transparent 96px),
-        linear-gradient(180deg, rgba(148, 163, 184, 0.05) 0, rgba(148, 163, 184, 0.05) 1px, transparent 1px, transparent 96px);
-      mask-image: linear-gradient(180deg, rgba(15, 23, 42, 0.34) 0%, transparent 100%);
-      pointer-events: none;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      padding: 1rem;
     }
 
     .arbiter-internal-svg {
@@ -1360,21 +1351,109 @@
       height: auto;
     }
 
+    .svg-text-bg {
+      paint-order: stroke;
+      stroke: #f8fafc;
+      stroke-width: 3px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .signal-line {
+      stroke: #CBD5E1;
+      stroke-width: 2;
+      transition: all 0.3s;
+      fill: none;
+    }
+
+    .signal-req {
+      stroke: #F59E0B;
+      stroke-width: 3;
+      stroke-dasharray: 4,4;
+      animation: arbiterFlow 0.5s linear infinite;
+      filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.5));
+    }
+
+    .signal-gnt {
+      stroke: #22C55E;
+      stroke-width: 3;
+      filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.5));
+    }
+
+    .signal-master {
+      stroke: #3B82F6;
+      stroke-width: 3;
+      filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.5));
+    }
+
+    .signal-line.is-active {
+      stroke: #3B82F6;
+      stroke-width: 4;
+      filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.5));
+    }
+
+    .mux-path {
+      transition: all 0.3s;
+      stroke: #CBD5E1;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .mux-path.active {
+      stroke: #3B82F6;
+      stroke-width: 3;
+      filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.5));
+      stroke-dasharray: 4,4;
+      animation: arbiterFlow 0.5s linear infinite;
+    }
+
+    .arb-box-active > div,
+    .arb-box-active > div > div:first-child {
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    .arbiter-box-object.arb-box-active > div {
+      border-width: 2px !important;
+    }
+
+    .arbiter-box-object.is-priority {
+      color: #F59E0B;
+    }
+
+    .arbiter-box-object.is-priority > div {
+      background: #fffbeb !important;
+      border-color: #fbbf24 !important;
+    }
+
+    .arbiter-box-object.is-control {
+      color: #22C55E;
+    }
+
+    .arbiter-box-object.is-control > div {
+      background: #f0fdf4 !important;
+      border-color: #86efac !important;
+    }
+
+    .arbiter-mux-object.is-active > div {
+      border-color: #3B82F6 !important;
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.18), 0 0 10px rgba(59, 130, 246, 0.18);
+    }
+
     .arbiter-internal-flow-strip {
       display: grid;
-      gap: 0.7rem;
+      gap: 0.58rem;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      margin-bottom: 0.95rem;
+      margin-bottom: 1rem;
     }
 
     .arbiter-internal-flow-chip {
       position: relative;
       overflow: hidden;
-      min-height: 76px;
-      border-radius: 20px;
-      border: 1px solid rgba(226, 232, 240, 0.9);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.92) 100%);
-      padding: 0.9rem 1rem;
+      min-height: 64px;
+      border-radius: 18px;
+      border: 1px solid rgba(226, 232, 240, 0.92);
+      background: rgba(255, 255, 255, 0.86);
+      padding: 0.78rem 0.88rem;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
     }
@@ -1382,46 +1461,51 @@
     .arbiter-internal-flow-chip::after {
       content: "";
       position: absolute;
-      right: -28px;
+      right: -18px;
       top: 50%;
-      width: 76px;
-      height: 76px;
+      width: 56px;
+      height: 56px;
       border-radius: 9999px;
       transform: translateY(-50%);
-      opacity: 0.18;
-      filter: blur(18px);
+      opacity: 0.14;
+      filter: blur(16px);
       pointer-events: none;
     }
 
     .arbiter-internal-flow-chip:hover {
       transform: translateY(-1px);
-      box-shadow: 0 14px 24px rgba(148, 163, 184, 0.12);
+      box-shadow: 0 12px 20px rgba(148, 163, 184, 0.1);
     }
 
     .arbiter-internal-flow-chip-head {
       display: flex;
       align-items: center;
       gap: 0.45rem;
-      margin-bottom: 0.34rem;
+      margin-bottom: 0.3rem;
     }
 
     .arbiter-internal-flow-emoji {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 1.7rem;
-      height: 1.7rem;
+      min-width: 1.9rem;
+      height: 1.9rem;
+      padding: 0 0.48rem;
       flex-shrink: 0;
-      border-radius: 12px;
-      font-size: 0.88rem;
+      border-radius: 9999px;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
       line-height: 1;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      color: #0f172a;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
     }
 
     .arbiter-internal-flow-chip-kicker {
       display: inline-flex;
       font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 800;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -1431,18 +1515,18 @@
     .arbiter-internal-flow-chip strong {
       display: block;
       font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 700;
       letter-spacing: -0.03em;
       color: #0f172a;
-      margin-bottom: 0.22rem;
+      margin-bottom: 0.16rem;
     }
 
     .arbiter-internal-flow-chip p {
       margin: 0;
-      font-size: 0.76rem;
-      line-height: 1.55;
-      color: #475569;
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: #64748b;
     }
 
     .arbiter-internal-flow-chip.is-active {
@@ -1450,23 +1534,23 @@
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="request"]::after {
-      background: rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.34);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="request"] .arbiter-internal-flow-emoji {
-      background: rgba(254, 243, 199, 0.96);
+      background: rgba(254, 243, 199, 0.98);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="compare"]::after {
-      background: rgba(59, 130, 246, 0.36);
+      background: rgba(59, 130, 246, 0.28);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="compare"] .arbiter-internal-flow-emoji {
-      background: rgba(219, 234, 254, 0.96);
+      background: rgba(219, 234, 254, 0.98);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="grant"]::after {
-      background: rgba(34, 197, 94, 0.34);
+      background: rgba(34, 197, 94, 0.28);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="grant"] .arbiter-internal-flow-emoji {
@@ -1474,7 +1558,7 @@
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="select"]::after {
-      background: rgba(14, 165, 233, 0.34);
+      background: rgba(14, 165, 233, 0.28);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="select"] .arbiter-internal-flow-emoji {
@@ -1482,9 +1566,9 @@
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="request"].is-active {
-      border-color: rgba(251, 191, 36, 0.84);
-      background: linear-gradient(180deg, rgba(255, 251, 235, 0.98) 0%, rgba(254, 243, 199, 0.9) 100%);
-      box-shadow: 0 14px 24px rgba(245, 158, 11, 0.12);
+      border-color: rgba(251, 191, 36, 0.78);
+      background: rgba(255, 251, 235, 0.98);
+      box-shadow: 0 12px 20px rgba(245, 158, 11, 0.1);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="request"].is-active .arbiter-internal-flow-chip-kicker {
@@ -1492,9 +1576,9 @@
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="compare"].is-active {
-      border-color: rgba(147, 197, 253, 0.84);
-      background: linear-gradient(180deg, rgba(239, 246, 255, 0.98) 0%, rgba(219, 234, 254, 0.9) 100%);
-      box-shadow: 0 14px 24px rgba(59, 130, 246, 0.12);
+      border-color: rgba(147, 197, 253, 0.82);
+      background: rgba(239, 246, 255, 0.98);
+      box-shadow: 0 12px 20px rgba(59, 130, 246, 0.1);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="compare"].is-active .arbiter-internal-flow-chip-kicker {
@@ -1502,9 +1586,9 @@
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="grant"].is-active {
-      border-color: rgba(134, 239, 172, 0.88);
-      background: linear-gradient(180deg, rgba(240, 253, 244, 0.98) 0%, rgba(220, 252, 231, 0.92) 100%);
-      box-shadow: 0 14px 24px rgba(34, 197, 94, 0.12);
+      border-color: rgba(134, 239, 172, 0.82);
+      background: rgba(240, 253, 244, 0.98);
+      box-shadow: 0 12px 20px rgba(34, 197, 94, 0.1);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="grant"].is-active .arbiter-internal-flow-chip-kicker {
@@ -1512,9 +1596,9 @@
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="select"].is-active {
-      border-color: rgba(125, 211, 252, 0.84);
-      background: linear-gradient(180deg, rgba(240, 249, 255, 0.98) 0%, rgba(224, 242, 254, 0.92) 100%);
-      box-shadow: 0 14px 24px rgba(14, 165, 233, 0.12);
+      border-color: rgba(125, 211, 252, 0.82);
+      background: rgba(240, 249, 255, 0.98);
+      box-shadow: 0 12px 20px rgba(14, 165, 233, 0.1);
     }
 
     .arbiter-internal-flow-chip[data-flow-stage="select"].is-active .arbiter-internal-flow-chip-kicker {
@@ -1522,8 +1606,10 @@
     }
 
     .arbiter-internal-master-card,
-    .arbiter-internal-master-pill {
-      transition: fill 0.28s ease, stroke 0.28s ease, filter 0.28s ease;
+    .arbiter-internal-master-pill,
+    .arbiter-internal-master-emoji-bg,
+    .arbiter-internal-master-status-pill {
+      transition: fill 0.28s ease, stroke 0.28s ease, filter 0.28s ease, opacity 0.28s ease;
     }
 
     .arbiter-internal-master {
@@ -1533,68 +1619,132 @@
     }
 
     .arbiter-internal-master-label,
-    .arbiter-internal-master-meta {
+    .arbiter-internal-master-meta,
+    .arbiter-internal-master-emoji,
+    .arbiter-internal-master-code {
       transition: fill 0.28s ease;
     }
 
-    .arbiter-internal-master-state {
-      fill: #94a3b8;
+    .arbiter-internal-master-card {
+      fill: #1e293b;
+      stroke: rgba(148, 163, 184, 0.42);
+      stroke-width: 1.6;
+      filter: drop-shadow(0 16px 24px rgba(15, 23, 42, 0.18));
+    }
+
+    .arbiter-internal-master-pill {
+      fill: rgba(51, 65, 85, 0.96);
+      stroke: rgba(148, 163, 184, 0.16);
+      stroke-width: 1;
+    }
+
+    .arbiter-internal-master-emoji-bg {
+      fill: rgba(255, 255, 255, 0.08);
+      stroke: rgba(148, 163, 184, 0.16);
+      stroke-width: 1;
+      filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.08));
+    }
+
+    .arbiter-internal-master-code {
+      fill: #e2e8f0;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
       font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.1em;
+    }
+
+    .arbiter-internal-master-emoji {
+      fill: #f8fafc;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-master-label {
+      fill: #f8fafc;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    .arbiter-internal-master-meta {
+      fill: #94a3b8;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .arbiter-internal-master-status-pill {
+      fill: rgba(15, 23, 42, 0.4);
+      stroke: rgba(148, 163, 184, 0.18);
+      stroke-width: 1;
+    }
+
+    .arbiter-internal-master-state {
+      fill: #cbd5e1;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 6.2px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-anchor: middle;
       transition: fill 0.28s ease;
     }
 
     .arbiter-internal-master.is-requesting .arbiter-internal-master-card {
-      fill: #fffaf0;
       stroke: #f59e0b;
-      filter: drop-shadow(0 12px 18px rgba(245, 158, 11, 0.12));
+      filter: drop-shadow(0 16px 24px rgba(245, 158, 11, 0.22));
     }
 
     .arbiter-internal-master.is-requesting .arbiter-internal-master-pill {
+      fill: rgba(245, 158, 11, 0.18);
+      stroke: rgba(245, 158, 11, 0.3);
+    }
+
+    .arbiter-internal-master.is-requesting .arbiter-internal-master-emoji-bg,
+    .arbiter-internal-master.is-requesting .arbiter-internal-master-status-pill {
       fill: rgba(245, 158, 11, 0.16);
-      stroke: rgba(245, 158, 11, 0.32);
+      stroke: rgba(245, 158, 11, 0.28);
     }
 
-    .arbiter-internal-master.is-requesting .arbiter-internal-master-label {
-      fill: #b45309;
-    }
-
+    .arbiter-internal-master.is-requesting .arbiter-internal-master-meta,
+    .arbiter-internal-master.is-requesting .arbiter-internal-master-code,
+    .arbiter-internal-master.is-requesting .arbiter-internal-master-emoji,
     .arbiter-internal-master.is-requesting .arbiter-internal-master-state {
-      fill: #b45309;
+      fill: #fde68a;
     }
 
     .arbiter-internal-master.is-granted .arbiter-internal-master-card {
-      fill: #f0fdf4;
       stroke: #22c55e;
-      filter: drop-shadow(0 14px 22px rgba(34, 197, 94, 0.14));
+      filter: drop-shadow(0 18px 26px rgba(34, 197, 94, 0.24));
     }
 
     .arbiter-internal-master.is-granted .arbiter-internal-master-pill {
+      fill: rgba(34, 197, 94, 0.18);
+      stroke: rgba(34, 197, 94, 0.32);
+    }
+
+    .arbiter-internal-master.is-granted .arbiter-internal-master-emoji-bg,
+    .arbiter-internal-master.is-granted .arbiter-internal-master-status-pill {
       fill: rgba(34, 197, 94, 0.16);
-      stroke: rgba(34, 197, 94, 0.34);
+      stroke: rgba(34, 197, 94, 0.3);
     }
 
-    .arbiter-internal-master.is-granted .arbiter-internal-master-label {
-      fill: #15803d;
-    }
-
-    .arbiter-internal-master.is-granted .arbiter-internal-master-meta {
-      fill: #166534;
-    }
-
+    .arbiter-internal-master.is-granted .arbiter-internal-master-meta,
+    .arbiter-internal-master.is-granted .arbiter-internal-master-code,
+    .arbiter-internal-master.is-granted .arbiter-internal-master-emoji,
     .arbiter-internal-master.is-granted .arbiter-internal-master-state {
-      fill: #15803d;
+      fill: #bbf7d0;
     }
 
     .arbiter-internal-master.is-requesting,
     .arbiter-internal-master.is-granted {
-      transform: translateX(4px);
+      transform: none;
     }
 
     .arbiter-internal-line {
       fill: none;
-      stroke: #cbd5e1;
+      stroke: #CBD5E1;
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -1604,36 +1754,34 @@
     .arbiter-internal-line.is-req {
       stroke: #f59e0b;
       stroke-width: 3;
-      stroke-dasharray: 8 6;
-      animation: arbiterFlow 0.6s linear infinite;
-      filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.45));
+      stroke-dasharray: 4 4;
+      animation: arbiterFlow 0.5s linear infinite;
+      filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.48));
     }
 
     .arbiter-internal-line.is-compare {
-      stroke: #3b82f6;
+      stroke: #f59e0b;
       stroke-width: 3;
-      stroke-dasharray: 8 6;
-      animation: arbiterFlow 0.6s linear infinite;
-      filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.45));
+      stroke-dasharray: 4 4;
+      animation: arbiterFlow 0.5s linear infinite;
+      filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.48));
     }
 
     .arbiter-internal-line.is-gnt {
       stroke: #22c55e;
       stroke-width: 3;
-      filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.45));
+      filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.44));
     }
 
     .arbiter-internal-line.is-master {
       stroke: #3b82f6;
       stroke-width: 3;
-      stroke-dasharray: 8 6;
-      animation: arbiterFlow 0.6s linear infinite;
-      filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.45));
+      filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.45));
     }
 
     .arbiter-internal-mux-path {
       fill: none;
-      stroke: #cbd5e1;
+      stroke: #CBD5E1;
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -1643,9 +1791,9 @@
     .arbiter-internal-mux-path.is-active {
       stroke: #3b82f6;
       stroke-width: 3;
-      stroke-dasharray: 8 6;
-      animation: arbiterFlow 0.6s linear infinite;
-      filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.45));
+      stroke-dasharray: 4 4;
+      animation: arbiterFlow 0.5s linear infinite;
+      filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.45));
     }
 
     .arbiter-internal-box,
@@ -1655,87 +1803,287 @@
     }
 
     .arbiter-internal-box-active {
-      stroke-width: 2.4;
-      filter: drop-shadow(0 0 6px rgba(15, 23, 42, 0.12));
+      stroke-width: 2.2;
+      filter: drop-shadow(0 0 9px rgba(15, 23, 42, 0.12));
     }
 
     .arbiter-internal-box-active.is-priority {
-      stroke: #3b82f6;
-      fill: #eff6ff;
+      stroke: #F59E0B;
+      fill: #FFFBEB;
     }
 
     .arbiter-internal-box-active.is-control {
       stroke: #22c55e;
-      fill: #f0fdf4;
+      fill: #F0FDF4;
     }
 
     .arbiter-internal-mux.is-active {
       stroke: #3b82f6;
-      stroke-width: 2.4;
-      filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.24));
+      stroke-width: 2.5;
+      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3));
     }
 
     .arbiter-internal-output.is-active {
       stroke: #3b82f6;
       stroke-width: 4;
-      filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.28));
+      filter: drop-shadow(0 0 7px rgba(59, 130, 246, 0.32));
+    }
+
+    .arbiter-internal-core-frame {
+      fill: #F1F5F9;
+      stroke: #CBD5E1;
+      stroke-width: 2;
+      stroke-dasharray: 6 6;
+    }
+
+    .arbiter-internal-core-title {
+      fill: #64748b;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .arbiter-internal-box {
+      filter: none;
+    }
+
+    .arbiter-internal-module-badge {
+      filter: drop-shadow(0 10px 16px rgba(15, 23, 42, 0.06));
+    }
+
+    .arbiter-internal-module-badge.is-compare {
+      fill: rgba(219, 234, 254, 0.98);
+      stroke: rgba(37, 99, 235, 0.28);
+      stroke-width: 1.05;
+    }
+
+    .arbiter-internal-module-badge.is-control {
+      fill: rgba(220, 252, 231, 0.98);
+      stroke: rgba(34, 197, 94, 0.28);
+      stroke-width: 1.05;
+    }
+
+    .arbiter-internal-module-badge.is-select {
+      fill: rgba(224, 242, 254, 0.98);
+      stroke: rgba(6, 182, 212, 0.28);
+      stroke-width: 1.05;
+    }
+
+    .arbiter-internal-module-badge.is-slave {
+      fill: rgba(226, 232, 240, 0.98);
+      stroke: rgba(71, 85, 105, 0.24);
+      stroke-width: 1.05;
+    }
+
+    .arbiter-internal-module-emoji {
+      fill: #0f172a;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-module-title {
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-module-title.is-compare {
+      fill: #1d4ed8;
+    }
+
+    .arbiter-internal-module-title.is-control {
+      fill: #15803d;
+    }
+
+    .arbiter-internal-module-chip {
+      fill: rgba(255, 255, 255, 0.86);
+      stroke-width: 1.1;
+    }
+
+    .arbiter-internal-module-chip.is-compare {
+      stroke: rgba(37, 99, 235, 0.28);
+    }
+
+    .arbiter-internal-module-chip.is-control {
+      stroke: rgba(34, 197, 94, 0.28);
+    }
+
+    .arbiter-internal-module-chip-label {
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-module-chip-label.is-compare {
+      fill: #2563eb;
+    }
+
+    .arbiter-internal-module-chip-label.is-control {
+      fill: #16a34a;
+    }
+
+    .arbiter-internal-module-meta {
+      fill: #64748b;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-state-box {
+      fill: rgba(255, 255, 255, 0.92);
+      stroke: rgba(34, 197, 94, 0.38);
+      stroke-width: 1.4;
+      filter: drop-shadow(0 14px 18px rgba(15, 23, 42, 0.06));
+    }
+
+    .arbiter-internal-state-label {
+      fill: #166534;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-state-meta {
+      fill: #64748b;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-mux-surface {
+      fill: #F1F5F9;
+      stroke: #94A3B8;
+      stroke-width: 1.5;
+      filter: none;
+    }
+
+    .arbiter-internal-mux-label {
+      fill: #334155;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-slave-card {
+      fill: #F1F5F9;
+      stroke: #CBD5E1;
+      stroke-width: 1.5;
+      filter: none;
+    }
+
+    .arbiter-internal-slave-title {
+      fill: #334155;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-slave-meta {
+      fill: #64748b;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-path-chip {
+      fill: rgba(241, 245, 249, 0.96);
+      stroke: rgba(148, 163, 184, 0.3);
+      stroke-width: 1;
     }
 
     .arbiter-internal-text-bg {
       paint-order: stroke;
-      stroke: #f8fafc;
+      stroke: rgba(248, 250, 252, 0.96);
       stroke-width: 4px;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
+    .arbiter-internal-signal-text,
+    .arbiter-internal-path-text {
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-anchor: middle;
+    }
+
+    .arbiter-internal-signal-text {
+      font-size: 9.4px;
+    }
+
+    .arbiter-internal-path-text {
+      fill: #64748b;
+      font-size: 9.2px;
+      letter-spacing: 0.13em;
+    }
+
     .arbiter-internal-desc {
       margin-top: 1rem;
       display: flex;
-      min-height: 44px;
+      min-height: 46px;
       align-items: center;
       justify-content: center;
-      border-radius: 18px;
+      border-radius: 16px;
       border: 1px solid rgba(226, 232, 240, 0.94);
-      background: rgba(248, 250, 252, 0.95);
-      color: #64748b;
+      background: rgba(255, 255, 255, 0.82);
+      color: #475569;
       font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: -0.01em;
       text-align: center;
-      padding: 0.75rem 1rem;
+      padding: 0.78rem 1rem;
       transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .arbiter-internal-desc.is-request {
-      border-color: rgba(251, 191, 36, 0.48);
+      border-color: rgba(251, 191, 36, 0.52);
       background: rgba(255, 251, 235, 0.98);
       color: #b45309;
-      box-shadow: 0 12px 24px rgba(245, 158, 11, 0.08);
+      box-shadow: 0 12px 22px rgba(245, 158, 11, 0.08);
     }
 
     .arbiter-internal-desc.is-grant {
       border-color: rgba(134, 239, 172, 0.72);
       background: rgba(240, 253, 244, 0.98);
       color: #15803d;
-      box-shadow: 0 12px 24px rgba(34, 197, 94, 0.08);
+      box-shadow: 0 12px 22px rgba(34, 197, 94, 0.08);
     }
 
     .arbiter-internal-desc.is-switch {
       border-color: rgba(147, 197, 253, 0.82);
       background: rgba(239, 246, 255, 0.98);
       color: #1d4ed8;
-      box-shadow: 0 12px 24px rgba(59, 130, 246, 0.08);
+      box-shadow: 0 12px 22px rgba(59, 130, 246, 0.08);
     }
 
     .arbiter-internal-step-nav {
       margin-top: 1rem;
-      border-radius: 22px;
+      border-radius: 20px;
       border: 1px solid rgba(226, 232, 240, 0.92);
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.92) 100%);
-      padding: 1rem;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92), 0 12px 28px rgba(148, 163, 184, 0.08);
+      padding: 0.9rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92), 0 12px 24px rgba(148, 163, 184, 0.08);
     }
 
     .arbiter-internal-step-head {
@@ -1743,43 +2091,43 @@
       flex-wrap: wrap;
       align-items: baseline;
       justify-content: space-between;
-      gap: 0.45rem 0.8rem;
-      margin-bottom: 0.85rem;
+      gap: 0.4rem 0.75rem;
+      margin-bottom: 0.75rem;
     }
 
     .arbiter-internal-step-kicker {
       font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 800;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #1d4ed8;
+      color: #2563eb;
     }
 
     .arbiter-internal-step-copy {
-      margin-top: 0.2rem;
-      font-size: 0.78rem;
-      line-height: 1.5;
+      margin-top: 0.18rem;
+      font-size: 0.76rem;
+      line-height: 1.45;
       color: #64748b;
     }
 
     .arbiter-internal-step-grid {
       display: grid;
-      gap: 0.7rem;
+      gap: 0.55rem;
       grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 
     .arbiter-internal-step-btn {
       display: flex;
-      min-height: 82px;
+      min-height: 70px;
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 0.4rem;
-      border-radius: 20px;
+      gap: 0.36rem;
+      border-radius: 18px;
       border: 1px solid rgba(226, 232, 240, 0.94);
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.92) 100%);
-      padding: 0.9rem 0.95rem;
+      padding: 0.72rem 0.78rem;
       text-align: left;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
@@ -1788,60 +2136,59 @@
     .arbiter-internal-step-btn:hover {
       transform: translateY(-1px);
       border-color: rgba(147, 197, 253, 0.8);
-      box-shadow: 0 12px 24px rgba(148, 163, 184, 0.1);
+      box-shadow: 0 10px 20px rgba(148, 163, 184, 0.1);
     }
 
     .arbiter-internal-step-btn.is-active {
       border-color: rgba(96, 165, 250, 0.9);
       background: linear-gradient(180deg, rgba(239, 246, 255, 0.98) 0%, rgba(219, 234, 254, 0.96) 100%);
-      box-shadow: 0 14px 26px rgba(59, 130, 246, 0.14);
+      box-shadow: 0 12px 22px rgba(59, 130, 246, 0.14);
       transform: translateY(-1px);
     }
 
     .arbiter-internal-step-btn[data-arbiter-step="0"].is-active {
       border-color: rgba(148, 163, 184, 0.88);
       background: linear-gradient(180deg, rgba(248, 250, 252, 0.98) 0%, rgba(226, 232, 240, 0.92) 100%);
-      box-shadow: 0 14px 24px rgba(148, 163, 184, 0.12);
+      box-shadow: 0 12px 22px rgba(148, 163, 184, 0.12);
     }
 
     .arbiter-internal-step-btn[data-arbiter-step="1"].is-active,
     .arbiter-internal-step-btn[data-arbiter-step="3"].is-active {
       border-color: rgba(251, 191, 36, 0.88);
-      background: linear-gradient(180deg, rgba(255, 251, 235, 0.98) 0%, rgba(254, 240, 138, 0.4) 100%);
-      box-shadow: 0 14px 24px rgba(245, 158, 11, 0.12);
+      background: linear-gradient(180deg, rgba(255, 251, 235, 0.98) 0%, rgba(254, 240, 138, 0.38) 100%);
+      box-shadow: 0 12px 22px rgba(245, 158, 11, 0.12);
     }
 
     .arbiter-internal-step-btn[data-arbiter-step="2"].is-active {
       border-color: rgba(134, 239, 172, 0.92);
-      background: linear-gradient(180deg, rgba(240, 253, 244, 0.98) 0%, rgba(187, 247, 208, 0.42) 100%);
-      box-shadow: 0 14px 24px rgba(34, 197, 94, 0.12);
+      background: linear-gradient(180deg, rgba(240, 253, 244, 0.98) 0%, rgba(187, 247, 208, 0.4) 100%);
+      box-shadow: 0 12px 22px rgba(34, 197, 94, 0.12);
     }
 
     .arbiter-internal-step-btn[data-arbiter-step="4"].is-active {
       border-color: rgba(147, 197, 253, 0.92);
-      background: linear-gradient(180deg, rgba(239, 246, 255, 0.98) 0%, rgba(191, 219, 254, 0.46) 100%);
-      box-shadow: 0 14px 24px rgba(59, 130, 246, 0.12);
+      background: linear-gradient(180deg, rgba(239, 246, 255, 0.98) 0%, rgba(191, 219, 254, 0.44) 100%);
+      box-shadow: 0 12px 22px rgba(59, 130, 246, 0.12);
     }
 
     .arbiter-internal-step-topline {
       display: flex;
       width: 100%;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.6rem;
+      gap: 0.45rem;
     }
 
     .arbiter-internal-step-index {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 30px;
-      height: 30px;
+      min-width: 24px;
+      height: 24px;
       border-radius: 9999px;
-      background: rgba(226, 232, 240, 0.9);
+      background: rgba(226, 232, 240, 0.92);
       color: #475569;
       font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
-      font-size: 0.78rem;
+      font-size: 0.68rem;
       font-weight: 800;
     }
 
@@ -1849,13 +2196,18 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 30px;
-      height: 30px;
+      min-width: 34px;
+      height: 24px;
+      padding: 0 0.44rem;
       flex-shrink: 0;
-      border-radius: 12px;
+      border-radius: 9999px;
       background: rgba(241, 245, 249, 0.96);
-      font-size: 0.9rem;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
       line-height: 1;
+      text-transform: uppercase;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
     }
 
@@ -1865,11 +2217,11 @@
 
     .arbiter-internal-step-btn[data-arbiter-step="1"] .arbiter-internal-step-symbol,
     .arbiter-internal-step-btn[data-arbiter-step="3"] .arbiter-internal-step-symbol {
-      background: rgba(254, 215, 170, 0.9);
+      background: rgba(254, 215, 170, 0.94);
     }
 
     .arbiter-internal-step-btn[data-arbiter-step="2"] .arbiter-internal-step-symbol {
-      background: rgba(187, 247, 208, 0.9);
+      background: rgba(187, 247, 208, 0.94);
     }
 
     .arbiter-internal-step-btn[data-arbiter-step="4"] .arbiter-internal-step-symbol {
@@ -1877,7 +2229,7 @@
     }
 
     .arbiter-internal-step-btn.is-active .arbiter-internal-step-index {
-      background: rgba(191, 219, 254, 0.92);
+      background: rgba(191, 219, 254, 0.94);
       color: #1d4ed8;
     }
 
@@ -1904,15 +2256,15 @@
 
     .arbiter-internal-step-title {
       font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
-      font-size: 0.86rem;
+      font-size: 0.82rem;
       font-weight: 700;
       letter-spacing: -0.03em;
       color: #0f172a;
     }
 
     .arbiter-internal-step-note {
-      font-size: 0.74rem;
-      line-height: 1.5;
+      font-size: 0.71rem;
+      line-height: 1.4;
       color: #475569;
     }
 
@@ -2161,7 +2513,11 @@
       .ahb-logic-line,
       .ahb-logic-master.is-granted,
       .ahb-logic-stage.is-active,
-      .ahb-logic-output.is-active {
+      .ahb-logic-output.is-active,
+      .arbiter-internal-line.is-req,
+      .arbiter-internal-line.is-compare,
+      .arbiter-internal-line.is-master,
+      .arbiter-internal-mux-path.is-active {
         animation: none !important;
       }
 
@@ -2208,6 +2564,10 @@
         white-space: normal;
       }
 
+      .arbiter-internal-shell {
+        padding: 0.85rem;
+      }
+
       .arbiter-internal-flow-strip {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -2221,12 +2581,20 @@
         text-align: left;
       }
 
+      .arbiter-internal-step-nav {
+        padding: 0.82rem;
+      }
+
       .arbiter-internal-step-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(132px, 1fr);
+        grid-template-columns: none;
+        overflow-x: auto;
+        padding-bottom: 0.12rem;
       }
 
       .arbiter-internal-step-btn {
-        min-height: 78px;
+        min-height: 68px;
       }
 
       .ahb-arb-visual {
@@ -2753,7 +3121,7 @@
       </div>
 
       <div id="tab-apb" class="tab-content space-y-8" data-part8-panel="apb" data-guidebook-toc-title="APB">
-        <div class="bg-amber-50 rounded-[32px] p-8 md:p-10">
+        <div class="bg-[#FFFCF7] rounded-[32px] p-8 md:p-10">
           <div class="flex items-center gap-3 mb-4">
             <div class="bg-amber-500 text-white p-2 rounded-xl"><i data-lucide="activity" class="w-6 h-6"></i></div>
             <h2 class="text-3xl font-bold text-gray-900">APB (Advanced Peripheral Bus)</h2>
@@ -2982,7 +3350,7 @@
       </div>
 
       <div id="tab-ahb" class="tab-content space-y-8" data-part8-panel="ahb" data-guidebook-toc-title="AHB">
-        <div class="bg-green-50 rounded-[32px] p-8 md:p-10">
+        <div class="bg-[#F7FCF8] rounded-[32px] p-8 md:p-10">
           <div class="flex items-center gap-3 mb-4">
             <div class="bg-green-500 text-white p-2 rounded-xl"><i data-lucide="zap" class="w-6 h-6"></i></div>
             <h2 class="text-3xl font-bold text-gray-900">AHB (Advanced High-performance Bus)</h2>
@@ -3068,173 +3436,188 @@
                   <i data-lucide="activity"></i>
                 </span>
                 <div class="arbiter-internal-heading-text">
-                  <div class="arbiter-internal-heading-eyebrow">Arbiter Flow ✨</div>
+                  <div class="arbiter-internal-heading-eyebrow">Arbiter Flow</div>
                   <h3 class="arbiter-internal-heading-title">AHB Arbitration Signal &amp; Logic</h3>
-                  <p class="arbiter-internal-heading-subtitle">요청, 비교, grant, bus select 흐름을 한 화면에서 따라가는 2-master arbitration demo입니다.</p>
                 </div>
               </div>
-              <div class="arbiter-internal-heading-badge">⚡ 2-Master Demo · Request → Compare → Grant → Select</div>
+              <div class="arbiter-internal-heading-badge">Request → Compare → Grant → Select</div>
             </div>
             <div class="arbiter-internal-shell">
               <div class="arbiter-internal-flow-strip">
                 <div class="arbiter-internal-flow-chip" data-flow-stage="request">
                   <div class="arbiter-internal-flow-chip-head">
-                    <span class="arbiter-internal-flow-emoji" aria-hidden="true">📨</span>
+                    <span class="arbiter-internal-flow-emoji" aria-hidden="true">RQ</span>
                     <span class="arbiter-internal-flow-chip-kicker">Request</span>
                   </div>
-                  <strong>HBUSREQx 입력</strong>
-                  <p>활성 Master가 Arbiter에 버스 사용 의사를 먼저 전달합니다.</p>
+                  <strong>HBUSREQx</strong>
+                  <p>Master가 arbiter에 bus ownership을 요청합니다.</p>
                 </div>
                 <div class="arbiter-internal-flow-chip" data-flow-stage="compare">
                   <div class="arbiter-internal-flow-chip-head">
-                    <span class="arbiter-internal-flow-emoji" aria-hidden="true">🧠</span>
+                    <span class="arbiter-internal-flow-emoji" aria-hidden="true">CMP</span>
                     <span class="arbiter-internal-flow-chip-kicker">Compare</span>
                   </div>
-                  <strong>Priority Logic 판단</strong>
-                  <p>Comparator가 현재 요청들 중 winner를 선택합니다.</p>
+                  <strong>Priority Logic</strong>
+                  <p>요청 우선순위를 비교해 winner를 결정합니다.</p>
                 </div>
                 <div class="arbiter-internal-flow-chip" data-flow-stage="grant">
                   <div class="arbiter-internal-flow-chip-head">
-                    <span class="arbiter-internal-flow-emoji" aria-hidden="true">✅</span>
+                    <span class="arbiter-internal-flow-emoji" aria-hidden="true">GNT</span>
                     <span class="arbiter-internal-flow-chip-kicker">Grant</span>
                   </div>
-                  <strong>HGRANTx 생성</strong>
-                  <p>Control FSM이 선택된 Master에 grant를 되돌려줍니다.</p>
+                  <strong>HGRANTx</strong>
+                  <p>Control FSM이 선택된 master에 grant를 반환합니다.</p>
                 </div>
                 <div class="arbiter-internal-flow-chip" data-flow-stage="select">
                   <div class="arbiter-internal-flow-chip-head">
-                    <span class="arbiter-internal-flow-emoji" aria-hidden="true">🎛️</span>
+                    <span class="arbiter-internal-flow-emoji" aria-hidden="true">SEL</span>
                     <span class="arbiter-internal-flow-chip-kicker">Select</span>
                   </div>
-                  <strong>HMASTER로 MUX 제어</strong>
-                  <p>선택 결과가 Addr/Data 경로 선택으로 이어집니다.</p>
+                  <strong>HMASTER / MUX</strong>
+                  <p>선택 결과가 Addr/Data path 제어로 이어집니다.</p>
                 </div>
               </div>
 
               <div class="arbiter-internal-panel p-4 md:p-5">
-                <svg viewBox="0 0 760 320" class="arbiter-internal-svg" aria-hidden="true">
+                <svg viewBox="0 0 600 220" class="arbiter-internal-svg overflow-visible" aria-hidden="true">
+                  <rect x="142" y="30" width="258" height="160" rx="16" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="6,6"></rect>
+                  <text x="271" y="183" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle" class="svg-text-bg">Arbiter Block</text>
+
+                  <foreignObject x="156" y="58" width="92" height="108" id="arbiter-logic-priority-box" class="arbiter-box-object transition-all duration-300 rounded-xl">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full bg-blue-50 border-2 border-blue-200 rounded-xl flex flex-col items-center py-2 justify-center gap-1.5">
+                      <div class="flex flex-col items-center">
+                        <span class="text-blue-800 font-bold text-[9px]">Priority Logic</span>
+                        <span class="text-blue-500 text-[7px]">(M1 &gt; M0)</span>
+                      </div>
+                      <div class="bg-white border border-blue-300 w-14 h-10 rounded-lg flex flex-col items-center justify-center shadow-sm">
+                        <span class="text-[13px]">⚖️</span><span class="text-blue-600 font-bold text-[7px] mt-0.5">Compare</span>
+                      </div>
+                    </div>
+                  </foreignObject>
+
+                  <foreignObject x="286" y="42" width="92" height="136" id="arbiter-logic-ctrl-box" class="arbiter-box-object transition-all duration-300 rounded-xl">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full bg-emerald-50 border-2 border-emerald-200 rounded-xl flex flex-col items-center py-3 justify-between shadow-sm">
+                      <div class="flex flex-col items-center">
+                        <span class="text-emerald-800 font-bold text-[9px]">Control FSM</span>
+                        <span class="text-emerald-600 text-[7px] text-center leading-tight">GNT &amp;<br/>MUX Ctrl</span>
+                      </div>
+                      <div class="bg-white border border-emerald-300 w-14 h-10 rounded-lg flex flex-col items-center justify-center shadow-sm">
+                        <span class="text-[13px]">⚙️</span><span class="text-emerald-600 font-bold text-[7px] mt-0.5">State</span>
+                      </div>
+                    </div>
+                  </foreignObject>
+
+                  <path id="arbiter-logic-mux-m0" d="M 88 28 L 472 28" class="mux-path"></path>
+                  <text x="393" y="19" fill="#64748B" font-size="9" font-weight="bold" text-anchor="middle" class="svg-text-bg">Addr/Data 0</text>
+
+                  <path id="arbiter-logic-mux-m1" d="M 88 196 L 472 196" class="mux-path"></path>
+                  <text x="393" y="188" fill="#64748B" font-size="9" font-weight="bold" text-anchor="middle" class="svg-text-bg">Addr/Data 1</text>
+
+                  <path id="arbiter-logic-mux-out" d="M 500 110 L 532 110" class="signal-line" stroke-width="4"></path>
+
+                  <path id="arbiter-logic-req0" d="M 88 68 L 156 68" class="signal-line"></path>
+                  <text id="arbiter-logic-txt-req0" x="132" y="61" fill="#64748B" font-size="8.5" font-weight="bold" text-anchor="middle" class="svg-text-bg">HBUSREQ0</text>
+
+                  <path id="arbiter-logic-gnt0" d="M 286 44 L 88 44" class="signal-line" marker-end="url(#arbiterArrowGrant)"></path>
+                  <text id="arbiter-logic-txt-gnt0" x="128" y="36" fill="#64748B" font-size="8.5" font-weight="bold" text-anchor="middle" class="svg-text-bg">HGRANT0</text>
+
+                  <path id="arbiter-logic-req1" d="M 88 156 L 156 156" class="signal-line"></path>
+                  <text id="arbiter-logic-txt-req1" x="132" y="149" fill="#64748B" font-size="8.5" font-weight="bold" text-anchor="middle" class="svg-text-bg">HBUSREQ1</text>
+
+                  <path id="arbiter-logic-gnt1" d="M 286 186 L 88 186" class="signal-line" marker-end="url(#arbiterArrowGrant)"></path>
+                  <text id="arbiter-logic-txt-gnt1" x="128" y="178" fill="#64748B" font-size="8.5" font-weight="bold" text-anchor="middle" class="svg-text-bg">HGRANT1</text>
+
+                  <path id="arbiter-logic-win" d="M 248 110 L 286 110" class="signal-line" stroke="#94A3B8"></path>
+                  <text id="arbiter-logic-txt-win" x="267" y="103" fill="#64748B" font-size="8.5" font-weight="bold" text-anchor="middle" class="svg-text-bg">Eval</text>
+
+                  <path id="arbiter-logic-hmaster" d="M 378 110 L 472 110" class="signal-line" marker-end="url(#arbiterArrowHmaster)"></path>
+                  <text id="arbiter-logic-txt-hmaster" x="425" y="103" fill="#64748B" font-size="8.5" font-weight="bold" text-anchor="middle" class="svg-text-bg">HMASTER</text>
+
                   <defs>
-                    <marker id="arbiterInternalArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke"></path>
+                    <marker id="arbiterArrowGrant" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" stroke="none"></path>
+                    </marker>
+                    <marker id="arbiterArrowHmaster" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" stroke="none"></path>
                     </marker>
                   </defs>
 
-                  <path id="arbiter-logic-mux-m0" class="arbiter-internal-mux-path" d="M 162 116 L 188 116 L 188 36 L 610 36 L 610 142 L 634 142"></path>
-                  <text x="438" y="24" class="arbiter-internal-text-bg" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle">Addr/Data 0 Path</text>
+                  <foreignObject x="12" y="16" width="76" height="54" id="arbiter-logic-master0" class="arbiter-master-object">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full bg-slate-800 text-white rounded-xl shadow-lg flex flex-col items-center justify-center border border-slate-700 transition-transform hover:-translate-y-1">
+                      <span class="text-[13px]">💻</span><span class="font-bold text-[9px] mt-0.5">Master 0</span>
+                    </div>
+                  </foreignObject>
+                  <foreignObject x="12" y="150" width="76" height="54" id="arbiter-logic-master1" class="arbiter-master-object">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full bg-slate-800 text-white rounded-xl shadow-lg flex flex-col items-center justify-center border border-slate-700 transition-transform hover:-translate-y-1">
+                      <span class="text-[13px]">💻</span><span class="font-bold text-[9px] mt-0.5">Master 1</span>
+                    </div>
+                  </foreignObject>
 
-                  <path id="arbiter-logic-mux-m1" class="arbiter-internal-mux-path" d="M 162 226 L 188 226 L 188 284 L 620 284 L 620 190 L 634 190"></path>
-                  <text x="438" y="302" class="arbiter-internal-text-bg" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle">Addr/Data 1 Path</text>
+                  <foreignObject x="472" y="16" width="28" height="188" id="arbiter-logic-mux" class="arbiter-mux-object">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full bg-slate-100 text-slate-700 rounded-lg shadow-inner border-2 border-slate-300 flex flex-col items-center justify-center relative overflow-hidden">
+                      <span class="text-[9px] absolute top-2">🔀</span>
+                      <span class="font-bold text-[9px]" style="writing-mode: vertical-rl">MUX</span>
+                    </div>
+                  </foreignObject>
 
-                  <g id="arbiter-logic-master0" class="arbiter-internal-master">
-                    <rect class="arbiter-internal-master-card" x="24" y="72" width="138" height="88" rx="18" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"></rect>
-                    <rect class="arbiter-internal-master-pill" x="40" y="88" width="42" height="22" rx="11" fill="#E2E8F0" stroke="#94A3B8" stroke-opacity="0.28" stroke-width="1"></rect>
-                    <text x="61" y="103" fill="#475569" font-size="10" font-weight="800" text-anchor="middle">M0</text>
-                    <text class="arbiter-internal-master-label" x="40" y="124" fill="#334155" font-size="15" font-weight="800">Master 0</text>
-                    <text class="arbiter-internal-master-meta" x="40" y="142" fill="#64748B" font-size="11" font-weight="600">Baseline owner</text>
-                    <text id="arbiter-logic-master0-state" class="arbiter-internal-master-state" x="40" y="155">IDLE</text>
-                  </g>
-
-                  <g id="arbiter-logic-master1" class="arbiter-internal-master">
-                    <rect class="arbiter-internal-master-card" x="24" y="182" width="138" height="88" rx="18" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"></rect>
-                    <rect class="arbiter-internal-master-pill" x="40" y="198" width="42" height="22" rx="11" fill="#E2E8F0" stroke="#94A3B8" stroke-opacity="0.28" stroke-width="1"></rect>
-                    <text x="61" y="213" fill="#475569" font-size="10" font-weight="800" text-anchor="middle">M1</text>
-                    <text class="arbiter-internal-master-label" x="40" y="234" fill="#334155" font-size="15" font-weight="800">Master 1</text>
-                    <text class="arbiter-internal-master-meta" x="40" y="252" fill="#64748B" font-size="11" font-weight="600">Higher priority</text>
-                    <text id="arbiter-logic-master1-state" class="arbiter-internal-master-state" x="40" y="265">IDLE</text>
-                  </g>
-
-                  <rect x="212" y="54" width="350" height="212" rx="24" fill="rgba(241, 245, 249, 0.74)" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="8 8"></rect>
-                  <text x="387" y="76" fill="#64748B" font-size="12" font-weight="800" text-anchor="middle">Arbiter Core</text>
-
-                  <rect id="arbiter-logic-priority-box" class="arbiter-internal-box" x="248" y="92" width="154" height="148" rx="20" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"></rect>
-                  <text x="325" y="116" fill="#1D4ED8" font-size="12" font-weight="800" text-anchor="middle">Priority Logic</text>
-                  <polygon points="278,140 372,158 372,178 278,196" fill="#DBEAFE" stroke="#60A5FA" stroke-width="2"></polygon>
-                  <text x="325" y="165" fill="#2563EB" font-size="11" font-weight="800" text-anchor="middle">Comparator</text>
-                  <text x="325" y="182" fill="#64748B" font-size="9" font-weight="700" text-anchor="middle">M1 &gt; M0</text>
-
-                  <rect id="arbiter-logic-ctrl-box" class="arbiter-internal-box" x="454" y="118" width="110" height="96" rx="18" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"></rect>
-                  <text x="509" y="147" fill="#15803D" font-size="12" font-weight="800" text-anchor="middle">Control FSM</text>
-                  <text x="509" y="170" fill="#16A34A" font-size="10" font-weight="700" text-anchor="middle">Grant</text>
-                  <text x="509" y="184" fill="#16A34A" font-size="10" font-weight="700" text-anchor="middle">HMASTER</text>
-
-                  <polygon id="arbiter-logic-mux" class="arbiter-internal-mux" points="634,118 666,142 666,190 634,214" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"></polygon>
-                  <text x="648" y="166" fill="#475569" font-size="11" font-weight="800" transform="rotate(-90 648,166)">MUX</text>
-
-                  <rect x="690" y="130" width="54" height="72" rx="18" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"></rect>
-                  <text x="717" y="170" fill="#475569" font-size="13" font-weight="800" text-anchor="middle">Slave</text>
-
-                  <path id="arbiter-logic-mux-out" class="arbiter-internal-output arbiter-internal-line" d="M 666 166 L 690 166" stroke="#CBD5E1" stroke-width="4"></path>
-
-                  <path id="arbiter-logic-req0" class="arbiter-internal-line" d="M 162 116 L 246 116"></path>
-                  <text id="arbiter-logic-txt-req0" class="arbiter-internal-text-bg" x="204" y="106" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle">HBUSREQ0</text>
-
-                  <path id="arbiter-logic-req1" class="arbiter-internal-line" d="M 162 226 L 246 226"></path>
-                  <text id="arbiter-logic-txt-req1" class="arbiter-internal-text-bg" x="204" y="216" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle">HBUSREQ1</text>
-
-                  <path id="arbiter-logic-win" class="arbiter-internal-line" d="M 402 166 L 454 166"></path>
-                  <text id="arbiter-logic-txt-win" class="arbiter-internal-text-bg" x="426" y="156" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle">Winner</text>
-
-                  <path id="arbiter-logic-gnt0" class="arbiter-internal-line" d="M 454 144 L 420 144 L 420 82 L 162 82" marker-end="url(#arbiterInternalArrow)"></path>
-                  <text id="arbiter-logic-txt-gnt0" class="arbiter-internal-text-bg" x="286" y="74" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle">HGRANT0</text>
-
-                  <path id="arbiter-logic-gnt1" class="arbiter-internal-line" d="M 454 188 L 420 188 L 420 250 L 162 250" marker-end="url(#arbiterInternalArrow)"></path>
-                  <text id="arbiter-logic-txt-gnt1" class="arbiter-internal-text-bg" x="286" y="264" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle">HGRANT1</text>
-
-                  <path id="arbiter-logic-hmaster" class="arbiter-internal-line" d="M 564 166 L 634 166" marker-end="url(#arbiterInternalArrow)"></path>
-                  <text id="arbiter-logic-txt-hmaster" class="arbiter-internal-text-bg" x="600" y="156" fill="#64748B" font-size="10" font-weight="bold" text-anchor="middle">HMASTER</text>
+                  <foreignObject x="532" y="80" width="56" height="60">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="w-full h-full bg-slate-100 text-slate-800 rounded-[14px] shadow-md border-2 border-slate-300 flex flex-col items-center justify-center transition-transform hover:-translate-y-1">
+                      <span class="text-lg">💾</span><span class="font-bold text-[10px] mt-1">Slave</span>
+                    </div>
+                  </foreignObject>
                 </svg>
               </div>
 
-              <div id="arbiter-internal-desc" class="arbiter-internal-desc">🌙 IDLE: 버스 요청 대기 중...</div>
+              <div id="arbiter-internal-desc" class="arbiter-internal-desc">IDLE · 버스 요청 대기</div>
             </div>
 
             <div class="arbiter-internal-step-nav">
               <div class="arbiter-internal-step-head">
                 <div>
-                  <div class="arbiter-internal-step-kicker">Interactive Step Loop ✨</div>
-                  <div class="arbiter-internal-step-copy">버튼을 누르면 현재 arbitration state가 바로 강조되고, 자동 루프도 같은 흐름으로 이어집니다.</div>
+                  <div class="arbiter-internal-step-kicker">Interactive Step Loop</div>
+                  <div class="arbiter-internal-step-copy">버튼으로 특정 state를 고정해서 볼 수 있고, 자동 루프도 같은 순서로 반복됩니다.</div>
                 </div>
               </div>
               <div class="arbiter-internal-step-grid">
                 <button type="button" class="arbiter-internal-step-btn is-active" data-arbiter-step="0">
                   <div class="arbiter-internal-step-topline">
                     <span class="arbiter-internal-step-index">0</span>
-                    <span class="arbiter-internal-step-symbol" aria-hidden="true">🌙</span>
+                    <span class="arbiter-internal-step-symbol" aria-hidden="true">ID</span>
                   </div>
-                  <strong class="arbiter-internal-step-title">IDLE</strong>
-                  <span class="arbiter-internal-step-note">요청 대기</span>
+                  <strong class="arbiter-internal-step-title">Idle</strong>
+                  <span class="arbiter-internal-step-note">bus request wait</span>
                 </button>
                 <button type="button" class="arbiter-internal-step-btn" data-arbiter-step="1">
                   <div class="arbiter-internal-step-topline">
                     <span class="arbiter-internal-step-index">1</span>
-                    <span class="arbiter-internal-step-symbol" aria-hidden="true">📨</span>
+                    <span class="arbiter-internal-step-symbol" aria-hidden="true">RQ</span>
                   </div>
-                  <strong class="arbiter-internal-step-title">REQ0</strong>
-                  <span class="arbiter-internal-step-note">M0 요청 평가</span>
+                  <strong class="arbiter-internal-step-title">Req0</strong>
+                  <span class="arbiter-internal-step-note">M0 request</span>
                 </button>
                 <button type="button" class="arbiter-internal-step-btn" data-arbiter-step="2">
                   <div class="arbiter-internal-step-topline">
                     <span class="arbiter-internal-step-index">2</span>
-                    <span class="arbiter-internal-step-symbol" aria-hidden="true">✅</span>
+                    <span class="arbiter-internal-step-symbol" aria-hidden="true">GT</span>
                   </div>
-                  <strong class="arbiter-internal-step-title">GNT0</strong>
-                  <span class="arbiter-internal-step-note">M0 승인 전환</span>
+                  <strong class="arbiter-internal-step-title">Gnt0</strong>
+                  <span class="arbiter-internal-step-note">grant M0</span>
                 </button>
                 <button type="button" class="arbiter-internal-step-btn" data-arbiter-step="3">
                   <div class="arbiter-internal-step-topline">
                     <span class="arbiter-internal-step-index">3</span>
-                    <span class="arbiter-internal-step-symbol" aria-hidden="true">📨</span>
+                    <span class="arbiter-internal-step-symbol" aria-hidden="true">RQ</span>
                   </div>
-                  <strong class="arbiter-internal-step-title">REQ1</strong>
-                  <span class="arbiter-internal-step-note">M1 재평가</span>
+                  <strong class="arbiter-internal-step-title">Req1</strong>
+                  <span class="arbiter-internal-step-note">M1 request</span>
                 </button>
                 <button type="button" class="arbiter-internal-step-btn" data-arbiter-step="4">
                   <div class="arbiter-internal-step-topline">
                     <span class="arbiter-internal-step-index">4</span>
-                    <span class="arbiter-internal-step-symbol" aria-hidden="true">🔁</span>
+                    <span class="arbiter-internal-step-symbol" aria-hidden="true">SW</span>
                   </div>
-                  <strong class="arbiter-internal-step-title">GNT1</strong>
-                  <span class="arbiter-internal-step-note">M1 권한 이양</span>
+                  <strong class="arbiter-internal-step-title">Gnt1</strong>
+                  <span class="arbiter-internal-step-note">switch M1</span>
                 </button>
               </div>
             </div>
@@ -3576,40 +3959,40 @@
                   <tr><td class="py-2 px-3 font-mono">111</td><td class="py-2 px-3">INCR16</td><td class="py-2 px-3">16-beat incrementing burst</td></tr>
                 </tbody>
               </table>
-              <div class="mt-6 border-t border-gray-100 pt-6">
-                <h4 class="font-bold text-gray-800 mb-5 flex items-center gap-2">
+              <div class="mt-5 border-t border-gray-100 pt-5 flex-1 flex flex-col justify-center">
+                <h4 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
                   <i data-lucide="fast-forward" class="w-5 h-5 text-green-500"></i>
                   HBURST (버스트 타입)
                 </h4>
-                <div class="space-y-6">
-                  <div class="flex items-center gap-4 group">
-                    <div class="w-16 text-right font-mono font-bold text-[13px] text-green-700 bg-green-50 px-2 py-1 rounded">SINGLE</div>
-                    <div class="flex gap-1 flex-1 items-center">
-                      <div class="w-7 h-7 rounded-md bg-green-100 border-2 border-green-400 flex items-center justify-center text-[10px] font-bold text-green-800 shadow-sm group-hover:scale-110 transition-transform">1</div>
+                <div class="space-y-7">
+                  <div class="flex items-center gap-5 group min-h-[56px]">
+                    <div class="w-20 text-right font-mono font-bold text-[14px] text-green-700 bg-green-50 px-3 py-1.5 rounded-lg">SINGLE</div>
+                    <div class="flex gap-2 flex-1 items-center min-h-[42px]">
+                      <div class="w-10 h-10 rounded-lg bg-green-100 border-2 border-green-400 flex items-center justify-center text-xs font-bold text-green-800 shadow-sm group-hover:scale-110 transition-transform">1</div>
                     </div>
-                    <div class="text-[13px] font-semibold text-gray-600 w-28 text-right leading-tight">단일 전송<br><span class="text-[10px] text-gray-400 font-normal">한 beat만 전송</span></div>
+                    <div class="text-[14px] font-semibold text-gray-600 w-32 text-right leading-tight">단일 전송<br><span class="text-[11px] text-gray-400 font-normal">한 beat만 전송</span></div>
                   </div>
-                  <div class="flex items-center gap-4 group">
-                    <div class="w-16 text-right font-mono font-bold text-[13px] text-blue-700 bg-blue-50 px-2 py-1 rounded">INCR4</div>
-                    <div class="flex gap-1 flex-1 relative items-center">
-                      <div class="w-7 h-7 rounded-md bg-blue-50 border-2 border-blue-400 flex items-center justify-center text-[10px] font-bold text-blue-800 z-10 shadow-sm group-hover:-translate-y-1 transition-transform" style="transition-delay: 0ms">1</div>
-                      <div class="w-7 h-7 rounded-md bg-blue-50 border-2 border-blue-400 flex items-center justify-center text-[10px] font-bold text-blue-800 z-10 shadow-sm group-hover:-translate-y-1 transition-transform" style="transition-delay: 50ms">2</div>
-                      <div class="w-7 h-7 rounded-md bg-blue-50 border-2 border-blue-400 flex items-center justify-center text-[10px] font-bold text-blue-800 z-10 shadow-sm group-hover:-translate-y-1 transition-transform" style="transition-delay: 100ms">3</div>
-                      <div class="w-7 h-7 rounded-md bg-blue-50 border-2 border-blue-400 flex items-center justify-center text-[10px] font-bold text-blue-800 z-10 shadow-sm group-hover:-translate-y-1 transition-transform" style="transition-delay: 150ms">4</div>
-                      <div class="absolute top-1/2 left-3 -mt-[1px] w-24 h-[2px] bg-blue-300 z-0"></div>
+                  <div class="flex items-center gap-5 group min-h-[56px]">
+                    <div class="w-20 text-right font-mono font-bold text-[14px] text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg">INCR4</div>
+                    <div class="flex gap-2 flex-1 relative items-center min-h-[42px]">
+                      <div class="w-10 h-10 rounded-lg bg-blue-50 border-2 border-blue-400 flex items-center justify-center text-xs font-bold text-blue-800 z-10 shadow-sm group-hover:-translate-y-1 transition-transform" style="transition-delay: 0ms">1</div>
+                      <div class="w-10 h-10 rounded-lg bg-blue-50 border-2 border-blue-400 flex items-center justify-center text-xs font-bold text-blue-800 z-10 shadow-sm group-hover:-translate-y-1 transition-transform" style="transition-delay: 50ms">2</div>
+                      <div class="w-10 h-10 rounded-lg bg-blue-50 border-2 border-blue-400 flex items-center justify-center text-xs font-bold text-blue-800 z-10 shadow-sm group-hover:-translate-y-1 transition-transform" style="transition-delay: 100ms">3</div>
+                      <div class="w-10 h-10 rounded-lg bg-blue-50 border-2 border-blue-400 flex items-center justify-center text-xs font-bold text-blue-800 z-10 shadow-sm group-hover:-translate-y-1 transition-transform" style="transition-delay: 150ms">4</div>
+                      <div class="absolute top-1/2 left-4 -mt-[1px] w-36 h-[2px] bg-blue-300 z-0"></div>
                     </div>
-                    <div class="text-[13px] font-semibold text-gray-600 w-28 text-right leading-tight">순차 증가<br><span class="text-[10px] text-gray-400 font-normal">주소가 선형 증가</span></div>
+                    <div class="text-[14px] font-semibold text-gray-600 w-32 text-right leading-tight">순차 증가<br><span class="text-[11px] text-gray-400 font-normal">주소가 선형 증가</span></div>
                   </div>
-                  <div class="flex items-center gap-4 group">
-                    <div class="w-16 text-right font-mono font-bold text-[13px] text-amber-700 bg-amber-50 px-2 py-1 rounded">WRAP4</div>
-                    <div class="flex gap-1 flex-1 relative items-center">
-                      <div class="w-7 h-7 rounded-md bg-amber-50 border-2 border-amber-400 flex items-center justify-center text-[10px] font-bold text-amber-800 z-10 shadow-sm">2</div>
-                      <div class="w-7 h-7 rounded-md bg-amber-50 border-2 border-amber-400 flex items-center justify-center text-[10px] font-bold text-amber-800 z-10 shadow-sm">3</div>
-                      <div class="w-7 h-7 rounded-md bg-red-50 border-2 border-red-400 flex items-center justify-center text-[10px] font-black text-red-700 z-10 shadow-md ring-4 ring-red-100 group-hover:scale-110 transition-transform">0</div>
-                      <div class="w-7 h-7 rounded-md bg-amber-50 border-2 border-amber-400 flex items-center justify-center text-[10px] font-bold text-amber-800 z-10 shadow-sm">1</div>
-                      <svg class="absolute w-24 h-8 left-2 top-2 z-0 overflow-visible" style="stroke: #FBBF24; stroke-width: 2; fill: none; stroke-dasharray: 2,2;"><path d="M 50 -10 C 60 -20, 80 -10, 80 12"></path></svg>
+                  <div class="flex items-center gap-5 group min-h-[56px]">
+                    <div class="w-20 text-right font-mono font-bold text-[14px] text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg">WRAP4</div>
+                    <div class="flex gap-2 flex-1 relative items-center min-h-[42px]">
+                      <div class="w-10 h-10 rounded-lg bg-amber-50 border-2 border-amber-400 flex items-center justify-center text-xs font-bold text-amber-800 z-10 shadow-sm">2</div>
+                      <div class="w-10 h-10 rounded-lg bg-amber-50 border-2 border-amber-400 flex items-center justify-center text-xs font-bold text-amber-800 z-10 shadow-sm">3</div>
+                      <div class="w-10 h-10 rounded-lg bg-red-50 border-2 border-red-400 flex items-center justify-center text-xs font-black text-red-700 z-10 shadow-md ring-4 ring-red-100 group-hover:scale-110 transition-transform">0</div>
+                      <div class="w-10 h-10 rounded-lg bg-amber-50 border-2 border-amber-400 flex items-center justify-center text-xs font-bold text-amber-800 z-10 shadow-sm">1</div>
+                      <svg class="absolute w-36 h-12 left-3 top-1 z-0 overflow-visible" style="stroke: #FBBF24; stroke-width: 2; fill: none; stroke-dasharray: 2,2;"><path d="M 72 -10 C 84 -24, 120 -10, 120 20"></path></svg>
                     </div>
-                    <div class="text-[13px] font-semibold text-gray-600 w-28 text-right leading-tight">경계 래핑<br><span class="text-[10px] text-gray-400 font-normal">wrap 경계에서 순환</span></div>
+                    <div class="text-[14px] font-semibold text-gray-600 w-32 text-right leading-tight">경계 래핑<br><span class="text-[11px] text-gray-400 font-normal">wrap 경계에서 순환</span></div>
                   </div>
                 </div>
               </div>
@@ -3629,6 +4012,14 @@
                   <div class="flex flex-wrap gap-1 bg-white p-1 rounded-xl w-fit" id="ahb-waveform-controls-core">
                     <button data-wave="ahb_single" class="ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-green-600 shadow-sm border border-gray-200">Single Transfer</button>
                     <button data-wave="ahb_burst_wait" class="ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Burst (Wait State)</button>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="text-[11px] font-black tracking-[0.24em] uppercase text-gray-500 mb-2">Response Cases</div>
+                  <div class="flex flex-wrap gap-1 bg-white p-1 rounded-xl w-fit" id="ahb-waveform-controls-response">
+                    <button data-wave="ahb_error_response" class="ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">ERROR Response</button>
+                    <button data-wave="ahb_retry_response" class="ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">RETRY Response</button>
                   </div>
                 </div>
 
@@ -3678,25 +4069,11 @@
           </div>
 
           <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden mt-8">
-            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
-              <div>
-                <h3 class="font-bold text-gray-800 flex items-center gap-2 text-xl mb-2">
-                  <i data-lucide="git-branch" class="w-6 h-6 text-green-500"></i>
-                  AHB Arbitration Timing Diagram
-                </h3>
-                <p class="text-sm text-gray-500 leading-relaxed">
-                  AMBA AHB 공식 문서의 중재 예시를 기준으로, grant 승인 시점과 wait state가 버스 소유권 전환에 미치는 영향을 재구성했습니다.
-                </p>
-              </div>
-              <a
-                href="https://documentation-service.arm.com/static/5f916403f86e16515cdc3d71"
-                target="_blank"
-                rel="noreferrer"
-                class="inline-flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-3 py-2 text-xs font-bold text-green-700 hover:bg-green-100 transition-colors"
-              >
-                <i data-lucide="external-link" class="w-4 h-4"></i>
-                ARM IHI 0011A Figures 3-15~3-17
-              </a>
+            <div class="mb-6">
+              <h3 class="font-bold text-gray-800 flex items-center gap-2 text-xl">
+                <i data-lucide="git-branch" class="w-6 h-6 text-green-500"></i>
+                AHB Arbitration Timing Diagram
+              </h3>
             </div>
 
             <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit mb-5" id="ahb-arb-waveform-controls">
@@ -3723,7 +4100,7 @@
       </div>
 
       <div id="tab-axi" class="tab-content space-y-8" data-part8-panel="axi" data-guidebook-toc-title="AXI">
-        <div class="bg-blue-50 rounded-[32px] p-8 md:p-10">
+        <div class="bg-[#F7FAFF] rounded-[32px] p-8 md:p-10">
           <div class="flex items-center gap-3 mb-4">
             <div class="bg-blue-500 text-white p-2 rounded-xl"><i data-lucide="cpu" class="w-6 h-6"></i></div>
             <h2 class="text-3xl font-bold text-gray-900">AXI (Advanced eXtensible Interface)</h2>
@@ -4226,6 +4603,34 @@
         head: { text: 'AHB Burst with Wait States (INCR4)', tick: 0 },
         config: { hscale: 1.5 }
       },
+      ahb_error_response: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x=x.....', data: ['A'] },
+          { name: 'HWRITE', wave: 'x1......' },
+          { name: 'HSIZE', wave: 'x2......', data: ['WORD'] },
+          { name: 'HTRANS', wave: 'x=......', data: ['NONSEQ'] },
+          { name: 'HWDATA', wave: 'xx=.....', data: ['Data(A)'] },
+          { name: 'HREADY', wave: '1.0.1...' },
+          { name: 'HRESP[1:0]', wave: 'xx===...', data: ['OKAY', 'ERROR', 'ERROR'] }
+        ],
+        head: { text: 'AHB Error Response (Wait State then Two-Cycle ERROR)', tick: 0 },
+        config: { hscale: 1.55 }
+      },
+      ahb_retry_response: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x==x=...', data: ['A', 'A+4', 'A (retry)'] },
+          { name: 'HWRITE', wave: 'x1......' },
+          { name: 'HSIZE', wave: 'x2......', data: ['WORD'] },
+          { name: 'HTRANS', wave: 'x====...', data: ['NONSEQ', 'SEQ', 'IDLE', 'NONSEQ'] },
+          { name: 'HWDATA', wave: 'xx=x.=..', data: ['Data(A)', 'Data(A)'] },
+          { name: 'HREADY', wave: '1.01....' },
+          { name: 'HRESP[1:0]', wave: 'xx==x=..', data: ['RETRY', 'RETRY', 'OKAY'] }
+        ],
+        head: { text: 'AHB Retry Response (Cancel Next Beat and Re-Issue Transfer)', tick: 0 },
+        config: { hscale: 1.55 }
+      },
       ahbarb_grant_nowait: {
         signal: [
           { name: 'HCLK', wave: 'p........' },
@@ -4508,6 +4913,18 @@
           '현재 data phase와 다음 address phase의 동시 정지 구조',
           'stall 구간 전체의 address·control·data 유지 조건',
           '<code>HREADY</code> HIGH 복귀 cycle의 burst 재개 기준'
+        ],
+        ahb_error_response: [
+          'ARM IHI 0011A Figure 3-14 기준: slave가 먼저 1-cycle <code>OKAY</code> wait를 넣은 뒤 two-cycle <code>ERROR</code>로 transfer를 종료',
+          '<code>HREADY</code> LOW 동안 write data phase가 유지되고, 마지막 <code>ERROR</code> cycle에서 <code>HREADY</code>가 HIGH로 올라오며 종료됨',
+          '<code>ERROR</code>는 현재 transfer 실패를 의미하므로 이후 burst continuation은 master가 선택적으로 중단 또는 지속 가능',
+          '파이프라인 구조상 error 판정은 이미 시작된 data phase에서 돌아오므로 응답 타이밍은 address phase보다 한 박자 늦게 보임'
+        ],
+        ahb_retry_response: [
+          'ARM IHI 0011A Figure 3-13 기준의 two-cycle <code>RETRY</code> 응답 예시',
+          'slave가 <code>RETRY</code>를 내면 이미 broadcast된 다음 주소 <code>A+4</code>는 취소되고, master는 <code>HTRANS=IDLE</code>로 되돌려 파이프라인을 비움',
+          '그 다음 동일 전송을 다시 <code>NONSEQ</code>로 재구동해 <code>A</code>를 재시도하며, 완료될 때까지 반복 가능',
+          '이 예시는 classic multi-master AHB response 동작을 보여주며, bus back-off와 재시도 관계를 이해할 때 핵심이 됨'
         ]
       },
       ahbArb: {
@@ -4663,12 +5080,21 @@
 
     function setInternalArbiterLine(element, state = '') {
       if (!element) return;
-      element.setAttribute('class', ['arbiter-internal-line', state].filter(Boolean).join(' '));
+      const mappedState = state === 'is-req'
+        ? 'signal-req'
+        : state === 'is-compare'
+          ? 'signal-req'
+          : state === 'is-gnt'
+            ? 'signal-gnt'
+            : state === 'is-master'
+              ? 'signal-master'
+              : '';
+      element.setAttribute('class', ['signal-line', mappedState].filter(Boolean).join(' '));
     }
 
     function setInternalArbiterMuxPath(element, isActive = false) {
       if (!element) return;
-      element.setAttribute('class', `arbiter-internal-mux-path${isActive ? ' is-active' : ''}`);
+      element.setAttribute('class', `mux-path${isActive ? ' active' : ''}`);
     }
 
     function setInternalArbiterTextColor(element, color = '#64748B') {
@@ -4692,6 +5118,7 @@
     function activateInternalArbiterBox(element, toneClass) {
       if (!element) return;
       element.classList.add('arbiter-internal-box-active', toneClass);
+      element.classList.add('arb-box-active');
     }
 
     function syncInternalArbiterFlowStages(activeStages = []) {
@@ -4724,7 +5151,7 @@
       syncInternalArbiterFlowStages([]);
 
       [internalArbiterRefs.priorityBox, internalArbiterRefs.ctrlBox].forEach((box) => {
-        box?.classList.remove('arbiter-internal-box-active', 'is-priority', 'is-control');
+        box?.classList.remove('arbiter-internal-box-active', 'arb-box-active', 'is-priority', 'is-control');
       });
 
       internalArbiterRefs.mux?.classList.remove('is-active');
@@ -4734,11 +5161,11 @@
         .forEach((element) => setInternalArbiterTextColor(element));
 
       if (internalArbiterRefs.txtWin) {
-        internalArbiterRefs.txtWin.textContent = 'Winner';
+        internalArbiterRefs.txtWin.textContent = 'Eval';
       }
 
       internalArbiterRefs.desc.className = 'arbiter-internal-desc';
-      internalArbiterRefs.desc.textContent = '🌙 IDLE: 버스 요청 대기 중...';
+      internalArbiterRefs.desc.textContent = 'IDLE: 버스 요청 대기 중...';
     }
 
     function applyInternalArbiterAnimationStep(nextStep = 0) {
@@ -4751,22 +5178,22 @@
         case 1:
           syncInternalArbiterFlowStages(['request', 'compare']);
           setInternalArbiterMasterTone(internalArbiterRefs.master0, 'requesting');
-          setInternalArbiterMasterStateText(internalArbiterRefs.master0State, 'REQUEST');
+          setInternalArbiterMasterStateText(internalArbiterRefs.master0State, 'REQ');
           setInternalArbiterLine(internalArbiterRefs.req0, 'is-req');
           setInternalArbiterLine(internalArbiterRefs.win, 'is-compare');
           setInternalArbiterTextColor(internalArbiterRefs.txtReq0, '#F59E0B');
-          setInternalArbiterTextColor(internalArbiterRefs.txtWin, '#3B82F6');
+          setInternalArbiterTextColor(internalArbiterRefs.txtWin, '#F59E0B');
           if (internalArbiterRefs.txtWin) {
             internalArbiterRefs.txtWin.textContent = 'M0 Win';
           }
           activateInternalArbiterBox(internalArbiterRefs.priorityBox, 'is-priority');
           internalArbiterRefs.desc.className = 'arbiter-internal-desc is-request';
-          internalArbiterRefs.desc.textContent = '📨 [Step 1] Master 0가 HBUSREQ0를 올리면 Priority Logic이 활성 요청을 비교하고 M0를 winner로 선택합니다.';
+          internalArbiterRefs.desc.textContent = '[Step 1] Master 0가 HBUSREQ0를 올리면 Priority Logic이 활성 요청을 비교해 winner를 M0로 결정합니다.';
           break;
         case 2:
           syncInternalArbiterFlowStages(['grant', 'select']);
           setInternalArbiterMasterTone(internalArbiterRefs.master0, 'granted');
-          setInternalArbiterMasterStateText(internalArbiterRefs.master0State, 'GRANTED');
+          setInternalArbiterMasterStateText(internalArbiterRefs.master0State, 'GNT');
           setInternalArbiterLine(internalArbiterRefs.gnt0, 'is-gnt');
           setInternalArbiterLine(internalArbiterRefs.hmaster, 'is-master');
           setInternalArbiterTextColor(internalArbiterRefs.txtGnt0, '#22C55E');
@@ -4776,27 +5203,27 @@
           internalArbiterRefs.mux?.classList.add('is-active');
           internalArbiterRefs.muxOut?.classList.add('is-active');
           internalArbiterRefs.desc.className = 'arbiter-internal-desc is-grant';
-          internalArbiterRefs.desc.textContent = '✅ [Step 2] Control FSM이 HGRANT0와 HMASTER=0을 내보내고, MUX가 Master 0 Addr/Data 경로를 버스에 연결합니다.';
+          internalArbiterRefs.desc.textContent = '[Step 2] Control FSM이 HGRANT0와 HMASTER=0을 출력하고 MUX가 Master 0 Addr/Data 경로를 연결합니다.';
           break;
         case 3:
           syncInternalArbiterFlowStages(['request', 'compare']);
           setInternalArbiterMasterTone(internalArbiterRefs.master1, 'requesting');
-          setInternalArbiterMasterStateText(internalArbiterRefs.master1State, 'REQUEST');
+          setInternalArbiterMasterStateText(internalArbiterRefs.master1State, 'REQ');
           setInternalArbiterLine(internalArbiterRefs.req1, 'is-req');
           setInternalArbiterLine(internalArbiterRefs.win, 'is-compare');
           setInternalArbiterTextColor(internalArbiterRefs.txtReq1, '#F59E0B');
-          setInternalArbiterTextColor(internalArbiterRefs.txtWin, '#3B82F6');
+          setInternalArbiterTextColor(internalArbiterRefs.txtWin, '#F59E0B');
           if (internalArbiterRefs.txtWin) {
-            internalArbiterRefs.txtWin.textContent = 'M1 Win';
+            internalArbiterRefs.txtWin.textContent = 'M1 Win!';
           }
           activateInternalArbiterBox(internalArbiterRefs.priorityBox, 'is-priority');
           internalArbiterRefs.desc.className = 'arbiter-internal-desc is-request';
-          internalArbiterRefs.desc.textContent = '📨 [Step 3] Master 1이 HBUSREQ1을 올리면 Comparator가 더 높은 우선순위를 감지하고 다음 winner를 M1로 재결정합니다.';
+          internalArbiterRefs.desc.textContent = '[Step 3] Master 1의 HBUSREQ1이 들어오면 Priority Logic이 더 높은 우선순위를 감지해 winner를 M1로 갱신합니다.';
           break;
         case 4:
           syncInternalArbiterFlowStages(['grant', 'select']);
           setInternalArbiterMasterTone(internalArbiterRefs.master1, 'granted');
-          setInternalArbiterMasterStateText(internalArbiterRefs.master1State, 'GRANTED');
+          setInternalArbiterMasterStateText(internalArbiterRefs.master1State, 'GNT');
           setInternalArbiterLine(internalArbiterRefs.gnt1, 'is-gnt');
           setInternalArbiterLine(internalArbiterRefs.hmaster, 'is-master');
           setInternalArbiterTextColor(internalArbiterRefs.txtGnt1, '#22C55E');
@@ -4806,7 +5233,7 @@
           internalArbiterRefs.mux?.classList.add('is-active');
           internalArbiterRefs.muxOut?.classList.add('is-active');
           internalArbiterRefs.desc.className = 'arbiter-internal-desc is-switch';
-          internalArbiterRefs.desc.textContent = '🔁 [Step 4] HGRANT1과 HMASTER=1이 적용되면 MUX 선택이 바뀌고 버스 소유권이 Master 1로 넘어갑니다.';
+          internalArbiterRefs.desc.textContent = '[Step 4] HGRANT1과 HMASTER=1이 적용되면 MUX 선택이 바뀌고 버스 소유권이 Master 1로 넘어갑니다.';
           break;
         default:
           break;
