@@ -2453,6 +2453,510 @@
       line-height: 1.6;
     }
 
+    .ahb-hresp-shell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid rgba(226, 232, 240, 0.94);
+      background:
+        radial-gradient(circle at 12% 14%, rgba(34, 197, 94, 0.1), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(59, 130, 246, 0.06), transparent 22%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.96) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.94), 0 20px 40px rgba(15, 23, 42, 0.05);
+    }
+
+    .ahb-hresp-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(148, 163, 184, 0.08) 0, rgba(148, 163, 184, 0.08) 1px, transparent 1px, transparent 88px),
+        linear-gradient(180deg, rgba(148, 163, 184, 0.05) 0, rgba(148, 163, 184, 0.05) 1px, transparent 1px, transparent 88px);
+      mask-image: linear-gradient(180deg, rgba(15, 23, 42, 0.52) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .ahb-hresp-shell > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .ahb-hresp-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ahb-hresp-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 0.55rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 9999px;
+      background: rgba(22, 163, 74, 0.1);
+      color: #15803d;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .ahb-hresp-title {
+      color: #0f172a;
+      font-size: clamp(1.35rem, 1.1rem + 0.78vw, 1.82rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+
+    .ahb-hresp-copy {
+      max-width: 44rem;
+      margin-top: 0.7rem;
+      color: #475569;
+      font-size: 0.96rem;
+      line-height: 1.72;
+    }
+
+    .ahb-hresp-copy strong {
+      color: #0f172a;
+    }
+
+    .ahb-hresp-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      justify-content: flex-end;
+    }
+
+    .ahb-hresp-legend-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 0.8rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(226, 232, 240, 0.94);
+      background: rgba(255, 255, 255, 0.88);
+      color: #64748b;
+      font-size: 0.78rem;
+      font-weight: 700;
+      line-height: 1;
+      box-shadow: 0 10px 20px rgba(148, 163, 184, 0.08);
+    }
+
+    .ahb-hresp-legend-chip strong {
+      color: #0f172a;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+    }
+
+    .ahb-hresp-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .ahb-hresp-panel {
+      --panel-tone: #d97706;
+      --panel-soft: rgba(251, 191, 36, 0.18);
+      --panel-border: rgba(245, 158, 11, 0.28);
+      --panel-glow: rgba(245, 158, 11, 0.2);
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--panel-border);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.92) 100%);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.04);
+    }
+
+    .ahb-hresp-panel::after {
+      content: "";
+      position: absolute;
+      top: -52px;
+      right: -24px;
+      width: 156px;
+      height: 156px;
+      border-radius: 9999px;
+      background: var(--panel-glow);
+      filter: blur(34px);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .ahb-hresp-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .ahb-hresp-panel.split {
+      --panel-tone: #7c3aed;
+      --panel-soft: rgba(196, 181, 253, 0.18);
+      --panel-border: rgba(139, 92, 246, 0.24);
+      --panel-glow: rgba(167, 139, 250, 0.18);
+    }
+
+    .ahb-hresp-panel-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+
+    .ahb-hresp-panel-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.34rem 0.68rem;
+      border-radius: 9999px;
+      background: var(--panel-soft);
+      color: var(--panel-tone);
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .ahb-hresp-panel-subtitle {
+      margin-top: 0.5rem;
+      color: #0f172a;
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+    }
+
+    .ahb-hresp-panel-copy {
+      margin-top: 0.45rem;
+      max-width: 18rem;
+      color: #475569;
+      font-size: 0.84rem;
+      line-height: 1.68;
+    }
+
+    .ahb-hresp-copy-list {
+      margin-top: 0.45rem;
+      max-width: 18rem;
+      display: grid;
+      gap: 0.42rem;
+      color: #475569;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    .ahb-hresp-copy-item {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .ahb-hresp-copy-item .ahb-hresp-inline-icon {
+      flex-shrink: 0;
+      margin-top: 0.04rem;
+    }
+
+    .ahb-hresp-copy-label {
+      color: #334155;
+      font-weight: 700;
+      margin-right: 0.4rem;
+    }
+
+    .ahb-hresp-inline-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.35rem;
+      height: 1.35rem;
+      margin-right: 0.45rem;
+      border-radius: 9999px;
+      background: var(--panel-soft);
+      color: var(--panel-tone);
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      line-height: 1;
+      vertical-align: -0.1rem;
+    }
+
+    .ahb-hresp-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.46rem 0.74rem;
+      border-radius: 9999px;
+      border: 1px solid var(--panel-border);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--panel-tone);
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      box-shadow: 0 10px 18px rgba(148, 163, 184, 0.08);
+    }
+
+    .ahb-hresp-figure {
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(226, 232, 240, 0.94);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.92) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.94);
+    }
+
+    .ahb-hresp-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .ahb-hresp-node {
+      fill: rgba(255, 255, 255, 0.98);
+      stroke: #d7e2ee;
+      stroke-width: 1.6;
+      filter: drop-shadow(0 10px 18px rgba(148, 163, 184, 0.08));
+    }
+
+    .ahb-hresp-node-outline {
+      fill: var(--panel-soft);
+      stroke: rgba(255, 255, 255, 0.9);
+      stroke-width: 1;
+    }
+
+    .ahb-hresp-node-meta {
+      fill: #64748b;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .ahb-hresp-node-title {
+      fill: #0f172a;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .ahb-hresp-node-body {
+      fill: #64748b;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .ahb-hresp-node-icon-shell {
+      fill: var(--panel-soft);
+      stroke: rgba(255, 255, 255, 0.94);
+      stroke-width: 1.2;
+    }
+
+    .ahb-hresp-node-icon-glyph {
+      fill: #0f172a;
+      font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Pretendard', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+    .ahb-hresp-badge-box {
+      fill: rgba(255, 255, 255, 0.98);
+      stroke: #d7e2ee;
+      stroke-width: 1.2;
+    }
+
+    .ahb-hresp-badge-box.is-muted {
+      fill: #f8fafc;
+      stroke: #d7dee8;
+      stroke-dasharray: 4 4;
+    }
+
+    .ahb-hresp-badge-label {
+      fill: #334155;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .ahb-hresp-badge-label.is-tone {
+      fill: var(--panel-tone);
+    }
+
+    .ahb-hresp-badge-body {
+      fill: #64748b;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .ahb-hresp-control-line {
+      fill: none;
+      stroke: #cbd5e1;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 6 7;
+    }
+
+    .ahb-hresp-pulse-ring {
+      fill: none;
+      stroke: var(--panel-tone);
+      stroke-width: 2;
+      opacity: 0.22;
+    }
+
+    .ahb-hresp-particle-shell {
+      fill: rgba(255, 255, 255, 0.98);
+      stroke: var(--panel-tone);
+      stroke-width: 1.3;
+      filter: drop-shadow(0 6px 12px var(--panel-glow));
+    }
+
+    .ahb-hresp-particle-label {
+      fill: var(--panel-tone);
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+    .ahb-hresp-track-base {
+      fill: none;
+      stroke: #d7dee8;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ahb-hresp-track-flow {
+      fill: none;
+      stroke: var(--panel-tone);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 14 12;
+      opacity: 0;
+      filter: drop-shadow(0 0 12px var(--panel-glow));
+    }
+
+    .ahb-hresp-track-flow.is-stage-a {
+      animation: hrespDashFlow 1.15s linear infinite, hrespStageA 4.8s ease-in-out infinite;
+    }
+
+    .ahb-hresp-track-flow.is-stage-a.is-reverse {
+      animation: hrespDashFlowReverse 1.15s linear infinite, hrespStageA 4.8s ease-in-out infinite;
+    }
+
+    .ahb-hresp-track-flow.is-stage-b {
+      animation: hrespDashFlowReverse 1.15s linear infinite, hrespStageB 4.8s ease-in-out infinite;
+    }
+
+    .ahb-hresp-track-flow.is-stage-b.is-reverse {
+      animation: hrespDashFlowReverse 1.15s linear infinite, hrespStageB 4.8s ease-in-out infinite;
+    }
+
+    .ahb-hresp-track-flow.is-stage-c {
+      animation: hrespDashFlow 1.15s linear infinite, hrespStageC 4.8s ease-in-out infinite;
+    }
+
+    .ahb-hresp-track-flow.is-stage-c.is-reverse {
+      animation: hrespDashFlowReverse 1.15s linear infinite, hrespStageC 4.8s ease-in-out infinite;
+    }
+
+    .ahb-hresp-track-flow.is-stage-d {
+      animation: hrespDashFlow 1.15s linear infinite, hrespStageD 4.8s ease-in-out infinite;
+    }
+
+    .ahb-hresp-track-flow.is-stage-d.is-reverse {
+      animation: hrespDashFlowReverse 1.15s linear infinite, hrespStageD 4.8s ease-in-out infinite;
+    }
+
+    .ahb-hresp-flag {
+      fill: rgba(255, 255, 255, 0.98);
+      stroke: var(--panel-tone);
+      stroke-width: 1.2;
+    }
+
+    .ahb-hresp-flag-label {
+      fill: var(--panel-tone);
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ahb-hresp-callout {
+      fill: #ffffff;
+      stroke: #d7e2ee;
+      stroke-width: 1.2;
+    }
+
+    .ahb-hresp-callout-label {
+      fill: #334155;
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .ahb-hresp-callout-body {
+      fill: #64748b;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .ahb-hresp-note-list {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .ahb-hresp-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      min-width: 0;
+      padding: 0.62rem 0.72rem;
+      border-radius: 16px;
+      border: 1px solid rgba(226, 232, 240, 0.94);
+      background: rgba(255, 255, 255, 0.82);
+      color: #475569;
+      font-size: 0.82rem;
+      line-height: 1.58;
+    }
+
+    .ahb-hresp-note-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.4rem;
+      height: 1.4rem;
+      flex-shrink: 0;
+      border-radius: 9999px;
+      background: var(--panel-soft);
+      color: var(--panel-tone);
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
     @media (min-width: 1280px) {
       .ahb-logic-layout {
         grid-template-columns: minmax(0, 1.5fr) 320px;
@@ -2503,6 +3007,40 @@
       50% { box-shadow: 0 0 0 8px transparent, 0 12px 24px var(--glow); }
     }
 
+    @keyframes hrespDashFlow {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: -52; }
+    }
+
+    @keyframes hrespDashFlowReverse {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: 52; }
+    }
+
+    @keyframes hrespStageA {
+      0%, 10%, 100% { opacity: 0; }
+      14%, 30% { opacity: 1; }
+      36%, 100% { opacity: 0; }
+    }
+
+    @keyframes hrespStageB {
+      0%, 30%, 100% { opacity: 0; }
+      34%, 50% { opacity: 1; }
+      56%, 100% { opacity: 0; }
+    }
+
+    @keyframes hrespStageC {
+      0%, 50%, 100% { opacity: 0; }
+      54%, 70% { opacity: 1; }
+      76%, 100% { opacity: 0; }
+    }
+
+    @keyframes hrespStageD {
+      0%, 70%, 100% { opacity: 0; }
+      74%, 92% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .arbiter-motion-shell::before,
       .arbiter-motion-shell::after,
@@ -2517,12 +3055,18 @@
       .arbiter-internal-line.is-req,
       .arbiter-internal-line.is-compare,
       .arbiter-internal-line.is-master,
-      .arbiter-internal-mux-path.is-active {
+      .arbiter-internal-mux-path.is-active,
+      .ahb-hresp-track-flow {
         animation: none !important;
       }
 
       .ahb-logic-token-group {
         display: none !important;
+      }
+
+      .ahb-hresp-track-flow {
+        opacity: 0.82 !important;
+        stroke-dasharray: none;
       }
     }
 
@@ -2601,6 +3145,23 @@
         grid-template-columns: 52px minmax(180px, 1fr) 52px;
         gap: 0.65rem;
         padding: 0.75rem 0.8rem;
+      }
+
+      .ahb-hresp-heading {
+        margin-bottom: 1.2rem;
+      }
+
+      .ahb-hresp-legend {
+        justify-content: flex-start;
+      }
+
+      .ahb-hresp-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ahb-hresp-panel-head {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       .ahb-logic-step,
@@ -3996,6 +4557,217 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden mb-8 ahb-hresp-shell">
+            <div class="ahb-hresp-heading">
+              <div>
+                <div class="ahb-hresp-eyebrow">HRESP Mini Flow</div>
+                <h3 class="ahb-hresp-title">HRESP - RETRY / SPLIT</h3>
+              </div>
+              <div class="ahb-hresp-legend">
+                <span class="ahb-hresp-legend-chip"><strong>RETRY</strong> same slave loop</span>
+                <span class="ahb-hresp-legend-chip"><strong>SPLIT</strong> arbiter reroute</span>
+              </div>
+            </div>
+
+            <div class="ahb-hresp-grid">
+              <article class="ahb-hresp-panel retry">
+                <div class="ahb-hresp-panel-head">
+                  <div>
+                    <span class="ahb-hresp-panel-tag">HRESP = RETRY</span>
+                    <h4 class="ahb-hresp-panel-subtitle"><span class="ahb-hresp-inline-icon" aria-hidden="true">↺</span>Same Master Retry</h4>
+                    <div class="ahb-hresp-copy-list">
+                      <div class="ahb-hresp-copy-item"><span class="ahb-hresp-inline-icon" aria-hidden="true">◎</span><span><span class="ahb-hresp-copy-label">대상 유지</span>슬레이브 S0 고정</span></div>
+                      <div class="ahb-hresp-copy-item"><span class="ahb-hresp-inline-icon" aria-hidden="true">◎</span><span><span class="ahb-hresp-copy-label">준비 대기</span>처리 가능 시점까지 일시 보류</span></div>
+                      <div class="ahb-hresp-copy-item"><span class="ahb-hresp-inline-icon" aria-hidden="true">◎</span><span><span class="ahb-hresp-copy-label">동일 요청 재시도</span>마스터 M0의 요청 재전달</span></div>
+                    </div>
+                  </div>
+                  <span class="ahb-hresp-pill">M0 -> S0 -> retry -> S0</span>
+                </div>
+
+                <div class="ahb-hresp-figure">
+                  <svg viewBox="0 0 520 308" class="ahb-hresp-svg" aria-hidden="true" style="--panel-tone:#d97706; --panel-soft:rgba(251,191,36,0.18); --panel-glow:rgba(245,158,11,0.2);">
+                    <defs>
+                      <pattern id="ahbHrespRetryGrid" width="22" height="22" patternUnits="userSpaceOnUse">
+                        <path d="M22 0H0V22" fill="none" stroke="#edf2f7" stroke-width="1"/>
+                      </pattern>
+                    </defs>
+
+                    <rect width="520" height="308" fill="url(#ahbHrespRetryGrid)"/>
+
+                    <rect x="22" y="18" width="132" height="24" rx="12" class="ahb-hresp-badge-box is-muted"/>
+                    <text x="88" y="33" text-anchor="middle" class="ahb-hresp-badge-label">⚖ NO RE-ROUTE</text>
+
+                    <rect x="34" y="82" width="112" height="88" rx="24" class="ahb-hresp-node"/>
+                    <circle cx="90" cy="108" r="18" class="ahb-hresp-node-icon-shell"/>
+                    <text x="90" y="109" class="ahb-hresp-node-icon-glyph">💻</text>
+                    <text x="90" y="136" text-anchor="middle" class="ahb-hresp-node-meta">Master</text>
+                    <text x="90" y="154" text-anchor="middle" class="ahb-hresp-node-title">M0</text>
+                    <text x="90" y="168" text-anchor="middle" class="ahb-hresp-node-body">same request</text>
+
+                    <g>
+                      <circle cx="430" cy="126" r="32" class="ahb-hresp-pulse-ring">
+                        <animate attributeName="r" values="28;38;28" dur="2.2s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.18;0.34;0.18" dur="2.2s" repeatCount="indefinite"/>
+                      </circle>
+                      <rect x="374" y="82" width="112" height="88" rx="24" class="ahb-hresp-node"/>
+                      <circle cx="430" cy="108" r="18" class="ahb-hresp-node-icon-shell"/>
+                      <text x="430" y="109" class="ahb-hresp-node-icon-glyph">💾</text>
+                      <text x="430" y="136" text-anchor="middle" class="ahb-hresp-node-meta">Slave</text>
+                      <text x="430" y="154" text-anchor="middle" class="ahb-hresp-node-title">S0</text>
+                      <text x="430" y="168" text-anchor="middle" class="ahb-hresp-node-body">same target</text>
+                    </g>
+
+                    <path d="M 146 126 H 374" class="ahb-hresp-track-base"/>
+
+                    <g>
+                      <rect x="-22" y="-11" width="44" height="22" rx="11" class="ahb-hresp-particle-shell"/>
+                      <text x="0" y="1" class="ahb-hresp-particle-label">REQ</text>
+                      <animateMotion dur="3.8s" repeatCount="indefinite" path="M 146 126 H 374 H 146"/>
+                    </g>
+
+                    <rect x="34" y="222" width="112" height="62" rx="22" class="ahb-hresp-node"/>
+                    <circle cx="90" cy="243" r="16" class="ahb-hresp-node-icon-shell"/>
+                    <text x="90" y="244" class="ahb-hresp-node-icon-glyph">🧠</text>
+                    <text x="90" y="266" text-anchor="middle" class="ahb-hresp-node-meta">Master</text>
+                    <text x="90" y="282" text-anchor="middle" class="ahb-hresp-node-title">M1</text>
+                    <text x="90" y="295" text-anchor="middle" class="ahb-hresp-node-body">request denied</text>
+
+                    <path d="M 146 248 H 188" class="ahb-hresp-track-base"/>
+                    <path d="M 202 248 H 226" class="ahb-hresp-track-base"/>
+
+                    <g opacity="0.94">
+                      <rect x="-20" y="-10" width="40" height="20" rx="10" class="ahb-hresp-particle-shell"/>
+                      <text x="0" y="1" class="ahb-hresp-particle-label">REQ</text>
+                      <animateMotion dur="2.3s" repeatCount="indefinite" path="M 146 248 H 188 H 146"/>
+                    </g>
+
+                    <rect x="356" y="18" width="128" height="24" rx="12" class="ahb-hresp-badge-box"/>
+                    <text x="420" y="33" text-anchor="middle" class="ahb-hresp-badge-label is-tone">⏳ RETRY ON S0</text>
+                  </svg>
+                </div>
+
+              </article>
+
+              <article class="ahb-hresp-panel split">
+                <div class="ahb-hresp-panel-head">
+                  <div>
+                    <span class="ahb-hresp-panel-tag">HRESP = SPLIT</span>
+                    <h4 class="ahb-hresp-panel-subtitle"><span class="ahb-hresp-inline-icon" aria-hidden="true">⚖</span>Another Master Try</h4>
+                    <div class="ahb-hresp-copy-list">
+                      <div class="ahb-hresp-copy-item"><span class="ahb-hresp-inline-icon" aria-hidden="true">◎</span><span><span class="ahb-hresp-copy-label">중간 중단</span>마스터 M0 전송 보류</span></div>
+                      <div class="ahb-hresp-copy-item"><span class="ahb-hresp-inline-icon" aria-hidden="true">◎</span><span><span class="ahb-hresp-copy-label">중재기 개입</span>버스 사용 순서 재조정</span></div>
+                      <div class="ahb-hresp-copy-item"><span class="ahb-hresp-inline-icon" aria-hidden="true">◎</span><span><span class="ahb-hresp-copy-label">다른 마스터 진행</span>마스터 M1의 S0 접근 허용</span></div>
+                    </div>
+                  </div>
+                  <span class="ahb-hresp-pill">M0 turn back / M1 -> S0</span>
+                </div>
+
+                <div class="ahb-hresp-figure">
+                  <svg viewBox="0 0 520 286" class="ahb-hresp-svg" aria-hidden="true" style="--panel-tone:#7c3aed; --panel-soft:rgba(196,181,253,0.18); --panel-glow:rgba(167,139,250,0.18);">
+                    <defs>
+                      <pattern id="ahbHrespSplitGrid" width="22" height="22" patternUnits="userSpaceOnUse">
+                        <path d="M22 0H0V22" fill="none" stroke="#eef2ff" stroke-width="1"/>
+                      </pattern>
+                    </defs>
+
+                    <rect width="520" height="286" fill="url(#ahbHrespSplitGrid)"/>
+
+                    <g>
+                      <animate attributeName="opacity" values="1;1;1;0.64;0.48;0.52" keyTimes="0;0.3;0.46;0.58;0.8;1" dur="5.8s" repeatCount="indefinite"/>
+                      <rect x="34" y="74" width="112" height="84" rx="24" class="ahb-hresp-node"/>
+                      <circle cx="90" cy="100" r="18" class="ahb-hresp-node-icon-shell"/>
+                      <text x="90" y="101" class="ahb-hresp-node-icon-glyph">💻</text>
+                      <text x="90" y="127" text-anchor="middle" class="ahb-hresp-node-meta">Master</text>
+                      <text x="90" y="145" text-anchor="middle" class="ahb-hresp-node-title">M0</text>
+                      <text x="90" y="159" text-anchor="middle" class="ahb-hresp-node-body">sent, then held</text>
+                    </g>
+
+                    <g>
+                      <circle cx="260" cy="59" r="34" class="ahb-hresp-pulse-ring">
+                        <animate attributeName="r" values="30;40;30" dur="2.3s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.18;0.34;0.18" dur="2.3s" repeatCount="indefinite"/>
+                      </circle>
+                      <rect x="198" y="22" width="124" height="74" rx="24" class="ahb-hresp-node"/>
+                      <circle cx="260" cy="46" r="18" class="ahb-hresp-node-icon-shell"/>
+                      <text x="260" y="47" class="ahb-hresp-node-icon-glyph">⚖️</text>
+                      <text x="260" y="69" text-anchor="middle" class="ahb-hresp-node-meta">Arbiter</text>
+                      <text x="260" y="88" text-anchor="middle" class="ahb-hresp-node-body">switch to M1</text>
+                    </g>
+
+                    <g>
+                      <circle cx="430" cy="116" r="32" class="ahb-hresp-pulse-ring">
+                        <animate attributeName="opacity" values="0.08;0.08;0.34;0.2;0.34;0.14" keyTimes="0;0.22;0.3;0.5;0.92;1" dur="5.8s" repeatCount="indefinite"/>
+                        <animate attributeName="r" values="28;28;38;30;38;28" keyTimes="0;0.22;0.3;0.5;0.92;1" dur="5.8s" repeatCount="indefinite"/>
+                      </circle>
+                      <rect x="374" y="74" width="112" height="84" rx="24" class="ahb-hresp-node"/>
+                      <circle cx="430" cy="100" r="18" class="ahb-hresp-node-icon-shell"/>
+                      <text x="430" y="101" class="ahb-hresp-node-icon-glyph">💾</text>
+                      <text x="430" y="127" text-anchor="middle" class="ahb-hresp-node-meta">Slave</text>
+                      <text x="430" y="145" text-anchor="middle" class="ahb-hresp-node-title">S0</text>
+                      <text x="430" y="159" text-anchor="middle" class="ahb-hresp-node-body">M1 reaches end</text>
+                    </g>
+
+                    <g opacity="0.6">
+                      <animate attributeName="opacity" values="0.5;0.5;0.78;1;1;0.6" dur="5.8s" repeatCount="indefinite"/>
+                      <rect x="34" y="188" width="112" height="84" rx="24" class="ahb-hresp-node"/>
+                      <circle cx="90" cy="214" r="18" class="ahb-hresp-node-icon-shell"/>
+                      <text x="90" y="215" class="ahb-hresp-node-icon-glyph">🧠</text>
+                      <text x="90" y="241" text-anchor="middle" class="ahb-hresp-node-meta">Master</text>
+                      <text x="90" y="259" text-anchor="middle" class="ahb-hresp-node-title">M1</text>
+                      <text x="90" y="273" text-anchor="middle" class="ahb-hresp-node-body">granted after split</text>
+                    </g>
+
+                    <path d="M 146 126 H 374" class="ahb-hresp-track-base"/>
+                    <path d="M 146 230 H 260 V 126" class="ahb-hresp-track-base"/>
+                    <path d="M 260 96 V 126" class="ahb-hresp-control-line">
+                      <animate attributeName="opacity" values="0.26;0.26;0.4;1;1;0.34" keyTimes="0;0.3;0.34;0.46;0.58;1" dur="5.8s" repeatCount="indefinite"/>
+                      <animate attributeName="stroke-width" values="3;3;3.4;5;5;3" keyTimes="0;0.3;0.34;0.46;0.58;1" dur="5.8s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M 146 126 H 374" class="ahb-hresp-track-flow is-stage-a" style="animation-duration: 1.15s, 5.8s;"/>
+                    <path d="M 146 126 H 374" class="ahb-hresp-track-flow is-stage-b is-reverse" style="animation-duration: 1.15s, 5.8s;"/>
+                    <path d="M 260 96 V 126" class="ahb-hresp-track-flow is-stage-b" style="animation-duration: 1.15s, 5.8s;"/>
+                    <path d="M 146 230 H 260 V 126" class="ahb-hresp-track-flow is-stage-c" style="animation-duration: 1.15s, 5.8s;"/>
+                    <path d="M 260 126 H 374" class="ahb-hresp-track-flow is-stage-d" style="animation-duration: 1.15s, 5.8s;"/>
+
+                    <circle cx="260" cy="126" r="11" class="ahb-hresp-node-outline">
+                      <animate attributeName="r" values="11;11;11;14;14;11" keyTimes="0;0.3;0.34;0.46;0.58;1" dur="5.8s" repeatCount="indefinite"/>
+                    </circle>
+                    <text x="260" y="127" text-anchor="middle" class="ahb-hresp-badge-label is-tone">
+                      ⇢
+                      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;0.34;0.36;0.5;0.54;1" dur="5.8s" repeatCount="indefinite"/>
+                    </text>
+                    <text x="260" y="127" text-anchor="middle" class="ahb-hresp-badge-label is-tone" opacity="0">
+                      ✕
+                      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.34;0.38;0.5;0.54;1" dur="5.8s" repeatCount="indefinite"/>
+                    </text>
+
+                    <g opacity="0.96">
+                      <animate attributeName="opacity" values="1;1;1;1;0.28;0.18" keyTimes="0;0.22;0.3;0.46;0.58;1" dur="5.8s" repeatCount="indefinite"/>
+                      <rect x="-20" y="-10" width="40" height="20" rx="10" class="ahb-hresp-particle-shell"/>
+                      <text x="0" y="1" class="ahb-hresp-particle-label">REQ</text>
+                      <animateMotion dur="5.8s" repeatCount="indefinite" keyPoints="0;0.708;0.708;1" keyTimes="0;0.3;0.46;0.58" calcMode="linear" path="M 146 126 H 374 H 280"/>
+                    </g>
+
+                    <g opacity="0">
+                      <animate attributeName="opacity" values="0;0;0;0.16;1;1" keyTimes="0;0.5;0.54;0.62;0.92;1" dur="5.8s" repeatCount="indefinite"/>
+                      <rect x="-20" y="-10" width="40" height="20" rx="10" class="ahb-hresp-particle-shell"/>
+                      <text x="0" y="1" class="ahb-hresp-particle-label">REQ</text>
+                      <animateMotion dur="5.8s" repeatCount="indefinite" keyPoints="0;0;1" keyTimes="0;0.54;0.92" calcMode="linear" path="M 146 230 H 260 V 126 H 374"/>
+                    </g>
+
+                    <rect x="24" y="18" width="126" height="24" rx="12" class="ahb-hresp-badge-box"/>
+                    <text x="87" y="33" text-anchor="middle" class="ahb-hresp-badge-label">⏸ M0 HELD BACK</text>
+
+                    <rect x="348" y="18" width="138" height="24" rx="12" class="ahb-hresp-badge-box"/>
+                    <text x="417" y="33" text-anchor="middle" class="ahb-hresp-badge-label is-tone">⚖ ROUTE M1 TO S0</text>
+
+                  </svg>
+                </div>
+
+              </article>
             </div>
           </div>
 
