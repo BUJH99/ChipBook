@@ -15,6 +15,36 @@
             display: none !important;
         }
 
+        [data-nand-lab] .memory-stage-chip {
+            cursor: default;
+        }
+
+        [data-nand-lab] .memory-stage-chip:hover {
+            border-color: inherit;
+            color: inherit;
+            background: inherit;
+        }
+
+        [data-nand-lab] [data-nand-program-flow],
+        [data-nand-lab] [data-nand-read-flow],
+        [data-nand-lab] [data-nand-erase-flow],
+        [data-nand-lab] [data-nand-charge-fill],
+        [data-nand-lab] [data-nand-electron-group],
+        [data-nand-lab] [data-nand-threshold-fill],
+        [data-nand-lab] [data-nand-channel-glow],
+        [data-nand-lab] [data-nand-barrier],
+        [data-nand-lab] [data-nand-sense-box],
+        [data-nand-lab] [data-nand-bit-bubble],
+        [data-nand-lab] [data-nand-control-gate],
+        [data-nand-lab] [data-nand-charge-label],
+        [data-nand-lab] [data-nand-gate-label],
+        [data-nand-lab] [data-nand-threshold-label],
+        [data-nand-lab] [data-nand-read-label],
+        [data-nand-lab] [data-nand-channel-label],
+        [data-nand-lab] [data-nand-state-label] {
+            transition: all 0.35s ease;
+        }
+
     </style>
 </head>
 <body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-5">
@@ -240,6 +270,154 @@
                             </div>
 
                             <div class="card" data-part5-panel="flash-ssd" data-guidebook-toc-title="Flash / SSD" hidden>
+                                <div id="nand-operation-lab" data-nand-lab data-memory-tone="blue" data-running="false" class="mb-6 rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.06)]">
+                                    <div class="px-5 pt-5 pb-3 flex items-start justify-between gap-4">
+                                        <div>
+                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">NAND Operation Lab</div>
+                                            <h5 class="mt-2 text-[1.15rem] font-black text-slate-900">Program / Read / Erase 작동 원리</h5>
+                                            <p class="mt-2 text-sm leading-6 text-slate-600">NAND는 <strong class="text-slate-900">전하를 가두면 문턱전압(Vth)이 올라가고</strong>, 읽을 때는 <strong class="text-slate-900">전류가 흐르는지 여부</strong>로 데이터를 판별합니다.</p>
+                                        </div>
+                                        <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-xs font-extrabold text-blue-600">SLC Example</span>
+                                    </div>
+                                    <div class="px-5 pb-3 flex flex-wrap items-center justify-between gap-3">
+                                        <div class="flex flex-wrap gap-2">
+                                            <button type="button" class="memory-op-btn" data-nand-action="program">Program</button>
+                                            <button type="button" class="memory-op-btn" data-nand-action="read">Read</button>
+                                            <button type="button" class="memory-op-btn" data-nand-action="erase">Erase</button>
+                                        </div>
+                                    </div>
+                                    <div class="px-5">
+                                        <div class="memory-sim-panel border border-blue-100 p-4">
+                                            <div class="memory-summary-row">
+                                                <span class="memory-state-pill"><span>Stored State</span><strong data-nand-state-summary>Erased 1</strong></span>
+                                                <span class="memory-state-pill"><span>Threshold</span><strong data-nand-threshold-summary>Low Vth</strong></span>
+                                                <span class="memory-state-pill"><span>Read Current</span><strong data-nand-current-summary>Flows</strong></span>
+                                            </div>
+                                            <svg viewBox="0 0 620 272" class="memory-sim-svg w-full h-[286px] block xl:h-[306px]" aria-hidden="true">
+                                                <defs>
+                                                    <pattern id="nandLabGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                        <path d="M18 0H0V18" fill="none" stroke="#edf6ff" stroke-width="1"/>
+                                                    </pattern>
+                                                    <linearGradient id="nandChannelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                        <stop offset="0%" stop-color="#60a5fa"/>
+                                                        <stop offset="50%" stop-color="#2563eb"/>
+                                                        <stop offset="100%" stop-color="#60a5fa"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="nandChargeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                        <stop offset="0%" stop-color="#60a5fa"/>
+                                                        <stop offset="100%" stop-color="#2563eb"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="nandThresholdGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                        <stop offset="0%" stop-color="#60a5fa"/>
+                                                        <stop offset="100%" stop-color="#a855f7"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <rect width="620" height="272" fill="url(#nandLabGrid)"/>
+                                                <rect x="18" y="20" width="584" height="232" rx="28" fill="#ffffff" stroke="#dbeafe" stroke-width="1.8"/>
+
+                                                <text x="57" y="48" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">Vth</text>
+                                                <rect x="46" y="62" width="22" height="126" rx="11" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+                                                <rect data-nand-threshold-fill x="49" y="154" width="16" height="28" rx="8" fill="url(#nandThresholdGrad)"/>
+                                                <text x="57" y="202" text-anchor="middle" fill="#64748b" font-size="10" font-weight="900">Low</text>
+                                                <text x="57" y="74" text-anchor="middle" fill="#64748b" font-size="10" font-weight="900">High</text>
+                                                <text x="57" y="220" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900" data-nand-threshold-label>Low Vth</text>
+
+                                                <text x="290" y="30" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="900" data-nand-gate-label>Erase state keeps threshold low</text>
+                                                <rect data-nand-control-gate x="188" y="40" width="204" height="24" rx="12" fill="#94a3b8" stroke="#64748b" stroke-width="1.8"/>
+                                                <text x="290" y="56" text-anchor="middle" fill="#ffffff" font-size="10.8" font-weight="900">Control Gate</text>
+
+                                                <rect x="202" y="76" width="176" height="18" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+                                                <text x="290" y="89" text-anchor="middle" fill="#64748b" font-size="9.6" font-weight="900">Inter-Poly Oxide</text>
+
+                                                <rect x="212" y="96" width="156" height="30" rx="15" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.6"/>
+                                                <rect data-nand-charge-fill x="218" y="102" width="0" height="18" rx="9" fill="url(#nandChargeGrad)" opacity="0.9"/>
+                                                <g data-nand-electron-group style="opacity:0">
+                                                    <circle cx="238" cy="111" r="3.3" fill="#ffffff"/>
+                                                    <circle cx="256" cy="111" r="3.3" fill="#ffffff"/>
+                                                    <circle cx="274" cy="111" r="3.3" fill="#ffffff"/>
+                                                    <circle cx="292" cy="111" r="3.3" fill="#ffffff"/>
+                                                    <circle cx="310" cy="111" r="3.3" fill="#ffffff"/>
+                                                    <circle cx="328" cy="111" r="3.3" fill="#ffffff"/>
+                                                </g>
+                                                <text x="290" y="142" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900" data-nand-charge-label>Charge Trap Empty</text>
+
+                                                <rect x="202" y="148" width="176" height="14" rx="7" fill="#ecfeff" stroke="#67e8f9" stroke-width="1.2"/>
+                                                <text x="290" y="159" text-anchor="middle" fill="#0f766e" font-size="9.5" font-weight="900">Tunnel Oxide</text>
+
+                                                <path d="M116 178H432" fill="none" stroke="#334155" stroke-width="3.4" stroke-linecap="round"/>
+                                                <rect x="104" y="164" width="24" height="28" rx="7" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.4"/>
+                                                <rect x="420" y="164" width="24" height="28" rx="7" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.4"/>
+                                                <text x="116" y="206" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900">Source</text>
+                                                <text x="432" y="206" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900">Drain</text>
+                                                <rect x="116" y="170" width="316" height="14" rx="7" fill="#dbeafe" opacity="0.44" data-nand-channel-glow/>
+                                                <rect x="116" y="170" width="316" height="14" rx="7" fill="url(#nandChannelGrad)" opacity="0.2" data-nand-channel-core/>
+                                                <rect data-nand-barrier x="286" y="158" width="24" height="38" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="1.6" opacity="0"/>
+                                                <text x="290" y="226" text-anchor="middle" fill="#2563eb" font-size="10.8" font-weight="900" data-nand-channel-label>Read current flows through the channel</text>
+
+                                                <g data-nand-program-flow style="opacity:0">
+                                                    <path d="M290 176C290 154 290 138 290 120" fill="none" stroke="#2563eb" stroke-width="2.6" stroke-dasharray="6 5" stroke-linecap="round"/>
+                                                    <polygon points="286,124 290,116 294,124" fill="#2563eb"/>
+                                                    <circle r="4.4" fill="#2563eb">
+                                                        <animateMotion dur="1.3s" repeatCount="indefinite" path="M290 176C290 154 290 138 290 120"/>
+                                                    </circle>
+                                                    <circle r="4.4" fill="#38bdf8">
+                                                        <animateMotion dur="1.3s" begin="0.35s" repeatCount="indefinite" path="M290 176C290 154 290 138 290 120"/>
+                                                    </circle>
+                                                </g>
+
+                                                <g data-nand-erase-flow style="opacity:0">
+                                                    <path d="M290 120C290 138 290 154 290 176" fill="none" stroke="#f59e0b" stroke-width="2.6" stroke-dasharray="6 5" stroke-linecap="round"/>
+                                                    <polygon points="286,172 290,180 294,172" fill="#f59e0b"/>
+                                                    <circle r="4.4" fill="#f59e0b">
+                                                        <animateMotion dur="1.3s" repeatCount="indefinite" path="M290 120C290 138 290 154 290 176"/>
+                                                    </circle>
+                                                    <circle r="4.4" fill="#fbbf24">
+                                                        <animateMotion dur="1.3s" begin="0.35s" repeatCount="indefinite" path="M290 120C290 138 290 154 290 176"/>
+                                                    </circle>
+                                                </g>
+
+                                                <g data-nand-read-flow style="opacity:0">
+                                                    <path d="M116 177H452" fill="none" stroke="#38bdf8" stroke-width="2.8" stroke-dasharray="7 5" stroke-linecap="round"/>
+                                                    <circle r="4.3" fill="#2563eb">
+                                                        <animateMotion dur="1.45s" repeatCount="indefinite" path="M116 177H452"/>
+                                                    </circle>
+                                                    <circle r="4.3" fill="#38bdf8">
+                                                        <animateMotion dur="1.45s" begin="0.45s" repeatCount="indefinite" path="M116 177H452"/>
+                                                    </circle>
+                                                </g>
+
+                                                <rect data-nand-sense-box x="458" y="144" width="122" height="66" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.8"/>
+                                                <text x="519" y="162" text-anchor="middle" fill="#334155" font-size="10.2" font-weight="900">Sense Amp</text>
+                                                <circle data-nand-bit-bubble cx="490" cy="187" r="16" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.6"/>
+                                                <text x="490" y="192" text-anchor="middle" fill="#2563eb" font-size="14" font-weight="900" data-nand-bit-label>1</text>
+                                                <text x="528" y="183" fill="#2563eb" font-size="10.3" font-weight="900" data-nand-read-label>Current flows</text>
+                                                <text x="528" y="198" fill="#64748b" font-size="9.8" font-weight="900" data-nand-state-label>Erase state reads as 1</text>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="px-5 pt-4">
+                                        <div class="memory-log-shell">
+                                            <span class="memory-log-badge is-active" data-nand-log-badge>Ready</span>
+                                            <p class="text-sm leading-6 text-slate-600 font-medium" data-nand-log>초기 상태는 erase 예시입니다. trapped charge가 거의 없어 문턱전압이 낮고, read 전압에서 채널 전류가 흘러 <strong class="text-slate-900">1</strong>로 감지됩니다.</p>
+                                        </div>
+                                    </div>
+                                    <div class="px-5 pt-4">
+                                        <div class="memory-stage-row">
+                                            <span class="memory-stage-chip" data-nand-stage-chip="idle">Start</span>
+                                            <span class="memory-stage-chip" data-nand-stage-chip="slot-a">Bias</span>
+                                            <span class="memory-stage-chip" data-nand-stage-chip="slot-b">Tunnel</span>
+                                            <span class="memory-stage-chip" data-nand-stage-chip="slot-c">Store</span>
+                                            <span class="memory-stage-chip" data-nand-stage-chip="done">Stable</span>
+                                        </div>
+                                        <div class="memory-stage-note">Example SLC convention: <strong class="text-slate-900">Erase = low Vth = current flows = 1</strong>, <strong class="text-slate-900">Program = trapped charge = high Vth = blocked current = 0</strong>.</div>
+                                    </div>
+                                    <div class="px-5 pt-4 pb-5 flex flex-wrap gap-2">
+                                        <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Program = Vth Up</span>
+                                        <span class="inline-flex items-center rounded-full bg-sky-50 px-3 py-1.5 text-[11px] font-extrabold text-sky-600">Read by Current Sense</span>
+                                        <span class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1.5 text-[11px] font-extrabold text-amber-600">Erase = Charge Removal</span>
+                                        <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1.5 text-[11px] font-extrabold text-indigo-600">Non-Volatile Storage</span>
+                                    </div>
+                                </div>
                                 <div class="mb-6 rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.05)]">
                                     <div class="px-5 pt-5 pb-3 flex items-center justify-between gap-4">
                                         <div>
@@ -1323,6 +1501,419 @@
                 mode: 'static',
             },
         });
+
+        (function initPart5NandLab() {
+            const root = document.querySelector('[data-nand-lab]');
+            if (!root || root.dataset.nandReady === 'true') return;
+            root.dataset.nandReady = 'true';
+
+            const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+            const buttons = Array.from(root.querySelectorAll('[data-nand-action]'));
+            const stageChips = Array.from(root.querySelectorAll('[data-nand-stage-chip]'));
+            const els = {
+                stateSummary: root.querySelector('[data-nand-state-summary]'),
+                thresholdSummary: root.querySelector('[data-nand-threshold-summary]'),
+                currentSummary: root.querySelector('[data-nand-current-summary]'),
+                thresholdFill: root.querySelector('[data-nand-threshold-fill]'),
+                thresholdLabel: root.querySelector('[data-nand-threshold-label]'),
+                controlGate: root.querySelector('[data-nand-control-gate]'),
+                gateLabel: root.querySelector('[data-nand-gate-label]'),
+                chargeFill: root.querySelector('[data-nand-charge-fill]'),
+                electronGroup: root.querySelector('[data-nand-electron-group]'),
+                chargeLabel: root.querySelector('[data-nand-charge-label]'),
+                channelGlow: root.querySelector('[data-nand-channel-glow]'),
+                channelCore: root.querySelector('[data-nand-channel-core]'),
+                barrier: root.querySelector('[data-nand-barrier]'),
+                channelLabel: root.querySelector('[data-nand-channel-label]'),
+                programFlow: root.querySelector('[data-nand-program-flow]'),
+                readFlow: root.querySelector('[data-nand-read-flow]'),
+                eraseFlow: root.querySelector('[data-nand-erase-flow]'),
+                senseBox: root.querySelector('[data-nand-sense-box]'),
+                bitBubble: root.querySelector('[data-nand-bit-bubble]'),
+                bitLabel: root.querySelector('[data-nand-bit-label]'),
+                readLabel: root.querySelector('[data-nand-read-label]'),
+                stateLabel: root.querySelector('[data-nand-state-label]'),
+                logBadge: root.querySelector('[data-nand-log-badge]'),
+                log: root.querySelector('[data-nand-log]'),
+            };
+
+            const stageOrder = ['idle', 'slot-a', 'slot-b', 'slot-c', 'done'];
+            const stageLabels = {
+                program: { idle: 'Start', 'slot-a': 'High Bias', 'slot-b': 'Tunnel', 'slot-c': 'Trap Fill', done: 'Vth Up' },
+                read: { idle: 'Start', 'slot-a': 'Apply Vread', 'slot-b': 'Compare Vth', 'slot-c': 'Sense', done: 'Bit Out' },
+                erase: { idle: 'Start', 'slot-a': 'Erase Bias', 'slot-b': 'Detrap', 'slot-c': 'Vth Down', done: 'Flow Restored' },
+            };
+            const state = {
+                charged: false,
+                running: false,
+                action: 'read',
+                sequence: 0,
+            };
+
+            const setText = (el, value) => {
+                if (el) el.textContent = value;
+            };
+            const setAttr = (el, name, value) => {
+                if (el) el.setAttribute(name, String(value));
+            };
+            const setOpacity = (el, value) => {
+                if (el) el.style.opacity = String(value);
+            };
+            const setButtonsDisabled = (disabled) => {
+                buttons.forEach((button) => {
+                    button.disabled = disabled;
+                });
+            };
+            const setRunning = (running) => {
+                state.running = running;
+                root.dataset.running = running ? 'true' : 'false';
+                setButtonsDisabled(running);
+            };
+            const ensureCurrent = (token) => token === state.sequence && root.isConnected;
+            const setButtonState = (action) => {
+                state.action = action;
+                buttons.forEach((button) => {
+                    const isActive = button.dataset.nandAction === action;
+                    button.classList.toggle('is-active', isActive);
+                    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                });
+                const labels = stageLabels[action] || stageLabels.read;
+                stageChips.forEach((chip) => {
+                    setText(chip, labels[chip.dataset.nandStageChip] || chip.textContent);
+                });
+            };
+            const setStage = (stage) => {
+                const activeIndex = stageOrder.indexOf(stage);
+                stageChips.forEach((chip) => {
+                    const chipIndex = stageOrder.indexOf(chip.dataset.nandStageChip);
+                    chip.classList.toggle('is-active', chipIndex === activeIndex);
+                    chip.classList.toggle('is-done', chipIndex > 0 && chipIndex < activeIndex);
+                });
+            };
+            const setLog = (badge, message) => {
+                setText(els.logBadge, badge);
+                setText(els.log, message);
+                els.logBadge?.classList.add('is-active');
+            };
+            const clearFlows = () => {
+                setOpacity(els.programFlow, 0);
+                setOpacity(els.readFlow, 0);
+                setOpacity(els.eraseFlow, 0);
+            };
+            const setChargeLevel = (level) => {
+                const clamped = Math.max(0, Math.min(100, Math.round(level)));
+                const width = Math.round(144 * (clamped / 100));
+                setAttr(els.chargeFill, 'width', width);
+                setOpacity(els.chargeFill, clamped === 0 ? 0.15 : 0.92);
+                setOpacity(els.electronGroup, clamped === 0 ? 0 : Math.max(0.18, clamped / 100));
+                setText(els.chargeLabel, clamped >= 70 ? 'Electrons Trapped' : clamped > 0 ? 'Charge Building Up' : 'Charge Trap Empty');
+            };
+            const setThresholdLevel = (level) => {
+                const clamped = Math.max(0, Math.min(100, Math.round(level)));
+                const height = 18 + Math.round(90 * (clamped / 100));
+                const y = 182 - height;
+                const fill = clamped >= 60 ? 'url(#nandThresholdGrad)' : '#60a5fa';
+                setAttr(els.thresholdFill, 'y', y);
+                setAttr(els.thresholdFill, 'height', height);
+                setAttr(els.thresholdFill, 'fill', fill);
+                setText(els.thresholdLabel, clamped >= 60 ? 'High Vth' : 'Low Vth');
+            };
+            const setGateTone = (mode) => {
+                if (!els.controlGate) return;
+                const toneMap = {
+                    idle: { fill: '#94a3b8', stroke: '#64748b' },
+                    program: { fill: '#2563eb', stroke: '#1d4ed8' },
+                    read: { fill: '#0ea5e9', stroke: '#0284c7' },
+                    erase: { fill: '#f59e0b', stroke: '#d97706' },
+                };
+                const tone = toneMap[mode] || toneMap.idle;
+                setAttr(els.controlGate, 'fill', tone.fill);
+                setAttr(els.controlGate, 'stroke', tone.stroke);
+            };
+            const setReadState = ({ bit, currentFlows }) => {
+                const flowing = Boolean(currentFlows);
+                setOpacity(els.readFlow, flowing ? 1 : 0);
+                setOpacity(els.channelGlow, flowing ? 0.94 : 0.26);
+                setOpacity(els.barrier, flowing ? 0 : 1);
+                setAttr(els.channelCore, 'opacity', flowing ? 0.95 : 0.22);
+                setAttr(els.channelCore, 'fill', flowing ? 'url(#nandChannelGrad)' : '#cbd5e1');
+                setAttr(els.bitBubble, 'fill', flowing ? '#dbeafe' : '#fee2e2');
+                setAttr(els.bitBubble, 'stroke', flowing ? '#60a5fa' : '#ef4444');
+                setAttr(els.senseBox, 'fill', flowing ? '#f8fbff' : '#fff7f7');
+                setAttr(els.senseBox, 'stroke', flowing ? '#93c5fd' : '#fda4af');
+                setAttr(els.bitLabel, 'fill', flowing ? '#2563eb' : '#dc2626');
+                setText(els.bitLabel, bit);
+            };
+            const setSummaries = ({ bit, threshold, current }) => {
+                setText(els.stateSummary, bit === '0' ? 'Programmed 0' : 'Erased 1');
+                setText(els.thresholdSummary, threshold);
+                setText(els.currentSummary, current);
+            };
+            const renderVisuals = ({
+                chargeLevel,
+                thresholdLevel,
+                gateTone,
+                gateLabel,
+                bit,
+                currentFlows,
+                channelLabel,
+                readLabel,
+                stateLabel,
+                showProgramFlow = false,
+                showEraseFlow = false,
+            }) => {
+                clearFlows();
+                setChargeLevel(chargeLevel);
+                setThresholdLevel(thresholdLevel);
+                setGateTone(gateTone);
+                setText(els.gateLabel, gateLabel);
+                setText(els.channelLabel, channelLabel);
+                setText(els.readLabel, readLabel);
+                setText(els.stateLabel, stateLabel);
+                setReadState({ bit, currentFlows });
+                setOpacity(els.programFlow, showProgramFlow ? 1 : 0);
+                setOpacity(els.eraseFlow, showEraseFlow ? 1 : 0);
+                setSummaries({
+                    bit,
+                    threshold: thresholdLevel >= 60 ? 'High Vth' : 'Low Vth',
+                    current: currentFlows ? 'Flows' : 'Blocked',
+                });
+            };
+            const renderStable = () => {
+                setButtonState(state.action);
+                setStage('done');
+                if (state.charged) {
+                    renderVisuals({
+                        chargeLevel: 100,
+                        thresholdLevel: 92,
+                        gateTone: 'idle',
+                        gateLabel: 'Trapped charge keeps threshold high',
+                        bit: '0',
+                        currentFlows: false,
+                        channelLabel: 'Read current is blocked by the raised threshold',
+                        readLabel: 'No current',
+                        stateLabel: 'Program state reads as 0',
+                    });
+                    setLog('Stored 0', '프로그램된 셀은 전하를 trap에 가둔 상태를 유지합니다. 그래서 문턱전압이 높아지고, read 전압에서는 채널 전류가 막혀 0으로 감지됩니다.');
+                    return;
+                }
+
+                renderVisuals({
+                    chargeLevel: 0,
+                    thresholdLevel: 18,
+                    gateTone: 'idle',
+                    gateLabel: 'Erase state keeps threshold low',
+                    bit: '1',
+                    currentFlows: true,
+                    channelLabel: 'Read current flows through the channel',
+                    readLabel: 'Current flows',
+                    stateLabel: 'Erase state reads as 1',
+                });
+                setLog('Ready', '초기 상태는 erase 예시입니다. trapped charge가 거의 없어 문턱전압이 낮고, read 전압에서 채널 전류가 흘러 1로 감지됩니다.');
+            };
+            const finishAction = () => {
+                setRunning(false);
+                renderStable();
+            };
+
+            const runProgram = async () => {
+                const token = ++state.sequence;
+                setRunning(true);
+                setButtonState('program');
+
+                setStage('slot-a');
+                renderVisuals({
+                    chargeLevel: state.charged ? 90 : 6,
+                    thresholdLevel: state.charged ? 84 : 26,
+                    gateTone: 'program',
+                    gateLabel: 'High program bias bends the field',
+                    bit: state.charged ? '0' : '1',
+                    currentFlows: false,
+                    channelLabel: 'Strong vertical field prepares tunneling',
+                    readLabel: 'Program pulse',
+                    stateLabel: 'Preparing to inject electrons',
+                    showProgramFlow: true,
+                });
+                setLog('Bias', '높은 program 전압을 control gate에 걸어 channel과 trap 사이에 강한 전계를 만듭니다.');
+                await wait(620);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-b');
+                renderVisuals({
+                    chargeLevel: 54,
+                    thresholdLevel: 58,
+                    gateTone: 'program',
+                    gateLabel: 'Electrons tunnel into the charge trap',
+                    bit: '0',
+                    currentFlows: false,
+                    channelLabel: 'Fowler-Nordheim tunneling moves electrons upward',
+                    readLabel: 'Threshold rising',
+                    stateLabel: 'Charge is being stored',
+                    showProgramFlow: true,
+                });
+                setLog('Tunnel', '전자들이 산화막을 넘어 charge trap 또는 floating gate 쪽으로 주입되면서 셀 내부에 저장됩니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-c');
+                renderVisuals({
+                    chargeLevel: 100,
+                    thresholdLevel: 92,
+                    gateTone: 'program',
+                    gateLabel: 'Stored charge raises the threshold voltage',
+                    bit: '0',
+                    currentFlows: false,
+                    channelLabel: 'Even with read bias, the channel does not open easily',
+                    readLabel: 'Current blocked',
+                    stateLabel: 'Program state becomes 0',
+                });
+                setLog('Store', '가둔 전하가 문턱전압을 높여 read 시 채널 전류를 막습니다. 이 SLC 예시에서는 그 상태를 0으로 읽습니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                state.charged = true;
+                finishAction();
+            };
+
+            const runRead = async () => {
+                const token = ++state.sequence;
+                const programmed = state.charged;
+                setRunning(true);
+                setButtonState('read');
+
+                setStage('slot-a');
+                renderVisuals({
+                    chargeLevel: programmed ? 100 : 0,
+                    thresholdLevel: programmed ? 92 : 18,
+                    gateTone: 'read',
+                    gateLabel: 'Apply Vread and test channel conduction',
+                    bit: programmed ? '0' : '1',
+                    currentFlows: !programmed,
+                    channelLabel: programmed ? 'High Vth resists channel formation' : 'Low Vth lets the channel form',
+                    readLabel: programmed ? 'Checking for missing current' : 'Current flows',
+                    stateLabel: programmed ? 'Programmed cell under read bias' : 'Erased cell under read bias',
+                });
+                setLog('Vread', '읽을 때는 control gate에 read 전압을 걸고 source-drain 전류가 흐르는지 먼저 확인합니다.');
+                await wait(620);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-b');
+                renderVisuals({
+                    chargeLevel: programmed ? 100 : 0,
+                    thresholdLevel: programmed ? 92 : 18,
+                    gateTone: 'read',
+                    gateLabel: programmed ? 'Stored electrons keep Vth above Vread' : 'Vread is above the low erase threshold',
+                    bit: programmed ? '0' : '1',
+                    currentFlows: !programmed,
+                    channelLabel: programmed ? 'No conduction path appears' : 'A conduction path appears across the channel',
+                    readLabel: programmed ? 'No current' : 'Current detected',
+                    stateLabel: programmed ? 'Sense amp sees blocked current' : 'Sense amp sees conduction current',
+                });
+                setLog('Compare', programmed
+                    ? '전하가 남아 있으면 Vth가 높아서 Vread만으로는 채널이 잘 열리지 않습니다.'
+                    : '전하가 거의 없는 erase 상태라면 낮은 Vth 덕분에 Vread만으로 채널이 열립니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-c');
+                renderVisuals({
+                    chargeLevel: programmed ? 100 : 0,
+                    thresholdLevel: programmed ? 92 : 18,
+                    gateTone: 'read',
+                    gateLabel: 'Sense amp converts current into a logic bit',
+                    bit: programmed ? '0' : '1',
+                    currentFlows: !programmed,
+                    channelLabel: programmed ? 'Blocked current maps to 0 in this example' : 'Flowing current maps to 1 in this example',
+                    readLabel: programmed ? 'Bit = 0' : 'Bit = 1',
+                    stateLabel: programmed ? 'Programmed state resolves to 0' : 'Erase state resolves to 1',
+                });
+                setLog('Sense', programmed
+                    ? 'Sense amp는 전류가 거의 없다는 사실을 읽어 0으로 판단합니다.'
+                    : 'Sense amp는 충분한 채널 전류를 감지해 1로 판단합니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                finishAction();
+            };
+
+            const runErase = async () => {
+                const token = ++state.sequence;
+                setRunning(true);
+                setButtonState('erase');
+
+                setStage('slot-a');
+                renderVisuals({
+                    chargeLevel: state.charged ? 100 : 18,
+                    thresholdLevel: state.charged ? 92 : 28,
+                    gateTone: 'erase',
+                    gateLabel: 'Erase bias applies the reverse field',
+                    bit: state.charged ? '0' : '1',
+                    currentFlows: false,
+                    channelLabel: 'Reverse field prepares charge removal',
+                    readLabel: 'Erase field',
+                    stateLabel: state.charged ? 'Preparing to remove trapped electrons' : 'Cell is already close to erase state',
+                    showEraseFlow: true,
+                });
+                setLog('Erase', 'Erase에서는 반대 방향 전계를 걸어 trap 안에 있던 전하가 빠져나오게 만듭니다.');
+                await wait(620);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-b');
+                renderVisuals({
+                    chargeLevel: state.charged ? 34 : 6,
+                    thresholdLevel: state.charged ? 44 : 20,
+                    gateTone: 'erase',
+                    gateLabel: 'Stored electrons detrap and threshold falls',
+                    bit: '1',
+                    currentFlows: false,
+                    channelLabel: 'Charge removal lowers the cell threshold',
+                    readLabel: 'Charge leaving trap',
+                    stateLabel: 'Detrapping in progress',
+                    showEraseFlow: true,
+                });
+                setLog('Detrap', '가둬둔 전하가 빠지면서 문턱전압이 내려가기 시작합니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-c');
+                renderVisuals({
+                    chargeLevel: 0,
+                    thresholdLevel: 18,
+                    gateTone: 'erase',
+                    gateLabel: 'Low threshold is restored after erase',
+                    bit: '1',
+                    currentFlows: true,
+                    channelLabel: 'With low Vth restored, read current can flow again',
+                    readLabel: 'Current flows',
+                    stateLabel: 'Erase state returns to 1',
+                });
+                setLog('Restore', '전하가 제거되면 Vth가 다시 낮아지고, 다음 read에서는 채널 전류가 다시 흐를 수 있습니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                state.charged = false;
+                finishAction();
+            };
+
+            buttons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    if (state.running) return;
+                    const action = button.dataset.nandAction;
+                    if (action === 'program') {
+                        runProgram();
+                        return;
+                    }
+                    if (action === 'erase') {
+                        runErase();
+                        return;
+                    }
+                    runRead();
+                });
+            });
+
+            setButtonState('read');
+            renderStable();
+        })();
     </script>
 </body>
 </html>
