@@ -257,6 +257,1073 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="border-t border-slate-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-8">
+                                    <div class="mb-8 max-w-4xl">
+                                        <div class="text-sm font-extrabold uppercase tracking-widest text-indigo-600 mb-2">Deep Dive Analysis</div>
+                                        <h3 class="text-3xl font-black text-slate-900 mb-4">DRAM 및 SRAM 불량 메커니즘 심층 분석</h3>
+                                        <p class="text-lg text-slate-600 leading-relaxed">반도체 메모리 칩은 나노미터(nm) 단위의 미세 공정이 적용됨에 따라 다양한 물리적, 전기적 요인으로 인해 오류가 발생할 수 있습니다. 본 섹션에서는 메모리 반도체의 핵심인 DRAM과 SRAM에서 발생하는 주요 불량 메커니즘을 엔지니어링 및 아키텍처 관점에서 상세히 분석합니다.</p>
+                                    </div>
+
+                                    <div class="mb-12">
+                                        <div class="flex items-center gap-3 mb-6 pb-2 border-b-2 border-rose-100">
+                                            <span class="bg-rose-100 text-rose-700 w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl">D</span>
+                                            <h4 class="text-2xl font-bold text-slate-900">DRAM Fail Mechanisms</h4>
+                                        </div>
+                                        <p class="mb-6 text-slate-600">DRAM은 커패시터(Capacitor)에 전하(Charge)를 축적하여 데이터를 저장하는 방식을 취합니다. 셀의 집적도가 높아질수록 주변 회로와의 간섭 및 미세한 공정 산포에 민감해지며, 엄격한 타이밍 마진 부족으로 인한 데이터 유실이 발생할 수 있습니다.</p>
+
+                                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                            <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800 mb-2">Static/Dynamic</span>
+                                                        <h5 class="text-lg font-black text-slate-900">① 리텐션 불량 (Retention Fail)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM retention fail animation">
+                                                        <defs>
+                                                            <linearGradient id="dramRetCapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                                <stop offset="0%" stop-color="#fb7185"/>
+                                                                <stop offset="100%" stop-color="#fda4af"/>
+                                                            </linearGradient>
+                                                        </defs>
+                                                        <path d="M88 42V94" fill="none" stroke="#94a3b8" stroke-width="2.8" stroke-linecap="round"/>
+                                                        <text x="88" y="34" text-anchor="middle" fill="#64748b" font-size="10" font-weight="900">BL</text>
+                                                        <path d="M88 72H122" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <rect x="122" y="56" width="30" height="34" rx="7" fill="#fce7f3" stroke="#f9a8d4" stroke-width="1.4"/>
+                                                        <path d="M152 72H190V108" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="176" y1="90" x2="204" y2="90" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="176" y1="108" x2="204" y2="108" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <rect x="181" y="92" width="18" height="14" rx="5" fill="url(#dramRetCapGrad)">
+                                                            <animate attributeName="height" values="14;8;2;14" dur="2.5s" repeatCount="indefinite"/>
+                                                            <animate attributeName="y" values="92;98;104;92" dur="2.5s" repeatCount="indefinite"/>
+                                                        </rect>
+                                                        <path d="M190 108V130" fill="none" stroke="#fb7185" stroke-width="2" stroke-dasharray="4 4"/>
+                                                        <circle cx="190" cy="115" r="3" fill="#fb7185">
+                                                            <animate attributeName="cy" values="110;130;110" dur="1s" repeatCount="indefinite"/>
+                                                            <animate attributeName="opacity" values="1;0;0" dur="1s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <text x="210" y="125" fill="#ef4444" font-size="10" font-weight="bold">Leakage (GIDL)</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 커패시터나 셀 트랜지스터의 누설 전류(GIDL, Junction Leakage). 온도가 높을수록 급증합니다.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 리프레시 주기가 오기 전에 전하가 소실되어 데이터 에러 발생.</p>
+                                                    <p><strong class="text-emerald-700">개선:</strong> High-k 절연막 도입, 온도 센서 연동 가변 리프레시(ATCSR).</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800 mb-2">Destructive Read</span>
+                                                        <h5 class="text-lg font-black text-slate-900">② 리스토어 페일 (Restore Fail)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM restore fail animation">
+                                                        <defs>
+                                                            <linearGradient id="restoreFailShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#fff1f2"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="restoreFailCap" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                                <stop offset="0%" stop-color="#fb7185"/>
+                                                                <stop offset="100%" stop-color="#fda4af"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="restoreFailWeak" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                                <stop offset="0%" stop-color="#fdba74"/>
+                                                                <stop offset="100%" stop-color="#fb923c"/>
+                                                            </linearGradient>
+                                                            <filter id="restoreFailGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                                                <feDropShadow dx="0" dy="0" stdDeviation="2.6" flood-color="#fb7185" flood-opacity="0.3"/>
+                                                            </filter>
+                                                        </defs>
+
+                                                        <rect x="14" y="12" width="292" height="120" rx="22" fill="url(#restoreFailShell)" stroke="#ffe4e6"/>
+
+                                                        <rect x="22" y="20" width="82" height="18" rx="9" fill="#fff1f2" stroke="#fb7185" opacity="0.96">
+                                                            <animate attributeName="x" values="22;22;118;118;214;214;22" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.17;0.18;0.57;0.58;0.95;1" calcMode="discrete"/>
+                                                        </rect>
+                                                        <text x="64" y="32" text-anchor="middle" fill="#be123c" font-size="8.6" font-weight="900">저장</text>
+                                                        <text x="160" y="32" text-anchor="middle" fill="#be123c" font-size="8.6" font-weight="900">파괴적 읽기</text>
+                                                        <text x="256" y="32" text-anchor="middle" fill="#be123c" font-size="8.6" font-weight="900">불완전 복원</text>
+
+                                                        <text x="160" y="50" text-anchor="middle" fill="#475569" font-size="9.2" font-weight="900">
+                                                            셀에 1 전하가 가득 저장됨
+                                                            <animate attributeName="opacity" values="1;1;0;0;1;1" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.17;0.18;0.95;0.96;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="50" text-anchor="middle" fill="#e11d48" font-size="9.2" font-weight="900" opacity="0">
+                                                            읽는 순간 BL로 퍼져 셀이 거의 비워짐
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.18;0.20;0.57;0.58;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="50" text-anchor="middle" fill="#ea580c" font-size="9.2" font-weight="900" opacity="0">
+                                                            복원이 약해 45%까지만 재충전됨
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.58;0.60;0.95;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="42" y="84" fill="#8b5cf6" font-size="10" font-weight="900">WL</text>
+                                                        <text x="74" y="62" text-anchor="middle" fill="#64748b" font-size="10" font-weight="900">BL</text>
+                                                        <path d="M58 80H108" fill="none" stroke="#c4b5fd" stroke-width="2.5" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#c4b5fd;#c4b5fd;#fb7185;#fb7185;#fb923c;#fb923c;#c4b5fd" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.18;0.20;0.58;0.60;0.95;1"/>
+                                                        </path>
+                                                        <path d="M74 64V110" fill="none" stroke="#94a3b8" stroke-width="2.8" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#94a3b8;#94a3b8;#fb7185;#fb7185;#fb923c;#fb923c;#94a3b8" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.18;0.20;0.58;0.60;0.95;1"/>
+                                                        </path>
+                                                        <rect x="108" y="66" width="22" height="28" rx="5" fill="#f3e8ff" stroke="#d8b4fe" stroke-width="1.5"/>
+                                                        <line x1="119" y1="54" x2="119" y2="66" stroke="#d8b4fe" stroke-width="1.5" stroke-dasharray="4 4" stroke-linecap="round"/>
+                                                        <path d="M130 80H182V96" fill="none" stroke="#334155" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+
+                                                        <line x1="160" y1="96" x2="194" y2="96" stroke="#334155" stroke-width="2.6" stroke-linecap="round"/>
+                                                        <line x1="160" y1="114" x2="194" y2="114" stroke="#334155" stroke-width="2.6" stroke-linecap="round"/>
+                                                        <rect x="166" y="96" width="22" height="18" rx="4" fill="none" stroke="#fda4af" stroke-width="1.4" stroke-dasharray="4 3"/>
+                                                        <rect x="169" y="98" width="16" height="14" rx="3.5" fill="url(#restoreFailCap)" opacity="0.96">
+                                                            <animate attributeName="y" values="98;98;109;109;112;112;98" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.18;0.38;0.58;0.60;0.95;1"/>
+                                                            <animate attributeName="height" values="14;14;3;3;0;0;14" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.18;0.38;0.58;0.60;0.95;1"/>
+                                                        </rect>
+                                                        <rect x="169" y="112" width="16" height="0" rx="3.5" fill="url(#restoreFailWeak)" opacity="0.98">
+                                                            <animate attributeName="y" values="112;112;106;106;112" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.60;0.72;0.95;1"/>
+                                                            <animate attributeName="height" values="0;0;8;8;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.60;0.72;0.95;1"/>
+                                                        </rect>
+                                                        <g>
+                                                            <rect x="148" y="78" width="56" height="14" rx="7" fill="#ffffff" stroke="#fb7185"/>
+                                                            <text x="176" y="87.5" text-anchor="middle" fill="#e11d48" font-size="7.8" font-weight="900">목표 100%</text>
+                                                        </g>
+                                                        <g opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.64;0.66;0.95;1" calcMode="discrete"/>
+                                                            <path d="M154 114H166" fill="none" stroke="#fdba74" stroke-width="1.4" stroke-linecap="round"/>
+                                                            <rect x="104" y="107" width="48" height="14" rx="7" fill="#fff7ed" stroke="#fdba74"/>
+                                                            <text x="128" y="116.5" text-anchor="middle" fill="#ea580c" font-size="7.4" font-weight="900">실제 45%</text>
+                                                        </g>
+
+                                                        <path d="M184 80H222" fill="none" stroke="#cbd5e1" stroke-width="2.2" stroke-linecap="round"/>
+                                                        <path d="M184 96V80H222" fill="none" stroke="#fb7185" stroke-width="2.2" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.18;0.20;0.57;0.58;1" calcMode="discrete"/>
+                                                        </path>
+                                                        <path d="M222 80H184V96" fill="none" stroke="#fb923c" stroke-width="2.2" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.58;0.60;0.95;1" calcMode="discrete"/>
+                                                        </path>
+
+                                                        <circle cx="178" cy="100" r="3" fill="#fb7185" opacity="0" filter="url(#restoreFailGlow)">
+                                                            <animate attributeName="cx" values="178;178;178;222;222;178" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.22;0.28;0.44;0.50;1"/>
+                                                            <animate attributeName="cy" values="100;100;80;80;80;100" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.22;0.28;0.44;0.50;1"/>
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.22;0.28;0.44;0.50;1"/>
+                                                        </circle>
+                                                        <circle cx="222" cy="80" r="3" fill="#fb923c" opacity="0">
+                                                            <animate attributeName="cx" values="222;222;210;178;178;222" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.60;0.66;0.80;0.86;1"/>
+                                                            <animate attributeName="cy" values="80;80;80;80;100;100" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.60;0.66;0.80;0.86;1"/>
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.60;0.66;0.80;0.86;1"/>
+                                                        </circle>
+
+                                                        <rect x="224" y="60" width="70" height="36" rx="10" fill="#fff1f2" stroke="#fb7185" filter="url(#restoreFailGlow)">
+                                                            <animate attributeName="stroke" values="#fb7185;#fb7185;#e11d48;#e11d48;#fb923c;#fb923c;#fb7185" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.20;0.22;0.58;0.60;0.95;1"/>
+                                                        </rect>
+                                                        <text x="259" y="75" text-anchor="middle" fill="#e11d48" font-size="10" font-weight="900">Sense Amp</text>
+                                                        <text x="259" y="87" text-anchor="middle" fill="#e11d48" font-size="8.1" font-weight="900" opacity="0">
+                                                            1 판정
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.34;0.36;0.57;0.58;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <g opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.4s" repeatCount="indefinite" keyTimes="0;0.60;0.62;0.95;1" calcMode="discrete"/>
+                                                            <text x="259" y="87" text-anchor="middle" fill="#ea580c" font-size="8.1" font-weight="900">복원 약함</text>
+                                                            <rect x="229" y="101" width="60" height="14" rx="7" fill="#fff7ed" stroke="#fdba74"/>
+                                                            <text x="259" y="110.5" text-anchor="middle" fill="#ea580c" font-size="7.2" font-weight="900">tRAS 부족</text>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 파괴적 읽기 후 센스 앰프가 값을 셀에 되돌려 써야 하는데, 구동력 저하 또는 워드라인 유지 시간(tRAS) 부족으로 복원이 끝까지 진행되지 못함.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 읽는 순간 거의 비워진 셀이 충분히 재충전되지 못해, 다음 접근 전까지 약한 전하 상태로 남아 데이터 유실 위험이 커짐.</p>
+                                                    <p><strong class="text-emerald-700">개선:</strong> 센스 앰프 구동력 강화, tRAS 타이밍 마진 확보.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800 mb-2">Offset / Mismatch</span>
+                                                        <h5 class="text-lg font-black text-slate-900">③ 센스 앰프 마진 불량</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM sense amp margin fail animation">
+                                                        <defs>
+                                                            <linearGradient id="senseMarginShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#fff1f2"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="senseMarginAmp" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                                <stop offset="0%" stop-color="#fff7f9"/>
+                                                                <stop offset="100%" stop-color="#ffe4e6"/>
+                                                            </linearGradient>
+                                                            <filter id="senseMarginGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                                                <feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#ef4444" flood-opacity="0.4"/>
+                                                            </filter>
+                                                        </defs>
+
+                                                        <rect x="14" y="14" width="292" height="116" rx="22" fill="url(#senseMarginShell)" stroke="#ffe4e6"/>
+
+                                                        <text x="24" y="40" fill="#475569" font-size="10" font-weight="900">BL</text>
+                                                        <text x="18" y="108" fill="#64748b" font-size="10" font-weight="900">BLB</text>
+
+                                                        <path d="M46 44H96Q112 44 132 44" fill="none" stroke="#93c5fd" stroke-width="2.6" stroke-linecap="round">
+                                                            <animate attributeName="d" dur="3.6s" repeatCount="indefinite"
+                                                                values="M46 44H96Q112 44 132 44;M46 44H96Q112 44 132 44;M46 44H96Q112 44 132 38;M46 44H96Q112 44 132 38;M46 44H96Q112 44 132 44"
+                                                                keyTimes="0;0.18;0.38;0.72;1"/>
+                                                        </path>
+                                                        <path d="M46 98H96Q112 98 132 98" fill="none" stroke="#94a3b8" stroke-width="2.6" stroke-linecap="round">
+                                                            <animate attributeName="d" dur="3.6s" repeatCount="indefinite"
+                                                                values="M46 98H96Q112 98 132 98;M46 98H96Q112 98 132 98;M46 98H96Q112 98 132 104;M46 98H96Q112 98 132 104;M46 98H96Q112 98 132 98"
+                                                                keyTimes="0;0.18;0.38;0.72;1"/>
+                                                        </path>
+
+                                                        <circle cx="132" cy="44" r="4.2" fill="#2563eb">
+                                                            <animate attributeName="cy" dur="3.6s" repeatCount="indefinite"
+                                                                values="44;44;38;38;44" keyTimes="0;0.18;0.38;0.72;1"/>
+                                                        </circle>
+                                                        <circle cx="132" cy="98" r="4.2" fill="#64748b">
+                                                            <animate attributeName="cy" dur="3.6s" repeatCount="indefinite"
+                                                                values="98;98;104;104;98" keyTimes="0;0.18;0.38;0.72;1"/>
+                                                        </circle>
+
+                                                        <g>
+                                                            <line x1="114" y1="52" x2="114" y2="90" stroke="#94a3b8" stroke-width="1.7" stroke-dasharray="3 4" opacity="0.12">
+                                                                <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                    values="0.08;0.08;0.95;0.95;0.08" keyTimes="0;0.2;0.42;0.74;1"/>
+                                                            </line>
+                                                            <path d="M110 56L114 50L118 56" fill="none" stroke="#94a3b8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.12">
+                                                                <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                    values="0.08;0.08;0.95;0.95;0.08" keyTimes="0;0.2;0.42;0.74;1"/>
+                                                            </path>
+                                                            <path d="M110 86L114 92L118 86" fill="none" stroke="#94a3b8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.12">
+                                                                <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                    values="0.08;0.08;0.95;0.95;0.08" keyTimes="0;0.2;0.42;0.74;1"/>
+                                                            </path>
+                                                            <text x="76" y="76" fill="#2563eb" font-size="9.4" font-weight="900" opacity="0.18">tiny ΔV
+                                                                <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                    values="0.1;0.1;1;1;0.1" keyTimes="0;0.2;0.42;0.74;1"/>
+                                                            </text>
+                                                        </g>
+
+                                                        <text x="140" y="28" fill="#2563eb" font-size="8.8" font-weight="900" opacity="0.28">BL +ΔV
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0.18;0.18;1;1;0.18" keyTimes="0;0.2;0.42;0.74;1"/>
+                                                        </text>
+                                                        <text x="140" y="118" fill="#64748b" font-size="8.8" font-weight="900" opacity="0.28">BLB -ΔV
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0.18;0.18;1;1;0.18" keyTimes="0;0.2;0.42;0.74;1"/>
+                                                        </text>
+
+                                                        <rect x="146" y="18" width="74" height="108" rx="18" fill="url(#senseMarginAmp)" stroke="#fb7185" stroke-width="1.6"/>
+                                                        <text x="183" y="38" text-anchor="middle" fill="#be123c" font-size="10.4" font-weight="900">Sense Amp</text>
+                                                        <text x="183" y="51" text-anchor="middle" fill="#ef4444" font-size="8.8" font-weight="900">offset / mismatch</text>
+
+                                                        <line x1="158" y1="72" x2="208" y2="72" stroke="#cbd5e1" stroke-width="1.7" stroke-dasharray="4 4" opacity="0.7">
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0.7;0.7;0.22;0.22;0.7" keyTimes="0;0.2;0.42;0.74;1"/>
+                                                        </line>
+
+                                                        <rect x="158" y="66" width="48" height="12" rx="6" fill="#fecaca" opacity="0.92">
+                                                            <animate attributeName="y" dur="3.6s" repeatCount="indefinite"
+                                                                values="66;66;54;54;66" keyTimes="0;0.24;0.46;0.78;1"/>
+                                                        </rect>
+                                                        <text x="182" y="74" text-anchor="middle" fill="#b91c1c" font-size="8.2" font-weight="900">offset
+                                                            <animate attributeName="y" dur="3.6s" repeatCount="indefinite"
+                                                                values="74;74;62;62;74" keyTimes="0;0.24;0.46;0.78;1"/>
+                                                        </text>
+
+                                                        <path d="M164 92L200 58" fill="none" stroke="#ef4444" stroke-width="2.6" stroke-linecap="round" opacity="0.14">
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0.1;0.1;0.36;0.9;0.1" keyTimes="0;0.28;0.5;0.82;1"/>
+                                                        </path>
+                                                        <path d="M164 58L200 92" fill="none" stroke="#93c5fd" stroke-width="2.2" stroke-linecap="round" opacity="0.32">
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0.4;0.4;0.55;0.16;0.4" keyTimes="0;0.28;0.5;0.82;1"/>
+                                                        </path>
+
+                                                        <text x="183" y="102" text-anchor="middle" fill="#be123c" font-size="8.4" font-weight="900" opacity="0.2">ΔV보다
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0.1;0.1;0.9;0.9;0.1" keyTimes="0;0.34;0.56;0.82;1"/>
+                                                        </text>
+                                                        <text x="183" y="113" text-anchor="middle" fill="#be123c" font-size="8.4" font-weight="900" opacity="0.2">offset이 큼
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0.1;0.1;0.9;0.9;0.1" keyTimes="0;0.34;0.56;0.82;1"/>
+                                                        </text>
+
+                                                        <path d="M220 44C236 44 244 38 256 38H288" fill="none" stroke="#94a3b8" stroke-width="2.3" stroke-linecap="round" stroke-dasharray="5 6" opacity="0.54">
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0.58;0.58;0.34;0.14;0.58" keyTimes="0;0.32;0.5;0.82;1"/>
+                                                        </path>
+                                                        <path d="M220 40C236 46 246 82 260 100H288" fill="none" stroke="#ef4444" stroke-width="3.1" stroke-linecap="round" stroke-dasharray="8 7" opacity="0">
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0;0;0.28;1;0" keyTimes="0;0.4;0.58;0.86;1"/>
+                                                            <animate attributeName="stroke-dashoffset" dur="1.1s" repeatCount="indefinite" values="0;-30"/>
+                                                        </path>
+
+                                                        <circle r="4.2" fill="#ef4444" filter="url(#senseMarginGlow)" opacity="0">
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0;0;0;1;0" keyTimes="0;0.46;0.58;0.86;1"/>
+                                                            <animateMotion dur="1.1s" repeatCount="indefinite" path="M220 40C236 46 246 82 260 100H288"/>
+                                                        </circle>
+
+                                                        <rect x="246" y="28" width="52" height="18" rx="9" fill="#ffffff" stroke="#cbd5e1" opacity="0.9"/>
+                                                        <text x="272" y="40" text-anchor="middle" fill="#64748b" font-size="8.2" font-weight="900">정상 BL</text>
+
+                                                        <rect x="238" y="92" width="68" height="22" rx="11" fill="#fff1f2" stroke="#fb7185" stroke-width="1.6" opacity="0.72">
+                                                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite"
+                                                                values="0.6;0.6;0.82;1;0.6" keyTimes="0;0.42;0.58;0.86;1"/>
+                                                        </rect>
+                                                        <text x="272" y="106" text-anchor="middle" fill="#be123c" font-size="8.6" font-weight="900">오판 BLB</text>
+
+                                                        <rect x="74" y="118" width="172" height="14" rx="7" fill="#fff1f2" stroke="#fecdd3"/>
+                                                        <text x="160" y="128" text-anchor="middle" fill="#be123c" font-size="8.6" font-weight="900">BL이 더 높아도 BLB 선택</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 공정 산포로 인한 센스 앰프 TR 간 미스매치 또는 커플링 노이즈 유입.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 미세한 ΔV를 반대로 증폭하여 1을 0으로 오판독(Read Fail).</p>
+                                                    <p><strong class="text-emerald-700">개선:</strong> 레이아웃 대칭성 확보, Twisted Bitline 적용.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800 mb-2">Coupling Effect</span>
+                                                        <h5 class="text-lg font-black text-slate-900">④ 로우 해머링 (Row Hammer)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM row hammer animation">
+                                                        <defs>
+                                                            <linearGradient id="rowHammerShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#fff1f2"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="rowHammerCharge" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#fb7185"/>
+                                                                <stop offset="100%" stop-color="#e11d48"/>
+                                                            </linearGradient>
+                                                        </defs>
+
+                                                        <rect x="12" y="12" width="296" height="120" rx="22" fill="url(#rowHammerShell)" stroke="#ffe4e6"/>
+
+                                                        <text x="160" y="29" text-anchor="middle" fill="#e11d48" font-size="9.4" font-weight="900">
+                                                            인접 Aggressor Row 반복 ACT
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.34;0.36;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="29" text-anchor="middle" fill="#ea580c" font-size="9.4" font-weight="900" opacity="0">
+                                                            Victim 전하가 계속 빠짐
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.36;0.38;0.72;0.74;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="29" text-anchor="middle" fill="#be123c" font-size="9.4" font-weight="900" opacity="0">
+                                                            전하 마진 붕괴 → Bit Flip
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.76;0.78;0.96;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="22" y="47" fill="#e11d48" font-size="8.6" font-weight="900">Aggressor</text>
+                                                        <text x="22" y="75" fill="#475569" font-size="8.6" font-weight="900">Victim</text>
+                                                        <text x="22" y="103" fill="#e11d48" font-size="8.6" font-weight="900">Aggressor</text>
+
+                                                        <line x1="88" y1="48" x2="222" y2="48" stroke="#fb7185" stroke-width="3.4" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#fb7185;#e11d48;#fb7185" dur="0.42s" repeatCount="indefinite"/>
+                                                            <animate attributeName="stroke-width" values="3.4;5;3.4" dur="0.42s" repeatCount="indefinite"/>
+                                                        </line>
+                                                        <line x1="88" y1="96" x2="222" y2="96" stroke="#fb7185" stroke-width="3.4" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#fb7185;#e11d48;#fb7185" dur="0.42s" begin="0.21s" repeatCount="indefinite"/>
+                                                            <animate attributeName="stroke-width" values="3.4;5;3.4" dur="0.42s" begin="0.21s" repeatCount="indefinite"/>
+                                                        </line>
+                                                        <line x1="88" y1="72" x2="144" y2="72" stroke="#94a3b8" stroke-width="3.4" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#94a3b8;#94a3b8;#f59e0b;#ef4444;#94a3b8" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.34;0.58;0.82;1"/>
+                                                        </line>
+                                                        <line x1="176" y1="72" x2="242" y2="72" stroke="#94a3b8" stroke-width="3.4" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#94a3b8;#94a3b8;#f59e0b;#ef4444;#94a3b8" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.34;0.58;0.82;1"/>
+                                                        </line>
+
+                                                        <rect x="190" y="40" width="28" height="14" rx="7" fill="#fff1f2" stroke="#fb7185">
+                                                            <animate attributeName="opacity" values="0.72;1;0.72" dur="0.42s" repeatCount="indefinite"/>
+                                                        </rect>
+                                                        <text x="204" y="49.5" text-anchor="middle" fill="#e11d48" font-size="7.3" font-weight="900">ACT</text>
+                                                        <rect x="190" y="88" width="28" height="14" rx="7" fill="#fff1f2" stroke="#fb7185">
+                                                            <animate attributeName="opacity" values="0.72;1;0.72" dur="0.42s" begin="0.21s" repeatCount="indefinite"/>
+                                                        </rect>
+                                                        <text x="204" y="97.5" text-anchor="middle" fill="#e11d48" font-size="7.3" font-weight="900">ACT</text>
+
+                                                        <circle r="3.3" fill="#fb7185">
+                                                            <animateMotion dur="0.92s" begin="0s" repeatCount="indefinite" path="M92 48H214"/>
+                                                        </circle>
+                                                        <circle r="3.3" fill="#fb7185" opacity="0.88">
+                                                            <animateMotion dur="0.92s" begin="0.24s" repeatCount="indefinite" path="M92 48H214"/>
+                                                        </circle>
+                                                        <circle r="3.3" fill="#fb7185">
+                                                            <animateMotion dur="0.92s" begin="0.1s" repeatCount="indefinite" path="M214 96H92"/>
+                                                        </circle>
+                                                        <circle r="3.3" fill="#fb7185" opacity="0.88">
+                                                            <animateMotion dur="0.92s" begin="0.34s" repeatCount="indefinite" path="M214 96H92"/>
+                                                        </circle>
+
+                                                        <path d="M146 52V64" fill="none" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="4 4" stroke-linecap="round" opacity="0.78"/>
+                                                        <path d="M174 52V64" fill="none" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="4 4" stroke-linecap="round" opacity="0.78"/>
+                                                        <path d="M146 92V80" fill="none" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="4 4" stroke-linecap="round" opacity="0.78"/>
+                                                        <path d="M174 92V80" fill="none" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="4 4" stroke-linecap="round" opacity="0.78"/>
+
+                                                        <circle r="3.1" fill="#fb7185">
+                                                            <animateMotion dur="0.8s" begin="0s" repeatCount="indefinite" path="M146 52V64"/>
+                                                        </circle>
+                                                        <circle r="3.1" fill="#fb7185">
+                                                            <animateMotion dur="0.8s" begin="0.22s" repeatCount="indefinite" path="M174 52V64"/>
+                                                        </circle>
+                                                        <circle r="3.1" fill="#fb7185">
+                                                            <animateMotion dur="0.8s" begin="0.12s" repeatCount="indefinite" path="M146 92V80"/>
+                                                        </circle>
+                                                        <circle r="3.1" fill="#fb7185">
+                                                            <animateMotion dur="0.8s" begin="0.34s" repeatCount="indefinite" path="M174 92V80"/>
+                                                        </circle>
+
+                                                        <circle cx="160" cy="72" r="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2">
+                                                            <animate attributeName="fill" values="#ffffff;#ffffff;#fff7ed;#fff1f2;#ffffff" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.34;0.58;0.82;1"/>
+                                                            <animate attributeName="stroke" values="#cbd5e1;#cbd5e1;#f59e0b;#ef4444;#cbd5e1" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.34;0.58;0.82;1"/>
+                                                        </circle>
+                                                        <text x="160" y="76" text-anchor="middle" fill="#334155" font-size="12.4" font-weight="900">
+                                                            1
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.78;0.8;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="76" text-anchor="middle" fill="#be123c" font-size="12.4" font-weight="900" opacity="0">
+                                                            0
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.8;0.82;0.96;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <rect x="248" y="48" width="46" height="56" rx="14" fill="#fff1f2" stroke="#fda4af" stroke-width="1.5"/>
+                                                        <text x="271" y="40" text-anchor="middle" fill="#64748b" font-size="8.2" font-weight="900">Victim Charge</text>
+                                                        <line x1="242" y1="72" x2="248" y2="72" stroke="#fda4af" stroke-width="2.1" stroke-linecap="round"/>
+                                                        <line x1="254" y1="78" x2="288" y2="78" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 3"/>
+                                                        <text x="293" y="80.5" fill="#f59e0b" font-size="7.3" font-weight="900">Margin</text>
+                                                        <rect x="260" y="58" width="22" height="36" rx="10" fill="url(#rowHammerCharge)" opacity="0.96">
+                                                            <animate attributeName="y" values="58;58;66;74;86;92;58" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.28;0.48;0.68;0.82;0.92;1"/>
+                                                            <animate attributeName="height" values="36;36;28;20;8;2;36" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.28;0.48;0.68;0.82;0.92;1"/>
+                                                        </rect>
+                                                        <text x="271" y="117" text-anchor="middle" fill="#e11d48" font-size="8.2" font-weight="900">
+                                                            100%
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.56;0.58;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="271" y="117" text-anchor="middle" fill="#be123c" font-size="8.2" font-weight="900" opacity="0">
+                                                            20%
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.74;0.76;0.96;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <g opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.4s" repeatCount="indefinite" keyTimes="0;0.8;0.82;0.96;1" calcMode="discrete"/>
+                                                            <rect x="106" y="112" width="108" height="15" rx="7.5" fill="#fff1f2" stroke="#fb7185"/>
+                                                            <text x="160" y="122" text-anchor="middle" fill="#be123c" font-size="8.1" font-weight="900">Stored 1 → 0  Bit Flip</text>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 인접 Aggressor Row(WL)를 짧은 시간에 반복 활성화할 때 발생하는 전자기적 간섭.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 인접 행(Victim) 셀의 전하 유실 및 Bit Flip.</p>
+                                                    <p><strong class="text-emerald-700">개선:</strong> 타겟 행 인접부를 선제적 리프레시하는 TRR(Target Row Refresh) 도입.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800 mb-2">Timer / tRFC</span>
+                                                        <h5 class="text-lg font-black text-slate-900">⑤ 리프레시 페일</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM refresh fail animation">
+                                                        <defs>
+                                                            <linearGradient id="refreshFailShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#fff1f2"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="refreshFailCharge" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#fb7185"/>
+                                                                <stop offset="100%" stop-color="#e11d48"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="refreshFailWeak" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#fdba74"/>
+                                                                <stop offset="100%" stop-color="#fb923c"/>
+                                                            </linearGradient>
+                                                        </defs>
+
+                                                        <rect x="12" y="12" width="296" height="120" rx="22" fill="url(#refreshFailShell)" stroke="#ffe4e6"/>
+
+                                                        <text x="160" y="29" text-anchor="middle" fill="#e11d48" font-size="9.2" font-weight="900">
+                                                            Refresh 시작, 셀을 다시 채움
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.3;0.32;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="29" text-anchor="middle" fill="#ea580c" font-size="9.2" font-weight="900" opacity="0">
+                                                            tRFC 창이 먼저 닫힘
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.32;0.34;0.64;0.66;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="29" text-anchor="middle" fill="#be123c" font-size="9.2" font-weight="900" opacity="0">
+                                                            목표 미달 충전으로 Weak Cell 조기 불량
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.68;0.7;0.96;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="64" y="38" text-anchor="middle" fill="#64748b" font-size="8.4" font-weight="900">Timer / tRFC</text>
+                                                        <rect x="24" y="46" width="80" height="18" rx="9" fill="#fff1f2" stroke="#fda4af"/>
+                                                        <rect x="30" y="52" width="68" height="6" rx="3" fill="#fb7185">
+                                                            <animate attributeName="width" values="68;68;36;8;0;0;68" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.16;0.36;0.5;0.58;0.9;1"/>
+                                                            <animate attributeName="fill" values="#fb7185;#fb7185;#fb923c;#ef4444;#ef4444;#fb7185" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.36;0.5;0.58;0.9;1"/>
+                                                        </rect>
+                                                        <text x="64" y="79" text-anchor="middle" fill="#64748b" font-size="7.8" font-weight="900">Refresh Window</text>
+                                                        <text x="64" y="94" text-anchor="middle" fill="#e11d48" font-size="8" font-weight="900">
+                                                            정상 진행
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.48;0.5;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="64" y="94" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="900" opacity="0">
+                                                            조기 종료
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.5;0.52;0.9;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <path d="M104 55H136" fill="none" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="4 4" stroke-linecap="round"/>
+                                                        <circle r="3.2" fill="#fb7185">
+                                                            <animateMotion dur="0.92s" repeatCount="indefinite" path="M104 55H136"/>
+                                                        </circle>
+
+                                                        <text x="168" y="38" text-anchor="middle" fill="#64748b" font-size="8.4" font-weight="900">Cell Charge</text>
+                                                        <rect x="140" y="44" width="56" height="64" rx="12" fill="#fff1f2" stroke="#f9a8d4" stroke-width="1.5"/>
+                                                        <line x1="146" y1="52" x2="190" y2="52" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="4 3"/>
+                                                        <text x="168" y="49" text-anchor="middle" fill="#ef4444" font-size="7.4" font-weight="900">목표 100%</text>
+                                                        <rect x="152" y="88" width="32" height="12" rx="7" fill="url(#refreshFailCharge)" opacity="0.96">
+                                                            <animate attributeName="y" values="88;88;74;74;80;88" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.16;0.38;0.58;0.82;1"/>
+                                                            <animate attributeName="height" values="12;12;26;26;20;12" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.16;0.38;0.58;0.82;1"/>
+                                                        </rect>
+                                                        <g opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.52;0.54;0.84;1" calcMode="discrete"/>
+                                                            <rect x="146" y="113" width="44" height="14" rx="7" fill="#fff7ed" stroke="#fdba74"/>
+                                                            <text x="168" y="122.5" text-anchor="middle" fill="#ea580c" font-size="7.6" font-weight="900">실제 65%</text>
+                                                        </g>
+
+                                                        <path d="M196 76H220" fill="none" stroke="#fda4af" stroke-width="1.8" stroke-dasharray="4 4" stroke-linecap="round"/>
+
+                                                        <rect x="220" y="40" width="76" height="66" rx="14" fill="#fff7ed" stroke="#fdba74" stroke-width="1.5"/>
+                                                        <text x="258" y="54" text-anchor="middle" fill="#ea580c" font-size="8.6" font-weight="900">Weak Cell</text>
+                                                        <rect x="236" y="62" width="18" height="26" rx="9" fill="#fff1f2" stroke="#fda4af"/>
+                                                        <rect x="240" y="78" width="10" height="8" rx="5" fill="url(#refreshFailWeak)" opacity="0.95">
+                                                            <animate attributeName="y" values="78;78;74;74;80;78" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.38;0.6;0.7;0.88;1"/>
+                                                            <animate attributeName="height" values="8;8;12;12;6;8" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.38;0.6;0.7;0.88;1"/>
+                                                        </rect>
+                                                        <path d="M260 70H280" fill="none" stroke="#fdba74" stroke-width="1.6" stroke-linecap="round"/>
+                                                        <path d="M270 78V98" fill="none" stroke="#fb923c" stroke-width="1.4" stroke-dasharray="4 3" stroke-linecap="round"/>
+                                                        <circle cx="270" cy="82" r="3" fill="#fb923c" opacity="0">
+                                                            <animate attributeName="cy" values="82;82;82;96;82" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.68;0.74;0.86;1"/>
+                                                            <animate attributeName="opacity" values="0;0;1;0;0" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.68;0.74;0.86;1"/>
+                                                        </circle>
+                                                        <text x="258" y="98" text-anchor="middle" fill="#be123c" font-size="7.6" font-weight="900" opacity="0">
+                                                            조기 리텐션 불량
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.6s" repeatCount="indefinite" keyTimes="0;0.72;0.74;0.94;1" calcMode="discrete"/>
+                                                        </text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 리프레시 타이머 정밀도 저하 또는 할당된 시간(tRFC) 내 100% 충전 실패.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 전하량이 부족한 셀(Weak Cell)부터 리텐션 불량이 조기 발생합니다.</p>
+                                                    <p><strong class="text-emerald-700">대책:</strong> 타이머 보정 회로 강화, 불량 셀을 예비 셀로 교체(Spare Cell Repair).</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800 mb-2">Write Timing</span>
+                                                        <h5 class="text-lg font-black text-slate-900">⑥ 라이트 리커버리 페일</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM write recovery fail animation">
+                                                        <defs>
+                                                            <linearGradient id="writeRecShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#fff1f2"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="writeRecCharge" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#fb7185"/>
+                                                                <stop offset="100%" stop-color="#e11d48"/>
+                                                            </linearGradient>
+                                                        </defs>
+
+                                                        <rect x="12" y="12" width="296" height="120" rx="22" fill="url(#writeRecShell)" stroke="#ffe4e6"/>
+
+                                                        <text x="160" y="29" text-anchor="middle" fill="#2563eb" font-size="9.2" font-weight="900">
+                                                            Write 1이 BL로 주입됨
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.28;0.3;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="29" text-anchor="middle" fill="#ea580c" font-size="9.2" font-weight="900" opacity="0">
+                                                            tWR 전에 WL이 먼저 닫힘
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.32;0.34;0.68;0.7;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="29" text-anchor="middle" fill="#be123c" font-size="9.2" font-weight="900" opacity="0">
+                                                            셀 전압 안정화 실패 → 쓰기 실패
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.72;0.74;0.96;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="62" y="40" text-anchor="middle" fill="#2563eb" font-size="8.6" font-weight="900">Write Driver / BL</text>
+                                                        <path d="M24 82H112" fill="none" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
+                                                        <path d="M106 78L112 82L106 86" fill="none" stroke="#60a5fa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <rect x="26" y="48" width="44" height="16" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+                                                        <text x="48" y="58.5" text-anchor="middle" fill="#2563eb" font-size="7.8" font-weight="900">Write 1</text>
+                                                        <circle r="3.2" fill="#3b82f6">
+                                                            <animateMotion dur="1s" repeatCount="indefinite" path="M30 82H110"/>
+                                                        </circle>
+                                                        <circle r="3.2" fill="#3b82f6" opacity="0.9">
+                                                            <animateMotion dur="1s" begin="0.26s" repeatCount="indefinite" path="M30 82H110"/>
+                                                        </circle>
+
+                                                        <text x="156" y="42" text-anchor="middle" fill="#7c3aed" font-size="8.4" font-weight="900">tWR / WL Hold</text>
+                                                        <rect x="118" y="48" width="76" height="16" rx="8" fill="#f5f3ff" stroke="#d8b4fe"/>
+                                                        <rect x="124" y="54" width="64" height="4" rx="2" fill="#8b5cf6">
+                                                            <animate attributeName="width" values="64;64;38;10;0;0;64" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.16;0.38;0.5;0.58;0.9;1"/>
+                                                        </rect>
+                                                        <text x="156" y="76" text-anchor="middle" fill="#7c3aed" font-size="7.8" font-weight="900">
+                                                            유지 중
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.48;0.5;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="156" y="76" text-anchor="middle" fill="#ef4444" font-size="7.8" font-weight="900" opacity="0">
+                                                            조기 차단
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.5;0.52;0.9;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <path d="M112 82H126" fill="none" stroke="#334155" stroke-width="2.6" stroke-linecap="round"/>
+                                                        <rect x="126" y="68" width="24" height="28" rx="5" fill="#f3e8ff" stroke="#d8b4fe" stroke-width="1.5"/>
+                                                        <line x1="138" y1="54" x2="138" y2="68" stroke="#c4b5fd" stroke-width="1.6" stroke-dasharray="4 4" stroke-linecap="round"/>
+                                                        <text x="138" y="64.5" text-anchor="middle" fill="#7c3aed" font-size="7.8" font-weight="900">WL</text>
+                                                        <rect x="126" y="68" width="24" height="28" rx="5" fill="#94a3b8" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;0;0.84;0.84;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.48;0.5;0.88;0.92;1"/>
+                                                        </rect>
+                                                        <path d="M150 82H214" fill="none" stroke="#334155" stroke-width="2.6" stroke-linecap="round"/>
+
+                                                        <circle r="3.1" fill="#3b82f6" opacity="0">
+                                                            <animateMotion dur="1.2s" begin="0.08s" repeatCount="indefinite" path="M30 82H126"/>
+                                                            <animate attributeName="opacity" values="0;1;1;0" dur="1.2s" begin="0.08s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <circle r="3.1" fill="#3b82f6" opacity="0">
+                                                            <animateMotion dur="1.2s" begin="0.24s" repeatCount="indefinite" path="M30 82H126"/>
+                                                            <animate attributeName="opacity" values="0;1;1;0" dur="1.2s" begin="0.24s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <circle r="2.9" fill="#60a5fa" opacity="0">
+                                                            <animateMotion dur="0.88s" begin="0.34s" repeatCount="indefinite" path="M150 82H214"/>
+                                                            <animate attributeName="opacity" values="0;1;1;0;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.12;0.46;0.5;1"/>
+                                                        </circle>
+                                                        <circle r="2.9" fill="#60a5fa" opacity="0">
+                                                            <animateMotion dur="0.88s" begin="0.54s" repeatCount="indefinite" path="M150 82H214"/>
+                                                            <animate attributeName="opacity" values="0;1;1;0;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.16;0.48;0.52;1"/>
+                                                        </circle>
+
+                                                        <text x="254" y="40" text-anchor="middle" fill="#64748b" font-size="8.6" font-weight="900">셀 전하</text>
+                                                        <rect x="220" y="46" width="68" height="58" rx="14" fill="#fff1f2" stroke="#f9a8d4" stroke-width="1.5"/>
+                                                        <line x1="228" y1="54" x2="280" y2="54" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/>
+                                                        <text x="254" y="51" text-anchor="middle" fill="#ef4444" font-size="7.4" font-weight="900">목표 100%</text>
+                                                        <rect x="236" y="88" width="36" height="10" rx="6" fill="url(#writeRecCharge)" opacity="0.96">
+                                                            <animate attributeName="y" values="88;88;70;70;78;88" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.18;0.4;0.52;0.82;1"/>
+                                                            <animate attributeName="height" values="10;10;28;28;20;10" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.18;0.4;0.52;0.82;1"/>
+                                                        </rect>
+                                                        <g opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.54;0.56;0.9;1" calcMode="discrete"/>
+                                                            <rect x="232" y="112" width="44" height="14" rx="7" fill="#fff7ed" stroke="#fdba74"/>
+                                                            <text x="254" y="121.5" text-anchor="middle" fill="#ea580c" font-size="7.6" font-weight="900">실제 70%</text>
+                                                        </g>
+
+                                                        <path d="M214 82H220" fill="none" stroke="#f9a8d4" stroke-width="2" stroke-linecap="round"/>
+                                                        <rect x="202" y="66" width="16" height="32" rx="8" fill="#fff1f2" stroke="#fb7185" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.5;0.52;0.88;1" calcMode="discrete"/>
+                                                        </rect>
+                                                        <text x="210" y="84" text-anchor="middle" fill="#e11d48" font-size="7.2" font-weight="900" opacity="0">
+                                                            차단
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.52;0.54;0.88;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <g opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.8s" repeatCount="indefinite" keyTimes="0;0.74;0.76;0.96;1" calcMode="discrete"/>
+                                                            <rect x="126" y="112" width="84" height="15" rx="7.5" fill="#fff1f2" stroke="#fb7185"/>
+                                                            <text x="168" y="122" text-anchor="middle" fill="#be123c" font-size="8" font-weight="900">안정화 전 WL 차단</text>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 신규 데이터 기입 후 전압이 안정화될 대기 시간(tWR)이 부족할 때 발생합니다.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 새로운 데이터가 완전히 충전되기 전에 워드라인이 닫혀 Write Fail이 납니다.</p>
+                                                    <p><strong class="text-emerald-700">대책:</strong> Write Driver 구동력 강화, tWR 타이밍 엄격 보장.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800 mb-2">Intermittent Fail</span>
+                                                        <h5 class="text-lg font-black text-slate-900">⑦ 가변 보존 시간 (VRT)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM variable retention time animation">
+                                                        <rect x="50" y="80" width="80" height="10" fill="#60a5fa"/>
+                                                        <rect x="70" y="70" width="40" height="10" fill="#fef08a"/>
+                                                        <rect x="70" y="50" width="40" height="20" fill="#94a3b8"/>
+                                                        <circle cx="90" cy="75" r="4" fill="#ef4444">
+                                                            <animate attributeName="opacity" values="0;1;0" dur="0.8s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <text x="90" y="40" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">Oxide Trap</text>
+                                                        <path d="M160 90 L180 90 L180 60 L200 60 L200 90 L230 90 L230 50 L250 50 L250 90 L270 90" fill="none" stroke="#fb7185" stroke-width="2">
+                                                            <animate attributeName="stroke-dashoffset" values="20;0" dur="0.8s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <text x="220" y="115" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="bold">불규칙적인 누설량 변동</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> TR 산화막 내부 결함(Trap)으로 인해 전자가 불규칙하게 포획 및 방출됩니다.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 테스트 시점마다 누설 전류량이 달라져 간헐적으로 리텐션 불량이 발생합니다.</p>
+                                                    <p><strong class="text-emerald-700">대책:</strong> 스트레스 조건(고온/고전압)의 Burn-in Test를 통해 사전 스크리닝.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-bold text-rose-800 mb-2">Physical / Radiation</span>
+                                                        <h5 class="text-lg font-black text-slate-900">⑧ 하드 디펙트 &amp; 소프트 에러</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM hard defect and soft error animation">
+                                                        <rect x="60" y="60" width="40" height="60" rx="4" fill="#fce7f3" stroke="#f9a8d4"/>
+                                                        <rect x="60" y="80" width="40" height="40" fill="#fb7185">
+                                                            <animate attributeName="height" values="40;0;40" dur="2s" repeatCount="indefinite"/>
+                                                            <animate attributeName="y" values="80;120;80" dur="2s" repeatCount="indefinite"/>
+                                                        </rect>
+                                                        <text x="80" y="135" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">Data Flip</text>
+                                                        <path d="M130 10 L90 50 L100 60 L70 90" fill="none" stroke="#f59e0b" stroke-width="3">
+                                                            <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <circle cx="70" cy="90" r="10" fill="#fef08a" opacity="0">
+                                                            <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <text x="160" y="30" fill="#f59e0b" font-size="10" font-weight="bold">알파 입자 (Soft)</text>
+                                                        <line x1="200" y1="70" x2="280" y2="70" stroke="#94a3b8" stroke-width="2"/>
+                                                        <line x1="200" y1="90" x2="280" y2="90" stroke="#94a3b8" stroke-width="2"/>
+                                                        <circle cx="240" cy="80" r="12" fill="#475569"/>
+                                                        <text x="240" y="115" text-anchor="middle" fill="#475569" font-size="10" font-weight="bold">Particle Short (Hard)</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 파티클에 의한 금속 단락/단선(Hard), 우주 방사선 충돌(Soft).</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 회로 동작 불능 또는 일시적인 데이터 반전(Single Event Upset) 발생.</p>
+                                                    <p><strong class="text-emerald-700">대책:</strong> 예비 회로 Laser Repair 적용(Hard), On-Die ECC 탑재(Soft).</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-12">
+                                        <div class="flex items-center gap-3 mb-6 pb-2 border-b-2 border-blue-100">
+                                            <span class="bg-blue-100 text-blue-700 w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl">S</span>
+                                            <h4 class="text-2xl font-bold text-slate-900">SRAM Fail Mechanisms</h4>
+                                        </div>
+                                        <p class="mb-6 text-slate-600">SRAM은 6개의 트랜지스터(6T)가 상호 대칭적인 래치(Latch) 구조를 이루어 작동합니다. 초고속 성능이 요구되는 환경이므로 찰나의 타이밍과 내부 노드 간의 미세한 전압 균형이 정상 동작의 핵심입니다.</p>
+
+                                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                            <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 mb-2">Read Destructive</span>
+                                                        <h5 class="text-lg font-black text-slate-900">① 읽기 오류 (Read Upset)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM read upset animation">
+                                                        <path d="M60 40H260" fill="none" stroke="#8b5cf6" stroke-width="3"/>
+                                                        <text x="65" y="32" fill="#8b5cf6" font-size="10" font-weight="bold">WL (On)</text>
+                                                        <line x1="100" y1="50" x2="100" y2="100" stroke="#93c5fd" stroke-width="3"/>
+                                                        <line x1="220" y1="50" x2="220" y2="100" stroke="#93c5fd" stroke-width="3"/>
+                                                        <rect x="130" y="60" width="60" height="40" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+                                                        <text x="160" y="83" text-anchor="middle" fill="#1d4ed8" font-size="12" font-weight="bold">Latch</text>
+                                                        <line x1="100" y1="80" x2="130" y2="80" stroke="#334155" stroke-width="2"/>
+                                                        <line x1="190" y1="80" x2="220" y2="80" stroke="#334155" stroke-width="2"/>
+                                                        <circle cx="145" cy="80" r="15" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="2 2">
+                                                            <animate attributeName="r" values="5;15;5" dur="1s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <text x="160" y="125" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">SNM 부족으로 내부 노드 반전</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> WL 활성화 시 BL 전압이 내부 노드를 흔듦 (Static Noise Margin 부족).</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 읽는 행위의 충격으로 셀 데이터가 반전됨.</p>
+                                                    <p><strong class="text-blue-700">개선:</strong> WL Underdrive, 8T SRAM 구조 도입.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 mb-2">Write Margin</span>
+                                                        <h5 class="text-lg font-black text-slate-900">② 쓰기 실패 (Write Fail)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM write fail animation">
+                                                        <rect x="130" y="50" width="60" height="40" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
+                                                        <text x="160" y="73" text-anchor="middle" fill="#1d4ed8" font-size="10" font-weight="bold">Strong</text>
+                                                        <text x="160" y="85" text-anchor="middle" fill="#1d4ed8" font-size="10" font-weight="bold">Latch</text>
+                                                        <path d="M50 70H120" fill="none" stroke="#3b82f6" stroke-width="4"/>
+                                                        <polygon points="110,65 125,70 110,75" fill="#3b82f6">
+                                                            <animateTransform attributeName="transform" type="translate" values="-10 0;0 0;-10 0" dur="1s" repeatCount="indefinite"/>
+                                                        </polygon>
+                                                        <text x="80" y="60" fill="#3b82f6" font-size="10" font-weight="bold">New Data</text>
+                                                        <path d="M130 50L110 90" stroke="#ef4444" stroke-width="3"/>
+                                                        <path d="M110 50L130 90" stroke="#ef4444" stroke-width="3"/>
+                                                        <text x="160" y="125" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="bold">래치 고집 &gt; 쓰기 강도 (덮어쓰기 불가)</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 내부 래치의 데이터 유지력이 쓰기 드라이버보다 강함.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 기입 수행 후에도 이전 데이터가 그대로 유지됨.</p>
+                                                    <p><strong class="text-blue-700">개선:</strong> Write Assist (셀 VDD 일시 강하) 적용.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 mb-2">Array Level</span>
+                                                        <h5 class="text-lg font-black text-slate-900">③ 하프 셀렉트 디스터브</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM half select disturb animation">
+                                                        <line x1="40" y1="40" x2="280" y2="40" stroke="#8b5cf6" stroke-width="3"/>
+                                                        <text x="45" y="32" fill="#8b5cf6" font-size="10" font-weight="bold">WL (Activated for Write)</text>
+                                                        <rect x="80" y="60" width="50" height="40" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+                                                        <text x="105" y="83" text-anchor="middle" fill="#1d4ed8" font-size="9" font-weight="bold">Target</text>
+                                                        <rect x="200" y="60" width="50" height="40" rx="4" fill="#f1f5f9" stroke="#94a3b8"/>
+                                                        <text x="225" y="83" text-anchor="middle" fill="#475569" font-size="9" font-weight="bold">Half-Sel</text>
+                                                        <path d="M190 50 Q225 30 260 50" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="3 3">
+                                                            <animate attributeName="stroke-dashoffset" values="0;20" dur="1s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <text x="225" y="115" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">Dummy Read 스트레스</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 타겟 셀 기입을 위해 공유 WL이 켜지면서 비선택 열의 셀들이 더미 리드 상태에 놓임.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 간섭으로 인해 취약한 비선택 셀의 데이터 반전 발생.</p>
+                                                    <p><strong class="text-blue-700">개선:</strong> 8T 분리 구조, Interleaving 아키텍처 배치.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 mb-2">Vmin Limit</span>
+                                                        <h5 class="text-lg font-black text-slate-900">④ 대기 전력 불량 (Hold Fail)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM hold fail animation">
+                                                        <path d="M60 40H260" fill="none" stroke="#94a3b8" stroke-width="3"/>
+                                                        <text x="65" y="32" fill="#64748b" font-size="10" font-weight="bold">Standby VDD (Very Low)</text>
+                                                        <path d="M160 40 V65" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 4"/>
+                                                        <circle cx="130" cy="90" r="15" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
+                                                        <circle cx="190" cy="90" r="15" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
+                                                        <path d="M145 85 Q160 70 175 85" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                                                        <path d="M145 95 Q160 110 175 95" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                                                        <text x="160" y="130" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">누설 전류로 래치 붕괴 (데이터 소실)</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 대기 전력 감소를 위해 VDD를 낮출 시 내부 누설로 래치 유지력 한계 도달.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> Idle 상태에서도 데이터가 지워짐 (Vmin 상승 원인).</p>
+                                                    <p><strong class="text-blue-700">개선:</strong> Data Retention Voltage 하한선 정밀 테스트 후 스크리닝.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 mb-2">Timing Violation</span>
+                                                        <h5 class="text-lg font-black text-slate-900">⑤ 접근 시간 지연 (Slow Bit)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM slow bit animation">
+                                                        <text x="30" y="40" fill="#64748b" font-size="10" font-weight="bold">CLK</text>
+                                                        <path d="M60 40 L90 40 L90 20 L130 20 L130 40 L170 40 L170 20 L210 20 L210 40 L260 40" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                                                        <text x="30" y="70" fill="#3b82f6" font-size="10" font-weight="bold">Normal</text>
+                                                        <path d="M60 70 L100 70 L110 50 L160 50 L170 70 L260 70" fill="none" stroke="#3b82f6" stroke-width="2"/>
+                                                        <text x="30" y="100" fill="#ef4444" font-size="10" font-weight="bold">Slow Bit</text>
+                                                        <path d="M60 100 L100 100 L130 80 L190 80 L200 100 L260 100" fill="none" stroke="#ef4444" stroke-width="2"/>
+                                                        <line x1="130" y1="15" x2="130" y2="110" stroke="#f59e0b" stroke-width="2" stroke-dasharray="2 2"/>
+                                                        <text x="135" y="125" fill="#f59e0b" font-size="10" font-weight="bold">Setup Time 부족 (데이터 지연)</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 국부적인 공정 산포나 배선 저항(RC) 증가로 인한 트랜지스터 스위칭 속도 저하.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 정해진 클럭 내에 응답하지 못해 시스템 타이밍 위반 및 오작동 발생.</p>
+                                                    <p><strong class="text-blue-700">대책:</strong> Speed Binning 테스트 적용, 제품 동작 클럭 다운그레이드.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 mb-2">Mismatch &amp; Noise</span>
+                                                        <h5 class="text-lg font-black text-slate-900">⑥ 공정 산포와 노이즈 (RTN)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM process variation and RTN animation">
+                                                        <polygon points="60,50 100,70 60,90" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                                                        <circle cx="105" cy="70" r="5" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                                                        <text x="70" y="73" fill="#1d4ed8" font-size="10" font-weight="bold">Strong</text>
+                                                        <polygon points="200,50 160,70 200,90" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+                                                        <circle cx="155" cy="70" r="5" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+                                                        <text x="180" y="73" fill="#b91c1c" font-size="10" font-weight="bold">Weak</text>
+                                                        <path d="M110 30 L120 20 L130 40 L140 10 L150 30 L160 20 L170 30" fill="none" stroke="#f59e0b" stroke-width="2">
+                                                            <animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <text x="130" y="115" text-anchor="middle" fill="#475569" font-size="10" font-weight="bold">산포 및 RTN 노이즈로 래치 대칭성 붕괴</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> TR 간 문턱전압 미스매치 및 전자의 무작위 포획/방출(Random Telegraph Noise).</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 래치 내부의 전기적 대칭성이 붕괴되어 전체적인 동작 마진(SNM)이 감소합니다.</p>
+                                                    <p><strong class="text-blue-700">대책:</strong> 채널 통제력이 뛰어난 3D FinFET 및 GAA 구조 전면 도입.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 mb-2">HCI / NBTI / EM</span>
+                                                        <h5 class="text-lg font-black text-slate-900">⑦ 소자 열화 (Aging)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM aging degradation animation">
+                                                        <defs>
+                                                            <marker id="sramAgingArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+                                                                <path d="M0 0L6 3L0 6Z" fill="#f59e0b"/>
+                                                            </marker>
+                                                        </defs>
+                                                        <line x1="60" y1="20" x2="60" y2="100" stroke="#94a3b8" stroke-width="2"/>
+                                                        <line x1="60" y1="100" x2="260" y2="100" stroke="#94a3b8" stroke-width="2"/>
+                                                        <text x="40" y="30" fill="#475569" font-size="10" font-weight="bold">Id</text>
+                                                        <text x="250" y="115" fill="#475569" font-size="10" font-weight="bold">Vgs</text>
+                                                        <path d="M100 100 Q150 100 200 40" fill="none" stroke="#3b82f6" stroke-width="3"/>
+                                                        <text x="210" y="40" fill="#3b82f6" font-size="10" font-weight="bold">Fresh</text>
+                                                        <path d="M120 100 Q170 100 220 60" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="4 4">
+                                                            <animate attributeName="opacity" values="0;1;1" dur="2s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <text x="230" y="60" fill="#ef4444" font-size="10" font-weight="bold">Aged</text>
+                                                        <line x1="100" y1="105" x2="120" y2="105" stroke="#f59e0b" stroke-width="2" marker-end="url(#sramAgingArrow)"/>
+                                                        <text x="110" y="125" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="bold">ΔVth 상승 (전류 감소)</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 장기간 구동 스트레스(HCI, NBTI)로 인한 문턱전압 상승 및 금속 배선 단선(EM).</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 제품 사용 시간이 길어짐에 따라 점진적 성능 저하 및 프리징 현상 발생.</p>
+                                                    <p><strong class="text-blue-700">대책:</strong> 수명 연한 모델링(Aging Simulation), 설계 시 충분한 Guard Band 확보.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
+                                                <div class="flex items-start justify-between mb-4">
+                                                    <div>
+                                                        <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800 mb-2">Radiation Effect</span>
+                                                        <h5 class="text-lg font-black text-slate-900">⑧ 소프트 에러 (SER)</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM soft error animation">
+                                                        <rect x="80" y="60" width="40" height="30" rx="4" fill="#eff6ff" stroke="#3b82f6"/>
+                                                        <rect x="160" y="60" width="40" height="30" rx="4" fill="#eff6ff" stroke="#3b82f6"/>
+                                                        <path d="M120 65 L160 65" stroke="#94a3b8" stroke-width="2"/>
+                                                        <path d="M120 85 L160 85" stroke="#94a3b8" stroke-width="2"/>
+                                                        <path d="M130 10 L110 50 L120 60 L100 90" fill="none" stroke="#f59e0b" stroke-width="3">
+                                                            <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <circle cx="100" cy="75" r="10" fill="#fef08a" opacity="0">
+                                                            <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <text x="140" y="30" fill="#f59e0b" font-size="10" font-weight="bold">우주 방사선 타격</text>
+                                                        <text x="100" y="78" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="bold" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;0" dur="1.5s" repeatCount="indefinite"/>
+                                                            1
+                                                        </text>
+                                                        <text x="180" y="78" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="bold" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;0" dur="1.5s" repeatCount="indefinite"/>
+                                                            0
+                                                        </text>
+                                                        <text x="100" y="78" text-anchor="middle" fill="#1d4ed8" font-size="12" font-weight="bold">
+                                                            <animate attributeName="opacity" values="1;1;0;1" dur="1.5s" repeatCount="indefinite"/>
+                                                            0
+                                                        </text>
+                                                        <text x="180" y="78" text-anchor="middle" fill="#1d4ed8" font-size="12" font-weight="bold">
+                                                            <animate attributeName="opacity" values="1;1;0;1" dur="1.5s" repeatCount="indefinite"/>
+                                                            1
+                                                        </text>
+                                                        <text x="140" y="115" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">치명적 데이터 반전 유발</text>
+                                                    </svg>
+                                                </div>
+                                                <div class="space-y-2 text-sm">
+                                                    <p><strong class="text-slate-800">원인:</strong> 알파 입자 등 고에너지 입자가 셀 내부 래치를 타격하여 전자쌍이 생성됨.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 물리적 파괴는 없으나 데이터가 반전되어 시스템 크래시(Kernel Panic 등) 직결.</p>
+                                                    <p><strong class="text-blue-700">대책:</strong> 아키텍처 레벨의 물리적 Interleaving 및 강력한 시스템 레벨 ECC 적용.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-8">
+                                        <div class="flex items-center gap-3 mb-6">
+                                            <h4 class="text-2xl font-bold text-slate-900">핵심 요약 (Summary Matrix)</h4>
+                                        </div>
+                                        <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm">
+                                            <table class="w-full text-left bg-white">
+                                                <thead>
+                                                    <tr class="bg-slate-50 text-slate-800 border-b border-slate-200">
+                                                        <th class="p-4 font-bold">분류</th>
+                                                        <th class="p-4 font-bold border-l border-slate-200">DRAM (전하 기반 아키텍처 한계)</th>
+                                                        <th class="p-4 font-bold border-l border-slate-200">SRAM (대칭/균형 구조의 한계)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="border-b border-slate-100">
+                                                        <td class="p-4 font-semibold text-slate-700 bg-slate-50/50">데이터 유지 (Retention)</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">리텐션 누설, 리프레시 페일 (tREF 마진 부족)</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">Hold Fail (저전압 대기 모드 시 데이터 소실)</td>
+                                                    </tr>
+                                                    <tr class="border-b border-slate-100">
+                                                        <td class="p-4 font-semibold text-slate-700 bg-slate-50/50">동작 마진 (Operation Margin)</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">센스 앰프(S/A) 마진 부족, 리스토어 페일</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">Read Upset, Write Fail, Half-Select 간섭</td>
+                                                    </tr>
+                                                    <tr class="border-b border-slate-100">
+                                                        <td class="p-4 font-semibold text-slate-700 bg-slate-50/50">타이밍 및 속도 (Timing/Speed)</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">VRT (간헐적 불량), Write Recovery 페일 (tWR 부족)</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">Access Time 지연 (Slow Bit에 의한 타이밍 위반)</td>
+                                                    </tr>
+                                                    <tr class="border-b border-slate-100">
+                                                        <td class="p-4 font-semibold text-slate-700 bg-slate-50/50">외부 요인 / 하드웨어 결함</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">로우 해머링, Open/Short, 방사선 (Soft Error)</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">Open/Short, 공정 산포/노이즈, 방사선 (SER)</td>
+                                                    </tr>
+                                                    <tr class="border-b border-slate-100">
+                                                        <td class="p-4 font-semibold text-slate-700 bg-slate-50/50">소자 열화 (Aging)</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">HCI, EM (주변부 제어 회로 열화 위주)</td>
+                                                        <td class="p-4 text-sm text-slate-600 border-l border-slate-100">NBTI/PBTI, EM (셀 내부 래치 균형 붕괴)</td>
+                                                    </tr>
+                                                    <tr class="bg-indigo-50/30">
+                                                        <td class="p-4 font-black text-indigo-800">핵심 솔루션 &amp; 신뢰성 보완</td>
+                                                        <td class="p-4 text-sm font-semibold text-indigo-900 border-l border-indigo-100">TRR, Redundancy Repair, On-Die ECC</td>
+                                                        <td class="p-4 text-sm font-semibold text-indigo-900 border-l border-indigo-100">Assist 회로, 8T/Interleaving, 시스템 ECC</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="card" data-part5-panel="flash-ssd" data-guidebook-toc-title="Flash / SSD" hidden>
@@ -264,7 +1331,7 @@
                                     <div class="px-5 pt-5 pb-3 flex items-start justify-between gap-4">
                                         <div>
                                             <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">NAND Operation Lab</div>
-                                            <h5 class="mt-2 text-[1.15rem] font-black text-slate-900">Program / Read / Erase 작동 원리</h5>
+                                            <h5 class="mt-2 text-[1.15rem] font-black text-slate-900">Nand - Program / Read / Erase</h5>
                                             <p class="mt-2 text-sm leading-6 text-slate-600">NAND는 <strong class="text-slate-900">전하를 가두면 문턱전압(Vth)이 올라가고</strong>, 읽을 때는 <strong class="text-slate-900">전류가 흐르는지 여부</strong>로 데이터를 판별합니다.</p>
                                         </div>
                                         <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-xs font-extrabold text-blue-600">SLC Example</span>
@@ -341,7 +1408,7 @@
                                                 <text x="432" y="206" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900">Drain</text>
                                                 <rect x="116" y="170" width="316" height="14" rx="7" fill="#dbeafe" opacity="0.44" data-nand-channel-glow/>
                                                 <rect x="116" y="170" width="316" height="14" rx="7" fill="url(#nandChannelGrad)" opacity="0.2" data-nand-channel-core/>
-                                                <rect data-nand-barrier x="286" y="158" width="24" height="38" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="1.6" opacity="0"/>
+                                                <rect data-nand-barrier x="278" y="158" width="24" height="38" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="1.6" opacity="0"/>
                                                 <text x="290" y="226" text-anchor="middle" fill="#2563eb" font-size="10.8" font-weight="900" data-nand-channel-label>Read current flows through the channel</text>
 
                                                 <g data-nand-program-flow style="opacity:0">
@@ -988,6 +2055,452 @@
                                             <span class="inline-flex items-center rounded-full bg-sky-50 px-3 py-1.5 text-[11px] font-extrabold text-sky-600">Host Interface</span>
                                             <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Controller</span>
                                             <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1.5 text-[11px] font-extrabold text-indigo-600">NAND Packages</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-6 rounded-[30px] border border-indigo-100 bg-[radial-gradient(circle_at_top_left,_rgba(59,130,246,0.16),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(167,139,250,0.18),_transparent_38%),linear-gradient(180deg,#ffffff_0%,#f8fbff_48%,#fbf9ff_100%)] p-5 shadow-[0_16px_34px_rgba(99,102,241,0.08)]">
+                                    <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-5">
+                                        <div>
+                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-indigo-500">Bits Per Cell Spectrum</div>
+                                            <div class="mt-1 text-lg font-black text-slate-900">SLC · MLC · TLC · QLC</div>
+                                            <div class="mt-3 grid max-w-3xl grid-cols-1 sm:grid-cols-3 gap-3">
+                                                <div class="rounded-[20px] border border-blue-100 bg-white/80 px-3 py-3 shadow-sm">
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 shrink-0">
+                                                            <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                                                                <rect x="4" y="14" width="3" height="6" rx="1.5" fill="currentColor" opacity="0.45"/>
+                                                                <rect x="10.5" y="10" width="3" height="10" rx="1.5" fill="currentColor" opacity="0.72"/>
+                                                                <rect x="17" y="6" width="3" height="14" rx="1.5" fill="currentColor"/>
+                                                            </svg>
+                                                        </span>
+                                                        <div>
+                                                            <div class="text-[10px] font-extrabold uppercase tracking-[0.14em] text-blue-500">Bits / Cell</div>
+                                                            <div class="mt-0.5 text-sm font-black text-slate-900">비트 집적 증가</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="rounded-[20px] border border-violet-100 bg-white/80 px-3 py-3 shadow-sm">
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-50 text-violet-600 shrink-0">
+                                                            <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                                                                <rect x="5" y="5" width="14" height="2.2" rx="1.1" fill="currentColor" opacity="0.4"/>
+                                                                <rect x="5" y="9.3" width="14" height="2.2" rx="1.1" fill="currentColor" opacity="0.55"/>
+                                                                <rect x="5" y="13.6" width="14" height="2.2" rx="1.1" fill="currentColor" opacity="0.74"/>
+                                                                <rect x="5" y="17.9" width="14" height="1.6" rx="0.8" fill="currentColor"/>
+                                                            </svg>
+                                                        </span>
+                                                        <div>
+                                                            <div class="text-[10px] font-extrabold uppercase tracking-[0.14em] text-violet-500">Vth Window</div>
+                                                            <div class="mt-0.5 text-sm font-black text-slate-900">문턱전압 세분화</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="rounded-[20px] border border-rose-100 bg-white/80 px-3 py-3 shadow-sm">
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-rose-50 text-rose-500 shrink-0">
+                                                            <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                                                                <path d="M6 18V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                                                <path d="M12 18V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.72"/>
+                                                                <path d="M18 18V11" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.48"/>
+                                                                <circle cx="6" cy="9" r="2" fill="currentColor"/>
+                                                                <circle cx="12" cy="6" r="2" fill="currentColor" opacity="0.82"/>
+                                                                <circle cx="18" cy="11" r="2" fill="currentColor" opacity="0.62"/>
+                                                            </svg>
+                                                        </span>
+                                                        <div>
+                                                            <div class="text-[10px] font-extrabold uppercase tracking-[0.14em] text-rose-500">Read Reference</div>
+                                                            <div class="mt-0.5 text-sm font-black text-slate-900">읽기 기준 정밀화</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Same Cell, More States</span>
+                                            <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1.5 text-[11px] font-extrabold text-violet-600">Narrower Vth Margin</span>
+                                            <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-extrabold text-rose-600">Higher Density / More ECC</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                                        <article class="rounded-[26px] border border-blue-100 bg-white/90 p-4 shadow-[0_12px_28px_rgba(59,130,246,0.06)] backdrop-blur-sm">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <div>
+                                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">SLC</div>
+                                                    <div class="mt-1 text-lg font-black text-slate-900">1 bit / cell</div>
+                                                </div>
+                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-[10px] font-extrabold text-blue-600">2 states</span>
+                                            </div>
+                                            <p class="mt-2 text-sm leading-6 text-slate-600">가장 넓은 sensing margin을 확보하는 기본 형태입니다. charge 차이가 커서 속도와 endurance 쪽이 유리합니다.</p>
+                                            <svg viewBox="0 0 240 176" class="mt-4 w-full h-[188px] block" aria-hidden="true">
+                                                <defs>
+                                                    <pattern id="slcDensityGrid" width="14" height="14" patternUnits="userSpaceOnUse">
+                                                        <path d="M14 0H0V14" fill="none" stroke="#edf6ff" stroke-width="1"/>
+                                                    </pattern>
+                                                    <linearGradient id="slcDensityCharge" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                        <stop offset="0%" stop-color="#60a5fa"/>
+                                                        <stop offset="100%" stop-color="#2563eb"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="slcDensityTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#dbeafe"/>
+                                                        <stop offset="100%" stop-color="#93c5fd"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="slcDensityBottom" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#bfdbfe"/>
+                                                        <stop offset="100%" stop-color="#60a5fa"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <rect width="240" height="176" rx="24" fill="url(#slcDensityGrid)"/>
+                                                <rect x="12" y="12" width="216" height="152" rx="22" fill="#ffffff" stroke="#dbeafe" stroke-width="1.8"/>
+                                                <text x="50" y="32" text-anchor="middle" fill="#2563eb" font-size="10.2" font-weight="900">Charge</text>
+                                                <text x="160" y="32" text-anchor="middle" fill="#2563eb" font-size="10.2" font-weight="900">Vth Window</text>
+
+                                                <rect x="34" y="44" width="32" height="92" rx="16" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.4"/>
+                                                <rect x="40" y="104" width="20" height="22" rx="10" fill="url(#slcDensityCharge)">
+                                                    <animate attributeName="height" values="18;18;54;54;18" dur="4.8s" repeatCount="indefinite"/>
+                                                    <animate attributeName="y" values="108;108;72;72;108" dur="4.8s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <circle cx="46" cy="86" r="3.2" fill="#ffffff" opacity="0.22">
+                                                    <animate attributeName="opacity" values="0.18;0.18;0.9;0.9;0.18" dur="4.8s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <circle cx="54" cy="78" r="3.2" fill="#ffffff" opacity="0.18">
+                                                    <animate attributeName="opacity" values="0.12;0.12;0.82;0.82;0.12" dur="4.8s" begin="0.18s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <text x="50" y="152" text-anchor="middle" fill="#64748b" font-size="9.2" font-weight="900">large step</text>
+
+                                                <path d="M76 90H116" fill="none" stroke="#60a5fa" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="4 4"/>
+                                                <circle r="3.8" fill="#2563eb">
+                                                    <animateMotion dur="1.7s" repeatCount="indefinite" path="M76 90H116"/>
+                                                </circle>
+
+                                                <rect x="126" y="44" width="68" height="92" rx="18" fill="#f8fbff" stroke="#bfdbfe" stroke-width="1.5"/>
+                                                <rect x="138" y="54" width="44" height="30" rx="12" fill="url(#slcDensityTop)" stroke="#60a5fa" stroke-width="1.2"/>
+                                                <rect x="138" y="94" width="44" height="28" rx="12" fill="url(#slcDensityBottom)" stroke="#2563eb" stroke-width="1.2"/>
+                                                <path d="M136 90H184" fill="none" stroke="#93c5fd" stroke-width="2" stroke-dasharray="4 4">
+                                                    <animate attributeName="opacity" values="0.35;1;0.35" dur="1.8s" repeatCount="indefinite"/>
+                                                </path>
+                                                <rect x="134" y="50" width="52" height="38" rx="14" fill="none" stroke="#1d4ed8" stroke-width="2.2" opacity="0.95">
+                                                    <animate attributeName="y" values="50;50;90;90;50" dur="4.8s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <text x="160" y="73" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="900">Erase 1</text>
+                                                <text x="160" y="111" text-anchor="middle" fill="#1d4ed8" font-size="11" font-weight="900">Prog 0</text>
+                                                <text x="160" y="152" text-anchor="middle" fill="#2563eb" font-size="10" font-weight="900">widest sensing margin</text>
+                                            </svg>
+                                            <div class="mt-3 flex flex-wrap gap-2">
+                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-[10px] font-extrabold text-blue-600">Fast Read / Program</span>
+                                                <span class="inline-flex items-center rounded-full bg-sky-50 px-3 py-1 text-[10px] font-extrabold text-sky-600">High Endurance</span>
+                                            </div>
+                                        </article>
+
+                                        <article class="rounded-[26px] border border-indigo-100 bg-white/90 p-4 shadow-[0_12px_28px_rgba(99,102,241,0.06)] backdrop-blur-sm">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <div>
+                                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-indigo-500">MLC</div>
+                                                    <div class="mt-1 text-lg font-black text-slate-900">2 bit / cell</div>
+                                                </div>
+                                                <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-extrabold text-indigo-600">4 states</span>
+                                            </div>
+                                            <p class="mt-2 text-sm leading-6 text-slate-600">한 셀을 4개 영역으로 나눠 density를 높입니다. read reference가 늘어나고 SLC보다 더 세밀한 Vth 구분이 필요합니다.</p>
+                                            <svg viewBox="0 0 240 176" class="mt-4 w-full h-[188px] block" aria-hidden="true">
+                                                <defs>
+                                                    <pattern id="mlcDensityGrid" width="14" height="14" patternUnits="userSpaceOnUse">
+                                                        <path d="M14 0H0V14" fill="none" stroke="#f0f3ff" stroke-width="1"/>
+                                                    </pattern>
+                                                    <linearGradient id="mlcDensityCharge" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                        <stop offset="0%" stop-color="#818cf8"/>
+                                                        <stop offset="100%" stop-color="#4f46e5"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="mlcDensityState1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#e0e7ff"/>
+                                                        <stop offset="100%" stop-color="#c7d2fe"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="mlcDensityState2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#c7d2fe"/>
+                                                        <stop offset="100%" stop-color="#a5b4fc"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="mlcDensityState3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#a5b4fc"/>
+                                                        <stop offset="100%" stop-color="#818cf8"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="mlcDensityState4" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#818cf8"/>
+                                                        <stop offset="100%" stop-color="#6366f1"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <rect width="240" height="176" rx="24" fill="url(#mlcDensityGrid)"/>
+                                                <rect x="12" y="12" width="216" height="152" rx="22" fill="#ffffff" stroke="#e0e7ff" stroke-width="1.8"/>
+                                                <text x="50" y="32" text-anchor="middle" fill="#4f46e5" font-size="10.2" font-weight="900">Charge</text>
+                                                <text x="160" y="32" text-anchor="middle" fill="#4f46e5" font-size="10.2" font-weight="900">Vth Window</text>
+
+                                                <rect x="34" y="44" width="32" height="92" rx="16" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1.4"/>
+                                                <rect x="40" y="110" width="20" height="16" rx="10" fill="url(#mlcDensityCharge)">
+                                                    <animate attributeName="height" values="12;24;36;48;12" dur="5.6s" repeatCount="indefinite"/>
+                                                    <animate attributeName="y" values="114;102;90;78;114" dur="5.6s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <circle cx="46" cy="92" r="3" fill="#ffffff" opacity="0.2">
+                                                    <animate attributeName="opacity" values="0.18;0.45;0.72;0.92;0.18" dur="5.6s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <circle cx="54" cy="84" r="3" fill="#ffffff" opacity="0.16">
+                                                    <animate attributeName="opacity" values="0.14;0.32;0.6;0.84;0.14" dur="5.6s" begin="0.18s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <circle cx="50" cy="74" r="3" fill="#ffffff" opacity="0.1">
+                                                    <animate attributeName="opacity" values="0.08;0.24;0.44;0.74;0.08" dur="5.6s" begin="0.34s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <text x="50" y="152" text-anchor="middle" fill="#64748b" font-size="9.2" font-weight="900">4 levels</text>
+
+                                                <path d="M76 90H116" fill="none" stroke="#818cf8" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="4 4"/>
+                                                <circle r="3.8" fill="#4f46e5">
+                                                    <animateMotion dur="1.7s" repeatCount="indefinite" path="M76 90H116"/>
+                                                </circle>
+
+                                                <rect x="126" y="44" width="68" height="92" rx="18" fill="#f8faff" stroke="#c7d2fe" stroke-width="1.5"/>
+                                                <rect x="138" y="52" width="44" height="14" rx="7" fill="url(#mlcDensityState1)" stroke="#c7d2fe" stroke-width="1.1"/>
+                                                <rect x="138" y="72" width="44" height="14" rx="7" fill="url(#mlcDensityState2)" stroke="#a5b4fc" stroke-width="1.1"/>
+                                                <rect x="138" y="92" width="44" height="14" rx="7" fill="url(#mlcDensityState3)" stroke="#818cf8" stroke-width="1.1"/>
+                                                <rect x="138" y="112" width="44" height="14" rx="7" fill="url(#mlcDensityState4)" stroke="#6366f1" stroke-width="1.1"/>
+                                                <path d="M136 70H184" fill="none" stroke="#a5b4fc" stroke-width="1.6" stroke-dasharray="4 4">
+                                                    <animate attributeName="opacity" values="0.28;0.92;0.28" dur="2s" repeatCount="indefinite"/>
+                                                </path>
+                                                <path d="M136 90H184" fill="none" stroke="#a5b4fc" stroke-width="1.6" stroke-dasharray="4 4">
+                                                    <animate attributeName="opacity" values="0.28;0.92;0.28" dur="2s" begin="0.22s" repeatCount="indefinite"/>
+                                                </path>
+                                                <path d="M136 110H184" fill="none" stroke="#a5b4fc" stroke-width="1.6" stroke-dasharray="4 4">
+                                                    <animate attributeName="opacity" values="0.28;0.92;0.28" dur="2s" begin="0.44s" repeatCount="indefinite"/>
+                                                </path>
+                                                <rect x="134" y="49" width="52" height="20" rx="10" fill="none" stroke="#4338ca" stroke-width="2.2" opacity="0.95">
+                                                    <animate attributeName="y" values="49;69;89;109;49" dur="5.6s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <text x="160" y="154" text-anchor="middle" fill="#4f46e5" font-size="10" font-weight="900">more reference lines</text>
+                                            </svg>
+                                            <div class="mt-3 flex flex-wrap gap-2">
+                                                <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-extrabold text-indigo-600">Balanced Density</span>
+                                                <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1 text-[10px] font-extrabold text-violet-600">Tighter Read Margin</span>
+                                            </div>
+                                        </article>
+
+                                        <article class="rounded-[26px] border border-fuchsia-100 bg-white/90 p-4 shadow-[0_12px_28px_rgba(217,70,239,0.06)] backdrop-blur-sm">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <div>
+                                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-fuchsia-500">TLC</div>
+                                                    <div class="mt-1 text-lg font-black text-slate-900">3 bit / cell</div>
+                                                </div>
+                                                <span class="inline-flex items-center rounded-full bg-fuchsia-50 px-3 py-1 text-[10px] font-extrabold text-fuchsia-600">8 states</span>
+                                            </div>
+                                            <p class="mt-2 text-sm leading-6 text-slate-600">8개 상태를 구분해야 하므로 program step과 read calibration이 더 정교해집니다. consumer SSD에서 널리 쓰이는 절충형입니다.</p>
+                                            <svg viewBox="0 0 240 176" class="mt-4 w-full h-[188px] block" aria-hidden="true">
+                                                <defs>
+                                                    <pattern id="tlcDensityGrid" width="14" height="14" patternUnits="userSpaceOnUse">
+                                                        <path d="M14 0H0V14" fill="none" stroke="#faf0ff" stroke-width="1"/>
+                                                    </pattern>
+                                                    <linearGradient id="tlcDensityCharge" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                        <stop offset="0%" stop-color="#e879f9"/>
+                                                        <stop offset="100%" stop-color="#c026d3"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="tlcDensityLow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#f5d0fe"/>
+                                                        <stop offset="100%" stop-color="#f0abfc"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="tlcDensityMid" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#f0abfc"/>
+                                                        <stop offset="100%" stop-color="#d946ef"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="tlcDensityHigh" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#d946ef"/>
+                                                        <stop offset="100%" stop-color="#a21caf"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <rect width="240" height="176" rx="24" fill="url(#tlcDensityGrid)"/>
+                                                <rect x="12" y="12" width="216" height="152" rx="22" fill="#ffffff" stroke="#f5d0fe" stroke-width="1.8"/>
+                                                <text x="50" y="32" text-anchor="middle" fill="#c026d3" font-size="10.2" font-weight="900">Charge</text>
+                                                <text x="160" y="32" text-anchor="middle" fill="#c026d3" font-size="10.2" font-weight="900">Vth Window</text>
+
+                                                <rect x="34" y="44" width="32" height="92" rx="16" fill="#fdf4ff" stroke="#f0abfc" stroke-width="1.4"/>
+                                                <rect x="40" y="114" width="20" height="12" rx="10" fill="url(#tlcDensityCharge)">
+                                                    <animate attributeName="height" values="10;16;22;28;34;40;46;52;10" dur="7.6s" repeatCount="indefinite"/>
+                                                    <animate attributeName="y" values="116;110;104;98;92;86;80;74;116" dur="7.6s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <circle cx="46" cy="96" r="2.8" fill="#ffffff" opacity="0.18">
+                                                    <animate attributeName="opacity" values="0.16;0.28;0.4;0.52;0.64;0.76;0.88;1;0.16" dur="7.6s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <circle cx="54" cy="88" r="2.8" fill="#ffffff" opacity="0.12">
+                                                    <animate attributeName="opacity" values="0.1;0.2;0.3;0.42;0.54;0.68;0.8;0.94;0.1" dur="7.6s" begin="0.18s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <circle cx="50" cy="80" r="2.8" fill="#ffffff" opacity="0.08">
+                                                    <animate attributeName="opacity" values="0.08;0.16;0.24;0.34;0.46;0.6;0.74;0.88;0.08" dur="7.6s" begin="0.36s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <text x="50" y="152" text-anchor="middle" fill="#64748b" font-size="9.2" font-weight="900">8 levels</text>
+
+                                                <path d="M76 90H116" fill="none" stroke="#d946ef" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="4 4"/>
+                                                <circle r="3.6" fill="#c026d3">
+                                                    <animateMotion dur="1.8s" repeatCount="indefinite" path="M76 90H116"/>
+                                                </circle>
+
+                                                <rect x="126" y="44" width="68" height="92" rx="18" fill="#fffaff" stroke="#f0abfc" stroke-width="1.5"/>
+                                                <rect x="138" y="50" width="44" height="7" rx="3.5" fill="url(#tlcDensityLow)" opacity="0.96"/>
+                                                <rect x="138" y="61" width="44" height="7" rx="3.5" fill="url(#tlcDensityLow)" opacity="0.92"/>
+                                                <rect x="138" y="72" width="44" height="7" rx="3.5" fill="url(#tlcDensityLow)" opacity="0.88"/>
+                                                <rect x="138" y="83" width="44" height="7" rx="3.5" fill="url(#tlcDensityMid)" opacity="0.88"/>
+                                                <rect x="138" y="94" width="44" height="7" rx="3.5" fill="url(#tlcDensityMid)" opacity="0.9"/>
+                                                <rect x="138" y="105" width="44" height="7" rx="3.5" fill="url(#tlcDensityMid)" opacity="0.94"/>
+                                                <rect x="138" y="116" width="44" height="7" rx="3.5" fill="url(#tlcDensityHigh)" opacity="0.96"/>
+                                                <rect x="138" y="127" width="44" height="7" rx="3.5" fill="url(#tlcDensityHigh)"/>
+                                                <g stroke="#f0abfc" stroke-width="1.4" stroke-dasharray="4 4" fill="none">
+                                                    <path d="M136 59H184"><animate attributeName="opacity" values="0.18;0.62;0.18" dur="1.9s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 70H184"><animate attributeName="opacity" values="0.18;0.62;0.18" dur="1.9s" begin="0.16s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 81H184"><animate attributeName="opacity" values="0.18;0.62;0.18" dur="1.9s" begin="0.32s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 92H184"><animate attributeName="opacity" values="0.18;0.62;0.18" dur="1.9s" begin="0.48s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 103H184"><animate attributeName="opacity" values="0.18;0.62;0.18" dur="1.9s" begin="0.64s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 114H184"><animate attributeName="opacity" values="0.18;0.62;0.18" dur="1.9s" begin="0.8s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 125H184"><animate attributeName="opacity" values="0.18;0.62;0.18" dur="1.9s" begin="0.96s" repeatCount="indefinite"/></path>
+                                                </g>
+                                                <rect x="134" y="47" width="52" height="13" rx="6.5" fill="none" stroke="#a21caf" stroke-width="2.2" opacity="0.95">
+                                                    <animate attributeName="y" values="47;58;69;80;91;102;113;124;47" dur="7.6s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <text x="160" y="152" text-anchor="middle" fill="#c026d3" font-size="10" font-weight="900">8 narrow windows</text>
+                                            </svg>
+                                            <div class="mt-3 flex flex-wrap gap-2">
+                                                <span class="inline-flex items-center rounded-full bg-fuchsia-50 px-3 py-1 text-[10px] font-extrabold text-fuchsia-600">Mainstream SSD</span>
+                                                <span class="inline-flex items-center rounded-full bg-pink-50 px-3 py-1 text-[10px] font-extrabold text-pink-600">More Calibration</span>
+                                            </div>
+                                        </article>
+
+                                        <article class="rounded-[26px] border border-rose-100 bg-white/90 p-4 shadow-[0_12px_28px_rgba(244,63,94,0.06)] backdrop-blur-sm">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <div>
+                                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-rose-500">QLC</div>
+                                                    <div class="mt-1 text-lg font-black text-slate-900">4 bit / cell</div>
+                                                </div>
+                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1 text-[10px] font-extrabold text-rose-600">16 states</span>
+                                            </div>
+                                            <p class="mt-2 text-sm leading-6 text-slate-600">16개 상태를 잘라 써야 해서 density는 가장 높지만, sensing window는 가장 촘촘합니다. ECC와 read retry의 부담이 커지는 영역입니다.</p>
+                                            <svg viewBox="0 0 240 176" class="mt-4 w-full h-[188px] block" aria-hidden="true">
+                                                <defs>
+                                                    <pattern id="qlcDensityGrid" width="14" height="14" patternUnits="userSpaceOnUse">
+                                                        <path d="M14 0H0V14" fill="none" stroke="#fff1f2" stroke-width="1"/>
+                                                    </pattern>
+                                                    <linearGradient id="qlcDensityCharge" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                        <stop offset="0%" stop-color="#fb7185"/>
+                                                        <stop offset="100%" stop-color="#e11d48"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="qlcDensityWindow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#fecdd3"/>
+                                                        <stop offset="100%" stop-color="#fb7185"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <rect width="240" height="176" rx="24" fill="url(#qlcDensityGrid)"/>
+                                                <rect x="12" y="12" width="216" height="152" rx="22" fill="#ffffff" stroke="#ffe4e6" stroke-width="1.8"/>
+                                                <text x="50" y="32" text-anchor="middle" fill="#e11d48" font-size="10.2" font-weight="900">Charge</text>
+                                                <text x="160" y="32" text-anchor="middle" fill="#e11d48" font-size="10.2" font-weight="900">Vth Window</text>
+
+                                                <rect x="34" y="44" width="32" height="92" rx="16" fill="#fff1f2" stroke="#fda4af" stroke-width="1.4"/>
+                                                <rect x="40" y="116" width="20" height="10" rx="10" fill="url(#qlcDensityCharge)">
+                                                    <animate attributeName="height" values="8;12;16;20;24;28;32;36;40;44;48;52;56;60;64;68;8" dur="10s" repeatCount="indefinite"/>
+                                                    <animate attributeName="y" values="118;114;110;106;102;98;94;90;86;82;78;74;70;66;62;58;118" dur="10s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <circle cx="46" cy="100" r="2.6" fill="#ffffff" opacity="0.14">
+                                                    <animate attributeName="opacity" values="0.12;0.18;0.24;0.3;0.36;0.42;0.48;0.54;0.6;0.66;0.72;0.78;0.84;0.9;0.96;1;0.12" dur="10s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <circle cx="54" cy="92" r="2.6" fill="#ffffff" opacity="0.1">
+                                                    <animate attributeName="opacity" values="0.08;0.14;0.2;0.26;0.32;0.38;0.44;0.5;0.56;0.62;0.68;0.74;0.8;0.86;0.92;0.98;0.08" dur="10s" begin="0.18s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <circle cx="50" cy="84" r="2.6" fill="#ffffff" opacity="0.08">
+                                                    <animate attributeName="opacity" values="0.06;0.1;0.14;0.18;0.24;0.3;0.36;0.42;0.48;0.54;0.6;0.66;0.72;0.8;0.88;0.96;0.06" dur="10s" begin="0.36s" repeatCount="indefinite"/>
+                                                </circle>
+                                                <text x="50" y="152" text-anchor="middle" fill="#64748b" font-size="9.2" font-weight="900">16 levels</text>
+
+                                                <path d="M76 90H116" fill="none" stroke="#fb7185" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="4 4"/>
+                                                <circle r="3.4" fill="#e11d48">
+                                                    <animateMotion dur="1.9s" repeatCount="indefinite" path="M76 90H116"/>
+                                                </circle>
+
+                                                <rect x="126" y="44" width="68" height="92" rx="18" fill="#fff8f8" stroke="#fecdd3" stroke-width="1.5"/>
+                                                <g fill="url(#qlcDensityWindow)" opacity="0.94">
+                                                    <rect x="138" y="48" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="54" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="60" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="66" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="72" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="78" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="84" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="90" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="96" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="102" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="108" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="114" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="120" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="126" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="132" width="44" height="4" rx="2"/>
+                                                    <rect x="138" y="138" width="44" height="4" rx="2"/>
+                                                </g>
+                                                <g stroke="#fda4af" stroke-width="1.2" stroke-dasharray="4 4" fill="none" opacity="0.7">
+                                                    <path d="M136 53H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 59H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.08s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 65H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.16s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 71H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.24s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 77H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.32s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 83H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.4s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 89H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.48s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 95H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.56s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 101H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.64s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 107H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.72s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 113H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.8s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 119H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.88s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 125H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="0.96s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 131H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="1.04s" repeatCount="indefinite"/></path>
+                                                    <path d="M136 137H184"><animate attributeName="opacity" values="0.08;0.5;0.08" dur="2.1s" begin="1.12s" repeatCount="indefinite"/></path>
+                                                </g>
+                                                <rect x="134" y="46" width="52" height="8" rx="4" fill="none" stroke="#e11d48" stroke-width="2.1" opacity="0.95">
+                                                    <animate attributeName="y" values="46;52;58;64;70;76;82;88;94;100;106;112;118;124;130;136;46" dur="10s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <text x="160" y="152" text-anchor="middle" fill="#e11d48" font-size="10" font-weight="900">densest, finest slicing</text>
+                                            </svg>
+                                            <div class="mt-3 flex flex-wrap gap-2">
+                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1 text-[10px] font-extrabold text-rose-600">High Capacity</span>
+                                                <span class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-[10px] font-extrabold text-amber-600">Heavy ECC / Retry</span>
+                                            </div>
+                                        </article>
+                                    </div>
+
+                                    <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
+                                        <div class="rounded-[22px] border border-blue-100 bg-white/85 px-4 py-4 shadow-sm">
+                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.14em] text-blue-500">Capacity Scaling</div>
+                                            <div class="mt-3 rounded-[18px] border border-blue-100 bg-[linear-gradient(180deg,#f8fbff_0%,#eef6ff_100%)] px-3 py-3">
+                                                <div class="text-[13px] font-black text-slate-900">Capacity_die = N_cell × bits/cell</div>
+                                                <div class="mt-1 text-[11px] font-bold text-slate-500">같은 die에서 cell 수가 같다면, 용량 증가는 bits/cell에 비례</div>
+                                                <div class="mt-3 grid grid-cols-4 gap-2 text-center">
+                                                    <div class="rounded-2xl bg-white/90 px-2 py-2">
+                                                        <div class="text-[10px] font-extrabold uppercase tracking-[0.14em] text-blue-500">SLC</div>
+                                                        <div class="mt-1 text-sm font-black text-slate-900">1 bit</div>
+                                                    </div>
+                                                    <div class="rounded-2xl bg-white/90 px-2 py-2">
+                                                        <div class="text-[10px] font-extrabold uppercase tracking-[0.14em] text-indigo-500">MLC</div>
+                                                        <div class="mt-1 text-sm font-black text-slate-900">2 bit</div>
+                                                    </div>
+                                                    <div class="rounded-2xl bg-white/90 px-2 py-2">
+                                                        <div class="text-[10px] font-extrabold uppercase tracking-[0.14em] text-fuchsia-500">TLC</div>
+                                                        <div class="mt-1 text-sm font-black text-slate-900">3 bit</div>
+                                                    </div>
+                                                    <div class="rounded-2xl bg-white/90 px-2 py-2">
+                                                        <div class="text-[10px] font-extrabold uppercase tracking-[0.14em] text-rose-500">QLC</div>
+                                                        <div class="mt-1 text-sm font-black text-slate-900">4 bit</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="mt-3 text-sm leading-6 text-slate-600"><strong class="text-slate-900">1 → 2 → 3 → 4 bit/cell</strong>로 올라갈수록, 같은 면적의 NAND array에서도 <strong class="text-slate-900">die당 저장 용량</strong>은 더 크게 확보됩니다.</p>
+                                        </div>
+                                        <div class="rounded-[22px] border border-violet-100 bg-white/85 px-4 py-4 shadow-sm">
+                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.14em] text-violet-500">Window Margin</div>
+                                            <div class="mt-3 h-3 rounded-full bg-[linear-gradient(90deg,#60a5fa_0%,#818cf8_36%,#d946ef_68%,#fb7185_100%)]"></div>
+                                            <div class="mt-2 flex items-center justify-between text-[11px] font-extrabold text-slate-500">
+                                                <span>Wide</span>
+                                                <span>Tight</span>
+                                            </div>
+                                            <p class="mt-2 text-sm leading-6 text-slate-600">state 수가 늘수록 각 window가 얇아져, 분포 이동과 noise에 대한 여유가 줄어듭니다.</p>
+                                        </div>
+                                        <div class="rounded-[22px] border border-rose-100 bg-white/85 px-4 py-4 shadow-sm">
+                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.14em] text-rose-500">Controller Burden</div>
+                                            <div class="mt-2 text-sm font-black text-slate-900">ECC · Read Retry · Calibration</div>
+                                            <p class="mt-2 text-sm leading-6 text-slate-600">특히 TLC/QLC로 갈수록 controller와 firmware가 <strong class="text-slate-900">정확한 read reference 관리</strong>와 error correction을 더 적극적으로 담당해야 합니다.</p>
                                         </div>
                                     </div>
                                 </div>

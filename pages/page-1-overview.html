@@ -2043,6 +2043,64 @@
                                 </div>
                             </article>
 
+                            <article class="bg-white rounded-[24px] border border-blue-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">GDDR</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-blue-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <linearGradient id="gddr-link-overview" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#60a5fa"></stop>
+                                                <stop offset="100%" stop-color="#2563eb"></stop>
+                                            </linearGradient>
+                                            <filter id="glow-gddr-overview" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <rect x="138" y="70" width="124" height="60" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"></rect>
+                                        <text x="200" y="94" text-anchor="middle" font-size="14" font-weight="900" fill="#1d4ed8">GPU / NPU</text>
+                                        <text x="200" y="111" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#2563eb">Graphics Memory Ctrl</text>
+
+                                        <rect x="52" y="34" width="78" height="34" rx="8" fill="white" stroke="#60a5fa" stroke-width="2"></rect>
+                                        <text x="91" y="55" text-anchor="middle" font-size="11" font-weight="900" fill="#2563eb">GDDR7</text>
+                                        <rect x="270" y="34" width="78" height="34" rx="8" fill="white" stroke="#60a5fa" stroke-width="2"></rect>
+                                        <text x="309" y="55" text-anchor="middle" font-size="11" font-weight="900" fill="#2563eb">GDDR7</text>
+                                        <rect x="52" y="132" width="78" height="34" rx="8" fill="white" stroke="#60a5fa" stroke-width="2"></rect>
+                                        <text x="91" y="153" text-anchor="middle" font-size="11" font-weight="900" fill="#2563eb">GDDR7</text>
+                                        <rect x="270" y="132" width="78" height="34" rx="8" fill="white" stroke="#60a5fa" stroke-width="2"></rect>
+                                        <text x="309" y="153" text-anchor="middle" font-size="11" font-weight="900" fill="#2563eb">GDDR7</text>
+
+                                        <path d="M 130 51 H 158 V 70" fill="none" stroke="url(#gddr-link-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gddr-overview)"></path>
+                                        <path d="M 270 51 H 242 V 70" fill="none" stroke="url(#gddr-link-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gddr-overview)"></path>
+                                        <path d="M 130 149 H 158 V 130" fill="none" stroke="url(#gddr-link-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gddr-overview)"></path>
+                                        <path d="M 270 149 H 242 V 130" fill="none" stroke="url(#gddr-link-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gddr-overview)"></path>
+
+                                        <g fill="#2563eb">
+                                            <circle cx="158" cy="70" r="3"></circle>
+                                            <circle cx="242" cy="70" r="3"></circle>
+                                            <circle cx="158" cy="130" r="3"></circle>
+                                            <circle cx="242" cy="130" r="3"></circle>
+                                        </g>
+
+                                        <g transform="translate(142, 22)">
+                                            <rect width="116" height="22" rx="11" fill="white" stroke="#93c5fd" stroke-width="1.5"></rect>
+                                            <text x="58" y="15" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#2563eb">High Pin Bandwidth</text>
+                                        </g>
+
+                                        <path d="M 82 180 H 318" stroke="#93c5fd" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <text x="200" y="194" text-anchor="middle" font-size="9" font-weight="bold" fill="#2563eb">Discrete DRAM Around GPU Package / Board</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    GDDR은 GPU와 AI 가속기 주변에 여러 개 DRAM 패키지를 배치해 핀당 대역폭을 끌어올리는 외장 메모리 계열입니다. HBM보다 패키징 부담은 낮추면서도 높은 처리량을 확보할 수 있어, controller/PHY training과 보드·패키지 signal integrity 설계가 함께 중요해집니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">GDDR6 / GDDR7</span>
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">Graphics / AI Memory</span>
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">PAM3</span>
+                                </div>
+                            </article>
+
                             <article class="bg-white rounded-[24px] border border-amber-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                                 <h5 class="text-xl font-bold text-slate-900 mb-4">Emerging Memory</h5>
                                 <div class="relative w-full h-[200px] rounded-xl border border-amber-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
@@ -2186,6 +2244,66 @@
                                     <span class="diagram-tag border border-teal-200 text-teal-600">Optical I/O</span>
                                     <span class="diagram-tag border border-teal-200 text-teal-600">PIC</span>
                                     <span class="diagram-tag border border-teal-200 text-teal-600">Data Center Interconnect</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-rose-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">PAM</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-rose-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <linearGradient id="pam-signal-overview" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#fb7185"></stop>
+                                                <stop offset="100%" stop-color="#f59e0b"></stop>
+                                            </linearGradient>
+                                            <filter id="glow-pam-overview" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <text x="80" y="30" text-anchor="middle" font-size="10" font-weight="900" fill="#e11d48">NRZ</text>
+                                        <g stroke="#fecdd3" stroke-width="1.5">
+                                            <line x1="36" y1="72" x2="124" y2="72"></line>
+                                            <line x1="36" y1="128" x2="124" y2="128"></line>
+                                        </g>
+                                        <path d="M 44 128 H 62 V 72 H 82 V 128 H 102 V 72 H 120" fill="none" stroke="#f43f5e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-pam-overview)"></path>
+                                        <text x="80" y="154" text-anchor="middle" font-size="9" font-weight="bold" fill="#e11d48">1 bit / UI</text>
+
+                                        <rect x="150" y="72" width="100" height="56" rx="10" fill="white" stroke="#fb7185" stroke-width="2"></rect>
+                                        <text x="200" y="94" text-anchor="middle" font-size="11" font-weight="900" fill="#e11d48">Channel + PHY</text>
+                                        <text x="200" y="110" text-anchor="middle" font-size="9" font-weight="bold" fill="#fb7185">EQ / CDR / DSP</text>
+                                        <path d="M 124 100 H 150" stroke="url(#pam-signal-overview)" stroke-width="4" stroke-linecap="round"></path>
+                                        <path d="M 250 100 H 276" stroke="url(#pam-signal-overview)" stroke-width="4" stroke-linecap="round"></path>
+
+                                        <text x="320" y="30" text-anchor="middle" font-size="10" font-weight="900" fill="#c2410c">PAM3 / PAM4</text>
+                                        <g stroke="#fed7aa" stroke-width="1.5">
+                                            <line x1="276" y1="58" x2="364" y2="58"></line>
+                                            <line x1="276" y1="84" x2="364" y2="84"></line>
+                                            <line x1="276" y1="110" x2="364" y2="110"></line>
+                                            <line x1="276" y1="136" x2="364" y2="136"></line>
+                                        </g>
+                                        <path d="M 284 136 H 298 V 110 H 314 V 84 H 330 V 110 H 346 V 58 H 356" fill="none" stroke="url(#pam-signal-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-pam-overview)"></path>
+                                        <g fill="#f59e0b">
+                                            <circle cx="298" cy="110" r="2.5"></circle>
+                                            <circle cx="314" cy="84" r="2.5"></circle>
+                                            <circle cx="330" cy="110" r="2.5"></circle>
+                                            <circle cx="346" cy="58" r="2.5"></circle>
+                                        </g>
+                                        <text x="320" y="154" text-anchor="middle" font-size="9" font-weight="bold" fill="#c2410c">Higher Bits / UI</text>
+
+                                        <g transform="translate(116, 166)">
+                                            <rect width="168" height="18" rx="9" fill="white" stroke="#fda4af" stroke-width="1.2"></rect>
+                                            <text x="84" y="12.5" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#e11d48">Bandwidth Up, Margin Budget Down</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    PAM은 한 UI에 여러 진폭 레벨을 실어 핀 수나 채널 대역폭 제약 안에서 전송량을 높이는 고속 신호 방식입니다. GDDR7, 차세대 SerDes, 광 인터커넥트 전기 PHY까지 확장되면서 equalization, jitter, eye margin, FEC 같은 PHY/DSP 설계가 더 중요해지고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">PAM3 / PAM4</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">SerDes / PHY</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">Equalization</span>
                                 </div>
                             </article>
                         </div>

@@ -872,47 +872,86 @@
                                 <div class="flex flex-col gap-3 mb-6">
                                     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3">
                                         <div class="inline-flex items-center self-start rounded-full border border-blue-100 bg-white/90 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-blue-600 shadow-[0_10px_24px_rgba(59,130,246,0.08)]">
-                                            Signoff Decision
+                                            Signoff Approval
                                             <span class="mx-2 text-blue-200">→</span>
-                                            Tapeout Execution
+                                            Tapeout Release
                                         </div>
+                                        <p class="max-w-2xl text-sm leading-6 text-slate-600">Tapeout은 Signoff를 통과한 최종 layout을 제조용 release package로 묶어 foundry에 넘기는 실행 단계입니다.</p>
                                     </div>
                                 </div>
 
-                                <div class="grid grid-cols-1 xl:grid-cols-[0.9fr,1.1fr] gap-6 items-start">
+                                <div class="grid grid-cols-1 xl:grid-cols-[0.86fr,1.14fr] gap-6 items-start">
                                     <div class="space-y-4">
-                                        <div class="rounded-[26px] border border-blue-100 bg-white/95 p-5 shadow-[0_14px_32px_rgba(59,130,246,0.06)]">
-                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-3">Core Definition</div>
-                                            <div class="space-y-4">
-                                                <div>
-                                                    <div class="text-base font-black text-slate-900 mb-1">정의</div>
-                                                    <p class="text-sm leading-7 text-slate-600">검증이 끝난 최종 레이아웃 결과를 제조 가능한 공식 산출물 형태로 고정하고 파운드리에 전달하는 단계</p>
-                                                </div>
-                                                <div>
-                                                    <div class="text-base font-black text-slate-900 mb-1">Signoff와의 관계</div>
-                                                    <p class="text-sm leading-7 text-slate-600">Signoff는 제조에 넘겨도 되는지 판단하는 기술적 승인이고, Tapeout은 승인된 결과를 실제 handoff 패키지로 정리해 파운드리에 전달하는 실행 단계입니다.</p>
-                                                </div>
+                                        <div class="rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] p-5 shadow-[0_14px_32px_rgba(59,130,246,0.06)]">
+                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-3">Core Summary</div>
+                                            <div class="text-[26px] leading-[1.25] font-black text-slate-900">승인 이후의 Release 단계</div>
+                                            <p class="mt-3 text-sm leading-7 text-slate-600">Signoff가 “제조로 넘겨도 되는가”를 판단하는 승인 gate라면, Tapeout은 최종 데이터를 동결하고 handoff package를 완성해 실제로 전달하는 단계입니다.</p>
+                                            <div class="mt-4 rounded-2xl border border-blue-100 bg-white/85 px-4 py-3 text-sm leading-6 text-slate-700">
+                                                <strong class="text-blue-600">핵심 구분</strong>
+                                                Signoff는 판단과 승인, Tapeout은 release와 handoff입니다.
                                             </div>
                                         </div>
 
-                                        <div class="rounded-[26px] border border-slate-200 bg-white/90 p-5">
-                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500 mb-3">Release Package</div>
-                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                                <div class="rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
-                                                    <div class="text-sm font-black text-slate-900 mb-1">Layout Data</div>
-                                                    <p class="text-sm leading-6 text-slate-600">GDSII 또는 OASIS와 version-tagged release DB</p>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div class="rounded-[24px] border border-blue-100 bg-blue-50/70 p-4">
+                                                <div class="flex items-start gap-3">
+                                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-blue-600 shadow-[0_8px_18px_rgba(59,130,246,0.10)]">
+                                                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                            <rect x="5" y="11" width="14" height="9" rx="2"></rect>
+                                                            <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+                                                        </svg>
+                                                    </span>
+                                                    <div>
+                                                        <div class="text-sm font-black text-slate-900 mb-1">Data Freeze</div>
+                                                        <p class="text-sm leading-6 text-slate-600">최종 layout, release DB, revision 고정</p>
+                                                    </div>
                                                 </div>
-                                                <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4">
-                                                    <div class="text-sm font-black text-slate-900 mb-1">Signoff Evidence</div>
-                                                    <p class="text-sm leading-6 text-slate-600">STA, DRC, LVS, IR/EM 결과와 pass 기록</p>
+                                            </div>
+                                            <div class="rounded-[24px] border border-emerald-100 bg-emerald-50/70 p-4">
+                                                <div class="flex items-start gap-3">
+                                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-emerald-600 shadow-[0_8px_18px_rgba(16,185,129,0.10)]">
+                                                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                            <path d="M8 4h8l4 4v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+                                                            <path d="M16 4v4h4"></path>
+                                                            <path d="M9 13h6"></path>
+                                                            <path d="M9 17h4"></path>
+                                                        </svg>
+                                                    </span>
+                                                    <div>
+                                                        <div class="text-sm font-black text-slate-900 mb-1">Release Package</div>
+                                                        <p class="text-sm leading-6 text-slate-600">GDSII/OASIS와 release DB 중심의 제조용 데이터 묶음</p>
+                                                    </div>
                                                 </div>
-                                                <div class="rounded-2xl border border-violet-100 bg-violet-50/70 p-4">
-                                                    <div class="text-sm font-black text-slate-900 mb-1">Release Control</div>
-                                                    <p class="text-sm leading-6 text-slate-600">체크리스트, 이력 고정, handoff 문서화</p>
+                                            </div>
+                                            <div class="rounded-[24px] border border-violet-100 bg-violet-50/70 p-4">
+                                                <div class="flex items-start gap-3">
+                                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-violet-600 shadow-[0_8px_18px_rgba(139,92,246,0.10)]">
+                                                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                            <path d="M9 5.5h6"></path>
+                                                            <path d="M7 3.5h10a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z"></path>
+                                                            <path d="M8.5 10.5l2 2 5-5"></path>
+                                                            <path d="M8 16h8"></path>
+                                                        </svg>
+                                                    </span>
+                                                    <div>
+                                                        <div class="text-sm font-black text-slate-900 mb-1">Signoff Evidence</div>
+                                                        <p class="text-sm leading-6 text-slate-600">STA, DRC/LVS, IR/EM pass 근거와 checklist</p>
+                                                    </div>
                                                 </div>
-                                                <div class="rounded-2xl border border-amber-100 bg-amber-50/70 p-4">
-                                                    <div class="text-sm font-black text-slate-900 mb-1">Foundry Interface</div>
-                                                    <p class="text-sm leading-6 text-slate-600">제조용 포맷 전달과 마스크 준비 입력 생성</p>
+                                            </div>
+                                            <div class="rounded-[24px] border border-amber-100 bg-amber-50/80 p-4">
+                                                <div class="flex items-start gap-3">
+                                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-amber-700 shadow-[0_8px_18px_rgba(245,158,11,0.12)]">
+                                                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                            <path d="M14 4h6v6"></path>
+                                                            <path d="M10 14L20 4"></path>
+                                                            <path d="M20 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4"></path>
+                                                        </svg>
+                                                    </span>
+                                                    <div>
+                                                        <div class="text-sm font-black text-slate-900 mb-1">Foundry Handoff</div>
+                                                        <p class="text-sm leading-6 text-slate-600">공식 handoff 후 mask prep과 fab queue 연결</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -924,7 +963,7 @@
                                                 <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">Tapeout Flow Diagram</div>
                                                 <div class="mt-1 text-lg font-black text-slate-900">Approved Design to Foundry Handoff</div>
                                             </div>
-                                            <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Data Freeze + Release</span>
+                                            <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Data Freeze + Handoff</span>
                                         </div>
                                         <svg viewBox="0 0 560 310" class="block h-[340px] w-full xl:h-[360px]" aria-hidden="true">
                                             <defs>
@@ -951,7 +990,7 @@
                                             <rect width="560" height="310" fill="url(#tapeoutGrid)"/>
 
                                             <rect x="32" y="70" width="118" height="156" rx="28" fill="url(#tapeoutApprovedGrad)" stroke="#93c5fd" stroke-width="2.2"/>
-                                            <text x="91" y="94" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">Signoff Approved</text>
+                                            <text x="91" y="94" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">Signoff Pass</text>
                                             <rect x="52" y="112" width="78" height="20" rx="10" fill="#ffffff" stroke="#bfdbfe"/>
                                             <rect x="52" y="140" width="78" height="20" rx="10" fill="#ffffff" stroke="#bbf7d0"/>
                                             <rect x="52" y="168" width="78" height="20" rx="10" fill="#ffffff" stroke="#ddd6fe"/>
@@ -969,14 +1008,22 @@
                                             </circle>
 
                                             <rect x="206" y="52" width="154" height="192" rx="30" fill="url(#tapeoutPackageGrad)" stroke="#86efac" stroke-width="2.2"/>
-                                            <text x="283" y="78" text-anchor="middle" fill="#15803d" font-size="12" font-weight="900">Tapeout Package</text>
+                                            <text x="283" y="78" text-anchor="middle" fill="#15803d" font-size="12" font-weight="900">Release Package</text>
 
                                             <rect x="228" y="96" width="110" height="28" rx="12" fill="#ffffff" stroke="#86efac" stroke-width="1.6"/>
                                             <rect x="228" y="134" width="110" height="28" rx="12" fill="#ffffff" stroke="#86efac" stroke-width="1.6"/>
                                             <rect x="228" y="172" width="110" height="28" rx="12" fill="#ffffff" stroke="#86efac" stroke-width="1.6"/>
+                                            <rect x="224" y="168" width="118" height="36" rx="16" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-dasharray="6 5">
+                                                <animate attributeName="opacity" values="0.28;0.88;0.28" dur="1.6s" repeatCount="indefinite"/>
+                                            </rect>
+                                            <circle cx="238" cy="186" r="8.5" fill="#ffffff" stroke="#22c55e" stroke-width="1.6">
+                                                <animate attributeName="r" values="8.5;10;8.5" dur="1.6s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <path d="M234 186V182.5A4 4 0 0 1 242 182.5V186" fill="none" stroke="#16a34a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <rect x="233.5" y="186" width="9" height="6.5" rx="2" fill="none" stroke="#16a34a" stroke-width="1.7"/>
                                             <text x="283" y="114" text-anchor="middle" fill="#15803d" font-size="10" font-weight="900">GDSII / OASIS</text>
                                             <text x="283" y="152" text-anchor="middle" fill="#15803d" font-size="10" font-weight="900">Reports + Checklist</text>
-                                            <text x="283" y="190" text-anchor="middle" fill="#15803d" font-size="10" font-weight="900">Version Freeze</text>
+                                            <text x="289" y="190" text-anchor="middle" fill="#15803d" font-size="10" font-weight="900">Version Freeze</text>
 
                                             <path d="M248 220H318" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-dasharray="7 6"/>
                                             <circle r="4.8" fill="#16a34a">
@@ -1008,48 +1055,12 @@
                                         </svg>
                                         <div class="border-t border-blue-100 bg-white/85 px-5 py-4">
                                             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                                <span class="inline-flex items-center justify-center rounded-full bg-blue-50 px-3 py-2 text-[11px] font-extrabold text-blue-600">Timing / DRC / LVS</span>
-                                                <span class="inline-flex items-center justify-center rounded-full bg-emerald-50 px-3 py-2 text-[11px] font-extrabold text-emerald-600">GDSII / OASIS</span>
-                                                <span class="inline-flex items-center justify-center rounded-full bg-violet-50 px-3 py-2 text-[11px] font-extrabold text-violet-600">Release Checklist</span>
-                                                <span class="inline-flex items-center justify-center rounded-full bg-amber-50 px-3 py-2 text-[11px] font-extrabold text-amber-700">Foundry Handoff</span>
+                                                <span class="inline-flex items-center justify-center rounded-full bg-blue-50 px-3 py-2 text-[11px] font-extrabold text-blue-600">Signoff Pass</span>
+                                                <span class="inline-flex items-center justify-center rounded-full bg-emerald-50 px-3 py-2 text-[11px] font-extrabold text-emerald-600">Release Package</span>
+                                                <span class="inline-flex items-center justify-center rounded-full bg-violet-50 px-3 py-2 text-[11px] font-extrabold text-violet-600">Foundry Handoff</span>
+                                                <span class="inline-flex items-center justify-center rounded-full bg-amber-50 px-3 py-2 text-[11px] font-extrabold text-amber-700">Mask Prep</span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-3">
-                                    <div class="rounded-2xl border border-slate-200 bg-white/90 p-4">
-                                        <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-400 mb-2">Step 1</div>
-                                        <div class="text-sm font-black text-slate-900 mb-1">PnR Final</div>
-                                        <p class="text-sm leading-6 text-slate-600">최종 레이아웃과 추출 결과가 고정되는 시점</p>
-                                    </div>
-                                    <div class="rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
-                                        <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-2">Step 2</div>
-                                        <div class="text-sm font-black text-slate-900 mb-1">Signoff Pass</div>
-                                        <p class="text-sm leading-6 text-slate-600">제출 가능 상태라는 기술적 승인 확보</p>
-                                    </div>
-                                    <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4">
-                                        <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-emerald-500 mb-2">Step 3</div>
-                                        <div class="text-sm font-black text-slate-900 mb-1">Tapeout Package</div>
-                                        <p class="text-sm leading-6 text-slate-600">데이터, 보고서, 이력, 체크리스트를 release 묶음으로 정리</p>
-                                    </div>
-                                    <div class="rounded-2xl border border-violet-100 bg-violet-50/70 p-4">
-                                        <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-violet-500 mb-2">Step 4</div>
-                                        <div class="text-sm font-black text-slate-900 mb-1">Foundry Handoff</div>
-                                        <p class="text-sm leading-6 text-slate-600">제조용 입력 전달 후 mask prep과 생산 단계로 연결</p>
-                                    </div>
-                                </div>
-
-                                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div class="rounded-[26px] border border-blue-100 bg-blue-50/70 p-5 shadow-[0_12px_28px_rgba(59,130,246,0.05)]">
-                                        <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-2">Signoff</div>
-                                        <div class="text-lg font-black text-slate-900 mb-2">제출 가능 여부를 판단하는 승인 단계</div>
-                                        <p class="text-sm leading-7 text-slate-600">타이밍, DRC/LVS, IR/EM 같은 검증 결과를 바탕으로 지금 상태가 제조 기준을 만족하는지 확인합니다.</p>
-                                    </div>
-                                    <div class="rounded-[26px] border border-violet-100 bg-violet-50/70 p-5 shadow-[0_12px_28px_rgba(139,92,246,0.05)]">
-                                        <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-violet-500 mb-2">Tapeout</div>
-                                        <div class="text-lg font-black text-slate-900 mb-2">승인된 결과를 실제 제조 데이터로 넘기는 실행 단계</div>
-                                        <p class="text-sm leading-7 text-slate-600">통과된 레이아웃, 보고서, 체크리스트, 버전 정보를 release package로 묶어 파운드리에 공식 handoff합니다.</p>
                                     </div>
                                 </div>
                             </div>
