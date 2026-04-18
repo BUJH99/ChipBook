@@ -960,22 +960,122 @@
                                                 </div>
                                                 <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
                                                     <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM variable retention time animation">
-                                                        <rect x="50" y="80" width="80" height="10" fill="#60a5fa"/>
-                                                        <rect x="70" y="70" width="40" height="10" fill="#fef08a"/>
-                                                        <rect x="70" y="50" width="40" height="20" fill="#94a3b8"/>
-                                                        <circle cx="90" cy="75" r="4" fill="#ef4444">
-                                                            <animate attributeName="opacity" values="0;1;0" dur="0.8s" repeatCount="indefinite"/>
-                                                        </circle>
-                                                        <text x="90" y="40" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">Oxide Trap</text>
-                                                        <path d="M160 90 L180 90 L180 60 L200 60 L200 90 L230 90 L230 50 L250 50 L250 90 L270 90" fill="none" stroke="#fb7185" stroke-width="2">
-                                                            <animate attributeName="stroke-dashoffset" values="20;0" dur="0.8s" repeatCount="indefinite"/>
+                                                        <defs>
+                                                            <linearGradient id="vrtShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#fff1f2"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="vrtCharge" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#fb7185"/>
+                                                                <stop offset="100%" stop-color="#e11d48"/>
+                                                            </linearGradient>
+                                                        </defs>
+
+                                                        <rect x="12" y="12" width="296" height="120" rx="22" fill="url(#vrtShell)" stroke="#ffe4e6"/>
+
+                                                        <text x="160" y="28" text-anchor="middle" fill="#2563eb" font-size="9.1" font-weight="900">
+                                                            Trap이 전자를 포획
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.28;0.3;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="28" text-anchor="middle" fill="#ea580c" font-size="9.1" font-weight="900" opacity="0">
+                                                            Trap이 전자를 방출하며 누설 속도 변화
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.32;0.34;0.66;0.68;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="28" text-anchor="middle" fill="#be123c" font-size="9.1" font-weight="900" opacity="0">
+                                                            같은 셀도 보존 시간이 길었다 짧았다
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.72;0.74;0.96;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="62" y="40" text-anchor="middle" fill="#64748b" font-size="8.4" font-weight="900">Oxide Trap</text>
+                                                        <rect x="24" y="46" width="76" height="52" rx="14" fill="#fff7ed" stroke="#fdba74" stroke-width="1.5"/>
+                                                        <rect x="38" y="58" width="48" height="28" rx="10" fill="#ffffff" stroke="#fed7aa"/>
+                                                        <line x1="62" y1="56" x2="62" y2="88" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/>
+                                                        <circle cx="62" cy="72" r="6" fill="#fff1f2" stroke="#fb923c" stroke-width="1.4"/>
+                                                        <path d="M40 88Q50 78 58 74" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="4 3" stroke-linecap="round"/>
+                                                        <path d="M66 74Q76 80 84 92" fill="none" stroke="#fb923c" stroke-width="1.8" stroke-dasharray="4 3" stroke-linecap="round" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.46;0.48;0.72;1" calcMode="discrete"/>
                                                         </path>
-                                                        <text x="220" y="115" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="bold">불규칙적인 누설량 변동</text>
+                                                        <circle r="3.1" fill="#3b82f6" opacity="0">
+                                                            <animateMotion dur="0.9s" begin="0s" repeatCount="indefinite" path="M40 88Q50 78 58 74"/>
+                                                            <animate attributeName="opacity" values="0;1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.02;0.18;0.24;1"/>
+                                                        </circle>
+                                                        <circle cx="62" cy="72" r="2.8" fill="#3b82f6" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.18;0.2;0.46;0.48;1" calcMode="discrete"/>
+                                                        </circle>
+                                                        <circle r="3.1" fill="#fb923c" opacity="0">
+                                                            <animateMotion dur="0.9s" begin="0.2s" repeatCount="indefinite" path="M66 74Q76 80 84 92"/>
+                                                            <animate attributeName="opacity" values="0;0;0;1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.46;0.48;0.54;0.66;0.72;1"/>
+                                                        </circle>
+                                                        <text x="62" y="110" text-anchor="middle" fill="#2563eb" font-size="7.6" font-weight="900">
+                                                            포획 상태
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.46;0.48;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="62" y="110" text-anchor="middle" fill="#ea580c" font-size="7.6" font-weight="900" opacity="0">
+                                                            방출 상태
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.48;0.5;0.9;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="158" y="40" text-anchor="middle" fill="#64748b" font-size="8.4" font-weight="900">누설 / 셀</text>
+                                                        <rect x="124" y="46" width="68" height="56" rx="14" fill="#fff1f2" stroke="#f9a8d4" stroke-width="1.5"/>
+                                                        <line x1="132" y1="54" x2="184" y2="54" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/>
+                                                        <text x="158" y="51" text-anchor="middle" fill="#ef4444" font-size="7.2" font-weight="900">초기 전하</text>
+                                                        <rect x="140" y="80" width="36" height="12" rx="6" fill="url(#vrtCharge)" opacity="0.96">
+                                                            <animate attributeName="y" values="80;80;82;88;80" dur="5s" repeatCount="indefinite" keyTimes="0;0.34;0.52;0.82;1"/>
+                                                            <animate attributeName="height" values="12;12;10;4;12" dur="5s" repeatCount="indefinite" keyTimes="0;0.34;0.52;0.82;1"/>
+                                                        </rect>
+                                                        <path d="M158 102V120" fill="none" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="4 3" stroke-linecap="round">
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.46;0.48;1" calcMode="discrete"/>
+                                                        </path>
+                                                        <path d="M158 102V120" fill="none" stroke="#ef4444" stroke-width="2.6" stroke-dasharray="4 3" stroke-linecap="round" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.48;0.5;0.9;1" calcMode="discrete"/>
+                                                        </path>
+                                                        <text x="158" y="132" text-anchor="middle" fill="#a16207" font-size="7.3" font-weight="900">
+                                                            누설 느림
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.46;0.48;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="158" y="132" text-anchor="middle" fill="#be123c" font-size="7.3" font-weight="900" opacity="0">
+                                                            누설 빠름
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.48;0.5;0.9;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="256" y="40" text-anchor="middle" fill="#64748b" font-size="8.4" font-weight="900">보존 시간 변화</text>
+                                                        <path d="M220 48V104H292" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+                                                        <line x1="220" y1="88" x2="292" y2="88" stroke="#fda4af" stroke-width="1.4" stroke-dasharray="4 3"/>
+                                                        <text x="294" y="91" fill="#be123c" font-size="7" font-weight="900">Fail</text>
+                                                        <path d="M224 58C238 62 252 70 286 86" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" opacity="0.95">
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.46;0.48;1" calcMode="discrete"/>
+                                                        </path>
+                                                        <path d="M224 58C236 74 248 86 264 96" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.48;0.5;0.9;1" calcMode="discrete"/>
+                                                        </path>
+                                                        <circle r="3" fill="#2563eb">
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.46;0.48;1" calcMode="discrete"/>
+                                                            <animateMotion dur="1.3s" begin="0s" repeatCount="indefinite" path="M224 58C238 62 252 70 286 86"/>
+                                                        </circle>
+                                                        <circle r="3" fill="#ef4444" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.48;0.5;0.9;1" calcMode="discrete"/>
+                                                            <animateMotion dur="1.1s" begin="0.2s" repeatCount="indefinite" path="M224 58C236 74 248 86 264 96"/>
+                                                        </circle>
+                                                        <text x="258" y="62" text-anchor="middle" fill="#2563eb" font-size="7.2" font-weight="900">
+                                                            긴 보존
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.46;0.48;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="252" y="74" text-anchor="middle" fill="#ef4444" font-size="7.2" font-weight="900" opacity="0">
+                                                            짧은 보존
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.48;0.5;0.9;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <rect x="221" y="108" width="70" height="14" rx="7" fill="#fff1f2" stroke="#fb7185" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.74;0.76;0.96;1" calcMode="discrete"/>
+                                                        </rect>
+                                                        <text x="256" y="117.5" text-anchor="middle" fill="#be123c" font-size="6.9" font-weight="900" opacity="0">
+                                                            같은 셀, 보존시간 변화
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5s" repeatCount="indefinite" keyTimes="0;0.74;0.76;0.96;1" calcMode="discrete"/>
+                                                        </text>
                                                     </svg>
                                                 </div>
                                                 <div class="space-y-2 text-sm">
                                                     <p><strong class="text-slate-800">원인:</strong> TR 산화막 내부 결함(Trap)으로 인해 전자가 불규칙하게 포획 및 방출됩니다.</p>
-                                                    <p><strong class="text-slate-800">결과:</strong> 테스트 시점마다 누설 전류량이 달라져 간헐적으로 리텐션 불량이 발생합니다.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 같은 셀도 테스트 시점마다 누설 전류와 보존 시간이 달라져 간헐적으로 리텐션 불량이 발생합니다.</p>
                                                     <p><strong class="text-emerald-700">대책:</strong> 스트레스 조건(고온/고전압)의 Burn-in Test를 통해 사전 스크리닝.</p>
                                                 </div>
                                             </div>
@@ -989,28 +1089,84 @@
                                                 </div>
                                                 <div class="mb-4 rounded-2xl bg-[#fff8fb] border border-rose-100 p-3 flex justify-center">
                                                     <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="DRAM hard defect and soft error animation">
-                                                        <rect x="60" y="60" width="40" height="60" rx="4" fill="#fce7f3" stroke="#f9a8d4"/>
-                                                        <rect x="60" y="80" width="40" height="40" fill="#fb7185">
-                                                            <animate attributeName="height" values="40;0;40" dur="2s" repeatCount="indefinite"/>
-                                                            <animate attributeName="y" values="80;120;80" dur="2s" repeatCount="indefinite"/>
+                                                        <defs>
+                                                            <linearGradient id="hardSoftShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#fff1f2"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="softCharge" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#fb7185"/>
+                                                                <stop offset="100%" stop-color="#e11d48"/>
+                                                            </linearGradient>
+                                                        </defs>
+
+                                                        <rect x="12" y="12" width="296" height="120" rx="22" fill="url(#hardSoftShell)" stroke="#ffe4e6"/>
+                                                        <line x1="160" y1="24" x2="160" y2="120" stroke="#fecdd3" stroke-width="1.6" stroke-dasharray="4 4"/>
+
+                                                        <text x="86" y="32" text-anchor="middle" fill="#f59e0b" font-size="9.2" font-weight="900">Soft Error</text>
+                                                        <text x="234" y="32" text-anchor="middle" fill="#475569" font-size="9.2" font-weight="900">Hard Defect</text>
+
+                                                        <rect x="24" y="40" width="124" height="78" rx="18" fill="#fffaf0" stroke="#fed7aa"/>
+                                                        <text x="86" y="48" text-anchor="middle" fill="#64748b" font-size="7.8" font-weight="900">알파 입자 충돌</text>
+                                                        <rect x="42" y="58" width="36" height="42" rx="10" fill="#fff1f2" stroke="#f9a8d4" stroke-width="1.5"/>
+                                                        <text x="60" y="54" text-anchor="middle" fill="#64748b" font-size="7.2" font-weight="900">Cell</text>
+                                                        <rect x="49" y="84" width="22" height="10" rx="5" fill="url(#softCharge)" opacity="0.96">
+                                                            <animate attributeName="opacity" values="0.96;0.96;0.72;0.56;0.96" dur="4.2s" repeatCount="indefinite" keyTimes="0;0.34;0.5;0.7;1"/>
                                                         </rect>
-                                                        <text x="80" y="135" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">Data Flip</text>
-                                                        <path d="M130 10 L90 50 L100 60 L70 90" fill="none" stroke="#f59e0b" stroke-width="3">
-                                                            <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+                                                        <text x="60" y="80" text-anchor="middle" fill="#334155" font-size="12" font-weight="900">
+                                                            1
+                                                            <animate attributeName="opacity" values="1;1;0;0;1" dur="4.2s" repeatCount="indefinite" keyTimes="0;0.36;0.38;0.7;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="60" y="80" text-anchor="middle" fill="#be123c" font-size="12" font-weight="900" opacity="0">
+                                                            0
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="4.2s" repeatCount="indefinite" keyTimes="0;0.38;0.4;0.7;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <path d="M108 20L84 48L66 67" fill="none" stroke="#f59e0b" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" opacity="0">
+                                                            <animate attributeName="opacity" values="0;1;1;0;0" dur="4.2s" repeatCount="indefinite" keyTimes="0;0.12;0.28;0.36;1"/>
                                                         </path>
-                                                        <circle cx="70" cy="90" r="10" fill="#fef08a" opacity="0">
-                                                            <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+                                                        <circle cx="66" cy="67" r="8" fill="#fde68a" opacity="0">
+                                                            <animate attributeName="r" values="4;10;14;4" dur="4.2s" repeatCount="indefinite" keyTimes="0;0.26;0.38;1"/>
+                                                            <animate attributeName="opacity" values="0;0.95;0;0" dur="4.2s" repeatCount="indefinite" keyTimes="0;0.26;0.4;1"/>
                                                         </circle>
-                                                        <text x="160" y="30" fill="#f59e0b" font-size="10" font-weight="bold">알파 입자 (Soft)</text>
-                                                        <line x1="200" y1="70" x2="280" y2="70" stroke="#94a3b8" stroke-width="2"/>
-                                                        <line x1="200" y1="90" x2="280" y2="90" stroke="#94a3b8" stroke-width="2"/>
-                                                        <circle cx="240" cy="80" r="12" fill="#475569"/>
-                                                        <text x="240" y="115" text-anchor="middle" fill="#475569" font-size="10" font-weight="bold">Particle Short (Hard)</text>
+                                                        <circle r="3.1" fill="#f59e0b" opacity="0">
+                                                            <animateMotion dur="0.8s" begin="0s" repeatCount="indefinite" path="M108 20L84 48L66 67"/>
+                                                            <animate attributeName="opacity" values="0;1;1;0;0" dur="4.2s" repeatCount="indefinite" keyTimes="0;0.08;0.24;0.32;1"/>
+                                                        </circle>
+                                                        <rect x="86" y="60" width="48" height="16" rx="8" fill="#fff1f2" stroke="#fb923c"/>
+                                                        <text x="110" y="70.5" text-anchor="middle" fill="#ea580c" font-size="7.2" font-weight="900">순간 Bit Flip</text>
+                                                        <rect x="34" y="104" width="104" height="14" rx="7" fill="#eff6ff" stroke="#93c5fd"/>
+                                                        <text x="86" y="113.5" text-anchor="middle" fill="#2563eb" font-size="7.2" font-weight="900">회로는 정상, 데이터만 일시 반전</text>
+
+                                                        <rect x="172" y="40" width="124" height="78" rx="18" fill="#f8fafc" stroke="#cbd5e1"/>
+                                                        <text x="234" y="48" text-anchor="middle" fill="#64748b" font-size="7.8" font-weight="900">금속 Short / Open</text>
+                                                        <line x1="186" y1="68" x2="282" y2="68" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                                                        <line x1="186" y1="92" x2="282" y2="92" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                                                        <path d="M226 68L242 92" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#ef4444;#b91c1c;#ef4444" dur="0.9s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <circle cx="234" cy="80" r="12" fill="#334155"/>
+                                                        <path d="M252 80H282" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round">
+                                                            <animate attributeName="opacity" values="0.82;1;0.82" dur="0.9s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <g fill="#ef4444">
+                                                            <circle cx="250" cy="68" r="2.4">
+                                                                <animate attributeName="opacity" values="0.3;1;0.3" dur="0.9s" repeatCount="indefinite"/>
+                                                            </circle>
+                                                            <circle cx="256" cy="92" r="2.4">
+                                                                <animate attributeName="opacity" values="0.3;1;0.3" dur="0.9s" begin="0.18s" repeatCount="indefinite"/>
+                                                            </circle>
+                                                        </g>
+                                                        <rect x="196" y="102" width="76" height="14" rx="7" fill="#fff1f2" stroke="#fb7185"/>
+                                                        <text x="234" y="111.5" text-anchor="middle" fill="#be123c" font-size="7.3" font-weight="900">영구 불량, 회로 동작 불능</text>
+                                                        <rect x="248" y="58" width="28" height="16" rx="8" fill="#fff1f2" stroke="#fb7185"/>
+                                                        <text x="262" y="68.5" text-anchor="middle" fill="#be123c" font-size="7.1" font-weight="900">SHORT</text>
+                                                        <path d="M194 58L210 74" fill="none" stroke="#475569" stroke-width="2.6" stroke-linecap="round"/>
+                                                        <path d="M210 58L194 74" fill="none" stroke="#475569" stroke-width="2.6" stroke-linecap="round"/>
                                                     </svg>
                                                 </div>
                                                 <div class="space-y-2 text-sm">
                                                     <p><strong class="text-slate-800">원인:</strong> 파티클에 의한 금속 단락/단선(Hard), 우주 방사선 충돌(Soft).</p>
-                                                    <p><strong class="text-slate-800">결과:</strong> 회로 동작 불능 또는 일시적인 데이터 반전(Single Event Upset) 발생.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> Hard는 회로가 영구적으로 망가지고, Soft는 회로는 정상인데 데이터만 순간 반전(SEU)됩니다.</p>
                                                     <p><strong class="text-emerald-700">대책:</strong> 예비 회로 Laser Repair 적용(Hard), On-Die ECC 탑재(Soft).</p>
                                                 </div>
                                             </div>
@@ -1033,25 +1189,166 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
-                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM read upset animation">
-                                                        <path d="M60 40H260" fill="none" stroke="#8b5cf6" stroke-width="3"/>
-                                                        <text x="65" y="32" fill="#8b5cf6" font-size="10" font-weight="bold">WL (On)</text>
-                                                        <line x1="100" y1="50" x2="100" y2="100" stroke="#93c5fd" stroke-width="3"/>
-                                                        <line x1="220" y1="50" x2="220" y2="100" stroke="#93c5fd" stroke-width="3"/>
-                                                        <rect x="130" y="60" width="60" height="40" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
-                                                        <text x="160" y="83" text-anchor="middle" fill="#1d4ed8" font-size="12" font-weight="bold">Latch</text>
-                                                        <line x1="100" y1="80" x2="130" y2="80" stroke="#334155" stroke-width="2"/>
-                                                        <line x1="190" y1="80" x2="220" y2="80" stroke="#334155" stroke-width="2"/>
-                                                        <circle cx="145" cy="80" r="15" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="2 2">
-                                                            <animate attributeName="r" values="5;15;5" dur="1s" repeatCount="indefinite"/>
+                                                    <svg viewBox="0 0 320 156" class="w-full h-auto max-h-32" aria-label="SRAM read upset animation">
+                                                        <defs>
+                                                            <linearGradient id="readUpsetShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#eef6ff"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="readUpsetLow" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#2563eb"/>
+                                                                <stop offset="100%" stop-color="#60a5fa"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="readUpsetHigh" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#e11d48"/>
+                                                                <stop offset="100%" stop-color="#fb7185"/>
+                                                            </linearGradient>
+                                                        </defs>
+
+                                                        <rect x="12" y="12" width="296" height="132" rx="22" fill="url(#readUpsetShell)" stroke="#dbeafe"/>
+
+                                                        <text x="160" y="28" text-anchor="middle" fill="#2563eb" font-size="8.9" font-weight="900">
+                                                            초기값: Q=0 / QB=1
+                                                            <animate attributeName="opacity" values="1;1;0;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.2;0.22;0.98;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="28" text-anchor="middle" fill="#7c3aed" font-size="8.9" font-weight="900" opacity="0">
+                                                            BL/BLB precharge=1, WL On
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.22;0.24;0.5;0.52;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="28" text-anchor="middle" fill="#ea580c" font-size="8.8" font-weight="900" opacity="0">
+                                                            BL이 Q(0)를 위로 끌어올림
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.52;0.54;0.74;0.76;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="28" text-anchor="middle" fill="#be123c" font-size="8.8" font-weight="900" opacity="0">
+                                                            Q > trip -> 파괴적 반전
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.78;0.8;0.98;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="58" y="42" text-anchor="middle" fill="#64748b" font-size="8.1" font-weight="900">BL</text>
+                                                        <text x="176" y="42" text-anchor="middle" fill="#64748b" font-size="8.1" font-weight="900">BLB</text>
+                                                        <text x="58" y="55" text-anchor="middle" fill="#2563eb" font-size="8.2" font-weight="900">1</text>
+                                                        <text x="176" y="55" text-anchor="middle" fill="#2563eb" font-size="8.2" font-weight="900">1</text>
+                                                        <path d="M58 60V110" fill="none" stroke="#93c5fd" stroke-width="3" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#93c5fd;#60a5fa;#2563eb;#60a5fa;#93c5fd" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.22;0.5;0.74;1"/>
+                                                        </path>
+                                                        <path d="M176 60V110" fill="none" stroke="#93c5fd" stroke-width="3" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#93c5fd;#93c5fd;#60a5fa;#93c5fd;#93c5fd" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.22;0.5;0.74;1"/>
+                                                        </path>
+                                                        <circle cx="58" cy="66" r="3.2" fill="#64748b"/>
+                                                        <circle cx="176" cy="66" r="3.2" fill="#64748b"/>
+
+                                                        <path d="M30 66H202" fill="none" stroke="#c4b5fd" stroke-width="3" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#c4b5fd;#8b5cf6;#7c3aed;#8b5cf6;#c4b5fd" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.22;0.5;0.74;1"/>
+                                                        </path>
+                                                        <text x="34" y="60" fill="#7c3aed" font-size="7.8" font-weight="900">WL pulse</text>
+
+                                                        <line x1="58" y1="66" x2="58" y2="96" stroke="#94a3b8" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="176" y1="66" x2="176" y2="96" stroke="#94a3b8" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="58" y1="96" x2="72" y2="96" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="162" y1="96" x2="176" y2="96" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <rect x="72" y="82" width="20" height="28" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.4"/>
+                                                        <rect x="142" y="82" width="20" height="28" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.4"/>
+                                                        <line x1="82" y1="66" x2="82" y2="82" stroke="#c4b5fd" stroke-width="1.4" stroke-dasharray="4 3" stroke-linecap="round"/>
+                                                        <line x1="152" y1="66" x2="152" y2="82" stroke="#c4b5fd" stroke-width="1.4" stroke-dasharray="4 3" stroke-linecap="round"/>
+                                                        <text x="82" y="100" text-anchor="middle" fill="#64748b" font-size="7.5" font-weight="900">Tr</text>
+                                                        <text x="152" y="100" text-anchor="middle" fill="#64748b" font-size="7.5" font-weight="900">Tr</text>
+                                                        <line x1="92" y1="96" x2="102" y2="96" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="142" y1="96" x2="136" y2="96" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+
+                                                        <circle cx="102" cy="112" r="11" fill="url(#readUpsetLow)" stroke="#1d4ed8" stroke-width="1.8">
+                                                            <animate attributeName="stroke" values="#1d4ed8;#1d4ed8;#f59e0b;#ef4444;#be123c" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.52;0.66;0.8;1"/>
                                                         </circle>
-                                                        <text x="160" y="125" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">SNM 부족으로 내부 노드 반전</text>
+                                                        <circle cx="102" cy="112" r="11" fill="#fb923c" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;0.2;0.55;0.82;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.5;0.62;0.72;0.9;1"/>
+                                                        </circle>
+                                                        <circle cx="102" cy="112" r="17" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 3" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.54;0.56;0.78;0.8;1" calcMode="discrete"/>
+                                                        </circle>
+                                                        <text x="102" y="116" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="900">
+                                                            0
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.82;0.84;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="102" y="116" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="900" opacity="0">
+                                                            1
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.84;0.86;0.98;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="94" y="138" text-anchor="end" fill="#64748b" font-size="8.4" font-weight="900">Q</text>
+
+                                                        <circle cx="140" cy="112" r="11" fill="url(#readUpsetHigh)" stroke="#be123c" stroke-width="1.8">
+                                                            <animate attributeName="stroke" values="#be123c;#be123c;#ef4444;#f59e0b;#1d4ed8" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.66;0.78;0.86;1"/>
+                                                        </circle>
+                                                        <circle cx="140" cy="112" r="11" fill="#60a5fa" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;0;0.2;0.78;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.62;0.76;0.84;0.96;1"/>
+                                                        </circle>
+                                                        <text x="140" y="116" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="900">
+                                                            1
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.82;0.84;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="140" y="116" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="900" opacity="0">
+                                                            0
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.84;0.86;0.98;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="148" y="138" text-anchor="start" fill="#64748b" font-size="8.4" font-weight="900">QB</text>
+
+                                                        <path d="M102 112V92H116" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <polygon points="116,82 116,102 132,92" fill="#ffffff" stroke="#2563eb" stroke-width="2.6" stroke-linejoin="round"/>
+                                                        <circle cx="136" cy="92" r="3.3" fill="#ffffff" stroke="#2563eb" stroke-width="1.8"/>
+                                                        <path d="M136 92H140V112" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M140 112V132H126" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <polygon points="126,122 110,132 126,142" fill="#ffffff" stroke="#16a34a" stroke-width="2.6" stroke-linejoin="round"/>
+                                                        <circle cx="106" cy="132" r="3.3" fill="#ffffff" stroke="#16a34a" stroke-width="1.8"/>
+                                                        <path d="M106 132H102V112" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+                                                        <circle r="3" fill="#60a5fa" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.24;0.26;0.72;0.74;1" calcMode="discrete"/>
+                                                            <animateMotion dur="0.95s" repeatCount="indefinite" path="M58 60V96H96"/>
+                                                        </circle>
+                                                        <circle r="3" fill="#60a5fa" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.28;0.3;0.74;0.76;1" calcMode="discrete"/>
+                                                            <animateMotion dur="0.95s" begin="0.14s" repeatCount="indefinite" path="M58 60V96H96"/>
+                                                        </circle>
+                                                        <path d="M96 126V94" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="4 3" stroke-linecap="round" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.52;0.54;0.76;0.78;1" calcMode="discrete"/>
+                                                        </path>
+                                                        <polygon points="96,88 91,98 101,98" fill="#f59e0b" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.52;0.54;0.76;0.78;1" calcMode="discrete"/>
+                                                        </polygon>
+                                                        <rect x="68" y="121" width="50" height="14" rx="7" fill="#fff7ed" stroke="#fdba74" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.56;0.58;0.78;0.8;1" calcMode="discrete"/>
+                                                        </rect>
+                                                        <text x="93" y="130.5" text-anchor="middle" fill="#c2410c" font-size="7" font-weight="900" opacity="0">
+                                                            Q 끌어올림
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.56;0.58;0.78;0.8;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="245" y="42" text-anchor="middle" fill="#64748b" font-size="8.1" font-weight="900">Q 전압</text>
+                                                        <path d="M202 48V118H286" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+                                                        <line x1="202" y1="78" x2="286" y2="78" stroke="#fda4af" stroke-width="1.4" stroke-dasharray="4 3"/>
+                                                        <text x="288" y="81" fill="#be123c" font-size="7.1" font-weight="900">임계</text>
+                                                        <line x1="210" y1="106" x2="282" y2="106" stroke="#93c5fd" stroke-width="1.4" stroke-dasharray="3 3"/>
+                                                        <path d="M210 106C222 106 230 101 238 92C246 83 252 76 260 70C268 64 274 60 282 58" fill="none" stroke="#ef4444" stroke-width="2.6" stroke-linecap="round" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.38;0.4;0.96;0.98;1" calcMode="discrete"/>
+                                                        </path>
+                                                        <circle r="3.1" fill="#ef4444" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.42;0.44;0.86;0.88;1" calcMode="discrete"/>
+                                                            <animateMotion dur="1.2s" repeatCount="indefinite" path="M210 106C222 106 230 101 238 92C246 83 252 76 260 70C268 64 274 60 282 58"/>
+                                                        </circle>
+                                                        <circle cx="257" cy="72" r="7" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 3" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.62;0.64;0.82;0.84;1" calcMode="discrete"/>
+                                                        </circle>
+                                                        <rect x="219" y="120" width="58" height="14" rx="7" fill="#fff1f2" stroke="#fb7185" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.8;0.82;0.98;1" calcMode="discrete"/>
+                                                        </rect>
+                                                        <text x="248" y="129.5" text-anchor="middle" fill="#be123c" font-size="7.1" font-weight="900" opacity="0">
+                                                            0/1 -> 1/0 반전
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.2s" repeatCount="indefinite" keyTimes="0;0.8;0.82;0.98;1" calcMode="discrete"/>
+                                                        </text>
                                                     </svg>
                                                 </div>
                                                 <div class="space-y-2 text-sm">
-                                                    <p><strong class="text-slate-800">원인:</strong> WL 활성화 시 BL 전압이 내부 노드를 흔듦 (Static Noise Margin 부족).</p>
-                                                    <p><strong class="text-slate-800">결과:</strong> 읽는 행위의 충격으로 셀 데이터가 반전됨.</p>
-                                                    <p><strong class="text-blue-700">개선:</strong> WL Underdrive, 8T SRAM 구조 도입.</p>
+                                                    <p><strong class="text-slate-800">원인:</strong> 읽기 직전 BL/BLB는 모두 precharge되어 있고, WL이 켜지면 저장된 0 노드(Q)가 BL에 연결되어 위로 끌려 올라갑니다.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> SNM이 부족해 Q가 inverter trip point를 넘으면 읽기 동작이 파괴적으로 변해 셀 데이터가 0/1에서 1/0으로 반전됩니다.</p>
+                                                    <p><strong class="text-blue-700">개선:</strong> WL Underdrive, Read Buffer 분리형 8T SRAM, 셀 비율(Cell Ratio) 강화.</p>
                                                 </div>
                                             </div>
 
@@ -1063,24 +1360,146 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
-                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM write fail animation">
-                                                        <rect x="130" y="50" width="60" height="40" rx="6" fill="#eff6ff" stroke="#3b82f6"/>
-                                                        <text x="160" y="73" text-anchor="middle" fill="#1d4ed8" font-size="10" font-weight="bold">Strong</text>
-                                                        <text x="160" y="85" text-anchor="middle" fill="#1d4ed8" font-size="10" font-weight="bold">Latch</text>
-                                                        <path d="M50 70H120" fill="none" stroke="#3b82f6" stroke-width="4"/>
-                                                        <polygon points="110,65 125,70 110,75" fill="#3b82f6">
-                                                            <animateTransform attributeName="transform" type="translate" values="-10 0;0 0;-10 0" dur="1s" repeatCount="indefinite"/>
-                                                        </polygon>
-                                                        <text x="80" y="60" fill="#3b82f6" font-size="10" font-weight="bold">New Data</text>
-                                                        <path d="M130 50L110 90" stroke="#ef4444" stroke-width="3"/>
-                                                        <path d="M110 50L130 90" stroke="#ef4444" stroke-width="3"/>
-                                                        <text x="160" y="125" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="bold">래치 고집 &gt; 쓰기 강도 (덮어쓰기 불가)</text>
+                                                    <svg viewBox="0 0 320 156" class="w-full h-auto max-h-32" aria-label="SRAM write fail animation">
+                                                        <defs>
+                                                            <linearGradient id="writeFailShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#eff6ff"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="writeFailLowNode" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#2563eb"/>
+                                                                <stop offset="100%" stop-color="#60a5fa"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="writeFailHighNode" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#e11d48"/>
+                                                                <stop offset="100%" stop-color="#fb7185"/>
+                                                            </linearGradient>
+                                                        </defs>
+
+                                                        <rect x="12" y="12" width="296" height="132" rx="22" fill="url(#writeFailShell)" stroke="#dbeafe"/>
+
+                                                        <text x="160" y="28" text-anchor="middle" fill="#2563eb" font-size="8.9" font-weight="900">
+                                                            초기값: Q=0 / QB=1
+                                                            <animate attributeName="opacity" values="1;1;0;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.2;0.22;0.98;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="28" text-anchor="middle" fill="#7c3aed" font-size="8.9" font-weight="900" opacity="0">
+                                                            BL=1, BLB=0, WL On
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.22;0.24;0.5;0.52;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="28" text-anchor="middle" fill="#ea580c" font-size="8.8" font-weight="900" opacity="0">
+                                                            Q 상승, trip point 미도달
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.52;0.54;0.76;0.78;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="28" text-anchor="middle" fill="#be123c" font-size="8.8" font-weight="900" opacity="0">
+                                                            WL Off -> 원래 0/1 복원
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.8;0.82;0.98;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="60" y="42" text-anchor="middle" fill="#64748b" font-size="8.1" font-weight="900">BL</text>
+                                                        <text x="182" y="42" text-anchor="middle" fill="#64748b" font-size="8.1" font-weight="900">BLB</text>
+                                                        <text x="60" y="55" text-anchor="middle" fill="#2563eb" font-size="8.2" font-weight="900">1</text>
+                                                        <text x="182" y="55" text-anchor="middle" fill="#e11d48" font-size="8.2" font-weight="900">0</text>
+                                                        <path d="M60 60V110" fill="none" stroke="#93c5fd" stroke-width="3" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#93c5fd;#60a5fa;#2563eb;#60a5fa;#93c5fd" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.22;0.4;0.76;1"/>
+                                                        </path>
+                                                        <path d="M182 60V110" fill="none" stroke="#fda4af" stroke-width="3" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#fda4af;#fb7185;#e11d48;#fb7185;#fda4af" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.22;0.4;0.76;1"/>
+                                                        </path>
+                                                        <circle cx="60" cy="66" r="3.2" fill="#64748b"/>
+                                                        <circle cx="182" cy="66" r="3.2" fill="#64748b"/>
+
+                                                        <path d="M30 66H212" fill="none" stroke="#c4b5fd" stroke-width="3" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#c4b5fd;#8b5cf6;#7c3aed;#8b5cf6;#c4b5fd" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.22;0.4;0.76;1"/>
+                                                        </path>
+                                                        <text x="34" y="60" fill="#7c3aed" font-size="7.8" font-weight="900">WL pulse</text>
+
+                                                        <line x1="60" y1="66" x2="60" y2="96" stroke="#94a3b8" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="182" y1="66" x2="182" y2="96" stroke="#94a3b8" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="60" y1="96" x2="74" y2="96" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="168" y1="96" x2="182" y2="96" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <rect x="74" y="82" width="20" height="28" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.4"/>
+                                                        <rect x="148" y="82" width="20" height="28" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.4"/>
+                                                        <line x1="84" y1="66" x2="84" y2="82" stroke="#c4b5fd" stroke-width="1.4" stroke-dasharray="4 3" stroke-linecap="round"/>
+                                                        <line x1="158" y1="66" x2="158" y2="82" stroke="#c4b5fd" stroke-width="1.4" stroke-dasharray="4 3" stroke-linecap="round"/>
+                                                        <text x="84" y="100" text-anchor="middle" fill="#64748b" font-size="7.5" font-weight="900">Tr</text>
+                                                        <text x="158" y="100" text-anchor="middle" fill="#64748b" font-size="7.5" font-weight="900">Tr</text>
+                                                        <line x1="94" y1="96" x2="102" y2="96" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <line x1="148" y1="96" x2="136" y2="96" stroke="#334155" stroke-width="2.4" stroke-linecap="round"/>
+
+                                                        <circle cx="102" cy="112" r="11" fill="url(#writeFailLowNode)" stroke="#1d4ed8" stroke-width="1.8">
+                                                            <animate attributeName="stroke" values="#1d4ed8;#1d4ed8;#f59e0b;#ea580c;#1d4ed8" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.52;0.66;0.76;1"/>
+                                                        </circle>
+                                                        <circle cx="102" cy="112" r="11" fill="#fdba74" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;0.25;0.55;0.15;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.5;0.62;0.7;0.78;1"/>
+                                                        </circle>
+                                                        <circle cx="102" cy="112" r="17" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 3" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.54;0.56;0.76;0.78;1" calcMode="discrete"/>
+                                                        </circle>
+                                                        <text x="102" y="116" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="900">0</text>
+                                                        <text x="94" y="138" text-anchor="end" fill="#64748b" font-size="8.4" font-weight="900">Q</text>
+
+                                                        <circle cx="140" cy="112" r="11" fill="url(#writeFailHighNode)" stroke="#be123c" stroke-width="1.8">
+                                                            <animate attributeName="stroke" values="#be123c;#be123c;#ef4444;#fb7185;#be123c" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.52;0.66;0.76;1"/>
+                                                        </circle>
+                                                        <circle cx="140" cy="112" r="11" fill="#fb7185" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;0.12;0.28;0.1;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.5;0.62;0.7;0.78;1"/>
+                                                        </circle>
+                                                        <text x="140" y="116" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="900">1</text>
+                                                        <text x="148" y="138" text-anchor="start" fill="#64748b" font-size="8.4" font-weight="900">QB</text>
+
+                                                        <path d="M102 112V92H116" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <polygon points="116,82 116,102 132,92" fill="#ffffff" stroke="#2563eb" stroke-width="2.6" stroke-linejoin="round"/>
+                                                        <circle cx="136" cy="92" r="3.3" fill="#ffffff" stroke="#2563eb" stroke-width="1.8"/>
+                                                        <path d="M136 92H140V112" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M140 112V132H126" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <polygon points="126,122 110,132 126,142" fill="#ffffff" stroke="#16a34a" stroke-width="2.6" stroke-linejoin="round"/>
+                                                        <circle cx="106" cy="132" r="3.3" fill="#ffffff" stroke="#16a34a" stroke-width="1.8"/>
+                                                        <path d="M106 132H102V112" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+                                                        <circle r="3" fill="#60a5fa" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.24;0.26;0.72;0.74;1" calcMode="discrete"/>
+                                                            <animateMotion dur="1s" repeatCount="indefinite" path="M60 60V96H96"/>
+                                                        </circle>
+                                                        <circle r="3" fill="#ef4444" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.24;0.26;0.72;0.74;1" calcMode="discrete"/>
+                                                            <animateMotion dur="1s" begin="0.18s" repeatCount="indefinite" path="M182 60V96H146"/>
+                                                        </circle>
+
+                                                        <text x="244" y="42" text-anchor="middle" fill="#64748b" font-size="8.1" font-weight="900">Q voltage</text>
+                                                        <path d="M198 48V118H286" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+                                                        <line x1="198" y1="78" x2="286" y2="78" stroke="#fda4af" stroke-width="1.4" stroke-dasharray="4 3"/>
+                                                        <text x="288" y="81" fill="#be123c" font-size="7.1" font-weight="900">trip</text>
+                                                        <line x1="206" y1="106" x2="282" y2="106" stroke="#93c5fd" stroke-width="1.4" stroke-dasharray="3 3"/>
+                                                        <path d="M206 106C220 106 230 102 238 93C246 84 254 82 261 85C268 88 274 96 282 106" fill="none" stroke="#f59e0b" stroke-width="2.6" stroke-linecap="round" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.34;0.36;0.82;0.84;1" calcMode="discrete"/>
+                                                        </path>
+                                                        <circle r="3.1" fill="#f59e0b" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.38;0.4;0.72;0.74;1" calcMode="discrete"/>
+                                                            <animateMotion dur="1.3s" repeatCount="indefinite" path="M206 106C220 106 230 102 238 93C246 84 254 82 261 85C268 88 274 96 282 106"/>
+                                                        </circle>
+                                                        <circle cx="251" cy="84" r="7" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 3" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.56;0.58;0.8;0.82;1" calcMode="discrete"/>
+                                                        </circle>
+                                                        <rect x="220" y="120" width="58" height="14" rx="7" fill="#fff7ed" stroke="#fdba74" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.58;0.6;0.8;0.82;1" calcMode="discrete"/>
+                                                        </rect>
+                                                        <text x="249" y="129.5" text-anchor="middle" fill="#c2410c" font-size="7.1" font-weight="900" opacity="0">
+                                                            trip point 미도달
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.58;0.6;0.8;0.82;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <rect x="226" y="92" width="42" height="14" rx="7" fill="#eff6ff" stroke="#93c5fd" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.82;0.84;0.98;1" calcMode="discrete"/>
+                                                        </rect>
+                                                        <text x="247" y="101.5" text-anchor="middle" fill="#1d4ed8" font-size="7.1" font-weight="900" opacity="0">
+                                                            0로 복원
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="5.6s" repeatCount="indefinite" keyTimes="0;0.82;0.84;0.98;1" calcMode="discrete"/>
+                                                        </text>
                                                     </svg>
                                                 </div>
                                                 <div class="space-y-2 text-sm">
-                                                    <p><strong class="text-slate-800">원인:</strong> 내부 래치의 데이터 유지력이 쓰기 드라이버보다 강함.</p>
-                                                    <p><strong class="text-slate-800">결과:</strong> 기입 수행 후에도 이전 데이터가 그대로 유지됨.</p>
-                                                    <p><strong class="text-blue-700">개선:</strong> Write Assist (셀 VDD 일시 강하) 적용.</p>
+                                                    <p><strong class="text-slate-800">원인:</strong> BL/BLB가 새 값을 밀어 넣어도 cross-coupled inverter의 복원력이 더 커서 내부 노드가 trip point를 넘지 못합니다.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> WL이 꺼지는 순간 셀이 다시 기존 0/1 상태로 돌아가므로, 쓰기 동작을 했어도 최종 저장은 실패합니다.</p>
+                                                    <p><strong class="text-blue-700">개선:</strong> Write Assist (셀 VDD 일시 강하, Boosted WL, Negative BL)로 래치 우위를 잠시 약화시킵니다.</p>
                                                 </div>
                                             </div>
 
@@ -1092,23 +1511,89 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
-                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM half select disturb animation">
-                                                        <line x1="40" y1="40" x2="280" y2="40" stroke="#8b5cf6" stroke-width="3"/>
-                                                        <text x="45" y="32" fill="#8b5cf6" font-size="10" font-weight="bold">WL (Activated for Write)</text>
-                                                        <rect x="80" y="60" width="50" height="40" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
-                                                        <text x="105" y="83" text-anchor="middle" fill="#1d4ed8" font-size="9" font-weight="bold">Target</text>
-                                                        <rect x="200" y="60" width="50" height="40" rx="4" fill="#f1f5f9" stroke="#94a3b8"/>
-                                                        <text x="225" y="83" text-anchor="middle" fill="#475569" font-size="9" font-weight="bold">Half-Sel</text>
-                                                        <path d="M190 50 Q225 30 260 50" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="3 3">
-                                                            <animate attributeName="stroke-dashoffset" values="0;20" dur="1s" repeatCount="indefinite"/>
+                                                    <svg viewBox="0 0 320 156" class="w-full h-auto max-h-32" aria-label="SRAM half select disturb concept diagram">
+                                                        <defs>
+                                                            <linearGradient id="halfSelectShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#eef6ff"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="halfSelectTargetPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#eff6ff"/>
+                                                                <stop offset="100%" stop-color="#dbeafe"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="halfSelectVictimPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#fffaf5"/>
+                                                                <stop offset="100%" stop-color="#ffedd5"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="halfSelectNodeLow" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#2563eb"/>
+                                                                <stop offset="100%" stop-color="#60a5fa"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="halfSelectNodeHigh" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                                <stop offset="0%" stop-color="#e11d48"/>
+                                                                <stop offset="100%" stop-color="#fb7185"/>
+                                                            </linearGradient>
+                                                        </defs>
+
+                                                        <rect x="10" y="10" width="300" height="136" rx="22" fill="url(#halfSelectShell)" stroke="#dbeafe"/>
+                                                        <text x="160" y="26" text-anchor="middle" fill="#334155" font-size="8.6" font-weight="900">공유 WL 때문에 옆 열도 완전한 비선택 상태가 아니다</text>
+
+                                                        <rect x="120" y="31" width="80" height="15" rx="7.5" fill="#ede9fe" stroke="#c4b5fd"/>
+                                                        <text x="160" y="41" text-anchor="middle" fill="#7c3aed" font-size="7.4" font-weight="900">공유 WL ON</text>
+                                                        <path d="M34 48H286" fill="none" stroke="#8b5cf6" stroke-width="3.2" stroke-linecap="round">
+                                                            <animate attributeName="stroke" values="#c4b5fd;#8b5cf6;#7c3aed;#8b5cf6;#c4b5fd" dur="4.8s" repeatCount="indefinite"/>
                                                         </path>
-                                                        <text x="225" y="115" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="bold">Dummy Read 스트레스</text>
+                                                        <line x1="84" y1="48" x2="84" y2="58" stroke="#c4b5fd" stroke-width="1.4" stroke-dasharray="4 3" stroke-linecap="round"/>
+                                                        <line x1="236" y1="48" x2="236" y2="58" stroke="#c4b5fd" stroke-width="1.4" stroke-dasharray="4 3" stroke-linecap="round"/>
+
+                                                        <rect x="20" y="58" width="128" height="74" rx="18" fill="url(#halfSelectTargetPanel)" stroke="#bfdbfe"/>
+                                                        <text x="84" y="74" text-anchor="middle" fill="#1d4ed8" font-size="8.5" font-weight="900">선택 열</text>
+                                                        <text x="84" y="85" text-anchor="middle" fill="#2563eb" font-size="7.4" font-weight="900">BL / BLB = 1 / 0</text>
+                                                        <rect x="42" y="90" width="84" height="20" rx="10" fill="#ffffff" stroke="#93c5fd" stroke-width="1.4"/>
+                                                        <circle cx="64" cy="100" r="8.2" fill="url(#halfSelectNodeHigh)" stroke="#be123c" stroke-width="1.2"/>
+                                                        <circle cx="104" cy="100" r="8.2" fill="url(#halfSelectNodeLow)" stroke="#1d4ed8" stroke-width="1.2"/>
+                                                        <text x="64" y="103.5" text-anchor="middle" fill="#ffffff" font-size="8.2" font-weight="900">1</text>
+                                                        <text x="104" y="103.5" text-anchor="middle" fill="#ffffff" font-size="8.2" font-weight="900">0</text>
+                                                        <rect x="36" y="116" width="96" height="11" rx="5.5" fill="#dbeafe" stroke="#93c5fd"/>
+                                                        <text x="84" y="123.6" text-anchor="middle" fill="#1d4ed8" font-size="6.9" font-weight="900">의도된 write가 들어가는 열</text>
+
+                                                        <rect x="172" y="58" width="128" height="74" rx="18" fill="url(#halfSelectVictimPanel)" stroke="#fdba74"/>
+                                                        <rect x="172" y="58" width="128" height="74" rx="18" fill="#fff7ed" opacity="0.08">
+                                                            <animate attributeName="opacity" values="0.08;0.16;0.28;0.16;0.08" dur="4.8s" repeatCount="indefinite"/>
+                                                        </rect>
+                                                        <text x="236" y="74" text-anchor="middle" fill="#9a3412" font-size="8.5" font-weight="900">하프 셀렉트 열</text>
+                                                        <text x="236" y="85" text-anchor="middle" fill="#c2410c" font-size="7.4" font-weight="900">BL / BLB = 1 / 1 precharge</text>
+                                                        <line x1="194" y1="82" x2="278" y2="82" stroke="#fb7185" stroke-width="1.4" stroke-dasharray="4 3"/>
+                                                        <text x="281" y="85" fill="#be123c" font-size="6.7" font-weight="900">trip</text>
+                                                        <rect x="194" y="90" width="84" height="20" rx="10" fill="#ffffff" stroke="#fdba74" stroke-width="1.4"/>
+                                                        <circle cx="216" cy="100" r="8.2" fill="url(#halfSelectNodeLow)" stroke="#1d4ed8" stroke-width="1.2"/>
+                                                        <circle cx="216" cy="100" r="8.2" fill="#fb923c" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0.15;0.35;0.15;0" dur="4.8s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <circle cx="256" cy="100" r="8.2" fill="url(#halfSelectNodeHigh)" stroke="#be123c" stroke-width="1.2"/>
+                                                        <text x="216" y="103.5" text-anchor="middle" fill="#ffffff" font-size="8.2" font-weight="900">0</text>
+                                                        <text x="256" y="103.5" text-anchor="middle" fill="#ffffff" font-size="8.2" font-weight="900">1</text>
+                                                        <path d="M216 107V86" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="4 3" stroke-linecap="round">
+                                                            <animate attributeName="opacity" values="0.2;0.8;0.9;0.8;0.2" dur="4.8s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <polygon points="216,80 211,90 221,90" fill="#f59e0b">
+                                                            <animate attributeName="opacity" values="0.2;0.8;0.9;0.8;0.2" dur="4.8s" repeatCount="indefinite"/>
+                                                        </polygon>
+                                                        <text x="246" y="97" fill="#c2410c" font-size="6.7" font-weight="900">0 노드 상승</text>
+                                                        <text x="236" y="111" text-anchor="middle" fill="#c2410c" font-size="6.8" font-weight="900">SNM 감소</text>
+                                                        <rect x="188" y="113" width="96" height="8" rx="4" fill="#e2e8f0"/>
+                                                        <rect x="188" y="113" width="54" height="8" rx="4" fill="#f59e0b">
+                                                            <animate attributeName="width" values="54;40;24;40;54" dur="4.8s" repeatCount="indefinite"/>
+                                                            <animate attributeName="fill" values="#f59e0b;#fb923c;#ef4444;#fb923c;#f59e0b" dur="4.8s" repeatCount="indefinite"/>
+                                                        </rect>
+                                                        <rect x="194" y="123.5" width="84" height="10" rx="5" fill="#fff1f2" stroke="#fb7185"/>
+                                                        <text x="236" y="130.5" text-anchor="middle" fill="#be123c" font-size="6.8" font-weight="900">반복되면 취약 셀만 upset 위험</text>
                                                     </svg>
                                                 </div>
                                                 <div class="space-y-2 text-sm">
-                                                    <p><strong class="text-slate-800">원인:</strong> 타겟 셀 기입을 위해 공유 WL이 켜지면서 비선택 열의 셀들이 더미 리드 상태에 놓임.</p>
-                                                    <p><strong class="text-slate-800">결과:</strong> 간섭으로 인해 취약한 비선택 셀의 데이터 반전 발생.</p>
-                                                    <p><strong class="text-blue-700">개선:</strong> 8T 분리 구조, Interleaving 아키텍처 배치.</p>
+                                                    <p><strong class="text-slate-800">원인:</strong> 타겟 열만 write를 걸어도 같은 행의 WL이 켜지는 동안 옆 열 셀의 access path도 함께 열립니다. 이때 옆 열 bitline이 1/1 precharge 상태면 읽기와 비슷한 전하 교환이 생겨 half-select stress가 걸립니다.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 저장된 <span class="font-semibold text-slate-900">0 노드</span>가 조금씩 들리며 SNM이 줄고, 반복 write나 저전압 조건에서는 취약 셀만 disturb upset으로 이어질 수 있습니다.</p>
+                                                    <p><strong class="text-blue-700">개선:</strong> 8T처럼 read path를 분리한 셀, column interleaving, write assist tuning, array 배치 최적화로 half-select stress를 줄입니다.</p>
                                                 </div>
                                             </div>
 
@@ -1120,21 +1605,77 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
-                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM hold fail animation">
-                                                        <path d="M60 40H260" fill="none" stroke="#94a3b8" stroke-width="3"/>
-                                                        <text x="65" y="32" fill="#64748b" font-size="10" font-weight="bold">Standby VDD (Very Low)</text>
-                                                        <path d="M160 40 V65" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 4"/>
-                                                        <circle cx="130" cy="90" r="15" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
-                                                        <circle cx="190" cy="90" r="15" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
-                                                        <path d="M145 85 Q160 70 175 85" fill="none" stroke="#94a3b8" stroke-width="2"/>
-                                                        <path d="M145 95 Q160 110 175 95" fill="none" stroke="#94a3b8" stroke-width="2"/>
-                                                        <text x="160" y="130" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">누설 전류로 래치 붕괴 (데이터 소실)</text>
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM hold fail concept diagram">
+                                                        <defs>
+                                                            <linearGradient id="holdFailShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#eff6ff"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="holdFailGood" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ecfdf5"/>
+                                                                <stop offset="100%" stop-color="#d1fae5"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="holdFailBad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#fff7ed"/>
+                                                                <stop offset="100%" stop-color="#ffe4e6"/>
+                                                            </linearGradient>
+                                                        </defs>
+
+                                                        <rect x="10" y="10" width="300" height="124" rx="22" fill="url(#holdFailShell)" stroke="#dbeafe"/>
+                                                        <text x="160" y="26" text-anchor="middle" fill="#334155" font-size="8.6" font-weight="900">대기 전압을 너무 낮추면 복원력보다 누설이 먼저 이긴다</text>
+
+                                                        <rect x="22" y="44" width="118" height="74" rx="18" fill="url(#holdFailGood)" stroke="#86efac"/>
+                                                        <text x="81" y="59" text-anchor="middle" fill="#15803d" font-size="8.3" font-weight="900">정상 보존</text>
+                                                        <text x="81" y="70" text-anchor="middle" fill="#16a34a" font-size="7" font-weight="900">복원력 여유 충분</text>
+                                                        <rect x="38" y="74" width="86" height="8" rx="4" fill="#d1d5db"/>
+                                                        <rect x="38" y="74" width="62" height="8" rx="4" fill="#22c55e"/>
+                                                        <circle cx="59" cy="96" r="10.5" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.3"/>
+                                                        <circle cx="103" cy="96" r="10.5" fill="#fb7185" stroke="#be123c" stroke-width="1.3"/>
+                                                        <path d="M69 96H93" fill="none" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round"/>
+                                                        <text x="59" y="100" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="900">0</text>
+                                                        <text x="103" y="100" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="900">1</text>
+                                                        <rect x="35" y="107" width="92" height="11" rx="5.5" fill="#f0fdf4" stroke="#86efac"/>
+                                                        <text x="81" y="114.5" text-anchor="middle" fill="#15803d" font-size="6.8" font-weight="900">idle 중에도 상태 유지</text>
+
+                                                        <path d="M148 81H172" fill="none" stroke="#f59e0b" stroke-width="2.4" stroke-linecap="round"/>
+                                                        <polygon points="172,81 164,76 164,86" fill="#f59e0b"/>
+                                                        <text x="160" y="67" text-anchor="middle" fill="#c2410c" font-size="7.2" font-weight="900">대기 VDD 감소</text>
+                                                        <text x="160" y="97" text-anchor="middle" fill="#c2410c" font-size="6.8" font-weight="900">retention margin 감소</text>
+
+                                                        <rect x="180" y="44" width="118" height="74" rx="18" fill="url(#holdFailBad)" stroke="#fb923c"/>
+                                                        <rect x="180" y="44" width="118" height="74" rx="18" fill="#fff7ed" opacity="0.08">
+                                                            <animate attributeName="opacity" values="0.08;0.18;0.28;0.18;0.08" dur="4.8s" repeatCount="indefinite"/>
+                                                        </rect>
+                                                        <text x="239" y="59" text-anchor="middle" fill="#b91c1c" font-size="8.3" font-weight="900">Hold Fail</text>
+                                                        <text x="239" y="70" text-anchor="middle" fill="#c2410c" font-size="7" font-weight="900">유지 여유가 붕괴</text>
+                                                        <rect x="196" y="74" width="86" height="8" rx="4" fill="#d1d5db"/>
+                                                        <rect x="196" y="74" width="26" height="8" rx="4" fill="#f59e0b">
+                                                            <animate attributeName="width" values="30;22;16;22;30" dur="4.8s" repeatCount="indefinite"/>
+                                                            <animate attributeName="fill" values="#f59e0b;#fb923c;#ef4444;#fb923c;#f59e0b" dur="4.8s" repeatCount="indefinite"/>
+                                                        </rect>
+                                                        <line x1="196" y1="86" x2="282" y2="86" stroke="#fb7185" stroke-width="1.3" stroke-dasharray="4 3"/>
+                                                        <text x="285" y="89" fill="#be123c" font-size="6.7" font-weight="900">trip</text>
+                                                        <circle cx="217" cy="96" r="10.5" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.3"/>
+                                                        <circle cx="217" cy="96" r="10.5" fill="#fb923c" opacity="0">
+                                                            <animate attributeName="opacity" values="0;0.2;0.45;0.2;0" dur="4.8s" repeatCount="indefinite"/>
+                                                        </circle>
+                                                        <circle cx="261" cy="96" r="10.5" fill="#fb7185" stroke="#be123c" stroke-width="1.3"/>
+                                                        <path d="M217 106V90" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="4 3" stroke-linecap="round">
+                                                            <animate attributeName="opacity" values="0.2;0.75;0.9;0.75;0.2" dur="4.8s" repeatCount="indefinite"/>
+                                                        </path>
+                                                        <polygon points="217,84 212,94 222,94" fill="#f59e0b">
+                                                            <animate attributeName="opacity" values="0.2;0.75;0.9;0.75;0.2" dur="4.8s" repeatCount="indefinite"/>
+                                                        </polygon>
+                                                        <text x="217" y="100" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="900">0</text>
+                                                        <text x="261" y="100" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="900">1</text>
+                                                        <rect x="193" y="107" width="92" height="11" rx="5.5" fill="#fff1f2" stroke="#fb7185"/>
+                                                        <text x="239" y="114.5" text-anchor="middle" fill="#be123c" font-size="6.8" font-weight="900">접근 없이도 idle 데이터 소실</text>
                                                     </svg>
                                                 </div>
                                                 <div class="space-y-2 text-sm">
-                                                    <p><strong class="text-slate-800">원인:</strong> 대기 전력 감소를 위해 VDD를 낮출 시 내부 누설로 래치 유지력 한계 도달.</p>
-                                                    <p><strong class="text-slate-800">결과:</strong> Idle 상태에서도 데이터가 지워짐 (Vmin 상승 원인).</p>
-                                                    <p><strong class="text-blue-700">개선:</strong> Data Retention Voltage 하한선 정밀 테스트 후 스크리닝.</p>
+                                                    <p><strong class="text-slate-800">원인:</strong> 대기 전력을 줄이려고 standby VDD를 너무 낮추면 cross-coupled inverter의 복원력이 약해져, 내부 누설과 오프셋을 더 이상 이기지 못합니다.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 읽기나 쓰기를 하지 않아도 저장된 0/1 차이가 서서히 무너지며, 취약 셀은 idle 상태에서 데이터가 소실됩니다.</p>
+                                                    <p><strong class="text-blue-700">개선:</strong> Data Retention Voltage(DRV) 하한을 PVT별로 측정하고, retention guardband와 hold assist, 스크리닝으로 안전 여유를 확보합니다.</p>
                                                 </div>
                                             </div>
 
@@ -1172,22 +1713,135 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-4 rounded-2xl bg-[#f8fbff] border border-blue-100 p-3 flex justify-center">
-                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM process variation and RTN animation">
-                                                        <polygon points="60,50 100,70 60,90" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
-                                                        <circle cx="105" cy="70" r="5" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
-                                                        <text x="70" y="73" fill="#1d4ed8" font-size="10" font-weight="bold">Strong</text>
-                                                        <polygon points="200,50 160,70 200,90" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
-                                                        <circle cx="155" cy="70" r="5" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
-                                                        <text x="180" y="73" fill="#b91c1c" font-size="10" font-weight="bold">Weak</text>
-                                                        <path d="M110 30 L120 20 L130 40 L140 10 L150 30 L160 20 L170 30" fill="none" stroke="#f59e0b" stroke-width="2">
-                                                            <animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite"/>
-                                                        </path>
-                                                        <text x="130" y="115" text-anchor="middle" fill="#475569" font-size="10" font-weight="bold">산포 및 RTN 노이즈로 래치 대칭성 붕괴</text>
+                                                    <svg viewBox="0 0 320 144" class="w-full h-auto max-h-32" aria-label="SRAM mismatch and RTN animation showing process variation tilting latch balance and shrinking SNM margin">
+                                                        <defs>
+                                                            <linearGradient id="sramMismatchShell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                                <stop offset="100%" stop-color="#eef6ff"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="sramMismatchLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                                <stop offset="0%" stop-color="#60a5fa"/>
+                                                                <stop offset="100%" stop-color="#2563eb"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="sramMismatchRight" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                                <stop offset="0%" stop-color="#fca5a5"/>
+                                                                <stop offset="100%" stop-color="#ef4444"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="sramMismatchMeter" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                                <stop offset="0%" stop-color="#22c55e"/>
+                                                                <stop offset="55%" stop-color="#f59e0b"/>
+                                                                <stop offset="100%" stop-color="#ef4444"/>
+                                                            </linearGradient>
+                                                            <filter id="sramMismatchGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                                                <feDropShadow dx="0" dy="0" stdDeviation="2.4" flood-color="#f59e0b" flood-opacity="0.35"/>
+                                                            </filter>
+                                                        </defs>
+
+                                                        <rect x="12" y="12" width="296" height="120" rx="22" fill="url(#sramMismatchShell)" stroke="#dbeafe"/>
+
+                                                        <rect x="26" y="20" width="56" height="16" rx="8" fill="#dbeafe"/>
+                                                        <rect x="102" y="20" width="56" height="16" rx="8" fill="#e0f2fe"/>
+                                                        <rect x="178" y="20" width="56" height="16" rx="8" fill="#ffedd5"/>
+                                                        <rect x="26" y="20" width="56" height="16" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5">
+                                                            <animate attributeName="x" values="26;26;102;102;178;178;26" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.2;0.52;0.54;0.86;1"/>
+                                                            <animate attributeName="stroke" values="#3b82f6;#3b82f6;#2563eb;#2563eb;#f59e0b;#f59e0b;#3b82f6" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.2;0.52;0.54;0.86;1"/>
+                                                        </rect>
+                                                        <text x="54" y="31" text-anchor="middle" fill="#1d4ed8" font-size="7.6" font-weight="900">균형</text>
+                                                        <text x="130" y="31" text-anchor="middle" fill="#2563eb" font-size="7.6" font-weight="900">산포</text>
+                                                        <text x="206" y="31" text-anchor="middle" fill="#c2410c" font-size="7.6" font-weight="900">RTN</text>
+
+                                                        <text x="160" y="48" text-anchor="middle" fill="#1d4ed8" font-size="9.3" font-weight="900">
+                                                            초기: Q / QB 래치 구동력이 거의 동일
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.2;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="48" text-anchor="middle" fill="#2563eb" font-size="9.3" font-weight="900" opacity="0">
+                                                            공정 산포: 한쪽이 더 강해지며 래치가 미세하게 기운다
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.2;0.22;0.52;0.54;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="160" y="48" text-anchor="middle" fill="#c2410c" font-size="9.1" font-weight="900" opacity="0">
+                                                            RTN: 약한 쪽 Vth가 랜덤하게 흔들려 마진을 더 깎는다
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.54;0.56;0.86;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <rect x="34" y="60" width="94" height="34" rx="15" fill="#eff6ff" stroke="#93c5fd"/>
+                                                        <rect x="192" y="60" width="94" height="34" rx="15" fill="#fff5f5" stroke="#fca5a5"/>
+                                                        <text x="81" y="72" text-anchor="middle" fill="#1d4ed8" font-size="8.4" font-weight="900">Q측 구동력</text>
+                                                        <text x="239" y="72" text-anchor="middle" fill="#b91c1c" font-size="8.4" font-weight="900">QB측 구동력</text>
+
+                                                        <rect x="48" y="78" width="66" height="8" rx="4" fill="#ffffff" stroke="#bfdbfe"/>
+                                                        <rect x="48" y="78" width="36" height="8" rx="4" fill="url(#sramMismatchLeft)">
+                                                            <animate attributeName="width" values="36;36;48;48;48;48;36" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.22;0.86;0.9;0.98;1"/>
+                                                        </rect>
+                                                        <text x="118" y="85" fill="#2563eb" font-size="7.6" font-weight="900" opacity="0">
+                                                            강
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.24;0.28;0.86;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <rect x="206" y="78" width="66" height="8" rx="4" fill="#ffffff" stroke="#fecaca"/>
+                                                        <rect x="206" y="78" width="36" height="8" rx="4" fill="url(#sramMismatchRight)">
+                                                            <animate attributeName="width" values="36;36;22;22;16;26;14;24;36" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.22;0.52;0.6;0.68;0.76;0.86;1"/>
+                                                        </rect>
+                                                        <text x="276" y="85" fill="#dc2626" font-size="7.6" font-weight="900" opacity="0">
+                                                            약
+                                                            <animate attributeName="opacity" values="0;0;1;1;1;0" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.24;0.28;0.86;0.9;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <path d="M128 77H140" fill="none" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+                                                        <path d="M180 77H192" fill="none" stroke="#fca5a5" stroke-width="2" stroke-linecap="round"/>
+                                                        <path d="M140 77H180" fill="none" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="5 5"/>
+                                                        <path d="M160 58V95" fill="none" stroke="#cbd5e1" stroke-width="1.6" stroke-dasharray="4 4"/>
+
+                                                        <rect x="134" y="60" width="52" height="34" rx="17" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                                                        <rect x="146" y="67" width="28" height="20" rx="10" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.5">
+                                                            <animate attributeName="x" values="146;146;140;140;138;142;136;140;146" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.22;0.52;0.6;0.68;0.76;0.86;1"/>
+                                                            <animate attributeName="width" values="28;28;18;18;12;16;10;14;28" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.22;0.52;0.6;0.68;0.76;0.86;1"/>
+                                                            <animate attributeName="fill" values="#dbeafe;#dbeafe;#bfdbfe;#bfdbfe;#fdba74;#fecaca;#fdba74;#bfdbfe;#dbeafe" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.22;0.52;0.6;0.68;0.76;0.86;1"/>
+                                                            <animate attributeName="stroke" values="#60a5fa;#60a5fa;#3b82f6;#3b82f6;#f59e0b;#ef4444;#f59e0b;#3b82f6;#60a5fa" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.22;0.52;0.6;0.68;0.76;0.86;1"/>
+                                                        </rect>
+                                                        <text x="160" y="81" text-anchor="middle" fill="#475569" font-size="8" font-weight="900">SNM</text>
+
+                                                        <g opacity="0">
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.56;0.58;0.86;1" calcMode="discrete"/>
+                                                            <path d="M208 55L214 47L220 57L226 43L232 53L238 46L244 54" fill="none" stroke="#f59e0b" stroke-width="2.1" stroke-linecap="round" filter="url(#sramMismatchGlow)">
+                                                                <animate attributeName="opacity" values="0.22;1;0.45;1;0.22" dur="0.9s" repeatCount="indefinite"/>
+                                                            </path>
+                                                            <circle cx="232" cy="50" r="3.2" fill="#f59e0b" filter="url(#sramMismatchGlow)">
+                                                                <animate attributeName="cy" values="50;46;52;47;50" dur="0.86s" repeatCount="indefinite"/>
+                                                                <animate attributeName="opacity" values="0.2;1;0.35;1;0.2" dur="0.86s" repeatCount="indefinite"/>
+                                                            </circle>
+                                                            <circle cx="246" cy="46" r="2.5" fill="#fb923c">
+                                                                <animate attributeName="cy" values="46;43;47;44;46" dur="0.72s" begin="0.18s" repeatCount="indefinite"/>
+                                                                <animate attributeName="opacity" values="0.15;0.8;0.2;0.75;0.15" dur="0.72s" begin="0.18s" repeatCount="indefinite"/>
+                                                            </circle>
+                                                            <text x="246" y="58" fill="#c2410c" font-size="7.4" font-weight="900">trap / de-trap</text>
+                                                        </g>
+
+                                                        <text x="33" y="111" fill="#475569" font-size="8.1" font-weight="900">Read / Hold SNM</text>
+                                                        <rect x="118" y="104" width="154" height="12" rx="6" fill="#e2e8f0" stroke="#cbd5e1"/>
+                                                        <rect x="118" y="104" width="108" height="12" rx="6" fill="url(#sramMismatchMeter)">
+                                                            <animate attributeName="width" values="108;108;70;70;40;54;36;48;108" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.22;0.52;0.6;0.68;0.76;0.86;1"/>
+                                                        </rect>
+                                                        <text x="279" y="114" fill="#16a34a" font-size="7.6" font-weight="900">
+                                                            높음
+                                                            <animate attributeName="opacity" values="1;1;0;0" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.18;0.2;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="279" y="114" fill="#ea580c" font-size="7.6" font-weight="900" opacity="0">
+                                                            축소
+                                                            <animate attributeName="opacity" values="0;0;1;1;0;0" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.2;0.22;0.52;0.54;1" calcMode="discrete"/>
+                                                        </text>
+                                                        <text x="279" y="114" fill="#dc2626" font-size="7.6" font-weight="900" opacity="0">
+                                                            출렁임
+                                                            <animate attributeName="opacity" values="0;0;1;1;0" dur="6.4s" repeatCount="indefinite" keyTimes="0;0.54;0.56;0.86;1" calcMode="discrete"/>
+                                                        </text>
+
+                                                        <text x="160" y="129" text-anchor="middle" fill="#475569" font-size="8.4" font-weight="900">
+                                                            정적 산포 + 동적 RTN  →  래치 대칭성 붕괴, SNM 감소
+                                                        </text>
                                                     </svg>
                                                 </div>
                                                 <div class="space-y-2 text-sm">
                                                     <p><strong class="text-slate-800">원인:</strong> TR 간 문턱전압 미스매치 및 전자의 무작위 포획/방출(Random Telegraph Noise).</p>
-                                                    <p><strong class="text-slate-800">결과:</strong> 래치 내부의 전기적 대칭성이 붕괴되어 전체적인 동작 마진(SNM)이 감소합니다.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 정적인 미스매치로 이미 기운 래치가 RTN에 의해 순간적으로 더 흔들리면서 read / hold SNM이 크게 줄어듭니다.</p>
                                                     <p><strong class="text-blue-700">대책:</strong> 채널 통제력이 뛰어난 3D FinFET 및 GAA 구조 전면 도입.</p>
                                                 </div>
                                             </div>
