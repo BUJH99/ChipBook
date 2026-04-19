@@ -27,7 +27,7 @@
             </div>
         </header>
 
-        <div class="max-w-[2000px] mx-auto flex flex-col lg:flex-row gap-10 mt-8 px-4 sm:px-6 lg:px-8 flex-1 w-full">
+        <div class="max-w-[2000px] mx-auto flex flex-col lg:flex-row gap-10 mt-8 px-4 sm:px-6 lg:px-8 flex-1 w-full xl:items-start">
             <aside class="w-full lg:w-72 shrink-0 lg:sticky sidebar overflow-y-auto hidden lg:block pr-6 bg-transparent border-none">
                 <h3 class="font-extrabold text-gray-400 mb-6 text-xs uppercase tracking-widest px-2">Table of Contents</h3>
                 <nav class="space-y-1" id="toc-nav">
@@ -50,7 +50,7 @@
                 </nav>
             </aside>
 
-            <main class="w-full lg:flex-1 relative pb-24">
+            <main class="w-full lg:flex-1 min-w-0 relative pb-24">
 
 <section class="page-section active" id="page-1">
     <div class="page-frame-shell" data-page-shell>
@@ -258,6 +258,17 @@
                     </button>
                 </div>
             </main>
+
+            <aside class="page-side-toc-shell hidden xl:block xl:w-72 2xl:w-80 shrink-0 xl:sticky xl:top-[6.5rem] self-start" data-page-toc-shell>
+                <div class="page-side-toc-panel">
+                    <div class="page-side-toc-header">
+                        <div class="page-side-toc-eyebrow">This Page</div>
+                        <div class="page-side-toc-title" data-page-toc-title>이 페이지</div>
+                    </div>
+                    <nav class="page-side-toc-nav" data-page-toc-nav></nav>
+                    <div class="page-side-toc-empty" data-page-toc-empty>소목차를 불러오는 중입니다.</div>
+                </div>
+            </aside>
         </div>
 
         <script src="./assets/guidebook-main.js"></script>

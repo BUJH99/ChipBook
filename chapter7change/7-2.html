@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 2: UVM 큰 그림 및 기본 설정 | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    
+    <!-- Tailwind & Three.js -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
+    <script src="../assets/chapter7-embed-common.js" defer></script>
+    
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        uvm: {
+                            test: '#0f172a', env: '#1e293b', agent: '#334155', comp: '#475569',
+                            brand: '#3b82f6', accent: '#8b5cf6', highlight: '#10b981'
+                        }
+                    },
+                    animation: {
+                        'spin-slow': 'spin 4s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #f8fafc; 
+            overflow-x: hidden; 
+            scroll-behavior: smooth;
+        }
+
+        /* Scrollbar styling */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        
+        /* Grid Backgrounds */
+        .grid-bg-lines {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* SVG Architecture Diagram Styles */
+        .uvm-group { cursor: pointer; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .uvm-box { transition: all 0.3s ease; }
+        .uvm-group:hover { transform: translateY(-5px); }
+        .uvm-group:hover .uvm-box { filter: drop-shadow(0 20px 25px rgba(0,0,0,0.1)); stroke-width: 2.5px; }
+        .uvm-group:hover .uvm-title { fill: #2563eb; font-weight: 900; }
+        .uvm-group.active { transform: translateY(-5px) scale(1.02); }
+        .uvm-group.active .uvm-box { stroke: #3b82f6; stroke-width: 3px; filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.3)); }
+
+        .tlm-port { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); transform-origin: center; }
+        .uvm-group:hover .tlm-port, .tlm-port.active { transform: scale(1.4); filter: drop-shadow(0 0 8px currentColor); stroke-width: 2; }
+
+        .flow-path { stroke-dasharray: 10, 10; animation: flowMove 1s linear infinite; opacity: 0.2; transition: opacity 0.3s, stroke 0.3s; }
+        .flow-path.active { opacity: 1; stroke-dasharray: 15, 10; animation: flowMoveFast 0.6s linear infinite; }
+        @keyframes flowMove { to { stroke-dashoffset: -20; } }
+        @keyframes flowMoveFast { to { stroke-dashoffset: -25; } }
+
+        .packet { opacity: 0; pointer-events: none; filter: drop-shadow(0 0 10px currentColor); }
+        
+        /* Code Editor Styles */
+        .code-block-wrapper { counter-reset: line; }
+        .code-line { display: flex; padding: 0.1rem 1rem; transition: all 0.2s; border-left: 3px solid transparent; }
+        .code-line::before { counter-increment: line; content: counter(line); display: inline-block; width: 2rem; margin-right: 1.5rem; text-align: right; color: #64748b; font-size: 0.75rem; user-select: none; }
+        .code-line.highlight { background-color: rgba(59, 130, 246, 0.15); border-left-color: #3b82f6; }
+        .code-line.highlight::before { color: #94a3b8; }
+
+        .info-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border-left: 4px solid transparent; }
+        .info-card:hover, .info-card.active { border-left-color: #3b82f6; background-color: #eff6ff; transform: translateX(8px); box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1); }
+
+        /* Stepper & Animations */
+        .stepper-line { position: absolute; left: 23px; top: 40px; bottom: -10px; width: 2px; background: #e2e8f0; z-index: 0; transition: background-color 0.4s; }
+        .step-item:last-child .stepper-line { display: none; }
+        .step-item.done .stepper-line { background: #3b82f6; }
+
+        .step-circle { width: 48px; height: 48px; border-radius: 50%; background: white; border: 2px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; color: #94a3b8; position: relative; z-index: 10; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .step-item:hover .step-circle { transform: scale(1.05); }
+        .step-item.active .step-circle { border-color: #3b82f6; background: #3b82f6; color: white; box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2); transform: scale(1.1); }
+        .step-item.done .step-circle { border-color: #3b82f6; background: white; color: #3b82f6; }
+
+        /* Animations */
+        @keyframes factoryProduce { 0% { transform: scale(0) translateY(-20px); opacity: 0; } 50% { transform: scale(1.1) translateY(5px); opacity: 1; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+        .anim-produce { animation: factoryProduce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        
+        .tree-connector { stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 0.6s ease-in-out; }
+        .tree-connector.draw { stroke-dashoffset: 0; }
+        
+        .tree-box { opacity: 0; transform: scale(0.8) translateY(-10px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .tree-box.pop { opacity: 1; transform: scale(1) translateY(0); }
+
+        .wave-path { stroke-dasharray: 500; stroke-dashoffset: 500; }
+        .wave-path.draw { animation: drawWave 2s linear forwards; }
+        @keyframes drawWave { to { stroke-dashoffset: 0; } }
+        
+        .type-line { width: 0; white-space: nowrap; overflow: hidden; border-right: 2px solid transparent; }
+        .type-line.typing { animation: typing 1s steps(40, end) forwards, blink-caret .75s step-end infinite; }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #10b981; } }
+        .type-line.done { width: 100%; border-color: transparent; }
+        
+        /* Layout specific adjustments */
+        .mac-window { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1); }
+        .mac-dot { width: 12px; height: 12px; border-radius: 50%; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800 antialiased selection:bg-blue-200 bg-slate-50">
+
+    <!-- 상단 고정 헤더 -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm h-[72px] flex items-center shrink-0">
+        <div class="max-w-[2000px] w-full mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-md border border-blue-500/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                </div>
+                <span class="text-xl font-black text-slate-900 tracking-tight">반도체 디지털 회로설계 가이드북</span>
+            </div>
+            
+            <!-- 우측 진행바(Optional) -->
+            <div class="hidden md:flex items-center gap-3">
+                <div class="text-sm font-bold text-slate-500">UVM Roadmap Progress</div>
+                <div class="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-blue-600 rounded-full" style="width: 25%;"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 전체 레이아웃 래퍼 -->
+    <div class="flex-grow max-w-[2000px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8">
+        
+        <!-- 좌측 네비게이션 사이드바 -->
+        <aside id="sidebar" class="w-64 shrink-0 hidden lg:block sticky top-[6.5rem] self-start h-[calc(100vh-8rem)] overflow-y-auto pr-4 custom-scrollbar">
+            <div class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 pl-3">UVM Study Roadmap</div>
+            <nav class="space-y-1.5">
+                <a href="#" class="flex items-center px-4 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors">
+                    <span class="w-6 text-slate-400 text-xs">P1</span>
+                    SV OOP 기초
+                </a>
+                <!-- Active Nav Item -->
+                <a href="#" class="flex items-center px-4 py-3 rounded-xl text-[14px] font-black bg-blue-50 text-blue-700 border border-blue-100 shadow-[0_2px_10px_rgba(59,130,246,0.1)] transition-colors relative overflow-hidden group">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-r-md"></div>
+                    <span class="w-6 text-blue-400 text-xs">P2</span>
+                    UVM 큰 그림 및 기본설정
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors">
+                    <span class="w-6 text-slate-400 text-xs">P3</span>
+                    UVM 코어 메커니즘
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors">
+                    <span class="w-6 text-slate-400 text-xs">P4</span>
+                    Component vs Object
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors">
+                    <span class="w-6 text-slate-400 text-xs">P5</span>
+                    자극 생성 및 데이터 통신
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors">
+                    <span class="w-6 text-slate-400 text-xs">P6</span>
+                    UVM Register Model
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors">
+                    <span class="w-6 text-slate-400 text-xs">P7</span>
+                    결과 확인 및 디버깅
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 rounded-xl text-[14px] font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors">
+                    <span class="w-6 text-slate-400 text-xs">P8</span>
+                    실행 환경 및 스크립트
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 중앙 메인 콘텐츠 래퍼 -->
+        <main id="content-container" class="flex-grow min-w-0 bg-white rounded-3xl shadow-sm border border-slate-200 flex flex-col relative overflow-hidden">
+            
+            <!-- 콘텐츠 영역 (Padding) -->
+            <div class="p-8 sm:p-12 xl:p-16 flex-grow">
+                
+                <!-- Content Header -->
+                <header class="mb-16">
+                    <div class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 px-4 py-1.5 rounded-full text-xs font-black mb-6 border border-blue-200/60 shadow-sm uppercase tracking-wider">
+                        <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
+                        Study Roadmap Phase 2
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-6 leading-tight">
+                        UVM 큰 그림 및 기본 설정 (Top View)
+                    </h1>
+                    
+                    <p class="text-lg text-slate-600 leading-relaxed font-medium">
+                        UVM은 숲을 먼저 보고 나무를 보아야 길을 잃지 않습니다.<br>
+                        Testbench의 전체 구조적 철학을 시각적으로 이해하고, 뼈대를 구축해 봅시다.
+                    </p>
+                </header>
+
+                <!-- ================= Section 1: UVM Architecture ================= -->
+                <section class="content-section mb-32 relative" data-guidebook-toc-title="UVM Architecture Diagram">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-blue-500/30">1</div>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">UVM Architecture Diagram</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+                        
+                        <!-- SVG Diagram Area -->
+                        <div class="xl:col-span-8 bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden flex flex-col relative group">
+                            
+                            <!-- Top Toolbar -->
+                            <div class="absolute top-5 left-6 z-10 flex items-center gap-3 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+                                <div class="flex gap-1.5">
+                                    <div class="w-3 h-3 rounded-full bg-slate-200 hover:bg-red-400 transition-colors"></div>
+                                    <div class="w-3 h-3 rounded-full bg-slate-200 hover:bg-yellow-400 transition-colors"></div>
+                                    <div class="w-3 h-3 rounded-full bg-slate-200 hover:bg-green-400 transition-colors"></div>
+                                </div>
+                                <div class="w-px h-4 bg-slate-300 mx-1"></div>
+                                <span class="text-[11px] font-mono text-slate-500 font-bold uppercase tracking-wider">UVM_Testbench_Top</span>
+                            </div>
+                            
+                            <div class="absolute top-5 right-6 z-10">
+                                <button id="btn-play-flow" class="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white px-5 py-2 rounded-xl text-sm font-black shadow-lg shadow-indigo-500/30 transition-all flex items-center gap-2 hover:scale-105 active:scale-95 group/btn">
+                                    <svg class="w-4 h-4 text-indigo-200 group-hover/btn:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                    데이터 흐름 재생
+                                </button>
+                            </div>
+                            
+                            <!-- SVG Canvas -->
+                            <div class="w-full relative grid-bg-lines flex-grow min-h-[680px] bg-slate-50/50">
+                                <svg viewBox="0 0 1000 780" class="w-full h-full absolute inset-0" id="uvm-svg-canvas">
+                                    <defs>
+                                        <linearGradient id="grad-test" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" /><stop offset="100%" stop-color="#f8fafc" /></linearGradient>
+                                        <linearGradient id="grad-env" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f0f9ff" /><stop offset="100%" stop-color="#e0f2fe" /></linearGradient>
+                                        <linearGradient id="grad-agent" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ecfdf5" /><stop offset="100%" stop-color="#d1fae5" /></linearGradient>
+                                        <linearGradient id="grad-comp" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" /><stop offset="100%" stop-color="#f1f5f9" /></linearGradient>
+                                        <linearGradient id="grad-dut" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fef2f2" /><stop offset="100%" stop-color="#fee2e2" /></linearGradient>
+                                        <filter id="shadow-panel" x="-5%" y="-5%" width="110%" height="110%"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.06"/></filter>
+                                        <filter id="shadow-comp" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.08"/></filter>
+                                        <filter id="glow-req" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+                                        <filter id="glow-rsp" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+                                        <marker id="arrow-path" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#cbd5e1" /></marker>
+                                    </defs>
+
+                                    <!-- Base Lines -->
+                                    <g stroke="#e2e8f0" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M 270 200 L 270 240" stroke-dasharray="6,4" />
+                                        <path d="M 270 280 L 270 320" marker-end="url(#arrow-path)" id="path-seq-drv-bg"/>
+                                        <path d="M 230 400 L 230 600" marker-end="url(#arrow-path)" id="path-drv-vif-bg"/>
+                                        <path d="M 230 650 L 230 690" marker-end="url(#arrow-path)" id="path-vif-dut-bg"/>
+                                        <path d="M 310 690 L 310 650" marker-end="url(#arrow-path)" id="path-dut-vif-bg"/>
+                                        <path d="M 310 600 L 310 490" marker-end="url(#arrow-path)" id="path-vif-mon-bg"/>
+                                        <path d="M 465 450 C 530 450, 530 200, 560 200" marker-end="url(#arrow-path)" id="path-mon-sb-bg"/>
+                                        <path d="M 465 450 C 530 450, 530 340, 560 340" marker-end="url(#arrow-path)" id="path-mon-sub-bg"/>
+                                    </g>
+
+                                    <!-- Active Flow Paths -->
+                                    <g fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 transition-opacity duration-300" id="active-flows">
+                                        <path d="M 270 280 L 270 320" stroke="#f59e0b" class="flow-path" id="flow-seq-drv"/>
+                                        <path d="M 230 400 L 230 600 L 230 690" stroke="#ef4444" class="flow-path" id="flow-drv-dut"/>
+                                        <path d="M 310 690 L 310 600 L 310 490" stroke="#3b82f6" class="flow-path" id="flow-dut-mon"/>
+                                        <path d="M 465 450 C 530 450, 530 200, 560 200" stroke="#8b5cf6" class="flow-path" id="flow-mon-sb"/>
+                                        <path d="M 465 450 C 530 450, 530 340, 560 340" stroke="#8b5cf6" class="flow-path" id="flow-mon-sub"/>
+                                    </g>
+
+                                    <!-- UVM Test -->
+                                    <g class="uvm-group" data-target="test">
+                                        <rect class="uvm-box" x="30" y="40" width="940" height="540" rx="24" fill="url(#grad-test)" stroke="#cbd5e1" stroke-width="1.5" filter="url(#shadow-panel)" />
+                                        <text x="60" y="75" class="uvm-title" font-family="monospace" font-weight="800" font-size="20" fill="#334155">my_test <tspan fill="#94a3b8" font-size="14" font-weight="600">extends uvm_test</tspan></text>
+                                        <g transform="translate(180, 150)">
+                                            <rect width="180" height="50" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-dasharray="4" stroke-width="2"/>
+                                            <text x="90" y="30" font-family="monospace" font-weight="bold" font-size="14" fill="#d97706" text-anchor="middle">my_sequence (Items)</text>
+                                        </g>
+                                    </g>
+
+                                    <!-- UVM Env -->
+                                    <g class="uvm-group" data-target="env">
+                                        <rect class="uvm-box" x="60" y="110" width="880" height="440" rx="20" fill="url(#grad-env)" stroke="#bae6fd" stroke-width="2" filter="url(#shadow-panel)" />
+                                        <text x="80" y="145" class="uvm-title" font-family="monospace" font-weight="800" font-size="18" fill="#0284c7">my_env <tspan fill="#7dd3fc" font-size="14" font-weight="600">extends uvm_env</tspan></text>
+                                    </g>
+
+                                    <!-- UVM Agent -->
+                                    <g class="uvm-group" data-target="agent">
+                                        <rect class="uvm-box" x="80" y="170" width="410" height="360" rx="16" fill="url(#grad-agent)" stroke="#6ee7b7" stroke-width="2" filter="url(#shadow-comp)" />
+                                        <text x="100" y="205" class="uvm-title" font-family="monospace" font-weight="800" font-size="18" fill="#059669">my_agent <tspan fill="#34d399" font-size="14" font-weight="600">extends uvm_agent</tspan></text>
+                                        <rect x="360" y="185" width="110" height="24" rx="12" fill="#10b981" />
+                                        <text x="415" y="201" font-family="sans-serif" font-weight="bold" font-size="11" fill="white" text-anchor="middle">is_active = ACTIVE</text>
+                                    </g>
+
+                                    <!-- Sequencer -->
+                                    <g class="uvm-group" data-target="sequencer">
+                                        <rect class="uvm-box" x="100" y="230" width="370" height="70" rx="12" fill="url(#grad-comp)" stroke="#a7f3d0" stroke-width="2" filter="url(#shadow-comp)" />
+                                        <text x="120" y="260" class="uvm-title" font-family="monospace" font-weight="800" font-size="16" fill="#1e293b">my_sequencer</text>
+                                        <text x="120" y="280" font-family="monospace" font-size="12" fill="#64748b">#(my_item)</text>
+                                        <g class="tlm-port" transform="translate(262, 272)">
+                                            <rect x="0" y="0" width="16" height="16" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="3" />
+                                            <circle cx="8" cy="8" r="3" fill="#f59e0b" />
+                                        </g>
+                                        <text x="310" y="284" font-size="11" font-weight="bold" fill="#d97706">seq_item_export</text>
+                                    </g>
+
+                                    <!-- Driver -->
+                                    <g class="uvm-group" data-target="driver">
+                                        <rect class="uvm-box" x="100" y="320" width="370" height="70" rx="12" fill="url(#grad-comp)" stroke="#a7f3d0" stroke-width="2" filter="url(#shadow-comp)" />
+                                        <text x="120" y="350" class="uvm-title" font-family="monospace" font-weight="800" font-size="16" fill="#1e293b">my_driver</text>
+                                        <text x="120" y="370" font-family="monospace" font-size="12" fill="#64748b">#(my_item)</text>
+                                        <g class="tlm-port" transform="translate(262, 320)">
+                                            <rect x="0" y="0" width="16" height="16" fill="#fff" stroke="#f59e0b" stroke-width="2" rx="3" />
+                                        </g>
+                                        <text x="310" y="333" font-size="11" font-weight="bold" fill="#d97706">seq_item_port</text>
+                                    </g>
+
+                                    <!-- Monitor -->
+                                    <g class="uvm-group" data-target="monitor">
+                                        <rect class="uvm-box" x="100" y="420" width="370" height="70" rx="12" fill="url(#grad-comp)" stroke="#a7f3d0" stroke-width="2" filter="url(#shadow-comp)" />
+                                        <text x="120" y="450" class="uvm-title" font-family="monospace" font-weight="800" font-size="16" fill="#1e293b">my_monitor</text>
+                                        <g class="tlm-port" transform="translate(457, 442) rotate(45)">
+                                            <rect x="0" y="0" width="14" height="14" fill="#fff" stroke="#8b5cf6" stroke-width="2.5" rx="2" />
+                                        </g>
+                                        <text x="365" y="455" font-size="12" fill="#7c3aed" font-weight="900">analysis_port</text>
+                                    </g>
+
+                                    <!-- Scoreboard -->
+                                    <g class="uvm-group" data-target="scoreboard">
+                                        <rect class="uvm-box" x="560" y="150" width="350" height="110" rx="16" fill="url(#grad-comp)" stroke="#a5b4fc" stroke-width="2" filter="url(#shadow-comp)" />
+                                        <text x="600" y="190" class="uvm-title" font-family="monospace" font-weight="900" font-size="18" fill="#4f46e5">my_scoreboard</text>
+                                        <text x="600" y="215" font-family="sans-serif" font-size="13" fill="#64748b" font-weight="600">Expected vs Actual 비교 (Compare)</text>
+                                        <g class="tlm-port" transform="translate(560, 200)">
+                                            <circle cx="0" cy="0" r="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.5" />
+                                            <circle cx="0" cy="0" r="3" fill="#8b5cf6" />
+                                        </g>
+                                    </g>
+
+                                    <!-- Subscriber -->
+                                    <g class="uvm-group" data-target="subscriber">
+                                        <rect class="uvm-box" x="560" y="290" width="350" height="110" rx="16" fill="url(#grad-comp)" stroke="#a5b4fc" stroke-width="2" filter="url(#shadow-comp)" />
+                                        <text x="600" y="330" class="uvm-title" font-family="monospace" font-weight="900" font-size="18" fill="#4f46e5">my_subscriber</text>
+                                        <text x="600" y="355" font-family="sans-serif" font-size="13" fill="#64748b" font-weight="600">Functional Coverage 수집 기록</text>
+                                        <g class="tlm-port" transform="translate(560, 340)">
+                                            <circle cx="0" cy="0" r="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.5" />
+                                            <circle cx="0" cy="0" r="3" fill="#8b5cf6" />
+                                        </g>
+                                    </g>
+
+                                    <!-- VIF -->
+                                    <g class="uvm-group" data-target="vif">
+                                        <rect class="uvm-box" x="30" y="600" width="940" height="50" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="10,6" />
+                                        <text x="60" y="632" class="uvm-title" font-family="monospace" font-weight="900" font-size="18" fill="#b45309">virtual interface (VIF Bridge)</text>
+                                        <text x="820" y="630" font-family="sans-serif" font-size="12" fill="#d97706" font-weight="bold">Class ↔ Module Boundary</text>
+                                    </g>
+
+                                    <!-- DUT -->
+                                    <g class="uvm-group" data-target="dut">
+                                        <rect class="uvm-box" x="30" y="690" width="940" height="80" rx="16" fill="url(#grad-dut)" stroke="#ef4444" stroke-width="2.5" filter="url(#shadow-comp)" />
+                                        <text x="500" y="730" class="uvm-title" font-family="sans-serif" font-weight="900" font-size="24" fill="#b91c1c" text-anchor="middle" letter-spacing="2">DUT (Design Under Test)</text>
+                                        <text x="500" y="755" font-family="monospace" font-size="14" fill="#ef4444" font-weight="bold" text-anchor="middle">Verilog / SystemVerilog RTL Module</text>
+                                    </g>
+
+                                    <!-- Animation Tokens -->
+                                    <g class="packet" id="token-req">
+                                        <rect x="-35" y="-18" width="70" height="36" rx="8" fill="#f59e0b" filter="url(#glow-req)" />
+                                        <text x="0" y="6" fill="white" font-size="14" font-family="monospace" font-weight="900" text-anchor="middle">REQ</text>
+                                    </g>
+                                    <g class="packet" id="token-pin-dn">
+                                        <circle r="12" fill="#ef4444" filter="url(#glow-req)" />
+                                        <path d="M-5 -2 L0 4 L5 -2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <g class="packet" id="token-pin-up">
+                                        <circle r="12" fill="#3b82f6" filter="url(#glow-rsp)" />
+                                        <path d="M-5 2 L0 -4 L5 2" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <g class="packet" id="token-tr-sb">
+                                        <rect x="-40" y="-16" width="80" height="32" rx="16" fill="#8b5cf6" filter="url(#glow-rsp)" />
+                                        <text x="0" y="5" fill="white" font-size="13" font-family="monospace" font-weight="900" text-anchor="middle">TR Pkt</text>
+                                    </g>
+                                    <g class="packet" id="token-tr-sub">
+                                        <rect x="-40" y="-16" width="80" height="32" rx="16" fill="#8b5cf6" filter="url(#glow-rsp)" />
+                                        <text x="0" y="5" fill="white" font-size="13" font-family="monospace" font-weight="900" text-anchor="middle">TR Pkt</text>
+                                    </g>
+
+                                    <!-- Status Overlay -->
+                                    <g id="status-overlay" opacity="0" class="transition-opacity duration-300" transform="translate(500, 50)">
+                                        <rect x="-180" y="-25" width="360" height="50" rx="25" fill="#1e293b" filter="url(#shadow-panel)" id="status-bg" />
+                                        <text x="0" y="6" fill="white" font-weight="800" font-size="16" font-family="sans-serif" text-anchor="middle" id="status-text">상태</text>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Info Panel -->
+                        <div class="xl:col-span-4 flex flex-col h-full relative z-10">
+                            <div class="glass-panel rounded-3xl p-8 flex-grow flex flex-col relative overflow-hidden border border-slate-200 shadow-xl h-full bg-white">
+                                <div class="mb-6 border-b border-slate-100 pb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-sm border border-blue-100">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-lg font-black text-slate-800 tracking-tight">Component Info</h3>
+                                            <p class="text-xs text-slate-500 font-medium">블록 클릭 시 상세 설명 표시</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="desc-panel" class="flex-grow flex flex-col justify-center">
+                                    <div class="text-center py-8">
+                                        <div class="w-20 h-20 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-sm border border-slate-100 transform rotate-3 hover:rotate-12 transition-transform">
+                                            <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                                        </div>
+                                        <h4 class="text-xl font-black text-slate-800 mb-2">구조도 탐색하기</h4>
+                                        <p class="text-slate-500 text-sm leading-relaxed font-medium px-2">왼쪽 다이어그램에서 클래스 컴포넌트를 클릭하면, 해당 블록의 <b>역할과 통신 방식(TLM)</b>을 확인할 수 있습니다.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <div class="bg-indigo-50/50 rounded-2xl p-4 border border-indigo-100 shadow-sm">
+                                        <h4 class="font-black text-indigo-900 text-sm mb-1.5">💎 UVM 핵심 철학 (Reuse)</h4>
+                                        <p class="text-indigo-800/80 text-[13px] leading-relaxed font-semibold">Test와 Env를 분리하여, 향후 DUT가 변경되더라도 구축된 검증 환경(Env) 코드는 수정 없이 그대로 재사용할 수 있습니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= Section 2: Library & Code Setup ================= -->
+                <section class="content-section mb-32" data-guidebook-toc-title="라이브러리 및 클래스 구성">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-purple-500/30">2</div>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">UVM 라이브러리 및 클래스 구성</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                        
+                        <!-- VS Code Editor -->
+                        <div class="lg:col-span-7 mac-window rounded-2xl bg-[#1e1e1e] overflow-hidden flex flex-col font-mono text-[14px] leading-loose shadow-xl">
+                            <div class="h-12 bg-[#2d2d2d] border-b border-[#404040] flex items-center px-4 shrink-0 relative">
+                                <div class="flex gap-2 absolute left-4">
+                                    <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                                    <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                                    <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+                                </div>
+                                <div class="flex-grow flex justify-center mt-3">
+                                    <div class="bg-[#1e1e1e] px-6 py-1.5 rounded-t-lg text-[#d4d4d4] text-xs border border-[#404040] border-b-0 font-bold">my_test.sv</div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-6 overflow-x-auto flex-grow code-block-wrapper text-[#d4d4d4]">
+<div class="code-line" data-line="lib"><span class="text-[#6a9955] italic">// 1. UVM Macros & Package Import (필수)</span></div>
+<div class="code-line" data-line="lib"><span class="text-[#c586c0]">`include</span> <span class="text-[#ce9178]">"uvm_macros.svh"</span></div>
+<div class="code-line" data-line="lib"><span class="text-[#c586c0]">import</span> uvm_pkg::<span class="text-[#c586c0]">*</span>;</div>
+<div class="code-line"><br></div>
+<div class="code-line" data-line="class"><span class="text-[#6a9955] italic">// 2. UVM Test Class Declaration</span></div>
+<div class="code-line" data-line="class"><span class="text-[#569cd6]">class</span> <span class="text-[#4ec9b0]">my_test</span> <span class="text-[#569cd6]">extends</span> <span class="text-[#4ec9b0]">uvm_test</span>;</div>
+<div class="code-line" data-line="class">  <span class="text-[#c586c0]">`uvm_component_utils</span>(my_test) <span class="text-[#6a9955] italic">// Factory Registration</span></div>
+<div class="code-line"><br></div>
+<div class="code-line">  <span class="text-[#4ec9b0]">my_env</span> env;</div>
+<div class="code-line"><br></div>
+<div class="code-line" data-line="build">  <span class="text-[#569cd6]">virtual function void</span> <span class="text-[#dcdcaa]">build_phase</span>(<span class="text-[#4ec9b0]">uvm_phase</span> phase);</div>
+<div class="code-line" data-line="build">    <span class="text-[#569cd6]">super</span>.<span class="text-[#dcdcaa]">build_phase</span>(phase);</div>
+<div class="code-line" data-line="build">    <span class="text-[#6a9955] italic">// Object creation using Factory 'create'</span></div>
+<div class="code-line" data-line="build">    env = <span class="text-[#4ec9b0]">my_env</span>::type_id::<span class="text-[#dcdcaa]">create</span>(<span class="text-[#ce9178]">"env"</span>, <span class="text-[#569cd6]">this</span>);</div>
+<div class="code-line" data-line="build">  <span class="text-[#569cd6]">endfunction</span></div>
+<div class="code-line"><br></div>
+<div class="code-line"><span class="text-[#569cd6]">endclass</span> : <span class="text-[#4ec9b0]">my_test</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Explanations -->
+                        <div class="lg:col-span-5 flex flex-col gap-4 justify-center">
+                            <div class="info-card bg-white rounded-2xl border border-slate-200 p-5 shadow-sm" data-target-line="lib">
+                                <div class="font-mono text-purple-600 font-bold mb-1.5 text-xs bg-purple-50 inline-block px-2 py-0.5 rounded">import uvm_pkg::*;</div>
+                                <h4 class="font-black text-slate-800 mb-1">UVM 패키지 로드</h4>
+                                <p class="text-sm text-slate-600 font-medium">UVM Base 클래스와 매크로를 사용하기 위해 <b>파일 최상단에 선언</b>해야 합니다.</p>
+                            </div>
+                            <div class="info-card bg-white rounded-2xl border border-slate-200 p-5 shadow-sm" data-target-line="class">
+                                <div class="font-mono text-blue-600 font-bold mb-1.5 text-xs bg-blue-50 inline-block px-2 py-0.5 rounded">`uvm_component_utils</div>
+                                <h4 class="font-black text-slate-800 mb-1">Factory 자동 등록</h4>
+                                <p class="text-sm text-slate-600 font-medium">클래스를 <b>UVM Factory에 등록(Registration)</b>하여 문자열 이름으로 동적 객체 생성이 가능하도록 만듭니다.</p>
+                            </div>
+                            <div class="info-card bg-white rounded-2xl border border-slate-200 p-5 shadow-sm" data-target-line="build">
+                                <div class="font-mono text-emerald-600 font-bold mb-1.5 text-xs bg-emerald-50 inline-block px-2 py-0.5 rounded">type_id::create()</div>
+                                <h4 class="font-black text-slate-800 mb-1">객체 생성의 표준</h4>
+                                <p class="text-sm text-slate-600 font-medium">SV의 <code class="text-xs">new()</code> 대신 <code class="text-xs">create()</code>를 사용하여, 나중에 다른 클래스로 <b>가로채기(Override)</b>가 가능하게 만듭니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= Section 3: run_test() 메커니즘 ================= -->
+                <section class="content-section mb-10" data-guidebook-toc-title="run_test() 동작 원리">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-emerald-500/30">3</div>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">시뮬레이션 엔진 기동: run_test()</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                        
+                        <!-- Stepper UI -->
+                        <div class="lg:col-span-5 bg-white rounded-3xl p-8 shadow-sm border border-slate-200 relative flex flex-col justify-center">
+                            <div class="step-item active" data-step="1">
+                                <div class="stepper-line"></div>
+                                <div class="flex items-start gap-4">
+                                    <div class="step-circle">1</div>
+                                    <div class="pt-1 pb-6">
+                                        <h3 class="text-lg font-black text-slate-800 mb-1">run_test() 호출</h3>
+                                        <p class="text-slate-500 text-sm font-medium">최상위 <code class="text-xs text-pink-600 bg-slate-50 px-1 rounded font-mono">initial</code> 블록에서 호출되어 UVM 엔진을 깨웁니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-item" data-step="2">
+                                <div class="stepper-line"></div>
+                                <div class="flex items-start gap-4">
+                                    <div class="step-circle">2</div>
+                                    <div class="pt-1 pb-6">
+                                        <h3 class="text-lg font-black text-slate-800 mb-1">Factory 동적 생성</h3>
+                                        <p class="text-slate-500 text-sm font-medium"><b>UVM Factory</b>가 이름과 일치하는 <code class="text-xs text-slate-700 bg-slate-50 px-1 rounded font-mono">my_test</code> 인스턴스를 생성합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-item" data-step="3">
+                                <div class="stepper-line"></div>
+                                <div class="flex items-start gap-4">
+                                    <div class="step-circle">3</div>
+                                    <div class="pt-1 pb-6">
+                                        <h3 class="text-lg font-black text-slate-800 mb-1">Build Phase</h3>
+                                        <p class="text-slate-500 text-sm font-medium">Top-Down 방식으로 하위 컴포넌트를 생성하여 계층 트리를 만듭니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-item" data-step="4">
+                                <div class="flex items-start gap-4">
+                                    <div class="step-circle">4</div>
+                                    <div class="pt-1 pb-2">
+                                        <h3 class="text-lg font-black text-slate-800 mb-1">Run Phase</h3>
+                                        <p class="text-slate-500 text-sm font-medium">Time-consuming phase가 시작되며 실제 검증이 수행됩니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visualizer -->
+                        <div class="lg:col-span-7 mac-window rounded-3xl bg-[#0f172a] border border-slate-700 relative overflow-hidden flex flex-col min-h-[450px]">
+                            <div class="h-10 bg-slate-800/80 border-b border-slate-700 flex items-center px-4 shrink-0 z-20">
+                                <div class="flex gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                                    <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                                    <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+                                </div>
+                                <div class="w-full text-center text-xs font-mono font-bold text-slate-400 absolute left-0" id="vis-title">tb_top.sv > initial</div>
+                            </div>
+
+                            <div class="flex-grow relative flex items-center justify-center bg-[#0f172a]">
+                                
+                                <!-- Step 1 -->
+                                <div id="vis-step-1" class="absolute inset-0 p-8 flex flex-col justify-center transition-opacity duration-300 opacity-100">
+                                    <div class="font-mono text-sm leading-loose text-slate-300 bg-black/40 p-6 rounded-2xl border border-white/5">
+                                        <span class="text-pink-400 font-bold">initial</span> <span class="text-pink-400 font-bold">begin</span><br>
+                                        &nbsp;&nbsp;<span class="text-slate-500 italic">// UVM 엔진 기동</span><br>
+                                        &nbsp;&nbsp;<span class="text-emerald-400 font-black relative inline-block group text-base mt-1 mb-1">
+                                            run_test
+                                            <span class="absolute -inset-1 bg-emerald-400/20 blur rounded animate-pulse-slow"></span>
+                                        </span>(<span class="text-yellow-300">"my_test"</span>);<br>
+                                        <span class="text-pink-400 font-bold">end</span>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div id="vis-step-2" class="absolute inset-0 p-8 flex flex-col items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+                                    <div class="flex flex-col items-center w-full max-w-sm">
+                                        <div class="bg-yellow-400/10 border border-yellow-400/30 text-yellow-300 font-mono px-4 py-1.5 rounded-lg text-sm font-bold mb-6 transition-all duration-500" id="anim-factory-in">"my_test"</div>
+                                        <div class="relative w-40 h-24 bg-slate-800 rounded-xl border-2 border-slate-600 flex items-center justify-center overflow-hidden z-10">
+                                            <div class="flex gap-1 relative z-10">
+                                                <svg class="w-10 h-10 text-slate-400 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
+                                            </div>
+                                            <div class="absolute bottom-2 text-[10px] font-black text-slate-400 tracking-widest w-full text-center">FACTORY</div>
+                                        </div>
+                                        <div class="mt-6 opacity-0" id="anim-factory-out">
+                                            <div class="bg-blue-600 text-white font-mono text-sm font-bold px-6 py-2 rounded-lg border border-blue-400">my_test Object</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3 (Tree) -->
+                                <div id="vis-step-3" class="absolute inset-0 p-6 flex justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+                                    <svg class="w-full h-full overflow-visible" viewBox="0 0 500 400">
+                                        <g fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M 250 40 L 250 110" class="tree-connector" id="line-test-env"/>
+                                            <path d="M 250 150 L 250 180 L 150 180 L 150 220" class="tree-connector" id="line-env-agt"/>
+                                            <path d="M 250 180 L 350 180 L 350 220" class="tree-connector" id="line-env-sb"/>
+                                            <path d="M 150 260 L 150 290 L 70 290 L 70 330" class="tree-connector" id="line-agt-seq"/>
+                                            <path d="M 150 290 L 150 330" class="tree-connector" id="line-agt-drv"/>
+                                            <path d="M 150 290 L 230 290 L 230 330" class="tree-connector" id="line-agt-mon"/>
+                                        </g>
+                                        <foreignObject x="175" y="10" width="150" height="36" class="tree-box" id="node-test">
+                                            <div class="h-full flex items-center justify-center bg-blue-900 border border-blue-400 text-blue-200 rounded-lg font-mono text-sm font-bold">my_test</div>
+                                        </foreignObject>
+                                        <foreignObject x="175" y="110" width="150" height="36" class="tree-box" id="node-env">
+                                            <div class="h-full flex items-center justify-center bg-indigo-900 border border-indigo-400 text-indigo-200 rounded-lg font-mono text-sm font-bold">my_env</div>
+                                        </foreignObject>
+                                        <foreignObject x="85" y="220" width="130" height="36" class="tree-box" id="node-agt">
+                                            <div class="h-full flex items-center justify-center bg-emerald-900 border border-emerald-400 text-emerald-200 rounded-lg font-mono text-xs font-bold">my_agent</div>
+                                        </foreignObject>
+                                        <foreignObject x="285" y="220" width="130" height="36" class="tree-box" id="node-sb">
+                                            <div class="h-full flex items-center justify-center bg-purple-900 border border-purple-400 text-purple-200 rounded-lg font-mono text-xs font-bold">my_sb</div>
+                                        </foreignObject>
+                                        <foreignObject x="35" y="330" width="70" height="28" class="tree-box" id="node-seq">
+                                            <div class="h-full flex items-center justify-center bg-slate-800 border border-slate-500 text-slate-300 rounded font-mono text-[11px] font-bold">seqr</div>
+                                        </foreignObject>
+                                        <foreignObject x="115" y="330" width="70" height="28" class="tree-box" id="node-drv">
+                                            <div class="h-full flex items-center justify-center bg-slate-800 border border-slate-500 text-slate-300 rounded font-mono text-[11px] font-bold">drv</div>
+                                        </foreignObject>
+                                        <foreignObject x="195" y="330" width="70" height="28" class="tree-box" id="node-mon">
+                                            <div class="h-full flex items-center justify-center bg-slate-800 border border-slate-500 text-slate-300 rounded font-mono text-[11px] font-bold">mon</div>
+                                        </foreignObject>
+                                    </svg>
+                                </div>
+
+                                <!-- Step 4 (Terminal/Wave) -->
+                                <div id="vis-step-4" class="absolute inset-0 p-6 flex flex-col transition-opacity duration-300 opacity-0 pointer-events-none">
+                                    <div class="h-24 mb-4 flex flex-col justify-center gap-3 px-5 relative rounded-xl bg-blue-900/10 border border-blue-500/20">
+                                        <div class="flex items-center gap-3 relative z-10">
+                                            <span class="text-[10px] font-mono font-bold text-emerald-400 w-8">CLK</span>
+                                            <svg class="flex-grow h-4" preserveAspectRatio="none" viewBox="0 0 200 24">
+                                                <path d="M0,20 L10,20 L10,4 L30,4 L30,20 L50,20 L50,4 L70,4 L70,20 L90,20 L90,4 L110,4 L110,20 L130,20 L130,4 L150,4 L150,20 L170,20 L170,4 L190,4 L190,20 L200,20" fill="none" stroke="#34d399" stroke-width="2" class="wave-path" id="wave-clk"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex items-center gap-3 relative z-10">
+                                            <span class="text-[10px] font-mono font-bold text-blue-400 w-8">DATA</span>
+                                            <svg class="flex-grow h-4" preserveAspectRatio="none" viewBox="0 0 200 24">
+                                                <path d="M0,12 L20,12 L30,4 L70,4 L80,12 L90,12 L100,20 L140,20 L150,12 L200,12" fill="none" stroke="#60a5fa" stroke-width="2" class="wave-path" id="wave-data"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow bg-[#000000] rounded-xl p-4 font-mono text-[12px] leading-[1.6] border border-slate-700 overflow-hidden">
+                                        <div class="text-slate-500 mb-1"># UVM_INFO @ 0: reporter [RNTST] Running test my_test...</div>
+                                        <div class="type-line text-emerald-400" id="term-line-1">UVM_INFO @ 100ns: env.agent.seqr [SEQ] Item Gen</div>
+                                        <div class="type-line text-blue-400" id="term-line-2">UVM_INFO @ 110ns: env.agent.drv [DRV] Driving to DUT</div>
+                                        <div class="type-line text-purple-400" id="term-line-3">UVM_INFO @ 150ns: env.sb [SB] Match: Exp=0xAA Act=0xAA</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 하단 이전/다음 페이지 버튼 -->
+            <div class="border-t border-slate-200 bg-slate-50/80 p-6 sm:p-8 flex justify-between items-center mt-auto shrink-0">
+                <button id="btn-prev" class="bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 px-6 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center">
+                    <span class="mr-2">←</span> <span class="hidden sm:inline">이전 페이지 (Phase 1)</span><span class="sm:hidden">이전</span>
+                </button>
+                <span class="text-slate-400 font-bold text-sm" id="page-indicator">Phase 2 of 8</span>
+                <button id="btn-next" class="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-xl font-bold shadow-[0_4px_12px_rgba(37,99,235,0.3)] transition-all flex items-center">
+                    <span class="hidden sm:inline">다음 페이지 (Phase 3)</span><span class="sm:hidden">다음</span> <span class="ml-2">→</span>
+                </button>
+            </div>
+            
+        </main>
+
+        <!-- 우측 네비게이션 목차 (TOC) -->
+        <aside class="page-side-toc-shell hidden xl:block xl:w-72 2xl:w-80 shrink-0 sticky top-[6.5rem] self-start" data-page-toc-shell>
+            <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                <div class="text-[11px] font-black text-blue-600 uppercase tracking-widest mb-1.5">On This Page</div>
+                <div class="text-lg font-bold text-slate-900 mb-4 pb-4 border-b border-slate-100">현재 페이지 목차</div>
+                <nav class="space-y-1" id="toc-nav">
+                    <!-- JS Automatically Populated -->
+                </nav>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        // TOC Generation
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.content-section[data-guidebook-toc-title]');
+            const tocNav = document.getElementById('toc-nav');
+            if(tocNav) {
+                sections.forEach((sec, idx) => {
+                    const title = sec.getAttribute('data-guidebook-toc-title');
+                    const id = 'sec-' + idx;
+                    sec.id = id;
+                    const a = document.createElement('a');
+                    a.href = '#' + id;
+                    a.className = 'block px-3 py-2 text-[13px] font-bold text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors';
+                    a.textContent = title;
+                    tocNav.appendChild(a);
+                });
+            }
+        });
+
+        // Architecture Flow Interaction
+        const descData = {
+            test: { title: "uvm_test", badge: "Core", html: "최상위 사령탑입니다. 하위 환경을 생성하고, 자극 패턴(Sequence)을 시작합니다." },
+            env: { title: "uvm_env", badge: "Container", html: "재사용을 위한 컨테이너입니다. Agent와 Scoreboard를 묶고 연결(connect)합니다." },
+            scoreboard: { title: "uvm_scoreboard", badge: "Checker", html: "검증의 판사입니다. 기대값(Expected)을 생성하고 실제값과 비교(Compare)합니다." },
+            subscriber: { title: "uvm_subscriber", badge: "Coverage", html: "설계 사양을 얼마나 검증했는지 covergroup을 통해 수집하여 기록합니다." },
+            agent: { title: "uvm_agent", badge: "Protocol", html: "특정 프로토콜 통신을 전담합니다. Active 모드일 땐 신호를 주고, Passive일 땐 관찰만 합니다." },
+            sequencer: { title: "uvm_sequencer", badge: "Router", html: "요청된 트랜잭션을 FIFO로 관리하며, Driver가 필요로 할 때 순서대로 꺼내줍니다." },
+            driver: { title: "uvm_driver", badge: "Wiggle", html: "추상적인 클래스 객체를 물리적 핀 신호(0/1)로 바꾸어 DUT에 인가합니다." },
+            monitor: { title: "uvm_monitor", badge: "Sampler", html: "물리적인 핀 신호를 관찰하다가 트랜잭션 단위로 패킹(Packing)하여 브로드캐스트합니다." },
+            vif: { title: "Virtual Interface", badge: "Bridge", html: "Class 영역과 Module 영역을 연결해주는 필수적인 다리 역할을 합니다." },
+            dut: { title: "DUT", badge: "Target", html: "검증하고자 하는 실제 하드웨어 회로입니다." }
+        };
+
+        const descPanel = document.getElementById('desc-panel');
+        document.querySelectorAll('.uvm-group').forEach(group => {
+            group.addEventListener('click', () => {
+                document.querySelectorAll('.uvm-group').forEach(g => g.classList.remove('active'));
+                group.classList.add('active');
+                const target = group.getAttribute('data-target');
+                const data = descData[target];
+                if (data) {
+                    descPanel.innerHTML = `
+                        <div class="mb-4 pb-3 border-b border-slate-100 flex items-center justify-between">
+                            <h3 class="text-xl font-black text-slate-800 font-mono tracking-tight">${data.title}</h3>
+                            <span class="bg-indigo-100 text-indigo-700 text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">${data.badge}</span>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed font-medium">${data.html}</p>
+                    `;
+                }
+            });
+        });
+
+        const btnPlayFlow = document.getElementById('btn-play-flow');
+        const activeFlows = document.getElementById('active-flows');
+        const overlay = document.getElementById('status-overlay');
+        const overlayText = document.getElementById('status-text');
+        
+        async function animatePacket(tokenId, pathId, duration) {
+            const token = document.getElementById(tokenId);
+            const path = document.getElementById(pathId);
+            const motion = document.createElementNS("http://www.w3.org/2000/svg", "animateMotion");
+            motion.setAttribute("dur", `${duration}ms`);
+            motion.setAttribute("fill", "freeze");
+            motion.setAttribute("path", path.getAttribute("d"));
+            token.appendChild(motion);
+            token.style.opacity = '1';
+            motion.beginElement();
+            await wait(duration * 0.9);
+            token.style.opacity = '0';
+            await wait(duration * 0.1);
+            token.removeChild(motion);
+        }
+
+        btnPlayFlow.addEventListener('click', async () => {
+            btnPlayFlow.disabled = true;
+            btnPlayFlow.classList.add('opacity-50', 'pointer-events-none');
+            activeFlows.classList.remove('opacity-0');
+            activeFlows.classList.add('opacity-100');
+            
+            overlayText.textContent = "1. Item (Seq → Drv)";
+            overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100');
+            await animatePacket('token-req', 'path-seq-drv-bg', 800);
+            
+            overlayText.textContent = "2. Pin Drive (Drv → DUT)";
+            await animatePacket('token-pin-dn', 'path-drv-vif-bg', 400);
+            await animatePacket('token-pin-dn', 'path-vif-dut-bg', 200);
+            
+            await wait(300);
+            
+            overlayText.textContent = "3. Sampling (DUT → Mon)";
+            await animatePacket('token-pin-up', 'path-dut-vif-bg', 200);
+            await animatePacket('token-pin-up', 'path-vif-mon-bg', 400);
+
+            overlayText.textContent = "4. Broadcast (Mon → SB/Sub)";
+            Promise.all([
+                animatePacket('token-tr-sb', 'path-mon-sb-bg', 800),
+                animatePacket('token-tr-sub', 'path-mon-sub-bg', 800)
+            ]);
+            await wait(1000);
+
+            overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0');
+            activeFlows.classList.remove('opacity-100'); activeFlows.classList.add('opacity-0');
+            btnPlayFlow.disabled = false; btnPlayFlow.classList.remove('opacity-50', 'pointer-events-none');
+        });
+
+        // Code Editor Interaction
+        const codeLines = document.querySelectorAll('.code-line');
+        const infoCards = document.querySelectorAll('.info-card');
+
+        infoCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const target = card.getAttribute('data-target-line');
+                codeLines.forEach(line => {
+                    if (line.getAttribute('data-line') === target) line.classList.add('highlight');
+                    else line.classList.remove('highlight');
+                });
+                infoCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+            });
+            card.addEventListener('mouseleave', () => {
+                codeLines.forEach(line => line.classList.remove('highlight'));
+                card.classList.remove('active');
+            });
+        });
+
+        // Stepper Logic
+        const stepItems = document.querySelectorAll('.step-item');
+        const visPanels = [
+            document.getElementById('vis-step-1'), document.getElementById('vis-step-2'),
+            document.getElementById('vis-step-3'), document.getElementById('vis-step-4')
+        ];
+        const visTitle = document.getElementById('vis-title');
+        const titles = ['tb_top.sv > initial', 'Factory Engine', 'Build Phase', 'Simulation Waveform'];
+        let termAnimActive = false;
+
+        function setStep(targetStep) {
+            termAnimActive = false;
+            stepItems.forEach((item, idx) => {
+                const s = idx + 1;
+                item.classList.remove('active', 'done');
+                if (s < targetStep) item.classList.add('done');
+                else if (s === targetStep) item.classList.add('active');
+            });
+
+            visTitle.textContent = titles[targetStep - 1];
+            visPanels.forEach((p, idx) => {
+                if (idx === targetStep - 1) {
+                    p.classList.remove('opacity-0', 'pointer-events-none');
+                    p.classList.add('opacity-100');
+                } else {
+                    p.classList.add('opacity-0', 'pointer-events-none');
+                    p.classList.remove('opacity-100');
+                }
+            });
+
+            if (targetStep === 2) playFactoryAnimation(); else resetFactoryAnimation();
+            if (targetStep === 3) playTreeAnimation(); else resetTreeAnimation();
+            if (targetStep === 4) { termAnimActive = true; playTerminalAnimation(); } else resetTerminalAnimation();
+        }
+
+        stepItems.forEach(item => {
+            item.addEventListener('click', () => setStep(parseInt(item.getAttribute('data-step'))));
+        });
+
+        // Fast minimal animations for Steps
+        async function playFactoryAnimation() {
+            resetFactoryAnimation(); await wait(400);
+            const input = document.getElementById('anim-factory-in');
+            input.style.transform = 'translateY(20px)'; input.style.opacity = '0.3';
+            await wait(400);
+            document.getElementById('anim-factory-out').classList.add('anim-produce');
+        }
+        function resetFactoryAnimation() {
+            document.getElementById('anim-factory-in').style = '';
+            document.getElementById('anim-factory-out').classList.remove('anim-produce');
+        }
+
+        async function playTreeAnimation() {
+            resetTreeAnimation(); await wait(200);
+            const pop = async (id, d=0) => { const e=document.getElementById(id); if(e){e.classList.add('pop'); await wait(d);} };
+            const draw = async (id, d=0) => { const e=document.getElementById(id); if(e){e.classList.add('draw'); await wait(d);} };
+            await pop('node-test', 200); await draw('line-test-env', 100); await pop('node-env', 200);
+            draw('line-env-agt'); await draw('line-env-sb', 100);
+            pop('node-agt'); await pop('node-sb', 200);
+            draw('line-agt-seq'); draw('line-agt-drv'); await draw('line-agt-mon', 100);
+            pop('node-seq'); pop('node-drv'); pop('node-mon');
+        }
+        function resetTreeAnimation() {
+            document.querySelectorAll('.tree-box').forEach(e => e.classList.remove('pop'));
+            document.querySelectorAll('.tree-connector').forEach(e => e.classList.remove('draw'));
+        }
+
+        async function playTerminalAnimation() {
+            resetTerminalAnimation(); await wait(100);
+            if(!termAnimActive) return;
+            document.getElementById('wave-clk').classList.add('draw');
+            document.getElementById('wave-data').classList.add('draw');
+            
+            const type = async (id, dur) => {
+                if(!termAnimActive) return;
+                const e = document.getElementById(id);
+                e.style.animationDuration = `${dur}s`; e.classList.add('typing');
+                await wait(dur * 1000); if(termAnimActive){ e.classList.remove('typing'); e.classList.add('done'); }
+            };
+            await type('term-line-1', 0.6); await wait(200);
+            await type('term-line-2', 0.6); await wait(300);
+            await type('term-line-3', 0.6);
+        }
+        function resetTerminalAnimation() {
+            document.querySelectorAll('.wave-path').forEach(e => { e.classList.remove('draw'); e.style.animation='none'; void e.offsetWidth; e.style.animation=''; });
+            document.querySelectorAll('.type-line').forEach(e => { e.classList.remove('typing', 'done'); e.style.width='0'; });
+        }
+    </script>
+</body>
+</html>

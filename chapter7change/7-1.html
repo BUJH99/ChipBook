@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UVM 기초 | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
+    <script src="../assets/chapter7-embed-common.js" defer></script>
+    
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        .en-font { font-family: 'IBM Plex Sans', sans-serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Syntax Highlighting */
+        .sv-keyword { color: #c678dd; } 
+        .sv-type { color: #e5c07b; } 
+        .sv-func { color: #61afef; } 
+        .sv-string { color: #98c379; } 
+        .sv-comment { color: #64748b; font-style: italic; } 
+        .sv-number { color: #d19a66; } 
+
+        /* Guidebook Navigation Style */
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+        .nav-item.active {
+            background-color: #eff6ff; /* blue-50 */
+            color: #2563eb; /* blue-600 */
+            font-weight: 700;
+        }
+        .nav-item.active .nav-icon {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+        
+        /* High-tech Professional Grids */
+        .diagram-grid-light {
+            background-color: #ffffff;
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+            background-size: 16px 16px;
+        }
+
+        .diagram-grid-dark {
+            background-color: #0f172a;
+            background-image:
+                radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Expert Level SVG Glows */
+        .glow-cyan { filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.6)); }
+        .glow-purple { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)); }
+        .glow-emerald { filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6)); }
+        .glow-amber { filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6)); }
+        .glow-rose { filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.6)); }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* Specialized Animations */
+        @keyframes sweep {
+            0% { transform: translateX(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+        .scanner-line {
+            animation: sweep 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header (가이드북 레이아웃 반영) -->
+    <header class="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm h-[72px]">
+        <div class="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between py-3">
+            <div class="flex items-center gap-4">
+                <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-extrabold text-xl shadow-md">U</div>
+                <div>
+                    <span class="text-xl font-extrabold text-gray-900 tracking-tight">반도체 디지털 회로설계 가이드북</span>
+                    <div class="text-xs text-blue-600 font-semibold en-font tracking-wide">UVM METHODOLOGY - PHASE 1</div>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center gap-3">
+                <span class="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">SystemVerilog OOP Core</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="flex-1 w-full max-w-[2000px] mx-auto flex gap-8 px-4 sm:px-6 lg:px-8 py-8 lg:py-12 relative items-start">
+        
+        <!-- Left Sidebar Navigation -->
+        <aside class="hidden lg:block w-64 shrink-0 sticky top-[6.5rem] self-start border border-gray-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-gray-100 bg-gray-50/50">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 en-font">Study Roadmap</div>
+                <div class="font-bold text-gray-800">SV OOP 기초</div>
+            </div>
+            <nav id="nav-menu" class="p-3 space-y-1">
+                <button data-target="sec1" class="nav-item active w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
+                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">1</span>
+                    Function vs Task
+                </button>
+                <button data-target="sec2" class="nav-item w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
+                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">2</span>
+                    OOP & Super
+                </button>
+                <button data-target="sec3" class="nav-item w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
+                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">3</span>
+                    Class vs Module
+                </button>
+                <button data-target="sec4" class="nav-item w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
+                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">4</span>
+                    Virtual Interface
+                </button>
+                <button data-target="sec5" class="nav-item w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
+                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">5</span>
+                    Constrained Random
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Center Content Area -->
+        <main class="flex-1 min-w-0 max-w-4xl mx-auto xl:mx-0 xl:max-w-none w-full">
+            
+            <!-- ==========================================
+                 Section 1.1: Function vs Task
+            =========================================== -->
+            <section id="sec1" class="content-section">
+                <div class="mb-8">
+                    <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
+                        <span class="text-cyan-400">#</span> TIME_CONSUMPTION_ANALYSIS
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">1.1 Function vs Task (0-Time의 본질)</h2>
+                    <p class="text-slate-600 text-base leading-relaxed max-w-4xl">
+                        검증 환경에서 로직을 작성할 때 가장 치명적인 버그는 <strong class="text-gray-800">타이밍 의도</strong>가 어긋날 때 발생합니다.
+                        <code class="bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded font-mono text-sm border border-blue-100">function</code>은 시뮬레이터의 
+                        시간을 완벽히 동결(Freeze)시킨 상태에서 모든 연산을 즉시 끝내야 하는 <strong class="text-gray-800">'소프트웨어적'</strong> 계산 영역입니다. 
+                        반면 <code class="bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded font-mono text-sm border border-purple-100">task</code>는 
+                        클럭을 기다리고 신호를 인가하며 시뮬레이션 시간을 앞으로 진행시키는 <strong class="text-gray-800">'하드웨어적'</strong> 상호작용 영역입니다.
+                    </p>
+                </div>
+
+                <!-- Expert Diagram: EDA Logic Analyzer -->
+                <div class="bg-[#0f172a] rounded-2xl shadow-2xl border border-slate-700 p-1 mb-10 overflow-hidden relative group">
+                    <div class="p-3 flex justify-between items-center bg-[#1e293b] rounded-t-xl border-b border-slate-700">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex space-x-1.5">
+                                <div class="w-3 h-3 rounded-full bg-slate-600 group-hover:bg-red-500 transition-colors"></div>
+                                <div class="w-3 h-3 rounded-full bg-slate-600 group-hover:bg-amber-500 transition-colors"></div>
+                                <div class="w-3 h-3 rounded-full bg-slate-600 group-hover:bg-green-500 transition-colors"></div>
+                            </div>
+                            <span class="text-xs font-bold font-mono text-slate-400 tracking-widest">WAVEFORM VIEWER</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-[#0f172a] px-3 py-1.5 rounded text-xs font-mono border border-slate-700 flex items-center shadow-inner">
+                                <span class="text-slate-500 mr-2">SYS_TIME:</span>
+                                <span id="sys-time-display" class="text-emerald-400 font-bold w-12 text-right">0 ns</span>
+                            </div>
+                            <button id="btn-run-sec1" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-1.5 rounded-lg text-sm font-bold transition-colors flex items-center shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                Execute Timeline
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="diagram-grid-dark h-[360px] relative w-full border-t border-slate-800">
+                        <svg width="100%" height="100%" viewBox="0 0 900 360" preserveAspectRatio="xMidYMid slice">
+                            <defs>
+                                <linearGradient id="grad-task" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#a855f7" stop-opacity="0.1" />
+                                    <stop offset="50%" stop-color="#a855f7" stop-opacity="0.5" />
+                                    <stop offset="100%" stop-color="#a855f7" stop-opacity="0.1" />
+                                </linearGradient>
+                                <filter id="freeze-glow"><feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#06b6d4" flood-opacity="0.8"/></filter>
+                                <filter id="task-glow"><feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#a855f7" flood-opacity="0.8"/></filter>
+                                <pattern id="diagonal-stripe" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                                    <line x1="0" y1="0" x2="0" y2="8" stroke="#0ea5e9" stroke-width="2" opacity="0.2"/>
+                                </pattern>
+                            </defs>
+
+                            <!-- Left Panel (Signal Names) -->
+                            <rect x="0" y="0" width="100" height="360" fill="#1e293b" opacity="0.8"/>
+                            <line x1="100" y1="0" x2="100" y2="360" stroke="#334155" stroke-width="2"/>
+                            
+                            <g font-family="JetBrains Mono" font-size="12" font-weight="bold">
+                                <text x="85" y="75" fill="#94a3b8" text-anchor="end">clk</text>
+                                <text x="85" y="165" fill="#22d3ee" text-anchor="end">function</text>
+                                <text x="85" y="265" fill="#c084fc" text-anchor="end">task</text>
+                            </g>
+
+                            <!-- Grid Lines -->
+                            <g stroke="#334155" stroke-dasharray="4 4" stroke-width="1" opacity="0.5">
+                                <line x1="100" y1="70" x2="900" y2="70" />
+                                <line x1="100" y1="160" x2="900" y2="160" />
+                                <line x1="100" y1="260" x2="900" y2="260" />
+                            </g>
+                            
+                            <!-- Timeline Axis -->
+                            <rect x="100" y="320" width="800" height="40" fill="#0f172a" />
+                            <line x1="100" y1="320" x2="900" y2="320" stroke="#475569" stroke-width="2" />
+                            <g fill="#64748b" font-family="JetBrains Mono" font-size="10" text-anchor="middle">
+                                <line x1="140" y1="320" x2="140" y2="328" stroke="#475569"/><text x="140" y="342">0</text>
+                                <line x1="300" y1="320" x2="300" y2="328" stroke="#475569"/><text x="300" y="342">20</text>
+                                <line x1="460" y1="320" x2="460" y2="328" stroke="#475569"/><text x="460" y="342">40</text>
+                                <line x1="620" y1="320" x2="620" y2="328" stroke="#475569"/><text x="620" y="342">60</text>
+                                <line x1="780" y1="320" x2="780" y2="328" stroke="#475569"/><text x="780" y="342">80ns</text>
+                            </g>
+
+                            <!-- CLK Waveform (10ns Period -> 80px wide per cycle) -->
+                            <path id="clk-wave" d="M 100 90 L 140 90 L 140 50 L 180 50 L 180 90 L 220 90 L 220 50 L 260 50 L 260 90 L 300 90 L 300 50 L 340 50 L 340 90 L 380 90 L 380 50 L 420 50 L 420 90 L 460 90 L 460 50 L 500 50 L 500 90 L 540 90 L 540 50 L 580 50 L 580 90 L 620 90 L 620 50 L 660 50 L 660 90 L 700 90 L 700 50 L 740 50 L 740 90 L 780 90 L 780 50 L 820 50 L 820 90 L 860 90" fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
+
+                            <!-- Default Signal Lines -->
+                            <line x1="100" y1="180" x2="900" y2="180" stroke="#334155" stroke-width="2" />
+                            <line x1="100" y1="280" x2="900" y2="280" stroke="#334155" stroke-width="2" />
+
+                            <!-- ================= ANIMATION: FUNCTION ================= -->
+                            <g id="anim-func" opacity="0" transform="translate(300, 0)">
+                                <!-- Time Freeze Concept -->
+                                <rect x="-3" y="40" width="6" height="280" fill="url(#diagonal-stripe)" filter="url(#freeze-glow)" />
+                                
+                                <!-- Function Pulse (Instantaneous) -->
+                                <path d="M -40 180 L -5 180 L 0 140 L 0 180 L 40 180" fill="none" stroke="#22d3ee" stroke-width="2"/>
+                                <circle cx="0" cy="140" r="4" fill="#22d3ee" filter="url(#freeze-glow)"/>
+                                
+                                <!-- Info Box -->
+                                <rect x="-70" y="100" width="140" height="24" rx="4" fill="#082f49" stroke="#0ea5e9" stroke-width="1"/>
+                                <text x="0" y="116" fill="#7dd3fc" font-family="JetBrains Mono" font-size="11" text-anchor="middle" font-weight="bold">calc_parity()</text>
+                                
+                                <!-- Code Execution Details -->
+                                <g id="func-code-details" opacity="0">
+                                    <rect x="-100" y="195" width="200" height="55" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" filter="url(#freeze-glow)"/>
+                                    <text x="-85" y="215" fill="#cbd5e1" font-family="JetBrains Mono" font-size="10">1. Calculate parity bit</text>
+                                    <text x="-85" y="230" fill="#cbd5e1" font-family="JetBrains Mono" font-size="10">2. Return result</text>
+                                    <rect x="-90" y="235" width="180" height="1" fill="#334155"/>
+                                    <text x="0" y="246" fill="#38bdf8" font-family="JetBrains Mono" font-size="9" text-anchor="middle" font-weight="bold">⏱️ TIME FROZEN (0ns)</text>
+                                </g>
+                            </g>
+
+                            <!-- ================= ANIMATION: TASK ================= -->
+                            <g id="anim-task" opacity="0">
+                                <!-- Task Block background (spanning from 460 to 620 -> 20ns = 2 clock cycles) -->
+                                <rect id="task-span" x="460" y="240" width="0" height="40" fill="url(#grad-task)" stroke="#a855f7" stroke-width="2" rx="4" filter="url(#task-glow)"/>
+                                
+                                <!-- Task Info Box -->
+                                <rect id="task-label-bg" x="460" y="210" width="120" height="20" rx="4" fill="#2e1065" stroke="#a855f7" opacity="0"/>
+                                <text id="task-label-text" x="520" y="224" fill="#e9d5ff" font-family="JetBrains Mono" font-size="11" text-anchor="middle" font-weight="bold" opacity="0">drive_packet()</text>
+                                
+                                <!-- Time flow indicators inside task -->
+                                <g id="task-events" opacity="0" font-family="JetBrains Mono" font-size="10" font-weight="bold">
+                                    <circle cx="460" cy="260" r="4" fill="#fbbf24" />
+                                    <text x="468" y="264" fill="#fbbf24">@(posedge clk)</text>
+                                    <circle cx="540" cy="260" r="4" fill="#fbbf24" />
+                                    <text x="548" y="264" fill="#fbbf24">#10ns</text>
+                                </g>
+                            </g>
+
+                            <!-- Moving Playhead (Laser Line) -->
+                            <g id="playhead" transform="translate(140, 0)">
+                                <line x1="0" y1="30" x2="0" y2="330" stroke="#ef4444" stroke-width="1.5" />
+                                <polygon points="-6,30 6,30 0,38" fill="#ef4444" />
+                                <polygon points="-6,330 6,330 0,322" fill="#ef4444" />
+                                <rect x="-1" y="30" width="2" height="300" fill="#fca5a5" filter="drop-shadow(0 0 4px #ef4444)" />
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-2xl border border-gray-200 shadow-sm">
+                        <h3 class="font-extrabold text-gray-800 text-lg mb-3 flex items-center">
+                            <span class="bg-cyan-100 text-cyan-600 p-1.5 rounded-lg mr-2 border border-cyan-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+                            </span>
+                            Function의 제약 (0-Time)
+                        </h3>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                            <code class="text-cyan-600 font-bold bg-cyan-50 px-1 rounded">build_phase</code> 등은 모두 function입니다. 내부에서 <code>#10</code>, <code>@(posedge)</code> 등을 사용하면 컴파일 에러가 발생합니다. 시뮬레이터는 이 함수를 만나는 순간 전체 시스템 시계를 정지시키고 연산을 수행합니다.
+                        </p>
+                        <pre class="bg-[#1e293b] text-slate-300 p-4 rounded-xl text-xs code-font shadow-inner"><code><span class="sv-keyword">function void</span> <span class="sv-func">calc_parity</span>(<span class="sv-keyword">input</span> <span class="sv-type">int</span> data);
+  <span class="sv-comment">// #10;  <-- FATAL ERROR: Delay in function</span>
+  parity_bit = ^data; <span class="sv-comment">// 즉시 연산 완료</span>
+<span class="sv-keyword">endfunction</span></code></pre>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-2xl border border-gray-200 shadow-sm">
+                        <h3 class="font-extrabold text-gray-800 text-lg mb-3 flex items-center">
+                            <span class="bg-purple-100 text-purple-600 p-1.5 rounded-lg mr-2 border border-purple-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </span>
+                            Task의 권한 (Time Consuming)
+                        </h3>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                            <code class="text-purple-600 font-bold bg-purple-50 px-1 rounded">run_phase</code>와 같이 실제 핀(Pin)을 토글하거나 응답을 대기해야 하는 영역은 task입니다. 시뮬레이션 시간이 정상적으로 흐르며, 내부에 다른 task를 호출할 수 있습니다.
+                        </p>
+                        <pre class="bg-[#1e293b] text-slate-300 p-4 rounded-xl text-xs code-font shadow-inner"><code><span class="sv-keyword">task</span> <span class="sv-func">drive_packet</span>(<span class="sv-keyword">input</span> <span class="sv-type">Packet</span> pkt);
+  <span class="sv-keyword">@</span>(<span class="sv-keyword">posedge</span> vif.clk); <span class="sv-comment">// 시간 흐름 (Wait)</span>
+  vif.data &lt;= pkt.data;
+  <span class="sv-keyword">#10ns</span>;              <span class="sv-comment">// 시간 흐름 (Delay)</span>
+<span class="sv-keyword">endtask</span></code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 Section 1.2 & 1.3: OOP Basics & Super
+            =========================================== -->
+            <section id="sec2" class="content-section hidden">
+                <div class="mb-8">
+                    <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
+                        <span class="text-purple-400">#</span> INHERITANCE_AND_POLYMORPHISM
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">1.2 & 1.3 가상 메서드(Virtual)와 Super</h2>
+                    <p class="text-slate-600 text-base leading-relaxed max-w-4xl">
+                        UVM 벤치를 구성하는 핵심은 <strong>"프레임워크가 짜놓은 로직(Base) 위에 내 로직(Extended)을 덧칠하는 것"</strong>입니다. 
+                        <code class="bg-slate-200 px-1 rounded font-mono text-sm">virtual</code> 키워드는 실제 자식의 메서드를 찾아가게 해주는 나침반 역할을 하며, 
+                        <code class="bg-slate-200 px-1 rounded font-mono text-sm">super</code>는 자신의 로직 실행 도중 잠시 부모의 영역으로 올라가 원본 로직을 실행하고 내려오게 합니다.
+                    </p>
+                </div>
+
+                <!-- Expert Diagram: OOP Call Stack Analyzer -->
+                <div class="bg-[#0f172a] rounded-2xl shadow-2xl border border-slate-700 p-1 mb-10 overflow-hidden">
+                    <div class="p-3 flex justify-between items-center bg-[#1e293b] rounded-t-xl border-b border-slate-700">
+                        <div class="flex space-x-3">
+                            <button id="btn-call-parent" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white px-4 py-1.5 rounded-md text-sm font-bold transition-all shadow focus:ring-2 focus:ring-blue-400">
+                                Invoke <span class="code-font text-blue-300">Packet.display()</span>
+                            </button>
+                            <button id="btn-call-child" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white px-4 py-1.5 rounded-md text-sm font-bold transition-all shadow focus:ring-2 focus:ring-purple-400">
+                                Invoke <span class="code-font text-purple-300">ErrorPacket.display()</span>
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1 rounded-md border border-slate-600">
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]"></span>
+                            <span class="text-xs font-bold text-slate-300 code-font">CALL_STACK_MONITOR</span>
+                        </div>
+                    </div>
+
+                    <div class="diagram-grid-dark h-[460px] relative flex justify-center items-center">
+                        <svg width="100%" height="100%" viewBox="0 0 900 460" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <filter id="node-shadow"><feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/></filter>
+                                <marker id="arrow-extends" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+                                    <path d="M 0 0 L 12 6 L 0 12 Z" fill="#64748b" />
+                                </marker>
+                            </defs>
+                            
+                            <!-- Right Console Panel -->
+                            <g transform="translate(560, 40)">
+                                <rect width="300" height="380" rx="8" fill="#1e293b" stroke="#334155" stroke-width="2" filter="url(#node-shadow)"/>
+                                <rect width="300" height="32" rx="8" fill="#0f172a" />
+                                <text x="150" y="21" fill="#cbd5e1" font-size="12" font-family="JetBrains Mono" font-weight="bold" text-anchor="middle">> Terminal Output</text>
+                                
+                                <g font-family="JetBrains Mono" font-size="12" fill="#e2e8f0" transform="translate(15, 60)">
+                                    <text id="con-1" y="0" opacity="0" fill="#64748b">[SYSTEM] Allocating Memory...</text>
+                                    <text id="con-2" y="25" opacity="0" fill="#38bdf8">Executing display() routing...</text>
+                                    <text id="con-3" y="55" opacity="0" fill="#4ade80" font-weight="bold">> Packet: addr=0, data=0</text>
+                                    <text id="con-4" y="80" opacity="0" fill="#f43f5e" font-weight="bold">> Error Flag: 1</text>
+                                    <text id="con-5" y="115" opacity="0" fill="#94a3b8">Execution Terminated.</text>
+                                </g>
+                            </g>
+
+                            <!-- Base Class Layer (Top) -->
+                            <g id="layer-parent" transform="translate(80, 50)">
+                                <rect x="-20" y="10" width="10" height="100" fill="#3b82f6" rx="2" opacity="0.8"/>
+                                <rect width="320" height="120" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="2" filter="url(#node-shadow)"/>
+                                <path d="M 0 10 Q 0 0 10 0 L 310 0 Q 320 0 320 10 L 320 36 L 0 36 Z" fill="#0f172a" />
+                                <text x="160" y="23" fill="#60a5fa" font-weight="bold" font-family="JetBrains Mono" font-size="14" text-anchor="middle">Base: class Packet</text>
+                                
+                                <g transform="translate(20, 60)" font-family="JetBrains Mono" font-size="12" fill="#cbd5e1">
+                                    <text y="0"><tspan fill="#c678dd">int</tspan> addr, data;</text>
+                                    <rect id="hl-parent-func" x="-10" y="15" width="280" height="40" rx="6" fill="#3b82f6" opacity="0" />
+                                    <text y="24"><tspan fill="#c678dd">virtual function</tspan> <tspan fill="#61afef">display</tspan>();</text>
+                                    <text y="42" x="20">$display(<span fill="#98c379">"Packet..."</span>);</text>
+                                </g>
+                            </g>
+
+                            <!-- Inheritance Link -->
+                            <path d="M 240 170 L 240 250" fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="6" marker-end="url(#arrow-extends)"/>
+                            <rect x="200" y="200" width="80" height="24" rx="12" fill="#0f172a" stroke="#475569" />
+                            <text x="240" y="216" fill="#94a3b8" font-size="11" font-family="JetBrains Mono" font-weight="bold" text-anchor="middle">extends</text>
+
+                            <!-- Extended Class Layer (Bottom) -->
+                            <g id="layer-child" transform="translate(80, 270)">
+                                <rect x="-20" y="10" width="10" height="130" fill="#a855f7" rx="2" opacity="0.8"/>
+                                <rect width="320" height="150" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="2" filter="url(#node-shadow)"/>
+                                <path d="M 0 10 Q 0 0 10 0 L 310 0 Q 320 0 320 10 L 320 36 L 0 36 Z" fill="#0f172a" />
+                                <text x="160" y="23" fill="#c084fc" font-weight="bold" font-family="JetBrains Mono" font-size="14" text-anchor="middle">Extended: class ErrorPacket</text>
+                                
+                                <g transform="translate(20, 60)" font-family="JetBrains Mono" font-size="12" fill="#cbd5e1">
+                                    <text y="0"><tspan fill="#c678dd">bit</tspan> error_flag;</text>
+                                    <rect id="hl-child-func" x="-10" y="15" width="280" height="65" rx="6" fill="#a855f7" opacity="0" />
+                                    <text y="24"><tspan fill="#c678dd">function</tspan> <tspan fill="#61afef">display</tspan>();</text>
+                                    <rect id="hl-super" x="15" y="30" width="160" height="18" rx="4" fill="#f59e0b" opacity="0" />
+                                    <text y="42" x="20"><tspan fill="#d19a66" font-weight="bold">super.display()</tspan>;</text>
+                                    <text y="62" x="20">$display(<span fill="#98c379">"Error..."</span>);</text>
+                                </g>
+                            </g>
+
+                            <!-- DYNAMIC ANIMATION PATHS -->
+                            <path id="path-super-up" d="M 120 360 C 20 360, 20 140, 100 140" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="8" opacity="0"/>
+                            <path id="path-super-down" d="M 380 140 C 480 140, 480 380, 380 380" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="8" opacity="0"/>
+                            
+                            <circle id="token-up" r="8" fill="#f59e0b" filter="url(#glow-amber)" opacity="0"/>
+                            <circle id="token-down" r="8" fill="#10b981" filter="url(#glow-emerald)" opacity="0"/>
+
+                            <!-- Data flows to console -->
+                            <path id="data-flow-1" d="M 400 130 Q 480 130 560 130" fill="none" stroke="#3b82f6" stroke-width="3" opacity="0"/>
+                            <path id="data-flow-2" d="M 400 370 Q 480 370 560 150" fill="none" stroke="#a855f7" stroke-width="3" opacity="0"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-2xl border border-gray-200 shadow-sm">
+                        <h3 class="font-extrabold text-gray-800 text-lg mb-3">Virtual의 의미 (다형성)</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                            베이스 클래스의 핸들(포인터)로 확장 클래스 객체를 가리킬 때, <code>virtual</code>이 없으면 컴파일러는 무조건 베이스 클래스의 메서드를 호출합니다. <code>virtual</code> 선언을 통해 <strong>"실제 메모리에 생성된 객체 타입(Run-time Type)"</strong>을 추적하여 알맞은 자식 메서드를 실행하게 만듭니다. UVM의 Phase 메서드가 모두 virtual인 이유입니다.
+                        </p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl border border-gray-200 shadow-sm">
+                        <h3 class="font-extrabold text-gray-800 text-lg mb-3">Super의 호출 규칙</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                            <code>super.build_phase(phase)</code> 처럼 호출하면, 내가 작성한 자식 클래스의 코드가 잠시 멈추고 제어권이 부모 클래스로 넘어갑니다. 부모가 UVM 코어 로직을 안전하게 세팅하고 나면, 다시 제어권이 내려와 나의 커스텀 로직을 마저 실행합니다. <strong>원본 보존의 핵심 메커니즘</strong>입니다.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 Section 1.4: Class vs Module
+            =========================================== -->
+            <section id="sec3" class="content-section hidden">
+                <div class="mb-8">
+                    <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
+                        <span class="text-emerald-400">#</span> MEMORY_ALLOCATION_LIFECYCLE
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">1.4 Class(동적 할당) vs Module(정적 할당)</h2>
+                    <p class="text-slate-600 text-base leading-relaxed max-w-4xl">
+                        반도체 검증에서 수백만 개의 트랜잭션 패킷을 생성해야 할 때, 하드웨어 <code>module</code>로는 불가능합니다. Module은 컴파일 타임에 고정(Static)되기 때문입니다. 
+                        반면 <code>class</code>는 런타임에 <code class="bg-slate-200 px-1 rounded font-mono text-sm text-slate-700">new()</code>를 통해 힙(Heap)에 끊임없이 할당되고, 수명이 다하면 <strong>Garbage Collector (GC)</strong>에 의해 자동 회수됩니다.
+                    </p>
+                </div>
+
+                <!-- Expert Diagram: Memory Manager -->
+                <div class="bg-[#0f172a] rounded-2xl shadow-2xl border border-slate-700 p-1 mb-10 overflow-hidden">
+                    <div class="p-4 flex flex-wrap gap-4 justify-between items-center bg-[#1e293b] rounded-t-xl border-b border-slate-700">
+                        <div class="flex space-x-3">
+                            <button id="btn-compile" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white px-5 py-2 rounded-lg text-sm font-bold transition-colors shadow">
+                                [1] Compile (Elaboration)
+                            </button>
+                            <button id="btn-run-new" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-lg text-sm font-bold transition-colors opacity-50 cursor-not-allowed shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+                                [2] Run: pkt = new()
+                            </button>
+                        </div>
+                        <button id="btn-gc" class="bg-rose-600 hover:bg-rose-500 text-white px-5 py-2 rounded-lg text-sm font-bold transition-colors opacity-50 cursor-not-allowed shadow-[0_0_10px_rgba(244,63,94,0.3)] flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            Trigger GC Sweep
+                        </button>
+                    </div>
+                    
+                    <div class="h-[380px] relative flex border-t border-slate-800 overflow-hidden bg-[#0f172a]">
+                        <!-- Static Memory Area -->
+                        <div class="w-2/5 h-full border-r border-slate-700 relative diagram-grid-dark flex flex-col">
+                            <div class="w-full py-2.5 text-center text-xs font-bold text-indigo-400 tracking-widest bg-slate-900/90 border-b border-slate-700 shadow-sm z-10 font-mono">
+                                STATIC MEMORY (Hardware)
+                            </div>
+                            <div class="flex-1 flex justify-center items-center relative p-6">
+                                <div id="dut-module" class="w-full max-w-[200px] aspect-video bg-[#1e293b] rounded-lg shadow-2xl opacity-0 transform scale-90 flex flex-col border border-indigo-500/50 relative overflow-hidden group">
+                                    <div class="absolute top-0 left-4 right-4 h-2 flex justify-between">
+                                        <div class="w-2 h-full bg-slate-400"></div><div class="w-2 h-full bg-slate-400"></div><div class="w-2 h-full bg-slate-400"></div><div class="w-2 h-full bg-slate-400"></div>
+                                    </div>
+                                    <div class="absolute bottom-0 left-4 right-4 h-2 flex justify-between">
+                                        <div class="w-2 h-full bg-slate-400"></div><div class="w-2 h-full bg-slate-400"></div><div class="w-2 h-full bg-slate-400"></div><div class="w-2 h-full bg-slate-400"></div>
+                                    </div>
+                                    <div class="flex-1 flex flex-col justify-center items-center mt-2 mb-2">
+                                        <div class="bg-indigo-600/20 px-3 py-1.5 rounded border border-indigo-500/30 backdrop-blur-sm">
+                                            <span class="text-indigo-300 font-mono font-bold text-lg">module DUT</span>
+                                        </div>
+                                        <span class="text-slate-500 text-[10px] mt-3 font-mono bg-slate-900/80 px-2 py-0.5 rounded">Fixed at Compile</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Memory Area -->
+                        <div class="w-3/5 h-full relative diagram-grid-dark bg-emerald-900/5 flex flex-col">
+                            <div class="w-full py-2.5 text-center text-xs font-bold text-emerald-400 tracking-widest bg-slate-900/90 border-b border-slate-700 shadow-sm z-10 font-mono flex justify-between items-center px-6">
+                                <span>HEAP MEMORY (Software)</span>
+                                <span id="heap-counter" class="text-slate-500 text-[10px]">Usage: 0/12 Slots</span>
+                            </div>
+                            <div id="heap-area" class="flex-1 p-6 relative grid grid-cols-4 gap-4 content-start overflow-hidden">
+                                <!-- Objects injected here -->
+                            </div>
+                            <!-- GC Scanner Line -->
+                            <div id="gc-scanner" class="absolute top-0 left-0 w-full h-full pointer-events-none hidden z-20">
+                                <div class="w-[150%] h-full bg-gradient-to-r from-transparent via-rose-500/20 to-transparent scanner-line border-r-2 border-rose-500 filter drop-shadow-[0_0_10px_rgba(244,63,94,0.8)]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 Section 1.5: Interface & Virtual Interface
+            =========================================== -->
+            <section id="sec4" class="content-section hidden">
+                <div class="mb-8">
+                    <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
+                        <span class="text-amber-400">#</span> BRIDGING_STATIC_AND_DYNAMIC
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">1.5 Virtual Interface와 uvm_config_db</h2>
+                    <p class="text-slate-600 text-base leading-relaxed max-w-4xl">
+                        <strong>동적인 세계(UVM Class)</strong>에서는 <strong>정적인 세계(Hardware Module/Interface)</strong>를 직접 생성하거나 포함할 수 없습니다. 
+                        이 두 세계를 연결하는 유일한 다리가 바로 <strong class="text-amber-600">Virtual Interface (인터페이스의 메모리 포인터)</strong>이며, 
+                        이 포인터를 안전하게 배달해주는 우체국 역할이 <code class="bg-slate-200 px-1 rounded font-mono text-sm text-slate-700">uvm_config_db</code>입니다.
+                    </p>
+                </div>
+
+                <!-- Expert Diagram: UVM Config DB Binding -->
+                <div class="bg-[#0f172a] rounded-2xl shadow-2xl border border-slate-700 p-1 mb-8 overflow-hidden">
+                    <div class="p-4 flex justify-center border-b border-slate-700 bg-[#1e293b] rounded-t-xl">
+                        <button id="btn-bind-drive" class="bg-amber-600 hover:bg-amber-500 text-white px-8 py-2.5 rounded-lg shadow-[0_0_15px_rgba(217,119,6,0.4)] text-sm font-bold transition-transform transform hover:scale-105">
+                            Execute: Set -> Get -> Drive
+                        </button>
+                    </div>
+                    
+                    <div class="diagram-grid-dark h-[400px] relative flex justify-center items-center">
+                        <svg width="100%" height="100%" viewBox="0 0 850 400" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <filter id="glow-wire"><feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#f59e0b" flood-opacity="1"/></filter>
+                                <filter id="glow-db"><feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#38bdf8" flood-opacity="0.6"/></filter>
+                                <marker id="arrow-ptr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                                    <path d="M 0 0 L 8 4 L 0 8 Z" fill="#f59e0b" />
+                                </marker>
+                            </defs>
+                            
+                            <!-- Background Titles -->
+                            <text x="180" y="50" fill="#475569" font-size="24" font-weight="900" text-anchor="middle" letter-spacing="4" opacity="0.3">DYNAMIC (UVM)</text>
+                            <text x="680" y="50" fill="#475569" font-size="24" font-weight="900" text-anchor="middle" letter-spacing="4" opacity="0.3">STATIC (RTL)</text>
+
+                            <!-- Central Config DB -->
+                            <g transform="translate(375, 120)" id="config-db">
+                                <rect width="100" height="140" rx="10" fill="#0c4a6e" stroke="#38bdf8" stroke-width="2" filter="url(#glow-db)"/>
+                                <rect width="100" height="30" rx="10" fill="#0284c7" />
+                                <text x="50" y="20" fill="#f0f9ff" font-size="11" font-family="JetBrains Mono" font-weight="bold" text-anchor="middle">uvm_config_db</text>
+                                
+                                <rect x="10" y="50" width="80" height="30" rx="4" fill="#082f49" stroke="#0284c7"/>
+                                <text x="50" y="69" fill="#7dd3fc" font-size="10" font-family="JetBrains Mono" text-anchor="middle">"vif"</text>
+                                
+                                <g id="db-record" opacity="0">
+                                    <rect x="15" y="90" width="70" height="30" rx="4" fill="#f59e0b" opacity="0.2" stroke="#f59e0b"/>
+                                    <text x="50" y="105" fill="#fcd34d" font-size="8" font-family="JetBrains Mono" text-anchor="middle">Ptr Address</text>
+                                    <text x="50" y="115" fill="#fcd34d" font-size="8" font-family="JetBrains Mono" text-anchor="middle">0x8A9F...</text>
+                                </g>
+                            </g>
+
+                            <!-- Static Side (Right) -->
+                            <g transform="translate(600, 80)">
+                                <rect width="180" height="260" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
+                                <text x="90" y="25" fill="#94a3b8" font-size="12" font-family="JetBrains Mono" font-weight="bold" text-anchor="middle">module top</text>
+                                
+                                <g transform="translate(20, 50)">
+                                    <rect width="140" height="80" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+                                    <text x="70" y="20" fill="#fcd34d" font-size="11" font-family="JetBrains Mono" font-weight="bold" text-anchor="middle">interface my_if</text>
+                                    <line x1="20" y1="50" x2="120" y2="50" stroke="#f59e0b" stroke-width="4"/>
+                                    <circle cx="20" cy="50" r="4" fill="#f59e0b"/>
+                                    <text x="70" y="40" fill="#fbbf24" font-size="10" font-family="JetBrains Mono" text-anchor="middle">logic [7:0] data</text>
+                                </g>
+                                
+                                <g transform="translate(20, 150)">
+                                    <rect width="140" height="90" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+                                    <text x="70" y="25" fill="#6ee7b7" font-size="12" font-family="JetBrains Mono" font-weight="bold" text-anchor="middle">module DUT</text>
+                                    <rect x="-5" y="45" width="10" height="10" fill="#94a3b8" rx="2"/> 
+                                    <text x="15" y="54" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">in_data</text>
+                                </g>
+
+                                <path d="M 90 130 L 90 195 L 35 195" fill="none" stroke="#f59e0b" stroke-width="3"/>
+                            </g>
+
+                            <!-- Dynamic Side (Left) -->
+                            <g transform="translate(60, 100)">
+                                <rect width="200" height="180" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="2"/>
+                                <rect width="200" height="30" rx="8" fill="#0f172a" />
+                                <text x="100" y="20" fill="#c084fc" font-size="12" font-family="JetBrains Mono" font-weight="bold" text-anchor="middle">class uvm_driver</text>
+                                
+                                <g transform="translate(15, 50)" font-family="JetBrains Mono" font-size="11">
+                                    <rect width="170" height="40" rx="4" fill="#0f172a" stroke="#475569"/>
+                                    <text x="85" y="15" fill="#cbd5e1" text-anchor="middle">virtual my_if vif;</text>
+                                    <text id="vif-status" x="85" y="30" fill="#f43f5e" font-size="9" text-anchor="middle">Status: NULL</text>
+                                </g>
+
+                                <g transform="translate(15, 110)" font-family="JetBrains Mono" font-size="11">
+                                    <rect width="170" height="50" rx="4" fill="#0f172a" stroke="#475569"/>
+                                    <text x="10" y="20" fill="#4ade80">task run_phase();</text>
+                                    <text x="20" y="38" fill="#cbd5e1">vif.data = 8'hFF;</text>
+                                </g>
+                            </g>
+
+                            <!-- Paths & Anim -->
+                            <path id="path-set" d="M 620 170 C 580 170, 500 150, 475 150" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6" opacity="0" marker-end="url(#arrow-ptr)"/>
+                            <path id="path-get" d="M 375 160 C 320 160, 280 160, 260 160" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6" opacity="0" marker-end="url(#arrow-ptr)"/>
+                            <path id="path-vif-link" d="M 245 160 C 400 160, 400 320, 520 320 C 560 320, 580 170, 620 170" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="10 5" opacity="0"/>
+                            
+                            <g id="data-packet" opacity="0">
+                                <rect width="50" height="24" rx="6" fill="#10b981" filter="url(#glow-wire)"/>
+                                <text x="25" y="16" fill="#022c22" font-size="11" font-weight="bold" font-family="monospace" text-anchor="middle">8'hFF</text>
+                            </g>
+
+                            <rect id="overlay-set" x="500" y="125" width="80" height="20" fill="#0284c7" rx="4" opacity="0"/>
+                            <text id="text-set" x="540" y="139" fill="#fff" font-size="10" font-family="JetBrains Mono" font-weight="bold" text-anchor="middle" opacity="0">db::set()</text>
+                            
+                            <rect id="overlay-get" x="280" y="135" width="80" height="20" fill="#0284c7" rx="4" opacity="0"/>
+                            <text id="text-get" x="320" y="149" fill="#fff" font-size="10" font-family="JetBrains Mono" font-weight="bold" text-anchor="middle" opacity="0">db::get()</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-[#1e293b] p-6 rounded-xl shadow-inner border border-slate-700">
+                        <h4 class="text-slate-300 font-bold mb-4 text-sm border-b border-slate-600 pb-2 flex justify-between">
+                            <span>Top Module (Static)</span>
+                            <span class="text-sky-400 font-mono text-xs">db::set()</span>
+                        </h4>
+                        <pre class="text-[13px] code-font text-slate-300 bg-transparent leading-relaxed"><code><span class="sv-keyword">module</span> <span class="sv-func">top</span>;
+  <span class="sv-comment">// 1. 물리 인터페이스 실체 생성</span>
+  my_if vif_inst(clk);
+  
+  DUT dut(.in_data(vif_inst.data));
+
+  <span class="sv-keyword">initial begin</span>
+    <span class="sv-comment">// 2. DB에 포인터 주소를 등록</span>
+    uvm_config_db#(<span class="sv-keyword">virtual</span> my_if)::set(
+      <span class="sv-keyword">null</span>, <span class="sv-string">"*"</span>, <span class="sv-string">"vif"</span>, vif_inst
+    );
+    run_test();
+  <span class="sv-keyword">end</span>
+<span class="sv-keyword">endmodule</span></code></pre>
+                    </div>
+                    <div class="bg-[#1e293b] p-6 rounded-xl shadow-inner border border-slate-700">
+                        <h4 class="text-slate-300 font-bold mb-4 text-sm border-b border-slate-600 pb-2 flex justify-between">
+                            <span>UVM Driver (Dynamic)</span>
+                            <span class="text-sky-400 font-mono text-xs">db::get()</span>
+                        </h4>
+                        <pre class="text-[13px] code-font text-slate-300 bg-transparent leading-relaxed"><code><span class="sv-keyword">class</span> <span class="sv-type">my_driver</span> <span class="sv-keyword">extends</span> <span class="sv-type">uvm_driver</span>;
+  <span class="sv-keyword">virtual</span> my_if vif; <span class="sv-comment">// 빈 포인터 선언</span>
+
+  <span class="sv-keyword">function void</span> <span class="sv-func">build_phase</span>(...);
+    <span class="sv-comment">// 3. DB에서 찾아서 포인터에 연결!</span>
+    uvm_config_db#(<span class="sv-keyword">virtual</span> my_if)::get(
+      <span class="sv-keyword">this</span>, <span class="sv-string">""</span>, <span class="sv-string">"vif"</span>, vif
+    );
+  <span class="sv-keyword">endfunction</span>
+  
+  <span class="sv-keyword">task</span> <span class="sv-func">run_phase</span>(...);
+    vif.data &lt;= 8'hFF; <span class="sv-comment">// 하드웨어 구동</span>
+  <span class="sv-keyword">endtask</span>
+<span class="sv-keyword">endclass</span></code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 Section 1.6: Constrained Random
+            =========================================== -->
+            <section id="sec5" class="content-section hidden">
+                <div class="mb-8">
+                    <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
+                        <span class="text-rose-400">#</span> CONSTRAINT_SOLVER_ENGINE
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">1.6 Constrained Random (제약 기반 난수 생성)</h2>
+                    <p class="text-slate-600 text-base leading-relaxed max-w-4xl">
+                        검증의 커버리지를 극대화하기 위해 단순히 무작위 값을 넣는 것이 아니라, <strong>프로토콜에 위배되지 않는 유효한 값(Constraint)</strong> 내에서 난수를 생성합니다. 
+                        <code class="bg-blue-50 text-blue-700 px-1 rounded font-mono text-sm">rand</code>는 독립적 확률로 값을 뽑아 중복이 허용되며, 
+                        <code class="bg-pink-50 text-pink-700 px-1 rounded font-mono text-sm">randc</code>(Cyclic)는 모든 경우의 수를 한 번씩 다 뽑을 때까지 중복을 방지합니다.
+                    </p>
+                </div>
+
+                <!-- Expert Diagram: Constraint Solver Matrix -->
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 mb-8 diagram-grid-light">
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <div class="w-full lg:w-1/3 flex flex-col justify-center space-y-6">
+                            <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-2xl text-slate-300">
+                                <h4 class="font-bold text-white text-sm mb-4 code-font border-b border-slate-700 pb-2 flex items-center">
+                                    <svg class="w-4 h-4 mr-2 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                    class Config;
+                                </h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between bg-slate-800 p-2 rounded border border-slate-700">
+                                        <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs font-mono font-bold border border-blue-500/30">rand</span>
+                                        <span class="text-sm code-font">bit [1:0] a;</span>
+                                    </div>
+                                    <div class="flex items-center justify-between bg-slate-800 p-2 rounded border border-slate-700">
+                                        <span class="px-2 py-1 bg-pink-500/20 text-pink-400 rounded text-xs font-mono font-bold border border-pink-500/30">randc</span>
+                                        <span class="text-sm code-font">bit [1:0] b;</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="btn-randomize" class="bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold transition-all transform active:scale-95 shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] flex justify-center items-center text-lg">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                .randomize()
+                            </button>
+                            <button id="btn-reset-rand" class="text-slate-400 hover:text-slate-600 text-sm font-semibold underline text-center">Clear Distribution</button>
+                        </div>
+
+                        <div class="w-full lg:w-2/3 flex flex-col sm:flex-row gap-6">
+                            <div class="flex-1 bg-white rounded-2xl border border-gray-200 p-6 flex flex-col shadow-sm relative overflow-hidden">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
+                                <h4 class="font-extrabold text-gray-800 mb-1 flex items-center">
+                                    <span class="w-2 h-2 rounded-full bg-blue-500 mr-2"></span> rand (Uniform)
+                                </h4>
+                                <p class="text-xs text-gray-500 mb-6 font-medium">Independent pick. Duplicates possible.</p>
+                                
+                                <div class="grid grid-cols-2 gap-4 w-full aspect-square mb-6">
+                                    <div id="rand-0" class="relative bg-gray-50 border-2 border-gray-100 rounded-xl flex items-center justify-center transition-colors"><span class="font-mono font-bold text-gray-400 text-2xl">0</span></div>
+                                    <div id="rand-1" class="relative bg-gray-50 border-2 border-gray-100 rounded-xl flex items-center justify-center transition-colors"><span class="font-mono font-bold text-gray-400 text-2xl">1</span></div>
+                                    <div id="rand-2" class="relative bg-gray-50 border-2 border-gray-100 rounded-xl flex items-center justify-center transition-colors"><span class="font-mono font-bold text-gray-400 text-2xl">2</span></div>
+                                    <div id="rand-3" class="relative bg-gray-50 border-2 border-gray-100 rounded-xl flex items-center justify-center transition-colors"><span class="font-mono font-bold text-gray-400 text-2xl">3</span></div>
+                                </div>
+                                
+                                <div class="mt-auto">
+                                    <div class="text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">Distribution History</div>
+                                    <div id="hist-rand" class="w-full h-14 bg-gray-50 border border-gray-200 rounded-lg overflow-x-auto flex items-center p-1.5 space-x-1.5 shadow-inner"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex-1 bg-white rounded-2xl border border-gray-200 p-6 flex flex-col shadow-sm relative overflow-hidden">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-pink-500"></div>
+                                <h4 class="font-extrabold text-gray-800 mb-1 flex items-center">
+                                    <span class="w-2 h-2 rounded-full bg-pink-500 mr-2"></span> randc (Cyclic)
+                                </h4>
+                                <p class="text-xs text-gray-500 mb-6 font-medium">No repeats until full cycle is complete.</p>
+                                
+                                <div class="grid grid-cols-2 gap-4 w-full aspect-square mb-6">
+                                    <div id="randc-0" class="relative bg-gray-50 border-2 border-gray-100 rounded-xl flex items-center justify-center transition-colors"><span class="font-mono font-bold text-gray-400 text-2xl">0</span></div>
+                                    <div id="randc-1" class="relative bg-gray-50 border-2 border-gray-100 rounded-xl flex items-center justify-center transition-colors"><span class="font-mono font-bold text-gray-400 text-2xl">1</span></div>
+                                    <div id="randc-2" class="relative bg-gray-50 border-2 border-gray-100 rounded-xl flex items-center justify-center transition-colors"><span class="font-mono font-bold text-gray-400 text-2xl">2</span></div>
+                                    <div id="randc-3" class="relative bg-gray-50 border-2 border-gray-100 rounded-xl flex items-center justify-center transition-colors"><span class="font-mono font-bold text-gray-400 text-2xl">3</span></div>
+                                </div>
+
+                                <div class="mt-auto">
+                                    <div class="text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider flex justify-between">
+                                        <span>History</span>
+                                        <span id="cycle-indicator" class="text-pink-500 opacity-0 transition-opacity">Cycle Reset!</span>
+                                    </div>
+                                    <div id="hist-randc" class="w-full h-14 bg-gray-50 border border-gray-200 rounded-lg overflow-x-auto flex items-center p-1.5 space-x-1.5 shadow-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl border border-gray-200 shadow-sm">
+                    <h3 class="text-xl font-extrabold text-gray-800 mb-4">고급 Constraint Block 작성 기법</h3>
+                    <p class="text-sm text-gray-600 mb-5 leading-relaxed">
+                        실무에서는 단순 범위 지정(<code class="bg-gray-100 px-1 rounded">inside</code>)을 넘어, 조건부 제약(<code class="bg-gray-100 px-1 rounded">-></code>)이나 가중치 분배(<code class="bg-gray-100 px-1 rounded">dist</code>)를 결합하여 정교한 프로토콜 스펙을 Testbench에 모델링합니다. 
+                    </p>
+                    <div class="bg-[#1e293b] rounded-xl shadow-inner border border-slate-700 overflow-hidden">
+                        <pre class="p-6 text-sm code-font text-slate-300 leading-relaxed bg-transparent"><code><span class="sv-keyword">class</span> <span class="sv-type">MemoryTrans</span> <span class="sv-keyword">extends</span> <span class="sv-type">uvm_sequence_item</span>;
+  <span class="sv-keyword">rand</span> <span class="sv-type">bit</span> [31:0] addr;
+  <span class="sv-keyword">rand</span> <span class="sv-type">bit</span> [31:0] data;
+  <span class="sv-keyword">rand</span> <span class="sv-type">bit</span>        is_write;
+
+  <span class="sv-keyword">constraint</span> c_addr_align {
+    <span class="sv-comment">// Word-aligned 강제 및 특정 메모리 영역 지정</span>
+    addr[1:0] == 2'b00;
+    addr <span class="sv-keyword">inside</span> {[32'h1000 : 32'h1FFF]};
+  }
+  
+  <span class="sv-keyword">constraint</span> c_read_protocol {
+    <span class="sv-comment">// Implication: Read 동작일 경우 data는 0으로 고정</span>
+    (is_write == 0) -> (data == 0);
+  }
+
+  <span class="sv-keyword">constraint</span> c_weight {
+    <span class="sv-comment">// Write 커맨드가 발생할 확률을 70%로 부여</span>
+    is_write <span class="sv-keyword">dist</span> { 1 := 70, 0 := 30 };
+  }
+<span class="sv-keyword">endclass</span></code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Guidebook Standard Pagination (하단 이전/다음 페이지 버튼) -->
+            <div class="mt-12 pt-8 border-t border-gray-200 flex justify-between items-center pb-12">
+                <button id="btn-page-prev" class="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center disabled:opacity-30 disabled:cursor-not-allowed">
+                    <span class="mr-2">←</span> 이전 챕터
+                </button>
+                <span class="text-gray-400 font-bold text-sm en-font tracking-wide" id="page-indicator">Section 1 of 5</span>
+                <button id="btn-page-next" class="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-xl font-bold shadow-[0_4px_12px_rgba(49,130,246,0.3)] transition-all flex items-center disabled:opacity-30 disabled:cursor-not-allowed">
+                    다음 챕터 <span class="ml-2">→</span>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- App Logic (GSAP Animations + Guidebook Tab Switching) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // ------------------------------------------
+            // Global Navigation & Pagination Logic
+            // ------------------------------------------
+            const sectionsData = ['sec1', 'sec2', 'sec3', 'sec4', 'sec5'];
+            let currentIndex = 0;
+
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('.content-section');
+            const btnPrev = document.getElementById('btn-page-prev');
+            const btnNext = document.getElementById('btn-page-next');
+            const pageIndicator = document.getElementById('page-indicator');
+
+            function switchTab(index) {
+                if (index < 0 || index >= sectionsData.length) return;
+                currentIndex = index;
+                const targetId = sectionsData[index];
+
+                // Update Nav UI
+                navItems.forEach(item => item.classList.remove('active'));
+                const targetBtn = document.querySelector(`[data-target="${targetId}"]`);
+                if (targetBtn) targetBtn.classList.add('active');
+
+                // Update Content UI
+                sections.forEach(sec => sec.classList.add('hidden'));
+                const targetSec = document.getElementById(targetId);
+                targetSec.classList.remove('hidden');
+                
+                // Update Pagination UI
+                pageIndicator.textContent = `Section ${currentIndex + 1} of ${sectionsData.length}`;
+                btnPrev.disabled = currentIndex === 0;
+                btnNext.disabled = currentIndex === sectionsData.length - 1;
+
+                // Smooth scroll to top of main content
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Entrance animation
+                gsap.fromTo(targetSec, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
+            }
+
+            navItems.forEach((item, idx) => {
+                item.addEventListener('click', () => switchTab(idx));
+            });
+
+            btnPrev.addEventListener('click', () => switchTab(currentIndex - 1));
+            btnNext.addEventListener('click', () => switchTab(currentIndex + 1));
+
+            // Initialize first view
+            switchTab(0);
+
+            // ------------------------------------------
+            // 1.1 Function vs Task (Logic Analyzer)
+            // ------------------------------------------
+            const btnRunSec1 = document.getElementById('btn-run-sec1');
+            let tl1 = null;
+
+            btnRunSec1.addEventListener('click', () => {
+                if (tl1 && tl1.isActive()) return;
+
+                gsap.set('#anim-func', { opacity: 0 });
+                gsap.set('#func-code-details', { opacity: 0, y: 10 });
+                gsap.set('#anim-task', { opacity: 0 });
+                gsap.set('#task-span', { width: 0 });
+                gsap.set('#task-label-bg, #task-label-text, #task-events', { opacity: 0 });
+                gsap.set('#playhead', { x: 140 }); 
+                document.getElementById('sys-time-display').textContent = '0 ns';
+
+                tl1 = gsap.timeline();
+
+                tl1.to('#playhead', { x: 300, duration: 1, ease: "power1.inOut", onUpdate: updateTime(300) })
+                   .to('#anim-func', { opacity: 1, duration: 0.1 })
+                   .to('#func-code-details', { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2)" })
+                   .to({}, { duration: 1.5 }) 
+                   .to('#anim-func', { opacity: 0, duration: 0.2 })
+                   .to('#playhead', { x: 460, duration: 1, ease: "power1.inOut", onUpdate: updateTime(460) })
+                   .to('#anim-task, #task-label-bg, #task-label-text', { opacity: 1, duration: 0.1 })
+                   .to('#task-span', { width: 160, duration: 2, ease: "none" }, "taskRun")
+                   .to('#playhead', { x: 620, duration: 2, ease: "none", onUpdate: updateTime(620) }, "taskRun")
+                   .to('#task-events', { opacity: 1, duration: 0.4 }, "taskRun+=0.5")
+                   .to('#anim-task', { opacity: 0.3, duration: 0.3 })
+                   .to('#playhead', { x: 780, duration: 1, ease: "power1.inOut", onUpdate: updateTime(780) });
+
+                function updateTime() {
+                    return function() {
+                        const currentX = gsap.getProperty('#playhead', 'x');
+                        const time = (currentX - 140) * 0.125;
+                        document.getElementById('sys-time-display').textContent = Math.max(0, Math.round(time)) + ' ns';
+                    }
+                }
+            });
+
+            // ------------------------------------------
+            // 1.2/1.3 OOP Call Stack
+            // ------------------------------------------
+            const btnParent = document.getElementById('btn-call-parent');
+            const btnChild = document.getElementById('btn-call-child');
+            
+            function clearStackConsole() {
+                for(let i=1; i<=5; i++) gsap.set(`#con-${i}`, { opacity: 0, x: -10 });
+            }
+
+            function printConsole(id) {
+                return gsap.to(`#con-${id}`, { opacity: 1, x: 0, duration: 0.3, ease: "power2.out" });
+            }
+
+            function routeUMLAnimation(isChild) {
+                gsap.killTweensOf('*');
+                const tl = gsap.timeline();
+                
+                clearStackConsole();
+                gsap.set(['#hl-parent-func', '#hl-child-func', '#hl-super'], { opacity: 0 });
+                gsap.set(['#path-super-up', '#path-super-down', '#data-flow-1', '#data-flow-2'], { opacity: 0 });
+                gsap.set(['#token-up', '#token-down'], { opacity: 0 });
+
+                tl.add(printConsole(1)).add(printConsole(2), "+=0.2");
+
+                if (!isChild) {
+                    tl.to('#hl-parent-func', { opacity: 0.4, duration: 0.2 })
+                      .to('#data-flow-1', { opacity: 1, duration: 0.3 })
+                      .add(printConsole(3))
+                      .to('#hl-parent-func, #data-flow-1', { opacity: 0, duration: 0.3, delay: 0.5 })
+                      .add(printConsole(5));
+                } else {
+                    tl.to('#hl-child-func', { opacity: 0.4, duration: 0.2 })
+                      .to('#hl-super', { opacity: 0.6, duration: 0.2, delay: 0.2 })
+                      .set('#path-super-up', { opacity: 1 })
+                      .fromTo('#token-up', { x: 120, y: 360, opacity: 1 }, { x: 100, y: 140, duration: 0.8, ease: "power2.inOut" })
+                      .to('#hl-parent-func', { opacity: 0.4, duration: 0.2 })
+                      .to('#data-flow-1', { opacity: 1, duration: 0.3 })
+                      .add(printConsole(3))
+                      .to('#hl-parent-func, #data-flow-1, #path-super-up, #token-up', { opacity: 0, duration: 0.2, delay: 0.2 })
+                      .set('#path-super-down', { opacity: 1 })
+                      .fromTo('#token-down', { x: 380, y: 140, opacity: 1 }, { x: 380, y: 380, duration: 0.8, ease: "power2.inOut" })
+                      .to('#data-flow-2', { opacity: 1, duration: 0.3 })
+                      .add(printConsole(4))
+                      .to(['#hl-child-func', '#hl-super', '#path-super-down', '#token-down', '#data-flow-2'], { opacity: 0, duration: 0.3, delay: 0.5 })
+                      .add(printConsole(5));
+                }
+            }
+
+            btnParent.addEventListener('click', () => routeUMLAnimation(false));
+            btnChild.addEventListener('click', () => routeUMLAnimation(true));
+
+            // ------------------------------------------
+            // 1.4 Memory Lifecycle
+            // ------------------------------------------
+            const btnCompileMem = document.getElementById('btn-compile');
+            const btnRunNewMem = document.getElementById('btn-run-new');
+            const btnGc = document.getElementById('btn-gc');
+            const dutModule = document.getElementById('dut-module');
+            const heapArea = document.getElementById('heap-area');
+            const heapCounter = document.getElementById('heap-counter');
+            const gcScanner = document.getElementById('gc-scanner');
+            
+            let isMemCompiled = false;
+            let objCount = 0;
+            const MAX_OBJS = 12;
+
+            btnCompileMem.addEventListener('click', () => {
+                if(isMemCompiled) return;
+                gsap.to(dutModule, { opacity: 1, scale: 1, duration: 0.8, ease: "elastic.out(1, 0.6)" });
+                btnCompileMem.classList.replace('bg-slate-700', 'bg-slate-600');
+                btnCompileMem.classList.add('cursor-not-allowed', 'opacity-50');
+                btnRunNewMem.classList.remove('opacity-50', 'cursor-not-allowed');
+                isMemCompiled = true;
+            });
+
+            btnRunNewMem.addEventListener('click', () => {
+                if(!isMemCompiled) return;
+                if(objCount >= MAX_OBJS) {
+                    gsap.fromTo(heapArea, { x: -5 }, { x: 5, duration: 0.05, yoyo: true, repeat: 5, onComplete: () => gsap.set(heapArea, {x:0}) });
+                    return;
+                }
+                
+                btnGc.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                const obj = document.createElement('div');
+                const hexAddr = Math.floor(Math.random()*65535).toString(16).toUpperCase().padStart(4, '0');
+                obj.className = 'aspect-square bg-[#0f172a] rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)] flex flex-col justify-center items-center border border-emerald-500/50 class-obj relative overflow-hidden group';
+                obj.innerHTML = `
+                    <div class="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors"></div>
+                    <div class="w-full h-1 bg-gradient-to-r from-emerald-600 to-teal-400 absolute top-0"></div>
+                    <span class="text-xs font-mono font-bold text-emerald-400 z-10">Trans</span>
+                    <span class="text-[9px] mt-1 text-slate-400 font-mono z-10 bg-slate-800/80 px-1 rounded border border-slate-700">0x${hexAddr}</span>
+                `;
+                
+                heapArea.appendChild(obj);
+                gsap.fromTo(obj, { scale: 0.2, opacity: 0, y: -20 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" });
+                objCount++;
+                heapCounter.textContent = `Usage: ${objCount}/${MAX_OBJS} Slots`;
+            });
+
+            btnGc.addEventListener('click', () => {
+                const objects = document.querySelectorAll('.class-obj');
+                if(objects.length === 0) return;
+
+                gcScanner.classList.remove('hidden');
+                
+                gsap.to(objects, {
+                    scale: 0.5,
+                    opacity: 0,
+                    rotation: () => Math.random() * 45 - 22.5,
+                    duration: 0.5,
+                    stagger: 0.05,
+                    ease: "power2.in",
+                    delay: 0.5, 
+                    onComplete: () => {
+                        heapArea.innerHTML = '';
+                        objCount = 0;
+                        heapCounter.textContent = `Usage: 0/${MAX_OBJS} Slots`;
+                        btnGc.classList.add('opacity-50', 'cursor-not-allowed');
+                        setTimeout(() => gcScanner.classList.add('hidden'), 500);
+                    }
+                });
+            });
+
+            // ------------------------------------------
+            // 1.5 Virtual Interface Binding
+            // ------------------------------------------
+            const btnBind = document.getElementById('btn-bind-drive');
+            
+            btnBind.addEventListener('click', () => {
+                const tl = gsap.timeline();
+                
+                gsap.set(['#overlay-set', '#text-set', '#path-set', '#db-record'], { opacity: 0 });
+                gsap.set(['#overlay-get', '#text-get', '#path-get', '#path-vif-link'], { opacity: 0 });
+                gsap.set('#data-packet', { opacity: 0, x: 0, y: 0 });
+                gsap.set('#vif-status', { fill: '#f43f5e', textContent: 'Status: NULL' });
+
+                tl.to(['#overlay-set', '#text-set'], { opacity: 1, duration: 0.2 })
+                  .to('#path-set', { opacity: 1, duration: 0.4 })
+                  .to('#db-record', { opacity: 1, duration: 0.3, ease: "back.out" })
+                  .to(['#overlay-set', '#text-set', '#path-set'], { opacity: 0, duration: 0.2, delay: 0.2 })
+                  .to(['#overlay-get', '#text-get'], { opacity: 1, duration: 0.2 })
+                  .to('#path-get', { opacity: 1, duration: 0.4 })
+                  .to('#vif-status', { fill: '#4ade80', textContent: 'Status: BOUND (0x8A9F)', duration: 0.1 })
+                  .to(['#overlay-get', '#text-get', '#path-get', '#db-record'], { opacity: 0, duration: 0.2, delay: 0.2 })
+                  .to('#path-vif-link', { opacity: 1, duration: 0.4 })
+                  .set('#data-packet', { opacity: 1, x: 245, y: 148 })
+                  .to('#data-packet', { x: 400, y: 308, duration: 0.4, ease: "power1.in" })
+                  .to('#data-packet', { x: 520, y: 308, duration: 0.2, ease: "linear" })
+                  .to('#data-packet', { x: 620, y: 158, duration: 0.4, ease: "power1.out" })
+                  .to('#data-packet', { opacity: 0, duration: 0.1 })
+                  .to('#path-vif-link', { opacity: 0, duration: 0.5, delay: 0.5 });
+            });
+
+            // ------------------------------------------
+            // 1.6 Constraint Solver (Random)
+            // ------------------------------------------
+            const btnRandomize = document.getElementById('btn-randomize');
+            const btnResetRand = document.getElementById('btn-reset-rand');
+            const histRand = document.getElementById('hist-rand');
+            const histRandc = document.getElementById('hist-randc');
+            const cycleIndicator = document.getElementById('cycle-indicator');
+            
+            let randcPool = [0, 1, 2, 3];
+            
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+            shuffle(randcPool);
+
+            function createHistBox(val, colorTheme) {
+                const colors = colorTheme === 'blue' ? 'bg-blue-500' : 'bg-pink-500';
+                const el = document.createElement('div');
+                el.className = `w-8 h-8 flex-shrink-0 rounded-md flex justify-center items-center text-white font-mono font-bold text-sm ${colors} shadow-md opacity-0 transform scale-50`;
+                el.textContent = val;
+                return el;
+            }
+
+            function triggerNodeFlash(prefix, val, theme) {
+                const node = document.getElementById(`${prefix}-${val}`);
+                const color = theme === 'blue' ? '#3b82f6' : '#ec4899';
+                gsap.fromTo(node, 
+                    { backgroundColor: color, borderColor: color, color: '#fff', scale: 1.1 }, 
+                    { backgroundColor: '#f9fafb', borderColor: '#f3f4f6', color: '#9ca3af', scale: 1, duration: 0.8, ease: "power2.out" }
+                );
+            }
+
+            btnRandomize.addEventListener('click', () => {
+                gsap.fromTo(btnRandomize, { scale: 0.95 }, { scale: 1, duration: 0.2, ease: "back.out(2)" });
+
+                const valRand = Math.floor(Math.random() * 4);
+                triggerNodeFlash('rand', valRand, 'blue');
+                const boxR = createHistBox(valRand, 'blue');
+                histRand.appendChild(boxR);
+                gsap.to(boxR, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.5)" });
+                histRand.scrollLeft = histRand.scrollWidth;
+
+                if (randcPool.length === 0) {
+                    randcPool = [0, 1, 2, 3];
+                    shuffle(randcPool);
+                    gsap.fromTo(cycleIndicator, { opacity: 1 }, { opacity: 0, duration: 1.5, ease: "power2.in" });
+                }
+                const valRandc = randcPool.pop();
+                triggerNodeFlash('randc', valRandc, 'pink');
+                const boxRc = createHistBox(valRandc, 'pink');
+                histRandc.appendChild(boxRc);
+                gsap.to(boxRc, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.5)", delay: 0.1 });
+                histRandc.scrollLeft = histRandc.scrollWidth;
+            });
+
+            btnResetRand.addEventListener('click', () => {
+                gsap.to([histRand.children, histRandc.children], {
+                    scale: 0, opacity: 0, duration: 0.3, stagger: 0.02, onComplete: () => {
+                        histRand.innerHTML = '';
+                        histRandc.innerHTML = '';
+                    }
+                });
+                randcPool = [0, 1, 2, 3];
+                shuffle(randcPool);
+            });
+
+        });
+    </script>
+</body>
+</html>

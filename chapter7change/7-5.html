@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 5: Stimulus & TLM | UVM 검증 방법론 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
+    <script src="../assets/chapter7-embed-common.js" defer></script>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
+        .font-mono { font-family: 'Fira Code', monospace; }
+        
+        /* Grid Backgrounds */
+        .diagram-grid {
+            background-color: #ffffff;
+            background-image:
+                linear-gradient(rgba(148, 163, 184, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* 탭 관리 */
+        [data-panel][hidden] { display: none !important; }
+
+        /* 좌우 사이드바 스크롤바 숨기기 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Syntax Highlighting */
+        .sv-code {
+            background: #1e293b; color: #e2e8f0; padding: 1.25rem;
+            border-radius: 0.75rem; font-size: 0.875rem;
+            overflow-x: auto; line-height: 1.6;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .sv-keyword { color: #c678dd; }
+        .sv-type { color: #e5c07b; }
+        .sv-func { color: #61afef; }
+        .sv-string { color: #98c379; }
+        .sv-comment { color: #7f848e; font-style: italic; }
+        .sv-macro { color: #d19a66; }
+
+        /* Advanced SVG Animations */
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .anim-element { transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .anim-path { transition: stroke-dashoffset 0.8s ease-in-out, opacity 0.4s; }
+        
+        .dash-flow { stroke-dasharray: 8 6; animation: dashMove 1s linear infinite; }
+        @keyframes dashMove { to { stroke-dashoffset: -14; } }
+
+        .ripple-effect { animation: ripple 1.2s cubic-bezier(0, 0.2, 0.8, 1) infinite; }
+        @keyframes ripple {
+            0% { transform: scale(0.8); opacity: 1; stroke-width: 3px; }
+            100% { transform: scale(2.5); opacity: 0; stroke-width: 0px; }
+        }
+
+        .wave-trace { stroke-dasharray: 200; stroke-dashoffset: 200; }
+        .wave-trace.draw { animation: drawWave 1s ease-in-out forwards; }
+        @keyframes drawWave { to { stroke-dashoffset: 0; } }
+
+        /* Custom Scrollbar for Terminal */
+        .terminal-scroll::-webkit-scrollbar { width: 6px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: #0f172a; }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        
+        /* Step Highlight */
+        .step-card { transition: all 0.3s ease; }
+        .step-card.active {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #3b82f6; opacity: 1;
+        }
+        .step-card.inactive { opacity: 0.4; transform: scale(0.98); }
+        
+        /* TOC Active Item */
+        .toc-item { transition: all 0.2s; border-left: 2px solid transparent; padding-left: 10px; }
+        .toc-item:hover { color: #2563eb; }
+        .toc-item.active { border-left-color: #2563eb; color: #2563eb; font-weight: 700; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    
+    <!-- 1. 상단 고정 헤더 -->
+    <header class="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm h-[4.5rem]">
+        <div class="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between py-3">
+            <div class="flex items-center gap-4">
+                <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-extrabold text-xl shadow-md">U</div>
+                <div>
+                    <span class="text-xl font-extrabold text-gray-900 tracking-tight">UVM 검증 방법론 가이드북</span>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center gap-4 text-sm font-medium text-slate-500">
+                <button class="hover:text-blue-600 transition-colors">Documentation</button>
+                <button class="hover:text-blue-600 transition-colors">API Reference</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 max-w-[2000px] w-full mx-auto">
+        
+        <!-- 2. 좌측 네비게이션 사이드바 -->
+        <aside class="w-72 shrink-0 border-r border-gray-200 bg-white hidden lg:flex flex-col sticky top-[4.5rem] h-[calc(100vh-4.5rem)]">
+            <div class="p-6 overflow-y-auto flex-1 no-scrollbar">
+                <div class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Study Roadmap</div>
+                <nav class="space-y-1.5">
+                    <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-500 hover:bg-slate-50 rounded-xl transition-colors">
+                        <span class="mr-3 font-mono text-xs opacity-60">P1</span> SV OOP 기초
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-500 hover:bg-slate-50 rounded-xl transition-colors">
+                        <span class="mr-3 font-mono text-xs opacity-60">P2</span> UVM 큰 그림 및 설정
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-500 hover:bg-slate-50 rounded-xl transition-colors">
+                        <span class="mr-3 font-mono text-xs opacity-60">P3</span> UVM 코어 메커니즘
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-500 hover:bg-slate-50 rounded-xl transition-colors">
+                        <span class="mr-3 font-mono text-xs opacity-60">P4</span> Component vs Object
+                    </a>
+                    <!-- Active Menu -->
+                    <a href="#" class="flex items-center px-4 py-3 text-sm font-bold text-blue-700 bg-blue-50 border border-blue-100 rounded-xl shadow-sm transition-colors">
+                        <span class="mr-3 text-lg leading-none">⚡</span> P5: Stimulus & TLM
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-500 hover:bg-slate-50 rounded-xl transition-colors">
+                        <span class="mr-3 font-mono text-xs opacity-60">P6</span> Register Model (RAL)
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-500 hover:bg-slate-50 rounded-xl transition-colors">
+                        <span class="mr-3 font-mono text-xs opacity-60">P7</span> Checking & Reporting
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm text-slate-500 hover:bg-slate-50 rounded-xl transition-colors">
+                        <span class="mr-3 font-mono text-xs opacity-60">P8</span> Execution 환경
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- 3. 중앙 메인 콘텐츠 -->
+        <main class="flex-1 flex flex-col min-w-0 bg-slate-50/50">
+            <div class="flex-1 px-4 sm:px-8 lg:px-12 py-10 lg:py-14 max-w-5xl mx-auto w-full">
+                
+                <!-- Dynamic Header -->
+                <header class="mb-8">
+                    <div class="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1 text-xs font-bold text-indigo-700 mb-4 uppercase tracking-wider shadow-sm">
+                        Phase 5. 자극 생성 및 데이터 통신
+                    </div>
+                    <h1 id="main-title" class="text-3xl lg:text-4xl font-black text-slate-900 tracking-tight mb-4">Sequence 메커니즘</h1>
+                    <p id="main-desc" class="text-lg text-slate-600 leading-relaxed">객체(Object)인 트랜잭션이 컴포넌트(Component) 계층인 Driver까지 전달되어 실제 핀 신호로 변환되는 <b>REQ/RSP 양방향 핸드셰이크 프로토콜</b>의 정밀한 타이밍을 분석합니다.</p>
+                </header>
+
+                <!-- 탭 네비게이션 -->
+                <div class="flex flex-wrap gap-2 mb-10 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm inline-flex">
+                    <button class="nav-item active px-6 py-2.5 rounded-lg font-bold text-sm bg-blue-600 text-white shadow-md transition-all" data-target="panel-sequence">
+                        5.1 Sequence 통신
+                    </button>
+                    <button class="nav-item px-6 py-2.5 rounded-lg font-bold text-sm bg-transparent text-slate-600 hover:bg-slate-100 transition-all" data-target="panel-virtual">
+                        5.2 Virtual Sequence
+                    </button>
+                    <button class="nav-item px-6 py-2.5 rounded-lg font-bold text-sm bg-transparent text-slate-600 hover:bg-slate-100 transition-all" data-target="panel-tlm">
+                        5.3 TLM 구조
+                    </button>
+                </div>
+
+                <!-- 콘텐츠 패널들 -->
+                <div class="pb-10">
+                    <!-- ========================================== -->
+                    <!-- Panel 5.1: Sequence Mechanism (REQ/RSP)    -->
+                    <!-- ========================================== -->
+                    <div data-panel="panel-sequence" class="fade-in space-y-8" id="sec-sequence">
+                        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="seq-handshake">
+                            <div class="border-b border-slate-100 p-5 bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <h3 class="font-bold text-slate-800 flex items-center gap-2 text-lg">
+                                    <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" /></svg>
+                                    Sequence ↔ Sequencer ↔ Driver 양방향 흐름
+                                </h3>
+                                <div class="flex gap-2">
+                                    <button id="seq-btn-reset" class="px-4 py-2 text-sm font-bold text-slate-500 bg-slate-100 border border-transparent rounded-lg hover:bg-slate-200 hover:text-slate-700 transition-colors">초기화</button>
+                                    <button id="seq-btn-next" class="px-5 py-2 text-sm font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all flex items-center gap-2">
+                                        <span id="seq-btn-text">Step 1: start_item()</span>
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="diagram-grid relative h-[380px] w-full border-b border-slate-100 p-4 overflow-x-auto no-scrollbar">
+                                <svg class="w-[1000px] h-full" viewBox="0 0 1000 320" preserveAspectRatio="xMidYMid meet">
+                                    <!-- (기존 Phase 5.1 SVG 코드 동일) -->
+                                    <defs>
+                                        <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"/></marker>
+                                        <marker id="arrow-slate" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/></marker>
+                                        <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a855f7"/></marker>
+                                        <linearGradient id="req-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f59e0b" /><stop offset="100%" stop-color="#d97706" /></linearGradient>
+                                        <linearGradient id="rsp-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a855f7" /><stop offset="100%" stop-color="#7e22ce" /></linearGradient>
+                                    </defs>
+
+                                    <rect x="50" y="40" width="180" height="220" rx="12" fill="#f0f9ff" stroke="#7dd3fc" stroke-width="2" stroke-dasharray="6"/>
+                                    <text x="140" y="70" text-anchor="middle" class="font-bold text-sky-900" font-size="16">Sequence</text>
+                                    <rect x="70" y="110" width="140" height="130" rx="8" fill="#fff" stroke="#bae6fd" stroke-width="1"/>
+                                    <text x="140" y="135" text-anchor="middle" class="font-mono text-slate-500 font-bold text-[11px]">task body()</text>
+
+                                    <rect x="360" y="40" width="200" height="220" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+                                    <text x="460" y="70" text-anchor="middle" class="font-bold text-slate-700" font-size="16">Sequencer</text>
+                                    <rect x="380" y="90" width="160" height="40" rx="4" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+                                    <text x="460" y="115" text-anchor="middle" class="font-bold text-slate-600 text-[11px]">Arbitration Logic</text>
+                                    <rect x="380" y="150" width="160" height="90" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+                                    <text x="460" y="170" text-anchor="middle" class="font-mono text-slate-400 font-bold" font-size="11">REQ / RSP Port</text>
+                                    
+                                    <rect x="680" y="40" width="180" height="220" rx="12" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="2"/>
+                                    <text x="770" y="70" text-anchor="middle" class="font-bold text-emerald-900" font-size="16">Driver</text>
+
+                                    <path d="M 920 120 L 980 120 L 980 200 L 920 200" fill="none" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+                                    <text x="960" y="160" text-anchor="middle" class="font-black text-slate-400" font-size="18" transform="rotate(90 960 160)">DUT</text>
+
+                                    <path d="M 230 110 L 360 110" stroke="#e2e8f0" stroke-width="8" stroke-linecap="round" fill="none"/>
+                                    <path d="M 230 195 L 360 195" stroke="#e2e8f0" stroke-width="8" stroke-linecap="round" fill="none"/>
+                                    <path d="M 560 195 L 680 195" stroke="#e2e8f0" stroke-width="8" stroke-linecap="round" fill="none"/>
+
+                                    <!-- Animations -->
+                                    <path id="path-s1-req" d="M 140 150 L 140 110 L 380 110" stroke="#3b82f6" stroke-width="3" class="anim-path dash-flow" fill="none" marker-end="url(#arrow-blue)" style="opacity: 0;"/>
+                                    <text id="txt-s1-req" x="290" y="100" text-anchor="middle" class="font-mono text-blue-600 text-[11px] font-bold anim-element" style="opacity: 0;">start_item()</text>
+                                    <path id="path-s1-gnt" d="M 380 120 L 160 120" stroke="#10b981" stroke-width="2" stroke-dasharray="4" class="anim-path" fill="none" style="opacity: 0;"/>
+                                    <text id="txt-s1-gnt" x="290" y="135" text-anchor="middle" class="font-mono text-emerald-600 text-[10px] font-bold anim-element" style="opacity: 0;">Grant & return</text>
+
+                                    <g id="pkt-req" class="anim-element" style="opacity: 0; transform: translate(115px, 150px);">
+                                        <rect x="0" y="0" width="50" height="30" rx="6" fill="url(#req-grad)" stroke="#92400e" stroke-width="1.5" class="shadow-md"/>
+                                        <text x="25" y="20" text-anchor="middle" class="font-mono text-white text-xs font-black tracking-widest">REQ</text>
+                                    </g>
+                                    <text id="txt-s2-fin" x="290" y="185" text-anchor="middle" class="font-mono text-amber-600 text-[11px] font-bold anim-element" style="opacity: 0;">finish_item(req)</text>
+
+                                    <path id="path-s3-get" d="M 680 195 L 540 195" stroke="#94a3b8" stroke-width="3" stroke-dasharray="4" class="anim-path" fill="none" marker-end="url(#arrow-slate)" style="opacity: 0;"/>
+                                    <text id="txt-s3-get" x="610" y="185" text-anchor="middle" class="font-mono text-slate-600 text-[11px] font-bold anim-element" style="opacity: 0;">get_next_item()</text>
+
+                                    <path id="wave-trace" d="M 860 180 L 875 180 L 875 140 L 900 140 L 900 180 L 920 180" stroke="#f43f5e" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round" class="wave-trace" style="opacity: 0;"/>
+                                    <text id="txt-s4-drv" x="890" y="125" text-anchor="middle" class="font-mono text-rose-500 text-[11px] font-bold anim-element" style="opacity: 0;">Drive Pins</text>
+
+                                    <g id="pkt-rsp" class="anim-element" style="opacity: 0; transform: translate(745px, 180px);">
+                                        <rect x="0" y="0" width="50" height="30" rx="6" fill="url(#rsp-grad)" stroke="#581c87" stroke-width="1.5" class="shadow-md"/>
+                                        <text x="25" y="20" text-anchor="middle" class="font-mono text-white text-xs font-black tracking-widest">RSP</text>
+                                    </g>
+                                    <path id="path-s4-done" d="M 680 230 L 540 230" stroke="#a855f7" stroke-width="3" class="anim-path dash-flow" fill="none" marker-end="url(#arrow-purple)" style="opacity: 0;"/>
+                                    <text id="txt-s4-done" x="610" y="245" text-anchor="middle" class="font-mono text-purple-600 text-[11px] font-bold anim-element" style="opacity: 0;">item_done(rsp)</text>
+                                    <text id="txt-s4-unblock" x="290" y="225" text-anchor="middle" class="font-mono text-purple-600 text-[10px] font-bold anim-element" style="opacity: 0;">finish_item unblocked</text>
+                                </svg>
+                            </div>
+
+                            <div class="bg-slate-50 p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div id="card-1" class="step-card inactive bg-white p-4 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-black text-xs">1</div>
+                                        <div class="font-mono text-sm font-bold text-slate-800">start_item</div>
+                                    </div>
+                                    <p class="text-xs text-slate-600">Arbiter에 접근 권한을 요청합니다. 여러 Sequence 경합 시 우선순위에 따라 블로킹됩니다.</p>
+                                </div>
+                                <div id="card-2" class="step-card inactive bg-white p-4 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-black text-xs">2</div>
+                                        <div class="font-mono text-sm font-bold text-slate-800">finish_item</div>
+                                    </div>
+                                    <p class="text-xs text-slate-600">Late Randomize를 수행하고, REQ를 포트를 통해 Driver로 보냅니다.</p>
+                                </div>
+                                <div id="card-3" class="step-card inactive bg-white p-4 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-black text-xs">3</div>
+                                        <div class="font-mono text-sm font-bold text-slate-800">get_next_item</div>
+                                    </div>
+                                    <p class="text-xs text-slate-600">Driver는 무한 루프 속에서 대기하다가 포트로부터 REQ 트랜잭션을 당겨(Pull)옵니다.</p>
+                                </div>
+                                <div id="card-4" class="step-card inactive bg-white p-4 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center font-black text-xs">4</div>
+                                        <div class="font-mono text-sm font-bold text-slate-800">item_done(rsp)</div>
+                                    </div>
+                                    <p class="text-xs text-slate-600">실제 핀 토글링 완료 후 RSP를 반환하며 호출하면, 블로킹이 해제됩니다.</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6" id="seq-late-rand">
+                            <div class="xl:col-span-1 bg-amber-50 border border-amber-200 rounded-xl p-5 shadow-sm">
+                                <h4 class="font-bold text-amber-900 mb-3 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                    실무 팁: Late Randomization
+                                </h4>
+                                <p class="text-sm text-amber-800 leading-relaxed mb-4">
+                                    <code>start_item</code>과 <code>finish_item</code> 사이에서 <code>randomize()</code>를 호출하는 이유가 있습니다. 대기 시간(Arbitration) 동안 DUT의 상태가 변할 수 있으므로, 인가되기 직전 최신 상태를 반영해 랜덤값을 풀기 위함입니다.
+                                </p>
+                            </div>
+                            <div class="xl:col-span-2 space-y-4" id="seq-code">
+                                <pre class="sv-code"><code><span class="sv-keyword">class</span> my_sequence <span class="sv-keyword">extends</span> <span class="sv-type">uvm_sequence</span> #(my_tx, my_tx);
+  <span class="sv-keyword">virtual task</span> <span class="sv-func">body</span>();
+    req = my_tx::type_id::create(<span class="sv-string">"req"</span>);
+    <span class="sv-func">start_item</span>(req);          <span class="sv-comment">// 1. 실행 권한 요청 (블로킹)</span>
+    <span class="sv-keyword">assert</span>(req.<span class="sv-func">randomize</span>());  <span class="sv-comment">// 2. Late Randomization</span>
+    <span class="sv-func">finish_item</span>(req);         <span class="sv-comment">// 3. 전송 및 item_done 대기</span>
+    <span class="sv-func">get_response</span>(rsp);        <span class="sv-comment">// (Optional) 응답 수신</span>
+  <span class="sv-keyword">endtask</span>
+<span class="sv-keyword">endclass</span></code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================== -->
+                    <!-- Panel 5.2: Virtual Sequence                -->
+                    <!-- ========================================== -->
+                    <div data-panel="panel-virtual" class="fade-in space-y-8" id="sec-virtual" hidden>
+                        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="vseq-arch">
+                            <div class="p-6 bg-gradient-to-r from-fuchsia-50 to-white border-b border-fuchsia-100 flex flex-col sm:flex-row justify-between items-start gap-4">
+                                <div>
+                                    <h3 class="font-black text-2xl text-fuchsia-900 mb-2 flex items-center gap-3">
+                                        <svg class="w-6 h-6 text-fuchsia-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                                        Virtual Sequence (시스템 시나리오 조율)
+                                    </h3>
+                                    <p class="text-sm text-slate-600 max-w-2xl">복합 SoC 환경에서 하위 물리적 Agent들을 조율하는 지휘자 역할을 합니다.</p>
+                                </div>
+                                <button id="vseq-btn-play" class="px-6 py-3 text-sm font-bold text-white bg-fuchsia-600 rounded-xl hover:bg-fuchsia-700 shadow-lg shadow-fuchsia-500/30 transition-transform active:scale-95 flex items-center justify-center gap-2 shrink-0 w-full sm:w-auto">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+                                    Fork-Join 시나리오 실행
+                                </button>
+                            </div>
+
+                            <div class="diagram-grid relative p-4 lg:p-8 flex justify-center bg-white overflow-x-auto no-scrollbar">
+                                <svg class="w-[1000px] h-[440px]" viewBox="0 0 1000 440" preserveAspectRatio="xMidYMid meet">
+                                    <!-- (기존 Phase 5.2 SVG 코드 동일) -->
+                                    <defs>
+                                        <linearGradient id="vseq-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#faf5ff" /><stop offset="100%" stop-color="#f3e8ff" /></linearGradient>
+                                        <filter id="glow-purple" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                    </defs>
+
+                                    <!-- Virtual Level -->
+                                    <rect x="300" y="20" width="400" height="130" rx="16" fill="url(#vseq-grad)" stroke="#d946ef" stroke-width="2" stroke-dasharray="8 4"/>
+                                    <text x="500" y="55" text-anchor="middle" class="font-black text-fuchsia-900" font-size="18">Virtual Sequence</text>
+                                    
+                                    <rect x="330" y="90" width="340" height="40" rx="6" fill="#fff" stroke="#e9d5ff" stroke-width="1.5"/>
+                                    <text x="350" y="115" class="font-mono text-fuchsia-500 font-bold text-xs">fork</text>
+                                    <text x="630" y="115" class="font-mono text-fuchsia-500 font-bold text-xs">join</text>
+                                    
+                                    <rect id="v-ahb-box" x="390" y="100" width="100" height="20" rx="4" fill="#eff6ff" stroke="#3b82f6" stroke-width="1"/>
+                                    <text x="440" y="114" text-anchor="middle" class="font-mono text-blue-700 text-[10px] font-bold">ahb_seq.start</text>
+
+                                    <rect id="v-apb-box" x="500" y="100" width="100" height="20" rx="4" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
+                                    <text x="550" y="114" text-anchor="middle" class="font-mono text-emerald-700 text-[10px] font-bold">apb_seq.start</text>
+
+                                    <rect x="300" y="180" width="400" height="60" rx="12" fill="#fff" stroke="#a855f7" stroke-width="2" class="shadow-sm"/>
+                                    <text x="500" y="215" text-anchor="middle" class="font-bold text-purple-900" font-size="16">Virtual Sequencer</text>
+                                    
+                                    <path d="M 440 240 L 440 270 L 250 270 L 250 310" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" fill="none"/>
+                                    <path d="M 550 240 L 550 270 L 750 270 L 750 310" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" fill="none"/>
+                                    
+                                    <rect x="300" y="260" width="70" height="20" rx="10" fill="#fff" stroke="#cbd5e1"/>
+                                    <text x="335" y="274" text-anchor="middle" class="font-mono text-xs text-slate-500 font-bold">.ahb_sqr</text>
+                                    <rect x="630" y="260" width="70" height="20" rx="10" fill="#fff" stroke="#cbd5e1"/>
+                                    <text x="665" y="274" text-anchor="middle" class="font-mono text-xs text-slate-500 font-bold">.apb_sqr</text>
+
+                                    <!-- Agents -->
+                                    <rect x="70" y="310" width="360" height="110" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4"/>
+                                    <text x="250" y="335" text-anchor="middle" class="font-black text-slate-400 uppercase tracking-widest text-xs">AHB Agent</text>
+                                    <rect x="90" y="350" width="140" height="50" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+                                    <text x="160" y="380" text-anchor="middle" class="font-bold text-blue-800">Sequencer</text>
+                                    <rect x="270" y="350" width="140" height="50" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+                                    <text x="340" y="380" text-anchor="middle" class="font-bold text-blue-800">Driver</text>
+                                    
+                                    <rect x="570" y="310" width="360" height="110" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4"/>
+                                    <text x="750" y="335" text-anchor="middle" class="font-black text-slate-400 uppercase tracking-widest text-xs">APB Agent</text>
+                                    <rect x="590" y="350" width="140" height="50" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+                                    <text x="660" y="380" text-anchor="middle" class="font-bold text-emerald-800">Sequencer</text>
+                                    <rect x="770" y="350" width="140" height="50" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+                                    <text x="840" y="380" text-anchor="middle" class="font-bold text-emerald-800">Driver</text>
+
+                                    <!-- Animations -->
+                                    <path id="beam-ahb" d="M 440 120 L 440 270 L 250 270 L 250 350" stroke="#3b82f6" stroke-width="6" fill="none" stroke-linecap="round" class="anim-element" style="opacity: 0; filter: url(#glow-purple);"/>
+                                    <path id="beam-apb" d="M 550 120 L 550 270 L 750 270 L 750 350" stroke="#10b981" stroke-width="6" fill="none" stroke-linecap="round" class="anim-element" style="opacity: 0; filter: url(#glow-purple);"/>
+                                    <g id="v-pkt-ahb" class="anim-element" style="opacity: 0; transform: translate(440px, 120px);"><circle cx="0" cy="0" r="8" fill="#fff" stroke="#3b82f6" stroke-width="3"/></g>
+                                    <g id="v-pkt-apb" class="anim-element" style="opacity: 0; transform: translate(550px, 120px);"><circle cx="0" cy="0" r="8" fill="#fff" stroke="#10b981" stroke-width="3"/></g>
+                                    
+                                    <path id="v-wave-ahb" d="M 430 375 L 445 375 L 445 355 L 465 355 L 465 375 L 480 375" stroke="#3b82f6" stroke-width="4" fill="none" stroke-linejoin="round" class="wave-trace" style="opacity: 0;"/>
+                                    <path id="v-wave-apb" d="M 930 375 L 945 375 L 945 355 L 965 355 L 965 375 L 980 375" stroke="#10b981" stroke-width="4" fill="none" stroke-linejoin="round" class="wave-trace" style="opacity: 0;"/>
+                                </svg>
+                            </div>
+                        </section>
+
+                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6" id="vseq-macro">
+                            <div class="bg-indigo-50 border-l-4 border-indigo-500 p-6 rounded-r-xl shadow-sm">
+                                <h4 class="font-black text-indigo-900 mb-3 flex items-center gap-2 text-lg">
+                                    <span class="bg-indigo-600 text-white font-mono text-xs px-2 py-1 rounded">MACRO</span>
+                                    `uvm_declare_p_sequencer
+                                </h4>
+                                <p class="text-sm text-indigo-800 leading-relaxed mb-4">
+                                    모든 Sequence는 내부적으로 자신이 구동되는 Sequencer를 가리키는 <code>m_sequencer</code> 포인터를 가지지만 최상위 베이스 클래스 타입이므로 하위 속성에 접근할 수 없습니다. 이 매크로로 컴파일 타임에 캐스팅된 <code>p_sequencer</code> 핸들을 생성합니다.
+                                </p>
+                            </div>
+                            <div class="space-y-4">
+                                <pre class="sv-code h-full"><code><span class="sv-keyword">class</span> my_vseq <span class="sv-keyword">extends</span> <span class="sv-type">uvm_sequence</span>;
+  <span class="sv-macro">`uvm_declare_p_sequencer</span>(my_vsequencer)
+  
+  <span class="sv-keyword">virtual task</span> <span class="sv-func">body</span>();
+    ahb_seq_t ahb_seq = ahb_seq_t::type_id::create(<span class="sv-string">"ahb"</span>);
+    apb_seq_t apb_seq = apb_seq_t::type_id::create(<span class="sv-string">"apb"</span>);
+
+    <span class="sv-keyword">fork</span>
+      ahb_seq.<span class="sv-func">start</span>(p_sequencer.ahb_sqr);
+      apb_seq.<span class="sv-func">start</span>(p_sequencer.apb_sqr);
+    <span class="sv-keyword">join</span>
+  <span class="sv-keyword">endtask</span>
+<span class="sv-keyword">endclass</span></code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================== -->
+                    <!-- Panel 5.3: UVM TLM                         -->
+                    <!-- ========================================== -->
+                    <div data-panel="panel-tlm" class="fade-in space-y-8" id="sec-tlm" hidden>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="tlm-concept">
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                                <div class="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -z-10"></div>
+                                <h4 class="font-black text-slate-800 mb-3 text-lg">TLM (Transaction Level Modeling)</h4>
+                                <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                                    데이터 객체(Transaction) 통째로 컴포넌트 간에 던져주는 통신 방식으로 시뮬레이션 속도가 향상됩니다.
+                                </p>
+                                <ul class="text-sm text-slate-600 space-y-2">
+                                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <b>Port</b> : 메서드 호출 주체 (Initiator)</li>
+                                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <b>Export</b> : 계층 간 연결을 위한 파이프</li>
+                                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <b>Imp</b> : 실제 메서드 구현 목적지 (Target)</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm border-l-4 border-l-rose-500">
+                                <h4 class="font-black text-slate-800 mb-3 text-lg text-rose-600">Analysis Port (1:N)</h4>
+                                <p class="text-sm text-slate-600 leading-relaxed mb-4">Monitor가 수집한 패킷을 Scoreboard나 Coverage 여러 곳에 동시 브로드캐스팅합니다.</p>
+                                <div class="bg-rose-50/50 p-4 rounded-xl text-xs font-mono text-rose-800 border border-rose-100">
+                                    <b>특징:</b> 0-time 실행, 수신자 0개라도 무시(에러없음), 객체 참조(Handle) 전달
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Analysis Port Animation (Terminal Integrated) -->
+                        <section class="bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-slate-700 flex flex-col lg:flex-row" id="tlm-anim">
+                            <div class="relative h-[360px] lg:w-3/5 w-full bg-gradient-to-br from-[#0f172a] to-[#1e293b] flex-shrink-0">
+                                <div class="absolute top-4 left-4 z-10">
+                                    <button id="tlm-btn-play" class="px-5 py-2 text-sm font-bold text-white bg-rose-500 rounded-lg hover:bg-rose-600 shadow-[0_0_15px_rgba(244,63,94,0.4)] transition-all flex items-center gap-2">
+                                        <span>ap.write(txn) 실행</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="w-full h-full overflow-x-auto overflow-y-hidden no-scrollbar">
+                                    <svg class="w-[600px] h-[360px]" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet">
+                                        <!-- (기존 Phase 5.3 SVG 코드 동일) -->
+                                        <defs>
+                                            <radialGradient id="port-glow" cx="50%" cy="50%" r="50%">
+                                                <stop offset="0%" stop-color="#f43f5e" stop-opacity="1" />
+                                                <stop offset="100%" stop-color="#f43f5e" stop-opacity="0" />
+                                            </radialGradient>
+                                        </defs>
+
+                                        <rect x="50" y="140" width="140" height="80" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+                                        <text x="120" y="185" text-anchor="middle" class="font-bold text-white" font-size="16">Monitor</text>
+                                        
+                                        <polygon points="190,180 200,170 210,180 200,190" fill="#f43f5e" />
+                                        <circle id="tlm-ap-glow" cx="200" cy="180" r="20" fill="url(#port-glow)" class="anim-element" style="opacity: 0;"/>
+                                        <text x="215" y="165" text-anchor="start" class="font-mono text-rose-400 text-xs font-bold">ap(Port)</text>
+
+                                        <rect x="420" y="50" width="140" height="80" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+                                        <text x="490" y="95" text-anchor="middle" class="font-bold text-white" font-size="16">Scoreboard</text>
+                                        <rect x="410" y="80" width="10" height="20" fill="#38bdf8" />
+                                        
+                                        <rect x="420" y="230" width="140" height="80" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+                                        <text x="490" y="275" text-anchor="middle" class="font-bold text-white" font-size="16">Coverage</text>
+                                        <rect x="410" y="260" width="10" height="20" fill="#38bdf8" />
+
+                                        <path d="M 210 180 L 330 180 L 330 90 L 410 90" stroke="#334155" stroke-width="4" stroke-linecap="round" fill="none"/>
+                                        <path d="M 330 180 L 330 270 L 410 270" stroke="#334155" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+                                        <g id="tlm-pkt-1" class="anim-element" style="opacity: 0; transform: translate(200px, 180px);">
+                                            <rect x="-20" y="-12" width="40" height="24" rx="4" fill="#f43f5e" stroke="#fff" stroke-width="1.5"/>
+                                            <text x="0" y="4" text-anchor="middle" fill="#fff" class="font-mono text-[10px] font-bold">ref1</text>
+                                            <circle cx="0" cy="0" r="24" fill="none" stroke="#f43f5e" stroke-width="2" class="ripple-effect" id="pulse-1" style="display: none;"/>
+                                        </g>
+                                        
+                                        <g id="tlm-pkt-2" class="anim-element" style="opacity: 0; transform: translate(200px, 180px);">
+                                            <rect x="-20" y="-12" width="40" height="24" rx="4" fill="#f43f5e" stroke="#fff" stroke-width="1.5"/>
+                                            <text x="0" y="4" text-anchor="middle" fill="#fff" class="font-mono text-[10px] font-bold">ref2</text>
+                                            <circle cx="0" cy="0" r="24" fill="none" stroke="#f43f5e" stroke-width="2" class="ripple-effect" id="pulse-2" style="display: none;"/>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div class="lg:w-2/5 w-full bg-[#020617] border-t lg:border-t-0 lg:border-l border-slate-700 flex flex-col h-[360px]">
+                                <div class="flex items-center gap-2 px-4 py-2 bg-slate-800 border-b border-slate-700 text-xs font-mono text-slate-400">
+                                    <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                                    <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                                    <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                                    <span class="ml-2">UVM Simulation Log</span>
+                                </div>
+                                <div id="tlm-console" class="flex-1 p-4 font-mono text-[11px] leading-relaxed overflow-y-auto terminal-scroll">
+                                    <div class="text-slate-500"># VCS Simulation Started...</div>
+                                    <div class="text-slate-500">UVM_INFO @ 0: reporter [TLM_SIM] Broadcasting Engine Ready.</div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- 4. 하단 이전/다음 페이지 버튼 -->
+                <div class="flex items-center justify-between mt-12 pt-8 border-t border-gray-200 shrink-0">
+                    <button id="btn-prev" class="bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 px-5 sm:px-6 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center text-sm sm:text-base">
+                        <span class="mr-2">←</span> <span class="hidden sm:inline">이전 페이지</span><span class="sm:hidden">이전</span>
+                    </button>
+                    <span class="text-gray-400 font-bold text-sm" id="page-indicator">Phase 5 of 8</span>
+                    <button id="btn-next" class="bg-blue-600 text-white hover:bg-blue-700 px-5 sm:px-6 py-3 rounded-xl font-bold shadow-[0_4px_12px_rgba(49,130,246,0.3)] transition-all flex items-center text-sm sm:text-base">
+                        <span class="hidden sm:inline">다음 페이지</span><span class="sm:hidden">다음</span> <span class="ml-2">→</span>
+                    </button>
+                </div>
+                
+            </div>
+        </main>
+
+        <!-- 5. 우측 네비게이션 (TOC) 사이드바 -->
+        <aside class="page-side-toc-shell hidden xl:block w-72 shrink-0 border-l border-gray-200 bg-white sticky top-[4.5rem] h-[calc(100vh-4.5rem)] overflow-y-auto">
+            <div class="p-8">
+                <div class="page-side-toc-header mb-6">
+                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">On This Page</div>
+                    <div class="text-base font-bold text-slate-800" id="toc-main-title">Sequence 메커니즘</div>
+                </div>
+                
+                <!-- 동적 목차 컨테이너 -->
+                <nav class="space-y-3 text-sm font-medium text-slate-500" id="toc-nav-container">
+                    <div id="toc-sequence" class="flex flex-col gap-3">
+                        <a href="#seq-handshake" class="toc-item active">양방향 핸드셰이크 프로토콜</a>
+                        <a href="#seq-late-rand" class="toc-item">실무 팁: Late Randomization</a>
+                        <a href="#seq-code" class="toc-item">UVM Sequence 코드 구현</a>
+                    </div>
+                    <div id="toc-virtual" class="flex flex-col gap-3" hidden>
+                        <a href="#vseq-arch" class="toc-item active">Virtual Sequence 아키텍처</a>
+                        <a href="#vseq-macro" class="toc-item">`uvm_declare_p_sequencer</a>
+                    </div>
+                    <div id="toc-tlm" class="flex flex-col gap-3" hidden>
+                        <a href="#tlm-concept" class="toc-item active">TLM (Transaction Level Modeling)</a>
+                        <a href="#tlm-anim" class="toc-item">Analysis Port (1:N Broadcast)</a>
+                    </div>
+                </nav>
+            </div>
+        </aside>
+    </div>
+
+    <!-- JS Logic -->
+    <script>
+        // 1. Guidebook Navigation Logic (Tab Control & TOC Sync)
+        const navItems = document.querySelectorAll('.nav-item');
+        const panels = document.querySelectorAll('[data-panel]');
+        const mainTitle = document.getElementById('main-title');
+        const mainDesc = document.getElementById('main-desc');
+        const tocMainTitle = document.getElementById('toc-main-title');
+        const tocGroups = {
+            'panel-sequence': document.getElementById('toc-sequence'),
+            'panel-virtual': document.getElementById('toc-virtual'),
+            'panel-tlm': document.getElementById('toc-tlm')
+        };
+
+        const titleData = {
+            'panel-sequence': {
+                title: 'Sequence 메커니즘',
+                desc: '객체(Object)인 트랜잭션이 컴포넌트(Component) 계층인 Driver까지 전달되어 실제 핀 신호로 변환되는 <b>REQ/RSP 양방향 핸드셰이크 프로토콜</b>의 정밀한 타이밍을 분석합니다.'
+            },
+            'panel-virtual': {
+                title: 'Virtual Sequence',
+                desc: '복합 SoC 환경에서 여러 인터페이스(AHB, APB 등)를 동시/순차적으로 조율하여 시스템 레벨의 시나리오를 구동하는 아키텍처 패턴을 알아봅니다.'
+            },
+            'panel-tlm': {
+                title: 'UVM TLM 통신',
+                desc: '컴포넌트 간 결합도(Coupling)를 제거하고, 객체 참조 전달을 통해 0-time 시뮬레이션 속도 이점을 극대화하는 포트 기반 통신 방식입니다.'
+            }
+        };
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetId = item.getAttribute('data-target');
+                
+                // Tabs
+                navItems.forEach(nav => {
+                    nav.classList.remove('active', 'bg-blue-600', 'text-white', 'shadow-md');
+                    nav.classList.add('bg-transparent', 'text-slate-600', 'hover:bg-slate-100');
+                });
+                item.classList.remove('bg-transparent', 'text-slate-600', 'hover:bg-slate-100');
+                item.classList.add('active', 'bg-blue-600', 'text-white', 'shadow-md');
+
+                // Panels
+                panels.forEach(panel => {
+                    if (panel.getAttribute('data-panel') === targetId) {
+                        panel.removeAttribute('hidden');
+                        panel.style.animation = 'none';
+                        panel.offsetHeight; 
+                        panel.style.animation = null;
+                    } else {
+                        panel.setAttribute('hidden', '');
+                    }
+                });
+
+                // Headings & TOC
+                if (titleData[targetId]) {
+                    mainTitle.textContent = titleData[targetId].title;
+                    mainDesc.innerHTML = titleData[targetId].desc;
+                    tocMainTitle.textContent = titleData[targetId].title;
+                }
+
+                Object.keys(tocGroups).forEach(key => {
+                    if (key === targetId) tocGroups[key].removeAttribute('hidden');
+                    else tocGroups[key].setAttribute('hidden', '');
+                });
+            });
+        });
+
+        // 2. SVG Animations (Sequence)
+        const seqBtnNext = document.getElementById('seq-btn-next');
+        const seqBtnReset = document.getElementById('seq-btn-reset');
+        const seqBtnText = document.getElementById('seq-btn-text');
+        
+        const els = {
+            s1ReqPath: document.getElementById('path-s1-req'),
+            s1ReqTxt: document.getElementById('txt-s1-req'),
+            s1GntPath: document.getElementById('path-s1-gnt'),
+            s1GntTxt: document.getElementById('txt-s1-gnt'),
+            reqPkt: document.getElementById('pkt-req'),
+            s2FinTxt: document.getElementById('txt-s2-fin'),
+            s3GetPath: document.getElementById('path-s3-get'),
+            s3GetTxt: document.getElementById('txt-s3-get'),
+            wave: document.getElementById('wave-trace'),
+            s4DrvTxt: document.getElementById('txt-s4-drv'),
+            rspPkt: document.getElementById('pkt-rsp'),
+            s4DonePath: document.getElementById('path-s4-done'),
+            s4DoneTxt: document.getElementById('txt-s4-done'),
+            s4UnblockTxt: document.getElementById('txt-s4-unblock')
+        };
+        
+        let seqStep = 0;
+
+        function updateCardHighlight(index) {
+            [1,2,3,4].forEach(i => {
+                const card = document.getElementById(`card-${i}`);
+                if(i === index) { card.classList.remove('inactive'); card.classList.add('active'); } 
+                else { card.classList.add('inactive'); card.classList.remove('active'); }
+            });
+        }
+
+        seqBtnReset.addEventListener('click', () => {
+            seqStep = 0;
+            seqBtnNext.disabled = false;
+            seqBtnNext.classList.remove('opacity-50');
+            seqBtnText.textContent = "Step 1: start_item()";
+            
+            Object.values(els).forEach(el => {
+                if(el) { el.style.opacity = '0'; if(el.classList.contains('wave-trace')) el.classList.remove('draw'); }
+            });
+            els.reqPkt.style.transform = 'translate(115px, 150px)';
+            els.rspPkt.style.transform = 'translate(745px, 180px)';
+            updateCardHighlight(0);
+        });
+
+        seqBtnNext.addEventListener('click', () => {
+            seqStep++;
+            seqBtnNext.disabled = true;
+
+            if (seqStep === 1) {
+                updateCardHighlight(1);
+                els.s1ReqPath.style.opacity = '1'; els.s1ReqTxt.style.opacity = '1';
+                setTimeout(() => {
+                    els.s1GntPath.style.opacity = '1'; els.s1GntTxt.style.opacity = '1';
+                    seqBtnText.textContent = "Step 2: finish_item()";
+                    seqBtnNext.disabled = false;
+                }, 800);
+            } 
+            else if (seqStep === 2) {
+                updateCardHighlight(2);
+                els.s1ReqPath.style.opacity = '0'; els.s1ReqTxt.style.opacity = '0';
+                els.s1GntPath.style.opacity = '0'; els.s1GntTxt.style.opacity = '0';
+                els.s2FinTxt.style.opacity = '1'; els.reqPkt.style.opacity = '1';
+                
+                requestAnimationFrame(() => { els.reqPkt.style.transform = 'translate(435px, 150px)'; });
+                setTimeout(() => {
+                    seqBtnText.textContent = "Step 3: get_next_item()";
+                    seqBtnNext.disabled = false;
+                }, 800);
+            }
+            else if (seqStep === 3) {
+                updateCardHighlight(3);
+                els.s2FinTxt.style.opacity = '0';
+                els.s3GetPath.style.opacity = '1'; els.s3GetTxt.style.opacity = '1';
+                
+                requestAnimationFrame(() => { els.reqPkt.style.transform = 'translate(745px, 150px)'; });
+                setTimeout(() => {
+                    seqBtnText.textContent = "Step 4: item_done(rsp)";
+                    seqBtnNext.disabled = false;
+                }, 800);
+            }
+            else if (seqStep === 4) {
+                updateCardHighlight(4);
+                els.s3GetPath.style.opacity = '0'; els.s3GetTxt.style.opacity = '0'; els.reqPkt.style.opacity = '0';
+                
+                els.s4DrvTxt.style.opacity = '1'; els.wave.style.opacity = '1'; els.wave.classList.add('draw');
+
+                setTimeout(() => {
+                    els.rspPkt.style.opacity = '1'; els.s4DonePath.style.opacity = '1'; els.s4DoneTxt.style.opacity = '1';
+                    requestAnimationFrame(() => { els.rspPkt.style.transform = 'translate(435px, 180px)'; });
+                    setTimeout(() => {
+                        els.s4UnblockTxt.style.opacity = '1';
+                        seqBtnText.textContent = "핸드셰이크 완료";
+                        seqBtnNext.classList.add('opacity-50');
+                    }, 700);
+                }, 1000);
+            }
+        });
+
+        // 3. SVG Animations (Virtual Seq)
+        const vBtnPlay = document.getElementById('vseq-btn-play');
+        const vEls = {
+            bAhb: document.getElementById('beam-ahb'), bApb: document.getElementById('beam-apb'),
+            pAhb: document.getElementById('v-pkt-ahb'), pApb: document.getElementById('v-pkt-apb'),
+            wAhb: document.getElementById('v-wave-ahb'), wApb: document.getElementById('v-wave-apb'),
+            boxAhb: document.getElementById('v-ahb-box'), boxApb: document.getElementById('v-apb-box')
+        };
+
+        vBtnPlay.addEventListener('click', () => {
+            vBtnPlay.disabled = true; vBtnPlay.classList.add('opacity-50');
+            Object.values(vEls).forEach(el => { el.style.opacity = '0'; });
+            vEls.boxAhb.style.opacity = '1'; vEls.boxApb.style.opacity = '1';
+            vEls.wAhb.classList.remove('draw'); vEls.wApb.classList.remove('draw');
+            
+            setTimeout(() => {
+                vEls.boxAhb.style.fill = '#bfdbfe'; vEls.boxApb.style.fill = '#a7f3d0';
+                vEls.bAhb.style.opacity = '0.3'; vEls.bApb.style.opacity = '0.3';
+                vEls.pAhb.style.opacity = '1'; vEls.pApb.style.opacity = '1';
+                vEls.pAhb.style.transition = 'transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+                vEls.pApb.style.transition = 'transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+                
+                requestAnimationFrame(() => {
+                    vEls.pAhb.style.transform = 'translate(250px, 350px)';
+                    vEls.pApb.style.transform = 'translate(750px, 350px)';
+                });
+
+                setTimeout(() => {
+                    vEls.pAhb.style.opacity = '0'; vEls.pApb.style.opacity = '0';
+                    vEls.wAhb.style.opacity = '1'; vEls.wApb.style.opacity = '1';
+                    vEls.wAhb.classList.add('draw'); vEls.wApb.classList.add('draw');
+                }, 1200);
+
+                setTimeout(() => {
+                    vEls.boxAhb.style.fill = '#eff6ff'; vEls.boxApb.style.fill = '#ecfdf5';
+                    vEls.bAhb.style.opacity = '0'; vEls.bApb.style.opacity = '0';
+                    vEls.pAhb.style.transition = 'none'; vEls.pApb.style.transition = 'none';
+                    vEls.pAhb.style.transform = 'translate(440px, 120px)';
+                    vEls.pApb.style.transform = 'translate(550px, 120px)';
+                    
+                    vBtnPlay.disabled = false; vBtnPlay.classList.remove('opacity-50');
+                }, 3000);
+            }, 100);
+        });
+
+        // 4. SVG Animations (TLM)
+        const tlmBtn = document.getElementById('tlm-btn-play');
+        const tPkt1 = document.getElementById('tlm-pkt-1'), tPkt2 = document.getElementById('tlm-pkt-2');
+        const p1 = document.getElementById('pulse-1'), p2 = document.getElementById('pulse-2');
+        const tGlow = document.getElementById('tlm-ap-glow');
+        const consoleEl = document.getElementById('tlm-console');
+        let simTime = 1000, txnId = 1;
+
+        function log(msg, color='text-slate-300') {
+            const timeStr = String(simTime).padStart(6, '0');
+            const div = document.createElement('div');
+            div.innerHTML = `<span class="text-slate-500">UVM_INFO @ ${timeStr}:</span> <span class="${color}">${msg}</span>`;
+            consoleEl.appendChild(div);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        tlmBtn.addEventListener('click', () => {
+            tlmBtn.disabled = true;
+            const addr = '0x' + Math.floor(Math.random()*256).toString(16).toUpperCase().padStart(2,'0');
+            const data = '0x' + Math.floor(Math.random()*65535).toString(16).toUpperCase().padStart(4,'0');
+            
+            log(`reporter [MONITOR] ap.write(txn_${txnId}) 호출됨.`, 'text-rose-400 font-bold');
+            log(`  └ Payload: {ADDR: ${addr}, DATA: ${data}}`, 'text-slate-400');
+            
+            tGlow.style.opacity = '1';
+            setTimeout(() => tGlow.style.opacity = '0', 300);
+
+            tPkt1.style.transition = 'none'; tPkt2.style.transition = 'none';
+            tPkt1.style.transform = 'translate(200px, 180px)'; tPkt2.style.transform = 'translate(200px, 180px)';
+            tPkt1.style.opacity = '1'; tPkt2.style.opacity = '1';
+            p1.style.display = 'none'; p2.style.display = 'none';
+            void tPkt1.offsetWidth;
+
+            tPkt1.style.transition = 'transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            tPkt2.style.transition = 'transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            tPkt1.style.transform = 'translate(410px, 90px)'; tPkt2.style.transform = 'translate(410px, 270px)';
+
+            setTimeout(() => {
+                p1.style.display = 'block'; p2.style.display = 'block';
+                tPkt1.style.opacity = '0'; tPkt2.style.opacity = '0';
+
+                log(`scoreboard [SB] write() 수신 완료 (txn_${txnId})`, 'text-sky-300');
+                log(`coverage [COV] write() 수신 완료 (txn_${txnId})`, 'text-sky-300');
+                
+                simTime += 20; txnId++;
+                setTimeout(() => { tlmBtn.disabled = false; }, 400);
+            }, 700);
+        });
+
+        // 5. TOC Scroll Highlight Logic (Optional enrichment)
+        const tocItems = document.querySelectorAll('.toc-item');
+        tocItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const targetPanelId = item.closest('[id^="toc-"]').id.replace('toc-', 'panel-');
+                const targetPanel = document.querySelector(`[data-panel="${targetPanelId}"]`);
+                if(targetPanel) {
+                    const sections = targetPanel.querySelectorAll('section, .grid');
+                    sections.forEach(sec => {
+                        if(sec.id === item.getAttribute('href').replace('#','')) {
+                            sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                }
+                
+                item.closest('nav').querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

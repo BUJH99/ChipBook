@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 7: Checking & Reporting | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 로컬 환경을 위한 공통 CSS (Canvas 환경에선 무시됨) -->
+    <link rel="stylesheet" href="../assets/guidebook-common.css">
+    <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
+    <script src="../assets/chapter7-embed-common.js" defer></script>
+    
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { transform: 'translateY(15px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        pop: {
+                            '0%': { transform: 'scale(0.8)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; margin: 0; }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Grid Background Pattern */
+        .diagram-grid {
+            background-color: #ffffff;
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Custom Scrollbar for Terminals */
+        .terminal-scroll::-webkit-scrollbar { width: 8px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px; }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        
+        /* Section Animation & Visibility */
+        [data-part7-panel] { animation: slideUp 0.4s ease-out forwards; }
+        [data-part7-panel][hidden] { display: none !important; }
+        
+        /* Checkbox Switch */
+        .toggle-checkbox:checked { right: 0; border-color: #2563eb; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #2563eb; }
+
+        /* Scoreboard Queue Animation */
+        .queue-item-enter { animation: pop 0.3s ease-out forwards; }
+        .fly-to-center {
+            position: absolute;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10;
+        }
+
+        /* Donut Chart */
+        .donut-ring { stroke-dasharray: 282.7; stroke-dashoffset: 282.7; transition: stroke-dashoffset 1s ease-out; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
+
+    <main class="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col gap-6 md:gap-8 relative">
+        
+        <!-- Page Title Header (Matched with page-3 style) -->
+        <header class="mb-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-bold tracking-wide mb-4">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Phase 7
+            </div>
+            <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-4">결과 확인, 예외 처리 및 디버깅</h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">
+                UVM 환경에서 트랜잭션을 비교하고, 기능 커버리지를 측정하며, 예외 상황(Error Injection)을 주입하는 핵심 검증 메커니즘을 학습합니다.
+            </p>
+        </header>
+
+        <!-- Horizontal Tabs (Matched with page-3 part3-tab-shell) -->
+        <div class="border-b border-slate-200 overflow-x-auto hide-scrollbar" id="part7-current-shell">
+            <div class="flex gap-2 w-max min-w-full">
+                <button class="tab-btn px-5 py-3.5 text-blue-600 font-bold border-b-2 border-blue-600 -mb-px transition-colors whitespace-nowrap active" data-target="report">
+                    7.1 Report 시스템
+                </button>
+                <button class="tab-btn px-5 py-3.5 text-slate-500 font-bold border-b-2 border-transparent hover:text-slate-800 hover:border-slate-300 -mb-px transition-colors whitespace-nowrap" data-target="scoreboard">
+                    7.2 Scoreboard & SVA
+                </button>
+                <button class="tab-btn px-5 py-3.5 text-slate-500 font-bold border-b-2 border-transparent hover:text-slate-800 hover:border-slate-300 -mb-px transition-colors whitespace-nowrap" data-target="coverage">
+                    7.3 Coverage 콜렉터
+                </button>
+                <button class="tab-btn px-5 py-3.5 text-slate-500 font-bold border-b-2 border-transparent hover:text-slate-800 hover:border-slate-300 -mb-px transition-colors whitespace-nowrap" data-target="callback">
+                    7.4 Callback 메커니즘
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="flex-grow min-w-0">
+            
+            <!-- Section 7.1: Report System -->
+            <section data-part7-panel="report" data-guidebook-toc-title="Report 시스템">
+                <div class="mb-8 border-b border-slate-200 pb-6">
+                    <h2 class="text-2xl font-black text-slate-900 mb-3 tracking-tight">7.1 UVM Report 시스템</h2>
+                    <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                        UVM은 표준 <code>$display</code> 대신 강력한 메시지 필터링, 포맷팅, 파일 출력 기능을 제공하는 Report 시스템을 사용합니다. 
+                        시뮬레이션 단계별로 출력할 메시지의 양(Verbosity)을 커맨드 라인에서 제어할 수 있어 효율적인 디버깅이 가능합니다.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
+                        <h3 class="font-bold text-slate-900 mb-5 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Report 매크로와 Verbosity
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-blue-500 bg-blue-50/50 pl-4 py-3 rounded-r-lg">
+                                <div class="font-mono text-sm font-bold text-blue-800">`uvm_info(ID, MSG, VERBOSITY)</div>
+                                <div class="text-xs md:text-sm text-slate-600 mt-1">일반적인 정보 출력. Verbosity 설정에 따라 출력 여부가 결정됨.</div>
+                            </div>
+                            <div class="border-l-4 border-yellow-500 bg-yellow-50/50 pl-4 py-3 rounded-r-lg">
+                                <div class="font-mono text-sm font-bold text-yellow-800">`uvm_warning(ID, MSG)</div>
+                                <div class="text-xs md:text-sm text-slate-600 mt-1">잠재적 문제 경고. 기본적으로 항상 출력됨.</div>
+                            </div>
+                            <div class="border-l-4 border-red-500 bg-red-50/50 pl-4 py-3 rounded-r-lg">
+                                <div class="font-mono text-sm font-bold text-red-800">`uvm_error(ID, MSG)</div>
+                                <div class="text-xs md:text-sm text-slate-600 mt-1">오류 발생. 카운트가 누적되며 한계치(quit_count) 도달 시 시뮬레이션 종료.</div>
+                            </div>
+                            <div class="border-l-4 border-slate-800 bg-slate-100 pl-4 py-3 rounded-r-lg">
+                                <div class="font-mono text-sm font-bold text-slate-900">`uvm_fatal(ID, MSG)</div>
+                                <div class="text-xs md:text-sm text-slate-600 mt-1">치명적 오류. 즉시 시뮬레이션을 중단(Finish)함.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 rounded-2xl shadow-xl overflow-hidden flex flex-col h-[400px] border border-slate-800">
+                        <div class="bg-slate-800 px-4 py-3 flex items-center justify-between border-b border-slate-700/50">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500 border border-red-600"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500 border border-yellow-600"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500 border border-green-600"></div>
+                                <span class="ml-3 text-xs font-mono text-slate-400 font-medium">sim_console.log</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-slate-300 font-bold">+UVM_VERBOSITY=</span>
+                                <select id="verbosity-select" class="bg-slate-900 text-slate-200 text-xs font-mono rounded px-2 py-1 outline-none border border-slate-600 focus:border-blue-500 transition-colors">
+                                    <option value="0">UVM_NONE</option>
+                                    <option value="100">UVM_LOW</option>
+                                    <option value="200" selected>UVM_MEDIUM</option>
+                                    <option value="300">UVM_HIGH</option>
+                                    <option value="400">UVM_FULL</option>
+                                    <option value="500">UVM_DEBUG</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="log-container" class="p-4 overflow-y-auto terminal-scroll flex-grow font-mono text-xs sm:text-sm space-y-1.5 leading-relaxed">
+                            <!-- Logs injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 7.2: Scoreboard & SVA -->
+            <section data-part7-panel="scoreboard" data-guidebook-toc-title="Scoreboard & SVA" hidden>
+                <div class="mb-8 border-b border-slate-200 pb-6">
+                    <h2 class="text-2xl font-black text-slate-900 mb-3 tracking-tight">7.2 Scoreboard 및 SVA 연계</h2>
+                    <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                        UVM Scoreboard는 Reference Model이 생성한 예상(Expected) 트랜잭션과 DUT가 출력한 실제(Actual) 트랜잭션을 비교합니다.
+                        동시에 SVA(SystemVerilog Assertions)를 DUT 인터페이스에 바인딩하여 Cycle 기반의 프로토콜 오류를 즉각적으로 잡아냅니다.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lg:p-8 mb-8 overflow-hidden relative diagram-grid">
+                    <div class="text-center mb-8">
+                        <span class="inline-block px-3 py-1 bg-blue-50 text-blue-700 text-[10px] font-black rounded-full mb-2 border border-blue-100">SIMULATOR</span>
+                        <h3 class="font-black text-slate-900 text-xl">Transaction Comparator</h3>
+                        <p class="text-sm text-slate-500 mt-1">Compare 버튼을 눌러 양쪽 큐에서 데이터를 꺼내어 비교하세요.</p>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-16 px-4 relative h-64">
+                        <div class="w-32 flex flex-col items-center">
+                            <div class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider bg-white px-2">Expected</div>
+                            <div id="exp-queue" class="w-full border-2 border-slate-200 bg-slate-50 rounded-xl p-2.5 flex flex-col-reverse gap-2 h-48 overflow-hidden relative shadow-inner">
+                                <!-- Items -->
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center justify-center z-20">
+                            <div id="comparator-box" class="w-28 h-28 rounded-full border-[6px] border-slate-100 bg-white flex items-center justify-center shadow-xl transition-all duration-300 relative">
+                                <span id="comp-result" class="font-black text-slate-300 text-2xl">VS</span>
+                            </div>
+                            <button id="btn-compare" class="mt-8 px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-[0_4px_12px_rgba(37,99,235,0.3)] active:scale-95 transition-all">
+                                Compare Next
+                            </button>
+                        </div>
+
+                        <div class="w-32 flex flex-col items-center">
+                            <div class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider bg-white px-2">Actual (DUT)</div>
+                            <div id="act-queue" class="w-full border-2 border-slate-200 bg-slate-50 rounded-xl p-2.5 flex flex-col-reverse gap-2 h-48 overflow-hidden relative shadow-inner">
+                                <!-- Items -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl shadow-xl p-6 border border-slate-800">
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-700/50 pb-3">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <h3 class="font-bold text-white tracking-wide">SVA (SystemVerilog Assertions) 연동</h3>
+                        </div>
+                        <span class="text-xs text-slate-500 font-mono">interface.sv</span>
+                    </div>
+                    <pre class="code-font text-sm text-slate-300 overflow-x-auto leading-relaxed"><code class="language-sv">
+<span class="text-slate-500">// Interface 내부에 SVA를 구현하여 Protocol Check</span>
+<span class="text-blue-400 font-medium">property</span> p_req_ack;
+    <span class="text-purple-400">@(posedge</span> clk<span class="text-purple-400">) disable iff</span> (!rst_n)
+    req <span class="text-yellow-400">|=></span> <span class="text-yellow-400">##[1:3]</span> ack; <span class="text-slate-500">// req 후 1~3 사이클 내에 ack가 와야 함</span>
+<span class="text-blue-400 font-medium">endproperty</span>
+
+assert_req_ack: <span class="text-blue-400 font-medium">assert property</span> (p_req_ack)
+    <span class="text-blue-400 font-medium">else</span> <span class="text-yellow-400">`uvm_error</span>(<span class="text-green-300">"SVA_ERR"</span>, <span class="text-green-300">"ACK not received within 3 cycles after REQ"</span>)
+                    </code></pre>
+                </div>
+            </section>
+
+            <!-- Section 7.3: Coverage -->
+            <section data-part7-panel="coverage" data-guidebook-toc-title="Coverage 콜렉터" hidden>
+                <div class="mb-8 border-b border-slate-200 pb-6">
+                    <h2 class="text-2xl font-black text-slate-900 mb-3 tracking-tight">7.3 Coverage 콜렉터</h2>
+                    <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                        기능 커버리지(Functional Coverage)는 검증 계획(Verification Plan)을 얼마나 달성했는지 정량화합니다.
+                        UVM에서는 <code>uvm_subscriber</code>를 상속받은 컴포넌트를 만들어 Monitor로부터 데이터를 받아 <code>covergroup</code>을 샘플링합니다.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center diagram-grid relative min-h-[360px]">
+                        <div class="absolute top-5 left-5">
+                            <span class="inline-block px-2 py-1 bg-slate-100 text-slate-500 text-[10px] font-black rounded-md border border-slate-200">DATA FLOW</span>
+                        </div>
+                        
+                        <div class="w-36 py-3 bg-white border-2 border-slate-200 rounded-xl text-center shadow-sm z-10">
+                            <div class="font-black text-slate-800 text-sm">Monitor</div>
+                            <div class="mt-1 text-[10px] text-blue-600 font-mono bg-blue-50 inline-block px-2 py-0.5 rounded">analysis_port</div>
+                        </div>
+                        
+                        <div class="h-16 w-0 border-l-2 border-dashed border-slate-300 my-1 relative">
+                            <div class="absolute -bottom-2 -left-1.5 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-slate-300"></div>
+                            <div id="cov-packet" class="absolute -top-2 -left-2 w-4 h-4 bg-blue-500 rounded-full shadow-md opacity-0 border-2 border-white"></div>
+                        </div>
+                        
+                        <div class="w-56 p-5 bg-white border-2 border-slate-200 rounded-2xl text-center shadow-[0_8px_16px_rgba(0,0,0,0.04)] z-10">
+                            <div class="font-black text-slate-800 text-base mb-1">Coverage Subscriber</div>
+                            <div class="text-[10px] bg-slate-100 text-slate-600 py-1 px-2 rounded mb-4 font-mono inline-block">analysis_export</div>
+                            
+                            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-left">
+                                <div class="text-xs font-mono text-blue-700 font-medium mb-1">function void write(T t);</div>
+                                <div class="text-[11px] font-mono text-slate-600 pl-3">cov_data = t;</div>
+                                <div class="text-[11px] font-mono text-slate-600 pl-3 font-bold">cg.sample();</div>
+                                <div class="text-xs font-mono text-blue-700 font-medium mt-1">endfunction</div>
+                            </div>
+                        </div>
+
+                        <button id="btn-send-cov" class="mt-8 px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl shadow-md active:scale-95 transition-all">
+                            Send Transaction
+                        </button>
+                    </div>
+
+                    <div class="bg-slate-900 rounded-2xl shadow-xl p-8 flex flex-col justify-between border border-slate-800">
+                        <div>
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-white font-bold text-lg">Coverage Status</h3>
+                                <span class="flex h-3 w-3 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-5 mb-8">
+                                <div>
+                                    <div class="flex justify-between text-xs text-slate-300 mb-1.5 font-mono">
+                                        <span>BIN_CMD_READ</span>
+                                        <span id="txt-read" class="font-bold text-slate-100">0 / 5</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700">
+                                        <div id="bar-read" class="bg-blue-500 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs text-slate-300 mb-1.5 font-mono">
+                                        <span>BIN_CMD_WRITE</span>
+                                        <span id="txt-write" class="font-bold text-slate-100">0 / 5</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700">
+                                        <div id="bar-write" class="bg-teal-400 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs text-slate-300 mb-1.5 font-mono">
+                                        <span>BIN_ADDR_HIGH</span>
+                                        <span id="txt-addr" class="font-bold text-slate-100">0 / 10</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700">
+                                        <div id="bar-addr" class="bg-indigo-400 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-center relative bg-slate-800/50 rounded-xl py-6 border border-slate-700/50">
+                            <svg class="w-36 h-36 transform -rotate-90 drop-shadow-lg">
+                                <circle cx="72" cy="72" r="54" fill="none" stroke="#1e293b" stroke-width="14"></circle>
+                                <circle id="donut-circle" cx="72" cy="72" r="54" fill="none" stroke="#3b82f6" stroke-width="14" stroke-linecap="round" class="donut-ring" style="stroke-dasharray: 339.3; stroke-dashoffset: 339.3; transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);"></circle>
+                            </svg>
+                            <div class="absolute flex flex-col items-center">
+                                <span id="txt-total" class="text-4xl font-black text-white tracking-tighter">0%</span>
+                                <span class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Total</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 7.4: Callback -->
+            <section data-part7-panel="callback" data-guidebook-toc-title="Callback 메커니즘" hidden>
+                 <div class="mb-8 border-b border-slate-200 pb-6">
+                    <h2 class="text-2xl font-black text-slate-900 mb-3 tracking-tight">7.4 Callback 메커니즘</h2>
+                    <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                        재사용성을 위해 Driver 나 Monitor 코드를 직접 수정하지 않고, 외부 Test 계층에서 <code>uvm_callback</code>을 이용하여 특정 시점에 개입(Hooking)할 수 있습니다. 주로 <strong>Error Injection (에러 주입)</strong> 테스트에 활용됩니다.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 lg:p-10 mb-8 overflow-hidden relative diagram-grid">
+                    <div class="absolute top-6 right-6 flex items-center gap-3 z-20 bg-white/80 backdrop-blur-sm p-2 rounded-xl border border-slate-100 shadow-sm">
+                        <span class="text-sm font-black text-slate-600" id="cb-status-text">Normal Mode</span>
+                        <div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="toggle" id="cb-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-[3px] appearance-none cursor-pointer border-slate-300 z-10 transition-all"/>
+                            <label for="cb-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-200 cursor-pointer transition-colors"></label>
+                        </div>
+                    </div>
+
+                    <div class="relative max-w-3xl mx-auto h-[350px] mt-10">
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 1;">
+                            <defs>
+                                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#cbd5e1" />
+                                </marker>
+                                <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" />
+                                </marker>
+                            </defs>
+                            <path id="path-normal" d="M 120 180 L 580 180" fill="none" stroke="#cbd5e1" stroke-width="4" stroke-dasharray="8,8" marker-end="url(#arrow)" class="transition-opacity duration-300"/>
+                            <path id="path-cb" d="M 180 180 C 180 50, 350 50, 350 50 C 500 50, 520 180, 520 180" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="8,8" marker-end="url(#arrow-red)" style="opacity: 0; transition: opacity 0.3s;"/>
+                        </svg>
+
+                        <div class="absolute inset-0 z-10 flex items-center justify-between pointer-events-none px-4">
+                            <div class="w-32 p-4 bg-white border-2 border-slate-200 rounded-2xl text-center shadow-sm">
+                                <div class="font-black text-slate-800 text-sm">Sequencer</div>
+                                <div class="text-xs text-slate-500 mt-1 font-mono">Item Data</div>
+                            </div>
+                            <div class="w-32 p-3 bg-white border-2 border-blue-200 rounded-xl text-center shadow-md relative translate-y-[-10px]">
+                                <div class="text-[11px] font-mono font-bold text-blue-700">get_next_item()</div>
+                                <div class="text-[10px] font-mono text-slate-600 mt-2 text-left bg-slate-50 p-1.5 rounded border border-slate-100 leading-tight">
+                                    `uvm_do_callbacks<br>(..., pre_send)
+                                </div>
+                            </div>
+                            <div class="w-28 p-3 bg-white border-2 border-slate-200 rounded-xl text-center shadow-md relative translate-y-[-10px]">
+                                <div class="text-[11px] font-mono font-bold text-slate-700">drive_bus()</div>
+                            </div>
+                            <div class="w-32 p-4 bg-slate-800 border-2 border-slate-900 rounded-2xl text-center shadow-lg">
+                                <div class="font-black text-white text-sm">DUT<br>Interface</div>
+                            </div>
+                        </div>
+
+                        <div id="cb-box" class="absolute top-2 left-1/2 transform -translate-x-1/2 w-56 p-4 bg-white border-2 border-red-200 rounded-2xl text-center shadow-lg z-10 transition-all duration-300 opacity-30 grayscale scale-95">
+                            <div class="font-black text-red-600 text-sm mb-2">Error Inject Callback</div>
+                            <div class="text-[11px] font-mono text-slate-700 bg-slate-50 p-2 rounded-lg text-left border border-slate-100">
+                                <span class="text-blue-600">virtual task</span> pre_send(req);<br>
+                                &nbsp;&nbsp;req.data = <span class="text-red-500 font-bold">'hBAD</span>; <span class="text-slate-400">// Corrupt</span><br>
+                                <span class="text-blue-600">endtask</span>
+                            </div>
+                        </div>
+
+                        <div id="anim-packet" class="absolute top-[165px] left-[130px] w-8 h-8 bg-blue-500 rounded-lg font-mono text-[10px] text-white flex items-center justify-center font-bold shadow-lg z-30 opacity-0 border-2 border-white">
+                            OK
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-6 relative z-20">
+                        <button id="btn-send-drv" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-[0_4px_12px_rgba(37,99,235,0.3)] active:scale-95 transition-all">
+                            Send Item via Driver
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <h4 class="font-black text-slate-800 text-sm mb-3">1. Driver에 매크로 삽입</h4>
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 overflow-x-auto">
+                            <pre class="code-font text-xs text-slate-600 leading-relaxed"><code><span class="text-blue-600">task</span> run_phase(...);
+  <span class="text-blue-600">forever begin</span>
+    seq_item_port.get_next_item(req);
+    <span class="text-blue-700 font-bold bg-blue-50 px-1 rounded">`uvm_do_callbacks(my_drv, my_cb, pre_send(req))</span>
+    drive_bus(req);
+    seq_item_port.item_done();
+  <span class="text-blue-600">end</span>
+<span class="text-blue-600">endtask</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <h4 class="font-black text-slate-800 text-sm mb-3">2. Test에서 Callback 등록 (Override)</h4>
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 overflow-x-auto">
+                            <pre class="code-font text-xs text-slate-600 leading-relaxed"><code><span class="text-blue-600">function void</span> build_phase(...);
+  <span class="text-slate-400">// Error 발생용 cb 객체 생성</span>
+  err_cb = err_inject_cb::type_id::create("err_cb");
+  
+  <span class="text-slate-400">// 특정 Driver 인스턴스에 Callback 연결</span>
+  <span class="text-red-600 font-bold bg-red-50 px-1 rounded">uvm_callbacks#(my_drv, my_cb)::add(env.agt.drv, err_cb);</span>
+<span class="text-blue-600">endfunction</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 로컬 환경 공통 JS 연동 (Canvas 환경에서 404가 발생해도 문제없음) -->
+    <script src="../assets/guidebook-page-common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Tab & Page System Initialization ---
+            if (window.GuidebookPage && window.GuidebookPage.initActionSectionPage) {
+                // 프로젝트의 글로벌 스크립트가 로드되었을 경우 (iframe 내부)
+                window.GuidebookPage.initActionSectionPage({
+                    defaultKey: 'report',
+                    panelSelector: '[data-part7-panel]',
+                    panelKeyDataset: 'part7Panel',
+                    buttonSelector: '.tab-btn',
+                    buttonKeyDataset: 'target',
+                    titleAttribute: 'data-guidebook-toc-title',
+                    applyButtonState: ({ button, isActive }) => {
+                        button.classList.toggle('active', isActive);
+                        button.classList.toggle('text-blue-600', isActive);
+                        button.classList.toggle('border-blue-600', isActive);
+                        button.classList.toggle('text-slate-500', !isActive);
+                        button.classList.toggle('border-transparent', !isActive);
+                        button.classList.toggle('hover:text-slate-800', !isActive);
+                        button.classList.toggle('hover:border-slate-300', !isActive);
+                        button.setAttribute('aria-pressed', String(isActive));
+                    },
+                    currentHeader: {
+                        shellId: 'part7-current-shell',
+                        labelId: 'part7-current-label',
+                        mode: 'static',
+                        apply: ({ shell }) => {
+                            shell.style.setProperty('--part7-tab-accent', '#2563eb');
+                        },
+                    },
+                });
+            } else {
+                // 단독 실행 (Canvas 프리뷰 등)을 위한 Fallback 탭 로직
+                const tabs = document.querySelectorAll('.tab-btn');
+                const panels = document.querySelectorAll('[data-part7-panel]');
+
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        tabs.forEach(t => {
+                            t.classList.remove('text-blue-600', 'border-blue-600', 'active');
+                            t.classList.add('text-slate-500', 'border-transparent');
+                        });
+                        panels.forEach(p => p.hidden = true);
+
+                        tab.classList.remove('text-slate-500', 'border-transparent');
+                        tab.classList.add('text-blue-600', 'border-blue-600', 'active');
+                        
+                        const target = tab.getAttribute('data-target');
+                        const panel = document.querySelector(`[data-part7-panel="${target}"]`);
+                        if (panel) {
+                            panel.hidden = false;
+                            panel.style.animation = 'none';
+                            void panel.offsetWidth; // trigger reflow
+                            panel.style.animation = 'slideUp 0.4s ease-out forwards';
+                        }
+                    });
+                });
+            }
+
+            // --- 7.1 Report System Logic ---
+            const logs = [
+                { time: 0, comp: "uvm_test_top", id: "TEST", msg: "Simulation Started", verb: 100, class: "text-blue-400" },
+                { time: 10, comp: "env.agt", id: "AGT", msg: "Building sub-components", verb: 200, class: "text-slate-300" },
+                { time: 20, comp: "env.agt.sqr", id: "SQR", msg: "Waiting for sequence", verb: 300, class: "text-slate-400" },
+                { time: 35, comp: "env.agt.drv", id: "DRV", msg: "Driving packet ID 1", verb: 200, class: "text-slate-300" },
+                { time: 35, comp: "env.agt.drv", id: "DRV", msg: "Payload: 8'hA5, 8'h3C, 8'h00", verb: 400, class: "text-slate-500" },
+                { time: 40, comp: "env.agt.mon", id: "MON", msg: "Captured packet ID 1", verb: 300, class: "text-slate-400" },
+                { time: 42, comp: "env.scb", id: "SCB_MATCH", msg: "Data match! Expected=A5, Actual=A5", verb: 100, class: "text-green-400" },
+                { time: 55, comp: "env.agt.drv", id: "DRV", msg: "Delay injection active", verb: 200, class: "text-yellow-400" },
+                { time: 60, comp: "env.agt.sqr", id: "SQR_ARB", msg: "Arbitration: FIFO order selected", verb: 500, class: "text-slate-500" },
+                { time: 70, comp: "env.agt.drv", id: "DRV", msg: "Driving packet ID 2", verb: 200, class: "text-slate-300" },
+                { time: 85, comp: "env.agt.mon", id: "MON_ERR", msg: "Parity error detected on bus", verb: 0, class: "text-red-400 font-bold", isError: true },
+            ];
+
+            const logContainer = document.getElementById('log-container');
+            const verbSelect = document.getElementById('verbosity-select');
+
+            function renderLogs() {
+                const currentVerb = parseInt(verbSelect.value);
+                logContainer.innerHTML = '';
+                logs.forEach(log => {
+                    if (log.verb <= currentVerb || log.isError) {
+                        const div = document.createElement('div');
+                        const verbStr = log.isError ? "UVM_ERROR" : `UVM_INFO @ ${log.time}ns`;
+                        const prefixClass = log.isError ? "text-red-500" : "text-blue-400";
+                        div.className = `flex gap-2 animate-slide-up ${log.class}`;
+                        div.innerHTML = `<span class="${prefixClass} whitespace-nowrap">[${verbStr}]</span>
+                                         <span class="text-slate-500 whitespace-nowrap">{${log.comp}}</span>
+                                         <span class="font-bold text-slate-200 whitespace-nowrap">${log.id} :</span>
+                                         <span class="break-all">${log.msg}</span>`;
+                        logContainer.appendChild(div);
+                    }
+                });
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }
+            verbSelect.addEventListener('change', renderLogs);
+            renderLogs();
+
+
+            // --- 7.2 Scoreboard Logic ---
+            let expData = [
+                { id: 1, val: '0xA5', color: 'bg-white border-blue-200 text-blue-700 shadow-sm' },
+                { id: 2, val: '0x3C', color: 'bg-white border-blue-200 text-blue-700 shadow-sm' },
+                { id: 3, val: '0xFF', color: 'bg-white border-blue-200 text-blue-700 shadow-sm' }
+            ];
+            let actData = [
+                { id: 1, val: '0xA5', color: 'bg-white border-slate-300 text-slate-700 shadow-sm' },
+                { id: 2, val: '0x00', color: 'bg-white border-slate-300 text-slate-700 shadow-sm' }, 
+                { id: 3, val: '0xFF', color: 'bg-white border-slate-300 text-slate-700 shadow-sm' }
+            ];
+            let compIdx = 0, isComparing = false;
+            const expQueueEl = document.getElementById('exp-queue'), actQueueEl = document.getElementById('act-queue');
+            const btnCompare = document.getElementById('btn-compare'), compBox = document.getElementById('comparator-box'), compResult = document.getElementById('comp-result');
+
+            function renderQueues() {
+                expQueueEl.innerHTML = ''; actQueueEl.innerHTML = '';
+                expData.slice(compIdx).forEach(item => {
+                    expQueueEl.innerHTML = `<div class="w-full text-center py-2 border-2 rounded-lg text-xs font-mono font-bold ${item.color} queue-item-enter" data-id="${item.id}">ID:${item.id} [${item.val}]</div>` + expQueueEl.innerHTML;
+                });
+                actData.slice(compIdx).forEach(item => {
+                    actQueueEl.innerHTML = `<div class="w-full text-center py-2 border-2 rounded-lg text-xs font-mono font-bold ${item.color} queue-item-enter" data-id="${item.id}">ID:${item.id} [${item.val}]</div>` + actQueueEl.innerHTML;
+                });
+            }
+
+            function createFlyingNode(sourceEl, targetRect, isLeft) {
+                const rect = sourceEl.getBoundingClientRect();
+                const clone = sourceEl.cloneNode(true);
+                clone.classList.remove('queue-item-enter');
+                clone.classList.add('fly-to-center');
+                document.body.appendChild(clone);
+                
+                clone.style.top = rect.top + window.scrollY + 'px';
+                clone.style.left = rect.left + window.scrollX + 'px';
+                clone.style.width = rect.width + 'px';
+                clone.getBoundingClientRect(); // reflow
+                
+                const offset = isLeft ? -50 : 50;
+                clone.style.top = targetRect.top + window.scrollY + 35 + 'px';
+                clone.style.left = targetRect.left + window.scrollX + targetRect.width/2 - rect.width/2 + offset + 'px';
+                clone.style.transform = 'scale(0.8)';
+                clone.style.opacity = '0.7';
+                setTimeout(() => clone.remove(), 500);
+            }
+
+            btnCompare.addEventListener('click', () => {
+                if(isComparing) return;
+                if(compIdx >= expData.length) {
+                    compIdx = 0;
+                    compBox.className = 'w-28 h-28 rounded-full border-[6px] border-slate-100 bg-white flex items-center justify-center shadow-xl transition-all duration-300 relative';
+                    compResult.textContent = 'VS';
+                    compResult.className = 'font-black text-slate-300 text-2xl';
+                    renderQueues(); btnCompare.textContent = "Compare Next";
+                    return;
+                }
+                isComparing = true;
+                compBox.className = 'w-28 h-28 rounded-full border-[6px] border-slate-200 bg-slate-50 flex items-center justify-center shadow-lg transition-all duration-300 relative';
+                compResult.textContent = '...';
+                compResult.className = 'font-black text-slate-400 text-2xl animate-pulse';
+
+                const expNodes = expQueueEl.children, actNodes = actQueueEl.children;
+                if(expNodes.length > 0 && actNodes.length > 0) {
+                    const topExp = expNodes[expNodes.length - 1], topAct = actNodes[actNodes.length - 1];
+                    const compRect = compBox.getBoundingClientRect();
+                    createFlyingNode(topExp, compRect, true); createFlyingNode(topAct, compRect, false);
+                    topExp.style.opacity = '0'; topAct.style.opacity = '0';
+                }
+
+                setTimeout(() => {
+                    const expected = expData[compIdx], actual = actData[compIdx];
+                    if(expected.val === actual.val) {
+                        compBox.className = 'w-28 h-28 rounded-full border-[6px] border-green-200 bg-green-50 flex items-center justify-center shadow-xl transition-all duration-300 relative ring-4 ring-green-100';
+                        compResult.textContent = 'PASS'; compResult.className = 'font-black text-green-600 text-xl';
+                    } else {
+                        compBox.className = 'w-28 h-28 rounded-full border-[6px] border-red-200 bg-red-50 flex items-center justify-center shadow-xl transition-all duration-300 relative ring-4 ring-red-100';
+                        compResult.textContent = 'FAIL'; compResult.className = 'font-black text-red-600 text-xl';
+                        const errDiv = document.createElement('div');
+                        errDiv.className = 'absolute top-full mt-4 w-max bg-red-900 text-white text-xs font-mono p-2.5 rounded-lg shadow-xl animate-slide-up z-50';
+                        errDiv.innerHTML = `<span class="font-bold text-red-300">UVM_ERROR:</span> Mismatch!<br>Exp: ${expected.val}<br>Act: ${actual.val}`;
+                        compBox.appendChild(errDiv);
+                        setTimeout(() => errDiv.remove(), 2500);
+                    }
+                    compIdx++; renderQueues(); isComparing = false;
+                    if(compIdx >= expData.length) btnCompare.textContent = "Reset View";
+                }, 500);
+            });
+            renderQueues();
+
+
+            // --- 7.3 Coverage Logic ---
+            let covStats = { read: 0, write: 0, addr: 0 };
+            const btnSendCov = document.getElementById('btn-send-cov'), covPacket = document.getElementById('cov-packet');
+            
+            function updateCovUI() {
+                document.getElementById('txt-read').textContent = `${Math.min(covStats.read, 5)} / 5`;
+                document.getElementById('bar-read').style.width = `${Math.min(covStats.read/5 * 100, 100)}%`;
+                document.getElementById('txt-write').textContent = `${Math.min(covStats.write, 5)} / 5`;
+                document.getElementById('bar-write').style.width = `${Math.min(covStats.write/5 * 100, 100)}%`;
+                document.getElementById('txt-addr').textContent = `${Math.min(covStats.addr, 10)} / 10`;
+                document.getElementById('bar-addr').style.width = `${Math.min(covStats.addr/10 * 100, 100)}%`;
+
+                let hits = Math.min(covStats.read, 5) + Math.min(covStats.write, 5) + Math.min(covStats.addr, 10);
+                let percent = Math.floor((hits / 20) * 100);
+                document.getElementById('txt-total').textContent = `${percent}%`;
+                
+                const donut = document.getElementById('donut-circle'), circumference = 339.3;
+                donut.style.strokeDashoffset = circumference - (percent / 100) * circumference;
+                if(percent >= 100) { donut.style.stroke = '#34d399'; document.getElementById('txt-total').classList.add('text-emerald-400'); }
+            }
+
+            btnSendCov.addEventListener('click', () => {
+                if(btnSendCov.disabled) return;
+                btnSendCov.disabled = true;
+                
+                covPacket.style.opacity = '1'; covPacket.style.transform = 'translateY(0)';
+                covPacket.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                void covPacket.offsetWidth; // reflow
+                covPacket.style.transform = 'translateY(60px)';
+
+                setTimeout(() => {
+                    covPacket.style.opacity = '0'; covPacket.style.transition = 'none'; covPacket.style.transform = 'translateY(0)';
+                    if(Math.random() > 0.5) covStats.read++; else covStats.write++;
+                    if(Math.random() > 0.3) covStats.addr++;
+                    updateCovUI();
+                    
+                    const subNode = document.querySelector('.bg-white.border-2.border-slate-200.rounded-2xl.text-center');
+                    subNode.classList.add('ring-4', 'ring-blue-100', 'border-blue-300');
+                    setTimeout(() => subNode.classList.remove('ring-4', 'ring-blue-100', 'border-blue-300'), 200);
+                    btnSendCov.disabled = false;
+                }, 400);
+            });
+            updateCovUI();
+
+
+            // --- 7.4 Callback Logic ---
+            const cbToggle = document.getElementById('cb-toggle'), cbStatusText = document.getElementById('cb-status-text'), cbBox = document.getElementById('cb-box');
+            const pathNormal = document.getElementById('path-normal'), pathCb = document.getElementById('path-cb'), animPacket = document.getElementById('anim-packet'), btnSendDrv = document.getElementById('btn-send-drv');
+            let isCbAnimating = false;
+
+            cbToggle.addEventListener('change', (e) => {
+                if(e.target.checked) {
+                    cbStatusText.textContent = "Error Inject (On)";
+                    cbStatusText.classList.replace('text-slate-600', 'text-red-600');
+                    cbBox.classList.remove('opacity-30', 'grayscale', 'scale-95');
+                    cbBox.classList.add('opacity-100', 'scale-100', 'ring-4', 'ring-red-100');
+                    pathNormal.style.opacity = '0.2'; pathCb.style.opacity = '1';
+                } else {
+                    cbStatusText.textContent = "Normal Mode";
+                    cbStatusText.classList.replace('text-red-600', 'text-slate-600');
+                    cbBox.classList.add('opacity-30', 'grayscale', 'scale-95');
+                    cbBox.classList.remove('opacity-100', 'scale-100', 'ring-4', 'ring-red-100');
+                    pathNormal.style.opacity = '1'; pathCb.style.opacity = '0';
+                }
+            });
+
+            btnSendDrv.addEventListener('click', () => {
+                if(isCbAnimating) return;
+                isCbAnimating = true;
+                
+                animPacket.classList.remove('packet-move'); animPacket.style.opacity = '0';
+                void animPacket.offsetWidth; // reflow
+                
+                if(cbToggle.checked) {
+                    animPacket.className = 'absolute w-8 h-8 bg-red-500 rounded-lg font-mono text-[10px] text-white flex items-center justify-center font-bold shadow-lg z-30 opacity-100 border-2 border-white';
+                    animPacket.textContent = 'ERR';
+                    animPacket.style.animation = `moveCbPath 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards`;
+                } else {
+                    animPacket.className = 'absolute w-8 h-8 bg-blue-500 rounded-lg font-mono text-[10px] text-white flex items-center justify-center font-bold shadow-lg z-30 opacity-100 border-2 border-white';
+                    animPacket.textContent = 'OK';
+                    animPacket.style.animation = `moveNormalPath 1s linear forwards`;
+                }
+
+                if(!document.getElementById('dyn-keyframes')) {
+                    const style = document.createElement('style'); style.id = 'dyn-keyframes';
+                    style.innerHTML = `
+                        @keyframes moveNormalPath {
+                            0% { transform: translate(0px, 0px) scale(1); opacity: 1; }
+                            80% { opacity: 1; }
+                            100% { transform: translate(450px, 0px) scale(0.5); opacity: 0; }
+                        }
+                        @keyframes moveCbPath {
+                            0% { transform: translate(0px, 0px) scale(1); opacity: 1; }
+                            30% { transform: translate(130px, -130px) scale(1.1); }
+                            60% { transform: translate(300px, -130px) scale(1.1); background-color: #ef4444; }
+                            80% { opacity: 1; }
+                            100% { transform: translate(400px, 0px) scale(0.5); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+                setTimeout(() => isCbAnimating = false, 1300);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "output": "../page-12-adt-summary.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-adt-technology.html",
+    "sections/02-final-summary.html",
+    "99-shell-end.html"
+  ]
+}

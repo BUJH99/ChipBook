@@ -1,0 +1,38 @@
+html[data-chipbook-embed="true"],
+html[data-chipbook-embed="true"] body {
+    background: transparent !important;
+}
+
+body[data-chipbook-embed="true"] {
+    margin: 0 !important;
+    min-height: auto !important;
+    background: transparent !important;
+    overflow-x: hidden !important;
+}
+
+body[data-chipbook-embed="true"] > header,
+body[data-chipbook-embed="true"] > aside,
+body[data-chipbook-embed="true"] > div > aside,
+body[data-chipbook-embed="true"] > main > aside,
+body[data-chipbook-embed="true"] [data-page-8-inline-nav],
+body[data-chipbook-embed="true"] [data-chipbook-embed-hide] {
+    display: none !important;
+}
+
+body[data-chipbook-embed="true"] > div,
+body[data-chipbook-embed="true"] > main {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+body[data-chipbook-embed="true"] main {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+body[data-chipbook-embed="true"] .page-section {
+    min-height: auto !important;
+}

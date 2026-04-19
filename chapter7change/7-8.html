@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 8: Execution & Command-Line | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
+    <script src="../assets/chapter7-embed-common.js" defer></script>
+    
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+        }
+
+        .font-mono {
+            font-family: 'IBM Plex Sans', monospace;
+        }
+
+        /* 탭 패널 숨김 처리 */
+        [data-part8-panel][hidden] {
+            display: none !important;
+        }
+
+        /* 공통 다이어그램 배경 */
+        .diagram-grid {
+            background-color: #ffffff;
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 애니메이션 유틸리티 */
+        .flow-line {
+            stroke-dasharray: 6 6;
+            animation: flowAnimation 1s linear infinite;
+        }
+        @keyframes flowAnimation {
+            to { stroke-dashoffset: -12; }
+        }
+
+        .typing-cursor::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+            color: #10b981;
+            margin-left: 4px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .log-line {
+            opacity: 0;
+            transform: translateY(5px);
+            animation: fadeInUp 0.2s forwards;
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .draw-wave {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawLine 3s ease-out forwards;
+        }
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .tx-box {
+            transform-origin: left center;
+            animation: expandTx 0.5s ease-out forwards;
+        }
+        @keyframes expandTx {
+            from { transform: scaleX(0); opacity: 0; }
+            to { transform: scaleX(1); opacity: 1; }
+        }
+
+        .pattern-grid-verdi {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 50px 10px;
+        }
+
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- 1. 상단 고정 헤더 -->
+    <header class="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm h-[4.5rem]">
+        <div class="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-extrabold text-xl shadow-md">A</div>
+                <div>
+                    <span class="text-xl font-extrabold text-gray-800 tracking-tight">반도체 디지털 회로설계 가이드북</span>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center gap-3">
+                <span class="px-3 py-1.5 bg-slate-100 text-slate-600 text-xs font-bold rounded-full">Phase 8</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Wrapper -->
+    <div class="flex flex-1 max-w-[2000px] mx-auto w-full">
+        
+        <!-- 2. 좌측 네비게이션 사이드바 -->
+        <aside class="w-64 shrink-0 border-r border-gray-200 hidden lg:block overflow-y-auto sticky top-[4.5rem] h-[calc(100vh-4.5rem)] bg-white py-8 pl-6 pr-4">
+            <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-4 pl-3">Curriculum</h3>
+            <nav class="space-y-1.5">
+                <a href="#" class="block px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors">1. Overview</a>
+                <a href="#" class="block px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors">2. Digital Logic Basic</a>
+                <a href="#" class="block px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors">3. Verilog HDL</a>
+                <a href="#" class="block px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors">4. SystemVerilog</a>
+                <a href="#" class="block px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors">5. Memory Device</a>
+                <a href="#" class="block px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors">6. UVM Architecture</a>
+                <a href="#" class="block px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors">7. Testbench Components</a>
+                <!-- Active Item -->
+                <a href="#" class="block px-3 py-2.5 text-sm font-bold text-blue-700 bg-blue-50 border border-blue-100 rounded-lg shadow-sm">8. Execution & Command-Line</a>
+            </nav>
+        </aside>
+
+        <!-- 3. 중앙 메인 콘텐츠 -->
+        <main class="flex-1 flex flex-col min-w-0 px-4 sm:px-6 lg:px-10 py-10">
+            
+            <!-- Tabs Navigation -->
+            <nav class="flex gap-2 mb-8 border-b border-slate-200 pb-3 overflow-x-auto" aria-label="Tabs">
+                <button class="px-5 py-2.5 text-sm font-bold rounded-lg transition-colors border whitespace-nowrap" 
+                        data-part8-tab="makefile" onclick="switchTab('makefile')">
+                    8.1 Makefile
+                </button>
+                <button class="px-5 py-2.5 text-sm font-bold rounded-lg transition-colors border whitespace-nowrap" 
+                        data-part8-tab="cmdline" onclick="switchTab('cmdline')">
+                    8.2 Command-Line
+                </button>
+                <button class="px-5 py-2.5 text-sm font-bold rounded-lg transition-colors border whitespace-nowrap" 
+                        data-part8-tab="waveform" onclick="switchTab('waveform')">
+                    8.3 Waveform 디버깅
+                </button>
+            </nav>
+
+            <!-- Current Shell Header -->
+            <div id="part8-current-shell" class="mb-10 p-8 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm transition-all relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                    <svg class="w-24 h-24 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M19.92 12.08L12 4.16 4.08 12.08l1.42 1.41L11 7.83v12h2V7.83l5.5 5.66 1.42-1.41z"/></svg>
+                </div>
+                <h2 id="part8-current-label" class="text-3xl font-extrabold text-slate-900 mb-3 relative z-10"></h2>
+                <p id="part8-current-copy" class="text-slate-600 leading-relaxed text-lg relative z-10 max-w-4xl"></p>
+            </div>
+
+            <!-- Panel Group -->
+            <div data-part8-panel-group="main" class="flex-1">
+
+                <!-- Panel 8.1: Makefile -->
+                <div data-part8-panel="makefile" class="space-y-10 animate-[fadeInUp_0.3s_ease-out]">
+                    <!-- Interactive Visualization: Compilation Flow -->
+                    <div class="rounded-xl border border-slate-200 overflow-hidden shadow-sm bg-white">
+                        <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+                            <span class="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                Simulation Pipeline (VCS Flow)
+                            </span>
+                            <div class="flex gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                            </div>
+                        </div>
+                        <div class="diagram-grid p-8 h-80 relative flex items-center justify-center">
+                            <svg class="w-full h-full max-w-3xl" viewBox="0 0 800 200">
+                                <path class="flow-line" d="M 150 100 L 250 100" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#arrow)" />
+                                <path class="flow-line" d="M 400 100 L 500 100" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#arrow)" />
+                                <path class="flow-line" d="M 650 100 L 730 100" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#arrow)" />
+
+                                <defs>
+                                    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+                                    </marker>
+                                </defs>
+
+                                <g transform="translate(50, 60)">
+                                    <rect width="100" height="80" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" class="shadow-sm"/>
+                                    <text x="50" y="35" text-anchor="middle" class="font-bold text-blue-700 text-sm">Source Files</text>
+                                    <text x="50" y="55" text-anchor="middle" class="font-mono text-xs text-blue-600">*.v, *.sv</text>
+                                </g>
+                                
+                                <g transform="translate(250, 60)" class="cursor-pointer hover:opacity-80 transition-opacity">
+                                    <rect width="150" height="80" rx="8" fill="#f0fdf4" stroke="#10b981" stroke-width="2" class="shadow-sm"/>
+                                    <text x="75" y="35" text-anchor="middle" class="font-bold text-emerald-700 text-sm">vcs (Compile)</text>
+                                    <text x="75" y="55" text-anchor="middle" class="font-mono text-[10px] text-emerald-600">-ntb_opts uvm</text>
+                                    <text x="75" y="68" text-anchor="middle" class="font-mono text-[10px] text-emerald-600">-sverilog</text>
+                                    <g transform="translate(130, 20) scale(0.6)">
+                                        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,19.5A7.5,7.5 0 0,1 4.5,12A7.5,7.5 0 0,1 12,4.5A7.5,7.5 0 0,1 19.5,12A7.5,7.5 0 0,1 12,19.5M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z" fill="#10b981">
+                                            <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="3s" repeatCount="indefinite" />
+                                        </path>
+                                    </g>
+                                </g>
+
+                                <g transform="translate(500, 60)">
+                                    <rect width="150" height="80" rx="8" fill="#fdf4ff" stroke="#d946ef" stroke-width="2" class="shadow-sm"/>
+                                    <text x="75" y="35" text-anchor="middle" class="font-bold text-fuchsia-700 text-sm">Executable</text>
+                                    <text x="75" y="55" text-anchor="middle" class="font-mono text-xs text-fuchsia-600">simv</text>
+                                </g>
+
+                                <g transform="translate(730, 70)">
+                                    <circle cx="30" cy="30" r="30" fill="#fff7ed" stroke="#f97316" stroke-width="2" class="shadow-sm"/>
+                                    <text x="30" y="35" text-anchor="middle" class="font-bold text-orange-600 text-sm">Run</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Code Block -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                                Makefile 구조 분석
+                            </h3>
+                            <p class="text-slate-600 mb-6">
+                                UVM 라이브러리는 시뮬레이터에 내장되어 있는 경우가 많습니다. VCS에서는 <code>-ntb_opts uvm</code> 옵션을 통해 자동으로 UVM 패키지와 매크로를 링킹합니다.
+                            </p>
+                            <ul class="space-y-4 text-slate-700">
+                                <li class="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded text-xs font-bold font-mono mt-0.5 shadow-sm">COMP_OPTS</span>
+                                    <div class="text-sm"><code class="text-pink-600 font-semibold bg-pink-50 px-1.5 py-0.5 rounded">-sverilog</code> (SystemVerilog 활성화), <code class="text-pink-600 font-semibold bg-pink-50 px-1.5 py-0.5 rounded">-timescale</code> 등을 지정합니다.</div>
+                                </li>
+                                <li class="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <span class="bg-purple-100 text-purple-700 px-2.5 py-1 rounded text-xs font-bold font-mono mt-0.5 shadow-sm">UVM_OPTS</span>
+                                    <div class="text-sm">UVM 라이브러리 경로 또는 내장 UVM 옵션을 지정합니다.</div>
+                                </li>
+                                <li class="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <span class="bg-blue-100 text-blue-700 px-2.5 py-1 rounded text-xs font-bold font-mono mt-0.5 shadow-sm">SIM_OPTS</span>
+                                    <div class="text-sm">GUI 실행(<code>-gui</code>), UVM Test 이름 지정 등 실행 시간(Run-time) 옵션입니다.</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-900 rounded-xl p-6 shadow-inner overflow-x-auto text-sm border border-slate-800">
+                            <pre class="font-mono text-slate-300 leading-relaxed">
+<span class="text-slate-500"># VCS Makefile Example</span>
+<span class="text-blue-400">TESTNAME</span> ?= base_test
+<span class="text-blue-400">SEED</span>     ?= 1
+
+<span class="text-blue-400">VCS_CMD</span> = vcs -sverilog -ntb_opts uvm-1.2 \
+          -timescale=1ns/1ps \
+          -debug_access+all \
+          -f filelist.f
+
+<span class="text-blue-400">SIM_CMD</span> = ./simv +UVM_TESTNAME=$(TESTNAME) \
+          +ntb_random_seed=$(SEED)
+
+<span class="text-emerald-400">comp:</span>
+	@echo <span class="text-amber-300">"Starting Compilation..."</span>
+	$(VCS_CMD) | tee comp.log
+
+<span class="text-emerald-400">sim:</span>
+	@echo <span class="text-amber-300">"Running Simulation ($(TESTNAME))..."</span>
+	$(SIM_CMD) | tee sim.log
+
+<span class="text-emerald-400">all:</span> comp sim
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 8.2: Command Line Processor -->
+                <div data-part8-panel="cmdline" hidden class="space-y-8 animate-[fadeInUp_0.3s_ease-out]">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Control Panel -->
+                        <div class="lg:col-span-1 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col">
+                            <h3 class="font-bold text-slate-800 mb-5 border-b pb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                                Simulation Controls
+                            </h3>
+                            
+                            <div class="mb-6">
+                                <label class="block text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">+UVM_TESTNAME</label>
+                                <div class="flex flex-col gap-2">
+                                    <button class="sim-ctrl-btn w-full text-left px-4 py-3 rounded-xl text-sm font-bold border border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition-all" data-cmd="+UVM_TESTNAME=test_sanity" data-type="test">
+                                        test_sanity (기본 동작)
+                                    </button>
+                                    <button class="sim-ctrl-btn w-full text-left px-4 py-3 rounded-xl text-sm font-bold border border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition-all" data-cmd="+UVM_TESTNAME=test_err_inj" data-type="test">
+                                        test_err_inj (에러 주입)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-auto">
+                                <label class="block text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">+UVM_VERBOSITY</label>
+                                <div class="flex gap-2">
+                                    <button class="sim-ctrl-btn flex-1 py-2.5 rounded-xl text-sm font-bold border border-slate-200 hover:bg-slate-50 transition-all" data-cmd="+UVM_VERBOSITY=UVM_LOW" data-type="verb">LOW</button>
+                                    <button class="sim-ctrl-btn flex-1 py-2.5 rounded-xl text-sm font-bold border border-slate-200 hover:bg-slate-50 transition-all" data-cmd="+UVM_VERBOSITY=UVM_HIGH" data-type="verb">HIGH</button>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 pt-5 border-t border-slate-100">
+                                <button id="btn-run-sim" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-md shadow-blue-500/20 transition-all flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                    Run Simulation
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Terminal Mockup -->
+                        <div class="lg:col-span-2 flex flex-col gap-4">
+                            <div class="bg-[#1e1e1e] rounded-2xl shadow-xl overflow-hidden flex flex-col border border-slate-800">
+                                <div class="bg-[#2d2d2d] px-5 py-3 flex items-center gap-2 border-b border-[#3d3d3d]">
+                                    <div class="w-3.5 h-3.5 rounded-full bg-red-500"></div>
+                                    <div class="w-3.5 h-3.5 rounded-full bg-amber-500"></div>
+                                    <div class="w-3.5 h-3.5 rounded-full bg-green-500"></div>
+                                    <span class="ml-3 text-xs text-slate-400 font-mono tracking-wide">user@server:~/workspace</span>
+                                </div>
+                                <div class="p-6 font-mono text-sm text-slate-300 bg-[#151515]">
+                                    <span class="text-emerald-400">user@server:~/workspace$</span> 
+                                    <span id="term-cmd">./simv <span class="typing-cursor"></span></span>
+                                </div>
+                            </div>
+
+                            <!-- Log Viewer -->
+                            <div class="flex-1 bg-[#1e1e1e] rounded-2xl shadow-inner overflow-hidden border border-slate-800 flex flex-col min-h-[320px]">
+                                <div class="bg-[#2d2d2d] px-5 py-2.5 text-xs text-slate-400 font-bold border-b border-[#3d3d3d] uppercase tracking-wider flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                                    Simulation Log Output
+                                </div>
+                                <div id="sim-log-container" class="p-6 font-mono text-[13.5px] text-slate-300 overflow-y-auto h-[280px] leading-relaxed whitespace-pre-wrap">
+                                    <div class="text-slate-500 italic flex items-center gap-2">
+                                        <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                        Ready to run simulation... Select options and click Run.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explanation Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <div class="bg-blue-50/70 border border-blue-100 p-5 rounded-2xl hover:shadow-md transition-shadow">
+                            <h4 class="font-bold text-blue-800 text-sm mb-2 font-mono bg-blue-100 inline-block px-2.5 py-1 rounded shadow-sm">+UVM_TESTNAME</h4>
+                            <p class="text-sm text-slate-600 mt-2 leading-relaxed">컴파일 시 지정된 여러 Test 클래스 중, 어떤 테스트를 <code>run_test()</code>에서 인스턴스화하여 실행할지 결정합니다.</p>
+                        </div>
+                        <div class="bg-blue-50/70 border border-blue-100 p-5 rounded-2xl hover:shadow-md transition-shadow">
+                            <h4 class="font-bold text-blue-800 text-sm mb-2 font-mono bg-blue-100 inline-block px-2.5 py-1 rounded shadow-sm">+UVM_VERBOSITY</h4>
+                            <p class="text-sm text-slate-600 mt-2 leading-relaxed">출력되는 로그의 상세도를 조절합니다. <code>LOW</code>, <code>MEDIUM</code>, <code>HIGH</code>, <code>FULL</code> 등이 있습니다.</p>
+                        </div>
+                        <div class="bg-blue-50/70 border border-blue-100 p-5 rounded-2xl hover:shadow-md transition-shadow">
+                            <h4 class="font-bold text-blue-800 text-sm mb-2 font-mono bg-blue-100 inline-block px-2.5 py-1 rounded shadow-sm">+UVM_OBJECTION_TRACE</h4>
+                            <p class="text-sm text-slate-600 mt-2 leading-relaxed">시뮬레이션 종료 시점을 결정하는 Objection의 raise/drop 발생 기록을 추적하여 행잉(Hanging) 이슈 디버깅에 활용합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 8.3: Waveform Debugging -->
+                <div data-part8-panel="waveform" hidden class="space-y-8 animate-[fadeInUp_0.3s_ease-out]">
+                    <div class="bg-[#1e1e1e] rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+                        <!-- Fake Verdi Topbar -->
+                        <div class="bg-[#333333] px-5 py-3.5 flex items-center justify-between border-b border-[#444]">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[#eee] text-sm font-bold tracking-wide flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                    Waveform Viewer (Mock)
+                                </span>
+                            </div>
+                            <button id="btn-play-wave" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors shadow-md flex items-center gap-2">
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                Re-Draw Waveform
+                            </button>
+                        </div>
+
+                        <!-- Waveform Area -->
+                        <div class="flex flex-col sm:flex-row">
+                            <!-- Signal Names (Left Pane) -->
+                            <div class="w-full sm:w-60 bg-[#252525] border-r border-[#444] py-5 flex flex-col font-mono text-[12.5px] text-[#aaa]">
+                                <div class="h-12 px-5 flex items-center justify-between hover:bg-[#333] transition-colors cursor-pointer">
+                                    <span class="text-yellow-400 font-semibold">clk</span> <span class="text-[#666]">1</span>
+                                </div>
+                                <div class="h-12 px-5 flex items-center justify-between hover:bg-[#333] transition-colors cursor-pointer">
+                                    <span class="text-blue-300 font-semibold">req_valid</span> <span class="text-[#666]">1</span>
+                                </div>
+                                <div class="h-12 px-5 flex items-center justify-between hover:bg-[#333] transition-colors cursor-pointer">
+                                    <span class="text-blue-300 font-semibold">req_addr[31:0]</span> <span class="text-[#666]">10</span>
+                                </div>
+                                <div class="mt-4 border-t border-[#444] pt-3"></div>
+                                <div class="h-14 px-5 flex items-center text-pink-400 font-bold bg-[#332233] border-l-4 border-pink-500">
+                                    ▾ uvm_transaction
+                                </div>
+                            </div>
+
+                            <!-- Waveform Canvas (Right Pane) -->
+                            <div class="flex-1 bg-[#1a1a1a] relative overflow-hidden pattern-grid-verdi py-5 min-h-[280px]" id="wave-canvas">
+                                <svg class="w-full h-full min-h-[220px]" viewBox="0 0 600 200" preserveAspectRatio="none" id="wave-svg">
+                                    <!-- Drawn via JS -->
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Code & Tip -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 border border-slate-200 p-8 rounded-2xl shadow-sm">
+                            <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                                <span class="text-xl">💡</span> Transaction Recording 켜기
+                            </h3>
+                            <p class="text-sm text-slate-600 mb-5 leading-relaxed">
+                                시뮬레이터가 Transaction 블록을 기록하게 하려면, 코드(Base Test 등)에서 <code>recording_detail</code> 설정을 켜야 합니다.
+                            </p>
+                            <pre class="bg-white p-5 rounded-xl font-mono text-[13px] text-slate-700 border border-slate-200 shadow-sm overflow-x-auto">
+<span class="text-blue-600 font-bold">function void</span> build_phase(uvm_phase phase);
+  <span class="text-blue-600 font-bold">super</span>.build_phase(phase);
+  <span class="text-green-600 italic">// Enable TR recording for all components</span>
+  uvm_config_db#(<span class="text-blue-600 font-bold">int</span>)::set(<span class="text-blue-600 font-bold">this</span>, <span class="text-amber-600">"*"</span>, 
+    <span class="text-amber-600">"recording_detail"</span>, UVM_FULL);
+<span class="text-blue-600 font-bold">endfunction</span></pre>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 p-8 rounded-2xl shadow-sm flex flex-col justify-center">
+                            <h3 class="font-bold text-slate-800 mb-5 flex items-center gap-2">
+                                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Verdi UVM 디버깅 팁
+                            </h3>
+                            <ul class="text-sm text-slate-600 space-y-4 list-disc list-inside marker:text-blue-500 leading-relaxed">
+                                <li>RTL 신호선과 UVM Transaction 라인을 상하로 배치하여 타이밍을 직관적으로 비교하세요.</li>
+                                <li>Transaction 블록(Box)을 더블클릭하면 <code>uvm_sequence_item</code> 내부의 모든 변수 값(Properties)을 표 형태로 확인할 수 있습니다.</li>
+                                <li>Sequence가 Item을 생성하여 Driver로 전달하는 시간적 흐름(Stream)을 파형에서 추적할 수 있습니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 4. 하단 이전/다음 페이지 버튼 -->
+            <div class="mt-16 pt-8 border-t border-gray-200 flex items-center justify-between" data-chipbook-embed-hide="true">
+                <button class="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-6 py-3.5 rounded-xl font-bold shadow-sm transition-all flex items-center gap-2">
+                    <span>←</span> 이전 페이지
+                </button>
+                <span class="text-gray-400 font-bold text-sm">Page 8 of 14</span>
+                <button class="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3.5 rounded-xl font-bold shadow-[0_4px_12px_rgba(49,130,246,0.3)] transition-all flex items-center gap-2">
+                    다음 페이지 <span>→</span>
+                </button>
+            </div>
+
+        </main>
+
+        <!-- 5. 우측 네비게이션 목차 (TOC) -->
+        <aside class="page-side-toc-shell hidden xl:block xl:w-72 2xl:w-80 shrink-0 xl:sticky xl:top-[6.5rem] self-start pr-6 pl-2" data-page-toc-shell>
+            <div class="page-side-toc-panel p-6 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="page-side-toc-header mb-5 border-b border-slate-200 pb-3">
+                    <div class="page-side-toc-eyebrow text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">This Page</div>
+                    <div class="page-side-toc-title font-extrabold text-slate-800 text-lg">8. 실행 환경 및 스크립트</div>
+                </div>
+                <nav class="page-side-toc-nav space-y-2.5" id="toc-nav">
+                    <!-- JS에 의해 상태가 업데이트됨 -->
+                    <a href="#" class="block text-sm transition-all pl-3 border-l-2 border-blue-600 font-bold text-blue-600" data-toc-key="makefile">8.1 Makefile 작성</a>
+                    <a href="#" class="block text-sm transition-all pl-4 border-l-2 border-transparent text-slate-500 hover:text-slate-700" data-toc-key="cmdline">8.2 Command-Line</a>
+                    <a href="#" class="block text-sm transition-all pl-4 border-l-2 border-transparent text-slate-500 hover:text-slate-700" data-toc-key="waveform">8.3 Waveform 디버깅</a>
+                </nav>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Logic Script -->
+    <script>
+        // --- 1. Tab & TOC Navigation Logic ---
+        const tabData = {
+            'makefile': {
+                label: '8.1 Makefile 작성 및 컴파일 파이프라인',
+                copy: 'UVM 시뮬레이션은 크게 Compilation (컴파일), Elaboration (연결), Simulation (실행)의 세 단계를 거칩니다. 시뮬레이터의 복잡한 옵션을 관리하고 일관성을 유지하기 위해 Makefile 작성이 필수적입니다.'
+            },
+            'cmdline': {
+                label: '8.2 Command-Line Processor (+UVM_...)',
+                copy: 'UVM의 가장 강력한 기능 중 하나는 소스 코드를 재컴파일하지 않고도 커맨드 라인 인자(Plusargs)를 통해 시뮬레이션 동작(테스트 시나리오, 로그 레벨 등)을 동적으로 제어할 수 있다는 점입니다.'
+            },
+            'waveform': {
+                label: '8.3 Waveform & Transaction 디버깅',
+                copy: '전통적인 RTL 디버깅과 달리, UVM 환경에서는 Transaction Level Modeling(TLM)을 사용하므로 시각적인 블록으로 통신을 확인하는 것이 디버깅 효율을 극대화합니다.'
+            }
+        };
+
+        window.hasDrawnWave = false;
+
+        window.switchTab = function(key) {
+            // UI Tab highlight
+            document.querySelectorAll('[data-part8-tab]').forEach(t => {
+                if(t.dataset.part8Tab === key) {
+                    t.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-200');
+                    t.classList.remove('text-slate-600', 'border-slate-200', 'hover:bg-slate-100');
+                } else {
+                    t.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-200');
+                    t.classList.add('text-slate-600', 'border-slate-200', 'hover:bg-slate-100');
+                }
+            });
+
+            // Panel visibility
+            document.querySelectorAll('[data-part8-panel]').forEach(p => {
+                p.hidden = (p.dataset.part8Panel !== key);
+            });
+
+            // Header copy update
+            document.getElementById('part8-current-label').textContent = tabData[key].label;
+            document.getElementById('part8-current-copy').textContent = tabData[key].copy;
+
+            // TOC Active highlight
+            document.querySelectorAll('#toc-nav a').forEach(a => {
+                if(a.dataset.tocKey === key) {
+                    a.classList.add('text-blue-600', 'font-bold', 'border-blue-600', 'pl-3');
+                    a.classList.remove('text-slate-500', 'border-transparent', 'pl-4');
+                } else {
+                    a.classList.remove('text-blue-600', 'font-bold', 'border-blue-600', 'pl-3');
+                    a.classList.add('text-slate-500', 'border-transparent', 'pl-4');
+                }
+            });
+
+            // Trigger animation on Waveform tab
+            if(key === 'waveform' && !window.hasDrawnWave) {
+                setTimeout(() => {
+                    if (typeof window.createWaveSVG === 'function') {
+                        window.createWaveSVG();
+                    }
+                }, 100);
+                window.hasDrawnWave = true;
+            }
+        };
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.GuidebookPage) {
+                document.querySelectorAll('[data-part8-tab]').forEach((tab) => {
+                    tab.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        switchTab(tab.dataset.part8Tab);
+                    });
+                });
+
+                document.querySelectorAll('#toc-nav [data-toc-key]').forEach((link) => {
+                    link.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        switchTab(link.dataset.tocKey);
+                    });
+                });
+
+                document.querySelectorAll('[onclick]').forEach((element) => {
+                    element.removeAttribute('onclick');
+                });
+            }
+
+            // Initialize default tab
+            switchTab('makefile');
+
+            // --- 2. Panel 8.2: Command-Line Simulator Logic ---
+            let currentTest = '+UVM_TESTNAME=test_sanity';
+            let currentVerb = '+UVM_VERBOSITY=UVM_LOW';
+            
+            const termCmdEl = document.getElementById('term-cmd');
+            const ctrlBtns = document.querySelectorAll('.sim-ctrl-btn');
+            const runBtn = document.getElementById('btn-run-sim');
+            const logContainer = document.getElementById('sim-log-container');
+
+            function updateTerminalText() {
+                termCmdEl.innerHTML = `${currentTest} ${currentVerb} <span class="typing-cursor"></span>`;
+            }
+
+            ctrlBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const type = btn.getAttribute('data-type');
+                    document.querySelectorAll(`.sim-ctrl-btn[data-type="${type}"]`).forEach(b => {
+                        b.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700');
+                    });
+                    btn.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700');
+
+                    const cmd = btn.getAttribute('data-cmd');
+                    if (type === 'test') currentTest = cmd;
+                    if (type === 'verb') currentVerb = cmd;
+
+                    updateTerminalText();
+                });
+            });
+
+            // Set default button states
+            document.querySelector('[data-cmd="+UVM_TESTNAME=test_sanity"]').classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700');
+            document.querySelector('[data-cmd="+UVM_VERBOSITY=UVM_LOW"]').classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700');
+            updateTerminalText();
+
+            const logScenarios = {
+                'test_sanity_UVM_LOW': [
+                    { time: 0, msg: "UVM_INFO @ 0: reporter [RNTST] Running test test_sanity...", color: "text-blue-400" },
+                    { time: 100, msg: "UVM_INFO @ 1000: base_test [TEST] Entering main phase.", color: "text-slate-300" },
+                    { time: 300, msg: "UVM_INFO @ 50000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase", color: "text-blue-400" },
+                    { time: 400, msg: "UVM_INFO @ 50000: reporter [UVM/REPORT/CATCHER] \n--- UVM Report Summary ---\n** Report counts by severity\nUVM_INFO :    3\nUVM_WARNING :    0\nUVM_ERROR :    0\nUVM_FATAL :    0", color: "text-green-400" },
+                    { time: 500, msg: "Simulation complete via $finish(1).", color: "text-slate-400" }
+                ],
+                'test_sanity_UVM_HIGH': [
+                    { time: 0, msg: "UVM_INFO @ 0: reporter [RNTST] Running test test_sanity...", color: "text-blue-400" },
+                    { time: 50, msg: "UVM_INFO @ 0: env.agt.sqr [SQR] Starting sequence seq_sanity", color: "text-slate-400" },
+                    { time: 100, msg: "UVM_INFO @ 10: env.agt.drv [DRV] Driving Item: Addr=0x10, Data=0xAA", color: "text-emerald-300" },
+                    { time: 150, msg: "UVM_INFO @ 15: env.agt.mon [MON] Observed Item: Addr=0x10, Data=0xAA", color: "text-emerald-300" },
+                    { time: 200, msg: "UVM_INFO @ 20: env.agt.drv [DRV] Driving Item: Addr=0x20, Data=0xBB", color: "text-emerald-300" },
+                    { time: 250, msg: "UVM_INFO @ 25: env.agt.mon [MON] Observed Item: Addr=0x20, Data=0xBB", color: "text-emerald-300" },
+                    { time: 350, msg: "UVM_INFO @ 50000: reporter [TEST_DONE] 'run' phase is ready to proceed...", color: "text-blue-400" },
+                    { time: 400, msg: "UVM_INFO @ 50000: reporter [UVM/REPORT/CATCHER] \n--- UVM Report Summary ---\n** Report counts by severity\nUVM_INFO :   25\nUVM_WARNING :    0\nUVM_ERROR :    0", color: "text-green-400" }
+                ],
+                'test_err_inj_UVM_LOW': [
+                    { time: 0, msg: "UVM_INFO @ 0: reporter [RNTST] Running test test_err_inj...", color: "text-blue-400" },
+                    { time: 200, msg: "UVM_ERROR @ 350: env.scb [SCB_MISMATCH] Data Mismatch! Exp=0xCC, Act=0x00", color: "text-red-400 font-bold" },
+                    { time: 400, msg: "UVM_INFO @ 50000: reporter [UVM/REPORT/CATCHER] \n--- UVM Report Summary ---\n** Report counts by severity\nUVM_INFO :    3\nUVM_WARNING :    0\nUVM_ERROR :    1", color: "text-red-400 font-bold" },
+                    { time: 500, msg: "Simulation complete via $finish(1).", color: "text-slate-400" }
+                ],
+                'test_err_inj_UVM_HIGH': [
+                    { time: 0, msg: "UVM_INFO @ 0: reporter [RNTST] Running test test_err_inj...", color: "text-blue-400" },
+                    { time: 50, msg: "UVM_INFO @ 0: env.agt.sqr [ERR_SEQ] Starting error injection sequence", color: "text-slate-400" },
+                    { time: 100, msg: "UVM_INFO @ 10: env.agt.drv [DRV] Injecting CRC Error on Addr=0x30", color: "text-amber-300" },
+                    { time: 200, msg: "UVM_ERROR @ 350: env.scb [SCB_MISMATCH] Data Mismatch! Exp=0xCC, Act=0x00 (Corrupted)", color: "text-red-400 font-bold" },
+                    { time: 350, msg: "UVM_INFO @ 50000: reporter [TEST_DONE] 'run' phase is ready to proceed...", color: "text-blue-400" },
+                    { time: 400, msg: "UVM_INFO @ 50000: reporter [UVM/REPORT/CATCHER] \n** Report counts by severity\nUVM_ERROR :    1", color: "text-red-400 font-bold" }
+                ]
+            };
+
+            let isRunning = false;
+
+            runBtn.addEventListener('click', () => {
+                if (isRunning) return;
+                isRunning = true;
+                
+                logContainer.innerHTML = '';
+                runBtn.disabled = true;
+                runBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Compiling...';
+
+                setTimeout(() => {
+                    runBtn.innerHTML = 'Simulating...';
+                    
+                    const testName = currentTest.split('=')[1];
+                    const verbLevel = currentVerb.split('=')[1];
+                    const scenarioKey = `${testName}_${verbLevel}`;
+                    const logs = logScenarios[scenarioKey] || logScenarios['test_sanity_UVM_LOW'];
+
+                    logs.forEach((logItem, index) => {
+                        setTimeout(() => {
+                            const div = document.createElement('div');
+                            div.className = `log-line mb-1.5 ${logItem.color}`;
+                            div.textContent = logItem.msg;
+                            logContainer.appendChild(div);
+                            logContainer.scrollTop = logContainer.scrollHeight;
+
+                            if (index === logs.length - 1) {
+                                isRunning = false;
+                                runBtn.disabled = false;
+                                runBtn.innerHTML = '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg> Run Simulation';
+                            }
+                        }, logItem.time);
+                    });
+
+                }, 600); // fake compile delay
+            });
+
+            // --- 3. Panel 8.3: Waveform Animation Logic ---
+            const playWaveBtn = document.getElementById('btn-play-wave');
+            const waveSvg = document.getElementById('wave-svg');
+
+            window.createWaveSVG = function() {
+                waveSvg.innerHTML = ''; // clear existing
+                
+                // 1. Clock Signal (y=20 to 30)
+                let clkPath = 'M 0 35 ';
+                for (let i = 0; i < 12; i++) {
+                    let x = i * 50;
+                    clkPath += `L ${x} 35 L ${x} 15 L ${x+25} 15 L ${x+25} 35 `;
+                }
+                const clk = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                clk.setAttribute('d', clkPath);
+                clk.setAttribute('stroke', '#eab308'); // yellow-500
+                clk.setAttribute('stroke-width', '1.5');
+                clk.setAttribute('fill', 'none');
+                clk.setAttribute('class', 'draw-wave');
+                waveSvg.appendChild(clk);
+
+                // 2. Req Valid (y=75 to 90)
+                let validPath = 'M 0 85 L 75 85 L 75 65 L 125 65 L 125 85 L 275 85 L 275 65 L 325 65 L 325 85 L 600 85';
+                const valid = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                valid.setAttribute('d', validPath);
+                valid.setAttribute('stroke', '#93c5fd'); // blue-300
+                valid.setAttribute('stroke-width', '1.5');
+                valid.setAttribute('fill', 'none');
+                valid.setAttribute('class', 'draw-wave');
+                waveSvg.appendChild(valid);
+
+                // 3. Req Addr (Bus, y=115 to 135)
+                let addrPath = 'M 0 125 L 70 125 L 75 115 L 120 115 L 125 125 L 270 125 L 275 115 L 320 115 L 325 125 L 600 125 ' + 
+                               'M 70 125 L 75 135 L 120 135 L 125 125 ' + 
+                               'M 270 125 L 275 135 L 320 135 L 325 125';
+                const addr = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                addr.setAttribute('d', addrPath);
+                addr.setAttribute('stroke', '#93c5fd'); // blue-300
+                addr.setAttribute('stroke-width', '1.5');
+                addr.setAttribute('fill', 'none');
+                addr.setAttribute('class', 'draw-wave');
+                waveSvg.appendChild(addr);
+
+                // Addr Text
+                const txt1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                txt1.setAttribute('x', '97'); txt1.setAttribute('y', '128');
+                txt1.setAttribute('fill', '#fff'); txt1.setAttribute('font-size', '10');
+                txt1.setAttribute('text-anchor', 'middle'); txt1.setAttribute('class', 'font-mono log-line');
+                txt1.style.animationDelay = '0.5s';
+                txt1.textContent = '10';
+                waveSvg.appendChild(txt1);
+
+                const txt2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                txt2.setAttribute('x', '297'); txt2.setAttribute('y', '128');
+                txt2.setAttribute('fill', '#fff'); txt2.setAttribute('font-size', '10');
+                txt2.setAttribute('text-anchor', 'middle'); txt2.setAttribute('class', 'font-mono log-line');
+                txt2.style.animationDelay = '1.5s';
+                txt2.textContent = '20';
+                waveSvg.appendChild(txt2);
+
+                // 4. UVM Transaction Box (y=165 to 195)
+                setTimeout(() => {
+                    const tx1Group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                    tx1Group.setAttribute('class', 'tx-box');
+                    tx1Group.innerHTML = `
+                        <rect x="75" y="165" width="100" height="26" rx="4" fill="rgba(236, 72, 153, 0.2)" stroke="#ec4899" stroke-width="1.5"></rect>
+                        <text x="125" y="182" fill="#fbcfe8" font-size="11" text-anchor="middle" class="font-mono font-bold">WRITE: 0x10</text>
+                    `;
+                    waveSvg.appendChild(tx1Group);
+                }, 800);
+
+                setTimeout(() => {
+                    const tx2Group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                    tx2Group.setAttribute('class', 'tx-box');
+                    tx2Group.innerHTML = `
+                        <rect x="275" y="165" width="150" height="26" rx="4" fill="rgba(56, 189, 248, 0.2)" stroke="#38bdf8" stroke-width="1.5"></rect>
+                        <text x="350" y="182" fill="#bae6fd" font-size="11" text-anchor="middle" class="font-mono font-bold">READ: 0x20</text>
+                    `;
+                    waveSvg.appendChild(tx2Group);
+                }, 1600);
+            }
+
+            playWaveBtn.addEventListener('click', () => {
+                createWaveSVG();
+            });
+
+        });
+    </script>
+</body>
+</html>

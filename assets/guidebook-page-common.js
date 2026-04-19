@@ -6273,6 +6273,8 @@ function escapeHtml(value) {
     const initParentBridge = () => {
         if (!embedded()) return;
 
+        document.documentElement.classList.add('is-embedded');
+        document.body?.classList.add('is-embedded');
         lockEmbeddedScroll();
         let syncRaf = 0;
         const scheduleBridgeSync = () => {

@@ -1,0 +1,19 @@
+{
+  "output": "../page-6-role-flow.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-role-map.html",
+    "20-grid-start.html",
+    "sections/02-foundation-ip.html",
+    "sections/03-design-platform.html",
+    "sections/04-design-verification.html",
+    "sections/05-design-for-test.html",
+    "sections/06-physical-implementation.html",
+    "sections/07-physical-design.html",
+    "sections/08-application-platform.html",
+    "29-grid-end.html",
+    "sections/09-related-roles.html",
+    "sections/10-advanced-keywords.html",
+    "99-shell-end.html"
+  ]
+}

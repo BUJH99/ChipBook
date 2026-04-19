@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 4: UVM 클래스 | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
+    <script src="../assets/chapter7-embed-common.js" defer></script>
+    
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #0f172a; overflow-x: hidden; }
+        .font-mono { font-family: 'IBM Plex Sans', monospace; }
+        
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* 가이드북 공통 레이아웃 유틸 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        [data-panel][hidden] { display: none !important; }
+
+        /* 콘텐츠 헤더 디자인 */
+        .content-header-shell { 
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
+            color: white; padding: 3rem 2.5rem; border-radius: 1.5rem;
+            position: relative; overflow: hidden; margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+        }
+        .content-header-shell::after {
+            content: ''; position: absolute; top: -50%; right: -20%; width: 60%; height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+            transform: rotate(-15deg); pointer-events: none;
+        }
+
+        /* 탭 내비게이션 */
+        .tab-nav-container { border-bottom: 1px solid #e2e8f0; margin-bottom: 2rem; display: flex; gap: 1rem; }
+        .tab-btn {
+            padding: 1rem 1.5rem; font-size: 1rem; font-weight: 700; color: #64748b;
+            border-bottom: 3px solid transparent; transition: all 0.2s ease;
+            white-space: nowrap; cursor: pointer; display: flex; items-center; gap: 0.5rem;
+        }
+        .tab-btn:hover { color: #1e293b; background-color: #f8fafc; border-radius: 0.5rem 0.5rem 0 0; }
+        .tab-btn.active { color: #2563eb; border-bottom-color: #2563eb; background-color: #eff6ff; border-radius: 0.5rem 0.5rem 0 0; }
+
+        /* 다이어그램 캔버스 */
+        .diagram-grid {
+            background-color: #ffffff;
+            background-image: linear-gradient(rgba(148, 163, 184, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px; border-radius: 1rem; box-shadow: inset 0 2px 20px rgba(0,0,0,0.02);
+        }
+
+        /* SVG & TLM 통신 애니메이션 시스템 */
+        .uvm-comp { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 8; transition: all 0.3s ease; }
+        .uvm-comp:hover { stroke: #3b82f6; filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.15)); }
+        
+        .data-packet {
+            position: absolute; width: 16px; height: 10px; border-radius: 3px;
+            background: linear-gradient(90deg, #60a5fa, #3b82f6);
+            box-shadow: 0 0 12px rgba(59,130,246,0.8), inset 0 0 4px rgba(255,255,255,0.6);
+            offset-path: path(var(--path));
+            animation: movePacket var(--duration) cubic-bezier(0.4, 0, 0.2, 1) infinite; z-index: 10;
+        }
+        .data-packet.ap-packet {
+            background: radial-gradient(circle, #c084fc, #a855f7); border-radius: 50%;
+            width: 12px; height: 12px; box-shadow: 0 0 12px rgba(168,85,247,0.8);
+        }
+        @keyframes movePacket {
+            0% { offset-distance: 0%; opacity: 0; transform: scale(0.3); }
+            10% { opacity: 1; transform: scale(1.1); }
+            85% { opacity: 1; transform: scale(1.1); }
+            100% { offset-distance: 100%; opacity: 0; transform: scale(0.3); }
+        }
+
+        /* Agent Toggle 상태 */
+        .agent-container { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .is-passive .active-only { opacity: 0.15; filter: grayscale(100%); transform: translateY(5px) scale(0.98); pointer-events: none; transition: all 0.5s ease; }
+        .is-passive .passive-overlay { opacity: 1; }
+        .passive-overlay { opacity: 0; transition: opacity 0.5s ease; }
+        .flow-line { stroke-dasharray: 6; animation: dash-flow 1s linear infinite; }
+        @keyframes dash-flow { to { stroke-dashoffset: -12; } }
+
+        /* Methods Lab Scanning & Glitch */
+        .scan-laser {
+            position: absolute; left: -10%; width: 120%; height: 3px;
+            background: #a855f7; box-shadow: 0 0 20px 4px rgba(168, 85, 247, 0.6);
+            z-index: 40; opacity: 0; transform: translateY(0);
+        }
+        @keyframes scan-down {
+            0% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(220px); opacity: 0; }
+        }
+        .glitch-text { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; color: #ef4444; }
+        @keyframes glitch { 0% { transform: translate(0) } 20% { transform: translate(-2px, 1px) } 40% { transform: translate(-1px, -1px) } 60% { transform: translate(2px, 1px) } 80% { transform: translate(1px, -1px) } 100% { transform: translate(0) } }
+        .fly-particle { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #3b82f6; box-shadow: 0 0 15px #3b82f6, 0 0 30px #3b82f6; pointer-events: none; z-index: 50; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+        /* 사이드바 ToC 활성 상태 */
+        .toc-link { transition: all 0.2s ease; border-left: 2px solid transparent; }
+        .toc-link.active { border-left-color: #2563eb; color: #2563eb; font-weight: 700; background-color: #f8fafc; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Global Header -->
+    <header class="bg-white sticky top-0 z-50 border-b border-slate-200 shadow-sm h-[4.5rem]">
+        <div class="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-md">A</div>
+                <div>
+                    <span class="text-xl font-black text-slate-800 tracking-tight">반도체 디지털 회로설계 가이드북</span>
+                    <div class="hidden sm:block text-xs font-semibold text-slate-500 uppercase tracking-widest mt-0.5">Semiconductor Digital Design Guide</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 text-sm font-semibold text-slate-500">
+                <span class="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">v2.1.0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout Frame -->
+    <div class="flex-grow max-w-[2000px] mx-auto w-full flex relative">
+        
+        <!-- Left Sidebar Navigation -->
+        <aside class="hidden lg:flex flex-col w-72 shrink-0 border-r border-slate-200 bg-slate-50/50 h-[calc(100vh-4.5rem)] sticky top-[4.5rem] overflow-y-auto">
+            <div class="p-6">
+                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">UVM Study Roadmap</h3>
+                <nav class="space-y-1">
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 font-medium transition-colors">
+                        <span class="w-6 text-center text-slate-400 text-sm">P1</span> SV 기초 (OOP)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 font-medium transition-colors">
+                        <span class="w-6 text-center text-slate-400 text-sm">P2</span> UVM 큰 그림 (Top View)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 font-medium transition-colors">
+                        <span class="w-6 text-center text-slate-400 text-sm">P3</span> UVM 코어 메커니즘
+                    </a>
+                    
+                    <!-- Active Menu Item -->
+                    <div class="relative py-1">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-r-md"></div>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 bg-blue-50/80 rounded-lg text-blue-700 font-bold transition-colors shadow-sm border border-blue-100/50">
+                            <span class="w-6 text-center text-blue-500 text-sm">P4</span> UVM 클래스 분류
+                        </a>
+                        <div class="pl-12 pr-4 py-2 space-y-2 text-sm text-slate-500 border-l border-slate-200 ml-6 mt-1">
+                            <a href="#overview" class="block hover:text-blue-600 transition-colors">1. Component vs Object</a>
+                            <a href="#component" class="block hover:text-blue-600 transition-colors">2. 정적 구조 (Agent)</a>
+                            <a href="#object" class="block hover:text-blue-600 transition-colors">3. 동적 제어 (Methods)</a>
+                        </div>
+                    </div>
+
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 font-medium transition-colors">
+                        <span class="w-6 text-center text-slate-400 text-sm">P5</span> 자극 생성 (Stimulus)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 font-medium transition-colors">
+                        <span class="w-6 text-center text-slate-400 text-sm">P6</span> RAL Model
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Center Main Content -->
+        <main class="flex-grow flex flex-col min-w-0 bg-white relative">
+            <div class="flex-grow p-6 sm:p-10 max-w-5xl mx-auto w-full">
+                
+                <!-- Content Header -->
+                <header class="content-header-shell shadow-lg">
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-200 border border-blue-400/30 rounded-full text-xs font-black tracking-widest uppercase backdrop-blur-sm">PHASE 4</span>
+                            <span class="text-blue-200 text-sm font-semibold tracking-wide flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                UVM Architecture & Data Model
+                            </span>
+                        </div>
+                        <h1 class="text-4xl font-black text-white tracking-tight mb-3">Component vs Object: 구조와 데이터</h1>
+                        <p class="text-lg text-slate-300 font-medium leading-relaxed max-w-3xl">정적인 테스트벤치 뼈대(Architecture)와 그 사이를 동적으로 흐르는 트랜잭션(Transaction)의 분리 설계 원리를 시각적으로 이해합니다.</p>
+                    </div>
+                </header>
+
+                <!-- Tabs -->
+                <div class="tab-nav-container hide-scrollbar overflow-x-auto">
+                    <button data-tab-target="overview" class="tab-btn active"><span class="text-lg">🔄</span> 1. UVM의 두 기둥</button>
+                    <button data-tab-target="component" class="tab-btn"><span class="text-lg">🏛️</span> 2. 정적 구조 설계</button>
+                    <button data-tab-target="object" class="tab-btn"><span class="text-lg">⚡</span> 3. 동적 데이터 실습</button>
+                </div>
+
+                <!-- ==========================================
+                     PANEL 1: Overview
+                     ========================================== -->
+                <section data-panel="overview" class="block animate-fade-in pb-10">
+                    <div class="mb-8" id="sec-1-1">
+                        <h2 class="text-2xl font-black text-slate-900 mb-3">공장(Factory)과 제품(Object)의 분리</h2>
+                        <p class="text-slate-600 text-lg leading-relaxed">UVM을 완벽히 다루는 핵심은 환경을 구성하는 <b>'설비(Component)'</b>와 그 안에서 처리되는 <b>'데이터 패킷(Object)'</b>을 명확히 분리하여 사고하는 것입니다.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-400 transition-all duration-300">
+                            <div class="flex items-center gap-4 mb-5">
+                                <div class="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-2xl shadow-md">🏛️</div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-slate-800 font-mono">uvm_component</h3>
+                                    <p class="text-sm text-blue-600 font-bold">정적 아키텍처 (Quasi-Static)</p>
+                                </div>
+                            </div>
+                            <ul class="space-y-3 text-slate-600 text-sm bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <li class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0"></div> <span><b>계층 구조 (Hierarchy):</b> 부모-자식 관계를 가지며 트리를 형성합니다. (예: Env -> Agent -> Driver)</span></li>
+                                <li class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0"></div> <span><b>생명 주기 (Phase):</b> 시뮬레이션 시작에 한 번 생성(build)되어 끝날 때까지 메모리에 상주합니다.</span></li>
+                                <li class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0"></div> <span><b>연결 (TLM Port):</b> 컴포넌트 간에는 Port/Export를 통해 전용 통신망을 연결합니다.</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-purple-400 transition-all duration-300">
+                            <div class="flex items-center gap-4 mb-5">
+                                <div class="w-12 h-12 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-2xl shadow-md">✉️</div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-slate-800 font-mono">uvm_object</h3>
+                                    <p class="text-sm text-purple-600 font-bold">동적 데이터 (Dynamic)</p>
+                                </div>
+                            </div>
+                            <ul class="space-y-3 text-slate-600 text-sm bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <li class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0"></div> <span><b>트랜잭션 (Transaction):</b> Sequence Item과 같이 버스를 타고 다니는 실질적인 데이터 패킷입니다.</span></li>
+                                <li class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0"></div> <span><b>생명 주기 (Transient):</b> 시뮬레이션 중 필요할 때마다 동적 생성(new)되고 소멸(GC)됩니다.</span></li>
+                                <li class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0"></div> <span><b>계층 없음:</b> 물리적 구조가 아니므로 부모(parent) 파라미터를 갖지 않으며 Phase 메커니즘도 없습니다.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-4" id="sec-1-2">
+                        <h3 class="text-xl font-black text-slate-900">TLM Data Flow Visualization</h3>
+                    </div>
+                    <!-- Flow Visualization Canvas -->
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xl diagram-grid relative h-[500px]" id="flow-canvas-container">
+                        <!-- Legend -->
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-lg border border-slate-200 shadow-sm flex gap-4 text-xs font-bold z-20">
+                            <div class="flex items-center gap-2"><div class="w-3 h-3 bg-blue-500 rounded-sm shadow-[0_0_8px_#3b82f6]"></div> Sequence Item</div>
+                            <div class="flex items-center gap-2"><div class="w-3 h-3 bg-purple-500 rounded-full shadow-[0_0_8px_#a855f7]"></div> Analysis Data</div>
+                        </div>
+
+                        <svg width="100%" height="100%" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="absolute inset-0">
+                            <defs>
+                                <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"/></marker>
+                                <marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/></marker>
+                                <!-- Paths for packets -->
+                                <path id="path-seq-drv" d="M 230 240 L 350 240" fill="none" />
+                                <path id="path-dut-mon" d="M 450 370 L 530 370 L 530 260 L 610 260" fill="none" />
+                                <path id="path-ap-sb" d="M 750 240 L 800 240 L 800 150 L 850 150" fill="none" />
+                                <path id="path-ap-cov" d="M 750 240 L 800 240 L 800 330 L 850 330" fill="none" />
+                            </defs>
+
+                            <!-- Background boundaries -->
+                            <rect x="40" y="60" width="920" height="380" rx="16" fill="rgba(248, 250, 252, 0.7)" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 4"/>
+                            <text x="60" y="90" font-family="Pretendard" font-weight="900" font-size="16" fill="#64748b">UVM_ENV (Component Hierarchy)</text>
+
+                            <rect x="60" y="120" width="690" height="280" rx="12" fill="rgba(255, 255, 255, 0.9)" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4"/>
+                            <text x="75" y="145" font-family="Pretendard" font-weight="800" font-size="14" fill="#475569">UVM_AGENT</text>
+
+                            <!-- TLM Port Lines -->
+                            <path d="M 230 240 L 350 240" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+                            <rect x="230" y="234" width="12" height="12" fill="#3b82f6" stroke="#fff" stroke-width="2" />
+                            <rect x="340" y="234" width="12" height="12" fill="none" stroke="#3b82f6" stroke-width="2" />
+                            <text x="290" y="230" font-family="IBM Plex Sans" font-size="11" font-weight="bold" fill="#3b82f6" text-anchor="middle">seq_item_port</text>
+
+                            <path d="M 750 240 L 820 240" stroke="#a855f7" stroke-width="2" fill="none"/>
+                            <path d="M 820 240 L 820 150 L 850 150" stroke="#a855f7" stroke-width="2" fill="none" marker-end="url(#arrow-gray)"/>
+                            <path d="M 820 240 L 820 330 L 850 330" stroke="#a855f7" stroke-width="2" fill="none" marker-end="url(#arrow-gray)"/>
+                            <rect x="744" y="234" width="12" height="12" fill="#a855f7" transform="rotate(45 750 240)" />
+                            <text x="770" y="230" font-family="IBM Plex Sans" font-size="11" font-weight="bold" fill="#a855f7">Analysis Port (ap)</text>
+
+                            <!-- DUT Interface -->
+                            <rect x="350" y="410" width="220" height="40" rx="6" fill="#1e293b"/>
+                            <text x="460" y="435" font-family="IBM Plex Sans" font-weight="bold" font-size="12" fill="#60a5fa" text-anchor="middle">DUT (Hardware)</text>
+                            
+                            <!-- Interface signals -->
+                            <path d="M 420 270 L 420 410" stroke="#ef4444" stroke-width="2" fill="none" marker-end="url(#arrow-gray)"/>
+                            <text x="410" y="340" font-family="IBM Plex Sans" font-size="11" font-weight="bold" fill="#ef4444" transform="rotate(-90 410 340)">Drive (vif)</text>
+                            <path d="M 500 410 L 500 270" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrow-gray)"/>
+                            <text x="515" y="340" font-family="IBM Plex Sans" font-size="11" font-weight="bold" fill="#10b981" transform="rotate(-90 515 340)">Snoop (vif)</text>
+
+                            <!-- Components Blocks -->
+                            <!-- Sequencer -->
+                            <g transform="translate(90, 210)">
+                                <rect width="140" height="60" class="uvm-comp"/>
+                                <text x="70" y="25" font-family="Pretendard" font-weight="800" font-size="14" fill="#1e293b" text-anchor="middle">Sequencer</text>
+                                <text x="70" y="40" font-family="IBM Plex Sans" font-size="11" fill="#64748b" text-anchor="middle">Factory Create</text>
+                                <circle cx="20" cy="30" r="4" fill="#3b82f6" class="animate-pulse"/>
+                            </g>
+                            <!-- Driver -->
+                            <g transform="translate(350, 210)">
+                                <rect width="140" height="60" class="uvm-comp"/>
+                                <text x="70" y="25" font-family="Pretendard" font-weight="800" font-size="14" fill="#1e293b" text-anchor="middle">Driver</text>
+                                <text x="70" y="40" font-family="IBM Plex Sans" font-size="11" fill="#64748b" text-anchor="middle">Object → Pin</text>
+                            </g>
+                            <!-- Monitor -->
+                            <g transform="translate(610, 210)">
+                                <rect width="140" height="60" class="uvm-comp"/>
+                                <text x="70" y="25" font-family="Pretendard" font-weight="800" font-size="14" fill="#1e293b" text-anchor="middle">Monitor</text>
+                                <text x="70" y="40" font-family="IBM Plex Sans" font-size="11" fill="#64748b" text-anchor="middle">Pin → Object</text>
+                            </g>
+                            <!-- Scoreboard -->
+                            <g transform="translate(850, 120)">
+                                <rect width="120" height="60" class="uvm-comp" stroke="#d8b4fe"/>
+                                <text x="60" y="25" font-family="Pretendard" font-weight="800" font-size="14" fill="#1e293b" text-anchor="middle">Scoreboard</text>
+                                <text x="60" y="40" font-family="IBM Plex Sans" font-size="11" fill="#64748b" text-anchor="middle">Checking</text>
+                            </g>
+                            <!-- Subscriber -->
+                            <g transform="translate(850, 300)">
+                                <rect width="120" height="60" class="uvm-comp" stroke="#d8b4fe"/>
+                                <text x="60" y="25" font-family="Pretendard" font-weight="800" font-size="14" fill="#1e293b" text-anchor="middle">Subscriber</text>
+                                <text x="60" y="40" font-family="IBM Plex Sans" font-size="11" fill="#64748b" text-anchor="middle">Coverage</text>
+                            </g>
+                        </svg>
+                        <div id="packet-container" class="absolute inset-0 pointer-events-none z-10"></div>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================
+                     PANEL 2: Component (Agent Toggle)
+                     ========================================== -->
+                <section data-panel="component" hidden class="animate-fade-in pb-10">
+                    <div class="mb-8" id="sec-2-1">
+                        <h2 class="text-2xl font-black text-slate-900 mb-3">정적 구조 설계: Agent 재사용성 극대화</h2>
+                        <p class="text-slate-600 text-lg leading-relaxed">Agent는 인터페이스 통신의 기본 단위입니다. UVM은 코드 수정 없이 Config DB 설정만으로 Agent 내부 구조를 <b>Active(직접 구동)</b> 또는 <b>Passive(수동 모니터링)</b> 모드로 변형시켜 재사용성을 100% 확보합니다.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        <!-- Code Box -->
+                        <div class="col-span-1 lg:col-span-5 w-full">
+                            <div class="bg-[#0d1117] rounded-xl border border-[#30363d] shadow-xl overflow-hidden">
+                                <div class="bg-[#161b22] px-4 py-2 border-b border-[#30363d] flex items-center justify-between">
+                                    <span class="text-xs font-mono text-[#8b949e]">my_agent.sv</span>
+                                    <div class="flex gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-red-500"></div><div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div><div class="w-2.5 h-2.5 rounded-full bg-green-500"></div></div>
+                                </div>
+                                <div class="p-5 overflow-x-auto text-sm font-mono leading-relaxed text-[#c9d1d9]">
+<span class="text-[#ff7b72] font-bold">class</span> my_agent <span class="text-[#ff7b72] font-bold">extends</span> <span class="text-[#79c0ff]">uvm_agent</span>;
+  <span class="text-[#f0883e] font-bold">`uvm_component_utils</span>(my_agent)
+  
+  <span class="text-[#79c0ff]">uvm_active_passive_enum</span> is_active;
+  
+  my_sequencer sqr;
+  my_driver    drv;
+  my_monitor   mon; <span class="text-[#8b949e] italic">// 항상 생성됨</span>
+
+  <span class="text-[#ff7b72] font-bold">virtual function void</span> <span class="text-[#d2a8ff]">build_phase</span>(<span class="text-[#79c0ff]">uvm_phase</span> phase);
+    <span class="text-[#ff7b72] font-bold">super</span>.<span class="text-[#d2a8ff]">build_phase</span>(phase);
+    
+    <span class="text-[#8b949e] italic">// Monitor: Snoop 용도로 항상 Factory 생성</span>
+    mon = my_monitor::<span class="text-[#d2a8ff]">type_id::create</span>(<span class="text-[#a5d6ff]">"mon"</span>, <span class="text-[#ff7b72] font-bold">this</span>);
+
+    <span class="text-[#8b949e] italic">// Config에 따라 분기 처리</span>
+    <span class="text-[#ff7b72] font-bold">if</span>(get_is_active() == UVM_ACTIVE) <span class="text-[#ff7b72] font-bold">begin</span>
+      sqr = my_sequencer::<span class="text-[#d2a8ff]">type_id::create</span>(<span class="text-[#a5d6ff]">"sqr"</span>, <span class="text-[#ff7b72] font-bold">this</span>);
+      drv = my_driver::<span class="text-[#d2a8ff]">type_id::create</span>(<span class="text-[#a5d6ff]">"drv"</span>, <span class="text-[#ff7b72] font-bold">this</span>);
+    <span class="text-[#ff7b72] font-bold">end</span>
+  <span class="text-[#ff7b72] font-bold">endfunction</span>
+<span class="text-[#ff7b72] font-bold">endclass</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Diagram -->
+                        <div class="col-span-1 lg:col-span-7 w-full h-full">
+                            <div class="bg-white rounded-2xl shadow-xl border border-slate-200 flex flex-col h-full diagram-grid">
+                                
+                                <div class="px-6 py-4 border-b border-slate-100 bg-white/90 backdrop-blur z-20 flex flex-col sm:flex-row justify-between items-center gap-4">
+                                    <div>
+                                        <h3 class="font-bold text-slate-800 text-lg">Config Switcher</h3>
+                                        <p class="text-xs text-slate-500">생성(build_phase) 제어 메커니즘 확인</p>
+                                    </div>
+                                    <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200">
+                                        <button id="btn-active" class="px-5 py-2 rounded shadow bg-blue-600 text-white font-bold text-sm transition-all">UVM_ACTIVE</button>
+                                        <button id="btn-passive" class="px-5 py-2 rounded text-slate-500 font-bold text-sm hover:text-slate-800 transition-all">UVM_PASSIVE</button>
+                                    </div>
+                                </div>
+
+                                <div class="flex-grow relative p-6 flex justify-center items-center min-h-[350px]">
+                                    <svg class="w-full h-full agent-container" id="agent-svg" viewBox="0 0 500 300" preserveAspectRatio="xMidYMid meet">
+                                        <defs>
+                                            <pattern id="diag-stripes" width="8" height="8" patternTransform="rotate(45)"><rect width="4" height="8" fill="#e2e8f0"></rect></pattern>
+                                        </defs>
+
+                                        <rect x="10" y="20" width="480" height="210" rx="12" fill="white" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6" />
+                                        <text x="30" y="45" font-family="Pretendard" font-weight="900" font-size="16" fill="#475569">UVM_AGENT</text>
+
+                                        <line x1="10" y1="270" x2="490" y2="270" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+                                        <text x="250" y="260" font-family="IBM Plex Sans" font-weight="bold" font-size="12" fill="#64748b" text-anchor="middle">Virtual Interface (vif)</text>
+
+                                        <!-- ACTIVE Components -->
+                                        <g class="active-only">
+                                            <g transform="translate(40, 70)">
+                                                <rect width="130" height="50" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                                                <text x="65" y="30" font-family="Pretendard" font-weight="800" font-size="14" fill="#1d4ed8" text-anchor="middle">Sequencer</text>
+                                            </g>
+                                            <path d="M 105 120 L 105 150" stroke="#3b82f6" stroke-width="2" class="flow-line"/>
+                                            <polygon points="100,145 110,145 105,155" fill="#3b82f6"/>
+                                            
+                                            <g transform="translate(40, 150)">
+                                                <rect width="130" height="50" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                                                <text x="65" y="30" font-family="Pretendard" font-weight="800" font-size="14" fill="#1d4ed8" text-anchor="middle">Driver</text>
+                                            </g>
+                                            <path d="M 105 200 L 105 260" stroke="#ef4444" stroke-width="3" class="flow-line"/>
+                                            <polygon points="98,250 112,250 105,265" fill="#ef4444"/>
+                                            <text x="115" y="235" font-family="IBM Plex Sans" font-size="11" font-weight="bold" fill="#ef4444">Drive</text>
+                                        </g>
+
+                                        <!-- PASSIVE Overlay -->
+                                        <g class="passive-overlay pointer-events-none">
+                                            <rect x="40" y="70" width="130" height="130" rx="6" fill="url(#diag-stripes)" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4"/>
+                                            <text x="105" y="135" font-family="Pretendard" font-weight="bold" font-size="14" fill="#94a3b8" text-anchor="middle">Not Built</text>
+                                        </g>
+
+                                        <!-- Monitor -->
+                                        <g transform="translate(310, 110)">
+                                            <rect width="130" height="70" rx="6" fill="#f0fdf4" stroke="#10b981" stroke-width="2"/>
+                                            <text x="65" y="35" font-family="Pretendard" font-weight="800" font-size="14" fill="#15803d" text-anchor="middle">Monitor</text>
+                                            <text x="65" y="50" font-family="IBM Plex Sans" font-size="11" font-weight="bold" fill="#16a34a" text-anchor="middle">Always On</text>
+                                        </g>
+                                        <path d="M 375 260 L 375 180" stroke="#10b981" stroke-width="3" class="flow-line"/>
+                                        <polygon points="368,190 382,190 375,175" fill="#10b981"/>
+                                        <text x="385" y="225" font-family="IBM Plex Sans" font-size="11" font-weight="bold" fill="#10b981">Snoop</text>
+                                    </svg>
+                                </div>
+                                
+                                <div id="agent-desc" class="bg-blue-50 border-t border-blue-100 p-5 transition-colors duration-500 min-h-[110px] flex items-center">
+                                    <div>
+                                        <h4 class="font-bold text-blue-700 mb-1" id="agent-desc-title">Active 모드 (Block-Level 검증)</h4>
+                                        <p class="text-sm text-slate-700 leading-relaxed" id="agent-desc-text">DUT에 직접 자극(Stimulus)을 인가해야 하는 독립 블록 환경입니다. <code class="bg-white/60 px-1 rounded font-mono text-blue-600">build_phase</code>에서 Sequencer와 Driver가 메모리에 생성되어 동작합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ==========================================
+                     PANEL 3: Object Methods Lab
+                     ========================================== -->
+                <section data-panel="object" hidden class="animate-fade-in pb-10">
+                    <div class="mb-8" id="sec-3-1">
+                        <h2 class="text-2xl font-black text-slate-900 mb-3">동적 데이터 제어: Core Methods 실습</h2>
+                        <p class="text-slate-600 text-lg leading-relaxed">트랜잭션(uvm_object)은 내장 제어 메서드를 가집니다. 필드 매크로(`uvm_field_*)는 코딩이 편하지만 <b>시뮬레이션 속도 저하</b>가 심각하므로, 실무(특히 Scoreboard 로직)에서는 <code class="bg-slate-200 px-1.5 py-0.5 rounded font-mono text-sm text-slate-800">do_copy</code>, <code class="bg-slate-200 px-1.5 py-0.5 rounded font-mono text-sm text-slate-800">do_compare</code>를 직접 오버라이딩하여 성능을 극대화합니다.</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden relative diagram-grid flex flex-col">
+                        
+                        <div class="bg-slate-900 px-6 py-4 border-b border-slate-800 flex justify-between items-center z-20 flex-wrap gap-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center border border-purple-500/50">
+                                    <span class="text-purple-400 font-bold text-sm">⚡</span>
+                                </div>
+                                <h3 class="font-bold text-white tracking-wide">Methods Interactive Lab</h3>
+                            </div>
+                            <div class="flex gap-2 sm:gap-3 flex-wrap">
+                                <button id="btn-copy" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-mono text-sm font-bold rounded-lg shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all">B.copy(A)</button>
+                                <button id="btn-compare" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-mono text-sm font-bold rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all">B.compare(A)</button>
+                                <div class="w-px h-8 bg-slate-700 mx-1 hidden sm:block"></div>
+                                <button id="btn-mutate" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg text-sm transition-colors border border-slate-700" title="B의 데이터를 손상시킵니다">데이터 오류주입</button>
+                                <button id="btn-reset" class="px-3 py-2 text-slate-400 hover:text-white font-bold rounded-lg text-sm transition-colors">초기화</button>
+                            </div>
+                        </div>
+
+                        <div class="p-8 sm:p-12 flex flex-col md:flex-row justify-center items-center gap-16 md:gap-32 relative min-h-[420px]" id="lab-workspace">
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" id="lab-svg"></svg>
+
+                            <!-- Object A -->
+                            <div class="w-64 bg-white border-2 border-blue-500 rounded-xl shadow-2xl overflow-hidden z-20" id="obj-a">
+                                <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 px-4 border-b border-blue-900 flex justify-between items-center">
+                                    <span class="font-black tracking-wider text-sm">OBJECT A</span>
+                                    <span class="text-xs font-mono opacity-80 bg-black/30 px-2 py-0.5 rounded">Source</span>
+                                </div>
+                                <div class="p-6 space-y-5 font-mono text-sm relative bg-slate-50">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-400 font-sans font-bold text-xs">ADDR</span> 
+                                        <span class="text-blue-700 font-bold bg-white border border-blue-100 px-3 py-1.5 rounded shadow-sm">32'h1000</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-400 font-sans font-bold text-xs">DATA</span> 
+                                        <span class="text-blue-700 font-bold bg-white border border-blue-100 px-3 py-1.5 rounded shadow-sm">32'hABCD</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-400 font-sans font-bold text-xs">WRITE</span> 
+                                        <span class="text-blue-700 font-bold bg-white border border-blue-100 px-3 py-1.5 rounded shadow-sm">1'b1</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Scanner -->
+                            <div class="scan-laser" id="scanner"></div>
+
+                            <!-- Object B -->
+                            <div class="w-64 bg-white border-2 border-slate-300 rounded-xl shadow-lg overflow-hidden z-20 transition-all duration-300" id="obj-b">
+                                <div class="bg-slate-500 text-white py-3 px-4 border-b border-slate-600 flex justify-between items-center transition-colors duration-500" id="obj-b-header">
+                                    <span class="font-black tracking-wider text-sm">OBJECT B</span>
+                                    <span class="text-xs font-mono opacity-80 bg-black/30 px-2 py-0.5 rounded">Dest</span>
+                                </div>
+                                <div class="p-6 space-y-5 font-mono text-sm relative bg-slate-50">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-400 font-sans font-bold text-xs">ADDR</span> 
+                                        <span class="text-slate-400 font-bold px-3 py-1.5 rounded transition-colors duration-300 bg-white border border-slate-200 shadow-sm" id="b-addr">32'h0000</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-400 font-sans font-bold text-xs">DATA</span> 
+                                        <span class="text-slate-400 font-bold px-3 py-1.5 rounded transition-colors duration-300 bg-white border border-slate-200 shadow-sm" id="b-data">32'h0000</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-400 font-sans font-bold text-xs">WRITE</span> 
+                                        <span class="text-slate-400 font-bold px-3 py-1.5 rounded transition-colors duration-300 bg-white border border-slate-200 shadow-sm" id="b-write">1'b0</span>
+                                    </div>
+                                    
+                                    <!-- Stamp -->
+                                    <div id="result-stamp" class="absolute inset-0 bg-white/90 backdrop-blur-[2px] flex items-center justify-center opacity-0 scale-50 transition-all duration-500 z-30 pointer-events-none">
+                                        <div class="font-black text-3xl border-4 px-6 py-2 rounded-2xl transform -rotate-12 shadow-2xl" id="result-stamp-text"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-slate-50 border-t border-slate-200 p-4 text-center text-sm text-slate-600">
+                            💡 <b>핵심:</b> 수동으로 <code>do_copy()</code>를 오버라이딩하면 내부적으로 각 필드 단위의 고속 대입 연산(<code class="text-blue-600 font-mono">rhs.addr = lhs.addr</code>)이 즉시 수행됩니다.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bottom Navigation -->
+                <div class="bg-white border-t border-slate-200 pt-8 mt-8 flex justify-between items-center z-10 relative" data-chipbook-embed-hide="true">
+                    <button class="border border-slate-200 text-slate-700 hover:bg-slate-50 px-6 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center">
+                        <span class="mr-2">←</span> Phase 3: UVM 코어 메커니즘
+                    </button>
+                    <span class="text-slate-400 font-bold text-sm hidden sm:block">Page 4 of 7</span>
+                    <button class="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-xl font-bold shadow-[0_4px_12px_rgba(37,99,235,0.3)] transition-all flex items-center">
+                        Phase 5: 자극 생성 (TLM) <span class="ml-2">→</span>
+                    </button>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Right Sidebar Table of Contents -->
+        <aside class="hidden xl:block w-72 2xl:w-80 shrink-0 sticky top-[4.5rem] h-[calc(100vh-4.5rem)] border-l border-slate-200 bg-white overflow-y-auto z-10">
+            <div class="p-6">
+                <div class="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">On This Page</div>
+                <div class="text-lg font-bold text-slate-800 mb-6" id="toc-title">1. UVM의 두 기둥</div>
+                <nav class="space-y-3 relative border-l-2 border-slate-100 ml-2 pl-4" id="toc-nav">
+                    <!-- Dynamic ToC links will be injected here -->
+                </nav>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- 스크립트 로직 -->
+    <script>
+        // ---------------------------------------------------------
+        // 1. Guidebook Tab & ToC Integration
+        // ---------------------------------------------------------
+        const tabs = document.querySelectorAll('[data-tab-target]');
+        const panels = document.querySelectorAll('[data-panel]');
+        const tocNav = document.getElementById('toc-nav');
+        const tocTitle = document.getElementById('toc-title');
+
+        function generateToC(panelId) {
+            const activePanel = document.querySelector(`[data-panel="${panelId}"]`);
+            if(!activePanel || !tocNav || !tocTitle) return;
+            
+            // Get text from the active tab button for main ToC title
+            const activeBtn = document.querySelector(`[data-tab-target="${panelId}"]`);
+            tocTitle.textContent = activeBtn.textContent.replace(/[^\uAC00-\uD7A3a-zA-Z0-9\s.]/g, '').trim();
+
+            tocNav.innerHTML = '';
+            const headings = activePanel.querySelectorAll('h2, h3');
+            
+            headings.forEach((heading, idx) => {
+                if(!heading.id) heading.id = `heading-${panelId}-${idx}`;
+                
+                const link = document.createElement('a');
+                link.href = `#${heading.id}`;
+                link.className = `block text-sm font-medium text-slate-500 hover:text-blue-600 py-1 transition-colors ${idx===0 ? 'text-blue-600 font-bold' : ''}`;
+                link.textContent = heading.textContent;
+                
+                // Add click behavior for smooth scroll
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    heading.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Visual update of ToC
+                    tocNav.querySelectorAll('a').forEach(a => { a.classList.remove('text-blue-600', 'font-bold'); a.classList.add('text-slate-500'); });
+                    link.classList.remove('text-slate-500');
+                    link.classList.add('text-blue-600', 'font-bold');
+                });
+                tocNav.appendChild(link);
+            });
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetId = tab.dataset.tabTarget;
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                panels.forEach(p => {
+                    if (p.dataset.panel === targetId) {
+                        p.removeAttribute('hidden');
+                        generateToC(targetId);
+                        
+                        // Handle animations per tab
+                        if(targetId === 'overview') startOverviewAnim();
+                        else stopOverviewAnim();
+                    } else {
+                        p.setAttribute('hidden', '');
+                    }
+                });
+            });
+        });
+
+        // Init ToC
+        generateToC('overview');
+
+        // ---------------------------------------------------------
+        // 2. Panel 1: TLM Flow Animation
+        // ---------------------------------------------------------
+        const packetContainer = document.getElementById('packet-container');
+        let flowAnimTimer;
+
+        function spawnPacket(pathId, type = 'normal') {
+            const el = document.createElement('div');
+            el.classList.add('data-packet');
+            if (type === 'ap') el.classList.add('ap-packet');
+            
+            const duration = (pathId === 'path-dut-mon') ? 0.8 : (type === 'ap' ? 1.5 : 1.2);
+            el.style.setProperty('--duration', `${duration}s`);
+            el.style.setProperty('--path', `url(#${pathId})`);
+            
+            packetContainer.appendChild(el);
+            setTimeout(() => { if (packetContainer.contains(el)) el.remove(); }, duration * 1000);
+        }
+
+        function flowTick() {
+            if(Math.random() > 0.2) {
+                spawnPacket('path-seq-drv');
+                setTimeout(() => { if(Math.random() > 0.1) spawnPacket('path-dut-mon'); }, 1000);
+            }
+            if(Math.random() > 0.4) {
+                setTimeout(() => {
+                    spawnPacket('path-ap-sb', 'ap');
+                    spawnPacket('path-ap-cov', 'ap');
+                }, 1800);
+            }
+        }
+
+        function startOverviewAnim() {
+            if(flowAnimTimer) clearInterval(flowAnimTimer);
+            flowTick(); 
+            flowAnimTimer = setInterval(flowTick, 2000);
+        }
+
+        function stopOverviewAnim() {
+            if(flowAnimTimer) clearInterval(flowAnimTimer);
+            packetContainer.innerHTML = '';
+        }
+
+        startOverviewAnim();
+
+        // ---------------------------------------------------------
+        // 3. Panel 2: Agent Config Toggle
+        // ---------------------------------------------------------
+        const btnActive = document.getElementById('btn-active');
+        const btnPassive = document.getElementById('btn-passive');
+        const agentSvg = document.getElementById('agent-svg');
+        const agentDescBox = document.getElementById('agent-desc');
+        const agentDescTitle = document.getElementById('agent-desc-title');
+        const agentDescText = document.getElementById('agent-desc-text');
+
+        function updateAgentState(mode) {
+            if(mode === 'ACTIVE') {
+                btnActive.className = "px-5 py-2 rounded shadow bg-blue-600 text-white font-bold text-sm transition-all transform scale-100";
+                btnPassive.className = "px-5 py-2 rounded text-slate-500 font-bold text-sm hover:text-slate-800 transition-all transform scale-95";
+                
+                agentSvg.classList.remove('is-passive');
+                
+                agentDescBox.className = "bg-blue-50 border-t border-blue-100 p-5 transition-colors duration-500 min-h-[110px] flex items-center";
+                agentDescTitle.className = "font-bold text-blue-700 mb-1";
+                agentDescTitle.innerText = "Active 모드 (Block-Level 검증)";
+                agentDescText.innerHTML = "DUT에 직접 자극(Stimulus)을 인가해야 하는 독립 블록 검증 환경입니다. <code class='bg-white/60 px-1.5 py-0.5 rounded text-blue-600 font-mono text-xs'>build_phase</code>에서 Sequencer와 Driver가 메모리에 생성되어 동작을 시작합니다.";
+            } else {
+                btnPassive.className = "px-5 py-2 rounded shadow bg-slate-600 text-white font-bold text-sm transition-all transform scale-100";
+                btnActive.className = "px-5 py-2 rounded text-slate-500 font-bold text-sm hover:text-slate-800 transition-all transform scale-95";
+                
+                agentSvg.classList.add('is-passive');
+
+                agentDescBox.className = "bg-slate-100 border-t border-slate-200 p-5 transition-colors duration-500 min-h-[110px] flex items-center";
+                agentDescTitle.className = "font-bold text-slate-700 mb-1";
+                agentDescTitle.innerText = "Passive 모드 (System-Level 검증)";
+                agentDescText.innerHTML = "외부(다른 Agent나 하드웨어)에서 이미 DUT에 신호를 인가하고 있는 시스템 레벨 환경입니다. Sequencer/Driver 생성을 억제(null)하고, Monitor만 동작시켜 버스의 신호를 엿듣기(Snoop)만 수행합니다.";
+            }
+        }
+
+        // ---------------------------------------------------------
+        // 4. Panel 3: Methods Lab Logic
+        // ---------------------------------------------------------
+        const bAddr = document.getElementById('b-addr');
+        const bData = document.getElementById('b-data');
+        const bWrite = document.getElementById('b-write');
+        const objBHeader = document.getElementById('obj-b-header');
+        const objB = document.getElementById('obj-b');
+        const workspace = document.getElementById('lab-workspace');
+        const resultStamp = document.getElementById('result-stamp');
+        const resultStampText = document.getElementById('result-stamp-text');
+        const scanner = document.getElementById('scanner');
+
+        const targetState = { addr: "32'h1000", data: "32'hABCD", write: "1'b1" };
+        let currentState = { addr: "32'h0000", data: "32'h0000", write: "1'b0", corrupt: false };
+
+        function renderB() {
+            bAddr.textContent = currentState.addr;
+            bData.textContent = currentState.data;
+            bWrite.textContent = currentState.write;
+
+            const isDefault = (currentState.addr === "32'h0000" && !currentState.corrupt);
+            
+            let textColor = isDefault ? 'text-slate-400' : (currentState.corrupt ? 'text-red-600' : 'text-blue-700');
+            let bgColor = isDefault ? 'bg-white' : (currentState.corrupt ? 'bg-red-50' : 'bg-blue-50');
+            let borderColor = isDefault ? 'border-slate-200' : (currentState.corrupt ? 'border-red-200' : 'border-blue-200');
+            
+            [bAddr, bData, bWrite].forEach(el => {
+                el.className = `font-bold px-3 py-1.5 rounded transition-colors duration-300 shadow-sm border ${textColor} ${bgColor} ${borderColor}`;
+            });
+
+            if(currentState.corrupt) bData.classList.add('glitch-text');
+            else bData.classList.remove('glitch-text');
+
+            if (isDefault) {
+                objBHeader.className = "bg-slate-500 text-white py-3 px-4 border-b border-slate-600 flex justify-between items-center transition-colors duration-500";
+                objB.className = "w-64 bg-white border-2 border-slate-300 rounded-xl shadow-lg overflow-hidden z-20 transition-all duration-300";
+            } else if (currentState.corrupt) {
+                objBHeader.className = "bg-gradient-to-r from-red-500 to-red-600 text-white py-3 px-4 border-b border-red-700 flex justify-between items-center transition-colors duration-500";
+                objB.className = "w-64 bg-white border-2 border-red-400 rounded-xl shadow-lg overflow-hidden z-20 transition-all duration-300";
+            } else {
+                objBHeader.className = "bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 border-b border-blue-700 flex justify-between items-center transition-colors duration-500";
+                objB.className = "w-64 bg-white border-2 border-blue-400 rounded-xl shadow-lg overflow-hidden z-20 transition-all duration-300";
+            }
+        }
+
+        function createFlyParticle(yPos, delay, callback) {
+            const particle = document.createElement('div');
+            particle.className = 'fly-particle';
+            
+            const aRect = document.getElementById('obj-a').getBoundingClientRect();
+            const bRect = document.getElementById('obj-b').getBoundingClientRect();
+            const wsRect = workspace.getBoundingClientRect();
+
+            const startX = (aRect.right - wsRect.left) - 10;
+            const targetX = (bRect.left - wsRect.left) + 10;
+            
+            particle.style.left = `${startX}px`;
+            particle.style.top = `${yPos}px`;
+            
+            workspace.appendChild(particle);
+
+            requestAnimationFrame(() => { particle.style.left = `${targetX}px`; });
+
+            setTimeout(() => {
+                if(workspace.contains(particle)) particle.remove();
+                if(callback) callback();
+            }, 500);
+        }
+
+        const handleCopy = () => {
+            resultStamp.style.opacity = '0';
+            resultStamp.style.transform = 'scale(0.5)';
+
+            // Element relative offsets
+            const baseOff = 100; const gap = 48;
+
+            createFlyParticle(baseOff, 0, () => { currentState.addr = targetState.addr; renderB(); });
+            setTimeout(() => { createFlyParticle(baseOff + gap, 0, () => { currentState.data = targetState.data; renderB(); }); }, 200);
+            setTimeout(() => { createFlyParticle(baseOff + gap*2, 0, () => { currentState.write = targetState.write; currentState.corrupt = false; renderB(); }); }, 400);
+        };
+
+        const handleCompare = () => {
+            scanner.style.animation = 'none';
+            void scanner.offsetWidth;
+            scanner.style.animation = 'scan-down 1.2s ease-in-out forwards';
+
+            setTimeout(() => {
+                const isMatch = (currentState.addr === targetState.addr && currentState.data === targetState.data && currentState.write === targetState.write);
+                
+                if (isMatch) {
+                    resultStampText.textContent = "MATCH (1)";
+                    resultStampText.className = "font-black text-3xl border-4 px-6 py-2 rounded-2xl transform -rotate-12 shadow-2xl text-green-500 border-green-500 bg-white";
+                } else {
+                    resultStampText.textContent = "MISMATCH (0)";
+                    resultStampText.className = "font-black text-3xl border-4 px-6 py-2 rounded-2xl transform -rotate-12 shadow-2xl text-red-500 border-red-500 bg-white";
+                    
+                    objB.style.transform = 'translateX(10px)';
+                    setTimeout(()=> objB.style.transform = 'translateX(-10px)', 100);
+                    setTimeout(()=> objB.style.transform = 'translateX(10px)', 200);
+                    setTimeout(()=> objB.style.transform = 'translateX(0)', 300);
+                }
+                
+                resultStamp.style.opacity = '1';
+                resultStamp.style.transform = 'scale(1)';
+            }, 1000);
+        };
+
+        const handleMutate = () => {
+            if(currentState.addr === "32'h0000") return; 
+            currentState.data = "32'hDEAD"; 
+            currentState.corrupt = true;
+            renderB();
+            resultStamp.style.opacity = '0';
+            resultStamp.style.transform = 'scale(0.5)';
+        };
+
+        const handleReset = () => {
+            currentState = { addr: "32'h0000", data: "32'h0000", write: "1'b0", corrupt: false };
+            renderB();
+            resultStamp.style.opacity = '0';
+            resultStamp.style.transform = 'scale(0.5)';
+            scanner.style.animation = 'none';
+        };
+
+        document.addEventListener('click', (event) => {
+            const actionButton = event.target.closest('#btn-active, #btn-passive, #btn-copy, #btn-compare, #btn-mutate, #btn-reset');
+            if (!actionButton) {
+                return;
+            }
+
+            if (actionButton.id === 'btn-active') {
+                updateAgentState('ACTIVE');
+                return;
+            }
+            if (actionButton.id === 'btn-passive') {
+                updateAgentState('PASSIVE');
+                return;
+            }
+            if (actionButton.id === 'btn-copy') {
+                handleCopy();
+                return;
+            }
+            if (actionButton.id === 'btn-compare') {
+                handleCompare();
+                return;
+            }
+            if (actionButton.id === 'btn-mutate') {
+                handleMutate();
+                return;
+            }
+            if (actionButton.id === 'btn-reset') {
+                handleReset();
+            }
+        });
+
+    </script>
+</body>
+</html>
