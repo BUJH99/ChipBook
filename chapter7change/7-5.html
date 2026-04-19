@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
-    <script src="../assets/chapter7-embed-common.js" defer></script>
+    <script src="../assets/chapter7-embed-common.js"></script>
     <style>
         body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
         .font-mono { font-family: 'Fira Code', monospace; }
@@ -155,16 +155,18 @@
                 </header>
 
                 <!-- 탭 네비게이션 -->
-                <div class="flex flex-wrap gap-2 mb-10 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm inline-flex">
-                    <button class="nav-item active px-6 py-2.5 rounded-lg font-bold text-sm bg-blue-600 text-white shadow-md transition-all" data-target="panel-sequence">
+                <div id="part5-tab-shell" class="chapter7-tab-shell">
+                    <div class="chapter7-tab-nav">
+                        <button class="chapter7-tab-btn active" data-target="panel-sequence">
                         5.1 Sequence 통신
-                    </button>
-                    <button class="nav-item px-6 py-2.5 rounded-lg font-bold text-sm bg-transparent text-slate-600 hover:bg-slate-100 transition-all" data-target="panel-virtual">
+                        </button>
+                        <button class="chapter7-tab-btn" data-target="panel-virtual">
                         5.2 Virtual Sequence
-                    </button>
-                    <button class="nav-item px-6 py-2.5 rounded-lg font-bold text-sm bg-transparent text-slate-600 hover:bg-slate-100 transition-all" data-target="panel-tlm">
+                        </button>
+                        <button class="chapter7-tab-btn" data-target="panel-tlm">
                         5.3 TLM 구조
-                    </button>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- 콘텐츠 패널들 -->
@@ -172,7 +174,7 @@
                     <!-- ========================================== -->
                     <!-- Panel 5.1: Sequence Mechanism (REQ/RSP)    -->
                     <!-- ========================================== -->
-                    <div data-panel="panel-sequence" class="fade-in space-y-8" id="sec-sequence">
+                    <div data-panel="panel-sequence" data-part5-panel="panel-sequence" data-guidebook-toc-title="5.1 Sequence 통신" class="chapter7-tab-panel fade-in space-y-8" id="sec-sequence">
                         <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="seq-handshake">
                             <div class="border-b border-slate-100 p-5 bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                 <h3 class="font-bold text-slate-800 flex items-center gap-2 text-lg">
@@ -308,7 +310,7 @@
                     <!-- ========================================== -->
                     <!-- Panel 5.2: Virtual Sequence                -->
                     <!-- ========================================== -->
-                    <div data-panel="panel-virtual" class="fade-in space-y-8" id="sec-virtual" hidden>
+                    <div data-panel="panel-virtual" data-part5-panel="panel-virtual" data-guidebook-toc-title="5.2 Virtual Sequence" class="chapter7-tab-panel fade-in space-y-8" id="sec-virtual" hidden>
                         <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="vseq-arch">
                             <div class="p-6 bg-gradient-to-r from-fuchsia-50 to-white border-b border-fuchsia-100 flex flex-col sm:flex-row justify-between items-start gap-4">
                                 <div>
@@ -415,7 +417,7 @@
                     <!-- ========================================== -->
                     <!-- Panel 5.3: UVM TLM                         -->
                     <!-- ========================================== -->
-                    <div data-panel="panel-tlm" class="fade-in space-y-8" id="sec-tlm" hidden>
+                    <div data-panel="panel-tlm" data-part5-panel="panel-tlm" data-guidebook-toc-title="5.3 TLM 구조" class="chapter7-tab-panel fade-in space-y-8" id="sec-tlm" hidden>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="tlm-concept">
                             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
                                 <div class="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -z-10"></div>
@@ -550,10 +552,11 @@
     </div>
 
     <!-- JS Logic -->
+    <script src="../assets/guidebook-page-common.js"></script>
     <script>
         // 1. Guidebook Navigation Logic (Tab Control & TOC Sync)
-        const navItems = document.querySelectorAll('.nav-item');
-        const panels = document.querySelectorAll('[data-panel]');
+        const navItems = document.querySelectorAll('.chapter7-tab-btn');
+        const panels = document.querySelectorAll('[data-part5-panel]');
         const mainTitle = document.getElementById('main-title');
         const mainDesc = document.getElementById('main-desc');
         const tocMainTitle = document.getElementById('toc-main-title');
@@ -578,42 +581,29 @@
             }
         };
 
-        navItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const targetId = item.getAttribute('data-target');
-                
-                // Tabs
-                navItems.forEach(nav => {
-                    nav.classList.remove('active', 'bg-blue-600', 'text-white', 'shadow-md');
-                    nav.classList.add('bg-transparent', 'text-slate-600', 'hover:bg-slate-100');
-                });
-                item.classList.remove('bg-transparent', 'text-slate-600', 'hover:bg-slate-100');
-                item.classList.add('active', 'bg-blue-600', 'text-white', 'shadow-md');
+        const syncPart5State = (targetId) => {
+            if (titleData[targetId]) {
+                mainTitle.textContent = titleData[targetId].title;
+                mainDesc.innerHTML = titleData[targetId].desc;
+                tocMainTitle.textContent = titleData[targetId].title;
+            }
 
-                // Panels
-                panels.forEach(panel => {
-                    if (panel.getAttribute('data-panel') === targetId) {
-                        panel.removeAttribute('hidden');
-                        panel.style.animation = 'none';
-                        panel.offsetHeight; 
-                        panel.style.animation = null;
-                    } else {
-                        panel.setAttribute('hidden', '');
-                    }
-                });
-
-                // Headings & TOC
-                if (titleData[targetId]) {
-                    mainTitle.textContent = titleData[targetId].title;
-                    mainDesc.innerHTML = titleData[targetId].desc;
-                    tocMainTitle.textContent = titleData[targetId].title;
-                }
-
-                Object.keys(tocGroups).forEach(key => {
-                    if (key === targetId) tocGroups[key].removeAttribute('hidden');
-                    else tocGroups[key].setAttribute('hidden', '');
-                });
+            Object.keys(tocGroups).forEach((key) => {
+                if (key === targetId) tocGroups[key].removeAttribute('hidden');
+                else tocGroups[key].setAttribute('hidden', '');
             });
+        };
+
+        window.Chapter7EmbedTabs.init({
+            defaultKey: 'panel-sequence',
+            panelSelector: '[data-part5-panel]',
+            panelKeyDataset: 'part5Panel',
+            buttonSelector: '.chapter7-tab-btn',
+            buttonKeyDataset: 'target',
+            shellId: 'part5-tab-shell',
+            onAfterSet: ({ activeKey }) => {
+                syncPart5State(activeKey);
+            },
         });
 
         // 2. SVG Animations (Sequence)

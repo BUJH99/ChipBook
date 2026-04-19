@@ -36,3 +36,85 @@ body[data-chipbook-embed="true"] main {
 body[data-chipbook-embed="true"] .page-section {
     min-height: auto !important;
 }
+
+.chapter7-tab-shell {
+    --chapter7-tab-accent: #2563eb;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.chapter7-tab-shell::-webkit-scrollbar {
+    display: none;
+}
+
+.chapter7-tab-nav {
+    display: flex;
+    gap: 0.5rem;
+    min-width: max-content;
+}
+
+.chapter7-tab-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    background-color: transparent;
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.2;
+    transition: color 0.25s ease, background-color 0.25s ease;
+    white-space: nowrap;
+}
+
+.chapter7-tab-btn::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background-color: var(--chapter7-tab-accent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
+}
+
+.chapter7-tab-btn:hover {
+    color: #334155;
+    background-color: #f8fafc;
+}
+
+.chapter7-tab-btn.active {
+    color: var(--chapter7-tab-accent);
+    background-color: #eff6ff;
+}
+
+.chapter7-tab-btn.active::after {
+    transform: scaleX(1);
+}
+
+.chapter7-tab-panel {
+    animation: chapter7TabFadeUp 0.35s ease-out forwards;
+}
+
+.chapter7-tab-panel[hidden] {
+    display: none !important;
+}
+
+@keyframes chapter7TabFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

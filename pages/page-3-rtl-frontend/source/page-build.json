@@ -1,0 +1,13 @@
+{
+  "output": "../../page-3-rtl-frontend.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-logic-basics.html",
+    "sections/02-hdl-synthesis.html",
+    "sections/03-hierarchical-design.html",
+    "sections/04-soc-concept.html",
+    "sections/05-sta-concept.html",
+    "sections/06-rtl-patterns.html",
+    "99-shell-end.html"
+  ]
+}

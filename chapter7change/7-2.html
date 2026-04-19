@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
-    <script src="../assets/chapter7-embed-common.js" defer></script>
+    <script src="../assets/chapter7-embed-common.js"></script>
     
     <script>
         window.tailwind = window.tailwind || {};
@@ -221,8 +221,22 @@
                     </p>
                 </header>
 
+                <div id="part2-tab-shell" class="chapter7-tab-shell">
+                    <nav class="chapter7-tab-nav" aria-label="UVM Overview Tabs">
+                        <button class="chapter7-tab-btn active" data-target="architecture">
+                            2.1 UVM Architecture Diagram
+                        </button>
+                        <button class="chapter7-tab-btn" data-target="library">
+                            2.2 라이브러리 및 클래스 구성
+                        </button>
+                        <button class="chapter7-tab-btn" data-target="run-test">
+                            2.3 run_test() 동작 원리
+                        </button>
+                    </nav>
+                </div>
+
                 <!-- ================= Section 1: UVM Architecture ================= -->
-                <section class="content-section mb-32 relative" data-guidebook-toc-title="UVM Architecture Diagram">
+                <section class="content-section chapter7-tab-panel mb-32 relative" data-part2-panel="architecture" data-guidebook-toc-title="2.1 UVM Architecture Diagram">
                     <div class="flex items-center gap-4 mb-8">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-blue-500/30">1</div>
                         <h2 class="text-2xl font-black text-slate-900 tracking-tight">UVM Architecture Diagram</h2>
@@ -449,7 +463,7 @@
                 </section>
 
                 <!-- ================= Section 2: Library & Code Setup ================= -->
-                <section class="content-section mb-32" data-guidebook-toc-title="라이브러리 및 클래스 구성">
+                <section class="content-section chapter7-tab-panel mb-32" data-part2-panel="library" data-guidebook-toc-title="2.2 라이브러리 및 클래스 구성" hidden>
                     <div class="flex items-center gap-4 mb-8">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-purple-500/30">2</div>
                         <h2 class="text-2xl font-black text-slate-900 tracking-tight">UVM 라이브러리 및 클래스 구성</h2>
@@ -513,7 +527,7 @@
                 </section>
 
                 <!-- ================= Section 3: run_test() 메커니즘 ================= -->
-                <section class="content-section mb-10" data-guidebook-toc-title="run_test() 동작 원리">
+                <section class="content-section chapter7-tab-panel mb-10" data-part2-panel="run-test" data-guidebook-toc-title="2.3 run_test() 동작 원리" hidden>
                     <div class="flex items-center gap-4 mb-8">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-emerald-500/30">3</div>
                         <h2 class="text-2xl font-black text-slate-900 tracking-tight">시뮬레이션 엔진 기동: run_test()</h2>
@@ -684,39 +698,20 @@
             
         </main>
 
-        <!-- 우측 네비게이션 목차 (TOC) -->
-        <aside class="page-side-toc-shell hidden xl:block xl:w-72 2xl:w-80 shrink-0 sticky top-[6.5rem] self-start" data-page-toc-shell>
-            <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
-                <div class="text-[11px] font-black text-blue-600 uppercase tracking-widest mb-1.5">On This Page</div>
-                <div class="text-lg font-bold text-slate-900 mb-4 pb-4 border-b border-slate-100">현재 페이지 목차</div>
-                <nav class="space-y-1" id="toc-nav">
-                    <!-- JS Automatically Populated -->
-                </nav>
-            </div>
-        </aside>
-
     </div>
 
     <!-- Scripts -->
+    <script src="../assets/guidebook-page-common.js"></script>
     <script>
         const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-        // TOC Generation
-        document.addEventListener('DOMContentLoaded', () => {
-            const sections = document.querySelectorAll('.content-section[data-guidebook-toc-title]');
-            const tocNav = document.getElementById('toc-nav');
-            if(tocNav) {
-                sections.forEach((sec, idx) => {
-                    const title = sec.getAttribute('data-guidebook-toc-title');
-                    const id = 'sec-' + idx;
-                    sec.id = id;
-                    const a = document.createElement('a');
-                    a.href = '#' + id;
-                    a.className = 'block px-3 py-2 text-[13px] font-bold text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors';
-                    a.textContent = title;
-                    tocNav.appendChild(a);
-                });
-            }
+        window.Chapter7EmbedTabs.init({
+            defaultKey: 'architecture',
+            panelSelector: '[data-part2-panel]',
+            panelKeyDataset: 'part2Panel',
+            buttonSelector: '.chapter7-tab-btn',
+            buttonKeyDataset: 'target',
+            shellId: 'part2-tab-shell',
         });
 
         // Architecture Flow Interaction

@@ -1,0 +1,218 @@
+<div class="diagram-box mb-8" data-part3-panel="sta-concept" data-guidebook-toc-title="STA" hidden>
+                            <p class="text-sm text-gray-600 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100">STA는 논리 기능을 시뮬레이션하는 것이 아니라, <span class="highlight">최악 경로(Critical Path)의 지연을 계산</span>해 주어진 클럭 주기 안에 데이터가 도착하는지 보는 분석입니다.</p>
+
+                            <div class="svg-container">
+                                <svg viewBox="0 0 800 260" style="min-width: 700px; width: 100%; height: auto;" class="font-sans">
+                                    <defs>
+                                        <pattern id="gridWave" width="20" height="20" patternUnits="userSpaceOnUse">
+                                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f2f4f6" stroke-width="1"/>
+                                        </pattern>
+                                    </defs>
+
+                                    <rect width="800" height="260" fill="url(#gridWave)" rx="16"/>
+                                    <line x1="550" y1="40" x2="550" y2="230" stroke="#e15241" stroke-width="2" stroke-dasharray="4 4" />
+                                    <text x="550" y="30" text-anchor="middle" font-size="13" font-weight="800" fill="#e15241">Active Clock Edge</text>
+                                    <rect x="460" y="40" width="90" height="190" fill="#fcefee" opacity="0.8" />
+                                    <line x1="460" y1="40" x2="460" y2="230" stroke="#e15241" stroke-width="1.5" stroke-dasharray="4 2" />
+                                    <rect x="550" y="40" width="80" height="190" fill="#fff4e6" opacity="0.8" />
+                                    <line x1="630" y1="40" x2="630" y2="230" stroke="#ff9f2a" stroke-width="1.5" stroke-dasharray="4 2" />
+                                    <text x="505" y="210" text-anchor="middle" font-size="12" font-weight="800" fill="#e15241">Setup Time</text>
+                                    <text x="590" y="210" text-anchor="middle" font-size="12" font-weight="800" fill="#ff9f2a">Hold Time</text>
+                                    <text x="40" y="95" font-size="14" font-weight="800" fill="#191f28">CLK</text>
+                                    <path d="M 90 110 L 150 110 L 150 60 L 350 60 L 350 110 L 550 110 L 550 60 L 750 60 L 750 110" fill="none" stroke="#191f28" stroke-width="3" stroke-linejoin="round"/>
+                                    <text x="40" y="175" font-size="14" font-weight="800" fill="#191f28">DATA</text>
+                                    <path d="M 90 150 L 380 150 L 420 190 L 680 190 L 720 150 L 780 150" fill="none" stroke="#30d158" stroke-width="2" stroke-linejoin="round"/>
+                                    <path d="M 90 190 L 380 190 L 420 150 L 680 150 L 720 190 L 780 190" fill="none" stroke="#30d158" stroke-width="2" stroke-linejoin="round"/>
+                                    <polygon points="420,150 680,150 680,190 420,190" fill="#e4fbf0" opacity="0.6" />
+                                    <text x="550" y="174" text-anchor="middle" font-size="13" font-weight="800" fill="#1a7b3c">Stable Data Window</text>
+                                </svg>
+                            </div>
+
+                            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                                <div class="p-5 bg-white border border-gray-100 rounded-2xl shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-lg">🐢</div>
+                                        <strong class="text-gray-900 block">왜 최악 경로를 보나</strong>
+                                    </div>
+                                    <div class="mb-4 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50">
+                                        <svg viewBox="0 0 220 90" class="block w-full h-[92px]" aria-hidden="true">
+                                            <path d="M24 24H148" fill="none" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round"/>
+                                            <path d="M24 45H182" fill="none" stroke="#6366f1" stroke-width="8" stroke-linecap="round"/>
+                                            <path d="M24 66H128" fill="none" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round"/>
+                                            <circle r="6" fill="#6366f1">
+                                                <animateMotion dur="2.6s" repeatCount="indefinite" path="M24 45H182"/>
+                                            </circle>
+                                            <text x="191" y="49" fill="#6366f1" font-size="11" font-weight="900">Worst</text>
+                                        </svg>
+                                    </div>
+                                    <p class="text-sm text-gray-600">가장 느린 경로 기준 timing 안전성 확인, 더 짧은 경로의 상대적 안전성 판단 기준</p>
+                                </div>
+                                <div class="p-5 bg-red-50/60 border border-red-100 rounded-2xl shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 rounded-2xl bg-red-100 flex items-center justify-center text-lg">⏰</div>
+                                        <strong class="text-red-600 block">Setup 위반</strong>
+                                    </div>
+                                    <div class="mb-4 overflow-hidden rounded-2xl border border-red-100 bg-white/80">
+                                        <svg viewBox="0 0 220 90" class="block w-full h-[92px]" aria-hidden="true">
+                                            <line x1="142" y1="12" x2="142" y2="78" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="5 4"/>
+                                            <path d="M26 58H114L158 24H194" fill="none" stroke="#fb7185" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle r="6" fill="#ef4444">
+                                                <animateMotion dur="2.4s" repeatCount="indefinite" path="M26 58H114L158 24H194"/>
+                                            </circle>
+                                            <text x="149" y="18" fill="#ef4444" font-size="10.5" font-weight="900">Clock Edge</text>
+                                            <text x="150" y="72" fill="#be123c" font-size="10.5" font-weight="900">Late Arrival</text>
+                                        </svg>
+                                    </div>
+                                    <p class="text-sm text-gray-700">데이터의 늦은 도착, 주기 완화 또는 경로 최적화 필요</p>
+                                </div>
+                                <div class="p-5 bg-orange-50/70 border border-orange-100 rounded-2xl shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 rounded-2xl bg-orange-100 flex items-center justify-center text-lg">⚡</div>
+                                        <strong class="text-orange-500 block">Hold 위반</strong>
+                                    </div>
+                                    <div class="mb-4 overflow-hidden rounded-2xl border border-orange-100 bg-white/80">
+                                        <svg viewBox="0 0 220 90" class="block w-full h-[92px]" aria-hidden="true">
+                                            <line x1="84" y1="12" x2="84" y2="78" stroke="#f97316" stroke-width="2.5" stroke-dasharray="5 4"/>
+                                            <path d="M26 30H58L94 62H194" fill="none" stroke="#fb923c" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle r="6" fill="#f97316">
+                                                <animateMotion dur="2.1s" repeatCount="indefinite" path="M26 30H58L94 62H194"/>
+                                            </circle>
+                                            <text x="32" y="20" fill="#f97316" font-size="10.5" font-weight="900">Too Early</text>
+                                            <text x="94" y="82" fill="#c2410c" font-size="10.5" font-weight="900">Need Delay</text>
+                                        </svg>
+                                    </div>
+                                    <p class="text-sm text-gray-700">데이터의 너무 빠른 변화, 버퍼 삽입 등 지연 추가 필요</p>
+                                </div>
+                                <div class="p-5 bg-blue-50 border border-blue-100 rounded-2xl shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 rounded-2xl bg-blue-100 flex items-center justify-center text-lg">🧪</div>
+                                        <strong class="text-blue-600 block">기능 검증과 차이</strong>
+                                    </div>
+                                    <div class="mb-4 overflow-hidden rounded-2xl border border-blue-100 bg-white/80">
+                                        <svg viewBox="0 0 220 90" class="block w-full h-[92px]" aria-hidden="true">
+                                            <rect x="12" y="14" width="84" height="62" rx="16" fill="#eff6ff" stroke="#93c5fd"/>
+                                            <text x="54" y="28" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="900">STA</text>
+                                            <path d="M24 52H40V38H58V52H74V34H86" fill="none" stroke="#2563eb" stroke-width="3" stroke-linejoin="round"/>
+                                            <line x1="72" y1="22" x2="72" y2="66" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 3"/>
+                                            <path d="M24 62H52L68 48H86" fill="none" stroke="#38bdf8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle r="4.5" fill="#2563eb">
+                                                <animateMotion dur="2.4s" repeatCount="indefinite" path="M24 62H52L68 48H86"/>
+                                            </circle>
+                                            <text x="54" y="72" text-anchor="middle" fill="#2563eb" font-size="9.5" font-weight="900">Time / Edge Check</text>
+
+                                            <circle cx="110" cy="45" r="12" fill="#dbeafe" stroke="#93c5fd"/>
+                                            <text x="110" y="49" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">+</text>
+
+                                            <rect x="124" y="14" width="84" height="62" rx="16" fill="#f5f3ff" stroke="#c4b5fd"/>
+                                            <text x="166" y="28" text-anchor="middle" fill="#7c3aed" font-size="11" font-weight="900">DV</text>
+                                            <rect x="136" y="34" width="18" height="12" rx="6" fill="#ede9fe" stroke="#c4b5fd"/>
+                                            <rect x="136" y="52" width="18" height="12" rx="6" fill="#ede9fe" stroke="#c4b5fd"/>
+                                            <text x="145" y="43" text-anchor="middle" fill="#7c3aed" font-size="8.5" font-weight="900">A</text>
+                                            <text x="145" y="61" text-anchor="middle" fill="#7c3aed" font-size="8.5" font-weight="900">B</text>
+                                            <path d="M154 40H168L178 49H190" fill="none" stroke="#8b5cf6" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M154 58H168L178 49H190" fill="none" stroke="#8b5cf6" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="194" cy="49" r="7" fill="#ede9fe" stroke="#8b5cf6"/>
+                                            <path d="M191 49L193.5 51.5L198 46.5" fill="none" stroke="#7c3aed" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                <animate attributeName="stroke-opacity" values="0.35;1;0.35" dur="2.1s" repeatCount="indefinite"/>
+                                            </path>
+                                            <text x="166" y="72" text-anchor="middle" fill="#7c3aed" font-size="9.5" font-weight="900">Logic / Functional Check</text>
+                                        </svg>
+                                    </div>
+                                    <p class="text-sm text-gray-700">STA는 시간 분석, DV는 논리 기능 검증, 대체가 아닌 상호 보완 관계</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 rounded-[28px] border border-slate-100 bg-gradient-to-br from-white via-[#fbfdff] to-[#f8fbff] p-6 shadow-[0_16px_34px_rgba(15,23,42,0.04)]">
+                                <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 items-start">
+                                    <div class="rounded-[24px] border border-blue-100 bg-blue-50/70 p-5">
+                                        <div class="text-xs font-extrabold uppercase tracking-[0.18em] text-blue-600 mb-3">Question</div>
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-11 h-11 rounded-2xl bg-white text-blue-600 flex items-center justify-center text-xl shrink-0">❓</div>
+                                            <div>
+                                                <h5 class="text-[20px] leading-snug font-black text-slate-900">Setup time vs Hold time 중 어느 것이 더 중요한가?</h5>
+                                                <p class="mt-3 text-sm leading-7 text-slate-600">시험에서는 절대 비교보다 <strong class="text-slate-900">두 위반의 의미와 수정 방향</strong>을 구분하는지가 더 중요합니다.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-[24px] border border-emerald-100 bg-emerald-50/70 p-5">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <div class="w-10 h-10 rounded-2xl bg-white text-emerald-600 flex items-center justify-center text-lg">✅</div>
+                                            <div>
+                                                <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-600">Answer</div>
+                                                <div class="text-[18px] font-black text-slate-900">결론: 둘 다 중요</div>
+                                            </div>
+                                        </div>
+                                        <p class="text-sm leading-7 text-slate-700">Setup은 <strong class="text-slate-900">목표 주파수와 성능</strong>에 직접 연결되고, Hold는 작은 위반이라도 남기면 안 되는 <strong class="text-slate-900">필수 수정 대상</strong>입니다.</p>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-red-100 bg-red-50/70 p-5 h-full">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <div class="w-9 h-9 rounded-xl bg-white text-red-500 flex items-center justify-center text-base">🚀</div>
+                                            <strong class="text-red-600">Setup 관점</strong>
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                            <div class="rounded-2xl border border-red-100 bg-white/90 p-4">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-red-500 mb-2">실제 칩 영향</div>
+                                                <div class="space-y-2">
+                                                    <div class="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-slate-700">목표 주파수 상한 저하</div>
+                                                    <div class="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-slate-700">성능 마진 축소</div>
+                                                    <div class="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-slate-700">특정 모드·코너 오동작 위험</div>
+                                                </div>
+                                            </div>
+                                            <div class="rounded-2xl border border-red-100 bg-white/90 p-4">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-red-500 mb-2">주요 원인</div>
+                                                <div class="space-y-2">
+                                                    <div class="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-slate-700">조합 경로 지연 과다</div>
+                                                    <div class="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-slate-700">긴 배선·큰 fanout·약한 구동력</div>
+                                                    <div class="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-slate-700">불리한 clock skew·과도한 주기 제약</div>
+                                                </div>
+                                            </div>
+                                            <div class="rounded-2xl border border-red-100 bg-white/90 p-4">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-red-500 mb-2">해결 방법</div>
+                                                <div class="space-y-2">
+                                                    <div class="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-slate-700">경로 최적화·buffer·resize</div>
+                                                    <div class="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-slate-700">파이프라인 추가·배치배선 개선</div>
+                                                    <div class="rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-slate-700">useful skew 조정·주기 완화</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl border border-orange-100 bg-orange-50/70 p-5 h-full">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <div class="w-9 h-9 rounded-xl bg-white text-orange-500 flex items-center justify-center text-base">🛡️</div>
+                                            <strong class="text-orange-500">Hold 관점</strong>
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                            <div class="rounded-2xl border border-orange-100 bg-white/90 p-4">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-orange-500 mb-2">실제 칩 영향</div>
+                                                <div class="space-y-2">
+                                                    <div class="rounded-xl bg-orange-50 px-3 py-2 text-sm font-semibold text-slate-700">조기 캡처·잘못된 샘플링</div>
+                                                    <div class="rounded-xl bg-orange-50 px-3 py-2 text-sm font-semibold text-slate-700">signoff 불가 안정성 이슈</div>
+                                                    <div class="rounded-xl bg-orange-50 px-3 py-2 text-sm font-semibold text-slate-700">작은 위반도 허용 불가</div>
+                                                </div>
+                                            </div>
+                                            <div class="rounded-2xl border border-orange-100 bg-white/90 p-4">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-orange-500 mb-2">주요 원인</div>
+                                                <div class="space-y-2">
+                                                    <div class="rounded-xl bg-orange-50 px-3 py-2 text-sm font-semibold text-slate-700">짧은 데이터 경로</div>
+                                                    <div class="rounded-xl bg-orange-50 px-3 py-2 text-sm font-semibold text-slate-700">빠른 셀·불리한 clock skew</div>
+                                                    <div class="rounded-xl bg-orange-50 px-3 py-2 text-sm font-semibold text-slate-700">CTS 후 지연 불균형·ECO 경로 단축</div>
+                                                </div>
+                                            </div>
+                                            <div class="rounded-2xl border border-orange-100 bg-white/90 p-4">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-orange-500 mb-2">해결 방법</div>
+                                                <div class="space-y-2">
+                                                    <div class="rounded-xl bg-orange-50 px-3 py-2 text-sm font-semibold text-slate-700">buffer 삽입·delay cell 추가</div>
+                                                    <div class="rounded-xl bg-orange-50 px-3 py-2 text-sm font-semibold text-slate-700">경로 우회·cell downsize</div>
+                                                    <div class="rounded-xl bg-orange-50 px-3 py-2 text-sm font-semibold text-slate-700">데이터 경로 의도적 지연·useful skew 조정</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        

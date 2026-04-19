@@ -1,0 +1,10 @@
+{
+  "output": "../../page-1-overview.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-landscape.html",
+    "sections/02-value-chain.html",
+    "sections/03-future-tech.html",
+    "99-shell-end.html"
+  ]
+}

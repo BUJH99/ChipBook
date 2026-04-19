@@ -1,0 +1,11 @@
+{
+  "output": "../../page-5-memory-device.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-memory-basics.html",
+    "sections/02-flash-ssd.html",
+    "sections/03-mos-basics.html",
+    "sections/04-finfet-planar.html",
+    "99-shell-end.html"
+  ]
+}

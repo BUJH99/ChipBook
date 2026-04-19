@@ -1,0 +1,11 @@
+{
+  "output": "../../page-2-flow.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-flow-overview.html",
+    "sections/02-stage-detail.html",
+    "sections/03-keyword-dictionary.html",
+    "sections/04-paired-inputs.html",
+    "99-shell-end.html"
+  ]
+}

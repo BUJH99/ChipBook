@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -24,7 +25,7 @@ def write_text(path: Path, content: str) -> None:
 
 
 def discover_manifests() -> list[Path]:
-    return sorted(PAGES_ROOT.glob(f"*/{MANIFEST_NAME}"))
+    return sorted(PAGES_ROOT.rglob(MANIFEST_NAME))
 
 
 def resolve_manifest_targets(raw_targets: list[str]) -> list[Path]:
@@ -38,7 +39,10 @@ def resolve_manifest_targets(raw_targets: list[str]) -> list[Path]:
     for raw_target in raw_targets:
         target = (REPO_ROOT / raw_target).resolve() if not Path(raw_target).is_absolute() else Path(raw_target).resolve()
         if target.is_dir():
-            manifest_path = target / MANIFEST_NAME
+            if (target / "source" / MANIFEST_NAME).is_file():
+                manifest_path = target / "source" / MANIFEST_NAME
+            else:
+                manifest_path = target / MANIFEST_NAME
         else:
             manifest_path = target
 
@@ -85,7 +89,7 @@ def render_manifest(manifest_path: Path, check_only: bool = False) -> bool:
 
     part_files = expand_part_patterns(manifest_dir, part_patterns)
     rendered = "".join(load_text(path) for path in part_files)
-    output_path = (manifest_dir / output).resolve()
+    output_path = (manifest_dir / os.path.normpath(output)).resolve()
     current = load_text(output_path) if output_path.exists() else None
     changed = current != rendered
 

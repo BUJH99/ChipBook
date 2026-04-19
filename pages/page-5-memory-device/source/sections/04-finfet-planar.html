@@ -1,0 +1,231 @@
+<div class="card bg-white border-blue-100" data-part5-panel="finfet-planar" data-guidebook-toc-title="FinFET / Planar" hidden>
+                                <p class="text-sm text-gray-600 mb-8 leading-relaxed">미세화가 심해질수록 Planar 구조는 채널 통제력이 떨어져 누설 전류가 커집니다. 이를 개선하려고 게이트가 채널을 더 많이 감싸는 3차원 구조인 FinFET이 등장했습니다.</p>
+
+                                <div class="rounded-[32px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef7ff] p-6 shadow-sm mb-6">
+                                    <div class="grid grid-cols-1 xl:grid-cols-[1fr_auto_1fr] gap-3 items-stretch mb-5">
+                                        <div class="rounded-2xl border border-red-100 bg-red-50/70 px-5 py-4">
+                                            <div class="text-xs font-extrabold uppercase tracking-[0.18em] text-red-500 mb-2">Planar MOSFET</div>
+                                            <div class="text-base font-extrabold text-gray-900 mb-1">Top Gate Only</div>
+                                            <p class="text-sm text-gray-600">평면 채널 위쪽 한 면만 gate가 제어하므로 미세화가 심해질수록 short-channel effect와 leakage에 더 민감합니다.</p>
+                                        </div>
+                                        <div class="flex items-center justify-center px-3">
+                                            <div class="rounded-full border border-blue-100 bg-white px-4 py-3 text-center shadow-sm">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.18em] text-blue-500 mb-1">Scaling Shift</div>
+                                                <div class="text-xl font-black text-gray-300">Planar → FinFET</div>
+                                            </div>
+                                        </div>
+                                        <div class="rounded-2xl border border-green-100 bg-green-50/70 px-5 py-4">
+                                            <div class="text-xs font-extrabold uppercase tracking-[0.18em] text-green-600 mb-2">FinFET</div>
+                                            <div class="text-base font-extrabold text-gray-900 mb-1">3-Side Gate Wrap</div>
+                                            <p class="text-sm text-gray-600">Fin의 윗면과 양옆을 gate가 감싸 electrostatic control이 강해지고, 같은 세대에서 leakage와 전력 손실을 더 잘 줄입니다.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-5">
+                                        <div class="transistor-3d-panel border-red-100 bg-red-50/40">
+                                            <div class="flex items-start justify-between gap-3 mb-4">
+                                                <div>
+                                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-red-500">3D Structure Viewer</div>
+                                                    <div class="mt-1 text-lg font-black text-slate-900">Planar MOSFET</div>
+                                                    <p class="mt-2 text-sm leading-6 text-slate-600">평면 채널 위로 gate가 얹히는 구조입니다. 위에서 누르는 방식이라 미세화될수록 채널 제어력이 상대적으로 약해집니다.</p>
+                                                </div>
+                                                <div class="shrink-0 rounded-full bg-white px-3 py-1.5 text-[11px] font-extrabold text-red-500 border border-red-100">Top Gate</div>
+                                            </div>
+                                            <div class="transistor-3d-canvas" data-transistor-viewer="planar" tabindex="0" aria-label="Planar MOSFET 3D viewer">
+                                                <div class="transistor-3d-fallback">3D 모델 로딩 중...</div>
+                                                <div class="transistor-3d-orbit-hint">클릭 후 WASD · 드래그 회전</div>
+                                            </div>
+                                            <div class="flex flex-wrap gap-2 mt-4">
+                                                <span class="rounded-xl bg-white border border-red-100 px-3 py-2 text-xs font-extrabold text-red-500">Gate on Top</span>
+                                                <span class="rounded-xl bg-white border border-blue-100 px-3 py-2 text-xs font-extrabold text-blue-600">Flat Channel</span>
+                                                <span class="rounded-xl bg-white border border-rose-100 px-3 py-2 text-xs font-extrabold text-rose-500">Leakage Sensitive</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="transistor-3d-panel border-green-100 bg-green-50/40">
+                                            <div class="flex items-start justify-between gap-3 mb-4">
+                                                <div>
+                                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-green-600">3D Structure Viewer</div>
+                                                    <div class="mt-1 text-lg font-black text-slate-900">FinFET</div>
+                                                    <p class="mt-2 text-sm leading-6 text-slate-600">솟아오른 fin을 gate가 위와 양옆에서 감싸는 구조입니다. 같은 채널 길이에서도 electrostatic control이 더 강하게 걸립니다.</p>
+                                                </div>
+                                                <div class="shrink-0 rounded-full bg-white px-3 py-1.5 text-[11px] font-extrabold text-green-600 border border-green-100">3-Side Wrap</div>
+                                            </div>
+                                            <div class="transistor-3d-canvas" data-transistor-viewer="finfet" tabindex="0" aria-label="FinFET 3D viewer">
+                                                <div class="transistor-3d-fallback">3D 모델 로딩 중...</div>
+                                                <div class="transistor-3d-orbit-hint">클릭 후 WASD · 드래그 회전</div>
+                                            </div>
+                                            <div class="flex flex-wrap gap-2 mt-4">
+                                                <span class="rounded-xl bg-white border border-green-100 px-3 py-2 text-xs font-extrabold text-green-600">Fin Body</span>
+                                                <span class="rounded-xl bg-white border border-emerald-100 px-3 py-2 text-xs font-extrabold text-emerald-600">Gate Wrap</span>
+                                                <span class="rounded-xl bg-white border border-blue-100 px-3 py-2 text-xs font-extrabold text-blue-600">Better Channel Control</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-[28px] border border-gray-100 bg-white p-4 shadow-sm">
+                                        <div class="flex items-center justify-between gap-3 mb-3">
+                                            <div>
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">Cross-section Comparison</div>
+                                                <div class="mt-1 text-base font-black text-slate-900">2D 단면 비교 View</div>
+                                            </div>
+                                            <div class="rounded-full bg-slate-50 border border-slate-200 px-3 py-1.5 text-[11px] font-extrabold text-slate-500">Section View</div>
+                                        </div>
+                                        <svg viewBox="0 0 1160 420" class="w-full h-auto" aria-label="Planar and FinFET cross-section comparison">
+                                            <defs>
+                                                <pattern id="finfetCompareGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+                                                    <path d="M24 0H0V24" fill="none" stroke="#eef4ff" stroke-width="1"/>
+                                                </pattern>
+                                                <linearGradient id="compareSubstrateGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                    <stop offset="0%" stop-color="#e7eef7"/>
+                                                    <stop offset="100%" stop-color="#cfd8e3"/>
+                                                </linearGradient>
+                                                <linearGradient id="comparePlanarGate" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                    <stop offset="0%" stop-color="#8b95a1"/>
+                                                    <stop offset="100%" stop-color="#687483"/>
+                                                </linearGradient>
+                                                <linearGradient id="compareFinGate" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                    <stop offset="0%" stop-color="#6b7280"/>
+                                                    <stop offset="100%" stop-color="#4b5563"/>
+                                                </linearGradient>
+                                                <linearGradient id="planarChannelGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                    <stop offset="0%" stop-color="#93c5fd"/>
+                                                    <stop offset="50%" stop-color="#3b82f6"/>
+                                                    <stop offset="100%" stop-color="#93c5fd"/>
+                                                </linearGradient>
+                                                <linearGradient id="finChannelGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                    <stop offset="0%" stop-color="#86efac"/>
+                                                    <stop offset="50%" stop-color="#22c55e"/>
+                                                    <stop offset="100%" stop-color="#86efac"/>
+                                                </linearGradient>
+                                                <filter id="compareGlow" x="-40%" y="-40%" width="180%" height="180%">
+                                                    <feGaussianBlur stdDeviation="6" result="blur"/>
+                                                    <feMerge>
+                                                        <feMergeNode in="blur"/>
+                                                        <feMergeNode in="SourceGraphic"/>
+                                                    </feMerge>
+                                                </filter>
+                                            </defs>
+
+                                            <rect width="1160" height="420" rx="30" fill="url(#finfetCompareGrid)"/>
+
+                                            <rect x="36" y="26" width="504" height="356" rx="28" fill="#f9fbff" stroke="#dbeafe" stroke-width="2"/>
+                                            <rect x="620" y="26" width="504" height="356" rx="28" fill="#f7fff9" stroke="#d1fae5" stroke-width="2"/>
+
+                                            <text x="72" y="60" fill="#111827" font-size="24" font-weight="900">Planar</text>
+                                            <text x="72" y="85" fill="#ef4444" font-size="13" font-weight="900">FLAT CHANNEL • TOP-SIDE CONTROL</text>
+                                            <text x="656" y="60" fill="#111827" font-size="24" font-weight="900">FinFET</text>
+                                            <text x="656" y="85" fill="#16a34a" font-size="13" font-weight="900">3D FIN • GATE WRAP AROUND</text>
+
+                                            <rect x="92" y="228" width="392" height="112" rx="24" fill="url(#compareSubstrateGrad)" stroke="#cbd5e1" stroke-width="2"/>
+                                            <text x="288" y="315" text-anchor="middle" fill="#64748b" font-size="13" font-weight="900">silicon substrate</text>
+                                            <path d="M116 228H460" fill="none" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+                                            <text x="454" y="220" fill="#94a3b8" font-size="11" font-weight="900">surface</text>
+
+                                            <rect x="178" y="194" width="220" height="10" rx="5" fill="#d9f99d" opacity="0.95"/>
+                                            <text x="288" y="186" text-anchor="middle" fill="#65a30d" font-size="11" font-weight="900">gate oxide</text>
+
+                                            <rect x="162" y="120" width="252" height="54" rx="18" fill="url(#comparePlanarGate)" stroke="#64748b" stroke-width="2"/>
+                                            <text x="288" y="152" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900">Gate</text>
+
+                                            <path d="M216 174V228" fill="none" stroke="#60a5fa" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round">
+                                                <animate attributeName="opacity" values="0.2;1;0.2" dur="1.8s" repeatCount="indefinite"/>
+                                            </path>
+                                            <path d="M288 174V228" fill="none" stroke="#60a5fa" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round">
+                                                <animate attributeName="opacity" values="0.2;1;0.2" dur="1.8s" begin="0.18s" repeatCount="indefinite"/>
+                                            </path>
+                                            <path d="M360 174V228" fill="none" stroke="#60a5fa" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round">
+                                                <animate attributeName="opacity" values="0.2;1;0.2" dur="1.8s" begin="0.36s" repeatCount="indefinite"/>
+                                            </path>
+
+                                            <rect x="188" y="216" width="200" height="10" rx="5" fill="url(#planarChannelGlow)" filter="url(#compareGlow)" opacity="0.28">
+                                                <animate attributeName="opacity" values="0.18;0.52;0.18" dur="2.2s" repeatCount="indefinite"/>
+                                            </rect>
+                                            <text x="288" y="256" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">channel forms only under the top gate</text>
+
+                                            <path d="M154 248C208 308 368 308 422 248" fill="none" stroke="#f87171" stroke-width="3" stroke-dasharray="8 7" stroke-linecap="round" opacity="0.75">
+                                                <animate attributeName="stroke-dashoffset" values="0;-30" dur="1.4s" repeatCount="indefinite"/>
+                                                <animate attributeName="opacity" values="0.35;0.9;0.35" dur="1.4s" repeatCount="indefinite"/>
+                                            </path>
+                                            <path d="M170 264C222 322 352 322 406 264" fill="none" stroke="#fb7185" stroke-width="2.3" stroke-dasharray="7 6" stroke-linecap="round" opacity="0.55">
+                                                <animate attributeName="stroke-dashoffset" values="0;-28" dur="1.5s" begin="0.2s" repeatCount="indefinite"/>
+                                                <animate attributeName="opacity" values="0.2;0.75;0.2" dur="1.5s" begin="0.2s" repeatCount="indefinite"/>
+                                            </path>
+                                            <text x="288" y="350" text-anchor="middle" fill="#ef4444" font-size="12.5" font-weight="900">weaker control as channel shortens • leakage increases</text>
+
+                                            <rect x="720" y="244" width="304" height="96" rx="24" fill="url(#compareSubstrateGrad)" stroke="#cbd5e1" stroke-width="2"/>
+                                            <text x="872" y="316" text-anchor="middle" fill="#64748b" font-size="13" font-weight="900">silicon substrate</text>
+
+                                            <rect x="854" y="156" width="36" height="104" rx="12" fill="#60a5fa" stroke="#2563eb" stroke-width="2"/>
+                                            <text x="872" y="144" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="900">fin body</text>
+
+                                            <path d="M824 252V132Q824 114 842 114H902Q920 114 920 132V252" fill="none" stroke="url(#compareFinGate)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M842 248V136Q842 130 848 130H896Q902 130 902 136V248" fill="none" stroke="#dcfce7" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <text x="872" y="104" text-anchor="middle" fill="#4b5563" font-size="13" font-weight="900">wrap gate</text>
+
+                                            <path d="M854 252V180H890V252" fill="none" stroke="url(#finChannelGlow)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" filter="url(#compareGlow)" opacity="0.45">
+                                                <animate attributeName="opacity" values="0.28;0.95;0.28" dur="1.7s" repeatCount="indefinite"/>
+                                            </path>
+                                            <path d="M890 252V180H854" fill="none" stroke="url(#finChannelGlow)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" filter="url(#compareGlow)" opacity="0.45">
+                                                <animate attributeName="opacity" values="0.28;0.95;0.28" dur="1.7s" begin="0.22s" repeatCount="indefinite"/>
+                                            </path>
+
+                                            <path d="M872 132V180" fill="none" stroke="#22c55e" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round">
+                                                <animate attributeName="opacity" values="0.2;1;0.2" dur="1.6s" repeatCount="indefinite"/>
+                                            </path>
+                                            <path d="M826 184H854" fill="none" stroke="#22c55e" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round">
+                                                <animate attributeName="opacity" values="0.2;1;0.2" dur="1.6s" begin="0.18s" repeatCount="indefinite"/>
+                                            </path>
+                                            <path d="M890 184H918" fill="none" stroke="#22c55e" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round">
+                                                <animate attributeName="opacity" values="0.2;1;0.2" dur="1.6s" begin="0.36s" repeatCount="indefinite"/>
+                                            </path>
+
+                                            <path d="M792 270C824 296 920 296 952 270" fill="none" stroke="#fb7185" stroke-width="2.2" stroke-dasharray="8 7" stroke-linecap="round" opacity="0.18">
+                                                <animate attributeName="opacity" values="0.08;0.22;0.08" dur="1.8s" repeatCount="indefinite"/>
+                                            </path>
+                                            <text x="872" y="350" text-anchor="middle" fill="#16a34a" font-size="12.5" font-weight="900">top + sidewall control • stronger electrostatics • lower leakage</text>
+
+                                            <path d="M552 208H604" fill="none" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+                                            <path d="M592 194L608 208L592 222" fill="none" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                                                <animateTransform attributeName="transform" type="translate" values="-6 0;0 0;-6 0" dur="1.8s" repeatCount="indefinite"/>
+                                            </path>
+                                            <text x="578" y="182" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="900">scaling pressure</text>
+                                        </svg>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+                                        <div class="rounded-2xl bg-[#fff5f5] border border-red-100 px-4 py-3">
+                                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-red-500 mb-1">Gate Coverage</div>
+                                            <div class="text-sm font-bold text-gray-900">Planar = 상부 1면</div>
+                                        </div>
+                                        <div class="rounded-2xl bg-[#f8fbff] border border-blue-100 px-4 py-3">
+                                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-1">Electrostatic Control</div>
+                                            <div class="text-sm font-bold text-gray-900">FinFET = 상부 + 양옆 3면 제어</div>
+                                        </div>
+                                        <div class="rounded-2xl bg-[#f2fff5] border border-green-100 px-4 py-3">
+                                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-green-600 mb-1">Leakage Trend</div>
+                                            <div class="text-sm font-bold text-gray-900">Planar ↑ / FinFET ↓</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 text-sm">
+                                    <div class="rounded-2xl bg-white border border-gray-100 p-4">
+                                        <strong class="text-gray-900 block mb-2">등장 배경</strong>
+                                        <p class="text-gray-600">채널 길이가 짧아질수록 planar는 short-channel effect, DIBL, subthreshold leakage가 커져 제어 한계가 드러났습니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl bg-white border border-gray-100 p-4">
+                                        <strong class="text-gray-900 block mb-2">구조 핵심</strong>
+                                        <p class="text-gray-600">Planar는 평면 채널 위를 gate가 누르고, FinFET은 솟아오른 fin의 윗면과 양옆을 gate가 감싸며 전계를 더 강하게 걸어줍니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl bg-white border border-gray-100 p-4">
+                                        <strong class="text-gray-900 block mb-2">장점</strong>
+                                        <p class="text-gray-600">게이트 제어력 향상, leakage 감소, 낮은 전압에서도 더 좋은 스위칭 특성으로 성능·전력 효율을 함께 개선합니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl bg-white border border-gray-100 p-4">
+                                        <strong class="text-gray-900 block mb-2">단점</strong>
+                                        <p class="text-gray-600">Fin 형성 공정, 패턴 정렬, layout 제약이 늘어 설계 규칙과 제조 난도가 더 높아집니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>

@@ -1,0 +1,57 @@
+- main [ref=e2]:
+  - navigation [ref=e4]:
+    - button "UVM Register Model (RAL)" [pressed] [ref=e5] [cursor=pointer]:
+      - img [ref=e6]
+      - text: UVM Register Model (RAL)
+    - button "6.2 Adapter & Predictor" [ref=e8] [cursor=pointer]:
+      - img [ref=e9]
+      - text: 6.2 Adapter & Predictor
+    - button "6.3 Access Sequence (API)" [ref=e11] [cursor=pointer]:
+      - img [ref=e12]
+      - text: 6.3 Access Sequence (API)
+  - generic [ref=e15]:
+    - generic [ref=e16]:
+      - heading "하드웨어 레지스터의 객체지향적 추상화" [level=2] [ref=e17]
+      - paragraph [ref=e18]:
+        - text: UVM RAL(Register Abstraction Layer)은 DUT 내부의 물리적 레지스터 맵을 Testbench 메모리에
+        - strong [ref=e19]: 객체(Object) 계층 구조로 미러링(Mirroring)
+        - text: 한 것입니다. 검증 엔지니어는 주소나 버스 프로토콜에 얽매이지 않고,
+        - code [ref=e20]: ral.ctrl_reg.enable.write(1)
+        - text: 와 같은 API를 사용하여 하드웨어를 제어할 수 있습니다.
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - generic [ref=e24]: System Bus
+        - img [ref=e25]:
+          - generic [ref=e26] [cursor=pointer]:
+            - generic [ref=e30]: uvm_reg_block
+            - generic [ref=e31]: "sys_reg_blk (Base Addr: 'h4000_0000)"
+          - generic [ref=e32] [cursor=pointer]:
+            - generic [ref=e34]: uvm_reg
+            - generic [ref=e35]: "CTRL_REG (Offset: 'h00)"
+            - generic [ref=e36]:
+              - generic [ref=e38]: uvm_reg_field
+              - generic [ref=e39]: ENABLE [0:0] (RW)
+            - generic [ref=e40]:
+              - generic [ref=e42]: uvm_reg_field
+              - generic [ref=e43]: MODE [3:1] (RW)
+          - generic [ref=e44] [cursor=pointer]:
+            - generic [ref=e46]: uvm_reg
+            - generic [ref=e47]: "STAT_REG (Offset: 'h04)"
+            - generic [ref=e48]:
+              - generic [ref=e50]: uvm_reg_field
+              - generic [ref=e51]: ERR_FLAG [0:0] (RO)
+            - generic [ref=e54]: Reserved [31:1]
+        - generic: Hover over blocks to see details
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]: Hierarchy
+          - generic [ref=e59]: Select a node
+        - heading "UVM RAL Architecture" [level=3] [ref=e60]
+        - generic [ref=e61]:
+          - text: 왼쪽 다이어그램은 RAL 모델이 물리적 메모리 맵을 어떻게 계층적으로 감싸고 있는지 보여줍니다.
+          - text: 최상위 Block 내에 Register들이 매핑되며, Register 내부는 다시 비트 단위의 Field로 나뉩니다.
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - generic [ref=e64]: SystemVerilog Model
+            - generic [ref=e65]: Auto-generated via RALGEN
+          - generic [ref=e66]: // Hover over the diagram to view // corresponding class definitions.

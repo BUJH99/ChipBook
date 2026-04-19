@@ -1,0 +1,775 @@
+<div class="card p-6" data-part4-panel="pnr" data-guidebook-toc-title="PnR / CTS / Routing" hidden>
+                                    <div class="space-y-4">
+                                        <div class="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+                                            <div class="flex items-center gap-3 mb-2">
+                                                <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-extrabold">1</span>
+                                                <strong class="text-gray-900">Placement</strong>
+                                            </div>
+                                            <p class="text-sm text-gray-600 ml-11">Standard Cell을 빈 영역에 배치합니다. 실제로는 <strong class="text-gray-900">배선 가능성, 혼잡도, 타이밍, 전력, pin access</strong>를 함께 보며 위치를 반복적으로 다듬는 최적화 단계입니다.</p>
+                                            <div class="mt-4 ml-11 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-600 mb-3">세부 배치 및 최적화</div>
+                                                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                                                    <div class="rounded-2xl border border-blue-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Global Placement</div>
+                                                        <div class="placement-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="placeGlobalGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#eef6ff" stroke-width="1"/>
+                                                                    </pattern>
+                                                                    <radialGradient id="placeGlobalGlow" cx="50%" cy="50%" r="50%">
+                                                                        <stop offset="0%" stop-color="#93c5fd" stop-opacity="0.45"/>
+                                                                        <stop offset="100%" stop-color="#93c5fd" stop-opacity="0"/>
+                                                                    </radialGradient>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#placeGlobalGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
+                                                                <rect x="34" y="28" width="54" height="32" rx="10" fill="#c4b5fd" fill-opacity="0.4" stroke="#8b5cf6" stroke-width="1.4"/>
+                                                                <rect x="212" y="78" width="56" height="30" rx="10" fill="#f9a8d4" fill-opacity="0.38" stroke="#ec4899" stroke-width="1.4"/>
+                                                                <text x="61" y="47" text-anchor="middle" fill="#7c3aed" font-size="9.6" font-weight="900">macro</text>
+                                                                <text x="240" y="97" text-anchor="middle" fill="#db2777" font-size="9.6" font-weight="900">macro</text>
+                                                                <circle cx="150" cy="69" r="30" fill="url(#placeGlobalGlow)">
+                                                                    <animate attributeName="r" values="24;31;24" dur="2.8s" repeatCount="indefinite"/>
+                                                                </circle>
+                                                                <g fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.2">
+                                                                    <rect x="74" y="36" width="14" height="14" rx="4"/>
+                                                                    <rect x="112" y="32" width="14" height="14" rx="4"/>
+                                                                    <rect x="164" y="36" width="14" height="14" rx="4"/>
+                                                                    <rect x="200" y="48" width="14" height="14" rx="4"/>
+                                                                    <rect x="82" y="84" width="14" height="14" rx="4"/>
+                                                                    <rect x="126" y="90" width="14" height="14" rx="4"/>
+                                                                    <rect x="170" y="86" width="14" height="14" rx="4"/>
+                                                                    <rect x="208" y="82" width="14" height="14" rx="4"/>
+                                                                </g>
+                                                                <g fill="#60a5fa">
+                                                                    <rect x="144" y="60" width="14" height="14" rx="4">
+                                                                        <animate attributeName="x" values="144;74;144" dur="3s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="60;36;60" dur="3s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="144" y="60" width="14" height="14" rx="4">
+                                                                        <animate attributeName="x" values="144;112;144" dur="3s" begin="0.35s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="60;32;60" dur="3s" begin="0.35s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="144" y="60" width="14" height="14" rx="4">
+                                                                        <animate attributeName="x" values="144;170;144" dur="3s" begin="0.7s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="60;86;60" dur="3s" begin="0.7s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="144" y="60" width="14" height="14" rx="4">
+                                                                        <animate attributeName="x" values="144;208;144" dur="3s" begin="1.05s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="60;82;60" dur="3s" begin="1.05s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                </g>
+                                                                <text x="150" y="118" text-anchor="middle" fill="#2563eb" font-size="10" font-weight="900">cluster를 퍼뜨리며 전체 밀도와 wirelength 균형</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">전체 셀을 대략적으로 퍼뜨리며 density, wirelength, macro 주변 혼잡도를 먼저 맞추는 초기 배치 단계</p>
+                                                        <div class="placement-mini-chip-row">
+                                                            <span class="placement-mini-chip">density</span>
+                                                            <span class="placement-mini-chip">wirelength</span>
+                                                            <span class="placement-mini-chip">macro halo</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-blue-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Legalization</div>
+                                                        <div class="placement-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="placeLegalGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#eff6ff" stroke-width="1"/>
+                                                                    </pattern>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#placeLegalGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
+                                                                <g stroke="#dbeafe" stroke-width="2">
+                                                                    <path d="M36 44H264"/>
+                                                                    <path d="M36 70H264"/>
+                                                                    <path d="M36 96H264"/>
+                                                                </g>
+                                                                <g fill="#f8fafc" stroke="#dbeafe" stroke-width="1.1">
+                                                                    <rect x="78" y="34" width="20" height="12" rx="4"/>
+                                                                    <rect x="104" y="34" width="20" height="12" rx="4"/>
+                                                                    <rect x="130" y="34" width="20" height="12" rx="4"/>
+                                                                    <rect x="156" y="34" width="20" height="12" rx="4"/>
+                                                                    <rect x="182" y="34" width="20" height="12" rx="4"/>
+                                                                    <rect x="86" y="60" width="20" height="12" rx="4"/>
+                                                                    <rect x="112" y="60" width="20" height="12" rx="4"/>
+                                                                    <rect x="138" y="60" width="20" height="12" rx="4"/>
+                                                                    <rect x="164" y="60" width="20" height="12" rx="4"/>
+                                                                </g>
+                                                                <rect x="124" y="52" width="52" height="30" rx="12" fill="#fee2e2" fill-opacity="0.5" stroke="#ef4444" stroke-dasharray="5 4">
+                                                                    <animate attributeName="opacity" values="0.25;0.65;0.25" dur="1.6s" repeatCount="indefinite"/>
+                                                                </rect>
+                                                                <g fill="#60a5fa">
+                                                                    <rect x="138" y="58" width="18" height="12" rx="4">
+                                                                        <animate attributeName="x" values="138;104;138" dur="2.7s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="58;34;58" dur="2.7s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="144" y="58" width="18" height="12" rx="4">
+                                                                        <animate attributeName="x" values="144;130;144" dur="2.7s" begin="0.3s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="58;34;58" dur="2.7s" begin="0.3s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="150" y="58" width="18" height="12" rx="4">
+                                                                        <animate attributeName="x" values="150;156;150" dur="2.7s" begin="0.6s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="58;34;58" dur="2.7s" begin="0.6s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="156" y="58" width="18" height="12" rx="4">
+                                                                        <animate attributeName="x" values="156;112;156" dur="2.7s" begin="0.9s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="58;60;58" dur="2.7s" begin="0.9s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                </g>
+                                                                <text x="48" y="28" fill="#ef4444" font-size="9.4" font-weight="900">overlap</text>
+                                                                <text x="202" y="108" fill="#2563eb" font-size="9.8" font-weight="900">row/site에 맞춰 snap</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">row/site 규칙에 맞게 셀 겹침 제거, 셀 정렬, keep-out 반영으로 실제 배치 가능한 형태로 정렬하는 단계</p>
+                                                        <div class="placement-mini-chip-row">
+                                                            <span class="placement-mini-chip">row/site</span>
+                                                            <span class="placement-mini-chip">overlap fix</span>
+                                                            <span class="placement-mini-chip">keep-out</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-blue-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Detailed Placement</div>
+                                                        <div class="placement-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="placeDetailGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#eef6ff" stroke-width="1"/>
+                                                                    </pattern>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#placeDetailGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
+                                                                <g stroke="#dbeafe" stroke-width="2">
+                                                                    <path d="M34 48H266"/>
+                                                                    <path d="M34 78H266"/>
+                                                                </g>
+                                                                <g fill="#e2e8f0">
+                                                                    <rect x="50" y="39" width="24" height="14" rx="5"/>
+                                                                    <rect x="86" y="39" width="24" height="14" rx="5"/>
+                                                                    <rect x="194" y="39" width="24" height="14" rx="5"/>
+                                                                    <rect x="230" y="39" width="24" height="14" rx="5"/>
+                                                                </g>
+                                                                <rect x="122" y="39" width="24" height="14" rx="5" fill="#60a5fa">
+                                                                    <animate attributeName="x" values="122;154;122" dur="2.4s" repeatCount="indefinite"/>
+                                                                </rect>
+                                                                <rect x="154" y="39" width="24" height="14" rx="5" fill="#38bdf8">
+                                                                    <animate attributeName="x" values="154;122;154" dur="2.4s" repeatCount="indefinite"/>
+                                                                </rect>
+                                                                <rect x="166" y="69" width="24" height="14" rx="5" fill="#34d399">
+                                                                    <animate attributeName="x" values="166;174;166" dur="1.6s" repeatCount="indefinite"/>
+                                                                </rect>
+                                                                <path d="M134 58V68H178V58" fill="none" stroke="#60a5fa" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="4 4"/>
+                                                                <path d="M46 102H252" fill="none" stroke="#94a3b8" stroke-width="3.2" stroke-linecap="round"/>
+                                                                <circle r="4.6" fill="#22c55e">
+                                                                    <animateMotion dur="1.55s" repeatCount="indefinite" path="M46 102H252"/>
+                                                                </circle>
+                                                                <text x="150" y="28" text-anchor="middle" fill="#2563eb" font-size="9.8" font-weight="900">local swap / reorder / micro-move</text>
+                                                                <text x="150" y="118" text-anchor="middle" fill="#059669" font-size="9.6" font-weight="900">국소 조정으로 타이밍과 배선성 미세 개선</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">국소 cell swap, reorder, micro-move로 타이밍과 배선성까지 세밀하게 다듬는 마무리 배치 단계</p>
+                                                        <div class="placement-mini-chip-row">
+                                                            <span class="placement-mini-chip">cell swap</span>
+                                                            <span class="placement-mini-chip">reorder</span>
+                                                            <span class="placement-mini-chip">micro-move</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-blue-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Congestion Relief</div>
+                                                        <div class="placement-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="placeCongGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#eef6ff" stroke-width="1"/>
+                                                                    </pattern>
+                                                                    <radialGradient id="placeCongHot" cx="50%" cy="50%" r="50%">
+                                                                        <stop offset="0%" stop-color="#fb7185" stop-opacity="0.5"/>
+                                                                        <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
+                                                                    </radialGradient>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#placeCongGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
+                                                                <rect x="138" y="22" width="24" height="94" rx="12" fill="#dcfce7" opacity="0.45">
+                                                                    <animate attributeName="opacity" values="0.25;0.8;0.25" dur="2.1s" repeatCount="indefinite"/>
+                                                                </rect>
+                                                                <circle cx="150" cy="69" r="34" fill="url(#placeCongHot)">
+                                                                    <animate attributeName="r" values="26;34;26" dur="2s" repeatCount="indefinite"/>
+                                                                </circle>
+                                                                <g fill="#fb7185">
+                                                                    <rect x="142" y="48" width="14" height="14" rx="4">
+                                                                        <animate attributeName="x" values="142;84;142" dur="2.8s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="48;42;48" dur="2.8s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="148" y="52" width="14" height="14" rx="4">
+                                                                        <animate attributeName="x" values="148;96;148" dur="2.8s" begin="0.35s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="52;84;52" dur="2.8s" begin="0.35s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="144" y="62" width="14" height="14" rx="4">
+                                                                        <animate attributeName="x" values="144;204;144" dur="2.8s" begin="0.7s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="62;42;62" dur="2.8s" begin="0.7s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="150" y="66" width="14" height="14" rx="4">
+                                                                        <animate attributeName="x" values="150;216;150" dur="2.8s" begin="1.05s" repeatCount="indefinite"/>
+                                                                        <animate attributeName="y" values="66;86;66" dur="2.8s" begin="1.05s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                </g>
+                                                                <path d="M150 18V120" fill="none" stroke="#22c55e" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="5 5"/>
+                                                                <text x="150" y="29" text-anchor="middle" fill="#22c55e" font-size="9.6" font-weight="900">routing channel</text>
+                                                                <text x="150" y="118" text-anchor="middle" fill="#2563eb" font-size="9.8" font-weight="900">hotspot을 풀어 channel과 whitespace 확보</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">셀 spreading, whitespace 확보, macro channel 확보로 라우팅 막힘과 hotspot을 줄이는 혼잡도 최적화</p>
+                                                        <div class="placement-mini-chip-row">
+                                                            <span class="placement-mini-chip">spreading</span>
+                                                            <span class="placement-mini-chip">whitespace</span>
+                                                            <span class="placement-mini-chip">channel</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-blue-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Timing Optimization</div>
+                                                        <div class="placement-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="placeTimingGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#eef6ff" stroke-width="1"/>
+                                                                    </pattern>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#placeTimingGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
+                                                                <text x="42" y="30" fill="#ef4444" font-size="10" font-weight="900">before</text>
+                                                                <text x="42" y="84" fill="#16a34a" font-size="10" font-weight="900">after</text>
+                                                                <rect x="42" y="36" width="24" height="18" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="1.6"/>
+                                                                <rect x="232" y="36" width="24" height="18" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="1.6"/>
+                                                                <path d="M66 45H118H170H232" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+                                                                <rect x="118" y="35" width="52" height="20" rx="8" fill="#fff1f2" stroke="#ef4444" stroke-width="1.6"/>
+                                                                <text x="144" y="48" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="900">long path</text>
+                                                                <circle r="4.5" fill="#ef4444">
+                                                                    <animateMotion dur="2.2s" repeatCount="indefinite" path="M66 45H232"/>
+                                                                </circle>
+                                                                <rect x="42" y="90" width="24" height="18" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="1.6"/>
+                                                                <rect x="232" y="90" width="24" height="18" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="1.6"/>
+                                                                <path d="M66 99H116H154H190H232" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round"/>
+                                                                <rect x="112" y="88" width="18" height="22" rx="7" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.7"/>
+                                                                <rect x="152" y="88" width="18" height="22" rx="7" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.7"/>
+                                                                <rect x="188" y="88" width="18" height="22" rx="7" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.7"/>
+                                                                <text x="159" y="123" text-anchor="middle" fill="#16a34a" font-size="9.4" font-weight="900">buffer / resize / relocate</text>
+                                                                <circle r="4.5" fill="#22c55e">
+                                                                    <animateMotion dur="1.25s" repeatCount="indefinite" path="M66 99H232"/>
+                                                                </circle>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">critical path 주변의 resize, buffer insertion, VT swap, cell relocation으로 setup/hold 개선을 유도하는 타이밍 중심 최적화</p>
+                                                        <div class="placement-mini-chip-row">
+                                                            <span class="placement-mini-chip">buffer</span>
+                                                            <span class="placement-mini-chip">resize</span>
+                                                            <span class="placement-mini-chip">VT swap</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-blue-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Power / Routability</div>
+                                                        <div class="placement-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="placePowerGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#eef6ff" stroke-width="1"/>
+                                                                    </pattern>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#placePowerGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
+                                                                <rect x="78" y="20" width="10" height="98" rx="5" fill="#22c55e" fill-opacity="0.28" stroke="#16a34a" stroke-width="1.2"/>
+                                                                <rect x="146" y="20" width="10" height="98" rx="5" fill="#22c55e" fill-opacity="0.28" stroke="#16a34a" stroke-width="1.2"/>
+                                                                <rect x="214" y="20" width="10" height="98" rx="5" fill="#22c55e" fill-opacity="0.28" stroke="#16a34a" stroke-width="1.2"/>
+                                                                <circle r="4" fill="#16a34a">
+                                                                    <animateMotion dur="1.8s" repeatCount="indefinite" path="M83 24V112"/>
+                                                                </circle>
+                                                                <circle r="4" fill="#16a34a">
+                                                                    <animateMotion dur="1.8s" begin="0.45s" repeatCount="indefinite" path="M151 24V112"/>
+                                                                </circle>
+                                                                <circle r="4" fill="#16a34a">
+                                                                    <animateMotion dur="1.8s" begin="0.9s" repeatCount="indefinite" path="M219 24V112"/>
+                                                                </circle>
+                                                                <g fill="#93c5fd">
+                                                                    <rect x="48" y="44" width="20" height="14" rx="5"/>
+                                                                    <rect x="96" y="64" width="20" height="14" rx="5">
+                                                                        <animate attributeName="x" values="96;102;96" dur="1.7s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="120" y="34" width="20" height="14" rx="5"/>
+                                                                    <rect x="166" y="76" width="20" height="14" rx="5">
+                                                                        <animate attributeName="x" values="166;172;166" dur="1.7s" begin="0.35s" repeatCount="indefinite"/>
+                                                                    </rect>
+                                                                    <rect x="194" y="42" width="20" height="14" rx="5"/>
+                                                                    <rect x="232" y="66" width="20" height="14" rx="5"/>
+                                                                </g>
+                                                                <path d="M36 98H262" fill="none" stroke="#60a5fa" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="6 5"/>
+                                                                <circle r="4.4" fill="#2563eb">
+                                                                    <animateMotion dur="1.5s" repeatCount="indefinite" path="M36 98H262"/>
+                                                                </circle>
+                                                                <rect x="118" y="92" width="58" height="12" rx="6" fill="#ffffff" stroke="#bfdbfe"/>
+                                                                <text x="147" y="101" text-anchor="middle" fill="#2563eb" font-size="9.2" font-weight="900">routing lane</text>
+                                                                <text x="150" y="118" text-anchor="middle" fill="#16a34a" font-size="9.6" font-weight="900">power rail 접근성과 배선 공간을 함께 확보</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">고밀도 영역 완화, switching hotspot 분산, 전원망 접근성 확보로 IR/EM과 후속 CTS·Routing 부담을 줄이는 배치 전략</p>
+                                                        <div class="placement-mini-chip-row">
+                                                            <span class="placement-mini-chip">PG rail</span>
+                                                            <span class="placement-mini-chip">pin access</span>
+                                                            <span class="placement-mini-chip">routing lane</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+                                            <div class="flex items-center gap-3 mb-2">
+                                                <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-extrabold">2</span>
+                                                <strong class="text-gray-900">CTS</strong>
+                                            </div>
+                                            <p class="text-sm text-gray-600 ml-11">플립플롭들에 클럭이 균형 있게 도착하도록 클럭 트리를 만듭니다. 목표는 Clock Skew와 Insertion Delay를 제어하는 것입니다.</p>
+                                            <div class="mt-4 ml-11 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-indigo-600 mb-3">세부 토폴로지</div>
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                    <div class="rounded-2xl border border-indigo-100 bg-white/95 overflow-hidden shadow-[0_10px_24px_rgba(99,102,241,0.05)]">
+                                                        <div class="px-4 pt-4 pb-2">
+                                                            <strong class="text-gray-900 block text-sm">Clock Tree</strong>
+                                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.1em] text-indigo-500 mt-1">Most Common Branching</div>
+                                                        </div>
+                                                        <svg viewBox="0 0 320 136" class="w-full h-[138px] block" aria-hidden="true">
+                                                            <defs>
+                                                                <pattern id="ctsTreeGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                    <path d="M18 0H0V18" fill="none" stroke="#eef2ff" stroke-width="1"/>
+                                                                </pattern>
+                                                            </defs>
+                                                            <rect width="320" height="136" fill="url(#ctsTreeGrid)"/>
+                                                            <rect x="18" y="14" width="284" height="104" rx="18" fill="#f8fbff" stroke="#dbeafe" stroke-width="2"/>
+                                                            <text x="160" y="33" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="900">root buffer</text>
+                                                            <g transform="translate(86 0)">
+                                                                <circle cx="74" cy="48" r="9" fill="#6366f1"/>
+                                                                <path d="M74 57V73" fill="none" stroke="#6366f1" stroke-width="4" stroke-linecap="round"/>
+                                                                <path d="M74 73L46 93" fill="none" stroke="#6366f1" stroke-width="4" stroke-linecap="round"/>
+                                                                <path d="M74 73L102 93" fill="none" stroke="#6366f1" stroke-width="4" stroke-linecap="round"/>
+                                                                <path d="M46 93L30 108" fill="none" stroke="#818cf8" stroke-width="3.5" stroke-linecap="round"/>
+                                                                <path d="M46 93L62 108" fill="none" stroke="#818cf8" stroke-width="3.5" stroke-linecap="round"/>
+                                                                <path d="M102 93L86 108" fill="none" stroke="#818cf8" stroke-width="3.5" stroke-linecap="round"/>
+                                                                <path d="M102 93L118 108" fill="none" stroke="#818cf8" stroke-width="3.5" stroke-linecap="round"/>
+                                                                <circle r="4.8" fill="#22c55e">
+                                                                    <animateMotion dur="2s" repeatCount="indefinite" path="M74 48V73L46 93L30 108"/>
+                                                                </circle>
+                                                                <circle r="4.8" fill="#22c55e">
+                                                                    <animateMotion dur="2s" begin="0.45s" repeatCount="indefinite" path="M74 48V73L46 93L62 108"/>
+                                                                </circle>
+                                                                <circle r="4.8" fill="#22c55e">
+                                                                    <animateMotion dur="2s" begin="0.9s" repeatCount="indefinite" path="M74 48V73L102 93L86 108"/>
+                                                                </circle>
+                                                                <circle r="4.8" fill="#22c55e">
+                                                                    <animateMotion dur="2s" begin="1.35s" repeatCount="indefinite" path="M74 48V73L102 93L118 108"/>
+                                                                </circle>
+                                                                <g fill="#c7d2fe" stroke="#818cf8" stroke-width="1.5">
+                                                                    <rect x="22" y="104" width="16" height="10" rx="4"/>
+                                                                    <rect x="54" y="104" width="16" height="10" rx="4"/>
+                                                                    <rect x="78" y="104" width="16" height="10" rx="4"/>
+                                                                    <rect x="110" y="104" width="16" height="10" rx="4"/>
+                                                                </g>
+                                                            </g>
+                                                        </svg>
+                                                        <div class="px-4 pt-3 flex flex-wrap gap-2">
+                                                            <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-[11px] font-extrabold text-indigo-600">버퍼 분기형</span>
+                                                            <span class="inline-flex items-center rounded-full bg-slate-50 px-3 py-1 text-[11px] font-extrabold text-slate-600">플롭 분포 대응</span>
+                                                            <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1 text-[11px] font-extrabold text-violet-600">가장 보편적</span>
+                                                        </div>
+                                                        <div class="px-4 pt-3 pb-4 text-sm text-gray-600">가장 일반적인 버퍼 분기 구조. 플립플롭 분포에 맞춰 클럭을 나뉘어 보내며 skew 균형을 맞춥니다.</div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-indigo-100 bg-white/95 overflow-hidden shadow-[0_10px_24px_rgba(99,102,241,0.05)]">
+                                                        <div class="px-4 pt-4 pb-2">
+                                                            <strong class="text-gray-900 block text-sm">H-Tree</strong>
+                                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.1em] text-indigo-500 mt-1">Symmetric Distribution</div>
+                                                        </div>
+                                                        <svg viewBox="0 0 320 136" class="w-full h-[138px] block" aria-hidden="true">
+                                                            <defs>
+                                                                <pattern id="ctsHGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                    <path d="M18 0H0V18" fill="none" stroke="#eef2ff" stroke-width="1"/>
+                                                                </pattern>
+                                                            </defs>
+                                                            <rect width="320" height="136" fill="url(#ctsHGrid)"/>
+                                                            <rect x="18" y="14" width="284" height="104" rx="18" fill="#f8fbff" stroke="#dbeafe" stroke-width="2"/>
+                                                            <path d="M160 30V106" fill="none" stroke="#6366f1" stroke-width="4.2" stroke-linecap="round"/>
+                                                            <path d="M96 48H224" fill="none" stroke="#6366f1" stroke-width="4.2" stroke-linecap="round"/>
+                                                            <path d="M96 88H224" fill="none" stroke="#6366f1" stroke-width="4.2" stroke-linecap="round"/>
+                                                            <path d="M96 48V30" fill="none" stroke="#818cf8" stroke-width="3.5" stroke-linecap="round"/>
+                                                            <path d="M224 48V30" fill="none" stroke="#818cf8" stroke-width="3.5" stroke-linecap="round"/>
+                                                            <path d="M96 88V106" fill="none" stroke="#818cf8" stroke-width="3.5" stroke-linecap="round"/>
+                                                            <path d="M224 88V106" fill="none" stroke="#818cf8" stroke-width="3.5" stroke-linecap="round"/>
+                                                            <circle cx="160" cy="68" r="8" fill="#22c55e">
+                                                                <animate attributeName="r" values="6;8.6;6" dur="1.4s" repeatCount="indefinite"/>
+                                                            </circle>
+                                                            <circle r="4.8" fill="#22c55e">
+                                                                <animateMotion dur="1.6s" repeatCount="indefinite" path="M160 68V48H96V30"/>
+                                                            </circle>
+                                                            <circle r="4.8" fill="#22c55e">
+                                                                <animateMotion dur="1.6s" begin="0.4s" repeatCount="indefinite" path="M160 68V48H224V30"/>
+                                                            </circle>
+                                                            <circle r="4.8" fill="#22c55e">
+                                                                <animateMotion dur="1.6s" begin="0.8s" repeatCount="indefinite" path="M160 68V88H96V106"/>
+                                                            </circle>
+                                                            <circle r="4.8" fill="#22c55e">
+                                                                <animateMotion dur="1.6s" begin="1.2s" repeatCount="indefinite" path="M160 68V88H224V106"/>
+                                                            </circle>
+                                                            <g fill="#c7d2fe" stroke="#818cf8" stroke-width="1.5">
+                                                                <rect x="88" y="22" width="16" height="10" rx="4"/>
+                                                                <rect x="216" y="22" width="16" height="10" rx="4"/>
+                                                                <rect x="88" y="104" width="16" height="10" rx="4"/>
+                                                                <rect x="216" y="104" width="16" height="10" rx="4"/>
+                                                            </g>
+                                                        </svg>
+                                                        <div class="px-4 pt-3 flex flex-wrap gap-2">
+                                                            <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-[11px] font-extrabold text-indigo-600">동일 길이 지향</span>
+                                                            <span class="inline-flex items-center rounded-full bg-slate-50 px-3 py-1 text-[11px] font-extrabold text-slate-600">좌우·상하 대칭</span>
+                                                            <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1 text-[11px] font-extrabold text-violet-600">skew 제어 유리</span>
+                                                        </div>
+                                                        <div class="px-4 pt-3 pb-4 text-sm text-gray-600">대칭성이 강한 구조. 칩 중심에서 사방으로 같은 길이로 퍼져서 이론적으로 skew 제어에 유리합니다.</div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-indigo-100 bg-white/95 overflow-hidden shadow-[0_10px_24px_rgba(99,102,241,0.05)]">
+                                                        <div class="px-4 pt-4 pb-2">
+                                                            <strong class="text-gray-900 block text-sm">Clock Spine</strong>
+                                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.1em] text-indigo-500 mt-1">Long Central Axis</div>
+                                                        </div>
+                                                        <svg viewBox="0 0 320 136" class="w-full h-[138px] block" aria-hidden="true">
+                                                            <defs>
+                                                                <pattern id="ctsSpineGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                    <path d="M18 0H0V18" fill="none" stroke="#eef2ff" stroke-width="1"/>
+                                                                </pattern>
+                                                            </defs>
+                                                            <rect width="320" height="136" fill="url(#ctsSpineGrid)"/>
+                                                            <rect x="18" y="14" width="284" height="104" rx="18" fill="#f8fbff" stroke="#dbeafe" stroke-width="2"/>
+                                                            <path d="M152 26V108" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+                                                            <path d="M152 38H100" fill="none" stroke="#60a5fa" stroke-width="3.5" stroke-linecap="round"/>
+                                                            <path d="M152 58H206" fill="none" stroke="#60a5fa" stroke-width="3.5" stroke-linecap="round"/>
+                                                            <path d="M152 78H100" fill="none" stroke="#60a5fa" stroke-width="3.5" stroke-linecap="round"/>
+                                                            <path d="M152 98H206" fill="none" stroke="#60a5fa" stroke-width="3.5" stroke-linecap="round"/>
+                                                            <g fill="#dbeafe" stroke="#60a5fa" stroke-width="1.5">
+                                                                <rect x="84" y="33" width="16" height="10" rx="4"/>
+                                                                <rect x="206" y="53" width="16" height="10" rx="4"/>
+                                                                <rect x="84" y="73" width="16" height="10" rx="4"/>
+                                                                <rect x="206" y="93" width="16" height="10" rx="4"/>
+                                                            </g>
+                                                            <circle r="4.9" fill="#22c55e">
+                                                                <animateMotion dur="1.9s" repeatCount="indefinite" path="M152 26V38H100"/>
+                                                            </circle>
+                                                            <circle r="4.9" fill="#22c55e">
+                                                                <animateMotion dur="1.9s" begin="0.45s" repeatCount="indefinite" path="M152 26V58H206"/>
+                                                            </circle>
+                                                            <circle r="4.9" fill="#22c55e">
+                                                                <animateMotion dur="1.9s" begin="0.9s" repeatCount="indefinite" path="M152 26V78H100"/>
+                                                            </circle>
+                                                            <circle r="4.9" fill="#22c55e">
+                                                                <animateMotion dur="1.9s" begin="1.35s" repeatCount="indefinite" path="M152 26V98H206"/>
+                                                            </circle>
+                                                        </svg>
+                                                        <div class="px-4 pt-3 flex flex-wrap gap-2">
+                                                            <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-[11px] font-extrabold text-blue-600">긴 중심축</span>
+                                                            <span class="inline-flex items-center rounded-full bg-slate-50 px-3 py-1 text-[11px] font-extrabold text-slate-600">측면 분기</span>
+                                                            <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1 text-[11px] font-extrabold text-violet-600">긴 floorplan 유리</span>
+                                                        </div>
+                                                        <div class="px-4 pt-3 pb-4 text-sm text-gray-600">긴 중심 축(spine)을 먼저 깔고 가지를 뻗는 방식. 길쭉한 배치나 반복 구조 블록에서 자주 보입니다.</div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-indigo-100 bg-white/95 overflow-hidden shadow-[0_10px_24px_rgba(99,102,241,0.05)]">
+                                                        <div class="px-4 pt-4 pb-2">
+                                                            <strong class="text-gray-900 block text-sm">Clock Mesh</strong>
+                                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.1em] text-indigo-500 mt-1">Dense Grid Network</div>
+                                                        </div>
+                                                        <svg viewBox="0 0 320 136" class="w-full h-[138px] block" aria-hidden="true">
+                                                            <defs>
+                                                                <pattern id="ctsMeshGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                    <path d="M18 0H0V18" fill="none" stroke="#eef2ff" stroke-width="1"/>
+                                                                </pattern>
+                                                            </defs>
+                                                            <rect width="320" height="136" fill="url(#ctsMeshGrid)"/>
+                                                            <rect x="18" y="14" width="284" height="104" rx="18" fill="#f8fbff" stroke="#dbeafe" stroke-width="2"/>
+                                                            <g stroke="#818cf8" stroke-width="2.6" stroke-linecap="round" opacity="0.9">
+                                                                <path d="M78 36H238"/>
+                                                                <path d="M78 56H238"/>
+                                                                <path d="M78 76H238"/>
+                                                                <path d="M78 96H238"/>
+                                                                <path d="M98 26V106"/>
+                                                                <path d="M138 26V106"/>
+                                                                <path d="M178 26V106"/>
+                                                                <path d="M218 26V106"/>
+                                                            </g>
+                                                            <g fill="#c7d2fe">
+                                                                <circle cx="138" cy="56" r="3.8"/>
+                                                                <circle cx="178" cy="56" r="3.8"/>
+                                                                <circle cx="138" cy="76" r="3.8"/>
+                                                                <circle cx="178" cy="76" r="3.8"/>
+                                                            </g>
+                                                            <circle cx="158" cy="66" r="8" fill="#22c55e">
+                                                                <animate attributeName="r" values="6;8.5;6" dur="1.2s" repeatCount="indefinite"/>
+                                                                <animate attributeName="opacity" values="0.55;1;0.55" dur="1.2s" repeatCount="indefinite"/>
+                                                            </circle>
+                                                            <rect x="248" y="44" width="34" height="18" rx="8" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.6"/>
+                                                            <rect x="248" y="72" width="34" height="18" rx="8" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.6"/>
+                                                            <text x="265" y="56" text-anchor="middle" fill="#7c3aed" font-size="9.2" font-weight="900">FF</text>
+                                                            <text x="265" y="84" text-anchor="middle" fill="#7c3aed" font-size="9.2" font-weight="900">FF</text>
+                                                            <path d="M218 56H248" fill="none" stroke="#22c55e" stroke-width="3.4" stroke-linecap="round"/>
+                                                            <path d="M218 84H248" fill="none" stroke="#22c55e" stroke-width="3.4" stroke-linecap="round"/>
+                                                            <circle r="4.8" fill="#22c55e">
+                                                                <animateMotion dur="1.4s" repeatCount="indefinite" path="M158 66H218H248"/>
+                                                            </circle>
+                                                        </svg>
+                                                        <div class="px-4 pt-3 flex flex-wrap gap-2">
+                                                            <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-[11px] font-extrabold text-indigo-600">격자형 강분배</span>
+                                                            <span class="inline-flex items-center rounded-full bg-slate-50 px-3 py-1 text-[11px] font-extrabold text-slate-600">skew 강함</span>
+                                                            <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1 text-[11px] font-extrabold text-violet-600">전력·배선 비용 큼</span>
+                                                        </div>
+                                                        <div class="px-4 pt-3 pb-4 text-sm text-gray-600">격자형으로 클럭을 강하게 분배하는 구조. skew는 매우 강하지만 전력과 배선 자원이 많이 듭니다.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+                                            <div class="flex items-center gap-3 mb-2">
+                                                <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-extrabold">3</span>
+                                                <strong class="text-gray-900">Routing</strong>
+                                            </div>
+                                            <p class="text-sm text-gray-600 ml-11">배치된 셀을 다층 금속 배선으로 연결합니다. 이 과정에서 <strong class="text-gray-900">배선 경로, via 개수, 층 선택, coupling, RC 증가</strong>가 결정되므로 최종 타이밍과 SI/PI 문제가 현실적으로 드러납니다.</p>
+                                            <div class="mt-4 ml-11 rounded-2xl border border-fuchsia-100 bg-fuchsia-50/70 p-4">
+                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-fuchsia-600 mb-3">세부 배선 단계</div>
+                                                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                                                    <div class="rounded-2xl border border-fuchsia-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Global Routing</div>
+                                                        <div class="routing-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="routeGlobalGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+                                                                        <path d="M24 0H0V24" fill="none" stroke="#fce7f3" stroke-width="1"/>
+                                                                    </pattern>
+                                                                    <radialGradient id="routeGlobalHot" cx="50%" cy="50%" r="50%">
+                                                                        <stop offset="0%" stop-color="#fb7185" stop-opacity="0.48"/>
+                                                                        <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
+                                                                    </radialGradient>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#routeGlobalGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+                                                                <rect x="36" y="26" width="58" height="30" rx="10" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.4"/>
+                                                                <rect x="214" y="80" width="50" height="28" rx="10" fill="#e9d5ff" stroke="#a855f7" stroke-width="1.4"/>
+                                                                <text x="65" y="44" text-anchor="middle" fill="#2563eb" font-size="9.4" font-weight="900">src block</text>
+                                                                <text x="239" y="97" text-anchor="middle" fill="#9333ea" font-size="9.4" font-weight="900">dst block</text>
+                                                                <circle cx="160" cy="64" r="28" fill="url(#routeGlobalHot)">
+                                                                    <animate attributeName="r" values="22;30;22" dur="2s" repeatCount="indefinite"/>
+                                                                </circle>
+                                                                <text x="160" y="65" text-anchor="middle" fill="#e11d48" font-size="9.2" font-weight="900">hotspot</text>
+                                                                <path d="M94 42H120V96H214" fill="none" stroke="#f9a8d4" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+                                                                <path d="M94 42H120V96H214" fill="none" stroke="#ec4899" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5"/>
+                                                                <circle r="4.6" fill="#ec4899">
+                                                                    <animateMotion dur="1.7s" repeatCount="indefinite" path="M94 42H120V96H214"/>
+                                                                </circle>
+                                                                <path d="M94 42H176V34H214" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" stroke-dasharray="5 5" opacity="0.85"/>
+                                                                <text x="152" y="24" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="900">대안 corridor</text>
+                                                                <text x="150" y="120" text-anchor="middle" fill="#c026d3" font-size="9.7" font-weight="900">큰 경로를 먼저 잡고 congestion 우회 전략 수립</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">어느 영역과 어느 metal layer를 통해 갈지 큰 경로를 먼저 잡아 congestion과 routing resource 사용량을 예측하는 단계</p>
+                                                        <div class="routing-mini-chip-row">
+                                                            <span class="routing-mini-chip">corridor</span>
+                                                            <span class="routing-mini-chip">resource</span>
+                                                            <span class="routing-mini-chip">congestion</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-fuchsia-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Track / Layer Assignment</div>
+                                                        <div class="routing-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="routeTrackGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#fdf2f8" stroke-width="1"/>
+                                                                    </pattern>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#routeTrackGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+                                                                <g stroke="#93c5fd" stroke-width="3" stroke-linecap="round" opacity="0.85">
+                                                                    <path d="M44 38H256"/>
+                                                                    <path d="M44 64H256"/>
+                                                                    <path d="M44 90H256"/>
+                                                                </g>
+                                                                <g stroke="#c4b5fd" stroke-width="3" stroke-linecap="round" opacity="0.9">
+                                                                    <path d="M86 24V112"/>
+                                                                    <path d="M150 24V112"/>
+                                                                    <path d="M214 24V112"/>
+                                                                </g>
+                                                                <rect x="48" y="56" width="18" height="16" rx="5" fill="#0ea5e9"/>
+                                                                <rect x="228" y="82" width="18" height="16" rx="5" fill="#8b5cf6"/>
+                                                                <path d="M66 64H150V90H228" fill="none" stroke="#ec4899" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                <circle cx="150" cy="64" r="5.8" fill="#f472b6">
+                                                                    <animate attributeName="cy" values="64;90;64" dur="2s" repeatCount="indefinite"/>
+                                                                </circle>
+                                                                <circle r="4.6" fill="#ec4899">
+                                                                    <animateMotion dur="1.7s" repeatCount="indefinite" path="M66 64H150V90H228"/>
+                                                                </circle>
+                                                                <text x="248" y="40" fill="#0ea5e9" font-size="9.2" font-weight="900">M3 horizontal</text>
+                                                                <text x="248" y="56" fill="#8b5cf6" font-size="9.2" font-weight="900">M4 vertical</text>
+                                                                <text x="150" y="120" text-anchor="middle" fill="#c026d3" font-size="9.7" font-weight="900">preferred direction과 via 위치를 함께 결정</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">배선 방향, 트랙, preferred direction, 상하 metal 선택과 via 위치를 정해 실제 연결 가능성을 구체화하는 단계</p>
+                                                        <div class="routing-mini-chip-row">
+                                                            <span class="routing-mini-chip">track</span>
+                                                            <span class="routing-mini-chip">layer</span>
+                                                            <span class="routing-mini-chip">via</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-fuchsia-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Detailed Routing</div>
+                                                        <div class="routing-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="routeDetailGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#fdf2f8" stroke-width="1"/>
+                                                                    </pattern>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#routeDetailGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+                                                                <g fill="#cbd5e1">
+                                                                    <rect x="48" y="38" width="18" height="18" rx="5"/>
+                                                                    <rect x="132" y="82" width="18" height="18" rx="5"/>
+                                                                    <rect x="232" y="54" width="18" height="18" rx="5"/>
+                                                                </g>
+                                                                <path d="M57 47H132V91H241V63" fill="none" stroke="#ec4899" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100">
+                                                                    <animate attributeName="stroke-dashoffset" values="100;0;0;100" keyTimes="0;0.45;0.7;1" dur="3s" repeatCount="indefinite"/>
+                                                                </path>
+                                                                <circle cx="132" cy="91" r="5" fill="#f472b6">
+                                                                    <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" repeatCount="indefinite"/>
+                                                                </circle>
+                                                                <circle cx="241" cy="63" r="5" fill="#f472b6">
+                                                                    <animate attributeName="opacity" values="0.2;1;0.2" begin="0.4s" dur="1.2s" repeatCount="indefinite"/>
+                                                                </circle>
+                                                                <text x="78" y="112" fill="#64748b" font-size="9.1" font-weight="900">spacing / enclosure / via 규칙 충족</text>
+                                                                <text x="150" y="28" text-anchor="middle" fill="#c026d3" font-size="9.7" font-weight="900">실제 금속선이 핀을 orthogonal 경로로 연결</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">각 핀을 실제 금속선으로 연결하면서 spacing, enclosure, via 규칙까지 만족시키는 정밀 배선 단계</p>
+                                                        <div class="routing-mini-chip-row">
+                                                            <span class="routing-mini-chip">metal path</span>
+                                                            <span class="routing-mini-chip">orthogonal</span>
+                                                            <span class="routing-mini-chip">rule clean</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-fuchsia-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">DRC Repair</div>
+                                                        <div class="routing-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="routeDrcGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#fdf2f8" stroke-width="1"/>
+                                                                    </pattern>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#routeDrcGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+                                                                <text x="42" y="28" fill="#ef4444" font-size="9.4" font-weight="900">before</text>
+                                                                <rect x="46" y="38" width="172" height="8" rx="4" fill="#fb7185"/>
+                                                                <rect x="46" y="52" width="172" height="8" rx="4" fill="#fb7185"/>
+                                                                <path d="M228 50V98" fill="none" stroke="#fb7185" stroke-width="8" stroke-linecap="round"/>
+                                                                <path d="M132 42V56" fill="none" stroke="#ef4444" stroke-width="2"/>
+                                                                <path d="M124 48H140" fill="none" stroke="#ef4444" stroke-width="2"/>
+                                                                <text x="144" y="70" text-anchor="middle" fill="#ef4444" font-size="9.2" font-weight="900">too close / short risk</text>
+                                                                <text x="42" y="92" fill="#16a34a" font-size="9.4" font-weight="900">after</text>
+                                                                <rect x="46" y="100" width="172" height="8" rx="4" fill="#60a5fa"/>
+                                                                <rect x="46" y="118" width="172" height="8" rx="4" fill="#60a5fa">
+                                                                    <animate attributeName="y" values="110;118;110" dur="2.1s" repeatCount="indefinite"/>
+                                                                </rect>
+                                                                <path d="M228 94V122" fill="none" stroke="#60a5fa" stroke-width="8" stroke-linecap="round"/>
+                                                                <circle cx="252" cy="108" r="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="1.8"/>
+                                                                <path d="M246 108L251 113L258 102" fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">minimum spacing, short, open, notch, antenna 같은 제조 규칙 위반을 reroute와 via 수정으로 줄여가는 보정 단계</p>
+                                                        <div class="routing-mini-chip-row">
+                                                            <span class="routing-mini-chip">spacing</span>
+                                                            <span class="routing-mini-chip">short/open</span>
+                                                            <span class="routing-mini-chip">reroute</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-fuchsia-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">RC / SI Aware Fix</div>
+                                                        <div class="routing-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="routeSiGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#fdf2f8" stroke-width="1"/>
+                                                                    </pattern>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#routeSiGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+                                                                <text x="36" y="28" fill="#ef4444" font-size="9.4" font-weight="900">coupling</text>
+                                                                <path d="M40 44H144" fill="none" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
+                                                                <path d="M40 66H144" fill="none" stroke="#fb7185" stroke-width="6" stroke-linecap="round"/>
+                                                                <path d="M92 44V66" fill="none" stroke="#f43f5e" stroke-width="2.2" stroke-dasharray="4 4">
+                                                                    <animate attributeName="opacity" values="0.25;1;0.25" dur="1.2s" repeatCount="indefinite"/>
+                                                                </path>
+                                                                <circle r="4.4" fill="#ef4444">
+                                                                    <animateMotion dur="1.35s" repeatCount="indefinite" path="M40 44H144"/>
+                                                                </circle>
+                                                                <circle r="4.4" fill="#fb7185">
+                                                                    <animateMotion dur="1.35s" begin="0.4s" repeatCount="indefinite" path="M40 66H144"/>
+                                                                </circle>
+                                                                <text x="218" y="28" fill="#16a34a" font-size="9.4" font-weight="900">shield / spacing</text>
+                                                                <path d="M166 44H270" fill="none" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
+                                                                <path d="M166 66H270" fill="none" stroke="#fb7185" stroke-width="6" stroke-linecap="round"/>
+                                                                <path d="M166 55H270" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round"/>
+                                                                <text x="216" y="88" text-anchor="middle" fill="#16a34a" font-size="9.2" font-weight="900">middle shield line</text>
+                                                                <path d="M166 44V66" fill="none" stroke="#f59e0b" stroke-width="1.8" opacity="0.25"/>
+                                                                <path d="M270 44V66" fill="none" stroke="#f59e0b" stroke-width="1.8" opacity="0.25"/>
+                                                                <text x="150" y="118" text-anchor="middle" fill="#c026d3" font-size="9.7" font-weight="900">crosstalk를 spacing·shielding·layer change로 완화</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">긴 배선, coupling noise, crosstalk를 줄이기 위해 shielding, spacing, layer change, buffering을 적용하는 신호 무결성 최적화</p>
+                                                        <div class="routing-mini-chip-row">
+                                                            <span class="routing-mini-chip">crosstalk</span>
+                                                            <span class="routing-mini-chip">shielding</span>
+                                                            <span class="routing-mini-chip">spacing</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rounded-2xl border border-fuchsia-100 bg-white p-4">
+                                                        <div class="text-sm font-extrabold text-gray-900 mb-1">Post-Route Optimization</div>
+                                                        <div class="routing-mini-visual">
+                                                            <svg viewBox="0 0 300 138" aria-hidden="true">
+                                                                <defs>
+                                                                    <pattern id="routePostGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                                        <path d="M18 0H0V18" fill="none" stroke="#fdf2f8" stroke-width="1"/>
+                                                                    </pattern>
+                                                                </defs>
+                                                                <rect width="300" height="138" fill="url(#routePostGrid)"/>
+                                                                <rect x="16" y="12" width="268" height="114" rx="18" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+                                                                <path d="M42 80H112V46H186V94H258" fill="none" stroke="#9ca3af" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                <rect x="118" y="28" width="54" height="22" rx="9" fill="#fdf2f8" stroke="#f472b6" stroke-width="1.6"/>
+                                                                <text x="145" y="42" text-anchor="middle" fill="#db2777" font-size="9.4" font-weight="900">RC Extract</text>
+                                                                <path d="M145 50V64" fill="none" stroke="#f472b6" stroke-width="2.2" stroke-dasharray="4 4"/>
+                                                                <rect x="196" y="76" width="48" height="22" rx="9" fill="#f0fdf4" stroke="#22c55e" stroke-width="1.6"/>
+                                                                <text x="220" y="90" text-anchor="middle" fill="#16a34a" font-size="9.4" font-weight="900">ECO</text>
+                                                                <circle r="4.5" fill="#ec4899">
+                                                                    <animateMotion dur="1.7s" repeatCount="indefinite" path="M42 80H112V46H186V94H258"/>
+                                                                </circle>
+                                                                <circle cx="176" cy="46" r="10" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.5">
+                                                                    <animate attributeName="opacity" values="0.45;1;0.45" dur="1.3s" repeatCount="indefinite"/>
+                                                                </circle>
+                                                                <text x="176" y="49" text-anchor="middle" fill="#d97706" font-size="8.8" font-weight="900">STA</text>
+                                                                <path d="M220 76V62" fill="none" stroke="#22c55e" stroke-width="2.2"/>
+                                                                <path d="M214 68L220 62L226 68" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                <text x="150" y="118" text-anchor="middle" fill="#c026d3" font-size="9.7" font-weight="900">RC 추출 후 STA 재검증과 ECO 수정이 반복</text>
+                                                            </svg>
+                                                        </div>
+                                                        <p class="text-sm leading-6 text-gray-600">추출된 RC 기준으로 setup/hold, IR/EM, slew, transition을 다시 점검하고 ECO까지 연결하는 라우팅 후반 최적화</p>
+                                                        <div class="routing-mini-chip-row">
+                                                            <span class="routing-mini-chip">RC extract</span>
+                                                            <span class="routing-mini-chip">STA</span>
+                                                            <span class="routing-mini-chip">ECO</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5 rounded-2xl bg-blue-50 border border-blue-100 p-4 text-sm text-gray-700">
+                                        <strong class="text-blue-600 block mb-1">물리설계에서의 위치</strong>
+                                        Floorplan 다음에 Placement/CTS/Routing이 오고, 이 결과를 바탕으로 Signoff 검증과 ECO 반복이 이어집니다.
+                                    </div>
+                                </div>
+
+                                

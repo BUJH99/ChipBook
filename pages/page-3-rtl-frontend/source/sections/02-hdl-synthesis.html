@@ -1,0 +1,175 @@
+<div class="card" data-part3-panel="hdl-synthesis" data-guidebook-toc-title="HDL / Logic Synthesis" hidden>
+                                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                                    <div class="rounded-[30px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef5ff] p-6">
+                                        <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">HDL</div>
+                                        <h4 class="font-extrabold text-gray-900 text-xl mb-5">Definition, Role, Output</h4>
+                                        <div class="mb-6 overflow-hidden rounded-[28px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef5ff]">
+                                            <svg viewBox="0 0 760 228" class="block h-[220px] w-full" aria-hidden="true">
+                                                <defs>
+                                                    <pattern id="hdlGrid" width="22" height="22" patternUnits="userSpaceOnUse">
+                                                        <path d="M22 0H0V22" fill="none" stroke="#e9f2ff" stroke-width="1"/>
+                                                    </pattern>
+                                                </defs>
+                                                <rect width="760" height="228" fill="url(#hdlGrid)"/>
+                                                <rect x="34" y="86" width="108" height="44" rx="22" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
+                                                <text x="88" y="103" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="900">SYSTEM</text>
+                                                <text x="88" y="120" text-anchor="middle" fill="#2563eb" font-size="17" font-weight="900">Spec</text>
+
+                                                <path d="M142 108H200" fill="none" stroke="#93c5fd" stroke-width="6" stroke-linecap="round"/>
+                                                <circle r="6" fill="#38bdf8">
+                                                    <animateMotion dur="3s" repeatCount="indefinite" path="M142 108H200"/>
+                                                </circle>
+
+                                                <rect x="200" y="44" width="198" height="126" rx="26" fill="#ffffff" stroke="#93c5fd" stroke-width="3"/>
+                                                <text x="224" y="72" fill="#2563eb" font-size="12" font-weight="900">HDL CODE</text>
+                                                <rect x="222" y="84" width="150" height="14" rx="7" fill="#eff6ff"/>
+                                                <rect x="222" y="108" width="130" height="14" rx="7" fill="#eff6ff"/>
+                                                <rect x="222" y="132" width="118" height="14" rx="7" fill="#eff6ff"/>
+                                                <rect x="222" y="84" width="112" height="14" rx="7" fill="#93c5fd" opacity="0.92">
+                                                    <animate attributeName="width" values="84;132;96;112" dur="3.2s" repeatCount="indefinite"/>
+                                                    <animate attributeName="opacity" values="0.45;1;0.55;0.92" dur="3.2s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <rect x="222" y="108" width="78" height="14" rx="7" fill="#60a5fa" opacity="0.8">
+                                                    <animate attributeName="x" values="222;246;226;222" dur="2.8s" begin="0.45s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <rect x="222" y="132" width="96" height="14" rx="7" fill="#2563eb" opacity="0.75">
+                                                    <animate attributeName="width" values="70;118;84;96" dur="2.9s" begin="0.8s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <text x="222" y="164" fill="#60a5fa" font-size="10" font-weight="900">assign / always_comb / always_ff</text>
+
+                                                <path d="M398 108H456" fill="none" stroke="#60a5fa" stroke-width="6" stroke-linecap="round"/>
+                                                <circle r="6" fill="#2563eb">
+                                                    <animateMotion dur="3s" begin="0.25s" repeatCount="indefinite" path="M398 108H456"/>
+                                                </circle>
+
+                                                <rect x="456" y="74" width="116" height="68" rx="24" fill="#ffffff" stroke="#60a5fa" stroke-width="3"/>
+                                                <text x="514" y="98" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">RTL MODEL</text>
+                                                <rect x="478" y="108" width="72" height="18" rx="9" fill="#dbeafe"/>
+                                                <text x="514" y="121" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">Register</text>
+
+                                                <path d="M572 108H612V66H660" fill="none" stroke="#818cf8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <circle r="5" fill="#6366f1">
+                                                    <animateMotion dur="2.8s" begin="0.35s" repeatCount="indefinite" path="M572 108H612V66H660"/>
+                                                </circle>
+                                                <path d="M572 108H612V162H660" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <circle r="5" fill="#10b981">
+                                                    <animateMotion dur="2.8s" begin="1.05s" repeatCount="indefinite" path="M572 108H612V162H660"/>
+                                                </circle>
+
+                                                <rect x="660" y="44" width="70" height="44" rx="18" fill="#eef2ff" stroke="#c7d2fe" stroke-width="2"/>
+                                                <path d="M676 70L688 58L700 70L712 58" fill="none" stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                    <animate attributeName="stroke-opacity" values="0.45;1;0.45" dur="2s" repeatCount="indefinite"/>
+                                                </path>
+                                                <text x="695" y="102" text-anchor="middle" fill="#6366f1" font-size="11" font-weight="900">Simulation</text>
+
+                                                <rect x="660" y="140" width="70" height="44" rx="18" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="2"/>
+                                                <rect x="674" y="152" width="12" height="16" rx="3" fill="#10b981"/>
+                                                <rect x="690" y="148" width="12" height="20" rx="3" fill="#34d399"/>
+                                                <rect x="706" y="154" width="12" height="14" rx="3" fill="#6ee7b7"/>
+                                                <text x="695" y="198" text-anchor="middle" fill="#059669" font-size="11" font-weight="900">Synthesis</text>
+
+                                                <rect x="250" y="188" width="260" height="18" rx="9" fill="#eff6ff" stroke="#bfdbfe"/>
+                                                <text x="380" y="200.5" text-anchor="middle" fill="#2563eb" font-size="10.5" font-weight="900">HDL은 설계를 코드로 표현해 검증과 합성으로 보내는 공통 입력</text>
+                                            </svg>
+                                        </div>
+                                        <div class="space-y-4">
+                                            <div class="bg-white rounded-2xl p-5 border border-white shadow-sm">
+                                                <div class="text-sm font-extrabold text-gray-900 mb-2">Definition</div>
+                                                <p class="text-sm text-gray-600">Verilog, VHDL, SystemVerilog 기반 하드웨어 구조·동작 기술 언어, 소프트웨어 코드 형태를 빌린 회로 표현 수단</p>
+                                            </div>
+                                            <div class="bg-white rounded-2xl p-5 border border-white shadow-sm">
+                                                <div class="text-sm font-extrabold text-gray-900 mb-2">Role</div>
+                                                <p class="text-sm text-gray-600">대규모 회로의 코드 기반 설계·검증·합성 연결, RTL 수준 구조와 데이터 이동의 실제 설계 언어화</p>
+                                            </div>
+                                            <div class="bg-white rounded-2xl p-5 border border-white shadow-sm">
+                                                <div class="text-sm font-extrabold text-gray-900 mb-2">Output</div>
+                                                <p class="text-sm text-gray-600">RTL source 정리, simulation·synthesis 공통 입력 형성, 기능 검증과 gate-level netlist 생성의 출발 데이터</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-[30px] border border-lime-100 bg-[radial-gradient(circle_at_top_right,_rgba(132,204,22,0.10),_transparent_38%),linear-gradient(180deg,_#ffffff_0%,_#fcfff7_100%)] p-6">
+                                        <div class="text-xs font-extrabold text-emerald-600 uppercase tracking-[0.2em] mb-2">Logic Synthesis</div>
+                                        <h4 class="font-extrabold text-gray-900 text-xl mb-5">Definition, Role, Output</h4>
+                                        <div class="mb-6 overflow-hidden rounded-[28px] border border-lime-100 bg-gradient-to-br from-white via-[#fcfff8] to-[#f3fae8]">
+                                            <svg viewBox="0 0 820 232" class="block h-[220px] w-full" aria-hidden="true">
+                                                <defs>
+                                                    <pattern id="synthGrid" width="22" height="22" patternUnits="userSpaceOnUse">
+                                                        <path d="M22 0H0V22" fill="none" stroke="#eef6dd" stroke-width="1"/>
+                                                    </pattern>
+                                                </defs>
+                                                <rect width="820" height="232" fill="url(#synthGrid)"/>
+
+                                                <rect x="34" y="52" width="170" height="116" rx="28" fill="#ffffff" stroke="#bef264" stroke-width="3"/>
+                                                <text x="58" y="78" fill="#4d7c0f" font-size="12" font-weight="900">VERIFIED RTL</text>
+                                                <rect x="58" y="92" width="120" height="14" rx="7" fill="#ecfccb"/>
+                                                <rect x="58" y="116" width="102" height="14" rx="7" fill="#ecfccb"/>
+                                                <rect x="58" y="140" width="132" height="14" rx="7" fill="#ecfccb"/>
+                                                <rect x="58" y="92" width="96" height="14" rx="7" fill="#84cc16" opacity="0.9">
+                                                    <animate attributeName="width" values="70;124;88;96" dur="3.2s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <rect x="58" y="116" width="78" height="14" rx="7" fill="#65a30d" opacity="0.78">
+                                                    <animate attributeName="x" values="58;84;64;58" dur="2.8s" begin="0.4s" repeatCount="indefinite"/>
+                                                </rect>
+                                                <text x="58" y="184" fill="#65a30d" font-size="10.5" font-weight="900">always_comb / always_ff / case</text>
+
+                                                <path d="M204 110H278" fill="none" stroke="#84cc16" stroke-width="6" stroke-linecap="round"/>
+                                                <circle r="6" fill="#65a30d">
+                                                    <animateMotion dur="2.8s" repeatCount="indefinite" path="M204 110H278"/>
+                                                </circle>
+
+                                                <rect x="264" y="44" width="238" height="132" rx="30" fill="#ffffff" stroke="#a3e635" stroke-width="3"/>
+                                                <text x="383" y="68" text-anchor="middle" fill="#4d7c0f" font-size="10.5" font-weight="900">STANDARD CELL LIBRARY MAPPING</text>
+                                                <rect x="306" y="90" width="56" height="30" rx="15" fill="#f7fee7" stroke="#bef264" stroke-width="2"/>
+                                                <text x="334" y="109" text-anchor="middle" fill="#65a30d" font-size="12" font-weight="900">NAND</text>
+                                                <rect x="372" y="90" width="56" height="30" rx="15" fill="#f7fee7" stroke="#bef264" stroke-width="2"/>
+                                                <text x="400" y="109" text-anchor="middle" fill="#65a30d" font-size="12" font-weight="900">NOR</text>
+                                                <rect x="438" y="90" width="36" height="30" rx="15" fill="#f7fee7" stroke="#bef264" stroke-width="2"/>
+                                                <text x="456" y="109" text-anchor="middle" fill="#65a30d" font-size="12" font-weight="900">FF</text>
+                                                <path d="M320 142H446" fill="none" stroke="#d9f99d" stroke-width="8" stroke-linecap="round"/>
+                                                <circle r="7" fill="#84cc16">
+                                                    <animateMotion dur="2.6s" begin="0.3s" repeatCount="indefinite" path="M320 142H446"/>
+                                                </circle>
+                                                <text x="382" y="164" text-anchor="middle" fill="#65a30d" font-size="11" font-weight="900">Boolean optimization + technology mapping</text>
+
+                                                <path d="M488 110H548" fill="none" stroke="#84cc16" stroke-width="6" stroke-linecap="round"/>
+                                                <circle r="6" fill="#4d7c0f">
+                                                    <animateMotion dur="2.8s" begin="0.5s" repeatCount="indefinite" path="M488 110H548"/>
+                                                </circle>
+
+                                                <rect x="548" y="42" width="238" height="136" rx="30" fill="#ffffff" stroke="#86efac" stroke-width="3"/>
+                                                <text x="574" y="68" fill="#15803d" font-size="12" font-weight="900">OUTPUTS</text>
+                                                <rect x="574" y="86" width="104" height="58" rx="18" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+                                                <text x="626" y="106" text-anchor="middle" fill="#15803d" font-size="12" font-weight="900">Gate Netlist</text>
+                                                <text x="626" y="123" text-anchor="middle" fill="#16a34a" font-size="11" font-weight="800">NAND U1</text>
+                                                <text x="626" y="137" text-anchor="middle" fill="#16a34a" font-size="11" font-weight="800">DFF U2</text>
+                                                <rect x="692" y="86" width="70" height="14" rx="7" fill="#dcfce7"/>
+                                                <rect x="692" y="108" width="56" height="14" rx="7" fill="#bbf7d0"/>
+                                                <rect x="692" y="130" width="62" height="14" rx="7" fill="#86efac"/>
+                                                <text x="727" y="164" text-anchor="middle" fill="#15803d" font-size="11" font-weight="900">timing / area / power</text>
+
+                                                <rect x="250" y="194" width="320" height="18" rx="9" fill="#f7fee7" stroke="#d9f99d"/>
+                                                <text x="410" y="206.5" text-anchor="middle" fill="#4d7c0f" font-size="10.5" font-weight="900">RTL을 공정에서 구현 가능한 gate-level 형태로 변환하고 PPA 기준을 확인</text>
+                                            </svg>
+                                        </div>
+                                        <div class="space-y-4">
+                                            <div class="bg-white rounded-2xl p-5 border border-white shadow-sm">
+                                                <div class="text-sm font-extrabold text-gray-900 mb-2">Definition</div>
+                                                <p class="text-sm text-gray-600">RTL을 Standard Cell Library에 매핑해 Gate-level Netlist로 변환하는 과정</p>
+                                            </div>
+                                            <div class="bg-white rounded-2xl p-5 border border-white shadow-sm">
+                                                <div class="text-sm font-extrabold text-gray-900 mb-2">Role</div>
+                                                <p class="text-sm text-gray-600">공정 구현 가능한 논리 형태 확보, 성능·전력·면적(PPA) 목표 달성의 출발점 형성</p>
+                                            </div>
+                                            <div class="bg-white rounded-2xl p-5 border border-white shadow-sm">
+                                                <div class="text-sm font-extrabold text-gray-900 mb-2">Output</div>
+                                                <p class="text-sm text-gray-600">Netlist, timing report, area/power report, 이후 DFT·PD에서 사용하는 구현 기반 데이터</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        

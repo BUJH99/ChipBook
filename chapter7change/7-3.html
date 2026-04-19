@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
-    <script src="../assets/chapter7-embed-common.js" defer></script>
+    <script src="../assets/chapter7-embed-common.js"></script>
     
     <style>
         body { font-family: 'Pretendard', sans-serif; }
@@ -132,13 +132,6 @@
                         <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-l-xl"></div>
                         <span class="pl-2">Phase 3. 코어 메커니즘</span>
                     </a>
-                    <!-- Sub Nav for active item (mirrors TOC) -->
-                    <div class="pl-6 pr-3 py-2 space-y-1.5" id="left-subnav">
-                        <a href="#" onclick="switchTab('factory')" id="sub-factory" class="block text-xs font-bold text-blue-600">3.1 Factory 패턴</a>
-                        <a href="#" onclick="switchTab('phase')" id="sub-phase" class="block text-xs font-semibold text-slate-500 hover:text-slate-800 transition">3.2 Phase & Objection</a>
-                        <a href="#" onclick="switchTab('config')" id="sub-config" class="block text-xs font-semibold text-slate-500 hover:text-slate-800 transition">3.3 Config DB</a>
-                        <a href="#" onclick="switchTab('sync')" id="sub-sync" class="block text-xs font-semibold text-slate-500 hover:text-slate-800 transition">3.4 동기화 (Barrier)</a>
-                    </div>
                 </div>
 
                 <a href="#" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">Phase 4. 트랜잭션과 오브젝트</a>
@@ -167,18 +160,20 @@
                 </header>
 
                 <!-- 탭 네비게이션 -->
-                <nav class="flex overflow-x-auto gap-2 mb-10 pb-4 border-b border-gray-200 hide-scrollbar" aria-label="Tabs">
-                    <button onclick="switchTab('factory')" data-tab="factory" class="uvm-tab-btn active">3.1 Factory (동적 교체)</button>
-                    <button onclick="switchTab('phase')" data-tab="phase" class="uvm-tab-btn">3.2 Phase & Objection</button>
-                    <button onclick="switchTab('config')" data-tab="config" class="uvm-tab-btn">3.3 Config DB</button>
-                    <button onclick="switchTab('sync')" data-tab="sync" class="uvm-tab-btn">3.4 Barrier 동기화</button>
+                <nav id="part3-tab-shell" class="chapter7-tab-shell" aria-label="Tabs">
+                    <div class="chapter7-tab-nav">
+                        <button data-target="factory" class="chapter7-tab-btn active">3.1 Factory (동적 교체)</button>
+                        <button data-target="phase" class="chapter7-tab-btn">3.2 Phase & Objection</button>
+                        <button data-target="config" class="chapter7-tab-btn">3.3 Config DB</button>
+                        <button data-target="sync" class="chapter7-tab-btn">3.4 Barrier 동기화</button>
+                    </div>
                 </nav>
 
                 <!-- 콘텐츠 패널 래퍼 -->
                 <div class="relative min-h-[600px]">
                     
                     <!-- 3.1 Factory Panel -->
-                    <div id="panel-factory" data-panel="factory" class="panel-fade absolute w-full top-0 left-0">
+                    <div id="panel-factory" data-panel="factory" data-part3-panel="factory" data-guidebook-toc-title="3.1 Factory (동적 교체)" class="chapter7-tab-panel panel-fade absolute w-full top-0 left-0">
                         <div class="flex items-start gap-4 mb-6">
                             <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100 shadow-sm">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -199,8 +194,8 @@
                                         <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span> Registry Type Router
                                     </span>
                                     <div class="flex gap-2">
-                                        <button onclick="runFactory('default')" class="px-4 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg text-xs font-bold text-white transition">Normal Create</button>
-                                        <button onclick="runFactory('override')" class="px-4 py-1.5 bg-sky-600 hover:bg-sky-500 rounded-lg text-xs font-bold text-white transition shadow-[0_0_15px_rgba(2,132,199,0.5)]">Apply Override</button>
+                                        <button data-factory-mode="default" class="px-4 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg text-xs font-bold text-white transition">Normal Create</button>
+                                        <button data-factory-mode="override" class="px-4 py-1.5 bg-sky-600 hover:bg-sky-500 rounded-lg text-xs font-bold text-white transition shadow-[0_0_15px_rgba(2,132,199,0.5)]">Apply Override</button>
                                     </div>
                                 </div>
                                 <div class="tech-grid p-4 sm:p-6 flex-grow flex items-center justify-center relative min-h-[360px]">
@@ -295,7 +290,7 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                     </div>
 
                     <!-- 3.2 Phase & Objection Panel -->
-                    <div id="panel-phase" data-panel="phase" class="panel-fade absolute w-full top-0 left-0 hidden">
+                    <div id="panel-phase" data-panel="phase" data-part3-panel="phase" data-guidebook-toc-title="3.2 Phase & Objection" class="chapter7-tab-panel panel-fade absolute w-full top-0 left-0" hidden>
                         <div class="flex items-start gap-4 mb-6">
                             <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100 shadow-sm">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -352,8 +347,8 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                                             <div class="absolute -top-3 bg-blue-900 text-blue-300 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-700">Sequence</div>
                                             <div class="text-3xl mb-3 mt-2">📦</div>
                                             <div class="flex w-full gap-1 mb-2">
-                                                <button onclick="changeObjection('seq', 1)" class="flex-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 py-1.5 rounded text-xs font-bold border border-slate-600 transition">Raise</button>
-                                                <button onclick="changeObjection('seq', -1)" class="flex-1 bg-slate-800 hover:bg-slate-700 text-rose-400 py-1.5 rounded text-xs font-bold border border-slate-600 transition">Drop</button>
+                                                <button data-objection-comp="seq" data-objection-delta="1" class="flex-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 py-1.5 rounded text-xs font-bold border border-slate-600 transition">Raise</button>
+                                                <button data-objection-comp="seq" data-objection-delta="-1" class="flex-1 bg-slate-800 hover:bg-slate-700 text-rose-400 py-1.5 rounded text-xs font-bold border border-slate-600 transition">Drop</button>
                                             </div>
                                             <div class="text-xs text-slate-500 font-mono">Obj: <span id="cnt-seq-disp" class="text-white font-bold text-sm">0</span></div>
                                             <div id="line-seq" class="absolute -top-10 left-1/2 w-0.5 h-10 bg-emerald-500/0 transition-colors"></div>
@@ -363,8 +358,8 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                                             <div class="absolute -top-3 bg-purple-900 text-purple-300 text-[10px] font-bold px-2 py-0.5 rounded border border-purple-700">Monitor</div>
                                             <div class="text-3xl mb-3 mt-2">👁️</div>
                                             <div class="flex w-full gap-1 mb-2">
-                                                <button onclick="changeObjection('mon', 1)" class="flex-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 py-1.5 rounded text-xs font-bold border border-slate-600 transition">Raise</button>
-                                                <button onclick="changeObjection('mon', -1)" class="flex-1 bg-slate-800 hover:bg-slate-700 text-rose-400 py-1.5 rounded text-xs font-bold border border-slate-600 transition">Drop</button>
+                                                <button data-objection-comp="mon" data-objection-delta="1" class="flex-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 py-1.5 rounded text-xs font-bold border border-slate-600 transition">Raise</button>
+                                                <button data-objection-comp="mon" data-objection-delta="-1" class="flex-1 bg-slate-800 hover:bg-slate-700 text-rose-400 py-1.5 rounded text-xs font-bold border border-slate-600 transition">Drop</button>
                                             </div>
                                             <div class="text-xs text-slate-500 font-mono">Obj: <span id="cnt-mon-disp" class="text-white font-bold text-sm">0</span></div>
                                             <div id="line-mon" class="absolute -top-10 left-1/2 w-0.5 h-10 bg-emerald-500/0 transition-colors"></div>
@@ -404,7 +399,7 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                     </div>
 
                     <!-- 3.3 Config DB Panel -->
-                    <div id="panel-config" data-panel="config" class="panel-fade absolute w-full top-0 left-0 hidden">
+                    <div id="panel-config" data-panel="config" data-part3-panel="config" data-guidebook-toc-title="3.3 Config DB" class="chapter7-tab-panel panel-fade absolute w-full top-0 left-0" hidden>
                         <div class="flex items-start gap-4 mb-6">
                             <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 border border-orange-100 shadow-sm">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
@@ -421,7 +416,7 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                             <div class="tech-canvas-wrapper flex flex-col relative">
                                 <div class="bg-slate-800 border-b border-slate-700 px-5 py-3 flex justify-between items-center">
                                     <span class="font-bold text-slate-300 text-sm">Hierarchical Data Query Flow</span>
-                                    <button onclick="playConfigDBFlow()" class="px-4 py-1.5 bg-orange-600 hover:bg-orange-500 text-white rounded-lg text-xs font-bold transition shadow-[0_0_15px_rgba(234,88,12,0.5)]">Data Set / Get 실행</button>
+                                    <button data-config-flow-trigger class="px-4 py-1.5 bg-orange-600 hover:bg-orange-500 text-white rounded-lg text-xs font-bold transition shadow-[0_0_15px_rgba(234,88,12,0.5)]">Data Set / Get 실행</button>
                                 </div>
                                 <div class="tech-grid p-4 flex-grow flex justify-center items-center relative min-h-[380px]">
                                     <svg width="100%" height="100%" viewBox="0 0 500 400">
@@ -516,7 +511,7 @@ my_if vif_inst(clk, rst_n);
                     </div>
 
                     <!-- 3.4 Synchronization Panel -->
-                    <div id="panel-sync" data-panel="sync" class="panel-fade absolute w-full top-0 left-0 hidden">
+                    <div id="panel-sync" data-panel="sync" data-part3-panel="sync" data-guidebook-toc-title="3.4 Barrier 동기화" class="chapter7-tab-panel panel-fade absolute w-full top-0 left-0" hidden>
                         <div class="flex items-start gap-4 mb-6">
                             <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 border border-purple-100 shadow-sm">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -534,8 +529,8 @@ my_if vif_inst(clk, rst_n);
                                 <div class="bg-slate-800 border-b border-slate-700 px-5 py-3 flex justify-between items-center">
                                     <span class="font-bold text-slate-300 text-sm">Barrier Synchronization (Threshold = 3)</span>
                                     <div class="space-x-2">
-                                        <button onclick="resetBarrierSync()" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-xs font-bold text-white transition">Reset</button>
-                                        <button onclick="startBarrierSync()" id="btn-sync-start" class="px-4 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-xs font-bold transition shadow-[0_0_15px_rgba(124,58,237,0.5)]">Fork Threads</button>
+                                        <button data-barrier-reset class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-xs font-bold text-white transition">Reset</button>
+                                        <button data-barrier-start id="btn-sync-start" class="px-4 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-xs font-bold transition shadow-[0_0_15px_rgba(124,58,237,0.5)]">Fork Threads</button>
                                     </div>
                                 </div>
                                 <div class="tech-grid p-4 flex-grow flex items-center justify-center relative min-h-[300px]">
@@ -630,80 +625,19 @@ uvm_barrier b;
             </div>
         </main>
 
-        <!-- ========================================== -->
-        <!-- 5. 우측 목차 사이드바 (Right TOC Sidebar)    -->
-        <!-- ========================================== -->
-        <aside class="w-72 shrink-0 hidden 2xl:block pt-10 px-6 h-[calc(100vh-72px)] sticky top-[72px] overflow-y-auto pb-12">
-            <div class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">On This Page</div>
-            <nav id="toc-container" class="space-y-1.5 border-l-2 border-slate-100 pl-4 relative">
-                <!-- TOC Active Indicator Line -->
-                <div id="toc-indicator" class="absolute left-[-2px] top-0 w-[2px] h-6 bg-blue-600 transition-all duration-300"></div>
-                
-                <a href="#" onclick="switchTab('factory')" id="toc-factory" class="block text-sm font-bold text-blue-600 transition-colors py-0.5">3.1 Factory (동적 교체)</a>
-                <a href="#" onclick="switchTab('phase')" id="toc-phase" class="block text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors py-0.5">3.2 Phase & Objection</a>
-                <a href="#" onclick="switchTab('config')" id="toc-config" class="block text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors py-0.5">3.3 Config DB</a>
-                <a href="#" onclick="switchTab('sync')" id="toc-sync" class="block text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors py-0.5">3.4 Barrier 동기화</a>
-            </nav>
-        </aside>
-
     </div>
 
     <!-- 로직 스크립트 -->
+    <script src="../assets/guidebook-page-common.js"></script>
     <script>
-        // ==========================================
-        // UI Navigation (Custom Tab & Full TOC Integration)
-        // ==========================================
-        function switchTab(tabId) {
-            // Hide all panels
-            document.querySelectorAll('[data-panel]').forEach(p => {
-                p.classList.add('hidden');
-                p.classList.remove('panel-fade');
-            });
-            // Show target panel
-            const targetPanel = document.querySelector(`[data-panel="${tabId}"]`);
-            targetPanel.classList.remove('hidden');
-            void targetPanel.offsetWidth; // Reflow
-            targetPanel.classList.add('panel-fade');
-            
-            // Update Main Tabs
-            document.querySelectorAll('.uvm-tab-btn').forEach(t => t.classList.remove('active'));
-            const activeTab = document.querySelector(`[data-tab="${tabId}"]`);
-            if (activeTab) {
-                activeTab.classList.add('active');
-            }
-
-            // Update Left Sub Nav (Active state)
-            const subLinks = document.querySelectorAll('#left-subnav a');
-            if (subLinks.length) {
-                subLinks.forEach(a => {
-                    a.className = "block text-xs font-semibold text-slate-500 hover:text-slate-800 transition py-0.5";
-                });
-                const activeSub = document.getElementById(`sub-${tabId}`);
-                if (activeSub) {
-                    activeSub.className = "block text-xs font-bold text-blue-600 py-0.5";
-                }
-            }
-
-            // Update Right TOC (Active state & Indicator)
-            const tocLinks = ['factory', 'phase', 'config', 'sync'];
-            const index = tocLinks.indexOf(tabId);
-            
-            const tocEntries = document.querySelectorAll('#toc-container a');
-            if (tocEntries.length) {
-                tocEntries.forEach(a => {
-                    a.className = "block text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors py-0.5";
-                });
-                const activeToc = document.getElementById(`toc-${tabId}`);
-                if(activeToc) {
-                    activeToc.className = "block text-sm font-bold text-blue-600 transition-colors py-0.5";
-                    const indicator = document.getElementById('toc-indicator');
-                    if (indicator) {
-                        // Calculate position based on index (assuming equal spacing)
-                        indicator.style.transform = `translateY(${index * 28}px)`;
-                    }
-                }
-            }
-        }
+        window.Chapter7EmbedTabs.init({
+            defaultKey: 'factory',
+            panelSelector: '[data-part3-panel]',
+            panelKeyDataset: 'part3Panel',
+            buttonSelector: '.chapter7-tab-btn',
+            buttonKeyDataset: 'target',
+            shellId: 'part3-tab-shell',
+        });
 
         // ==========================================
         // 3.1 Factory Logic
@@ -880,50 +814,31 @@ uvm_barrier b;
             });
         }
 
-        const bindInlineFallbackAction = (pattern, handler) => {
-            document.querySelectorAll('[onclick]').forEach((element) => {
-                const source = element.getAttribute('onclick') || '';
-                const match = source.match(pattern);
-                if (!match || element.dataset.inlineBound === 'true') {
-                    return;
-                }
-                element.dataset.inlineBound = 'true';
-                element.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    handler(match.slice(1));
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('[data-factory-mode]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    runFactory(button.dataset.factoryMode);
                 });
             });
-        };
 
-        // Embedded runtime does not execute inline onclick handlers,
-        // so we bind equivalent listeners only when the Guidebook bridge exists.
-        if (window.GuidebookPage) {
-            bindInlineFallbackAction(/switchTab\('([^']+)'\)/, ([tabId]) => {
-                switchTab(tabId);
+            document.querySelectorAll('[data-objection-comp]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    changeObjection(button.dataset.objectionComp, Number(button.dataset.objectionDelta));
+                });
             });
-            bindInlineFallbackAction(/runFactory\('([^']+)'\)/, ([mode]) => {
-                runFactory(mode);
-            });
-            bindInlineFallbackAction(/changeObjection\('([^']+)',\s*(-?\d+)\)/, ([comp, delta]) => {
-                changeObjection(comp, Number(delta));
-            });
-            bindInlineFallbackAction(/playConfigDBFlow\(\)/, () => {
+
+            document.querySelector('[data-config-flow-trigger]')?.addEventListener('click', () => {
                 playConfigDBFlow();
             });
-            bindInlineFallbackAction(/resetBarrierSync\(\)/, () => {
+
+            document.querySelector('[data-barrier-reset]')?.addEventListener('click', () => {
                 resetBarrierSync();
             });
-            bindInlineFallbackAction(/startBarrierSync\(\)/, () => {
+
+            document.querySelector('[data-barrier-start]')?.addEventListener('click', () => {
                 startBarrierSync();
             });
-
-            document.querySelectorAll('[onclick]').forEach((element) => {
-                element.removeAttribute('onclick');
-            });
-        }
-
-        // Initialize First Tab on load
-        switchTab('factory');
+        });
     </script>
 </body>
 </html>

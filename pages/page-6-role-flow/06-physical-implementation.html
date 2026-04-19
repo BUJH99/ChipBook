@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PI | Design Flow with Role | 반도체 디지털 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guidebook-common.css">
+    <style>
+        [data-part6-panel][hidden] {
+            display: none !important;
+        }
+
+    </style>
+</head>
+<body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-6">
+    <main class="page-shell">
+        <section class="page-section active" id="page-6">
+                        <div class="mb-4"><span class="badge">Part 6</span></div>
+                        <h2 class="section-title">Design Flow with Role</h2>
+
+                        <div id="part6-current-shell" class="guidebook-section-head">
+                            <div class="guidebook-section-shell">
+                                <div id="part6-current-label" class="guidebook-section-kicker">6-1. Role Map</div>
+                            </div>
+                        </div>
+
+                        <div id="adt-role-flow" class="job-flow-root card bg-white border-blue-100 mb-8" data-active-role="all" data-part6-panel="role-map" data-guidebook-toc-title="Role Map">
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <button type="button" class="job-role-filter is-active" data-role-flow-filter="all">전체</button>
+                                <button type="button" class="job-role-filter" data-role-flow-filter="foundation">Foundation IP</button>
+                                <button type="button" class="job-role-filter" data-role-flow-filter="dp">DP</button>
+                                <button type="button" class="job-role-filter" data-role-flow-filter="dv">DV</button>
+                                <button type="button" class="job-role-filter" data-role-flow-filter="dft">DFT</button>
+                                <button type="button" class="job-role-filter" data-role-flow-filter="pi">PI</button>
+                                <button type="button" class="job-role-filter" data-role-flow-filter="pd">PD</button>
+                                <button type="button" class="job-role-filter" data-role-flow-filter="ap">AP</button>
+                            </div>
+
+                            <div class="diagram-box bg-white border-blue-100 shadow-none p-4 md:p-6">
+                                <div class="svg-container">
+                                    <svg viewBox="0 0 1450 560" style="min-width: 1240px; width: 100%; height: auto;" class="font-sans">
+                                        <defs>
+                                            <marker id="role-arrow-main" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8b95a1" /></marker>
+                                            <marker id="role-arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3182f6" /></marker>
+                                            <marker id="role-arrow-fail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#e15241" /></marker>
+                                            <marker id="role-arrow-pass" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" /></marker>
+                                        </defs>
+
+                                        <g class="role-flow-support" data-role-flow-target="foundation">
+                                            <rect x="18" y="120" width="128" height="64" rx="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 4"/>
+                                            <text x="82" y="147" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Foundation IP</text>
+                                            <text x="82" y="166" text-anchor="middle" font-size="11" font-weight="700" fill="#64748b">SC / MC / Library</text>
+                                        </g>
+                                        <path d="M 82 184 V 220" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#role-arrow-main)"/>
+
+                                        <g class="role-flow-support" data-role-flow-target="ap">
+                                            <rect x="1268" y="118" width="132" height="68" rx="18" fill="#fff7ed" stroke="#fb923c" stroke-width="1.8" stroke-dasharray="5 4"/>
+                                            <text x="1334" y="147" text-anchor="middle" font-size="13" font-weight="900" fill="#c2410c">AP / Bring-up</text>
+                                            <text x="1334" y="166" text-anchor="middle" font-size="11" font-weight="700" fill="#ea580c">Boot / BSP / Driver</text>
+                                        </g>
+                                        <path d="M 1346 230 V 188" fill="none" stroke="#fb923c" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#role-arrow-main)"/>
+
+                                        <line x1="35" y1="272" x2="970" y2="272" stroke="#e5e8eb" stroke-width="4" />
+                                        <line x1="1125" y1="272" x2="1410" y2="272" stroke="#e5e8eb" stroke-width="4" />
+                                        <path d="M 138 272 L 147 272" fill="none" stroke="#8b95a1" stroke-width="2.5" marker-end="url(#role-arrow-main)"/>
+                                        <path d="M 275 272 L 297 272" fill="none" stroke="#8b95a1" stroke-width="2.5" marker-end="url(#role-arrow-main)"/>
+                                        <path d="M 415 272 L 432 272" fill="none" stroke="#8b95a1" stroke-width="2.5" marker-end="url(#role-arrow-main)"/>
+                                        <path d="M 560 272 L 577 272" fill="none" stroke="#8b95a1" stroke-width="2.5" marker-end="url(#role-arrow-main)"/>
+                                        <path d="M 729 272 L 742 272" fill="none" stroke="#8b95a1" stroke-width="2.5" marker-end="url(#role-arrow-main)"/>
+                                        <path d="M 1125 272 L 1137 272" fill="none" stroke="#8b95a1" stroke-width="2.5" marker-end="url(#role-arrow-main)"/>
+                                        <path d="M 1265 272 L 1277 272" fill="none" stroke="#8b95a1" stroke-width="2.5" marker-end="url(#role-arrow-main)"/>
+
+                                        <path d="M 360 314 V 344 H 215 V 316" fill="none" stroke="#e15241" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#role-arrow-fail)"/>
+                                        <text x="286" y="362" font-size="12" font-weight="700" fill="#e15241" stroke="#ffffff" stroke-width="6" paint-order="stroke fill">Bug / RTL ECO</text>
+
+                                        <path d="M 530 230 V 116" fill="none" stroke="#3182f6" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#role-arrow-blue)"/>
+                                        <text x="540" y="178" font-size="12" font-weight="700" fill="#3182f6" stroke="#ffffff" stroke-width="6" paint-order="stroke fill">RTL vs Netlist</text>
+                                        <path d="M 657 230 V 116" fill="none" stroke="#3182f6" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#role-arrow-blue)"/>
+                                        <text x="667" y="164" font-size="12" font-weight="700" fill="#3182f6" stroke="#ffffff" stroke-width="6" paint-order="stroke fill">Netlist vs Netlist</text>
+                                        <path d="M 470 116 V 224" fill="none" stroke="#e15241" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#role-arrow-fail)"/>
+                                        <text x="418" y="178" font-size="12" font-weight="700" fill="#e15241" text-anchor="middle" stroke="#ffffff" stroke-width="6" paint-order="stroke fill">Timing / LEC Fail</text>
+                                        <path d="M 910 170 V 116 H 750" fill="none" stroke="#3182f6" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#role-arrow-blue)"/>
+                                        <text x="900" y="106" font-size="12" font-weight="700" fill="#3182f6" text-anchor="end" stroke="#ffffff" stroke-width="6" paint-order="stroke fill">Final Netlist LEC</text>
+
+                                        <path d="M 860 380 L 860 418" fill="none" stroke="#3182f6" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#role-arrow-blue)"/>
+                                        <text x="868" y="404" font-size="12" font-weight="700" fill="#3182f6" stroke="#ffffff" stroke-width="6" paint-order="stroke fill">RC Extraction</text>
+                                        <path d="M 780 456 H 730 V 350 H 744" fill="none" stroke="#e15241" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#role-arrow-fail)"/>
+                                        <text x="772" y="476" font-size="12" font-weight="700" fill="#e15241" text-anchor="end" stroke="#ffffff" stroke-width="6" paint-order="stroke fill">FAIL : DRV / Timing Fix</text>
+                                        <path d="M 970 456 H 1065 V 318" fill="none" stroke="#10b981" stroke-width="3" marker-end="url(#role-arrow-pass)"/>
+                                        <text x="1018" y="460" font-size="12" font-weight="800" fill="#10b981" text-anchor="middle" stroke="#ffffff" stroke-width="6" paint-order="stroke fill">PASS</text>
+
+                                        <g class="role-flow-target" data-role-flow-target="dp" transform="translate(20, 230)">
+                                            <rect width="118" height="84" rx="18" fill="#ffffff" stroke="#e5e8eb" stroke-width="2" />
+                                            <text x="59" y="58" text-anchor="middle" font-weight="900" font-size="34" fill="#2563eb" opacity="0.08">DP</text>
+                                            <circle cx="18" cy="18" r="14" fill="#eff6ff" />
+                                            <text x="18" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="#3182f6">01</text>
+                                            <text x="59" y="39" text-anchor="middle" font-weight="800" font-size="15" fill="#191f28">Spec</text>
+                                            <text x="59" y="60" text-anchor="middle" font-size="12" font-weight="600" fill="#4e5968">Req. / Architecture</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="dp" transform="translate(155, 230)">
+                                            <rect width="120" height="84" rx="18" fill="#e8f3ff" stroke="#3182f6" stroke-width="2" />
+                                            <text x="60" y="58" text-anchor="middle" font-weight="900" font-size="34" fill="#2563eb" opacity="0.12">DP</text>
+                                            <circle cx="18" cy="18" r="14" fill="#3182f6" />
+                                            <text x="18" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">02</text>
+                                            <text x="60" y="39" text-anchor="middle" font-weight="800" font-size="15" fill="#3182f6">RTL</text>
+                                            <text x="60" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#3182f6">HDL Coding</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="dv" transform="translate(305, 230)">
+                                            <rect width="110" height="84" rx="18" fill="#e8f3ff" stroke="#3182f6" stroke-width="2" />
+                                            <text x="55" y="58" text-anchor="middle" font-weight="900" font-size="34" fill="#16a34a" opacity="0.11">DV</text>
+                                            <circle cx="18" cy="18" r="14" fill="#3182f6" />
+                                            <text x="18" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">03</text>
+                                            <text x="55" y="39" text-anchor="middle" font-weight="800" font-size="15" fill="#3182f6">DV</text>
+                                            <text x="55" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#3182f6">Functional Verify</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="pi" transform="translate(440, 230)">
+                                            <rect width="120" height="84" rx="18" fill="#f0fdf4" stroke="#84cc16" stroke-width="2" />
+                                            <text x="60" y="58" text-anchor="middle" font-weight="900" font-size="34" fill="#0f766e" opacity="0.10">PI</text>
+                                            <circle cx="18" cy="18" r="14" fill="#84cc16" />
+                                            <text x="18" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">04</text>
+                                            <text x="60" y="39" text-anchor="middle" font-weight="800" font-size="15" fill="#4d7c0f">Synthesis</text>
+                                            <text x="60" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#4d7c0f">Gate-level Netlist</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="dv pi pd" transform="translate(350, 24)">
+                                            <rect width="400" height="92" rx="18" fill="#fefce8" stroke="#f59e0b" stroke-width="1.8" />
+                                            <text x="200" y="68" text-anchor="middle" font-weight="900" font-size="42" fill="#f59e0b" opacity="0.08">CHECK</text>
+                                            <rect x="20" y="10" width="212" height="24" rx="12" fill="#f59e0b" />
+                                            <text x="126" y="26" text-anchor="middle" font-weight="800" font-size="11" fill="#ffffff">Continuous Verification Check</text>
+                                            <text x="200" y="58" text-anchor="middle" font-weight="900" font-size="18" fill="#c2410c">STA / LEC (수시 진행)</text>
+                                            <text x="200" y="78" text-anchor="middle" font-size="11" font-weight="600" fill="#6b7280">Timing &amp; Logic Equivalence</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="dft pi" transform="translate(585, 230)">
+                                            <rect width="144" height="84" rx="18" fill="#ecfccb" stroke="#65a30d" stroke-width="2" />
+                                            <text x="72" y="58" text-anchor="middle" font-weight="900" font-size="28" fill="#7c3aed" opacity="0.10">DFT·PI</text>
+                                            <circle cx="18" cy="18" r="14" fill="#65a30d" />
+                                            <text x="18" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">05</text>
+                                            <text x="72" y="36" text-anchor="middle" font-weight="800" font-size="15" fill="#3f6212">DFT / PI</text>
+                                            <text x="72" y="57" text-anchor="middle" font-size="12" font-weight="700" fill="#4d7c0f">Scan / UPF / Constraint</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="pd" transform="translate(750, 170)">
+                                            <rect width="220" height="210" rx="24" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2.5" />
+                                            <text x="110" y="128" text-anchor="middle" font-weight="900" font-size="66" fill="#8b5cf6" opacity="0.08">PD</text>
+                                            <circle cx="20" cy="20" r="14" fill="#8b5cf6" />
+                                            <text x="20" y="24" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">06</text>
+                                            <text x="110" y="38" text-anchor="middle" font-weight="800" font-size="16" fill="#7c3aed">Physical Design</text>
+                                            <text x="110" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#7c3aed">PD (Back-end)</text>
+
+                                            <rect x="35" y="70" width="150" height="24" rx="12" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.3" />
+                                            <text x="110" y="86" text-anchor="middle" font-size="11" font-weight="800" fill="#191f28">1 Floorplan</text>
+                                            <path d="M 110 94 V 106" fill="none" stroke="#8b95a1" stroke-width="1.8" marker-end="url(#role-arrow-main)"/>
+
+                                            <rect x="35" y="106" width="150" height="24" rx="12" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.3" />
+                                            <text x="110" y="122" text-anchor="middle" font-size="11" font-weight="800" fill="#191f28">2 Placement</text>
+                                            <path d="M 110 130 V 142" fill="none" stroke="#8b95a1" stroke-width="1.8" marker-end="url(#role-arrow-main)"/>
+
+                                            <rect x="35" y="142" width="150" height="24" rx="12" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.3" />
+                                            <text x="110" y="158" text-anchor="middle" font-size="11" font-weight="800" fill="#191f28">3 CTS</text>
+                                            <path d="M 110 166 V 178" fill="none" stroke="#8b95a1" stroke-width="1.8" marker-end="url(#role-arrow-main)"/>
+
+                                            <rect x="35" y="178" width="150" height="24" rx="12" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.3" />
+                                            <text x="110" y="194" text-anchor="middle" font-size="11" font-weight="800" fill="#191f28">4 Routing</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="pd" transform="translate(780, 420)">
+                                            <rect width="190" height="72" rx="18" fill="#fdf2f8" stroke="#ec4899" stroke-width="1.5" />
+                                            <text x="95" y="50" text-anchor="middle" font-weight="900" font-size="34" fill="#ec4899" opacity="0.08">PD</text>
+                                            <text x="95" y="29" text-anchor="middle" font-weight="800" font-size="14" fill="#be185d">Post-Route Signoff</text>
+                                            <text x="95" y="49" text-anchor="middle" font-size="11" font-weight="600" fill="#db2777">STA / DRC / LVS / IR / EM</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="pd" transform="translate(1005, 230)">
+                                            <rect width="120" height="84" rx="18" fill="#191f28" stroke="#191f28" stroke-width="2" />
+                                            <text x="60" y="58" text-anchor="middle" font-weight="900" font-size="34" fill="#ffffff" opacity="0.08">PD</text>
+                                            <circle cx="18" cy="18" r="14" fill="#374151" />
+                                            <text x="18" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">07</text>
+                                            <text x="60" y="39" text-anchor="middle" font-weight="800" font-size="15" fill="#ffffff">Signoff</text>
+                                            <text x="60" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#e5e7eb">Final Approval</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="pd" transform="translate(1145, 230)">
+                                            <rect width="120" height="84" rx="18" fill="#f8fafc" stroke="#64748b" stroke-width="2" />
+                                            <text x="60" y="58" text-anchor="middle" font-weight="900" font-size="34" fill="#64748b" opacity="0.08">PD</text>
+                                            <circle cx="18" cy="18" r="14" fill="#64748b" />
+                                            <text x="18" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">08</text>
+                                            <text x="60" y="39" text-anchor="middle" font-weight="800" font-size="15" fill="#334155">Tapeout</text>
+                                            <text x="60" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#64748b">Foundry Handoff</text>
+                                        </g>
+
+                                        <g class="role-flow-target" data-role-flow-target="ap" transform="translate(1285, 230)">
+                                            <rect width="125" height="84" rx="18" fill="#fff7ed" stroke="#fb923c" stroke-width="2" />
+                                            <text x="62.5" y="58" text-anchor="middle" font-weight="900" font-size="34" fill="#fb923c" opacity="0.08">AP</text>
+                                            <circle cx="18" cy="18" r="14" fill="#fb923c" />
+                                            <text x="18" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">09</text>
+                                            <text x="62.5" y="33" text-anchor="middle" font-weight="800" font-size="14" fill="#9a3412">Fab</text>
+                                            <text x="62.5" y="51" text-anchor="middle" font-weight="800" font-size="14" fill="#9a3412">Package</text>
+                                            <text x="62.5" y="69" text-anchor="middle" font-weight="800" font-size="14" fill="#9a3412">Test</text>
+                                        </g>
+                                    </svg>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                            <div class="card p-6 border-l-4 border-slate-500 rounded-l-none xl:col-span-2" data-part6-panel="foundation-ip" data-guidebook-toc-title="Foundation IP" hidden>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="badge">6-2</span>
+                                    <h3 class="text-xl font-extrabold text-gray-900">Foundation IP</h3>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">공정/라이브러리 기반</span>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">정의</div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">역할</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">최첨단 반도체 공정을 바탕으로 Foundation IP를 설계·개발하는 영역입니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">핵심 포인트</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">Standard Cell Library와 Embedded Memory처럼 모든 설계팀이 공통으로 활용하는 기반 자산을 만듭니다.</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                    <li>Standard Cell Library 설계와 PPA 최적화</li>
+                                    <li>Embedded Memory 및 SRAM 계열 매크로·컴파일러 개발</li>
+                                    <li>공정 특성화와 라이브러리 검증, 설계팀 배포</li>
+                                </ul>
+                                <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow Stage.</strong> RTL 설계에 앞서 공통 설계 자산을 준비하며, 이후 합성·STA·PD 전반의 기준이 되는 기반을 제공합니다.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-2 rounded-xl bg-gray-50 text-gray-700 text-sm font-bold">Standard Cell</span>
+                                    <span class="px-3 py-2 rounded-xl bg-gray-50 text-gray-700 text-sm font-bold">Embedded Memory</span>
+                                    <span class="px-3 py-2 rounded-xl bg-gray-50 text-gray-700 text-sm font-bold">Characterization</span>
+                                    <span class="px-3 py-2 rounded-xl bg-gray-50 text-gray-700 text-sm font-bold">Foundation IP</span>
+                                </div>
+                            </div>
+
+                            <div class="card p-6 border-l-4 border-blue-500 rounded-l-none xl:col-span-2" data-part6-panel="design-platform" data-guidebook-toc-title="DP" hidden>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="badge">6-3</span>
+                                    <h3 class="text-xl font-extrabold text-gray-900">DP (Design Platform)</h3>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">아키텍처 / 상위 설계</span>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">정의</div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">역할</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">CPU와 NoC를 중심으로 시스템 반도체용 SoC Design Platform을 구축하는 영역입니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">핵심 포인트</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">HDL 기반 RTL 설계부터 버스 구조 설계, IP 통합까지 이어지며 설계 효율을 높이는 플랫폼을 만듭니다.</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                    <li>HDL 기반 RTL 레벨 정밀 설계</li>
+                                    <li>CPU·NoC 기반 Bus 아키텍처 설계</li>
+                                    <li>다양한 반도체 IP 통합과 SoC 플랫폼 구현</li>
+                                    <li>고성능 연산·메모리 시스템 구성을 위한 상위 구조 설계</li>
+                                </ul>
+                                <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow Stage.</strong> 시스템 요구사항을 RTL과 플랫폼 구조로 구체화하는 상위 설계 단계의 핵심 역할을 담당합니다.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-2 rounded-xl bg-blue-50 text-blue-600 text-sm font-bold">RTL</span>
+                                    <span class="px-3 py-2 rounded-xl bg-blue-50 text-blue-600 text-sm font-bold">CPU / NoC</span>
+                                    <span class="px-3 py-2 rounded-xl bg-blue-50 text-blue-600 text-sm font-bold">Bus Architecture</span>
+                                    <span class="px-3 py-2 rounded-xl bg-blue-50 text-blue-600 text-sm font-bold">SoC Platform</span>
+                                </div>
+                            </div>
+
+                            <div class="card p-6 border-l-4 border-green-500 rounded-l-none xl:col-span-2" data-part6-panel="design-verification" data-guidebook-toc-title="DV" hidden>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="badge">6-4</span>
+                                    <h3 class="text-xl font-extrabold text-gray-900">DV (Design Verification)</h3>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">기능 검증</span>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">정의</div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">역할</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">SoC와 IP가 의도한 기능을 정확히 수행하는지 검증해 설계 신뢰성을 확보하는 영역입니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">핵심 포인트</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">고도화된 검증 환경과 커버리지 분석을 통해 제품 품질을 끌어올립니다.</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                    <li>SoC·IP 레벨 기능 검증과 시나리오 정교화</li>
+                                    <li>HVL/UVM 기반 검증 환경 및 자동화 체계 구축</li>
+                                    <li>코드·기능 커버리지 분석과 커버리지 클로저</li>
+                                    <li>버그 재현, 원인 분석, 수정 후 재검증</li>
+                                </ul>
+                                <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow Stage.</strong> RTL 완성 이후 합성에 들어가기 전까지, 설계가 의도한 대로 동작하는지를 집중적으로 검증하는 단계입니다.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-2 rounded-xl bg-green-50 text-green-700 text-sm font-bold">UVM</span>
+                                    <span class="px-3 py-2 rounded-xl bg-green-50 text-green-700 text-sm font-bold">HVL</span>
+                                    <span class="px-3 py-2 rounded-xl bg-green-50 text-green-700 text-sm font-bold">Coverage</span>
+                                    <span class="px-3 py-2 rounded-xl bg-green-50 text-green-700 text-sm font-bold">IP / SoC Verification</span>
+                                </div>
+                            </div>
+
+                            <div class="card p-6 border-l-4 border-purple-500 rounded-l-none xl:col-span-2" data-part6-panel="design-for-test" data-guidebook-toc-title="DFT" hidden>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="badge">6-5</span>
+                                    <h3 class="text-xl font-extrabold text-gray-900">DFT (Design For Test)</h3>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">양산 테스트</span>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">정의</div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">역할</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">ASIC과 SoC의 양산 품질을 확보할 수 있도록 테스트 구조와 전략을 설계하는 영역입니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">핵심 포인트</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">Fault model을 바탕으로 테스트 가능성을 높이고 양산 경쟁력을 끌어올립니다.</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                    <li>Fault model 기반 Test Strategy 수립 및 구조 설계</li>
+                                    <li>SCAN, MBIST 등 양산형 테스트 구조 구현</li>
+                                    <li>표준 기반 인터페이스 테스트와 ATPG 최적화</li>
+                                    <li>LBIST, POST 등 차세대 DFT 기술 적용</li>
+                                </ul>
+                                <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow Stage.</strong> 합성 전후의 넷리스트 단계에서 테스트 로직을 반영해, 양산 검사와 수율 확보를 준비하는 역할입니다.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-2 rounded-xl bg-purple-50 text-purple-700 text-sm font-bold">SCAN</span>
+                                    <span class="px-3 py-2 rounded-xl bg-purple-50 text-purple-700 text-sm font-bold">MBIST</span>
+                                    <span class="px-3 py-2 rounded-xl bg-purple-50 text-purple-700 text-sm font-bold">ATPG</span>
+                                    <span class="px-3 py-2 rounded-xl bg-purple-50 text-purple-700 text-sm font-bold">LBIST / POST</span>
+                                </div>
+                            </div>
+
+                            <div class="card p-6 border-l-4 border-teal-500 rounded-l-none xl:col-span-2" data-part6-panel="physical-implementation" data-guidebook-toc-title="PI" hidden>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="badge">6-6</span>
+                                    <h3 class="text-xl font-extrabold text-gray-900">PI (Physical Implementation)</h3>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">합성 / 제약 / 저전력</span>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">정의</div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">역할</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">논리 합성부터 타이밍 방법론, 저전력 구조, 사인오프 준비까지 연결해 물리 구현 가능성을 높이는 영역입니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">핵심 포인트</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">개발 SoC 사양에 맞는 논리 레벨 구현과 구현 친화적 제약 조건을 완성합니다.</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                    <li>논리 합성과 정밀 검증을 통한 최적 논리 레벨 구현</li>
+                                    <li>복합 클럭 구조를 고려한 Timing Methodology와 제약 설계</li>
+                                    <li>UPF 기반 Dynamic/Static Power 관리와 저전력 구조 구현</li>
+                                    <li>제품군별 Process·사인오프 Methodology 최적화</li>
+                                </ul>
+                                <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow Stage.</strong> RTL과 DV 결과를 바탕으로 물리 구현이 가능한 넷리스트와 제약 조건을 정리해 PD 단계로 넘기는 연결 단계입니다.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-2 rounded-xl bg-teal-50 text-teal-700 text-sm font-bold">Synthesis</span>
+                                    <span class="px-3 py-2 rounded-xl bg-teal-50 text-teal-700 text-sm font-bold">Timing</span>
+                                    <span class="px-3 py-2 rounded-xl bg-teal-50 text-teal-700 text-sm font-bold">Low Power</span>
+                                    <span class="px-3 py-2 rounded-xl bg-teal-50 text-teal-700 text-sm font-bold">Signoff Methodology</span>
+                                </div>
+                            </div>
+
+                            <div class="card p-6 border-l-4 border-orange-500 rounded-l-none xl:col-span-2" data-part6-panel="physical-design" data-guidebook-toc-title="PD" hidden>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="badge">6-7</span>
+                                    <h3 class="text-xl font-extrabold text-gray-900">PD (Physical Design)</h3>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">Back-end</span>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">정의</div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">역할</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">Floorplan부터 Routing, 사인오프까지 Physical Design 전 과정을 수행해 실제 칩 레이아웃을 완성하는 영역입니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">핵심 포인트</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">최종적으로 신뢰성 높은 SoC를 테이프아웃 가능한 상태로 끌어올립니다.</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                    <li>Floorplan, Placement, CTS, Routing 등 Full-Flow Physical 구현</li>
+                                    <li>공정 및 제품 특성에 맞춘 PPA 중심 Physical Design Flow 최적화</li>
+                                    <li>PG Grid, 저전력 Physical 설계, 고성능 CTS 구조 고도화</li>
+                                    <li>Physical Verification, SI/PI/EM 분석, ECO와 사인오프 클로저</li>
+                                </ul>
+                                <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow Stage.</strong> PI에서 전달된 넷리스트를 실제 레이아웃과 GDSII로 구현하고, 최종 물리 검증까지 수행하는 마지막 하드웨어 단계입니다.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-2 rounded-xl bg-orange-50 text-orange-700 text-sm font-bold">Full-Flow PnR</span>
+                                    <span class="px-3 py-2 rounded-xl bg-orange-50 text-orange-700 text-sm font-bold">PPA</span>
+                                    <span class="px-3 py-2 rounded-xl bg-orange-50 text-orange-700 text-sm font-bold">Physical Verification</span>
+                                    <span class="px-3 py-2 rounded-xl bg-orange-50 text-orange-700 text-sm font-bold">SI / PI / EM</span>
+                                </div>
+                            </div>
+
+                            <div class="card p-6 border-l-4 border-red-500 rounded-l-none xl:col-span-2" data-part6-panel="application-platform" data-guidebook-toc-title="AP" hidden>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="badge">6-8</span>
+                                    <h3 class="text-xl font-extrabold text-gray-900">AP (Application Platform)</h3>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">시스템 소프트웨어</span>
+                                </div>
+                                <div class="text-sm font-bold text-gray-900 mb-2">정의</div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">역할</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">설계된 칩이 실제 제품에서 동작하도록 펌웨어, BSP, 드라이버, 보안 환경을 구현하는 영역입니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50/70 px-4 py-3">
+                                        <div class="text-sm font-bold text-gray-900 mb-1">핵심 포인트</div>
+                                        <p class="text-sm text-gray-600 leading-relaxed">하드웨어 설계 결과를 실제로 부팅되고 제어되는 시스템으로 완성합니다.</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-4">
+                                    <div>
+                                        <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                        <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside">
+                                            <li>Cortex-M/A 기반 Bare-Metal 펌웨어와 부트 코드 개발</li>
+                                            <li>Secure Boot, ARM SystemReady, Trusted Firmware 기반 보안 환경 구축</li>
+                                            <li>Linux Kernel BSP와 Device Driver 개발, Automotive 환경 최적화</li>
+                                            <li>PCIe, DDR, Ethernet, USB 3.0 등 고속 인터페이스 검증과 보드 디버깅</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-bold text-gray-900 mb-2">Flow Stage</div>
+                                        <p class="text-sm text-gray-600">실리콘 브링업 이후 하드웨어 플랫폼 위에서 시스템 소프트웨어를 구동하고, 실제 제품 동작 환경을 완성하는 단계입니다.</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-2 rounded-xl bg-red-50 text-red-700 text-sm font-bold">Bare-Metal</span>
+                                    <span class="px-3 py-2 rounded-xl bg-red-50 text-red-700 text-sm font-bold">Secure Boot</span>
+                                    <span class="px-3 py-2 rounded-xl bg-red-50 text-red-700 text-sm font-bold">Linux BSP / Driver</span>
+                                    <span class="px-3 py-2 rounded-xl bg-red-50 text-red-700 text-sm font-bold">PCIe / DDR / USB3.0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card p-6 border-l-4 border-cyan-500 rounded-l-none mt-8" data-part6-panel="related-roles" data-guidebook-toc-title="연관 직무" hidden>
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="badge">6-9</span>
+                                <h3 class="text-xl font-extrabold text-gray-900">함께 알아두면 좋은 연관 직무</h3>
+                                <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">인프라 / 패키징 / 세부 IP</span>
+                            </div>
+                            <p class="text-sm text-gray-600 leading-relaxed mb-5"><strong class="text-gray-900">정의 :</strong> 설계 인프라·패키징·Foundation IP 관련 역할</p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                                <div class="rounded-2xl border border-slate-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5">
+                                    <div class="flex items-center justify-between gap-3 mb-4">
+                                        <h4 class="text-lg font-black text-gray-900">DT</h4>
+                                        <span class="text-[11px] bg-slate-100 text-slate-600 px-3 py-1 rounded-full font-bold">EDA Infra</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 leading-relaxed mb-4"><strong class="text-gray-900">정의.</strong> 설계팀이 툴과 서버를 안정적으로 쓰도록 EDA 실행 환경과 자동화 인프라를 구축하는 역할입니다.</p>
+                                    <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                    <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                        <li>EDA 툴 셋업과 라이선스 운영</li>
+                                        <li>서버, 배치 환경, 설계 farm 관리</li>
+                                        <li>반복 업무 자동화와 flow 지원</li>
+                                    </ul>
+                                    <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow 위치.</strong> 특정 한 단계보다 모든 설계팀을 가로지르는 공통 인프라 축입니다.</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-3 py-2 rounded-xl bg-slate-50 text-slate-700 text-sm font-bold">EDA Tool</span>
+                                        <span class="px-3 py-2 rounded-xl bg-slate-50 text-slate-700 text-sm font-bold">License</span>
+                                        <span class="px-3 py-2 rounded-xl bg-slate-50 text-slate-700 text-sm font-bold">Server Farm</span>
+                                        <span class="px-3 py-2 rounded-xl bg-slate-50 text-slate-700 text-sm font-bold">Automation</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-cyan-100 bg-[linear-gradient(180deg,#ffffff_0%,#f3fbff_100%)] p-5">
+                                    <div class="flex items-center justify-between gap-3 mb-4">
+                                        <h4 class="text-lg font-black text-gray-900">CS</h4>
+                                        <span class="text-[11px] bg-cyan-50 text-cyan-700 px-3 py-1 rounded-full font-bold">Chiplet / Package</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 leading-relaxed mb-4"><strong class="text-gray-900">정의.</strong> Chiplet, Si-interposer, HBM, 고속 인터페이스 SI/PI까지 다루는 첨단 패키징 및 시스템 연결 축입니다.</p>
+                                    <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                    <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                        <li>Multi-die / chiplet 구조 기획</li>
+                                        <li>Si-interposer, package 연동 검토</li>
+                                        <li>고속 채널 SI/PI와 인터페이스 분석</li>
+                                    </ul>
+                                    <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow 위치.</strong> PD 이후 패키지·시스템 축으로 이어지며, HPC/AI 플랫폼 문맥과 자주 연결됩니다.</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-3 py-2 rounded-xl bg-cyan-50 text-cyan-700 text-sm font-bold">Chiplet</span>
+                                        <span class="px-3 py-2 rounded-xl bg-cyan-50 text-cyan-700 text-sm font-bold">Si-Interposer</span>
+                                        <span class="px-3 py-2 rounded-xl bg-cyan-50 text-cyan-700 text-sm font-bold">HBM</span>
+                                        <span class="px-3 py-2 rounded-xl bg-cyan-50 text-cyan-700 text-sm font-bold">SI / PI</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-sky-100 bg-[linear-gradient(180deg,#ffffff_0%,#f5faff_100%)] p-5">
+                                    <div class="flex items-center justify-between gap-3 mb-4">
+                                        <h4 class="text-lg font-black text-gray-900">SC</h4>
+                                        <span class="text-[11px] bg-sky-50 text-sky-700 px-3 py-1 rounded-full font-bold">Foundation IP</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 leading-relaxed mb-4"><strong class="text-gray-900">정의.</strong> Standard Cell Library 개발과 특성화를 맡는 Foundation IP 세부 직무로, 합성과 STA의 출발점을 만듭니다.</p>
+                                    <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                    <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                        <li>기본 logic cell 설계와 PPA 최적화</li>
+                                        <li>timing / power / area 특성화</li>
+                                        <li>library release와 공정 버전 관리</li>
+                                    </ul>
+                                    <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow 위치.</strong> RTL보다 앞에서 공통 라이브러리를 만들며 synthesis·STA·PD의 바닥을 형성합니다.</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-3 py-2 rounded-xl bg-sky-50 text-sky-700 text-sm font-bold">Standard Cell</span>
+                                        <span class="px-3 py-2 rounded-xl bg-sky-50 text-sky-700 text-sm font-bold">Characterization</span>
+                                        <span class="px-3 py-2 rounded-xl bg-sky-50 text-sky-700 text-sm font-bold">Liberty</span>
+                                        <span class="px-3 py-2 rounded-xl bg-sky-50 text-sky-700 text-sm font-bold">PPA</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-violet-100 bg-[linear-gradient(180deg,#ffffff_0%,#fbf9ff_100%)] p-5">
+                                    <div class="flex items-center justify-between gap-3 mb-4">
+                                        <h4 class="text-lg font-black text-gray-900">MC</h4>
+                                        <span class="text-[11px] bg-violet-50 text-violet-700 px-3 py-1 rounded-full font-bold">Memory Compiler</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 leading-relaxed mb-4"><strong class="text-gray-900">정의.</strong> SRAM Compiler와 memory macro, 주변 회로, 옵션 특성화를 담당하는 Foundation IP 세부 직무입니다.</p>
+                                    <div class="text-sm font-bold text-gray-900 mb-2">주요 업무</div>
+                                    <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside mb-4">
+                                        <li>SRAM macro / compiler 구조 설계</li>
+                                        <li>redundancy, low-power 옵션 제공</li>
+                                        <li>메모리 주변 회로와 특성화 지원</li>
+                                    </ul>
+                                    <p class="text-sm text-gray-600 mb-4"><strong class="text-gray-900">Flow 위치.</strong> SC와 함께 Foundation IP 축을 이루며, RTL 이전에 재사용 가능한 메모리 자산을 제공합니다.</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-3 py-2 rounded-xl bg-violet-50 text-violet-700 text-sm font-bold">SRAM Compiler</span>
+                                        <span class="px-3 py-2 rounded-xl bg-violet-50 text-violet-700 text-sm font-bold">Memory Macro</span>
+                                        <span class="px-3 py-2 rounded-xl bg-violet-50 text-violet-700 text-sm font-bold">Redundancy</span>
+                                        <span class="px-3 py-2 rounded-xl bg-violet-50 text-violet-700 text-sm font-bold">Low Power</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card p-6 border-l-4 border-amber-500 rounded-l-none mt-8" data-part6-panel="advanced-keywords" data-guidebook-toc-title="심화 키워드" hidden>
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="badge">6-10</span>
+                                <h3 class="text-xl font-extrabold text-gray-900">심화 키워드 정리</h3>
+                                <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold">Test / Firmware Keywords</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                                <div class="rounded-2xl border border-purple-100 bg-[linear-gradient(180deg,#ffffff_0%,#fbf8ff_100%)] p-5">
+                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-purple-500 mb-2">DFT</div>
+                                    <div class="text-lg font-black text-gray-900 mb-2">MBIST</div>
+                                    <p class="text-sm text-gray-600 leading-6">Memory Built-In Self Test. SRAM 같은 내장 메모리를 칩 내부 로직으로 직접 검사해 불량을 찾는 구조입니다.</p>
+                                </div>
+
+                                <div class="rounded-2xl border border-violet-100 bg-[linear-gradient(180deg,#ffffff_0%,#fbf9ff_100%)] p-5">
+                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-violet-500 mb-2">DFT</div>
+                                    <div class="text-lg font-black text-gray-900 mb-2">BIRA / BISR</div>
+                                    <p class="text-sm text-gray-600 leading-6">Built-In Redundancy Analysis / Repair. MBIST가 찾은 메모리 불량 위치를 분석하고 spare row/column으로 복구하는 메모리 수율 향상 기법입니다.</p>
+                                </div>
+
+                                <div class="rounded-2xl border border-fuchsia-100 bg-[linear-gradient(180deg,#ffffff_0%,#fff9fe_100%)] p-5">
+                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-fuchsia-500 mb-2">DFT</div>
+                                    <div class="text-lg font-black text-gray-900 mb-2">IJTAG</div>
+                                    <p class="text-sm text-gray-600 leading-6">IEEE 1687 기반 내부 계측 접근 표준입니다. 칩 내부의 센서, 테스트 포인트, MBIST 제어 블록을 외부에서 구조적으로 접근하게 해줍니다.</p>
+                                </div>
+
+                                <div class="rounded-2xl border border-indigo-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8faff_100%)] p-5">
+                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-indigo-500 mb-2">DFT</div>
+                                    <div class="text-lg font-black text-gray-900 mb-2">LBIST</div>
+                                    <p class="text-sm text-gray-600 leading-6">Logic Built-In Self Test. 메모리가 아니라 조합/순차 로직 쪽을 칩 내부 패턴 발생기와 시그니처 분석기로 검사하는 자체 테스트 방식입니다.</p>
+                                </div>
+
+                                <div class="rounded-2xl border border-rose-100 bg-[linear-gradient(180deg,#ffffff_0%,#fff8fb_100%)] p-5">
+                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-rose-500 mb-2">DFT</div>
+                                    <div class="text-lg font-black text-gray-900 mb-2">ATPG</div>
+                                    <p class="text-sm text-gray-600 leading-6">Automatic Test Pattern Generation. stuck-at, transition 같은 결함 모델을 기준으로 양산 테스트용 패턴을 자동 생성하는 단계입니다.</p>
+                                </div>
+
+                                <div class="rounded-2xl border border-red-100 bg-[linear-gradient(180deg,#ffffff_0%,#fff9f8_100%)] p-5">
+                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-red-500 mb-2">AP</div>
+                                    <div class="text-lg font-black text-gray-900 mb-2">Linux BSP</div>
+                                    <p class="text-sm text-gray-600 leading-6">Board Support Package. 특정 SoC와 보드에서 Linux가 부팅되도록 커널 설정, 드라이버, device tree, 초기화 코드를 묶은 시스템 소프트웨어 기반입니다.</p>
+                                </div>
+
+                                <div class="rounded-2xl border border-orange-100 bg-[linear-gradient(180deg,#ffffff_0%,#fffaf5_100%)] p-5 md:col-span-2 xl:col-span-2">
+                                    <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-orange-500 mb-2">AP</div>
+                                    <div class="text-lg font-black text-gray-900 mb-2">Bare-Metal Firmware</div>
+                                    <p class="text-sm text-gray-600 leading-6">운영체제 없이 CPU가 전원 인가 직후 바로 실행하는 초기 펌웨어입니다. 부트 시퀀스, 클럭/메모리 초기화, 주변장치 bring-up, 보드 디버깅의 출발점으로 자주 연결됩니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+    </main>
+    <script src="../../assets/guidebook-page-common.js"></script>
+    <script>
+        window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'physical-implementation',
+            panelSelector: '[data-part6-panel]',
+            panelKeyDataset: 'part6Panel',
+            currentHeader: {
+                shellId: 'part6-current-shell',
+                labelId: 'part6-current-label',
+                mode: 'static',
+            },
+        });
+    </script>
+</body>
+</html>

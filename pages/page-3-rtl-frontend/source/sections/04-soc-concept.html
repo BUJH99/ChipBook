@@ -1,0 +1,79 @@
+<div class="mb-8" data-part3-panel="soc-concept" data-guidebook-toc-title="SoC" hidden>
+                            <div class="card">
+                            <div class="space-y-5">
+                                <div class="overflow-hidden rounded-[30px] border border-blue-100 bg-gradient-to-br from-white via-[#f8fbff] to-[#eef6ff]">
+                                    <svg viewBox="0 0 620 360" class="block h-[320px] w-full" aria-hidden="true">
+                                        <defs>
+                                            <pattern id="socGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                                <path d="M20 0H0V20" fill="none" stroke="#ecf3ff" stroke-width="1"/>
+                                            </pattern>
+                                        </defs>
+                                        <rect width="620" height="360" fill="url(#socGrid)"/>
+
+                                        <rect x="158" y="54" width="304" height="232" rx="34" fill="#ffffff" stroke="#60a5fa" stroke-width="3"/>
+                                        <rect x="180" y="76" width="260" height="188" rx="26" fill="#f8fbff" stroke="#dbeafe"/>
+                                        <text x="310" y="104" text-anchor="middle" fill="#2563eb" font-size="22" font-weight="900">SoC</text>
+
+                                        <rect x="204" y="122" width="96" height="42" rx="18" fill="#eff6ff" stroke="#93c5fd"/>
+                                        <text x="252" y="149" text-anchor="middle" fill="#2563eb" font-size="13" font-weight="900">CPU / NPU / DSP</text>
+                                        <rect x="320" y="122" width="96" height="42" rx="18" fill="#f5f3ff" stroke="#c4b5fd"/>
+                                        <text x="368" y="149" text-anchor="middle" fill="#7c3aed" font-size="13" font-weight="900">DDR / SRAM</text>
+
+                                        <rect x="226" y="188" width="168" height="28" rx="14" fill="#e0f2fe" stroke="#7dd3fc"/>
+                                        <text x="310" y="206" text-anchor="middle" fill="#0284c7" font-size="12" font-weight="900">NoC / Internal Bus</text>
+                                        <circle r="6" fill="#0ea5e9">
+                                            <animateMotion dur="3.4s" repeatCount="indefinite" path="M226 202H394"/>
+                                        </circle>
+
+                                        <rect x="204" y="228" width="96" height="42" rx="18" fill="#ecfdf5" stroke="#6ee7b7"/>
+                                        <text x="252" y="255" text-anchor="middle" fill="#059669" font-size="13" font-weight="900">PCIe / USB</text>
+                                        <rect x="320" y="228" width="96" height="42" rx="18" fill="#fff7ed" stroke="#fdba74"/>
+                                        <text x="368" y="255" text-anchor="middle" fill="#ea580c" font-size="13" font-weight="900">Security / PM</text>
+
+                                        <path d="M140 143H180" fill="none" stroke="#93c5fd" stroke-width="4" stroke-linecap="round"/>
+                                        <path d="M440 143H480" fill="none" stroke="#c4b5fd" stroke-width="4" stroke-linecap="round"/>
+                                        <path d="M140 249H180" fill="none" stroke="#6ee7b7" stroke-width="4" stroke-linecap="round"/>
+                                        <path d="M440 249H480" fill="none" stroke="#fdba74" stroke-width="4" stroke-linecap="round"/>
+
+                                        <circle r="5" fill="#2563eb">
+                                            <animateMotion dur="2.6s" repeatCount="indefinite" path="M140 143H180"/>
+                                        </circle>
+                                        <circle r="5" fill="#8b5cf6">
+                                            <animateMotion dur="2.6s" begin="0.45s" repeatCount="indefinite" path="M440 143H480"/>
+                                        </circle>
+                                        <circle r="5" fill="#10b981">
+                                            <animateMotion dur="2.6s" begin="0.85s" repeatCount="indefinite" path="M140 249H180"/>
+                                        </circle>
+                                        <circle r="5" fill="#f97316">
+                                            <animateMotion dur="2.6s" begin="1.25s" repeatCount="indefinite" path="M440 249H480"/>
+                                        </circle>
+
+                                        <rect x="40" y="122" width="100" height="42" rx="18" fill="#ffffff" stroke="#bfdbfe"/>
+                                        <rect x="480" y="122" width="100" height="42" rx="18" fill="#ffffff" stroke="#ddd6fe"/>
+                                        <rect x="40" y="228" width="100" height="42" rx="18" fill="#ffffff" stroke="#bbf7d0"/>
+                                        <rect x="480" y="228" width="100" height="42" rx="18" fill="#ffffff" stroke="#fed7aa"/>
+                                        <text x="90" y="149" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">Compute</text>
+                                        <text x="530" y="149" text-anchor="middle" fill="#7c3aed" font-size="12" font-weight="900">Memory</text>
+                                        <text x="90" y="255" text-anchor="middle" fill="#059669" font-size="12" font-weight="900">Interface</text>
+                                        <text x="530" y="255" text-anchor="middle" fill="#ea580c" font-size="12" font-weight="900">Security</text>
+
+                                        <rect x="148" y="308" width="324" height="20" rx="10" fill="#eff6ff" stroke="#dbeafe"/>
+                                        <text x="310" y="322" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="900">여러 기능 블록을 하나의 칩 안에 통합해 시스템 자체를 실리콘으로 구현</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+                                        <div class="text-sm font-extrabold text-gray-900 mb-2">SoC 정의</div>
+                                        <p class="text-sm text-gray-600">CPU, 메모리, 인터페이스, 보안, 전력관리 등 시스템 기능 블록을 하나의 칩 안에 통합한 구조입니다.</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+                                        <div class="text-sm font-extrabold text-gray-900 mb-2">구성 요소</div>
+                                        <p class="text-sm text-gray-600">연산 블록, 메모리 계층, 고속 인터페이스, NoC, 보안 블록, 전력/클럭 관리 블록이 대표적입니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+
+                        

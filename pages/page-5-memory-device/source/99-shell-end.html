@@ -1,0 +1,768 @@
+
+                    </section>
+    </main>
+    <script src="../assets/guidebook-page-common.js"></script>
+    <script>
+        window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'memory-basics',
+            panelSelector: '[data-part5-panel]',
+            panelKeyDataset: 'part5Panel',
+            currentHeader: {
+                shellId: 'part5-current-shell',
+                labelId: 'part5-current-label',
+                mode: 'static',
+            },
+        });
+
+        (function initPart5NandLab() {
+            const root = document.querySelector('[data-nand-lab]');
+            if (!root || root.dataset.nandReady === 'true') return;
+            root.dataset.nandReady = 'true';
+
+            const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+            const buttons = Array.from(root.querySelectorAll('[data-nand-action]'));
+            const stageChips = Array.from(root.querySelectorAll('[data-nand-stage-chip]'));
+            const els = {
+                stateSummary: root.querySelector('[data-nand-state-summary]'),
+                thresholdSummary: root.querySelector('[data-nand-threshold-summary]'),
+                currentSummary: root.querySelector('[data-nand-current-summary]'),
+                thresholdFill: root.querySelector('[data-nand-threshold-fill]'),
+                thresholdLabel: root.querySelector('[data-nand-threshold-label]'),
+                controlGate: root.querySelector('[data-nand-control-gate]'),
+                gateLabel: root.querySelector('[data-nand-gate-label]'),
+                chargeFill: root.querySelector('[data-nand-charge-fill]'),
+                electronGroup: root.querySelector('[data-nand-electron-group]'),
+                chargeLabel: root.querySelector('[data-nand-charge-label]'),
+                channelGlow: root.querySelector('[data-nand-channel-glow]'),
+                channelCore: root.querySelector('[data-nand-channel-core]'),
+                barrier: root.querySelector('[data-nand-barrier]'),
+                channelLabel: root.querySelector('[data-nand-channel-label]'),
+                programFlow: root.querySelector('[data-nand-program-flow]'),
+                readFlow: root.querySelector('[data-nand-read-flow]'),
+                eraseFlow: root.querySelector('[data-nand-erase-flow]'),
+                senseBox: root.querySelector('[data-nand-sense-box]'),
+                bitBubble: root.querySelector('[data-nand-bit-bubble]'),
+                bitLabel: root.querySelector('[data-nand-bit-label]'),
+                readLabel: root.querySelector('[data-nand-read-label]'),
+                stateLabel: root.querySelector('[data-nand-state-label]'),
+                logBadge: root.querySelector('[data-nand-log-badge]'),
+                log: root.querySelector('[data-nand-log]'),
+            };
+
+            const stageOrder = ['idle', 'slot-a', 'slot-b', 'slot-c', 'done'];
+            const stageLabels = {
+                program: { idle: 'Start', 'slot-a': 'High Bias', 'slot-b': 'Tunnel', 'slot-c': 'Trap Fill', done: 'Vth Up' },
+                read: { idle: 'Start', 'slot-a': 'Apply Vread', 'slot-b': 'Compare Vth', 'slot-c': 'Sense', done: 'Bit Out' },
+                erase: { idle: 'Start', 'slot-a': 'Erase Bias', 'slot-b': 'Detrap', 'slot-c': 'Vth Down', done: 'Flow Restored' },
+            };
+            const state = {
+                charged: false,
+                running: false,
+                action: 'read',
+                sequence: 0,
+                previewStage: null,
+            };
+
+            const setText = (el, value) => {
+                if (el) el.textContent = value;
+            };
+            const setAttr = (el, name, value) => {
+                if (el) el.setAttribute(name, String(value));
+            };
+            const setOpacity = (el, value) => {
+                if (el) el.style.opacity = String(value);
+            };
+            const toggleClass = (el, className, enabled) => {
+                if (el) el.classList.toggle(className, Boolean(enabled));
+            };
+            const setButtonsDisabled = (disabled) => {
+                buttons.forEach((button) => {
+                    button.disabled = disabled;
+                });
+                stageChips.forEach((chip) => {
+                    chip.disabled = disabled;
+                });
+            };
+            const setRunning = (running) => {
+                state.running = running;
+                root.dataset.running = running ? 'true' : 'false';
+                setButtonsDisabled(running);
+            };
+            const ensureCurrent = (token) => token === state.sequence && root.isConnected;
+            const setButtonState = (action) => {
+                state.action = action;
+                buttons.forEach((button) => {
+                    const isActive = button.dataset.nandAction === action;
+                    button.classList.toggle('is-active', isActive);
+                    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                });
+                const labels = stageLabels[action] || stageLabels.read;
+                stageChips.forEach((chip) => {
+                    setText(chip, labels[chip.dataset.nandStageChip] || chip.textContent);
+                });
+            };
+            const setStage = (stage) => {
+                const activeIndex = stageOrder.indexOf(stage);
+                stageChips.forEach((chip) => {
+                    const chipIndex = stageOrder.indexOf(chip.dataset.nandStageChip);
+                    chip.classList.toggle('is-active', chipIndex === activeIndex);
+                    chip.classList.toggle('is-done', chipIndex > 0 && chipIndex < activeIndex);
+                    chip.setAttribute('aria-pressed', chipIndex === activeIndex ? 'true' : 'false');
+                });
+            };
+            const setLog = (badge, message) => {
+                setText(els.logBadge, badge);
+                setText(els.log, message);
+                els.logBadge?.classList.add('is-active');
+            };
+            const clearFlows = () => {
+                setOpacity(els.programFlow, 0);
+                setOpacity(els.readFlow, 0);
+                setOpacity(els.eraseFlow, 0);
+            };
+            const clearNandMotion = () => {
+                [
+                    els.thresholdFill,
+                    els.controlGate,
+                    els.chargeFill,
+                    els.electronGroup,
+                    els.channelGlow,
+                    els.barrier,
+                    els.senseBox,
+                    els.bitBubble
+                ].forEach((el) => {
+                    toggleClass(el, 'memory-pulse-live', false);
+                });
+            };
+            const setChargeLevel = (level) => {
+                const clamped = Math.max(0, Math.min(100, Math.round(level)));
+                const width = Math.round(144 * (clamped / 100));
+                setAttr(els.chargeFill, 'width', width);
+                setOpacity(els.chargeFill, clamped === 0 ? 0.15 : 0.92);
+                setOpacity(els.electronGroup, clamped === 0 ? 0 : Math.max(0.18, clamped / 100));
+                setText(els.chargeLabel, clamped >= 70 ? 'Electrons Trapped' : clamped > 0 ? 'Charge Building Up' : 'Charge Trap Empty');
+            };
+            const setThresholdLevel = (level) => {
+                const clamped = Math.max(0, Math.min(100, Math.round(level)));
+                const height = 18 + Math.round(90 * (clamped / 100));
+                const y = 182 - height;
+                const fill = clamped >= 60 ? 'url(#nandThresholdGrad)' : '#60a5fa';
+                setAttr(els.thresholdFill, 'y', y);
+                setAttr(els.thresholdFill, 'height', height);
+                setAttr(els.thresholdFill, 'fill', fill);
+                setText(els.thresholdLabel, clamped >= 60 ? 'High Vth' : 'Low Vth');
+            };
+            const setGateTone = (mode) => {
+                if (!els.controlGate) return;
+                const toneMap = {
+                    idle: { fill: '#94a3b8', stroke: '#64748b' },
+                    program: { fill: '#2563eb', stroke: '#1d4ed8' },
+                    read: { fill: '#0ea5e9', stroke: '#0284c7' },
+                    erase: { fill: '#f59e0b', stroke: '#d97706' },
+                };
+                const tone = toneMap[mode] || toneMap.idle;
+                setAttr(els.controlGate, 'fill', tone.fill);
+                setAttr(els.controlGate, 'stroke', tone.stroke);
+            };
+            const setReadState = ({ bit, currentFlows }) => {
+                const flowing = Boolean(currentFlows);
+                setOpacity(els.readFlow, flowing ? 1 : 0);
+                setOpacity(els.channelGlow, flowing ? 0.94 : 0.26);
+                setOpacity(els.barrier, flowing ? 0 : 1);
+                setAttr(els.channelCore, 'opacity', flowing ? 0.95 : 0.22);
+                setAttr(els.channelCore, 'fill', flowing ? 'url(#nandChannelGrad)' : '#cbd5e1');
+                setAttr(els.bitBubble, 'fill', flowing ? '#dbeafe' : '#fee2e2');
+                setAttr(els.bitBubble, 'stroke', flowing ? '#60a5fa' : '#ef4444');
+                setAttr(els.senseBox, 'fill', flowing ? '#f8fbff' : '#fff7f7');
+                setAttr(els.senseBox, 'stroke', flowing ? '#93c5fd' : '#fda4af');
+                setAttr(els.bitLabel, 'fill', flowing ? '#2563eb' : '#dc2626');
+                setText(els.bitLabel, bit);
+            };
+            const setSummaries = ({ bit, threshold, current }) => {
+                setText(els.stateSummary, bit === '0' ? 'Programmed 0' : 'Erased 1');
+                setText(els.thresholdSummary, threshold);
+                setText(els.currentSummary, current);
+            };
+            const renderVisuals = ({
+                chargeLevel,
+                thresholdLevel,
+                gateTone,
+                gateLabel,
+                bit,
+                currentFlows,
+                channelLabel,
+                readLabel,
+                stateLabel,
+                showProgramFlow = false,
+                showEraseFlow = false,
+                pulseTargets = [],
+            }) => {
+                clearFlows();
+                clearNandMotion();
+                setChargeLevel(chargeLevel);
+                setThresholdLevel(thresholdLevel);
+                setGateTone(gateTone);
+                setText(els.gateLabel, gateLabel);
+                setText(els.channelLabel, channelLabel);
+                setText(els.readLabel, readLabel);
+                setText(els.stateLabel, stateLabel);
+                setReadState({ bit, currentFlows });
+                setOpacity(els.programFlow, showProgramFlow ? 1 : 0);
+                setOpacity(els.eraseFlow, showEraseFlow ? 1 : 0);
+                setSummaries({
+                    bit,
+                    threshold: thresholdLevel >= 60 ? 'High Vth' : 'Low Vth',
+                    current: currentFlows ? 'Flows' : 'Blocked',
+                });
+                pulseTargets.forEach((target) => {
+                    toggleClass(els[target], 'memory-pulse-live', true);
+                });
+            };
+            const clearStagePreview = () => {
+                state.previewStage = null;
+                delete root.dataset.previewStage;
+            };
+            const renderStable = () => {
+                setButtonState(state.action);
+                setStage('done');
+                if (state.charged) {
+                    renderVisuals({
+                        chargeLevel: 100,
+                        thresholdLevel: 92,
+                        gateTone: 'idle',
+                        gateLabel: 'Trapped charge keeps threshold high',
+                        bit: '0',
+                        currentFlows: false,
+                        channelLabel: 'Read current is blocked by the raised threshold',
+                        readLabel: 'No current',
+                        stateLabel: 'Program state reads as 0',
+                        pulseTargets: ['electronGroup', 'thresholdFill', 'barrier', 'bitBubble']
+                    });
+                    setLog('Stored 0', '프로그램된 셀은 전하를 trap에 가둔 상태를 유지합니다. 그래서 문턱전압이 높아지고, read 전압에서는 채널 전류가 막혀 0으로 감지됩니다.');
+                    return;
+                }
+
+                renderVisuals({
+                    chargeLevel: 0,
+                    thresholdLevel: 18,
+                    gateTone: 'idle',
+                    gateLabel: 'Erase state keeps threshold low',
+                    bit: '1',
+                    currentFlows: true,
+                    channelLabel: 'Read current flows through the channel',
+                    readLabel: 'Current flows',
+                    stateLabel: 'Erase state reads as 1',
+                    pulseTargets: ['channelGlow', 'bitBubble']
+                });
+                setLog('Ready', '초기 상태는 erase 예시입니다. trapped charge가 거의 없어 문턱전압이 낮고, read 전압에서 채널 전류가 흘러 1로 감지됩니다.');
+            };
+            const renderProgramStagePreview = (stage) => {
+                setButtonState('program');
+                setStage(stage);
+
+                if (stage === 'idle') {
+                    renderVisuals({
+                        chargeLevel: 0,
+                        thresholdLevel: 18,
+                        gateTone: 'idle',
+                        gateLabel: 'Erase state is the starting point before program',
+                        bit: '1',
+                        currentFlows: true,
+                        channelLabel: 'Low threshold cell is ready for the next program pulse',
+                        readLabel: 'Ready to program',
+                        stateLabel: 'Erase state before charge injection',
+                        pulseTargets: ['channelGlow', 'bitBubble']
+                    });
+                    setLog('Start', 'Program은 erase 상태에서 시작합니다. 아직 trapped charge가 거의 없어 Vth가 낮은 준비 상태입니다.');
+                    return;
+                }
+
+                if (stage === 'slot-a') {
+                    renderVisuals({
+                        chargeLevel: 8,
+                        thresholdLevel: 26,
+                        gateTone: 'program',
+                        gateLabel: 'High program bias bends the field',
+                        bit: '1',
+                        currentFlows: false,
+                        channelLabel: 'A strong electric field prepares electron tunneling',
+                        readLabel: 'Program pulse',
+                        stateLabel: 'High bias is building across the oxide',
+                        showProgramFlow: true,
+                        pulseTargets: ['controlGate', 'channelGlow']
+                    });
+                    setLog('High Bias', 'control gate에 높은 program 전압을 걸어 oxide 양단에 강한 전계를 만들고, 전자 주입을 준비합니다.');
+                    return;
+                }
+
+                if (stage === 'slot-b') {
+                    renderVisuals({
+                        chargeLevel: 54,
+                        thresholdLevel: 58,
+                        gateTone: 'program',
+                        gateLabel: 'Electrons tunnel into the charge trap',
+                        bit: '0',
+                        currentFlows: false,
+                        channelLabel: 'Fowler-Nordheim tunneling moves electrons upward',
+                        readLabel: 'Threshold rising',
+                        stateLabel: 'Charge is actively being stored',
+                        showProgramFlow: true,
+                        pulseTargets: ['chargeFill', 'electronGroup', 'thresholdFill']
+                    });
+                    setLog('Tunnel', '전자들이 산화막을 넘어 charge trap 또는 floating gate 쪽으로 주입되며, 문턱전압이 올라가기 시작합니다.');
+                    return;
+                }
+
+                if (stage === 'slot-c') {
+                    renderVisuals({
+                        chargeLevel: 100,
+                        thresholdLevel: 92,
+                        gateTone: 'program',
+                        gateLabel: 'Stored charge raises the threshold voltage',
+                        bit: '0',
+                        currentFlows: false,
+                        channelLabel: 'The stored charge keeps the channel from opening at read bias',
+                        readLabel: 'Current blocked',
+                        stateLabel: 'Programmed 0 is formed',
+                        pulseTargets: ['chargeFill', 'electronGroup', 'thresholdFill', 'barrier', 'bitBubble']
+                    });
+                    setLog('Trap Fill', '전하가 충분히 저장되면 Vth가 높아지고 read 전압에서는 채널 전류가 막혀 programmed 0 상태가 됩니다.');
+                    return;
+                }
+
+                renderVisuals({
+                    chargeLevel: 100,
+                    thresholdLevel: 92,
+                    gateTone: 'idle',
+                    gateLabel: 'Trapped charge keeps threshold high',
+                    bit: '0',
+                    currentFlows: false,
+                    channelLabel: 'The programmed cell remains difficult to turn on during read',
+                    readLabel: '0 latched',
+                    stateLabel: 'Programmed state is now stored',
+                    pulseTargets: ['electronGroup', 'thresholdFill', 'barrier', 'bitBubble']
+                });
+                setLog('Vth Up', 'Program 완료 후에는 저장된 전하가 그대로 남아 높은 문턱전압 상태를 유지합니다.');
+            };
+            const renderReadStagePreview = (stage) => {
+                const programmed = state.charged;
+                const bit = programmed ? '0' : '1';
+                const chargeLevel = programmed ? 100 : 0;
+                const thresholdLevel = programmed ? 92 : 18;
+                const pulseTargets = programmed ? ['barrier', 'bitBubble'] : ['channelGlow', 'bitBubble'];
+
+                setButtonState('read');
+                setStage(stage);
+
+                if (stage === 'idle') {
+                    renderVisuals({
+                        chargeLevel,
+                        thresholdLevel,
+                        gateTone: 'idle',
+                        gateLabel: programmed ? 'Programmed cell waits with high threshold' : 'Erased cell waits with low threshold',
+                        bit,
+                        currentFlows: !programmed,
+                        channelLabel: programmed ? 'Stored charge still keeps the read path closed' : 'The low-threshold cell can still conduct during read',
+                        readLabel: programmed ? 'Stored 0' : 'Stored 1',
+                        stateLabel: programmed ? 'Read will test a programmed cell' : 'Read will test an erased cell',
+                        pulseTargets
+                    });
+                    setLog('Start', programmed
+                        ? '현재 셀은 programmed 상태라 read 시 전류가 막히는 경로를 보게 됩니다.'
+                        : '현재 셀은 erase 상태라 read 시 전류가 흐르는 경로를 보게 됩니다.');
+                    return;
+                }
+
+                if (stage === 'slot-a') {
+                    renderVisuals({
+                        chargeLevel,
+                        thresholdLevel,
+                        gateTone: 'read',
+                        gateLabel: 'Apply Vread and test channel conduction',
+                        bit,
+                        currentFlows: !programmed,
+                        channelLabel: programmed ? 'The channel still resists turning on under Vread' : 'Vread is enough to turn on the low-threshold channel',
+                        readLabel: programmed ? 'Checking blocked current' : 'Checking flowing current',
+                        stateLabel: programmed ? 'Programmed cell under Vread' : 'Erased cell under Vread',
+                        pulseTargets: programmed ? ['controlGate', 'barrier'] : ['controlGate', 'channelGlow']
+                    });
+                    setLog('Apply Vread', '읽을 때는 control gate에 Vread를 걸고 source-drain 경로에 전류가 생기는지 확인할 준비를 합니다.');
+                    return;
+                }
+
+                if (stage === 'slot-b') {
+                    renderVisuals({
+                        chargeLevel,
+                        thresholdLevel,
+                        gateTone: 'read',
+                        gateLabel: programmed ? 'Stored electrons keep Vth above Vread' : 'Vread is above the low erase threshold',
+                        bit,
+                        currentFlows: !programmed,
+                        channelLabel: programmed ? 'High Vth blocks a conduction path' : 'Low Vth creates a conduction path across the channel',
+                        readLabel: programmed ? 'No current' : 'Current detected',
+                        stateLabel: programmed ? 'The sense path sees blocked current' : 'The sense path sees conduction current',
+                        pulseTargets: programmed ? ['barrier', 'bitBubble'] : ['channelGlow', 'bitBubble']
+                    });
+                    setLog('Compare Vth', programmed
+                        ? '저장된 전하 때문에 Vth가 높아 Vread만으로는 채널이 열리지 않습니다.'
+                        : 'Vth가 낮아 Vread만으로도 채널이 열리고 전류가 감지됩니다.');
+                    return;
+                }
+
+                if (stage === 'slot-c') {
+                    renderVisuals({
+                        chargeLevel,
+                        thresholdLevel,
+                        gateTone: 'read',
+                        gateLabel: 'Sense amp converts current into a logic bit',
+                        bit,
+                        currentFlows: !programmed,
+                        channelLabel: programmed ? 'Blocked current maps to 0 in this example' : 'Flowing current maps to 1 in this example',
+                        readLabel: programmed ? 'Bit = 0' : 'Bit = 1',
+                        stateLabel: programmed ? 'Programmed state resolves to 0' : 'Erase state resolves to 1',
+                        pulseTargets: programmed ? ['senseBox', 'bitBubble', 'barrier'] : ['senseBox', 'bitBubble', 'channelGlow']
+                    });
+                    setLog('Sense', programmed
+                        ? 'Sense amp는 전류가 거의 없다는 사실을 0으로 판정합니다.'
+                        : 'Sense amp는 충분한 채널 전류를 감지해 1로 판정합니다.');
+                    return;
+                }
+
+                renderVisuals({
+                    chargeLevel,
+                    thresholdLevel,
+                    gateTone: 'idle',
+                    gateLabel: programmed ? 'The read result stays latched as 0' : 'The read result stays latched as 1',
+                    bit,
+                    currentFlows: !programmed,
+                    channelLabel: programmed ? 'Programmed cell remains a high-threshold state' : 'Erased cell remains a low-threshold state',
+                    readLabel: programmed ? '0 latched' : '1 latched',
+                    stateLabel: programmed ? 'Read output settled to 0' : 'Read output settled to 1',
+                    pulseTargets: programmed ? ['senseBox', 'bitBubble', 'barrier'] : ['senseBox', 'bitBubble', 'channelGlow']
+                });
+                setLog('Bit Out', programmed
+                    ? '최종적으로 sense amp 출력은 0으로 고정되고, 셀은 여전히 programmed 상태입니다.'
+                    : '최종적으로 sense amp 출력은 1로 고정되고, 셀은 여전히 erase 상태입니다.');
+            };
+            const renderEraseStagePreview = (stage) => {
+                setButtonState('erase');
+                setStage(stage);
+
+                if (stage === 'idle') {
+                    renderVisuals({
+                        chargeLevel: 100,
+                        thresholdLevel: 92,
+                        gateTone: 'idle',
+                        gateLabel: 'Programmed cell is the starting point before erase',
+                        bit: '0',
+                        currentFlows: false,
+                        channelLabel: 'High threshold is held by the stored electrons',
+                        readLabel: 'Stored 0',
+                        stateLabel: 'Programmed state before erase',
+                        pulseTargets: ['electronGroup', 'thresholdFill', 'barrier', 'bitBubble']
+                    });
+                    setLog('Start', 'Erase는 programmed 셀에서 시작합니다. trap 안에 저장된 전하가 아직 남아 있어 Vth가 높은 상태입니다.');
+                    return;
+                }
+
+                if (stage === 'slot-a') {
+                    renderVisuals({
+                        chargeLevel: 100,
+                        thresholdLevel: 92,
+                        gateTone: 'erase',
+                        gateLabel: 'Erase bias applies the reverse field',
+                        bit: '0',
+                        currentFlows: false,
+                        channelLabel: 'The reverse field prepares trapped charge removal',
+                        readLabel: 'Erase bias',
+                        stateLabel: 'Reverse field is pulling charge away',
+                        showEraseFlow: true,
+                        pulseTargets: ['controlGate', 'chargeFill', 'electronGroup']
+                    });
+                    setLog('Erase Bias', 'Erase 전압은 program과 반대 방향 전계를 만들어 trap 안 전하가 빠져나올 길을 만듭니다.');
+                    return;
+                }
+
+                if (stage === 'slot-b') {
+                    renderVisuals({
+                        chargeLevel: 34,
+                        thresholdLevel: 44,
+                        gateTone: 'erase',
+                        gateLabel: 'Stored electrons detrap and threshold falls',
+                        bit: '1',
+                        currentFlows: false,
+                        channelLabel: 'As charge leaves, the threshold starts falling',
+                        readLabel: 'Charge leaving trap',
+                        stateLabel: 'Detrapping is in progress',
+                        showEraseFlow: true,
+                        pulseTargets: ['chargeFill', 'electronGroup', 'thresholdFill']
+                    });
+                    setLog('Detrap', '가둬둔 전하가 빠져나오면서 stored charge가 줄고, 문턱전압도 함께 내려갑니다.');
+                    return;
+                }
+
+                if (stage === 'slot-c') {
+                    renderVisuals({
+                        chargeLevel: 0,
+                        thresholdLevel: 18,
+                        gateTone: 'erase',
+                        bit: '1',
+                        currentFlows: true,
+                        gateLabel: 'Low threshold is restored after erase',
+                        channelLabel: 'Once Vth falls, read current can flow again',
+                        readLabel: 'Current flows',
+                        stateLabel: 'Erase state returns to 1',
+                        pulseTargets: ['thresholdFill', 'channelGlow', 'bitBubble']
+                    });
+                    setLog('Vth Down', '전하가 제거되면 Vth가 다시 낮아지고, 이후 read에서는 채널 전류가 다시 흐를 수 있습니다.');
+                    return;
+                }
+
+                renderVisuals({
+                    chargeLevel: 0,
+                    thresholdLevel: 18,
+                    gateTone: 'idle',
+                    gateLabel: 'Erase state keeps threshold low',
+                    bit: '1',
+                    currentFlows: true,
+                    channelLabel: 'The erased cell is easy to turn on during read',
+                    readLabel: '1 restored',
+                    stateLabel: 'Erase state is now stored',
+                    pulseTargets: ['channelGlow', 'bitBubble']
+                });
+                setLog('Flow Restored', 'Erase 완료 후에는 trapped charge가 거의 없어지고, 낮은 문턱전압 상태가 다시 저장됩니다.');
+            };
+            const runStagePreview = (stage) => {
+                state.previewStage = stage;
+                root.dataset.previewStage = stage;
+                if (state.action === 'program') {
+                    renderProgramStagePreview(stage);
+                    return;
+                }
+                if (state.action === 'erase') {
+                    renderEraseStagePreview(stage);
+                    return;
+                }
+                renderReadStagePreview(stage);
+            };
+            const finishAction = () => {
+                clearStagePreview();
+                setRunning(false);
+                renderStable();
+            };
+
+            const runProgram = async () => {
+                const token = ++state.sequence;
+                setRunning(true);
+                setButtonState('program');
+
+                setStage('slot-a');
+                renderVisuals({
+                    chargeLevel: state.charged ? 90 : 6,
+                    thresholdLevel: state.charged ? 84 : 26,
+                    gateTone: 'program',
+                    gateLabel: 'High program bias bends the field',
+                    bit: state.charged ? '0' : '1',
+                    currentFlows: false,
+                    channelLabel: 'Strong vertical field prepares tunneling',
+                    readLabel: 'Program pulse',
+                    stateLabel: 'Preparing to inject electrons',
+                    showProgramFlow: true,
+                });
+                setLog('Bias', '높은 program 전압을 control gate에 걸어 channel과 trap 사이에 강한 전계를 만듭니다.');
+                await wait(620);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-b');
+                renderVisuals({
+                    chargeLevel: 54,
+                    thresholdLevel: 58,
+                    gateTone: 'program',
+                    gateLabel: 'Electrons tunnel into the charge trap',
+                    bit: '0',
+                    currentFlows: false,
+                    channelLabel: 'Fowler-Nordheim tunneling moves electrons upward',
+                    readLabel: 'Threshold rising',
+                    stateLabel: 'Charge is being stored',
+                    showProgramFlow: true,
+                });
+                setLog('Tunnel', '전자들이 산화막을 넘어 charge trap 또는 floating gate 쪽으로 주입되면서 셀 내부에 저장됩니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-c');
+                renderVisuals({
+                    chargeLevel: 100,
+                    thresholdLevel: 92,
+                    gateTone: 'program',
+                    gateLabel: 'Stored charge raises the threshold voltage',
+                    bit: '0',
+                    currentFlows: false,
+                    channelLabel: 'Even with read bias, the channel does not open easily',
+                    readLabel: 'Current blocked',
+                    stateLabel: 'Program state becomes 0',
+                });
+                setLog('Store', '가둔 전하가 문턱전압을 높여 read 시 채널 전류를 막습니다. 이 SLC 예시에서는 그 상태를 0으로 읽습니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                state.charged = true;
+                finishAction();
+            };
+
+            const runRead = async () => {
+                const token = ++state.sequence;
+                const programmed = state.charged;
+                setRunning(true);
+                setButtonState('read');
+
+                setStage('slot-a');
+                renderVisuals({
+                    chargeLevel: programmed ? 100 : 0,
+                    thresholdLevel: programmed ? 92 : 18,
+                    gateTone: 'read',
+                    gateLabel: 'Apply Vread and test channel conduction',
+                    bit: programmed ? '0' : '1',
+                    currentFlows: !programmed,
+                    channelLabel: programmed ? 'High Vth resists channel formation' : 'Low Vth lets the channel form',
+                    readLabel: programmed ? 'Checking for missing current' : 'Current flows',
+                    stateLabel: programmed ? 'Programmed cell under read bias' : 'Erased cell under read bias',
+                });
+                setLog('Vread', '읽을 때는 control gate에 read 전압을 걸고 source-drain 전류가 흐르는지 먼저 확인합니다.');
+                await wait(620);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-b');
+                renderVisuals({
+                    chargeLevel: programmed ? 100 : 0,
+                    thresholdLevel: programmed ? 92 : 18,
+                    gateTone: 'read',
+                    gateLabel: programmed ? 'Stored electrons keep Vth above Vread' : 'Vread is above the low erase threshold',
+                    bit: programmed ? '0' : '1',
+                    currentFlows: !programmed,
+                    channelLabel: programmed ? 'No conduction path appears' : 'A conduction path appears across the channel',
+                    readLabel: programmed ? 'No current' : 'Current detected',
+                    stateLabel: programmed ? 'Sense amp sees blocked current' : 'Sense amp sees conduction current',
+                });
+                setLog('Compare', programmed
+                    ? '전하가 남아 있으면 Vth가 높아서 Vread만으로는 채널이 잘 열리지 않습니다.'
+                    : '전하가 거의 없는 erase 상태라면 낮은 Vth 덕분에 Vread만으로 채널이 열립니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-c');
+                renderVisuals({
+                    chargeLevel: programmed ? 100 : 0,
+                    thresholdLevel: programmed ? 92 : 18,
+                    gateTone: 'read',
+                    gateLabel: 'Sense amp converts current into a logic bit',
+                    bit: programmed ? '0' : '1',
+                    currentFlows: !programmed,
+                    channelLabel: programmed ? 'Blocked current maps to 0 in this example' : 'Flowing current maps to 1 in this example',
+                    readLabel: programmed ? 'Bit = 0' : 'Bit = 1',
+                    stateLabel: programmed ? 'Programmed state resolves to 0' : 'Erase state resolves to 1',
+                });
+                setLog('Sense', programmed
+                    ? 'Sense amp는 전류가 거의 없다는 사실을 읽어 0으로 판단합니다.'
+                    : 'Sense amp는 충분한 채널 전류를 감지해 1로 판단합니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                finishAction();
+            };
+
+            const runErase = async () => {
+                const token = ++state.sequence;
+                setRunning(true);
+                setButtonState('erase');
+
+                setStage('slot-a');
+                renderVisuals({
+                    chargeLevel: state.charged ? 100 : 18,
+                    thresholdLevel: state.charged ? 92 : 28,
+                    gateTone: 'erase',
+                    gateLabel: 'Erase bias applies the reverse field',
+                    bit: state.charged ? '0' : '1',
+                    currentFlows: false,
+                    channelLabel: 'Reverse field prepares charge removal',
+                    readLabel: 'Erase field',
+                    stateLabel: state.charged ? 'Preparing to remove trapped electrons' : 'Cell is already close to erase state',
+                    showEraseFlow: true,
+                });
+                setLog('Erase', 'Erase에서는 반대 방향 전계를 걸어 trap 안에 있던 전하가 빠져나오게 만듭니다.');
+                await wait(620);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-b');
+                renderVisuals({
+                    chargeLevel: state.charged ? 34 : 6,
+                    thresholdLevel: state.charged ? 44 : 20,
+                    gateTone: 'erase',
+                    gateLabel: 'Stored electrons detrap and threshold falls',
+                    bit: '1',
+                    currentFlows: false,
+                    channelLabel: 'Charge removal lowers the cell threshold',
+                    readLabel: 'Charge leaving trap',
+                    stateLabel: 'Detrapping in progress',
+                    showEraseFlow: true,
+                });
+                setLog('Detrap', '가둬둔 전하가 빠지면서 문턱전압이 내려가기 시작합니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                setStage('slot-c');
+                renderVisuals({
+                    chargeLevel: 0,
+                    thresholdLevel: 18,
+                    gateTone: 'erase',
+                    gateLabel: 'Low threshold is restored after erase',
+                    bit: '1',
+                    currentFlows: true,
+                    channelLabel: 'With low Vth restored, read current can flow again',
+                    readLabel: 'Current flows',
+                    stateLabel: 'Erase state returns to 1',
+                });
+                setLog('Restore', '전하가 제거되면 Vth가 다시 낮아지고, 다음 read에서는 채널 전류가 다시 흐를 수 있습니다.');
+                await wait(760);
+                if (!ensureCurrent(token)) return;
+
+                state.charged = false;
+                finishAction();
+            };
+
+            buttons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    if (state.running) return;
+                    clearStagePreview();
+                    const action = button.dataset.nandAction;
+                    if (action === 'program') {
+                        runProgram();
+                        return;
+                    }
+                    if (action === 'erase') {
+                        runErase();
+                        return;
+                    }
+                    runRead();
+                });
+            });
+
+            stageChips.forEach((chip) => {
+                chip.addEventListener('click', () => {
+                    if (state.running) return;
+                    const stage = chip.dataset.nandStageChip || 'idle';
+                    if (state.previewStage === stage) {
+                        clearStagePreview();
+                        renderStable();
+                        return;
+                    }
+                    runStagePreview(stage);
+                });
+            });
+
+            setButtonState('read');
+            renderStable();
+        })();
+    </script>
+</body>
+</html>

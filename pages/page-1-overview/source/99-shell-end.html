@@ -1,0 +1,122 @@
+
+        </section>
+    </main>
+    <script src="../assets/guidebook-page-common.js"></script>
+    <script>
+        const part1SectionHeaderMeta = {
+            'landscape-primary': {
+                text: 'Product Category',
+                style: 'titleline',
+                icon: '🗂️',
+            },
+            'landscape-domains': {
+                text: 'Industry Domains',
+                style: 'titleline',
+                icon: '🏭',
+            },
+            'value-chain-primary': {
+                text: 'Value Chain',
+                style: 'titleline',
+                icon: '🔗',
+            },
+            'future-tech-primary': {
+                text: 'Future Tech Trends',
+                style: 'titleline',
+                icon: '🚀',
+            },
+        };
+
+        const part1TabMeta = {
+            landscape: {
+                copy: '',
+            },
+            'value-chain': {
+                copy: '',
+            },
+            'future-tech': {
+                copy: '',
+            }
+        };
+
+        const part1CurrentLabelOverride = {
+            'future-tech': '1-3. Future Tech Trends',
+        };
+
+        function renderPart1SectionHeads() {
+            const classMap = {
+                kicker: 'part1-section-kicker',
+                titleline: 'part1-section-titleline',
+            };
+
+            document.querySelectorAll('[data-part1-section-head]').forEach((container) => {
+                const meta = part1SectionHeaderMeta[container.dataset.part1SectionHead];
+                if (!meta) return;
+
+                container.classList.add('part1-section-head');
+                container.setAttribute('data-guidebook-toc-title', meta.text);
+                container.replaceChildren();
+
+                const line = document.createElement('div');
+                line.className = classMap[meta.style] || classMap.kicker;
+                if (meta.icon) {
+                    line.classList.add('part1-section-line');
+
+                    const icon = document.createElement('span');
+                    icon.className = 'part1-section-icon';
+                    icon.textContent = meta.icon;
+                    line.appendChild(icon);
+
+                    const text = document.createElement('span');
+                    text.textContent = meta.text;
+                    line.appendChild(text);
+                } else {
+                    line.textContent = meta.text;
+                }
+                container.appendChild(line);
+            });
+        }
+
+        function applyPart1CurrentHeader() {
+            const shellEl = document.getElementById('part1-current-shell');
+            if (!shellEl) return;
+
+            shellEl.style.setProperty('--part1-tab-accent', '#2563eb');
+        }
+
+        function updatePart1GroupVisibility() {
+            document.querySelectorAll('[data-part1-panel-group]').forEach((group) => {
+                const hasVisibleChild = Array.from(group.querySelectorAll('[data-part1-panel]')).some((panel) => !panel.hidden);
+                group.hidden = !hasVisibleChild;
+            });
+        }
+
+        window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'landscape',
+            panelSelector: '[data-part1-panel]',
+            panelKeyDataset: 'part1Panel',
+            titleAttribute: 'data-guidebook-toc-title',
+            currentHeader: {
+                shellId: 'part1-current-shell',
+                labelId: 'part1-current-label',
+                copyId: 'part1-current-copy',
+                mode: 'static',
+                apply: ({ shell }) => {
+                    shell.style.setProperty('--part1-tab-accent', '#2563eb');
+                },
+                getCopy: ({ activeKey }) => part1TabMeta[activeKey]?.copy || '',
+            },
+            beforeInit: () => {
+                renderPart1SectionHeads();
+            },
+            onAfterSet: ({ activeKey, item }) => {
+                const labelEl = document.getElementById('part1-current-label');
+                if (!labelEl) return;
+                labelEl.textContent = part1CurrentLabelOverride[activeKey] || item?.label || '';
+            },
+            syncGroups: () => {
+                updatePart1GroupVisibility();
+            },
+        });
+    </script>
+</body>
+</html>

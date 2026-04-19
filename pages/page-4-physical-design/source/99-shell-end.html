@@ -1,0 +1,37 @@
+
+                    </section>
+    </main>
+    <script src="../assets/guidebook-page-common.js"></script>
+    <script>
+        function syncPart4Groups(activeKey) {
+            const coreGroupEl = document.getElementById('part4-core-group');
+            if (coreGroupEl) {
+                coreGroupEl.hidden = !['floorplan', 'pnr', 'signoff'].includes(activeKey);
+            }
+
+            const tailGroupEl = document.getElementById('part4-tail-group');
+            if (tailGroupEl) {
+                tailGroupEl.hidden = !['tapeout', 'design-kit'].includes(activeKey);
+            }
+        }
+
+        window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'floorplan',
+            panelSelector: '[data-part4-panel]',
+            panelKeyDataset: 'part4Panel',
+            titleAttribute: 'data-guidebook-toc-title',
+            currentHeader: {
+                shellId: 'part4-current-shell',
+                labelId: 'part4-current-label',
+                mode: 'static',
+                apply: ({ shell }) => {
+                    shell.style.setProperty('--part4-tab-accent', '#2563eb');
+                },
+            },
+            syncGroups: ({ activeKey }) => {
+                syncPart4Groups(activeKey);
+            },
+        });
+    </script>
+</body>
+</html>

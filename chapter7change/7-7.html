@@ -13,7 +13,7 @@
     <!-- 로컬 환경을 위한 공통 CSS (Canvas 환경에선 무시됨) -->
     <link rel="stylesheet" href="../assets/guidebook-common.css">
     <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
-    <script src="../assets/chapter7-embed-common.js" defer></script>
+    <script src="../assets/chapter7-embed-common.js"></script>
     
     <script>
         window.tailwind = window.tailwind || {};
@@ -97,18 +97,18 @@
         </header>
 
         <!-- Horizontal Tabs (Matched with page-3 part3-tab-shell) -->
-        <div class="border-b border-slate-200 overflow-x-auto hide-scrollbar" id="part7-current-shell">
-            <div class="flex gap-2 w-max min-w-full">
-                <button class="tab-btn px-5 py-3.5 text-blue-600 font-bold border-b-2 border-blue-600 -mb-px transition-colors whitespace-nowrap active" data-target="report">
+        <div class="chapter7-tab-shell" id="part7-current-shell">
+            <div class="chapter7-tab-nav">
+                <button class="chapter7-tab-btn active" data-target="report">
                     7.1 Report 시스템
                 </button>
-                <button class="tab-btn px-5 py-3.5 text-slate-500 font-bold border-b-2 border-transparent hover:text-slate-800 hover:border-slate-300 -mb-px transition-colors whitespace-nowrap" data-target="scoreboard">
+                <button class="chapter7-tab-btn" data-target="scoreboard">
                     7.2 Scoreboard & SVA
                 </button>
-                <button class="tab-btn px-5 py-3.5 text-slate-500 font-bold border-b-2 border-transparent hover:text-slate-800 hover:border-slate-300 -mb-px transition-colors whitespace-nowrap" data-target="coverage">
+                <button class="chapter7-tab-btn" data-target="coverage">
                     7.3 Coverage 콜렉터
                 </button>
-                <button class="tab-btn px-5 py-3.5 text-slate-500 font-bold border-b-2 border-transparent hover:text-slate-800 hover:border-slate-300 -mb-px transition-colors whitespace-nowrap" data-target="callback">
+                <button class="chapter7-tab-btn" data-target="callback">
                     7.4 Callback 메커니즘
                 </button>
             </div>
@@ -451,61 +451,14 @@ assert_req_ack: <span class="text-blue-400 font-medium">assert property</span> (
         document.addEventListener('DOMContentLoaded', () => {
             
             // --- Tab & Page System Initialization ---
-            if (window.GuidebookPage && window.GuidebookPage.initActionSectionPage) {
-                // 프로젝트의 글로벌 스크립트가 로드되었을 경우 (iframe 내부)
-                window.GuidebookPage.initActionSectionPage({
-                    defaultKey: 'report',
-                    panelSelector: '[data-part7-panel]',
-                    panelKeyDataset: 'part7Panel',
-                    buttonSelector: '.tab-btn',
-                    buttonKeyDataset: 'target',
-                    titleAttribute: 'data-guidebook-toc-title',
-                    applyButtonState: ({ button, isActive }) => {
-                        button.classList.toggle('active', isActive);
-                        button.classList.toggle('text-blue-600', isActive);
-                        button.classList.toggle('border-blue-600', isActive);
-                        button.classList.toggle('text-slate-500', !isActive);
-                        button.classList.toggle('border-transparent', !isActive);
-                        button.classList.toggle('hover:text-slate-800', !isActive);
-                        button.classList.toggle('hover:border-slate-300', !isActive);
-                        button.setAttribute('aria-pressed', String(isActive));
-                    },
-                    currentHeader: {
-                        shellId: 'part7-current-shell',
-                        labelId: 'part7-current-label',
-                        mode: 'static',
-                        apply: ({ shell }) => {
-                            shell.style.setProperty('--part7-tab-accent', '#2563eb');
-                        },
-                    },
-                });
-            } else {
-                // 단독 실행 (Canvas 프리뷰 등)을 위한 Fallback 탭 로직
-                const tabs = document.querySelectorAll('.tab-btn');
-                const panels = document.querySelectorAll('[data-part7-panel]');
-
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        tabs.forEach(t => {
-                            t.classList.remove('text-blue-600', 'border-blue-600', 'active');
-                            t.classList.add('text-slate-500', 'border-transparent');
-                        });
-                        panels.forEach(p => p.hidden = true);
-
-                        tab.classList.remove('text-slate-500', 'border-transparent');
-                        tab.classList.add('text-blue-600', 'border-blue-600', 'active');
-                        
-                        const target = tab.getAttribute('data-target');
-                        const panel = document.querySelector(`[data-part7-panel="${target}"]`);
-                        if (panel) {
-                            panel.hidden = false;
-                            panel.style.animation = 'none';
-                            void panel.offsetWidth; // trigger reflow
-                            panel.style.animation = 'slideUp 0.4s ease-out forwards';
-                        }
-                    });
-                });
-            }
+            window.Chapter7EmbedTabs.init({
+                defaultKey: 'report',
+                panelSelector: '[data-part7-panel]',
+                panelKeyDataset: 'part7Panel',
+                buttonSelector: '.chapter7-tab-btn',
+                buttonKeyDataset: 'target',
+                shellId: 'part7-current-shell',
+            });
 
             // --- 7.1 Report System Logic ---
             const logs = [

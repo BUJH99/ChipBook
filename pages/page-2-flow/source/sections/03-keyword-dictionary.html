@@ -1,0 +1,477 @@
+<div class="card overflow-hidden" data-part2-panel="keyword-dictionary" data-guidebook-toc-title="Keyword Dictionary" hidden>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(124,58,237,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <rect x="4" y="6" width="16" height="12" rx="2.5" stroke="currentColor" stroke-width="1.8"/>
+                                                <path d="M8 6V4M16 6V4M4 10H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">Floorplan</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Initial Physical Planning</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-violet-200 bg-gradient-to-br from-white to-violet-50/70">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <defs>
+                                                <pattern id="fpGrid" width="18" height="18" patternUnits="userSpaceOnUse">
+                                                    <path d="M18 0H0V18" fill="none" stroke="#e9d5ff" stroke-width="1"/>
+                                                </pattern>
+                                            </defs>
+                                            <rect width="280" height="130" fill="url(#fpGrid)" opacity="0.45"/>
+                                            <rect x="58" y="18" width="164" height="88" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="4"/>
+                                            <rect x="82" y="36" width="44" height="22" rx="4" fill="#93c5fd">
+                                                <animate attributeName="opacity" values="0.7;1;0.7" dur="3.2s" repeatCount="indefinite"/>
+                                            </rect>
+                                            <rect x="132" y="58" width="36" height="30" rx="4" fill="#c4b5fd">
+                                                <animate attributeName="y" values="58;54;58" dur="3.4s" repeatCount="indefinite"/>
+                                            </rect>
+                                            <rect x="180" y="52" width="24" height="36" rx="4" fill="#fda4af">
+                                                <animate attributeName="opacity" values="0.55;1;0.55" dur="2.8s" repeatCount="indefinite"/>
+                                            </rect>
+                                            <rect x="72" y="12" width="136" height="6" rx="3" fill="#dbeafe"/>
+                                            <rect x="72" y="106" width="136" height="6" rx="3" fill="#dbeafe"/>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">칩의 전체 크기와 윤곽을 정하고, I/O 핀, 매크로(SRAM, IP), 전원망의 큰 배치를 먼저 잡는 초기 physical planning 단계입니다. 이후 단계의 혼잡도와 timing 품질을 크게 좌우하는 출발점입니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-violet-50 px-3 py-1 text-sm font-bold text-violet-700">Chip Size</span>
+                                        <span class="rounded-full bg-violet-50 px-3 py-1 text-sm font-bold text-violet-700">Macro</span>
+                                        <span class="rounded-full bg-violet-50 px-3 py-1 text-sm font-bold text-violet-700">Power Grid</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(14,165,233,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M8 7H10V9H8V7ZM14 7H16V9H14V7ZM8 13H10V15H8V13ZM14 13H16V15H14V13Z" fill="currentColor"/>
+                                                <path d="M10 8H14M9 9.5V13M15 9.5V13M10 14H14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">Placement</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Standard Cell Placement</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-sky-200 bg-gradient-to-br from-white to-cyan-50/70">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <rect x="34" y="18" width="212" height="94" rx="14" fill="#f8fafc" stroke="#dbeafe"/>
+                                            <rect x="52" y="34" width="176" height="14" rx="7" fill="#e8eef7"/>
+                                            <rect x="52" y="56" width="176" height="14" rx="7" fill="#e8eef7"/>
+                                            <rect x="52" y="78" width="176" height="14" rx="7" fill="#e8eef7"/>
+                                            <rect x="52" y="100" width="176" height="14" rx="7" fill="#e8eef7"/>
+                                            <g>
+                                                <rect x="94" y="34" width="28" height="14" rx="4" fill="#22b8cf">
+                                                    <animateTransform attributeName="transform" type="translate" values="-32 -20;0 0;2 0;0 0;-1 0;0 0;-32 -20" dur="1.45s" repeatCount="indefinite"/>
+                                                </rect>
+                                            </g>
+                                            <g>
+                                                <rect x="154" y="56" width="18" height="14" rx="4" fill="#67e8f9">
+                                                    <animateTransform attributeName="transform" type="translate" values="26 -8;0 0;1 0;0 0;-1 0;0 0;26 -8" dur="1.35s" begin="0.16s" repeatCount="indefinite"/>
+                                                </rect>
+                                            </g>
+                                            <g>
+                                                <rect x="128" y="78" width="20" height="14" rx="4" fill="#22d3ee">
+                                                    <animateTransform attributeName="transform" type="translate" values="-18 18;0 0;1 -1;0 0;-1 1;0 0;-18 18" dur="1.4s" begin="0.28s" repeatCount="indefinite"/>
+                                                </rect>
+                                            </g>
+                                            <g>
+                                                <rect x="194" y="100" width="24" height="14" rx="4" fill="#22c1dc">
+                                                    <animateTransform attributeName="transform" type="translate" values="24 -18;0 0;2 0;0 0;-2 0;0 0;24 -18" dur="1.5s" begin="0.42s" repeatCount="indefinite"/>
+                                                </rect>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">합성된 수많은 standard cell을 timing, 배선 혼잡도, 면적 효율을 고려해 적절한 위치에 배치하는 단계입니다. 이 단계가 흔들리면 이후 CTS와 Routing에서 문제가 크게 증폭됩니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-sky-50 px-3 py-1 text-sm font-bold text-sky-700">Standard Cell</span>
+                                        <span class="rounded-full bg-sky-50 px-3 py-1 text-sm font-bold text-sky-700">Congestion</span>
+                                        <span class="rounded-full bg-sky-50 px-3 py-1 text-sm font-bold text-sky-700">Density</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(79,70,229,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M12 5V10M7 19V15M17 19V15M12 10H7V15M12 10H17V15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <circle cx="12" cy="4.5" r="1.5" fill="currentColor"/>
+                                                <circle cx="7" cy="19.5" r="1.5" fill="currentColor"/>
+                                                <circle cx="17" cy="19.5" r="1.5" fill="currentColor"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">CTS</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Clock Tree Synthesis</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-indigo-200 bg-gradient-to-br from-white to-indigo-50/70">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <path d="M140 24V54M140 54H92V88M140 54H188V88" fill="none" stroke="#c7d2fe" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M92 88V104M188 88V104" fill="none" stroke="#c7d2fe" stroke-width="5" stroke-linecap="round"/>
+                                            <circle cx="140" cy="18" r="8" fill="#6366f1">
+                                                <animate attributeName="r" values="8;10;8" dur="2.2s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <circle r="4.5" fill="#7c3aed">
+                                                <animateMotion path="M140,24 V54 H92 V88 V104" dur="2.8s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <circle r="4.5" fill="#7c3aed">
+                                                <animateMotion path="M140,24 V54 H188 V88 V104" dur="2.8s" begin="0.18s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <rect x="84" y="104" width="16" height="18" rx="3" fill="#c7d2fe">
+                                                <animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" repeatCount="indefinite"/>
+                                            </rect>
+                                            <rect x="180" y="104" width="16" height="18" rx="3" fill="#c7d2fe">
+                                                <animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" begin="0.7s" repeatCount="indefinite"/>
+                                            </rect>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">클럭 신호가 칩 내부의 플립플롭에 균형 있게 도달하도록 트리 형태의 분배망을 만드는 작업입니다. 핵심은 skew를 줄이고, clock latency와 전력 부담을 함께 제어하는 데 있습니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-indigo-50 px-3 py-1 text-sm font-bold text-indigo-700">Clock Tree</span>
+                                        <span class="rounded-full bg-indigo-50 px-3 py-1 text-sm font-bold text-indigo-700">Skew</span>
+                                        <span class="rounded-full bg-indigo-50 px-3 py-1 text-sm font-bold text-indigo-700">Latency</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-fuchsia-50 text-fuchsia-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(217,70,239,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M5 7H9L12 10H19M5 17H9L12 14H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <circle cx="5" cy="7" r="1.5" fill="currentColor"/>
+                                                <circle cx="5" cy="17" r="1.5" fill="currentColor"/>
+                                                <circle cx="19" cy="10" r="1.5" fill="currentColor"/>
+                                                <circle cx="19" cy="14" r="1.5" fill="currentColor"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">Routing</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Metal Interconnect</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-fuchsia-200 bg-gradient-to-br from-white to-fuchsia-50/60">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <defs>
+                                                <pattern id="routeGrid" width="16" height="16" patternUnits="userSpaceOnUse">
+                                                    <path d="M16 0H0V16" fill="none" stroke="#ede9fe" stroke-width="1"/>
+                                                </pattern>
+                                            </defs>
+                                            <rect width="280" height="130" fill="url(#routeGrid)" opacity="0.7"/>
+                                            <rect x="40" y="28" width="18" height="18" rx="3" fill="#a78bfa"/>
+                                            <rect x="150" y="70" width="34" height="24" rx="4" fill="#cbd5e1"/>
+                                            <rect x="206" y="84" width="18" height="18" rx="3" fill="#8b5cf6"/>
+                                            <path d="M48 36H98V78H158V94H214" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="260" stroke-dashoffset="260">
+                                                <animate attributeName="stroke-dashoffset" values="260;0;0" dur="2.8s" repeatCount="indefinite"/>
+                                            </path>
+                                            <circle cx="140" cy="82" r="5" fill="#8b5cf6" opacity="0">
+                                                <animate attributeName="opacity" values="0;0;1;1" dur="2.8s" repeatCount="indefinite"/>
+                                            </circle>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">배치된 셀과 매크로의 핀을 실제 금속층으로 연결해 전기적 경로를 완성하는 단계입니다. timing뿐 아니라 제조 규칙까지 만족해야 하므로 DRC와도 밀접하게 이어집니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-fuchsia-50 px-3 py-1 text-sm font-bold text-fuchsia-700">Metal Layer</span>
+                                        <span class="rounded-full bg-fuchsia-50 px-3 py-1 text-sm font-bold text-fuchsia-700">Connectivity</span>
+                                        <span class="rounded-full bg-fuchsia-50 px-3 py-1 text-sm font-bold text-fuchsia-700">DRC</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(245,158,11,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M4 14C6.5 14 6.5 8 9 8C11.5 8 11.5 16 14 16C16.5 16 16.5 10 20 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">RC Extraction</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Parasitic Extraction</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-amber-200 bg-gradient-to-br from-white to-amber-50/70">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <path d="M62 70H218" stroke="#fbbf24" stroke-width="8" stroke-linecap="round"/>
+                                            <circle cx="62" cy="70" r="6" fill="#fbbf24">
+                                                <animate attributeName="cx" values="62;218" dur="3s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <path d="M108 52C120 30 136 30 148 52C160 74 176 74 188 52" fill="none" stroke="#fde68a" stroke-width="4" opacity="0.7"/>
+                                            <text x="125" y="38" fill="#fde68a" font-size="14" font-weight="800">R</text>
+                                            <text x="178" y="94" fill="#fde68a" font-size="14" font-weight="800">C</text>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">실제 배선에서 생기는 저항(R)과 커패시턴스(C)를 추출해 후반 timing 분석의 정확도를 높이는 작업입니다. Routing 이후 timing이 갑자기 나빠지는 이유를 이해할 때 함께 봐야 하는 핵심 개념입니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-amber-50 px-3 py-1 text-sm font-bold text-amber-700">Parasitic R</span>
+                                        <span class="rounded-full bg-amber-50 px-3 py-1 text-sm font-bold text-amber-700">Parasitic C</span>
+                                        <span class="rounded-full bg-amber-50 px-3 py-1 text-sm font-bold text-amber-700">Post-Route</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-yellow-50 text-yellow-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(234,179,8,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <circle cx="12" cy="12" r="7.5" stroke="currentColor" stroke-width="1.8"/>
+                                                <path d="M12 8V12L15 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">STA</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Static Timing Analysis</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-rose-200 bg-gradient-to-br from-white to-rose-50/60">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <text x="46" y="42" fill="#fb7185" font-size="14" font-weight="800">CLK</text>
+                                            <path d="M46 54H88V30H132V54H176" fill="none" stroke="#e11d48" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+                                            <text x="46" y="94" fill="#fb7185" font-size="14" font-weight="800">DATA</text>
+                                            <path d="M46 106H98L112 78H154L168 106H196" fill="none" stroke="#fb7185" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+                                            <path d="M144 16V114" stroke="#e11d48" stroke-width="3" stroke-dasharray="5 5"/>
+                                            <circle cx="144" cy="66" r="7" fill="#fb7185">
+                                                <animate attributeName="r" values="7;9;7" dur="2.2s" repeatCount="indefinite"/>
+                                            </circle>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">시뮬레이션 벡터 없이 회로의 모든 timing path를 수학적으로 분석해 setup과 hold가 만족되는지 확인하는 작업입니다. 합성 이후에도, 배치배선 이후에도 반복해서 수행됩니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-yellow-50 px-3 py-1 text-sm font-bold text-yellow-700">Setup</span>
+                                        <span class="rounded-full bg-yellow-50 px-3 py-1 text-sm font-bold text-yellow-700">Hold</span>
+                                        <span class="rounded-full bg-yellow-50 px-3 py-1 text-sm font-bold text-yellow-700">Timing Path</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(16,185,129,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M12 4L18.5 7V12C18.5 15.5 15.9 18.6 12 20C8.1 18.6 5.5 15.5 5.5 12V7L12 4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                                                <path d="M9.5 12.2L11.2 13.9L14.8 10.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">LEC</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Logic Equivalence Check</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-emerald-200 bg-gradient-to-br from-white to-emerald-50/70">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <rect x="42" y="38" width="54" height="42" rx="10" fill="#a7f3d0"/>
+                                            <rect x="184" y="38" width="54" height="42" rx="10" fill="#a7f3d0"/>
+                                            <circle cx="140" cy="59" r="20" fill="#10b981">
+                                                <animate attributeName="r" values="20;22;20" dur="2.4s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <text x="69" y="64" text-anchor="middle" fill="#065f46" font-size="15" font-weight="900">RTL</text>
+                                            <text x="211" y="64" text-anchor="middle" fill="#065f46" font-size="15" font-weight="900">Gate</text>
+                                            <text x="140" y="66" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="900">=</text>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">RTL과 합성 netlist, 또는 최적화 전후 netlist가 논리적으로 같은 기능을 유지하는지 비교 검증하는 절차입니다. 구조가 바뀌더라도 기능은 같아야 하므로 ECO나 최적화 이후에 특히 중요합니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-sm font-bold text-emerald-700">RTL vs Netlist</span>
+                                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-sm font-bold text-emerald-700">Equivalence</span>
+                                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-sm font-bold text-emerald-700">ECO Check</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(244,63,94,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M14.5 6.5L17.5 9.5M7 17L6 20L9 19L18.2 9.8C18.98 9.02 18.98 7.76 18.2 6.98L17.02 5.8C16.24 5.02 14.98 5.02 14.2 5.8L7 13V17Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">ECO</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Engineering Change Order</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-rose-200 bg-gradient-to-br from-white to-rose-50/60">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <path d="M70 68H118" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+                                            <path d="M162 68H210" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+                                            <circle cx="140" cy="68" r="7" fill="#ef4444">
+                                                <animate attributeName="fill-opacity" values="1;0.4;1" dur="1.8s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <rect x="132" y="58" width="16" height="20" rx="4" fill="#fecaca">
+                                                <animate attributeName="y" values="58;54;58" dur="2.6s" repeatCount="indefinite"/>
+                                            </rect>
+                                            <path d="M118 68H132M148 68H162" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">마지막 단계에서 발견된 timing 위반이나 논리 오류를 전체 flow를 처음부터 다시 돌리지 않고 국소적으로 수정하는 방식입니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-rose-50 px-3 py-1 text-sm font-bold text-rose-700">Local Fix</span>
+                                        <span class="rounded-full bg-rose-50 px-3 py-1 text-sm font-bold text-rose-700">Timing Fix</span>
+                                        <span class="rounded-full bg-rose-50 px-3 py-1 text-sm font-bold text-rose-700">Signoff Loop</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(59,130,246,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M8 6H16M8 10H16M8 14H13M6 4.75H18C18.6904 4.75 19.25 5.30964 19.25 6V18C19.25 18.6904 18.6904 19.25 18 19.25H6C5.30964 19.25 4.75 18.6904 4.75 18V6C4.75 5.30964 5.30964 4.75 6 4.75Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">DRC</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Design Rule Check</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-blue-200 bg-gradient-to-br from-white to-blue-50/60">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <path d="M66 40H214" stroke="#60a5fa" stroke-width="10" stroke-linecap="round"/>
+                                            <path d="M66 88H214" stroke="#60a5fa" stroke-width="10" stroke-linecap="round"/>
+                                            <path d="M140 48V80" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+                                            <path d="M134 56L140 48L146 56" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2s" repeatCount="indefinite"/>
+                                            </path>
+                                            <path d="M134 72L140 80L146 72" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <animateTransform attributeName="transform" type="translate" values="0 0;0 4;0 0" dur="2s" repeatCount="indefinite"/>
+                                            </path>
+                                            <circle cx="196" cy="64" r="10" fill="#dbeafe" opacity="0.6">
+                                                <animate attributeName="opacity" values="0.2;0.7;0.2" dur="2.2s" repeatCount="indefinite"/>
+                                            </circle>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">레이아웃이 파운드리 공정 규칙을 어기지 않았는지 확인하는 물리 검증입니다. 배선 폭, 간격, via 규칙처럼 제조 가능성과 직결된 항목을 검사하므로 Routing 이후 signoff의 핵심 축이 됩니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-blue-50 px-3 py-1 text-sm font-bold text-blue-700">Foundry Rule</span>
+                                        <span class="rounded-full bg-blue-50 px-3 py-1 text-sm font-bold text-blue-700">Spacing</span>
+                                        <span class="rounded-full bg-blue-50 px-3 py-1 text-sm font-bold text-blue-700">Manufacturability</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(13,148,136,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.8"/>
+                                                <circle cx="17" cy="17" r="2" stroke="currentColor" stroke-width="1.8"/>
+                                                <path d="M9 7H15V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">LVS</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Layout Versus Schematic</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-teal-200 bg-gradient-to-br from-white to-teal-50/60">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <rect x="68" y="26" width="40" height="38" fill="none" stroke="#10b981" stroke-width="5"/>
+                                            <path d="M88 26V84" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
+                                            <path d="M88 84H110" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
+                                            <path d="M164 38H182C194 38 204 48 204 60C204 72 194 82 182 82H164" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M152 48H164M152 60H164M152 72H164" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
+                                            <path d="M130 56L136 62L130 68M142 56L148 62L142 68" fill="none" stroke="#d1fae5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+                                                <animate attributeName="opacity" values="0.15;1;0.15" dur="2.2s" repeatCount="indefinite"/>
+                                            </path>
+                                            <text x="88" y="110" text-anchor="middle" fill="#059669" font-size="14" font-weight="900">Layout</text>
+                                            <text x="178" y="110" text-anchor="middle" fill="#059669" font-size="14" font-weight="900">Schematic</text>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">작성된 레이아웃의 연결 관계가 원래 의도한 회로도나 netlist와 같은지 비교하는 검증입니다. DRC가 규칙 준수 확인이라면, LVS는 연결 정합성 검증이라고 구분하면 헷갈림이 줄어듭니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-teal-50 px-3 py-1 text-sm font-bold text-teal-700">Layout</span>
+                                        <span class="rounded-full bg-teal-50 px-3 py-1 text-sm font-bold text-teal-700">Netlist</span>
+                                        <span class="rounded-full bg-teal-50 px-3 py-1 text-sm font-bold text-teal-700">Connectivity</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(249,115,22,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M13.5 3L6.5 12H11L10.5 21L17.5 11.5H13L13.5 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">IR Drop</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Voltage Drop Analysis</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-orange-200 bg-gradient-to-br from-white to-orange-50/60">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <rect x="28" y="42" width="44" height="34" rx="10" fill="#dcfce7" stroke="#86efac" stroke-width="2"/>
+                                            <text x="50" y="56" text-anchor="middle" fill="#15803d" font-size="11" font-weight="900">VDD</text>
+                                            <text x="50" y="69" text-anchor="middle" fill="#15803d" font-size="10" font-weight="800">1.0V</text>
+                                            <path d="M72 59H100L108 51L116 67L124 51L132 67L140 59H214" fill="none" stroke="#f59e0b" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M118 34H196" fill="none" stroke="#fb923c" stroke-width="3" stroke-linecap="round"/>
+                                            <path d="M188 28L196 34L188 40" fill="none" stroke="#fb923c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <text x="112" y="28" fill="#ea580c" font-size="12" font-weight="900">Current I</text>
+                                            <text x="116" y="90" fill="#b45309" font-size="11" font-weight="900">R on Power Line</text>
+                                            <rect x="214" y="40" width="38" height="38" rx="10" fill="#ffedd5" stroke="#fdba74" stroke-width="2"/>
+                                            <text x="233" y="54" text-anchor="middle" fill="#c2410c" font-size="11" font-weight="900">LOAD</text>
+                                            <text x="233" y="67" text-anchor="middle" fill="#c2410c" font-size="10" font-weight="800">0.92V</text>
+                                            <path d="M214 98H252" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
+                                            <path d="M233 84V98" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
+                                            <path d="M228 92L233 98L238 92" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <text x="184" y="112" fill="#ef4444" font-size="11" font-weight="900">IR Drop = VDD loss at load</text>
+                                            <circle cx="84" cy="59" r="5" fill="#fb923c">
+                                                <animate attributeName="cx" values="84;214" dur="2.8s" repeatCount="indefinite"/>
+                                            </circle>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">전원 공급점에서 부하 블록까지 전류(I)가 흐르는 동안 전원선의 저항(R)이 누적되면서, 시작점보다 끝단의 실제 전압이 더 낮아지는 현상을 분석하는 signoff 검증입니다. 전류가 큰 블록이나 power grid가 약한 구간에서 심해지며, local VDD 부족은 timing 악화와 기능 불안정으로 이어질 수 있습니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-orange-50 px-3 py-1 text-sm font-bold text-orange-700">Power Grid</span>
+                                        <span class="rounded-full bg-orange-50 px-3 py-1 text-sm font-bold text-orange-700">Current I</span>
+                                        <span class="rounded-full bg-orange-50 px-3 py-1 text-sm font-bold text-orange-700">V = I x R</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
+                                    <div class="flex items-start gap-4 mb-5">
+                                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(245,158,11,0.10)]">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M13.5 3L6.5 12H11L10.5 21L17.5 11.5H13L13.5 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                                                <path d="M7.5 17.5H16.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h4 class="text-[24px] leading-none font-black text-slate-900 mb-2">EM</h4>
+                                            <div class="text-sm font-extrabold uppercase tracking-[0.08em] text-slate-400">Electromigration</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-6 overflow-hidden rounded-[24px] border border-amber-200 bg-gradient-to-br from-white to-amber-50/60">
+                                        <svg viewBox="0 0 280 130" class="block h-[148px] w-full" aria-hidden="true">
+                                            <path d="M52 64H228" stroke="#f59e0b" stroke-width="12" stroke-linecap="round"/>
+                                            <path d="M84 30H198" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+                                            <path d="M190 24L198 30L190 36" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <text x="88" y="23" fill="#ea580c" font-size="12" font-weight="900">Current Density</text>
+                                            <circle cx="88" cy="64" r="5.5" fill="#fde68a">
+                                                <animate attributeName="cx" values="88;124;160;196" dur="2.5s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <circle cx="108" cy="64" r="4.5" fill="#fbbf24">
+                                                <animate attributeName="cx" values="108;144;180;216" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <circle cx="132" cy="64" r="4" fill="#fcd34d">
+                                                <animate attributeName="cx" values="132;168;204;220" dur="2.5s" begin="1s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <circle cx="112" cy="64" r="10" fill="#ffffff" stroke="#ef4444" stroke-width="3" opacity="0.95">
+                                                <animate attributeName="r" values="8;11;8" dur="2.1s" repeatCount="indefinite"/>
+                                            </circle>
+                                            <text x="96" y="97" fill="#dc2626" font-size="12" font-weight="900">Void</text>
+                                            <path d="M196 64Q206 48 216 64Q206 80 196 64" fill="#fecaca" stroke="#ef4444" stroke-width="3">
+                                                <animate attributeName="d" values="M196 64Q206 48 216 64Q206 80 196 64;M196 64Q208 44 220 64Q208 84 196 64;M196 64Q206 48 216 64Q206 80 196 64" dur="2.1s" repeatCount="indefinite"/>
+                                            </path>
+                                            <text x="188" y="97" fill="#dc2626" font-size="12" font-weight="900">Hillock</text>
+                                        </svg>
+                                    </div>
+                                    <p class="text-[17px] leading-8 text-slate-600 font-medium">금속 배선에 높은 current density가 오래 걸리면, 전자 흐름 방향으로 금속 원자가 서서히 밀려 이동합니다. 그 결과 한쪽에는 금속이 비어 <strong class="text-slate-900">void</strong>가 생기고, 다른 쪽에는 금속이 쌓여 <strong class="text-slate-900">hillock</strong>이 생기며, 장기적으로는 배선 단선이나 신뢰성 저하로 이어질 수 있습니다.</p>
+                                    <div class="mt-5 flex flex-wrap gap-2">
+                                        <span class="rounded-full bg-amber-50 px-3 py-1 text-sm font-bold text-amber-700">Current Density</span>
+                                        <span class="rounded-full bg-amber-50 px-3 py-1 text-sm font-bold text-amber-700">Reliability</span>
+                                        <span class="rounded-full bg-amber-50 px-3 py-1 text-sm font-bold text-amber-700">Void / Hillock</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        

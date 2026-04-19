@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
-    <script src="../assets/chapter7-embed-common.js" defer></script>
+    <script src="../assets/chapter7-embed-common.js"></script>
     
     <style>
         body {
@@ -134,19 +134,18 @@
         <main class="flex-1 flex flex-col min-w-0 px-4 sm:px-6 lg:px-10 py-10">
             
             <!-- Tabs Navigation -->
-            <nav class="flex gap-2 mb-8 border-b border-slate-200 pb-3 overflow-x-auto" aria-label="Tabs">
-                <button class="px-5 py-2.5 text-sm font-bold rounded-lg transition-colors border whitespace-nowrap" 
-                        data-part8-tab="makefile" onclick="switchTab('makefile')">
+            <nav id="part8-tab-shell" class="chapter7-tab-shell" aria-label="Tabs">
+                <div class="chapter7-tab-nav">
+                <button class="chapter7-tab-btn active" data-target="makefile">
                     8.1 Makefile
                 </button>
-                <button class="px-5 py-2.5 text-sm font-bold rounded-lg transition-colors border whitespace-nowrap" 
-                        data-part8-tab="cmdline" onclick="switchTab('cmdline')">
+                <button class="chapter7-tab-btn" data-target="cmdline">
                     8.2 Command-Line
                 </button>
-                <button class="px-5 py-2.5 text-sm font-bold rounded-lg transition-colors border whitespace-nowrap" 
-                        data-part8-tab="waveform" onclick="switchTab('waveform')">
+                <button class="chapter7-tab-btn" data-target="waveform">
                     8.3 Waveform 디버깅
                 </button>
+                </div>
             </nav>
 
             <!-- Current Shell Header -->
@@ -162,7 +161,7 @@
             <div data-part8-panel-group="main" class="flex-1">
 
                 <!-- Panel 8.1: Makefile -->
-                <div data-part8-panel="makefile" class="space-y-10 animate-[fadeInUp_0.3s_ease-out]">
+                <div data-part8-panel="makefile" data-guidebook-toc-title="8.1 Makefile 작성" class="chapter7-tab-panel space-y-10 animate-[fadeInUp_0.3s_ease-out]">
                     <!-- Interactive Visualization: Compilation Flow -->
                     <div class="rounded-xl border border-slate-200 overflow-hidden shadow-sm bg-white">
                         <div class="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center justify-between">
@@ -274,7 +273,7 @@
                 </div>
 
                 <!-- Panel 8.2: Command Line Processor -->
-                <div data-part8-panel="cmdline" hidden class="space-y-8 animate-[fadeInUp_0.3s_ease-out]">
+                <div data-part8-panel="cmdline" data-guidebook-toc-title="8.2 Command-Line" hidden class="chapter7-tab-panel space-y-8 animate-[fadeInUp_0.3s_ease-out]">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <!-- Control Panel -->
                         <div class="lg:col-span-1 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col">
@@ -360,7 +359,7 @@
                 </div>
 
                 <!-- Panel 8.3: Waveform Debugging -->
-                <div data-part8-panel="waveform" hidden class="space-y-8 animate-[fadeInUp_0.3s_ease-out]">
+                <div data-part8-panel="waveform" data-guidebook-toc-title="8.3 Waveform 디버깅" hidden class="chapter7-tab-panel space-y-8 animate-[fadeInUp_0.3s_ease-out]">
                     <div class="bg-[#1e1e1e] rounded-2xl overflow-hidden shadow-xl border border-slate-800">
                         <!-- Fake Verdi Topbar -->
                         <div class="bg-[#333333] px-5 py-3.5 flex items-center justify-between border-b border-[#444]">
@@ -450,25 +449,10 @@
 
         </main>
 
-        <!-- 5. 우측 네비게이션 목차 (TOC) -->
-        <aside class="page-side-toc-shell hidden xl:block xl:w-72 2xl:w-80 shrink-0 xl:sticky xl:top-[6.5rem] self-start pr-6 pl-2" data-page-toc-shell>
-            <div class="page-side-toc-panel p-6 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm">
-                <div class="page-side-toc-header mb-5 border-b border-slate-200 pb-3">
-                    <div class="page-side-toc-eyebrow text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">This Page</div>
-                    <div class="page-side-toc-title font-extrabold text-slate-800 text-lg">8. 실행 환경 및 스크립트</div>
-                </div>
-                <nav class="page-side-toc-nav space-y-2.5" id="toc-nav">
-                    <!-- JS에 의해 상태가 업데이트됨 -->
-                    <a href="#" class="block text-sm transition-all pl-3 border-l-2 border-blue-600 font-bold text-blue-600" data-toc-key="makefile">8.1 Makefile 작성</a>
-                    <a href="#" class="block text-sm transition-all pl-4 border-l-2 border-transparent text-slate-500 hover:text-slate-700" data-toc-key="cmdline">8.2 Command-Line</a>
-                    <a href="#" class="block text-sm transition-all pl-4 border-l-2 border-transparent text-slate-500 hover:text-slate-700" data-toc-key="waveform">8.3 Waveform 디버깅</a>
-                </nav>
-            </div>
-        </aside>
-
     </div>
 
     <!-- Logic Script -->
+    <script src="../assets/guidebook-page-common.js"></script>
     <script>
         // --- 1. Tab & TOC Navigation Logic ---
         const tabData = {
@@ -488,37 +472,10 @@
 
         window.hasDrawnWave = false;
 
-        window.switchTab = function(key) {
-            // UI Tab highlight
-            document.querySelectorAll('[data-part8-tab]').forEach(t => {
-                if(t.dataset.part8Tab === key) {
-                    t.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-200');
-                    t.classList.remove('text-slate-600', 'border-slate-200', 'hover:bg-slate-100');
-                } else {
-                    t.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-200');
-                    t.classList.add('text-slate-600', 'border-slate-200', 'hover:bg-slate-100');
-                }
-            });
-
-            // Panel visibility
-            document.querySelectorAll('[data-part8-panel]').forEach(p => {
-                p.hidden = (p.dataset.part8Panel !== key);
-            });
-
+        const syncPart8State = (key) => {
             // Header copy update
             document.getElementById('part8-current-label').textContent = tabData[key].label;
             document.getElementById('part8-current-copy').textContent = tabData[key].copy;
-
-            // TOC Active highlight
-            document.querySelectorAll('#toc-nav a').forEach(a => {
-                if(a.dataset.tocKey === key) {
-                    a.classList.add('text-blue-600', 'font-bold', 'border-blue-600', 'pl-3');
-                    a.classList.remove('text-slate-500', 'border-transparent', 'pl-4');
-                } else {
-                    a.classList.remove('text-blue-600', 'font-bold', 'border-blue-600', 'pl-3');
-                    a.classList.add('text-slate-500', 'border-transparent', 'pl-4');
-                }
-            });
 
             // Trigger animation on Waveform tab
             if(key === 'waveform' && !window.hasDrawnWave) {
@@ -531,31 +488,20 @@
             }
         };
 
+        window.Chapter7EmbedTabs.init({
+            defaultKey: 'makefile',
+            panelSelector: '[data-part8-panel]',
+            panelKeyDataset: 'part8Panel',
+            buttonSelector: '.chapter7-tab-btn',
+            buttonKeyDataset: 'target',
+            shellId: 'part8-tab-shell',
+            onAfterSet: ({ activeKey }) => {
+                syncPart8State(activeKey);
+            },
+        });
+
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (window.GuidebookPage) {
-                document.querySelectorAll('[data-part8-tab]').forEach((tab) => {
-                    tab.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        switchTab(tab.dataset.part8Tab);
-                    });
-                });
-
-                document.querySelectorAll('#toc-nav [data-toc-key]').forEach((link) => {
-                    link.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        switchTab(link.dataset.tocKey);
-                    });
-                });
-
-                document.querySelectorAll('[onclick]').forEach((element) => {
-                    element.removeAttribute('onclick');
-                });
-            }
-
-            // Initialize default tab
-            switchTab('makefile');
-
             // --- 2. Panel 8.2: Command-Line Simulator Logic ---
             let currentTest = '+UVM_TESTNAME=test_sanity';
             let currentVerb = '+UVM_VERBOSITY=UVM_LOW';

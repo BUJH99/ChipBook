@@ -1,0 +1,87 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e5]: Part 7
+    - heading "UVM / Verification" [level=2] [ref=e6]
+    - navigation "Part 7 Sections" [ref=e7]:
+      - generic [ref=e8]:
+        - button "7-1 UVM 기초" [ref=e9] [cursor=pointer]:
+          - generic [ref=e10]: 7-1
+          - generic [ref=e11]: UVM 기초
+        - button "7-2 UVM 큰 그림" [ref=e12] [cursor=pointer]:
+          - generic [ref=e13]: 7-2
+          - generic [ref=e14]: UVM 큰 그림
+        - button "7-3 UVM 코어 메커니즘" [ref=e15] [cursor=pointer]:
+          - generic [ref=e16]: 7-3
+          - generic [ref=e17]: UVM 코어 메커니즘
+        - button "7-4 Component vs Object" [ref=e18] [cursor=pointer]:
+          - generic [ref=e19]: 7-4
+          - generic [ref=e20]: Component vs Object
+        - button "7-5 Stimulus & TLM" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 7-5
+          - generic [ref=e23]: Stimulus & TLM
+        - button "7-6 Register Model (RAL)" [active] [pressed] [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: 7-6
+          - generic [ref=e26]: Register Model (RAL)
+        - button "7-7 Checking & Reporting" [ref=e27] [cursor=pointer]:
+          - generic [ref=e28]: 7-7
+          - generic [ref=e29]: Checking & Reporting
+        - button "7-8 Execution & Command-Line" [ref=e30] [cursor=pointer]:
+          - generic [ref=e31]: 7-8
+          - generic [ref=e32]: Execution & Command-Line
+    - main [ref=e143]:
+      - navigation [ref=e145]:
+        - button "UVM Register Model (RAL)" [ref=e146] [cursor=pointer]:
+          - img [ref=e147]
+          - text: UVM Register Model (RAL)
+        - button "6.2 Adapter & Predictor" [ref=e149] [cursor=pointer]:
+          - img [ref=e150]
+          - text: 6.2 Adapter & Predictor
+        - button "6.3 Access Sequence (API)" [ref=e152] [cursor=pointer]:
+          - img [ref=e153]
+          - text: 6.3 Access Sequence (API)
+      - generic [ref=e156]:
+        - generic [ref=e157]:
+          - heading "하드웨어 레지스터의 객체지향적 추상화" [level=2] [ref=e158]
+          - paragraph [ref=e159]:
+            - text: UVM RAL(Register Abstraction Layer)은 DUT 내부의 물리적 레지스터 맵을 Testbench 메모리에
+            - strong [ref=e160]: 객체(Object) 계층 구조로 미러링(Mirroring)
+            - text: 한 것입니다. 검증 엔지니어는 주소나 버스 프로토콜에 얽매이지 않고,
+            - code [ref=e161]: ral.ctrl_reg.enable.write(1)
+            - text: 와 같은 API를 사용하여 하드웨어를 제어할 수 있습니다.
+        - generic [ref=e162]:
+          - generic [ref=e163]:
+            - generic [ref=e165]: System Bus
+            - img [ref=e166]:
+              - generic [ref=e167] [cursor=pointer]:
+                - generic [ref=e171]: uvm_reg_block
+                - generic [ref=e172]: "sys_reg_blk (Base Addr: 'h4000_0000)"
+              - generic [ref=e173] [cursor=pointer]:
+                - generic [ref=e175]: uvm_reg
+                - generic [ref=e176]: "CTRL_REG (Offset: 'h00)"
+                - generic [ref=e177]:
+                  - generic [ref=e179]: uvm_reg_field
+                  - generic [ref=e180]: ENABLE [0:0] (RW)
+                - generic [ref=e181]:
+                  - generic [ref=e183]: uvm_reg_field
+                  - generic [ref=e184]: MODE [3:1] (RW)
+              - generic [ref=e185] [cursor=pointer]:
+                - generic [ref=e187]: uvm_reg
+                - generic [ref=e188]: "STAT_REG (Offset: 'h04)"
+                - generic [ref=e189]:
+                  - generic [ref=e191]: uvm_reg_field
+                  - generic [ref=e192]: ERR_FLAG [0:0] (RO)
+                - generic [ref=e195]: Reserved [31:1]
+            - generic: Hover over blocks to see details
+          - generic [ref=e197]:
+            - generic [ref=e198]:
+              - generic [ref=e199]: Hierarchy
+              - generic [ref=e200]: Select a node
+            - heading "UVM RAL Architecture" [level=3] [ref=e201]
+            - generic [ref=e202]:
+              - text: 왼쪽 다이어그램은 RAL 모델이 물리적 메모리 맵을 어떻게 계층적으로 감싸고 있는지 보여줍니다.
+              - text: 최상위 Block 내에 Register들이 매핑되며, Register 내부는 다시 비트 단위의 Field로 나뉩니다.
+            - generic [ref=e203]:
+              - generic [ref=e204]:
+                - generic [ref=e205]: SystemVerilog Model
+                - generic [ref=e206]: Auto-generated via RALGEN
+              - generic [ref=e207]: // Hover over the diagram to view // corresponding class definitions.

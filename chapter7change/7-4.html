@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
-    <script src="../assets/chapter7-embed-common.js" defer></script>
+    <script src="../assets/chapter7-embed-common.js"></script>
     
     <style>
         body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #0f172a; overflow-x: hidden; }
@@ -187,16 +187,18 @@
                 </header>
 
                 <!-- Tabs -->
-                <div class="tab-nav-container hide-scrollbar overflow-x-auto">
-                    <button data-tab-target="overview" class="tab-btn active"><span class="text-lg">🔄</span> 1. UVM의 두 기둥</button>
-                    <button data-tab-target="component" class="tab-btn"><span class="text-lg">🏛️</span> 2. 정적 구조 설계</button>
-                    <button data-tab-target="object" class="tab-btn"><span class="text-lg">⚡</span> 3. 동적 데이터 실습</button>
+                <div id="part4-tab-shell" class="chapter7-tab-shell">
+                    <div class="chapter7-tab-nav">
+                        <button data-target="overview" class="chapter7-tab-btn active"><span class="text-lg">🔄</span> 4.1 UVM의 두 기둥</button>
+                        <button data-target="component" class="chapter7-tab-btn"><span class="text-lg">🏛️</span> 4.2 정적 구조 설계</button>
+                        <button data-target="object" class="chapter7-tab-btn"><span class="text-lg">⚡</span> 4.3 동적 데이터 실습</button>
+                    </div>
                 </div>
 
                 <!-- ==========================================
                      PANEL 1: Overview
                      ========================================== -->
-                <section data-panel="overview" class="block animate-fade-in pb-10">
+                <section data-panel="overview" data-part4-panel="overview" data-guidebook-toc-title="4.1 UVM의 두 기둥" class="chapter7-tab-panel block animate-fade-in pb-10">
                     <div class="mb-8" id="sec-1-1">
                         <h2 class="text-2xl font-black text-slate-900 mb-3">공장(Factory)과 제품(Object)의 분리</h2>
                         <p class="text-slate-600 text-lg leading-relaxed">UVM을 완벽히 다루는 핵심은 환경을 구성하는 <b>'설비(Component)'</b>와 그 안에서 처리되는 <b>'데이터 패킷(Object)'</b>을 명확히 분리하여 사고하는 것입니다.</p>
@@ -326,7 +328,7 @@
                 <!-- ==========================================
                      PANEL 2: Component (Agent Toggle)
                      ========================================== -->
-                <section data-panel="component" hidden class="animate-fade-in pb-10">
+                <section data-panel="component" data-part4-panel="component" data-guidebook-toc-title="4.2 정적 구조 설계" hidden class="chapter7-tab-panel animate-fade-in pb-10">
                     <div class="mb-8" id="sec-2-1">
                         <h2 class="text-2xl font-black text-slate-900 mb-3">정적 구조 설계: Agent 재사용성 극대화</h2>
                         <p class="text-slate-600 text-lg leading-relaxed">Agent는 인터페이스 통신의 기본 단위입니다. UVM은 코드 수정 없이 Config DB 설정만으로 Agent 내부 구조를 <b>Active(직접 구동)</b> 또는 <b>Passive(수동 모니터링)</b> 모드로 변형시켜 재사용성을 100% 확보합니다.</p>
@@ -445,7 +447,7 @@
                 <!-- ==========================================
                      PANEL 3: Object Methods Lab
                      ========================================== -->
-                <section data-panel="object" hidden class="animate-fade-in pb-10">
+                <section data-panel="object" data-part4-panel="object" data-guidebook-toc-title="4.3 동적 데이터 실습" hidden class="chapter7-tab-panel animate-fade-in pb-10">
                     <div class="mb-8" id="sec-3-1">
                         <h2 class="text-2xl font-black text-slate-900 mb-3">동적 데이터 제어: Core Methods 실습</h2>
                         <p class="text-slate-600 text-lg leading-relaxed">트랜잭션(uvm_object)은 내장 제어 메서드를 가집니다. 필드 매크로(`uvm_field_*)는 코딩이 편하지만 <b>시뮬레이션 속도 저하</b>가 심각하므로, 실무(특히 Scoreboard 로직)에서는 <code class="bg-slate-200 px-1.5 py-0.5 rounded font-mono text-sm text-slate-800">do_copy</code>, <code class="bg-slate-200 px-1.5 py-0.5 rounded font-mono text-sm text-slate-800">do_compare</code>를 직접 오버라이딩하여 성능을 극대화합니다.</p>
@@ -559,21 +561,20 @@
     </div>
 
     <!-- 스크립트 로직 -->
+    <script src="../assets/guidebook-page-common.js"></script>
     <script>
         // ---------------------------------------------------------
         // 1. Guidebook Tab & ToC Integration
         // ---------------------------------------------------------
-        const tabs = document.querySelectorAll('[data-tab-target]');
-        const panels = document.querySelectorAll('[data-panel]');
         const tocNav = document.getElementById('toc-nav');
         const tocTitle = document.getElementById('toc-title');
 
         function generateToC(panelId) {
-            const activePanel = document.querySelector(`[data-panel="${panelId}"]`);
+            const activePanel = document.querySelector(`[data-part4-panel="${panelId}"]`);
             if(!activePanel || !tocNav || !tocTitle) return;
             
             // Get text from the active tab button for main ToC title
-            const activeBtn = document.querySelector(`[data-tab-target="${panelId}"]`);
+            const activeBtn = document.querySelector(`[data-target="${panelId}"]`);
             tocTitle.textContent = activeBtn.textContent.replace(/[^\uAC00-\uD7A3a-zA-Z0-9\s.]/g, '').trim();
 
             tocNav.innerHTML = '';
@@ -600,30 +601,19 @@
             });
         }
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetId = tab.dataset.tabTarget;
-                
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-
-                panels.forEach(p => {
-                    if (p.dataset.panel === targetId) {
-                        p.removeAttribute('hidden');
-                        generateToC(targetId);
-                        
-                        // Handle animations per tab
-                        if(targetId === 'overview') startOverviewAnim();
-                        else stopOverviewAnim();
-                    } else {
-                        p.setAttribute('hidden', '');
-                    }
-                });
-            });
+        window.Chapter7EmbedTabs.init({
+            defaultKey: 'overview',
+            panelSelector: '[data-part4-panel]',
+            panelKeyDataset: 'part4Panel',
+            buttonSelector: '.chapter7-tab-btn',
+            buttonKeyDataset: 'target',
+            shellId: 'part4-tab-shell',
+            onAfterSet: ({ activeKey }) => {
+                generateToC(activeKey);
+                if (activeKey === 'overview') startOverviewAnim();
+                else stopOverviewAnim();
+            },
         });
-
-        // Init ToC
-        generateToC('overview');
 
         // ---------------------------------------------------------
         // 2. Panel 1: TLM Flow Animation
@@ -668,7 +658,9 @@
             packetContainer.innerHTML = '';
         }
 
-        startOverviewAnim();
+        document.addEventListener('DOMContentLoaded', () => {
+            startOverviewAnim();
+        });
 
         // ---------------------------------------------------------
         // 3. Panel 2: Agent Config Toggle

@@ -1,5 +1,5 @@
 {
-  "output": "../page-6-role-flow.html",
+  "output": "../../page-6-role-flow.html",
   "parts": [
     "00-shell-start.html",
     "sections/01-role-map.html",

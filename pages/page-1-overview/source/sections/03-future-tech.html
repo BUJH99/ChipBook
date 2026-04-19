@@ -1,0 +1,891 @@
+<div data-part1-panel="future-tech" data-guidebook-toc-title="Future Tech Trends" hidden>
+                        <div data-part1-section-head="future-tech-primary"></div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <article class="bg-white rounded-[24px] border border-sky-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">GAA &amp; CFET</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-sky-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <path d="M 60 140 L 140 140 L 140 90 L 120 90 L 120 140 Z" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3 3"></path>
+                                        <text x="100" y="160" text-anchor="middle" font-size="10" font-weight="bold" fill="#94a3b8">FinFET (3D)</text>
+                                        <path d="M 160 140 L 170 140" stroke="#94a3b8" stroke-width="2" stroke-dasharray="2 2" stroke-linecap="round"></path>
+                                        <rect x="200" y="70" width="30" height="70" rx="4" fill="#bae6fd" stroke="#38bdf8" stroke-width="1.5"></rect>
+                                        <rect x="310" y="70" width="30" height="70" rx="4" fill="#bae6fd" stroke="#38bdf8" stroke-width="1.5"></rect>
+                                        <rect x="230" y="80" width="80" height="10" fill="#0ea5e9"></rect>
+                                        <rect x="230" y="100" width="80" height="10" fill="#0ea5e9"></rect>
+                                        <rect x="230" y="120" width="80" height="10" fill="#0ea5e9"></rect>
+                                        <rect x="250" y="60" width="40" height="90" rx="4" fill="#0284c7" opacity="0.8"></rect>
+                                        <path d="M 270 45 L 270 60" stroke="#0284c7" stroke-width="2" stroke-dasharray="2 2"></path>
+                                        <g transform="translate(250, 20)">
+                                            <rect width="40" height="20" rx="10" fill="white" stroke="#0284c7" stroke-width="1.5"></rect>
+                                            <text x="20" y="14" text-anchor="middle" font-size="9" font-weight="bold" fill="#0284c7">Gate</text>
+                                        </g>
+                                        <path d="M 290 95 Q 330 60 350 70" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="3 3"></path>
+                                        <text x="350" y="85" font-size="10" font-weight="bold" fill="#0ea5e9">4-Side Control</text>
+                                        <text x="270" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#0284c7">GAA Nanosheet Architecture</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    3나노 이하 미세 공정에서 채널 4면을 게이트가 감싸는 구조로 전류 제어력을 높이는 기술입니다. 이후 CFET으로 진화하면서 디지털 설계 단계부터 새로운 전력/타이밍 모델 대응이 중요해집니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">GAA (MBCFET)</span>
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">CFET</span>
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">Sub-3nm</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-violet-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">PIM</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-violet-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-violet" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <rect x="100" y="40" width="200" height="120" rx="8" fill="white" stroke="#c4b5fd" stroke-width="2"></rect>
+                                        <g fill="#ede9fe" stroke="#a78bfa" stroke-width="1">
+                                            <rect x="120" y="60" width="40" height="30" rx="4"></rect>
+                                            <rect x="170" y="60" width="40" height="30" rx="4"></rect>
+                                            <rect x="120" y="100" width="40" height="30" rx="4"></rect>
+                                            <rect x="170" y="100" width="40" height="30" rx="4"></rect>
+                                        </g>
+                                        <rect x="230" y="60" width="50" height="70" rx="6" fill="#8b5cf6" filter="url(#glow-violet)"></rect>
+                                        <text x="255" y="95" text-anchor="middle" font-size="12" font-weight="black" fill="white">MAC</text>
+                                        <text x="255" y="110" text-anchor="middle" font-size="9" font-weight="bold" fill="#ddd6fe">(ALU)</text>
+                                        <path d="M 210 75 L 230 75 M 210 115 L 230 115" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"></path>
+                                        <circle cx="210" cy="75" r="3" fill="#8b5cf6"></circle><circle cx="210" cy="115" r="3" fill="#8b5cf6"></circle>
+                                        <path d="M 120 160 L 120 180" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"></path>
+                                        <text x="120" y="195" text-anchor="middle" font-size="10" font-weight="bold" fill="#94a3b8">To CPU/GPU</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    메모리 안에 연산기를 직접 통합해 데이터 이동 전력을 줄이는 구조입니다. AI 가속기에서 폰노이만 병목을 완화하는 핵심 축으로 부상하고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-violet-200 text-violet-600">Processing-in-Memory</span>
+                                    <span class="diagram-tag border border-violet-200 text-violet-600">HBM-PIM</span>
+                                    <span class="diagram-tag border border-violet-200 text-violet-600">AI Accelerator</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-fuchsia-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">CXL</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-fuchsia-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="90" y="30" width="80" height="40" rx="6" fill="white" stroke="#c026d3" stroke-width="2"></rect>
+                                        <text x="130" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#a21caf">CPU Node</text>
+                                        <rect x="230" y="30" width="80" height="40" rx="6" fill="white" stroke="#c026d3" stroke-width="2"></rect>
+                                        <text x="270" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#a21caf">GPU / NPU</text>
+                                        <rect x="150" y="90" width="100" height="30" rx="4" fill="#f0abfc" stroke="#c026d3" stroke-width="2"></rect>
+                                        <text x="200" y="110" text-anchor="middle" font-size="11" font-weight="bold" fill="#701a75">CXL Switch</text>
+                                        <path d="M 130 70 L 130 80 L 180 80 L 180 90" fill="none" stroke="#c026d3" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <path d="M 270 70 L 270 80 L 220 80 L 220 90" fill="none" stroke="#c026d3" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <rect x="100" y="140" width="200" height="40" rx="6" fill="#fdf4ff" stroke="#e879f9" stroke-width="2"></rect>
+                                        <g fill="#e879f9">
+                                            <rect x="110" y="145" width="30" height="30" rx="2"></rect>
+                                            <rect x="150" y="145" width="30" height="30" rx="2"></rect>
+                                            <rect x="220" y="145" width="30" height="30" rx="2"></rect>
+                                            <rect x="260" y="145" width="30" height="30" rx="2"></rect>
+                                        </g>
+                                        <text x="200" y="165" text-anchor="middle" font-size="12" font-weight="bold" fill="#701a75">Shared Memory Pool</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    CPU, GPU, NPU가 메모리 풀을 공유하도록 만드는 고속 인터페이스 표준입니다. 서버 시스템에서 메모리 확장성과 자원 유연성을 끌어올리는 핵심 기술입니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-fuchsia-200 text-fuchsia-600">Memory Pooling</span>
+                                    <span class="diagram-tag border border-fuchsia-200 text-fuchsia-600">Cache Coherency</span>
+                                    <span class="diagram-tag border border-fuchsia-200 text-fuchsia-600">PCIe 5.0+</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-blue-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">UCIe</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-blue-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <linearGradient id="ucie-link-overview" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#60a5fa"></stop>
+                                                <stop offset="100%" stop-color="#2563eb"></stop>
+                                            </linearGradient>
+                                            <filter id="glow-ucie-overview" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <rect x="60" y="150" width="280" height="20" rx="6" fill="#dbeafe" stroke="#60a5fa" stroke-width="2"></rect>
+                                        <text x="200" y="188" text-anchor="middle" font-size="10" font-weight="bold" fill="#2563eb">Advanced Package Substrate</text>
+                                        <rect x="72" y="76" width="90" height="48" rx="8" fill="white" stroke="#3b82f6" stroke-width="2"></rect>
+                                        <text x="117" y="98" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">Compute</text>
+                                        <text x="117" y="114" text-anchor="middle" font-size="10" font-weight="bold" fill="#60a5fa">Chiplet</text>
+                                        <rect x="170" y="56" width="60" height="88" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"></rect>
+                                        <text x="200" y="94" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">UCIe</text>
+                                        <text x="200" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#2563eb">PHY +</text>
+                                        <text x="200" y="124" text-anchor="middle" font-size="10" font-weight="bold" fill="#2563eb">Adapter</text>
+                                        <rect x="238" y="76" width="90" height="48" rx="8" fill="white" stroke="#3b82f6" stroke-width="2"></rect>
+                                        <text x="283" y="98" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">I/O / Mem</text>
+                                        <text x="283" y="114" text-anchor="middle" font-size="10" font-weight="bold" fill="#60a5fa">Chiplet</text>
+                                        <path d="M 162 100 H 170" stroke="url(#ucie-link-overview)" stroke-width="6" stroke-linecap="round" filter="url(#glow-ucie-overview)"></path>
+                                        <path d="M 230 100 H 238" stroke="url(#ucie-link-overview)" stroke-width="6" stroke-linecap="round" filter="url(#glow-ucie-overview)"></path>
+                                        <g fill="#3b82f6">
+                                            <circle cx="166" cy="100" r="3"></circle>
+                                            <circle cx="234" cy="100" r="3"></circle>
+                                            <circle cx="115" cy="146" r="3"></circle>
+                                            <circle cx="200" cy="146" r="3"></circle>
+                                            <circle cx="285" cy="146" r="3"></circle>
+                                        </g>
+                                        <path d="M 115 124 V 146 H 285 V 124" fill="none" stroke="#93c5fd" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <g transform="translate(126, 24)">
+                                            <rect width="148" height="22" rx="11" fill="white" stroke="#60a5fa" stroke-width="1.5"></rect>
+                                            <text x="74" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="#2563eb">Standard Die-to-Die Link</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    여러 칩렛을 표준 die-to-die 인터페이스로 묶어 서로 다른 공정과 기능 블록을 하나의 패키지에서 조합할 수 있게 하는 규격입니다. 대형 SoC를 분할 설계하면서 수율과 재사용성을 높일 수 있어 AI/HPC용 고급 패키지의 핵심 연결 규칙으로 자리 잡고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">Chiplet</span>
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">Die-to-Die</span>
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">Advanced Packaging</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-orange-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">BSPDN</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-orange-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="80" y="90" width="240" height="20" rx="4" fill="#fed7aa" stroke="#f97316" stroke-width="2"></rect>
+                                        <text x="200" y="105" text-anchor="middle" font-size="11" font-weight="bold" fill="#c2410c">Silicon Substrate</text>
+                                        <path d="M 120 70 Q 150 50, 180 70 T 240 70 T 280 50" fill="none" stroke="#cbd5e1" stroke-width="2"></path>
+                                        <path d="M 100 80 Q 130 60, 160 80 T 220 80 T 260 60" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+                                        <path d="M 140 160 L 140 125" stroke="#f97316" stroke-width="6" stroke-linecap="square"></path>
+                                        <path d="M 260 160 L 260 125" stroke="#f97316" stroke-width="6" stroke-linecap="square"></path>
+                                        <path d="M 100 160 L 300 160" stroke="#fdba74" stroke-width="8" stroke-linecap="round"></path>
+                                        <text x="200" y="185" text-anchor="middle" font-size="10" font-weight="bold" fill="#ea580c">Power Delivery Network (Bottom)</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    초미세 공정에서 신호 배선과 전력 배선을 분리해 혼잡도를 낮추는 2나노 이하 핵심 기술입니다. IR Drop 완화와 표준 셀 밀도 향상에 직접적인 효과가 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-orange-200 text-orange-600">Backside Power</span>
+                                    <span class="diagram-tag border border-orange-200 text-orange-600">IR Drop</span>
+                                    <span class="diagram-tag border border-orange-200 text-orange-600">Routing Congestion</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-amber-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">High-NA EUV</h5>
+                                <div class="high-na-euv-stage relative w-full h-[200px] rounded-xl border border-amber-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="high-na-euv-svg absolute inset-0">
+                                        <defs>
+                                            <linearGradient id="euv-beam-overview" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#6366f1"></stop>
+                                                <stop offset="100%" stop-color="#f59e0b"></stop>
+                                            </linearGradient>
+                                            <linearGradient id="euv-cone-overview" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                <stop offset="0%" stop-color="#6366f1" stop-opacity="0.28"></stop>
+                                                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.04"></stop>
+                                            </linearGradient>
+                                            <radialGradient id="euv-source-overview" cx="50%" cy="50%" r="50%">
+                                                <stop offset="0%" stop-color="#ddd6fe"></stop>
+                                                <stop offset="65%" stop-color="#8b5cf6"></stop>
+                                                <stop offset="100%" stop-color="#312e81"></stop>
+                                            </radialGradient>
+                                            <filter id="glow-euv-overview" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <circle class="high-na-euv-source-ring" cx="54" cy="82" r="19"></circle>
+                                        <circle class="high-na-euv-source-ring is-delayed" cx="54" cy="82" r="19"></circle>
+                                        <circle cx="54" cy="82" r="19" fill="#312e81"></circle>
+                                        <circle class="high-na-euv-source-core" cx="54" cy="82" r="10" fill="url(#euv-source-overview)" filter="url(#glow-euv-overview)"></circle>
+                                        <text x="54" y="122" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#4338ca">EUV Source</text>
+
+                                        <path d="M 74 82 H 102" stroke="url(#euv-beam-overview)" stroke-width="5" stroke-linecap="round" filter="url(#glow-euv-overview)"></path>
+                                        <path class="high-na-euv-beam-flow" d="M 74 82 H 102"></path>
+                                        <path class="high-na-euv-beam-flow is-delayed" d="M 74 82 H 102"></path>
+
+                                        <ellipse cx="118" cy="82" rx="16" ry="28" fill="#ffffff" stroke="#94a3b8" stroke-width="2"></ellipse>
+                                        <path class="high-na-euv-optics-shell" d="M 109 58 Q 124 82 109 106" fill="none" stroke="#f59e0b" stroke-width="2.2"></path>
+                                        <text x="118" y="122" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#64748b">Collector</text>
+
+                                        <path d="M 134 82 H 176" stroke="url(#euv-beam-overview)" stroke-width="5" stroke-linecap="round" filter="url(#glow-euv-overview)"></path>
+                                        <path class="high-na-euv-beam-flow" d="M 134 82 H 176"></path>
+                                        <path class="high-na-euv-beam-flow is-delayed" d="M 134 82 H 176"></path>
+
+                                        <rect x="176" y="56" width="60" height="52" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="2"></rect>
+                                        <rect x="186" y="66" width="40" height="10" fill="#fef3c7"></rect>
+                                        <path class="high-na-euv-mask-pattern" d="M 188 85 H 224" stroke="#d97706" stroke-width="3" stroke-dasharray="22 6"></path>
+                                        <path class="high-na-euv-mask-pattern is-delayed" d="M 188 95 H 212" stroke="#d97706" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <text x="206" y="122" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#b45309">Reflective Mask</text>
+
+                                        <path d="M 236 82 H 262" stroke="url(#euv-beam-overview)" stroke-width="5" stroke-linecap="round" filter="url(#glow-euv-overview)"></path>
+                                        <path class="high-na-euv-beam-flow" d="M 236 82 H 262"></path>
+                                        <path class="high-na-euv-beam-flow is-delayed" d="M 236 82 H 262"></path>
+
+                                        <g class="high-na-euv-badge" transform="translate(256, 22)">
+                                            <rect width="64" height="22" rx="11" fill="white" stroke="#6366f1" stroke-width="1.5"></rect>
+                                            <text x="32" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="#4338ca">0.55 NA</text>
+                                        </g>
+
+                                        <rect class="high-na-euv-optics-shell" x="270" y="46" width="34" height="86" rx="14" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"></rect>
+                                        <path class="high-na-euv-optics-shell" d="M 278 58 Q 286 89 278 120" fill="none" stroke="#818cf8" stroke-width="1.8"></path>
+                                        <path class="high-na-euv-optics-shell" d="M 292 58 Q 300 89 292 120" fill="none" stroke="#818cf8" stroke-width="1.8"></path>
+                                        <text x="287" y="144" text-anchor="middle" font-size="8.8" font-weight="bold" fill="#4338ca">Projection Optics</text>
+
+                                        <polygon class="high-na-euv-cone" points="270,94 304,94 318,136 256,136" fill="url(#euv-cone-overview)"></polygon>
+                                        <path class="high-na-euv-beam-flow" d="M 281 94 L 272 136"></path>
+                                        <path class="high-na-euv-beam-flow is-delayed" d="M 293 94 L 302 136"></path>
+
+                                        <rect x="224" y="150" width="126" height="16" rx="6" fill="#e5e7eb" stroke="#cbd5e1" stroke-width="1.5"></rect>
+                                        <rect x="236" y="138" width="102" height="12" rx="4" fill="#eff6ff" stroke="#c7d2fe" stroke-width="1.2"></rect>
+                                        <rect class="high-na-euv-scan-band" x="250" y="134" width="18" height="20" rx="6" fill="rgba(255,255,255,0.86)"></rect>
+
+                                        <g stroke="#4f46e5" stroke-width="1.55">
+                                            <path class="high-na-euv-wafer-line" d="M 246 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-0.12s" d="M 252 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-0.24s" d="M 258 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-0.36s" d="M 264 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-0.48s" d="M 270 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-0.6s" d="M 276 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-0.72s" d="M 282 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-0.84s" d="M 288 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-0.96s" d="M 294 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-1.08s" d="M 300 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-1.2s" d="M 306 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-1.32s" d="M 312 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-1.44s" d="M 318 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-1.56s" d="M 324 139 V 150"></path>
+                                            <path class="high-na-euv-wafer-line" style="animation-delay:-1.68s" d="M 330 139 V 150"></path>
+                                        </g>
+
+                                        <g class="high-na-euv-badge is-delayed" transform="translate(238, 110)">
+                                            <rect width="100" height="18" rx="9" fill="white" stroke="#c7d2fe" stroke-width="1.2"></rect>
+                                            <text x="50" y="12" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#4f46e5">Fine Pitch Patterning</text>
+                                        </g>
+                                        <text x="287" y="182" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#475569">Wafer + Photoresist</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    0.55 NA 광학계를 적용해 2나노 이하 패턴의 해상도와 공정 윈도우를 끌어올리는 차세대 노광 기술입니다. 멀티패터닝 부담을 줄이면서 더 미세한 선폭 구현이 가능하지만, 마스크와 레지스트, 광학계까지 함께 최적화해야 성능을 끌어낼 수 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-amber-200 text-amber-600">0.55 NA</span>
+                                    <span class="diagram-tag border border-amber-200 text-amber-600">Sub-2nm Lithography</span>
+                                    <span class="diagram-tag border border-amber-200 text-amber-600">Overlay / CDU</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-lime-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">On-Device AI / NPU</h5>
+                                <div class="on-device-ai-stage relative w-full h-[200px] rounded-xl border border-lime-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="on-device-ai-svg absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-lime-npu" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <rect x="74" y="28" width="252" height="144" rx="18" fill="white" stroke="#65a30d" stroke-width="2"></rect>
+                                        <g class="on-device-ai-badge" transform="translate(144, 16)">
+                                            <rect width="112" height="22" rx="11" fill="white" stroke="#84cc16" stroke-width="1.5"></rect>
+                                            <text x="56" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="#4d7c0f">Local Inference</text>
+                                        </g>
+
+                                        <g class="on-device-ai-sensor is-1">
+                                            <rect x="94" y="58" width="42" height="18" rx="9" fill="#f7fee7" stroke="#84cc16" stroke-width="1.5"></rect>
+                                            <text x="115" y="70.5" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#4d7c0f">Camera</text>
+                                        </g>
+                                        <g class="on-device-ai-sensor is-2">
+                                            <rect x="94" y="89" width="42" height="18" rx="9" fill="#f7fee7" stroke="#84cc16" stroke-width="1.5"></rect>
+                                            <text x="115" y="101.5" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#4d7c0f">Voice</text>
+                                        </g>
+                                        <g class="on-device-ai-sensor is-3">
+                                            <rect x="94" y="120" width="42" height="18" rx="9" fill="#f7fee7" stroke="#84cc16" stroke-width="1.5"></rect>
+                                            <text x="115" y="132.5" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#4d7c0f">IMU</text>
+                                        </g>
+
+                                        <rect x="142" y="52" width="116" height="86" rx="12" fill="#f7fee7" stroke="#84cc16" stroke-width="1.6"></rect>
+                                        <text x="200" y="67" text-anchor="middle" font-size="10" font-weight="bold" fill="#65a30d">Edge SoC</text>
+                                        <circle class="on-device-ai-core-glow" cx="200" cy="93" r="25" fill="#bef264" opacity="0.55" filter="url(#glow-lime-npu)"></circle>
+                                        <rect class="on-device-ai-core" x="164" y="75" width="72" height="36" rx="9" fill="#65a30d" stroke="#4d7c0f" stroke-width="2"></rect>
+                                        <text x="200" y="91" text-anchor="middle" font-size="12" font-weight="900" fill="white">NPU</text>
+                                        <text x="200" y="104" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#d9f99d">INT8 / FP8</text>
+                                        <rect class="on-device-ai-cache" x="154" y="118" width="92" height="12" rx="6" fill="#d9f99d" stroke="#84cc16" stroke-width="1.2"></rect>
+                                        <text x="200" y="126.5" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#4d7c0f">SRAM / NP Cache</text>
+
+                                        <path d="M 136 67 H 142" stroke="#84cc16" stroke-width="3" stroke-linecap="round"></path>
+                                        <path d="M 136 98 H 142" stroke="#84cc16" stroke-width="3" stroke-linecap="round"></path>
+                                        <path d="M 136 129 H 142" stroke="#84cc16" stroke-width="3" stroke-linecap="round"></path>
+                                        <path class="on-device-ai-flow" d="M 136 67 H 142"></path>
+                                        <path class="on-device-ai-flow is-delayed" d="M 136 67 H 142"></path>
+                                        <path class="on-device-ai-flow" d="M 136 98 H 142"></path>
+                                        <path class="on-device-ai-flow is-delayed" d="M 136 98 H 142"></path>
+                                        <path class="on-device-ai-flow" d="M 136 129 H 142"></path>
+                                        <path class="on-device-ai-flow is-delayed" d="M 136 129 H 142"></path>
+
+                                        <g class="on-device-ai-output is-1">
+                                            <rect x="264" y="58" width="42" height="18" rx="9" fill="white" stroke="#84cc16" stroke-width="1.5"></rect>
+                                            <text x="285" y="70.5" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#4d7c0f">Vision</text>
+                                        </g>
+                                        <g class="on-device-ai-output is-2">
+                                            <rect x="264" y="89" width="42" height="18" rx="9" fill="white" stroke="#84cc16" stroke-width="1.5"></rect>
+                                            <text x="285" y="101.5" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#4d7c0f">Speech</text>
+                                        </g>
+                                        <g class="on-device-ai-output is-3">
+                                            <rect x="264" y="120" width="42" height="18" rx="9" fill="white" stroke="#84cc16" stroke-width="1.5"></rect>
+                                            <text x="285" y="132.5" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#4d7c0f">Control</text>
+                                        </g>
+
+                                        <path d="M 258 67 H 264" stroke="#84cc16" stroke-width="3" stroke-linecap="round"></path>
+                                        <path d="M 258 98 H 264" stroke="#84cc16" stroke-width="3" stroke-linecap="round"></path>
+                                        <path d="M 258 129 H 264" stroke="#84cc16" stroke-width="3" stroke-linecap="round"></path>
+                                        <path class="on-device-ai-flow" d="M 258 67 H 264"></path>
+                                        <path class="on-device-ai-flow is-delayed" d="M 258 67 H 264"></path>
+                                        <path class="on-device-ai-flow" d="M 258 98 H 264"></path>
+                                        <path class="on-device-ai-flow is-delayed" d="M 258 98 H 264"></path>
+                                        <path class="on-device-ai-flow" d="M 258 129 H 264"></path>
+                                        <path class="on-device-ai-flow is-delayed" d="M 258 129 H 264"></path>
+
+                                        <g class="on-device-ai-badge" transform="translate(117, 146)">
+                                            <rect width="166" height="18" rx="9" fill="#f7fee7" stroke="#bef264" stroke-width="1.2"></rect>
+                                            <text x="83" y="12.5" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#4d7c0f">Low Power · Private · Low Latency</text>
+                                        </g>
+                                        <text x="200" y="183" text-anchor="middle" font-size="10" font-weight="bold" fill="#4d7c0f">Edge Device (Mobile / Auto / IoT)</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    스마트폰, 자동차, 웨어러블 같은 엣지 기기 내부에서 센서·음성·이미지 데이터를 클라우드로 보내기 전에 로컬 NPU가 직접 추론하는 구조입니다. 저전력, 낮은 지연, 프라이버시 보존을 동시에 만족시키기 위해 SRAM 기반 데이터 재사용과 경량화된 연산 경로 설계가 중요합니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-lime-200 text-lime-600">NPU</span>
+                                    <span class="diagram-tag border border-lime-200 text-lime-600">Local Inference</span>
+                                    <span class="diagram-tag border border-lime-200 text-lime-600">Data Reuse</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-cyan-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Automotive SDV SoC</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-cyan-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <path d="M 80 120 L 100 80 L 280 80 L 320 120 L 340 120 L 340 150 L 60 150 L 60 120 Z" fill="none" stroke="#e2e8f0" stroke-width="3"></path>
+                                        <circle cx="120" cy="150" r="15" fill="white" stroke="#cbd5e1" stroke-width="3"></circle>
+                                        <circle cx="280" cy="150" r="15" fill="white" stroke="#cbd5e1" stroke-width="3"></circle>
+                                        <rect x="170" y="90" width="60" height="40" rx="6" fill="#cffafe" stroke="#06b6d4" stroke-width="2"></rect>
+                                        <text x="200" y="115" text-anchor="middle" font-size="12" font-weight="black" fill="#0891b2">Central</text>
+                                        <rect x="100" y="100" width="30" height="20" rx="4" fill="white" stroke="#06b6d4" stroke-width="1.5"></rect>
+                                        <rect x="270" y="100" width="30" height="20" rx="4" fill="white" stroke="#06b6d4" stroke-width="1.5"></rect>
+                                        <rect x="200" y="140" width="30" height="20" rx="4" fill="white" stroke="#06b6d4" stroke-width="1.5"></rect>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    수십 개의 ECU를 중앙 집중형 SoC로 통합하는 소프트웨어 정의 차량의 핵심 칩입니다. 성능뿐 아니라 ISO 26262, ASIL, fault tolerance까지 함께 검증해야 합니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-600">Zonal Architecture</span>
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-600">ISO 26262 / ASIL</span>
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-600">Fault Tolerance</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-pink-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">AiM / CiM</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-pink-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-pink" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                            <marker id="cim-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#be185d"></path>
+                                            </marker>
+                                        </defs>
+                                        <g stroke="#f472b6" stroke-width="2.5">
+                                            <path d="M 70 50 L 270 50"></path>
+                                            <path d="M 70 90 L 270 90"></path>
+                                            <path d="M 70 130 L 270 130"></path>
+                                            <path d="M 120 20 L 120 160"></path>
+                                            <path d="M 180 20 L 180 160"></path>
+                                            <path d="M 240 20 L 240 160"></path>
+                                        </g>
+                                        <g fill="#ec4899" filter="url(#glow-pink)">
+                                            <circle cx="120" cy="50" r="5"></circle><circle cx="120" cy="90" r="5"></circle><circle cx="120" cy="130" r="5"></circle>
+                                            <circle cx="180" cy="50" r="5"></circle><circle cx="180" cy="90" r="5"></circle><circle cx="180" cy="130" r="5"></circle>
+                                            <circle cx="240" cy="50" r="5"></circle><circle cx="240" cy="90" r="5"></circle><circle cx="240" cy="130" r="5"></circle>
+                                        </g>
+                                        <path d="M 120 160 L 120 170" stroke="#be185d" stroke-width="2" marker-end="url(#cim-arrow)"></path>
+                                        <path d="M 180 160 L 180 170" stroke="#be185d" stroke-width="2" marker-end="url(#cim-arrow)"></path>
+                                        <path d="M 240 160 L 240 170" stroke="#be185d" stroke-width="2" marker-end="url(#cim-arrow)"></path>
+                                        <text x="120" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#be185d">Σ I₁</text>
+                                        <text x="180" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#be185d">Σ I₂</text>
+                                        <text x="240" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#be185d">Σ I₃</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    메모리 소자의 전도도를 가중치로 사용하고, 입력 전압을 인가해 행렬-벡터 곱셈을 아날로그 회로 수준에서 병렬 처리하는 구조입니다. 차세대 AI 가속기에서 에너지 효율을 크게 높일 수 있는 후보 기술입니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-pink-200 text-pink-600">Analog CiM</span>
+                                    <span class="diagram-tag border border-pink-200 text-pink-600">Crossbar Array</span>
+                                    <span class="diagram-tag border border-pink-200 text-pink-600">MVM Acceleration</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-indigo-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">HBM</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-indigo-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="58" y="164" width="284" height="16" rx="4" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"></rect>
+                                        <text x="200" y="194" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">Package Substrate</text>
+                                        <rect x="78" y="142" width="244" height="14" rx="4" fill="#a5b4fc" stroke="#6366f1" stroke-width="2"></rect>
+                                        <text x="200" y="136" text-anchor="middle" font-size="10" font-weight="bold" fill="#4f46e5">Silicon Interposer</text>
+
+                                        <g transform="translate(92, 0)">
+                                            <rect x="0" y="120" width="56" height="16" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="2"></rect>
+                                            <g stroke="#818cf8" stroke-width="1.5">
+                                                <rect x="4" y="98" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="78" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="58" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="38" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                            </g>
+                                            <path d="M 18 38 L 18 136 M 28 38 L 28 136 M 38 38 L 38 136" stroke="#4f46e5" stroke-width="1.8" stroke-dasharray="2 2"></path>
+                                            <g fill="#6366f1">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="22" cy="140" r="2.5"></circle>
+                                                <circle cx="32" cy="140" r="2.5"></circle>
+                                                <circle cx="42" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <rect x="7" y="81" width="42" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="88.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#4338ca">DRAM Die</text>
+                                            <rect x="8" y="123" width="40" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="130.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#4338ca">Base Die</text>
+                                            <text x="28" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#4338ca">HBM Stack</text>
+                                        </g>
+
+                                        <g transform="translate(156, 0)">
+                                            <rect x="0" y="98" width="88" height="38" rx="6" fill="#4f46e5" stroke="#3730a3" stroke-width="2"></rect>
+                                            <g fill="#818cf8">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="24" cy="140" r="2.5"></circle>
+                                                <circle cx="36" cy="140" r="2.5"></circle>
+                                                <circle cx="48" cy="140" r="2.5"></circle>
+                                                <circle cx="60" cy="140" r="2.5"></circle>
+                                                <circle cx="72" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <text x="44" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Logic Die</text>
+                                            <text x="44" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#4338ca">GPU / NPU</text>
+                                        </g>
+
+                                        <g transform="translate(260, 0)">
+                                            <rect x="0" y="120" width="56" height="16" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="2"></rect>
+                                            <g stroke="#818cf8" stroke-width="1.5">
+                                                <rect x="4" y="98" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="78" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="58" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                                <rect x="4" y="38" width="48" height="16" rx="3" fill="#e0e7ff"></rect>
+                                            </g>
+                                            <path d="M 18 38 L 18 136 M 28 38 L 28 136 M 38 38 L 38 136" stroke="#4f46e5" stroke-width="1.8" stroke-dasharray="2 2"></path>
+                                            <g fill="#6366f1">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="22" cy="140" r="2.5"></circle>
+                                                <circle cx="32" cy="140" r="2.5"></circle>
+                                                <circle cx="42" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <rect x="7" y="81" width="42" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="88.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#4338ca">DRAM Die</text>
+                                            <rect x="8" y="123" width="40" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="130.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#4338ca">Base Die</text>
+                                            <text x="28" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#4338ca">HBM Stack</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    여러 DRAM 다이를 TSV로 수직 연결해 대역폭을 극대화한 메모리입니다. GPU/NPU와 같은 패키지에 탑재되어 AI 시대의 메모리 월을 해결하는 핵심 부품으로 자리 잡았습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-indigo-200 text-indigo-600">3D TSV Stacking</span>
+                                    <span class="diagram-tag border border-indigo-200 text-indigo-600">High Bandwidth</span>
+                                    <span class="diagram-tag border border-indigo-200 text-indigo-600">AI Accelerator</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-cyan-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">HBF</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-cyan-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="58" y="164" width="284" height="16" rx="4" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"></rect>
+                                        <text x="200" y="194" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">Package Substrate</text>
+                                        <rect x="78" y="142" width="244" height="14" rx="4" fill="#99f6e4" stroke="#14b8a6" stroke-width="2"></rect>
+                                        <text x="200" y="136" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">Silicon Interposer</text>
+
+                                        <g transform="translate(92, 0)">
+                                            <rect x="0" y="120" width="56" height="16" rx="4" fill="#99f6e4" stroke="#14b8a6" stroke-width="2"></rect>
+                                            <g stroke="#2dd4bf" stroke-width="1.5">
+                                                <rect x="4" y="98" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="78" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="58" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="38" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                            </g>
+                                            <path d="M 18 38 L 18 136 M 28 38 L 28 136 M 38 38 L 38 136" stroke="#0f766e" stroke-width="1.8" stroke-dasharray="2 2"></path>
+                                            <g fill="#14b8a6">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="22" cy="140" r="2.5"></circle>
+                                                <circle cx="32" cy="140" r="2.5"></circle>
+                                                <circle cx="42" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <rect x="7" y="81" width="42" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="88.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#0f766e">NAND Die</text>
+                                            <rect x="8" y="123" width="40" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="130.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#0f766e">Base Die</text>
+                                            <text x="28" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">HBF Stack</text>
+                                        </g>
+
+                                        <g transform="translate(156, 0)">
+                                            <rect x="0" y="98" width="88" height="38" rx="6" fill="#14b8a6" stroke="#0f766e" stroke-width="2"></rect>
+                                            <g fill="#5eead4">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="24" cy="140" r="2.5"></circle>
+                                                <circle cx="36" cy="140" r="2.5"></circle>
+                                                <circle cx="48" cy="140" r="2.5"></circle>
+                                                <circle cx="60" cy="140" r="2.5"></circle>
+                                                <circle cx="72" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <text x="44" y="120" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Logic Die</text>
+                                            <text x="44" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">GPU / NPU</text>
+                                        </g>
+
+                                        <g transform="translate(260, 0)">
+                                            <rect x="0" y="120" width="56" height="16" rx="4" fill="#99f6e4" stroke="#14b8a6" stroke-width="2"></rect>
+                                            <g stroke="#2dd4bf" stroke-width="1.5">
+                                                <rect x="4" y="98" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="78" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="58" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                                <rect x="4" y="38" width="48" height="16" rx="3" fill="#ccfbf1"></rect>
+                                            </g>
+                                            <path d="M 18 38 L 18 136 M 28 38 L 28 136 M 38 38 L 38 136" stroke="#0f766e" stroke-width="1.8" stroke-dasharray="2 2"></path>
+                                            <g fill="#14b8a6">
+                                                <circle cx="12" cy="140" r="2.5"></circle>
+                                                <circle cx="22" cy="140" r="2.5"></circle>
+                                                <circle cx="32" cy="140" r="2.5"></circle>
+                                                <circle cx="42" cy="140" r="2.5"></circle>
+                                            </g>
+                                            <rect x="7" y="81" width="42" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="88.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#0f766e">NAND Die</text>
+                                            <rect x="8" y="123" width="40" height="10" rx="3" fill="white" opacity="0.92"></rect>
+                                            <text x="28" y="130.5" text-anchor="middle" font-size="7.2" font-weight="bold" fill="#0f766e">Base Die</text>
+                                            <text x="28" y="24" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">HBF Stack</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    HBF는 NAND Flash를 HBM처럼 고대역폭 패키지로 재구성해 AI 추론 시스템의 메모리 용량 병목을 완화하려는 차세대 메모리입니다. HBM을 완전히 대체하기보다는 더 큰 용량과 비휘발성을 활용해 AI 가속기 옆의 보조 메모리 계층으로 주목받고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-700">High Bandwidth Flash</span>
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-700">NAND-Based Memory Tier</span>
+                                    <span class="diagram-tag border border-cyan-200 text-cyan-700">AI Inference</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-sky-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">LPDDR</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-sky-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="80" y="60" width="80" height="60" rx="6" fill="white" stroke="#0ea5e9" stroke-width="2"></rect>
+                                        <text x="120" y="95" text-anchor="middle" font-size="14" font-weight="black" fill="#0284c7">SoC</text>
+                                        <rect x="240" y="60" width="80" height="60" rx="6" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"></rect>
+                                        <text x="280" y="90" text-anchor="middle" font-size="12" font-weight="black" fill="#0284c7">LPDDR5X</text>
+                                        <text x="280" y="105" text-anchor="middle" font-size="9" font-weight="bold" fill="#0369a1">Low Power DRAM</text>
+                                        <path d="M 160 70 L 240 70 M 160 85 L 240 85 M 160 100 L 240 100 M 160 115 L 240 115" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <g transform="translate(142, 22)">
+                                            <rect width="116" height="24" rx="12" fill="white" stroke="#0ea5e9" stroke-width="1.5"></rect>
+                                            <text x="58" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#0284c7">Wide I/O &amp; Low Voltage</text>
+                                        </g>
+                                        <path d="M 100 160 L 140 160 L 140 180 L 260 180 L 260 160 L 300 160" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"></path>
+                                        <text x="200" y="194" text-anchor="middle" font-size="9" font-weight="bold" fill="#0284c7">Deep Sleep / Self Refresh</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    모바일과 AI PC, 온디바이스 AI 시스템에서 쓰이는 초저전력 DRAM 계열입니다. 높은 I/O 속도와 낮은 동작 전압, 대기 전력 최소화가 핵심이라 메모리 컨트롤러와 전력 관리 설계가 함께 중요해집니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">LPDDR5X / LPDDR6</span>
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">Mobile Memory</span>
+                                    <span class="diagram-tag border border-sky-200 text-sky-600">On-Device AI</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-blue-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">GDDR</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-blue-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <linearGradient id="gddr-link-overview" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#60a5fa"></stop>
+                                                <stop offset="100%" stop-color="#2563eb"></stop>
+                                            </linearGradient>
+                                            <filter id="glow-gddr-overview" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <rect x="138" y="70" width="124" height="60" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"></rect>
+                                        <text x="200" y="94" text-anchor="middle" font-size="14" font-weight="900" fill="#1d4ed8">GPU / NPU</text>
+                                        <text x="200" y="111" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#2563eb">Graphics Memory Ctrl</text>
+
+                                        <rect x="52" y="34" width="78" height="34" rx="8" fill="white" stroke="#60a5fa" stroke-width="2"></rect>
+                                        <text x="91" y="55" text-anchor="middle" font-size="11" font-weight="900" fill="#2563eb">GDDR7</text>
+                                        <rect x="270" y="34" width="78" height="34" rx="8" fill="white" stroke="#60a5fa" stroke-width="2"></rect>
+                                        <text x="309" y="55" text-anchor="middle" font-size="11" font-weight="900" fill="#2563eb">GDDR7</text>
+                                        <rect x="52" y="132" width="78" height="34" rx="8" fill="white" stroke="#60a5fa" stroke-width="2"></rect>
+                                        <text x="91" y="153" text-anchor="middle" font-size="11" font-weight="900" fill="#2563eb">GDDR7</text>
+                                        <rect x="270" y="132" width="78" height="34" rx="8" fill="white" stroke="#60a5fa" stroke-width="2"></rect>
+                                        <text x="309" y="153" text-anchor="middle" font-size="11" font-weight="900" fill="#2563eb">GDDR7</text>
+
+                                        <path d="M 130 51 H 158 V 70" fill="none" stroke="url(#gddr-link-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gddr-overview)"></path>
+                                        <path d="M 270 51 H 242 V 70" fill="none" stroke="url(#gddr-link-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gddr-overview)"></path>
+                                        <path d="M 130 149 H 158 V 130" fill="none" stroke="url(#gddr-link-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gddr-overview)"></path>
+                                        <path d="M 270 149 H 242 V 130" fill="none" stroke="url(#gddr-link-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-gddr-overview)"></path>
+
+                                        <g fill="#2563eb">
+                                            <circle cx="158" cy="70" r="3"></circle>
+                                            <circle cx="242" cy="70" r="3"></circle>
+                                            <circle cx="158" cy="130" r="3"></circle>
+                                            <circle cx="242" cy="130" r="3"></circle>
+                                        </g>
+
+                                        <g transform="translate(142, 22)">
+                                            <rect width="116" height="22" rx="11" fill="white" stroke="#93c5fd" stroke-width="1.5"></rect>
+                                            <text x="58" y="15" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#2563eb">High Pin Bandwidth</text>
+                                        </g>
+
+                                        <path d="M 82 180 H 318" stroke="#93c5fd" stroke-width="2" stroke-dasharray="3 3"></path>
+                                        <text x="200" y="194" text-anchor="middle" font-size="9" font-weight="bold" fill="#2563eb">Discrete DRAM Around GPU Package / Board</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    GDDR은 GPU와 AI 가속기 주변에 여러 개 DRAM 패키지를 배치해 핀당 대역폭을 끌어올리는 외장 메모리 계열입니다. HBM보다 패키징 부담은 낮추면서도 높은 처리량을 확보할 수 있어, controller/PHY training과 보드·패키지 signal integrity 설계가 함께 중요해집니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">GDDR6 / GDDR7</span>
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">Graphics / AI Memory</span>
+                                    <span class="diagram-tag border border-blue-200 text-blue-600">PAM3</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-amber-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Emerging Memory</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-amber-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <path d="M 200 150 L 200 120" stroke="#d97706" stroke-width="3"></path>
+                                        <path d="M 170 150 L 230 150" stroke="#d97706" stroke-width="4" stroke-linecap="round"></path>
+                                        <text x="200" y="170" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">Selector / Access Device</text>
+                                        <rect x="180" y="50" width="40" height="70" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"></rect>
+                                        <rect x="180" y="60" width="40" height="15" fill="#fcd34d"></rect>
+                                        <rect x="180" y="80" width="40" height="10" fill="#fde68a"></rect>
+                                        <rect x="180" y="95" width="40" height="15" fill="#fcd34d"></rect>
+                                        <path d="M 225 85 L 250 85" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2 2"></path>
+                                        <g transform="translate(250, 75)">
+                                            <rect width="104" height="20" rx="10" fill="white" stroke="#f59e0b" stroke-width="1.5"></rect>
+                                            <text x="52" y="14" text-anchor="middle" font-size="9" font-weight="bold" fill="#d97706">Storage Layer</text>
+                                        </g>
+                                        <text x="160" y="70" text-anchor="end" font-size="14" font-weight="black" fill="#d97706">MRAM</text>
+                                        <text x="160" y="90" text-anchor="end" font-size="14" font-weight="black" fill="#d97706">ReRAM</text>
+                                        <text x="160" y="110" text-anchor="end" font-size="14" font-weight="black" fill="#d97706">PRAM</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    MRAM, ReRAM, PRAM 같은 신소자 기반 메모리는 DRAM의 속도와 NAND의 비휘발성 사이 간극을 메우려는 기술입니다. 임베디드 NVM, AI 가속기, 저전력 시스템에서 차세대 주력 후보로 검토됩니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-amber-200 text-amber-600">MRAM</span>
+                                    <span class="diagram-tag border border-amber-200 text-amber-600">ReRAM / PRAM</span>
+                                    <span class="diagram-tag border border-amber-200 text-amber-600">Non-Volatile</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-emerald-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">4D NAND</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-emerald-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <rect x="120" y="140" width="160" height="30" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"></rect>
+                                        <text x="200" y="160" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">Periphery Under Cell</text>
+                                        <g stroke="#6ee7b7" stroke-width="6">
+                                            <line x1="140" y1="120" x2="260" y2="120"></line>
+                                            <line x1="140" y1="105" x2="260" y2="105"></line>
+                                            <line x1="140" y1="90" x2="260" y2="90"></line>
+                                            <line x1="140" y1="75" x2="260" y2="75"></line>
+                                            <line x1="140" y1="60" x2="260" y2="60"></line>
+                                        </g>
+                                        <path d="M 160 45 L 160 135 M 180 45 L 180 135 M 200 45 L 200 135 M 220 45 L 220 135 M 240 45 L 240 135" stroke="#059669" stroke-width="4"></path>
+                                        <g transform="translate(14, 80)">
+                                            <rect width="110" height="24" rx="12" fill="white" stroke="#10b981" stroke-width="1.5"></rect>
+                                            <text x="55" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">PUC / COP</text>
+                                        </g>
+                                        <path d="M 124 92 L 150 120" stroke="#10b981" stroke-width="1.5" fill="none" stroke-dasharray="2 2"></path>
+                                        <text x="280" y="90" text-anchor="start" font-size="11" font-weight="bold" fill="#10b981">300+ Layers</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    4D NAND는 셀 적층뿐 아니라 주변 회로를 셀 아래로 내리는 PUC 구조까지 포함해 면적 효율을 극대화한 플래시 메모리입니다. 초고단 적층과 주변회로 집적이 함께 용량, 성능, 원가 경쟁력을 좌우합니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-emerald-200 text-emerald-600">Peri Under Cell</span>
+                                    <span class="diagram-tag border border-emerald-200 text-emerald-600">3D V-NAND</span>
+                                    <span class="diagram-tag border border-emerald-200 text-emerald-600">High Density</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-rose-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Neuromorphic</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-rose-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-rose-snn" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <g stroke="#fecdd3" stroke-width="1.5" stroke-dasharray="3 3">
+                                            <line x1="120" y1="70" x2="190" y2="100"></line>
+                                            <line x1="120" y1="130" x2="190" y2="100"></line>
+                                            <line x1="190" y1="100" x2="260" y2="70"></line>
+                                            <line x1="190" y1="100" x2="260" y2="130"></line>
+                                            <line x1="190" y1="50" x2="260" y2="70"></line>
+                                            <line x1="190" y1="150" x2="260" y2="130"></line>
+                                        </g>
+                                        <path d="M 120 70 L 155 85" stroke="#f43f5e" stroke-width="2"></path>
+                                        <circle cx="155" cy="85" r="3" fill="#f43f5e" filter="url(#glow-rose-snn)"></circle>
+                                        <path d="M 190 100 L 225 85" stroke="#f43f5e" stroke-width="2"></path>
+                                        <circle cx="225" cy="85" r="3" fill="#f43f5e" filter="url(#glow-rose-snn)"></circle>
+                                        <circle cx="120" cy="70" r="10" fill="#fda4af" stroke="#f43f5e" stroke-width="2"></circle>
+                                        <circle cx="120" cy="130" r="10" fill="#ffe4e6" stroke="#fb7185" stroke-width="2"></circle>
+                                        <circle cx="190" cy="50" r="10" fill="#ffe4e6" stroke="#fb7185" stroke-width="2"></circle>
+                                        <circle cx="190" cy="100" r="14" fill="#f43f5e" filter="url(#glow-rose-snn)"></circle>
+                                        <text x="190" y="104" text-anchor="middle" font-size="9" font-weight="bold" fill="white">SNN</text>
+                                        <circle cx="190" cy="150" r="10" fill="#ffe4e6" stroke="#fb7185" stroke-width="2"></circle>
+                                        <circle cx="260" cy="70" r="10" fill="#fda4af" stroke="#f43f5e" stroke-width="2"></circle>
+                                        <circle cx="260" cy="130" r="10" fill="#ffe4e6" stroke="#fb7185" stroke-width="2"></circle>
+                                        <path d="M 300 130 L 320 130 L 325 90 L 330 140 L 335 130 L 360 130" fill="none" stroke="#e11d48" stroke-width="1.5" stroke-linejoin="round"></path>
+                                        <text x="330" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#e11d48">Event-Driven Spike</text>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    뉴런과 시냅스의 동작 방식을 모사해 이벤트가 있을 때만 연산하는 초저전력 AI 칩 아키텍처입니다. 센서 융합, 엣지 인식, 배터리 기반 시스템에서 기존 딥러닝 가속기 대비 높은 효율을 기대할 수 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">SNN</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">Event-Driven</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">Ultra-Low Power</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-teal-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">Silicon Photonics</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-teal-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <filter id="glow-teal" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                            <linearGradient id="optical-grad-overview" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#2dd4bf"></stop>
+                                                <stop offset="100%" stop-color="#fcd34d"></stop>
+                                            </linearGradient>
+                                        </defs>
+                                        <rect x="50" y="60" width="100" height="80" rx="8" fill="#f0fdfa" stroke="#14b8a6" stroke-width="2"></rect>
+                                        <text x="100" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f766e">ASIC</text>
+                                        <text x="100" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#0d9488">Electrical</text>
+                                        <path d="M 150 85 L 180 85 M 150 115 L 180 115" stroke="#14b8a6" stroke-width="2" stroke-dasharray="2 2"></path>
+                                        <rect x="180" y="50" width="60" height="100" rx="6" fill="#0d9488"></rect>
+                                        <text x="210" y="105" text-anchor="middle" font-size="12" font-weight="bold" fill="white">O/E PHY</text>
+                                        <path d="M 240 85 Q 270 85 300 70 L 350 70" fill="none" stroke="url(#optical-grad-overview)" stroke-width="6" stroke-linecap="round" filter="url(#glow-teal)"></path>
+                                        <path d="M 240 115 Q 270 115 300 130 L 350 130" fill="none" stroke="url(#optical-grad-overview)" stroke-width="6" stroke-linecap="round" filter="url(#glow-teal)"></path>
+                                        <text x="320" y="55" font-size="10" font-weight="bold" fill="#d97706">Photonic Link</text>
+                                        <g transform="translate(168, 15)">
+                                            <rect width="84" height="20" rx="10" fill="white" stroke="#0d9488" stroke-width="1.5"></rect>
+                                            <text x="42" y="14" text-anchor="middle" font-size="10" font-weight="bold" fill="#0d9488">Transceiver</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    전기 신호를 광 신호로 바꿔 칩 간 또는 랙 간 데이터 전송 병목과 발열을 줄이는 기술입니다. AI 데이터센터의 스위치, 패키지, 광 인터커넥트 구조에서 대역폭 확장 수단으로 빠르게 주목받고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-teal-200 text-teal-600">Optical I/O</span>
+                                    <span class="diagram-tag border border-teal-200 text-teal-600">PIC</span>
+                                    <span class="diagram-tag border border-teal-200 text-teal-600">Data Center Interconnect</span>
+                                </div>
+                            </article>
+
+                            <article class="bg-white rounded-[24px] border border-rose-100 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                                <h5 class="text-xl font-bold text-slate-900 mb-4">PAM</h5>
+                                <div class="relative w-full h-[200px] rounded-xl border border-rose-100/60 overflow-hidden diagram-grid mb-5 flex items-center justify-center">
+                                    <svg width="100%" height="100%" viewBox="0 0 400 200" class="absolute inset-0">
+                                        <defs>
+                                            <linearGradient id="pam-signal-overview" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#fb7185"></stop>
+                                                <stop offset="100%" stop-color="#f59e0b"></stop>
+                                            </linearGradient>
+                                            <filter id="glow-pam-overview" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                                            </filter>
+                                        </defs>
+                                        <text x="80" y="30" text-anchor="middle" font-size="10" font-weight="900" fill="#e11d48">NRZ</text>
+                                        <g stroke="#fecdd3" stroke-width="1.5">
+                                            <line x1="36" y1="72" x2="124" y2="72"></line>
+                                            <line x1="36" y1="128" x2="124" y2="128"></line>
+                                        </g>
+                                        <path d="M 44 128 H 62 V 72 H 82 V 128 H 102 V 72 H 120" fill="none" stroke="#f43f5e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-pam-overview)"></path>
+                                        <text x="80" y="154" text-anchor="middle" font-size="9" font-weight="bold" fill="#e11d48">1 bit / UI</text>
+
+                                        <rect x="150" y="72" width="100" height="56" rx="10" fill="white" stroke="#fb7185" stroke-width="2"></rect>
+                                        <text x="200" y="94" text-anchor="middle" font-size="11" font-weight="900" fill="#e11d48">Channel + PHY</text>
+                                        <text x="200" y="110" text-anchor="middle" font-size="9" font-weight="bold" fill="#fb7185">EQ / CDR / DSP</text>
+                                        <path d="M 124 100 H 150" stroke="url(#pam-signal-overview)" stroke-width="4" stroke-linecap="round"></path>
+                                        <path d="M 250 100 H 276" stroke="url(#pam-signal-overview)" stroke-width="4" stroke-linecap="round"></path>
+
+                                        <text x="320" y="30" text-anchor="middle" font-size="10" font-weight="900" fill="#c2410c">PAM3 / PAM4</text>
+                                        <g stroke="#fed7aa" stroke-width="1.5">
+                                            <line x1="276" y1="58" x2="364" y2="58"></line>
+                                            <line x1="276" y1="84" x2="364" y2="84"></line>
+                                            <line x1="276" y1="110" x2="364" y2="110"></line>
+                                            <line x1="276" y1="136" x2="364" y2="136"></line>
+                                        </g>
+                                        <path d="M 284 136 H 298 V 110 H 314 V 84 H 330 V 110 H 346 V 58 H 356" fill="none" stroke="url(#pam-signal-overview)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-pam-overview)"></path>
+                                        <g fill="#f59e0b">
+                                            <circle cx="298" cy="110" r="2.5"></circle>
+                                            <circle cx="314" cy="84" r="2.5"></circle>
+                                            <circle cx="330" cy="110" r="2.5"></circle>
+                                            <circle cx="346" cy="58" r="2.5"></circle>
+                                        </g>
+                                        <text x="320" y="154" text-anchor="middle" font-size="9" font-weight="bold" fill="#c2410c">Higher Bits / UI</text>
+
+                                        <g transform="translate(116, 166)">
+                                            <rect width="168" height="18" rx="9" fill="white" stroke="#fda4af" stroke-width="1.2"></rect>
+                                            <text x="84" y="12.5" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#e11d48">Bandwidth Up, Margin Budget Down</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    PAM은 한 UI에 여러 진폭 레벨을 실어 핀 수나 채널 대역폭 제약 안에서 전송량을 높이는 고속 신호 방식입니다. GDDR7, 차세대 SerDes, 광 인터커넥트 전기 PHY까지 확장되면서 equalization, jitter, eye margin, FEC 같은 PHY/DSP 설계가 더 중요해지고 있습니다.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">PAM3 / PAM4</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">SerDes / PHY</span>
+                                    <span class="diagram-tag border border-rose-200 text-rose-600">Equalization</span>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+            </div>

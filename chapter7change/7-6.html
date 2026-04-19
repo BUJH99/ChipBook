@@ -12,7 +12,7 @@
     <!-- 가이드북 공통 CSS -->
     <link rel="stylesheet" href="../assets/guidebook-common.css">
     <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
-    <script src="../assets/chapter7-embed-common.js" defer></script>
+    <script src="../assets/chapter7-embed-common.js"></script>
     
     <style>
         body { font-family: 'Pretendard', sans-serif; background-color: transparent; }
@@ -63,15 +63,6 @@
             text-shadow: 0 0 2px rgba(74, 222, 128, 0.5);
         }
 
-        /* Guidebook Tabs */
-        .part6-tab-btn { position: relative; }
-        .part6-tab-btn::after {
-            content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px;
-            background-color: var(--part6-tab-accent, #2563eb); transform: scaleX(0); transition: transform 0.3s ease;
-        }
-        .part6-tab-btn.active { color: var(--part6-tab-accent, #2563eb); background-color: #eff6ff; }
-        .part6-tab-btn.active::after { transform: scaleX(1); }
-
         /* SVG Interactive Elements */
         .interactive-node { cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .interactive-node:hover { filter: brightness(1.05) drop-shadow(0 10px 15px rgba(0,0,0,0.1)); transform: translateY(-2px); }
@@ -91,22 +82,17 @@
     <main class="flex-grow max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
         <!-- Tab Shell Header (Guidebook Integrated) -->
-        <div id="part6-current-shell" class="mb-8 border-b border-slate-200">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md text-sm">6</div>
-                <h1 class="text-2xl font-bold text-slate-900 tracking-tight" id="part6-current-label">UVM Register Model (RAL)</h1>
-            </div>
-            
-            <nav class="flex space-x-2" id="part6-tab-nav">
-                <button data-target="ral-concept" class="part6-tab-btn active px-5 py-2.5 text-sm font-bold text-slate-600 rounded-t-lg transition-colors flex items-center gap-2">
+        <div id="part6-current-shell" class="chapter7-tab-shell">
+            <nav class="chapter7-tab-nav" id="part6-tab-nav">
+                <button data-target="ral-concept" class="chapter7-tab-btn active">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    6.1 RAL 개념 및 구조
+                    UVM Register Model (RAL)
                 </button>
-                <button data-target="adapter-predictor" class="part6-tab-btn px-5 py-2.5 text-sm font-bold text-slate-600 rounded-t-lg transition-colors flex items-center gap-2">
+                <button data-target="adapter-predictor" class="chapter7-tab-btn">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
                     6.2 Adapter & Predictor
                 </button>
-                <button data-target="access-api" class="part6-tab-btn px-5 py-2.5 text-sm font-bold text-slate-600 rounded-t-lg transition-colors flex items-center gap-2">
+                <button data-target="access-api" class="chapter7-tab-btn">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     6.3 Access Sequence (API)
                 </button>
@@ -502,68 +488,13 @@
         // ==========================================
         // Guidebook Page Initialization
         // ==========================================
-        if (window.GuidebookPage && typeof window.GuidebookPage.initActionSectionPage === 'function') {
-            window.GuidebookPage.initActionSectionPage({
-                defaultKey: 'ral-concept',
-                panelSelector: '[data-part6-panel]',
-                panelKeyDataset: 'part6Panel',
-                titleAttribute: 'data-guidebook-toc-title',
-                currentHeader: {
-                    shellId: 'part6-current-shell',
-                    labelId: 'part6-current-label',
-                    mode: 'static',
-                    apply: ({ shell }) => {
-                        shell.style.setProperty('--part6-tab-accent', '#2563eb');
-                    },
-                },
-                onAfterSet: ({ activeKey, item }) => {
-                    // Update local visual tabs
-                    document.querySelectorAll('.part6-tab-btn').forEach(btn => {
-                        if (btn.getAttribute('data-target') === activeKey) {
-                            btn.classList.add('active');
-                        } else {
-                            btn.classList.remove('active');
-                        }
-                    });
-                    
-                    // Set Header Label
-                    const labelEl = document.getElementById('part6-current-label');
-                    if (labelEl && item) {
-                        labelEl.textContent = item.label || 'UVM Register Model (RAL)';
-                    }
-                }
-            });
-        } else {
-            console.warn("GuidebookPage API not found. Using standalone fallback for tab initialization.");
-            document.getElementById('part6-current-shell')?.style.setProperty('--part6-tab-accent', '#2563eb');
-            document.querySelectorAll('[data-part6-panel]').forEach(p => {
-                if (p.dataset.part6Panel === 'ral-concept') {
-                    p.hidden = false;
-                    p.classList.add('fade-in');
-                } else {
-                    p.hidden = true;
-                    p.classList.remove('fade-in');
-                }
-            });
-        }
-
-        // Allow manual clicking of local tabs to trigger panel change
-        document.querySelectorAll('.part6-tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const target = btn.getAttribute('data-target');
-                document.querySelectorAll('[data-part6-panel]').forEach(p => {
-                    if (p.dataset.part6Panel === target) {
-                        p.hidden = false;
-                        p.classList.add('fade-in');
-                    } else {
-                        p.hidden = true;
-                        p.classList.remove('fade-in');
-                    }
-                });
-                
-                document.querySelectorAll('.part6-tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
+        window.Chapter7EmbedTabs.init({
+            defaultKey: 'ral-concept',
+            panelSelector: '[data-part6-panel]',
+            panelKeyDataset: 'part6Panel',
+            buttonSelector: '.chapter7-tab-btn',
+            buttonKeyDataset: 'target',
+            shellId: 'part6-current-shell',
         });
 
         // ==========================================

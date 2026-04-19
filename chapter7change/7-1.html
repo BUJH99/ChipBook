@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
-    <script src="../assets/chapter7-embed-common.js" defer></script>
+    <script src="../assets/chapter7-embed-common.js"></script>
     
     <style>
         body {
@@ -35,20 +35,6 @@
         .sv-comment { color: #64748b; font-style: italic; } 
         .sv-number { color: #d19a66; } 
 
-        /* Guidebook Navigation Style */
-        .nav-item {
-            transition: all 0.2s ease;
-        }
-        .nav-item.active {
-            background-color: #eff6ff; /* blue-50 */
-            color: #2563eb; /* blue-600 */
-            font-weight: 700;
-        }
-        .nav-item.active .nav-icon {
-            background-color: #2563eb;
-            color: #ffffff;
-        }
-        
         /* High-tech Professional Grids */
         .diagram-grid-light {
             background-color: #ffffff;
@@ -111,43 +97,32 @@
     <!-- Main Container -->
     <div class="flex-1 w-full max-w-[2000px] mx-auto flex gap-8 px-4 sm:px-6 lg:px-8 py-8 lg:py-12 relative items-start">
         
-        <!-- Left Sidebar Navigation -->
-        <aside class="hidden lg:block w-64 shrink-0 sticky top-[6.5rem] self-start border border-gray-200 rounded-2xl bg-white shadow-sm overflow-hidden">
-            <div class="p-5 border-b border-gray-100 bg-gray-50/50">
-                <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 en-font">Study Roadmap</div>
-                <div class="font-bold text-gray-800">SV OOP 기초</div>
-            </div>
-            <nav id="nav-menu" class="p-3 space-y-1">
-                <button data-target="sec1" class="nav-item active w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
-                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">1</span>
-                    Function vs Task
-                </button>
-                <button data-target="sec2" class="nav-item w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
-                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">2</span>
-                    OOP & Super
-                </button>
-                <button data-target="sec3" class="nav-item w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
-                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">3</span>
-                    Class vs Module
-                </button>
-                <button data-target="sec4" class="nav-item w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
-                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">4</span>
-                    Virtual Interface
-                </button>
-                <button data-target="sec5" class="nav-item w-full flex items-center text-left px-3 py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50 group">
-                    <span class="nav-icon w-6 h-6 rounded bg-gray-100 text-gray-400 flex items-center justify-center mr-3 text-xs font-bold font-mono transition-colors group-hover:bg-gray-200 group-hover:text-gray-600">5</span>
-                    Constrained Random
-                </button>
-            </nav>
-        </aside>
-
         <!-- Center Content Area -->
         <main class="flex-1 min-w-0 max-w-4xl mx-auto xl:mx-0 xl:max-w-none w-full">
+            <div id="part1-tab-shell" class="chapter7-tab-shell">
+                <nav class="chapter7-tab-nav" aria-label="SV OOP Tabs">
+                    <button data-target="sec1" class="chapter7-tab-btn active">
+                        1.1 Function vs Task
+                    </button>
+                    <button data-target="sec2" class="chapter7-tab-btn">
+                        1.2 OOP & Super
+                    </button>
+                    <button data-target="sec3" class="chapter7-tab-btn">
+                        1.3 Class vs Module
+                    </button>
+                    <button data-target="sec4" class="chapter7-tab-btn">
+                        1.4 Virtual Interface
+                    </button>
+                    <button data-target="sec5" class="chapter7-tab-btn">
+                        1.5 Constrained Random
+                    </button>
+                </nav>
+            </div>
             
             <!-- ==========================================
                  Section 1.1: Function vs Task
             =========================================== -->
-            <section id="sec1" class="content-section">
+            <section id="sec1" data-part1-panel="sec1" data-guidebook-toc-title="1.1 Function vs Task" class="content-section chapter7-tab-panel">
                 <div class="mb-8">
                     <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
                         <span class="text-cyan-400">#</span> TIME_CONSUMPTION_ANALYSIS
@@ -326,7 +301,7 @@
             <!-- ==========================================
                  Section 1.2 & 1.3: OOP Basics & Super
             =========================================== -->
-            <section id="sec2" class="content-section hidden">
+            <section id="sec2" data-part1-panel="sec2" data-guidebook-toc-title="1.2 OOP & Super" class="content-section chapter7-tab-panel" hidden>
                 <div class="mb-8">
                     <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
                         <span class="text-purple-400">#</span> INHERITANCE_AND_POLYMORPHISM
@@ -450,7 +425,7 @@
             <!-- ==========================================
                  Section 1.4: Class vs Module
             =========================================== -->
-            <section id="sec3" class="content-section hidden">
+            <section id="sec3" data-part1-panel="sec3" data-guidebook-toc-title="1.3 Class vs Module" class="content-section chapter7-tab-panel" hidden>
                 <div class="mb-8">
                     <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
                         <span class="text-emerald-400">#</span> MEMORY_ALLOCATION_LIFECYCLE
@@ -524,7 +499,7 @@
             <!-- ==========================================
                  Section 1.5: Interface & Virtual Interface
             =========================================== -->
-            <section id="sec4" class="content-section hidden">
+            <section id="sec4" data-part1-panel="sec4" data-guidebook-toc-title="1.4 Virtual Interface" class="content-section chapter7-tab-panel" hidden>
                 <div class="mb-8">
                     <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
                         <span class="text-amber-400">#</span> BRIDGING_STATIC_AND_DYNAMIC
@@ -683,7 +658,7 @@
             <!-- ==========================================
                  Section 1.6: Constrained Random
             =========================================== -->
-            <section id="sec5" class="content-section hidden">
+            <section id="sec5" data-part1-panel="sec5" data-guidebook-toc-title="1.5 Constrained Random" class="content-section chapter7-tab-panel" hidden>
                 <div class="mb-8">
                     <div class="inline-flex items-center space-x-2 bg-slate-800 text-white px-3 py-1.5 rounded-md text-xs font-bold mb-4 shadow-md font-mono tracking-wide">
                         <span class="text-rose-400">#</span> CONSTRAINT_SOLVER_ENGINE
@@ -800,74 +775,44 @@
                     </div>
                 </div>
             </section>
-
-            <!-- Guidebook Standard Pagination (하단 이전/다음 페이지 버튼) -->
-            <div class="mt-12 pt-8 border-t border-gray-200 flex justify-between items-center pb-12">
-                <button id="btn-page-prev" class="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center disabled:opacity-30 disabled:cursor-not-allowed">
-                    <span class="mr-2">←</span> 이전 챕터
-                </button>
-                <span class="text-gray-400 font-bold text-sm en-font tracking-wide" id="page-indicator">Section 1 of 5</span>
-                <button id="btn-page-next" class="bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-xl font-bold shadow-[0_4px_12px_rgba(49,130,246,0.3)] transition-all flex items-center disabled:opacity-30 disabled:cursor-not-allowed">
-                    다음 챕터 <span class="ml-2">→</span>
-                </button>
-            </div>
-
         </main>
     </div>
 
     <!-- App Logic (GSAP Animations + Guidebook Tab Switching) -->
+    <script src="../assets/guidebook-page-common.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // ------------------------------------------
-            // Global Navigation & Pagination Logic
-            // ------------------------------------------
-            const sectionsData = ['sec1', 'sec2', 'sec3', 'sec4', 'sec5'];
-            let currentIndex = 0;
+        let part1HasAnimatedInitialPanel = false;
 
-            const navItems = document.querySelectorAll('.nav-item');
-            const sections = document.querySelectorAll('.content-section');
-            const btnPrev = document.getElementById('btn-page-prev');
-            const btnNext = document.getElementById('btn-page-next');
-            const pageIndicator = document.getElementById('page-indicator');
+        function animatePart1Panel(activeKey) {
+            const targetSec = document.getElementById(activeKey);
 
-            function switchTab(index) {
-                if (index < 0 || index >= sectionsData.length) return;
-                currentIndex = index;
-                const targetId = sectionsData[index];
+            if (targetSec && window.gsap) {
+                if (!part1HasAnimatedInitialPanel) {
+                    part1HasAnimatedInitialPanel = true;
+                    return;
+                }
 
-                // Update Nav UI
-                navItems.forEach(item => item.classList.remove('active'));
-                const targetBtn = document.querySelector(`[data-target="${targetId}"]`);
-                if (targetBtn) targetBtn.classList.add('active');
-
-                // Update Content UI
-                sections.forEach(sec => sec.classList.add('hidden'));
-                const targetSec = document.getElementById(targetId);
-                targetSec.classList.remove('hidden');
-                
-                // Update Pagination UI
-                pageIndicator.textContent = `Section ${currentIndex + 1} of ${sectionsData.length}`;
-                btnPrev.disabled = currentIndex === 0;
-                btnNext.disabled = currentIndex === sectionsData.length - 1;
-
-                // Smooth scroll to top of main content
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                // Entrance animation
-                gsap.fromTo(targetSec, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
+                gsap.fromTo(
+                    targetSec,
+                    { opacity: 0, y: 15 },
+                    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
+                );
             }
+        }
 
-            navItems.forEach((item, idx) => {
-                item.addEventListener('click', () => switchTab(idx));
-            });
+        window.Chapter7EmbedTabs.init({
+            defaultKey: 'sec1',
+            panelSelector: '[data-part1-panel]',
+            panelKeyDataset: 'part1Panel',
+            buttonSelector: '.chapter7-tab-btn',
+            buttonKeyDataset: 'target',
+            shellId: 'part1-tab-shell',
+            onAfterSet: ({ activeKey }) => {
+                animatePart1Panel(activeKey);
+            },
+        });
 
-            btnPrev.addEventListener('click', () => switchTab(currentIndex - 1));
-            btnNext.addEventListener('click', () => switchTab(currentIndex + 1));
-
-            // Initialize first view
-            switchTab(0);
-
+        document.addEventListener('DOMContentLoaded', () => {
             // ------------------------------------------
             // 1.1 Function vs Task (Logic Analyzer)
             // ------------------------------------------
