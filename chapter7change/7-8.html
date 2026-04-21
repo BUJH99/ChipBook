@@ -92,6 +92,23 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        body > header,
+        body > div > aside,
+        [data-lean-hide="true"],
+        [data-chipbook-embed-hide="true"] {
+            display: none !important;
+        }
+
+        body > div {
+            gap: 0 !important;
+        }
+
+        body > div > main {
+            width: 100% !important;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -131,25 +148,29 @@
         </aside>
 
         <!-- 3. 중앙 메인 콘텐츠 -->
-        <main class="flex-1 flex flex-col min-w-0 px-4 sm:px-6 lg:px-10 py-10">
+        <main class="chapter7-content-card flex-1 flex flex-col min-w-0">
+            <div class="chapter7-content-body flex-1 flex flex-col min-w-0">
             
             <!-- Tabs Navigation -->
-            <nav id="part8-tab-shell" class="chapter7-tab-shell" aria-label="Tabs">
-                <div class="chapter7-tab-nav">
-                <button class="chapter7-tab-btn active" data-target="makefile">
-                    8.1 Makefile
-                </button>
-                <button class="chapter7-tab-btn" data-target="cmdline">
-                    8.2 Command-Line
-                </button>
-                <button class="chapter7-tab-btn" data-target="waveform">
-                    8.3 Waveform 디버깅
-                </button>
-                </div>
-            </nav>
+            <div id="part8-tab-shell" class="chapter7-tab-shell">
+                <nav class="chapter7-tab-nav" aria-label="Execution Environment Tabs">
+                    <button class="chapter7-tab-btn active" data-target="makefile">
+                        <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg>
+                        <span class="chapter7-tab-label">8.1 Makefile</span>
+                    </button>
+                    <button class="chapter7-tab-btn" data-target="cmdline">
+                        <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        <span class="chapter7-tab-label">8.2 Command-Line</span>
+                    </button>
+                    <button class="chapter7-tab-btn" data-target="waveform">
+                        <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h3l3 8 4-16 3 8h5"></path></svg>
+                        <span class="chapter7-tab-label">8.3 Waveform 디버깅</span>
+                    </button>
+                </nav>
+            </div>
 
             <!-- Current Shell Header -->
-            <div id="part8-current-shell" class="mb-10 p-8 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm transition-all relative overflow-hidden">
+            <div id="part8-current-shell" class="mb-10 p-8 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm transition-all relative overflow-hidden" data-lean-hide="true">
                 <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                     <svg class="w-24 h-24 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M19.92 12.08L12 4.16 4.08 12.08l1.42 1.41L11 7.83v12h2V7.83l5.5 5.66 1.42-1.41z"/></svg>
                 </div>
@@ -437,7 +458,7 @@
             </div>
 
             <!-- 4. 하단 이전/다음 페이지 버튼 -->
-            <div class="mt-16 pt-8 border-t border-gray-200 flex items-center justify-between" data-chipbook-embed-hide="true">
+            <div class="mt-16 pt-8 border-t border-gray-200 flex items-center justify-between" data-chipbook-embed-hide="true" data-lean-hide="true">
                 <button class="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-6 py-3.5 rounded-xl font-bold shadow-sm transition-all flex items-center gap-2">
                     <span>←</span> 이전 페이지
                 </button>
@@ -447,6 +468,7 @@
                 </button>
             </div>
 
+            </div>
         </main>
 
     </div>

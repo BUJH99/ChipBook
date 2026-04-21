@@ -15,7 +15,7 @@
     <script src="../assets/chapter7-embed-common.js"></script>
     
     <style>
-        body { font-family: 'Pretendard', sans-serif; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; }
         .code-font { font-family: 'JetBrains Mono', monospace; }
 
         /* 가이드북 커스텀 탭 버튼 */
@@ -86,6 +86,72 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        @media (max-width: 767px) {
+            .sv-code {
+                padding: 0.95rem;
+                font-size: 0.76rem;
+                line-height: 1.5;
+            }
+        }
+
+        @media (min-width: 640px) and (max-width: 1100px) {
+            .part3-compact-main > .chapter7-content-body {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+                padding-top: 1.75rem;
+                padding-bottom: 2.5rem;
+            }
+
+            .part3-panel-intro {
+                margin-bottom: 1rem;
+                gap: 0.75rem;
+            }
+
+            .part3-panel-intro h2 {
+                font-size: 1.65rem;
+                line-height: 1.18;
+                margin-bottom: 0.5rem;
+            }
+
+            .part3-panel-intro p {
+                font-size: 0.82rem;
+                line-height: 1.55;
+            }
+
+            .part3-tech-shell {
+                min-height: 280px;
+            }
+
+            .part3-factory-shell {
+                min-height: 300px;
+            }
+
+            .part3-code-stack {
+                gap: 0.75rem;
+            }
+
+            .part3-note-box {
+                padding: 1rem;
+            }
+        }
+
+        body > header,
+        body > div > aside,
+        [data-lean-hide="true"],
+        [data-chipbook-embed-hide="true"] {
+            display: none !important;
+        }
+
+        body > div {
+            gap: 0 !important;
+        }
+
+        body > div > main {
+            width: 100% !important;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen bg-white">
@@ -145,49 +211,62 @@
         <!-- ========================================== -->
         <!-- 3. 중앙 메인 콘텐츠 (Center Content)         -->
         <!-- ========================================== -->
-        <main class="flex-grow min-w-0 px-6 lg:px-12 xl:px-16 pt-10 pb-24">
-            <div class="max-w-5xl mx-auto">
+        <main class="part3-compact-main chapter7-content-card flex-grow min-w-0">
+            <div class="chapter7-content-body">
+            <div class="w-full">
                 
                 <!-- 탭 네비게이션 -->
-                <nav id="part3-tab-shell" class="chapter7-tab-shell" aria-label="Tabs">
-                    <div class="chapter7-tab-nav">
-                        <button data-target="factory" class="chapter7-tab-btn active">3.1 Factory (동적 교체)</button>
-                        <button data-target="phase" class="chapter7-tab-btn">3.2 Phase & Objection</button>
-                        <button data-target="config" class="chapter7-tab-btn">3.3 Config DB</button>
-                        <button data-target="sync" class="chapter7-tab-btn">3.4 Barrier 동기화</button>
-                    </div>
-                </nav>
+                <div id="part3-tab-shell" class="chapter7-tab-shell">
+                    <nav class="chapter7-tab-nav" aria-label="UVM Core Mechanism Tabs">
+                        <button data-target="factory" class="chapter7-tab-btn active">
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4-4m-4 4l4 4"></path></svg>
+                            <span class="chapter7-tab-label">3.1 Factory (동적 교체)</span>
+                        </button>
+                        <button data-target="phase" class="chapter7-tab-btn">
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="chapter7-tab-label">3.2 Phase &amp; Objection</span>
+                        </button>
+                        <button data-target="config" class="chapter7-tab-btn">
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="7" ry="3" stroke-width="2"></ellipse><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v6c0 1.657 3.134 3 7 3s7-1.343 7-3V5M5 11v6c0 1.657 3.134 3 7 3s7-1.343 7-3v-6"></path></svg>
+                            <span class="chapter7-tab-label">3.3 Config DB</span>
+                        </button>
+                        <button data-target="sync" class="chapter7-tab-btn">
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-1a4 4 0 00-5-3.87M17 20H7m10 0v-1c0-.653-.126-1.278-.357-1.85M7 20H2v-1a4 4 0 015-3.87M7 20v-1c0-.653.126-1.278.357-1.85m0 0a5.002 5.002 0 019.286 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            <span class="chapter7-tab-label">3.4 Barrier 동기화</span>
+                        </button>
+                    </nav>
+                </div>
 
                 <!-- 콘텐츠 패널 래퍼 -->
-                <div class="relative min-h-[600px]">
+                <div class="relative">
                     
                     <!-- 3.1 Factory Panel -->
-                    <div id="panel-factory" data-panel="factory" data-part3-panel="factory" data-guidebook-toc-title="3.1 Factory (동적 교체)" class="chapter7-tab-panel panel-fade absolute w-full top-0 left-0">
-                        <div class="flex items-start gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100 shadow-sm">
+                    <div id="panel-factory" data-panel="factory" data-part3-panel="factory" data-guidebook-toc-title="3.1 Factory (동적 교체)" class="chapter7-tab-panel panel-fade w-full">
+                        <div class="part3-panel-intro flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100 shadow-sm">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold text-gray-900 mb-2">UVM Factory: 런타임 다형성 (Dynamic Type Replacement)</h2>
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">UVM Factory: 런타임 다형성 (Dynamic Type Replacement)</h2>
                                 <p class="text-gray-600 leading-relaxed text-sm">
                                     검증 환경(TB)의 소스 코드를 단 한 줄도 수정하지 않고, Test 최상단에서 <code class="bg-gray-100 text-blue-600 px-1 py-0.5 rounded code-font font-bold">set_type_override()</code>를 호출하는 것만으로 특정 컴포넌트나 트랜잭션을 완전히 다른 클래스로 교체하여 생성합니다.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 xl:grid-cols-5 gap-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-5 lg:gap-8 items-start">
                             <!-- Visualizer Canvas -->
-                            <div class="xl:col-span-3 tech-canvas-wrapper flex flex-col">
-                                <div class="bg-slate-800 border-b border-slate-700 px-5 py-3 flex justify-between items-center">
+                            <div class="sm:col-span-3 tech-canvas-wrapper flex flex-col">
+                                <div class="bg-slate-800 border-b border-slate-700 px-4 sm:px-5 py-2.5 sm:py-3 flex justify-between items-center gap-3">
                                     <span class="font-semibold text-sm text-slate-300 flex items-center gap-2">
                                         <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span> Registry Type Router
                                     </span>
-                                    <div class="flex gap-2">
-                                        <button data-factory-mode="default" class="px-4 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg text-xs font-bold text-white transition">Normal Create</button>
-                                        <button data-factory-mode="override" class="px-4 py-1.5 bg-sky-600 hover:bg-sky-500 rounded-lg text-xs font-bold text-white transition shadow-[0_0_15px_rgba(2,132,199,0.5)]">Apply Override</button>
+                                    <div class="flex gap-2 shrink-0">
+                                        <button data-factory-mode="default" class="px-3 sm:px-4 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-lg text-[11px] sm:text-xs font-bold text-white transition">Normal Create</button>
+                                        <button data-factory-mode="override" class="px-3 sm:px-4 py-1.5 bg-sky-600 hover:bg-sky-500 rounded-lg text-[11px] sm:text-xs font-bold text-white transition shadow-[0_0_15px_rgba(2,132,199,0.5)]">Apply Override</button>
                                     </div>
                                 </div>
-                                <div class="tech-grid p-4 sm:p-6 flex-grow flex items-center justify-center relative min-h-[360px]">
+                                <div class="part3-tech-shell part3-factory-shell tech-grid p-3 sm:p-4 lg:p-6 flex-grow flex items-center justify-center relative min-h-[240px] sm:min-h-[300px] lg:min-h-[360px]">
                                     <svg width="100%" height="100%" viewBox="0 0 600 350">
                                         <defs>
                                             <filter id="glow-sky" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
@@ -250,7 +329,7 @@
                             </div>
 
                             <!-- Code Explanations -->
-                            <div class="xl:col-span-2 flex flex-col gap-4">
+                            <div class="sm:col-span-2 part3-code-stack flex flex-col gap-3 sm:gap-4">
                                 <div class="sv-code flex-grow">
 <span class="sv-comment">// 1. 클래스를 Factory에 등록 (Macro)</span>
 <span class="sv-keyword">class</span> <span class="sv-type">base_driver</span> <span class="sv-keyword">extends</span> <span class="sv-type">uvm_driver</span>;
@@ -279,20 +358,20 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                     </div>
 
                     <!-- 3.2 Phase & Objection Panel -->
-                    <div id="panel-phase" data-panel="phase" data-part3-panel="phase" data-guidebook-toc-title="3.2 Phase & Objection" class="chapter7-tab-panel panel-fade absolute w-full top-0 left-0" hidden>
-                        <div class="flex items-start gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100 shadow-sm">
+                    <div id="panel-phase" data-panel="phase" data-part3-panel="phase" data-guidebook-toc-title="3.2 Phase & Objection" class="chapter7-tab-panel panel-fade w-full" hidden>
+                        <div class="part3-panel-intro flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100 shadow-sm">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold text-gray-900 mb-2">Phase 메커니즘과 Objection (시간/종료 제어)</h2>
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Phase 메커니즘과 Objection (시간/종료 제어)</h2>
                                 <p class="text-gray-600 leading-relaxed text-sm">
                                     시뮬레이션 시간이 소모되는 <code class="bg-gray-100 text-emerald-600 px-1 py-0.5 rounded code-font font-bold">run_phase</code>에서, 컴포넌트들이 <b>Objection(이의 제기)</b>을 하나라도 들고 있으면 다음 Phase로 넘어가지 않고 대기(Lock)하며, 총합이 0이 되는 순간 엔진은 즉시 종료됩니다.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-8 items-start">
                             <div class="tech-canvas-wrapper flex flex-col relative">
                                 <div class="bg-slate-800 border-b border-slate-700 px-5 py-4 flex justify-between items-center">
                                     <span class="font-bold text-slate-300">Phase Timeline Manager</span>
@@ -301,7 +380,7 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                                         <span id="obj-total-display" class="text-2xl font-black text-emerald-400 code-font min-w-[20px] text-center">0</span>
                                     </div>
                                 </div>
-                                <div class="tech-grid p-6 flex-grow flex flex-col relative min-h-[350px] justify-center">
+                                <div class="part3-tech-shell tech-grid p-4 sm:p-5 lg:p-6 flex-grow flex flex-col relative min-h-[280px] sm:min-h-[300px] lg:min-h-[350px] justify-center">
                                     <div class="mb-8 w-full max-w-md mx-auto">
                                         <div class="flex justify-between text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">
                                             <span>build/connect</span>
@@ -357,7 +436,7 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                                 </div>
                             </div>
 
-                            <div class="flex flex-col gap-4 justify-center">
+                            <div class="part3-code-stack flex flex-col gap-3 sm:gap-4 justify-center">
                                 <div class="sv-code shadow-sm">
 <span class="sv-comment">// Base_test.sv (또는 Sequence 내부)</span>
 <span class="sv-keyword">task</span> run_phase(uvm_phase phase);
@@ -374,7 +453,7 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
   phase.drop_objection(<span class="sv-keyword">this</span>, <span class="sv-string">"End Test"</span>);
 <span class="sv-keyword">endtask</span>
                                 </div>
-                                <div class="bg-orange-50 border border-orange-200 rounded-xl p-5 shadow-sm">
+                                <div class="part3-note-box bg-orange-50 border border-orange-200 rounded-xl p-4 sm:p-5 shadow-sm">
                                     <h4 class="text-orange-700 font-extrabold text-sm mb-2 flex items-center gap-2">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
                                         실무 팁: Objection Kill
@@ -388,26 +467,26 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                     </div>
 
                     <!-- 3.3 Config DB Panel -->
-                    <div id="panel-config" data-panel="config" data-part3-panel="config" data-guidebook-toc-title="3.3 Config DB" class="chapter7-tab-panel panel-fade absolute w-full top-0 left-0" hidden>
-                        <div class="flex items-start gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 border border-orange-100 shadow-sm">
+                    <div id="panel-config" data-panel="config" data-part3-panel="config" data-guidebook-toc-title="3.3 Config DB" class="chapter7-tab-panel panel-fade w-full" hidden>
+                        <div class="part3-panel-intro flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 border border-orange-100 shadow-sm">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold text-gray-900 mb-2">uvm_config_db: 계층 독립적 데이터 라우팅</h2>
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">uvm_config_db: 계층 독립적 데이터 라우팅</h2>
                                 <p class="text-gray-600 leading-relaxed text-sm">
                                     깊은 계층 구조를 가로질러 Virtual Interface나 설정값을 전달하기 위한 <b>중앙 집중형 해시맵(DB)</b>입니다. 와일드카드(<code class="text-orange-600 font-mono font-bold">*</code>)를 활용한 스코프(Scope) 문자열 매칭으로 데이터를 안전하게 배달합니다.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-8 items-start">
                             <div class="tech-canvas-wrapper flex flex-col relative">
-                                <div class="bg-slate-800 border-b border-slate-700 px-5 py-3 flex justify-between items-center">
+                                <div class="bg-slate-800 border-b border-slate-700 px-4 sm:px-5 py-2.5 sm:py-3 flex justify-between items-center gap-3">
                                     <span class="font-bold text-slate-300 text-sm">Hierarchical Data Query Flow</span>
-                                    <button data-config-flow-trigger class="px-4 py-1.5 bg-orange-600 hover:bg-orange-500 text-white rounded-lg text-xs font-bold transition shadow-[0_0_15px_rgba(234,88,12,0.5)]">Data Set / Get 실행</button>
+                                    <button data-config-flow-trigger class="px-3 sm:px-4 py-1.5 bg-orange-600 hover:bg-orange-500 text-white rounded-lg text-[11px] sm:text-xs font-bold transition shadow-[0_0_15px_rgba(234,88,12,0.5)] shrink-0">Data Set / Get 실행</button>
                                 </div>
-                                <div class="tech-grid p-4 flex-grow flex justify-center items-center relative min-h-[380px]">
+                                <div class="part3-tech-shell tech-grid p-3 sm:p-4 flex-grow flex justify-center items-center relative min-h-[280px] sm:min-h-[300px] lg:min-h-[380px]">
                                     <svg width="100%" height="100%" viewBox="0 0 500 400">
                                         <defs>
                                             <filter id="glow-orange"><feGaussianBlur stdDeviation="3" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
@@ -468,7 +547,7 @@ drv = <span class="sv-type">base_driver</span>::type_id::create(<span class="sv-
                                 </div>
                             </div>
 
-                            <div class="flex flex-col gap-4">
+                            <div class="part3-code-stack flex flex-col gap-3 sm:gap-4">
                                 <div class="sv-code">
 <span class="sv-comment">// tb_top.sv (최상단 연결 및 Set)</span>
 my_if vif_inst(clk, rst_n);
@@ -500,29 +579,29 @@ my_if vif_inst(clk, rst_n);
                     </div>
 
                     <!-- 3.4 Synchronization Panel -->
-                    <div id="panel-sync" data-panel="sync" data-part3-panel="sync" data-guidebook-toc-title="3.4 Barrier 동기화" class="chapter7-tab-panel panel-fade absolute w-full top-0 left-0" hidden>
-                        <div class="flex items-start gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 border border-purple-100 shadow-sm">
+                    <div id="panel-sync" data-panel="sync" data-part3-panel="sync" data-guidebook-toc-title="3.4 Barrier 동기화" class="chapter7-tab-panel panel-fade w-full" hidden>
+                        <div class="part3-panel-intro flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 border border-purple-100 shadow-sm">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold text-gray-900 mb-2">스레드 동기화: uvm_barrier</h2>
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">스레드 동기화: uvm_barrier</h2>
                                 <p class="text-gray-600 leading-relaxed text-sm">
                                     병렬로 실행되는 여러 스레드(ex: Virtual Sequence 내 다중 인터페이스 제어)가 특정 지점에서 모두 만나야만 다음 단계를 진행할 수 있도록 통제하는 <b>동기화 게이트</b>입니다. 설정된 Threshold 만큼 <code class="bg-gray-100 text-purple-700 px-1 py-0.5 rounded code-font font-bold">wait_for()</code>가 누적되면 일제히 블로킹이 풀립니다.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-8 items-start">
                             <div class="tech-canvas-wrapper flex flex-col relative">
-                                <div class="bg-slate-800 border-b border-slate-700 px-5 py-3 flex justify-between items-center">
+                                <div class="bg-slate-800 border-b border-slate-700 px-4 sm:px-5 py-2.5 sm:py-3 flex justify-between items-center gap-3">
                                     <span class="font-bold text-slate-300 text-sm">Barrier Synchronization (Threshold = 3)</span>
                                     <div class="space-x-2">
                                         <button data-barrier-reset class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-xs font-bold text-white transition">Reset</button>
                                         <button data-barrier-start id="btn-sync-start" class="px-4 py-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-lg text-xs font-bold transition shadow-[0_0_15px_rgba(124,58,237,0.5)]">Fork Threads</button>
                                     </div>
                                 </div>
-                                <div class="tech-grid p-4 flex-grow flex items-center justify-center relative min-h-[300px]">
+                                <div class="part3-tech-shell tech-grid p-3 sm:p-4 flex-grow flex items-center justify-center relative min-h-[240px] sm:min-h-[260px] lg:min-h-[300px]">
                                     <svg width="100%" height="100%" viewBox="0 0 500 280" id="svg-barrier">
                                         <defs>
                                             <linearGradient id="grad-thread" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -563,7 +642,7 @@ my_if vif_inst(clk, rst_n);
                                 </div>
                             </div>
 
-                            <div class="flex flex-col gap-4">
+                            <div class="part3-code-stack flex flex-col gap-3 sm:gap-4">
                                 <div class="sv-code">
 <span class="sv-comment">// Virtual Sequence: 동기화 객체 초기화</span>
 uvm_barrier b;
@@ -611,6 +690,7 @@ uvm_barrier b;
                     </button>
                 </div>
 
+            </div>
             </div>
         </main>
 

@@ -42,7 +42,7 @@
     </script>
     <style>
         body { 
-            background-color: #f8fafc; 
+            background-color: #ffffff; 
             overflow-x: hidden; 
             scroll-behavior: smooth;
         }
@@ -130,9 +130,26 @@
         /* Layout specific adjustments */
         .mac-window { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1); }
         .mac-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        body > header,
+        body > div > aside,
+        [data-lean-hide="true"],
+        [data-chipbook-embed-hide="true"] {
+            display: none !important;
+        }
+
+        body > div {
+            gap: 0 !important;
+        }
+
+        body > div > main {
+            width: 100% !important;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen text-slate-800 antialiased selection:bg-blue-200 bg-slate-50">
+<body class="flex flex-col min-h-screen text-slate-800 antialiased selection:bg-blue-200 bg-white">
 
     <!-- 상단 고정 헤더 -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm h-[72px] flex items-center shrink-0">
@@ -199,21 +216,24 @@
         </aside>
 
         <!-- 중앙 메인 콘텐츠 래퍼 -->
-        <main id="content-container" class="flex-grow min-w-0 bg-white rounded-3xl shadow-sm border border-slate-200 flex flex-col relative overflow-hidden">
+        <main id="content-container" class="chapter7-content-card flex-grow min-w-0 flex flex-col relative">
             
             <!-- 콘텐츠 영역 (Padding) -->
-            <div class="p-8 sm:p-12 xl:p-16 flex-grow">
+            <div class="chapter7-content-body flex-grow">
                 
                 <div id="part2-tab-shell" class="chapter7-tab-shell">
                     <nav class="chapter7-tab-nav" aria-label="UVM Overview Tabs">
                         <button class="chapter7-tab-btn active" data-target="architecture">
-                            2.1 UVM Architecture Diagram
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="7" rx="1.5" stroke-width="2"></rect><rect x="14" y="4" width="7" height="7" rx="1.5" stroke-width="2"></rect><rect x="3" y="13" width="7" height="7" rx="1.5" stroke-width="2"></rect><rect x="14" y="13" width="7" height="7" rx="1.5" stroke-width="2"></rect></svg>
+                            <span class="chapter7-tab-label">2.1 UVM Architecture Diagram</span>
                         </button>
                         <button class="chapter7-tab-btn" data-target="library">
-                            2.2 라이브러리 및 클래스 구성
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.483 9.246 5 7.5 5 4.46 5 2 6.791 2 9v11c0-2.209 2.46-4 5.5-4 1.746 0 3.332.483 4.5 1.253m0-13C13.168 5.483 14.754 5 16.5 5 19.54 5 22 6.791 22 9v11c0-2.209-2.46-4-5.5-4-1.746 0-3.332.483-4.5 1.253"></path></svg>
+                            <span class="chapter7-tab-label">2.2 라이브러리 및 클래스 구성</span>
                         </button>
                         <button class="chapter7-tab-btn" data-target="run-test">
-                            2.3 run_test() 동작 원리
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.868v4.264a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="chapter7-tab-label">2.3 run_test() 동작 원리</span>
                         </button>
                     </nav>
                 </div>
@@ -669,7 +689,7 @@
             </div>
 
             <!-- 하단 이전/다음 페이지 버튼 -->
-            <div class="border-t border-slate-200 bg-slate-50/80 p-6 sm:p-8 flex justify-between items-center mt-auto shrink-0">
+            <div class="border-t border-slate-200 bg-slate-50/80 p-6 sm:p-8 flex justify-between items-center mt-auto shrink-0" data-lean-hide="true">
                 <button id="btn-prev" class="bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 px-6 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center">
                     <span class="mr-2">←</span> <span class="hidden sm:inline">이전 페이지 (Phase 1)</span><span class="sm:hidden">이전</span>
                 </button>

@@ -43,7 +43,7 @@
         }
     </script>
     <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; margin: 0; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; margin: 0; }
         .code-font { font-family: 'JetBrains Mono', monospace; }
         
         /* Grid Background Pattern */
@@ -82,24 +82,29 @@
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
 
-    <main class="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col gap-6 md:gap-8 relative">
+    <main class="chapter7-content-card w-full relative">
+        <div class="chapter7-content-body flex flex-col gap-6 md:gap-8">
         
         <!-- Horizontal Tabs (Matched with page-3 part3-tab-shell) -->
         <div class="chapter7-tab-shell" id="part7-current-shell">
-            <div class="chapter7-tab-nav">
+            <nav class="chapter7-tab-nav" aria-label="Checking and Reporting Tabs">
                 <button class="chapter7-tab-btn active" data-target="report">
-                    7.1 Report 시스템
+                    <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="chapter7-tab-label">7.1 Report 시스템</span>
                 </button>
                 <button class="chapter7-tab-btn" data-target="scoreboard">
-                    7.2 Scoreboard & SVA
+                    <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 3.75c-2.042 0-4.039.51-5.618 1.484A12.02 12.02 0 003.75 8.5c0 5.404 3.532 10.018 8.25 11.632 4.718-1.614 8.25-6.228 8.25-11.632 0-1.17-.204-2.29-.582-3.316z"></path></svg>
+                    <span class="chapter7-tab-label">7.2 Scoreboard &amp; SVA</span>
                 </button>
                 <button class="chapter7-tab-btn" data-target="coverage">
-                    7.3 Coverage 콜렉터
+                    <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M7 16v-4m5 4V8m5 8V5"></path></svg>
+                    <span class="chapter7-tab-label">7.3 Coverage 콜렉터</span>
                 </button>
                 <button class="chapter7-tab-btn" data-target="callback">
-                    7.4 Callback 메커니즘
+                    <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a4 4 0 110 8H8m0 0l4-4m-4 4l4 4"></path></svg>
+                    <span class="chapter7-tab-label">7.4 Callback 메커니즘</span>
                 </button>
-            </div>
+            </nav>
         </div>
 
         <!-- Content Area -->
@@ -430,6 +435,7 @@ assert_req_ack: <span class="text-blue-400 font-medium">assert property</span> (
                     </div>
                 </div>
             </section>
+        </div>
         </div>
     </main>
 

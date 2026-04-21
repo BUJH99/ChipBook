@@ -12,7 +12,7 @@
     <script src="../assets/chapter7-embed-common.js"></script>
     
     <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #0f172a; overflow-x: hidden; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; color: #0f172a; overflow-x: hidden; }
         .font-mono { font-family: 'IBM Plex Sans', monospace; }
         
         /* 스크롤바 커스텀 */
@@ -106,6 +106,23 @@
         /* 사이드바 ToC 활성 상태 */
         .toc-link { transition: all 0.2s ease; border-left: 2px solid transparent; }
         .toc-link.active { border-left-color: #2563eb; color: #2563eb; font-weight: 700; background-color: #f8fafc; }
+
+        body > header,
+        body > div > aside,
+        [data-lean-hide="true"],
+        [data-chipbook-embed-hide="true"] {
+            display: none !important;
+        }
+
+        body > div {
+            gap: 0 !important;
+        }
+
+        body > div > main {
+            width: 100% !important;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -168,16 +185,25 @@
         </aside>
 
         <!-- Center Main Content -->
-        <main class="flex-grow flex flex-col min-w-0 bg-white relative">
-            <div class="flex-grow p-6 sm:p-10 max-w-5xl mx-auto w-full">
+        <main class="chapter7-content-card flex-grow flex flex-col min-w-0 relative">
+            <div class="chapter7-content-body flex-grow w-full">
                 
                 <!-- Tabs -->
                 <div id="part4-tab-shell" class="chapter7-tab-shell">
-                    <div class="chapter7-tab-nav">
-                        <button data-target="overview" class="chapter7-tab-btn active"><span class="text-lg">🔄</span> 4.1 UVM의 두 기둥</button>
-                        <button data-target="component" class="chapter7-tab-btn"><span class="text-lg">🏛️</span> 4.2 정적 구조 설계</button>
-                        <button data-target="object" class="chapter7-tab-btn"><span class="text-lg">⚡</span> 4.3 동적 데이터 실습</button>
-                    </div>
+                    <nav class="chapter7-tab-nav" aria-label="UVM Class Foundation Tabs">
+                        <button data-target="overview" class="chapter7-tab-btn active">
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M9 12h.01M9 15h.01M15 9h.01M15 12h.01M15 15h.01"></path></svg>
+                            <span class="chapter7-tab-label">4.1 UVM의 두 기둥</span>
+                        </button>
+                        <button data-target="component" class="chapter7-tab-btn">
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="7" rx="1.5" stroke-width="2"></rect><rect x="14" y="4" width="7" height="7" rx="1.5" stroke-width="2"></rect><rect x="3" y="13" width="7" height="7" rx="1.5" stroke-width="2"></rect><rect x="14" y="13" width="7" height="7" rx="1.5" stroke-width="2"></rect></svg>
+                            <span class="chapter7-tab-label">4.2 정적 구조 설계</span>
+                        </button>
+                        <button data-target="object" class="chapter7-tab-btn">
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            <span class="chapter7-tab-label">4.3 동적 데이터 실습</span>
+                        </button>
+                    </nav>
                 </div>
 
                 <!-- ==========================================
@@ -554,6 +580,9 @@
         const tocNav = document.getElementById('toc-nav');
         const tocTitle = document.getElementById('toc-title');
 
+        const packetContainer = document.getElementById('packet-container');
+        let flowAnimTimer = null;
+
         function generateToC(panelId) {
             const activePanel = document.querySelector(`[data-part4-panel="${panelId}"]`);
             if(!activePanel || !tocNav || !tocTitle) return;
@@ -603,9 +632,6 @@
         // ---------------------------------------------------------
         // 2. Panel 1: TLM Flow Animation
         // ---------------------------------------------------------
-        const packetContainer = document.getElementById('packet-container');
-        let flowAnimTimer;
-
         function spawnPacket(pathId, type = 'normal') {
             const el = document.createElement('div');
             el.classList.add('data-packet');

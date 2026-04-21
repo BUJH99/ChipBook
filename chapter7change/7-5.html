@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../assets/chapter7-embed-common.css">
     <script src="../assets/chapter7-embed-common.js"></script>
     <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; }
         .font-mono { font-family: 'Fira Code', monospace; }
         
         /* Grid Backgrounds */
@@ -85,6 +85,23 @@
         .toc-item { transition: all 0.2s; border-left: 2px solid transparent; padding-left: 10px; }
         .toc-item:hover { color: #2563eb; }
         .toc-item.active { border-left-color: #2563eb; color: #2563eb; font-weight: 700; }
+
+        body > header,
+        body > div > aside,
+        [data-lean-hide="true"],
+        [data-chipbook-embed-hide="true"] {
+            display: none !important;
+        }
+
+        body > div {
+            gap: 0 !important;
+        }
+
+        body > div > main {
+            width: 100% !important;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -142,11 +159,11 @@
         </aside>
 
         <!-- 3. 중앙 메인 콘텐츠 -->
-        <main class="flex-1 flex flex-col min-w-0 bg-slate-50/50">
-            <div class="flex-1 px-4 sm:px-8 lg:px-12 py-10 lg:py-14 max-w-5xl mx-auto w-full">
+        <main class="chapter7-content-card flex-1 flex flex-col min-w-0">
+            <div class="chapter7-content-body flex-1 w-full">
                 
                 <!-- Dynamic Header -->
-                <header class="mb-8">
+                <header class="mb-8" data-lean-hide="true">
                     <div class="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1 text-xs font-bold text-indigo-700 mb-4 uppercase tracking-wider shadow-sm">
                         Phase 5. 자극 생성 및 데이터 통신
                     </div>
@@ -156,17 +173,20 @@
 
                 <!-- 탭 네비게이션 -->
                 <div id="part5-tab-shell" class="chapter7-tab-shell">
-                    <div class="chapter7-tab-nav">
+                    <nav class="chapter7-tab-nav" aria-label="Stimulus and TLM Tabs">
                         <button class="chapter7-tab-btn active" data-target="panel-sequence">
-                        5.1 Sequence 통신
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h14m3 4l4-4m0 0l-4-4m4 4H7"></path></svg>
+                            <span class="chapter7-tab-label">5.1 Sequence 통신</span>
                         </button>
                         <button class="chapter7-tab-btn" data-target="panel-virtual">
-                        5.2 Virtual Sequence
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8 4-8-4m16 0l-8-4-8 4m16 0v10l-8 4m0-14v14m0 0l-8-4V7"></path></svg>
+                            <span class="chapter7-tab-label">5.2 Virtual Sequence</span>
                         </button>
                         <button class="chapter7-tab-btn" data-target="panel-tlm">
-                        5.3 TLM 구조
+                            <svg class="chapter7-tab-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2" stroke-width="2"></circle><circle cx="18" cy="6" r="2" stroke-width="2"></circle><circle cx="18" cy="18" r="2" stroke-width="2"></circle><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11l8-4M8 13l8 4"></path></svg>
+                            <span class="chapter7-tab-label">5.3 TLM 구조</span>
                         </button>
-                    </div>
+                    </nav>
                 </div>
 
                 <!-- 콘텐츠 패널들 -->
@@ -510,7 +530,7 @@
                 </div>
 
                 <!-- 4. 하단 이전/다음 페이지 버튼 -->
-                <div class="flex items-center justify-between mt-12 pt-8 border-t border-gray-200 shrink-0">
+                <div class="flex items-center justify-between mt-12 pt-8 border-t border-gray-200 shrink-0" data-lean-hide="true">
                     <button id="btn-prev" class="bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 px-5 sm:px-6 py-3 rounded-xl font-bold shadow-sm transition-all flex items-center text-sm sm:text-base">
                         <span class="mr-2">←</span> <span class="hidden sm:inline">이전 페이지</span><span class="sm:hidden">이전</span>
                     </button>
@@ -583,12 +603,21 @@
 
         const syncPart5State = (targetId) => {
             if (titleData[targetId]) {
-                mainTitle.textContent = titleData[targetId].title;
-                mainDesc.innerHTML = titleData[targetId].desc;
-                tocMainTitle.textContent = titleData[targetId].title;
+                if (mainTitle) {
+                    mainTitle.textContent = titleData[targetId].title;
+                }
+                if (mainDesc) {
+                    mainDesc.innerHTML = titleData[targetId].desc;
+                }
+                if (tocMainTitle) {
+                    tocMainTitle.textContent = titleData[targetId].title;
+                }
             }
 
             Object.keys(tocGroups).forEach((key) => {
+                if (!tocGroups[key]) {
+                    return;
+                }
                 if (key === targetId) tocGroups[key].removeAttribute('hidden');
                 else tocGroups[key].setAttribute('hidden', '');
             });

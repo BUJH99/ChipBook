@@ -37,11 +37,38 @@ body[data-chipbook-embed="true"] .page-section {
     min-height: auto !important;
 }
 
+.chapter7-content-card {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1.5rem;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px rgba(15, 23, 42, 0.04);
+    overflow: hidden;
+}
+
+.chapter7-content-body {
+    width: 100%;
+    padding: 2rem;
+}
+
+@media (min-width: 640px) {
+    .chapter7-content-body {
+        padding: 3rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .chapter7-content-body {
+        padding: 4rem;
+    }
+}
+
 .chapter7-tab-shell {
     --chapter7-tab-accent: #2563eb;
     margin-bottom: 2rem;
     border-bottom: 1px solid #e2e8f0;
     overflow-x: auto;
+    padding-bottom: 0.1rem;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -52,24 +79,41 @@ body[data-chipbook-embed="true"] .page-section {
 
 .chapter7-tab-nav {
     display: flex;
-    gap: 0.5rem;
+    align-items: stretch;
+    gap: 0.625rem;
     min-width: max-content;
+    padding-right: 0.25rem;
 }
 
 .chapter7-tab-btn {
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1.25rem;
-    border-radius: 0.5rem 0.5rem 0 0;
+    gap: 0.625rem;
+    padding: 0.72rem 1.1rem 0.82rem;
+    border-radius: 0.9rem 0.9rem 0 0;
     background-color: transparent;
     color: #64748b;
-    font-size: 0.875rem;
-    font-weight: 700;
-    line-height: 1.2;
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
     transition: color 0.25s ease, background-color 0.25s ease;
     white-space: nowrap;
+}
+
+.chapter7-tab-btn .chapter7-tab-icon {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+    color: currentColor;
+    opacity: 0.95;
+    transform: translateY(-0.5px);
+}
+
+.chapter7-tab-btn .chapter7-tab-label {
+    display: inline-flex;
+    align-items: center;
 }
 
 .chapter7-tab-btn::after {
@@ -97,6 +141,23 @@ body[data-chipbook-embed="true"] .page-section {
 
 .chapter7-tab-btn.active::after {
     transform: scaleX(1);
+}
+
+@media (max-width: 640px) {
+    .chapter7-tab-nav {
+        gap: 0.45rem;
+    }
+
+    .chapter7-tab-btn {
+        gap: 0.5rem;
+        padding: 0.62rem 0.95rem 0.72rem;
+        font-size: 0.82rem;
+    }
+
+    .chapter7-tab-btn .chapter7-tab-icon {
+        width: 0.95rem;
+        height: 0.95rem;
+    }
 }
 
 .chapter7-tab-panel {
