@@ -1,0 +1,79 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: A
+        - generic [ref=e6]:
+          - generic [ref=e7]: 반도체 디지털 회로설계 가이드북
+          - text: 핵심 개념부터 설계 흐름, 실전 문제까지 한 번에 정리
+      - generic [ref=e8]:
+        - generic [ref=e9]: ←
+        - generic [ref=e10]: 방향키로 이동
+        - generic [ref=e11]: →
+  - generic [ref=e12]:
+    - complementary [ref=e13]:
+      - heading "Table of Contents" [level=3] [ref=e14]
+      - navigation [ref=e15]:
+        - button "01 OverView" [ref=e16] [cursor=pointer]:
+          - generic [ref=e17]: "01"
+          - text: OverView
+        - button "02 Design Flow" [ref=e18] [cursor=pointer]:
+          - generic [ref=e19]: "02"
+          - text: Design Flow
+        - button "03 RTL / Frontend" [ref=e20] [cursor=pointer]:
+          - generic [ref=e21]: "03"
+          - text: RTL / Frontend
+        - button "04 Physical Design / Backend" [ref=e22] [cursor=pointer]:
+          - generic [ref=e23]: "04"
+          - text: Physical Design / Backend
+        - button "05 Memory / Storage / Materials" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: "05"
+          - text: Memory / Storage / Materials
+        - button "06 Design Flow with Role" [ref=e26] [cursor=pointer]:
+          - generic [ref=e27]: "06"
+          - text: Design Flow with Role
+        - button "07 UVM / Verification" [ref=e28] [cursor=pointer]:
+          - generic [ref=e29]: "07"
+          - text: UVM / Verification
+        - button "08 On-Chip Bus" [ref=e30] [cursor=pointer]:
+          - generic [ref=e31]: "08"
+          - text: On-Chip Bus
+        - button "09 Off-Chip Interface" [ref=e32] [cursor=pointer]:
+          - generic [ref=e33]: "09"
+          - text: Off-Chip Interface
+        - button "10 Solution" [ref=e34] [cursor=pointer]:
+          - generic [ref=e35]: "10"
+          - text: Solution
+        - button "11 AI Accelerator" [ref=e36] [cursor=pointer]:
+          - generic [ref=e37]: "11"
+          - text: AI Accelerator
+        - button "12 ADT 기술 & 최종 요약" [ref=e38] [cursor=pointer]:
+          - generic [ref=e39]: "12"
+          - text: ADT 기술 & 최종 요약
+        - generic [ref=e40]:
+          - button "📝 13 예상 기출문제" [ref=e41] [cursor=pointer]:
+            - generic [ref=e42]: 📝
+            - text: 13 예상 기출문제
+          - button "⏱️ 13 실전 모의 20문항" [ref=e43] [cursor=pointer]:
+            - generic [ref=e44]: ⏱️
+            - text: 13 실전 모의 20문항
+    - main [ref=e45]:
+      - generic [ref=e47]:
+        - generic [ref=e48]: OverView 페이지를 불러오는 중입니다...
+        - iframe [ref=e49]:
+          
+      - generic [ref=e50]:
+        - button "← 이전 페이지" [disabled] [ref=e51]:
+          - generic [ref=e52]: ←
+          - text: 이전 페이지
+        - generic [ref=e53]: Page 1 of 14
+        - button "다음 페이지 →" [ref=e54] [cursor=pointer]:
+          - text: 다음 페이지
+          - generic [ref=e55]: →
+    - complementary [ref=e56]:
+      - generic [ref=e57]:
+        - generic [ref=e58]:
+          - generic [ref=e59]: This Page
+          - generic [ref=e60]: 이 페이지
+        - navigation
+        - generic [ref=e61]: 소목차를 불러오는 중입니다.
