@@ -27,6 +27,21 @@
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+    .axi-full-timing-heading {
+      min-height: 4.25rem;
+    }
+
+    .axi-full-timing-heading h4 {
+      max-width: 46rem;
+      overflow-wrap: anywhere;
+      line-height: 1.35;
+    }
+
+    #WaveDrom_Display_7 svg text {
+      font-family: 'IBM Plex Mono', 'Pretendard', sans-serif !important;
+      letter-spacing: 0 !important;
+    }
+
     .tab-content {
       display: none;
       animation: fadeIn 0.4s ease-out forwards;
@@ -1388,6 +1403,424 @@
     .axi-full-advanced-showcase .packet {
       transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 20;
+    }
+
+    .axi-expert-section {
+      position: relative;
+      font-family: 'Pretendard', sans-serif;
+      color: #1e293b;
+      background-color: #f8fafc;
+    }
+
+    .axi-expert-visual-card {
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #e2e8f0;
+      background-color: #f8fafc;
+      background-image: linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .axi-expert-visual-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 0%, rgba(59, 130, 246, 0.08) 48%, transparent 100%);
+      animation: scan 2.8s linear infinite;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .axi-expert-svg {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      min-width: 820px;
+      height: auto;
+    }
+
+    .axi-expert-svg text {
+      font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+      letter-spacing: 0;
+    }
+
+    .axi-expert-node-shadow {
+      fill: #cbd5e1;
+    }
+
+    .axi-expert-hw-block-svg {
+      fill: #fff;
+      stroke: #0f172a;
+      stroke-width: 2;
+    }
+
+    .axi-expert-hw-block-svg.is-manager {
+      fill: #fffbeb;
+      stroke: #f59e0b;
+    }
+
+    .axi-expert-hw-block-svg.is-fabric {
+      fill: #fff;
+      stroke: #94a3b8;
+    }
+
+    .axi-expert-hw-block-svg.is-target {
+      fill: #ecfdf5;
+      stroke: #10b981;
+    }
+
+    .axi-expert-signal-base {
+      fill: none;
+      stroke: #cbd5e1;
+      stroke-width: 2.5;
+      stroke-dasharray: 5 7;
+    }
+
+    .axi-expert-status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+      border-radius: 9999px;
+      border: 1px solid #e2e8f0;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 0.38rem 0.7rem;
+      color: #475569;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .axi-expert-status-pill.is-amber {
+      border-color: #fed7aa;
+      background: #fffbeb;
+      color: #b45309;
+    }
+
+    .axi-expert-status-pill.is-emerald {
+      border-color: #bbf7d0;
+      background: #ecfdf5;
+      color: #047857;
+    }
+
+    .axi-expert-mobile-flow {
+      display: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .axi-expert-mobile-flow-row {
+      display: grid;
+      grid-template-columns: 3.6rem minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.75rem;
+      min-height: 3rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.9rem;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 0.7rem 0.78rem;
+      overflow: hidden;
+    }
+
+    .axi-expert-mobile-flow-row strong {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.8rem;
+      border-radius: 999px;
+      padding: 0.28rem 0.45rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: white;
+      background: #0f172a;
+    }
+
+    .axi-expert-mobile-flow-track {
+      position: relative;
+      height: 0.34rem;
+      border-radius: 999px;
+      background: rgba(203, 213, 225, 0.7);
+      overflow: hidden;
+    }
+
+    .axi-expert-mobile-flow-track::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 42%;
+      border-radius: inherit;
+      background: var(--axi-mobile-flow, #2563eb);
+      box-shadow: 0 0 14px color-mix(in srgb, var(--axi-mobile-flow, #2563eb) 35%, transparent);
+      animation: axiExpertMobileFlowFwd 1.9s ease-in-out infinite;
+    }
+
+    .axi-expert-mobile-flow-row.is-reverse .axi-expert-mobile-flow-track::after {
+      animation-name: axiExpertMobileFlowRev;
+    }
+
+    .axi-expert-mobile-flow-row span:last-child {
+      color: #334155;
+      font-size: 0.72rem;
+      line-height: 1.25;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .axi-expert-lane {
+      fill: none;
+      stroke-width: 3.2;
+      stroke-linecap: round;
+      stroke-dasharray: 5 9;
+      animation: axiExpertLaneFlow 1.8s linear infinite;
+      filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.18));
+    }
+
+    .axi-expert-lane.is-reverse {
+      animation-name: axiExpertLaneFlowReverse;
+    }
+
+    .axi-expert-lane.is-aw,
+    .axi-expert-lane.is-ar {
+      stroke: #f59e0b;
+      filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.28));
+    }
+
+    .axi-expert-lane.is-w {
+      stroke: #3b82f6;
+      filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.28));
+    }
+
+    .axi-expert-lane.is-b,
+    .axi-expert-lane.is-r {
+      stroke: #10b981;
+      filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.24));
+    }
+
+    .axi-expert-packet {
+      transform-box: fill-box;
+      transform-origin: center;
+      filter: drop-shadow(0 18px 28px rgba(15, 23, 42, 0.12));
+      opacity: 0;
+    }
+
+    .axi-expert-packet rect {
+      fill: #fff !important;
+      stroke: #0f172a;
+      stroke-width: 2;
+    }
+
+    .axi-expert-packet text {
+      fill: #0f172a !important;
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.08em;
+    }
+
+    .axi-expert-packet-aw rect,
+    .axi-expert-packet-ar rect {
+      fill: #fffbeb !important;
+      stroke: #f59e0b;
+    }
+
+    .axi-expert-packet-w rect {
+      fill: #eff6ff !important;
+      stroke: #3b82f6;
+    }
+
+    .axi-expert-packet-b rect,
+    .axi-expert-packet-r rect {
+      fill: #ecfdf5 !important;
+      stroke: #10b981;
+    }
+
+    .axi-expert-packet--fwd {
+      animation: axiExpertPacketFwd 5.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    }
+
+    .axi-expert-packet--rev {
+      animation: axiExpertPacketRev 5.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    }
+
+    .axi-expert-packet-aw { animation-delay: 0s; }
+    .axi-expert-packet-w { animation-delay: 0.45s; }
+    .axi-expert-packet-b { animation-delay: 1.05s; }
+    .axi-expert-packet-ar { animation-delay: 1.65s; }
+    .axi-expert-packet-r { animation-delay: 2.25s; }
+
+    .axi-expert-check-dot {
+      animation: axiExpertCheckPulse 2.4s ease-in-out infinite;
+    }
+
+    .axi-expert-check-dot:nth-of-type(2) { animation-delay: 0.35s; }
+    .axi-expert-check-dot:nth-of-type(3) { animation-delay: 0.7s; }
+
+    .axi-expert-rule-card {
+      --axi-expert-tone: #334155;
+      --axi-expert-soft: #f8fafc;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .axi-expert-rule-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1.2rem;
+      width: 5px;
+      height: 2rem;
+      border-radius: 0 999px 999px 0;
+      background: var(--axi-expert-tone);
+    }
+
+    .axi-expert-rule-card:hover {
+      transform: translateY(-2px);
+      border-color: #cbd5e1;
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+    }
+
+    .axi-expert-rule-card.is-slate { --axi-expert-tone: #475569; --axi-expert-soft: #f8fafc; }
+    .axi-expert-rule-card.is-blue { --axi-expert-tone: #2563eb; --axi-expert-soft: #eff6ff; }
+    .axi-expert-rule-card.is-indigo { --axi-expert-tone: #4f46e5; --axi-expert-soft: #eef2ff; }
+    .axi-expert-rule-card.is-emerald { --axi-expert-tone: #059669; --axi-expert-soft: #ecfdf5; }
+    .axi-expert-rule-card.is-amber { --axi-expert-tone: #d97706; --axi-expert-soft: #fffbeb; }
+    .axi-expert-rule-card.is-rose { --axi-expert-tone: #e11d48; --axi-expert-soft: #fff1f2; }
+
+    .axi-expert-card-icon {
+      color: #fff;
+      background: var(--axi-expert-tone);
+      border-color: transparent;
+      box-shadow: 0 12px 22px color-mix(in srgb, var(--axi-expert-tone) 18%, transparent);
+    }
+
+    .axi-expert-emoji {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.55rem;
+      height: 1.55rem;
+      border-radius: 0.48rem;
+      background: var(--axi-expert-soft);
+      border: 1px solid #e2e8f0;
+      font-size: 0.86rem;
+      line-height: 1;
+      flex: 0 0 auto;
+    }
+
+    .axi-expert-rule-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      min-height: 2.85rem;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      border-radius: 0.85rem;
+      padding: 0.68rem 0.78rem;
+    }
+
+    .axi-expert-rule-item strong {
+      display: block;
+      color: #0f172a;
+      font-size: 0.82rem;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .axi-expert-rule-item small {
+      display: block;
+      margin-top: 0.18rem;
+      color: #64748b;
+      font-size: 0.72rem;
+      line-height: 1.35;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    @keyframes axiExpertLaneFlow {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: -44; }
+    }
+
+    @keyframes axiExpertLaneFlowReverse {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: 44; }
+    }
+
+    @keyframes axiExpertPacketFwd {
+      0%, 10% { opacity: 0; transform: translateX(0); }
+      16%, 52% { opacity: 1; }
+      60%, 100% { opacity: 0; transform: translateX(438px); }
+    }
+
+    @keyframes axiExpertPacketRev {
+      0%, 10% { opacity: 0; transform: translateX(0); }
+      16%, 52% { opacity: 1; }
+      60%, 100% { opacity: 0; transform: translateX(-438px); }
+    }
+
+    @keyframes axiExpertCheckPulse {
+      0%, 100% { opacity: 0.42; transform: scale(0.92); }
+      48% { opacity: 1; transform: scale(1.06); }
+    }
+
+    @keyframes axiExpertMobileFlowFwd {
+      0% { left: -45%; opacity: 0.2; }
+      18%, 78% { opacity: 1; }
+      100% { left: 105%; opacity: 0.2; }
+    }
+
+    @keyframes axiExpertMobileFlowRev {
+      0% { right: -45%; opacity: 0.2; }
+      18%, 78% { opacity: 1; }
+      100% { right: 105%; opacity: 0.2; }
+    }
+
+    @media (max-width: 640px) {
+      .axi-expert-svg {
+        display: none;
+      }
+
+      .axi-expert-mobile-flow {
+        display: grid;
+        gap: 0.65rem;
+      }
+
+      .axi-expert-rule-card {
+        padding: 1.15rem !important;
+      }
+
+      .axi-expert-rule-card h4 {
+        font-size: 1rem;
+        line-height: 1.32;
+        overflow-wrap: anywhere;
+      }
+
+      .axi-expert-card-icon {
+        width: 2.8rem !important;
+        height: 2.8rem !important;
+        border-radius: 1rem !important;
+      }
+
+      .axi-expert-rule-item {
+        gap: 0.6rem;
+        padding: 0.68rem 0.72rem;
+      }
+
+      .axi-expert-rule-item strong {
+        font-size: 0.82rem;
+      }
+
+      .axi-expert-rule-item small {
+        font-size: 0.72rem;
+      }
     }
 
     .axi-full-control-showcase {
@@ -3406,12 +3839,21 @@
       .arbiter-internal-line.is-compare,
       .arbiter-internal-line.is-master,
       .arbiter-internal-mux-path.is-active,
-      .ahb-hresp-track-flow {
+      .ahb-hresp-track-flow,
+      .axi-expert-visual-card::before,
+      .axi-expert-lane,
+      .axi-expert-packet,
+      .axi-expert-check-dot,
+      .axi-expert-mobile-flow-track::after {
         animation: none !important;
       }
 
       .ahb-logic-token-group {
         display: none !important;
+      }
+
+      .axi-expert-packet {
+        opacity: 0.78 !important;
       }
 
       .ahb-hresp-track-flow {
@@ -8677,8 +9119,8 @@
                   </div>
                   <h1 class="text-3xl font-black text-slate-900 tracking-tight">AXI4 TRANSACTION SCHEMATIC</h1>
                   <p class="text-slate-500 text-sm mt-1 max-w-2xl leading-relaxed">
-                    고성능 SoC 설계의 핵심인 비동기식 트랜잭션 제어를 시각화합니다.
-                    주소 채널의 <span class="text-blue-600 font-bold">Pipelining</span>과 데이터 채널의 <span class="text-indigo-600 font-bold">Reordering</span> 원리를 확인하세요.
+                    AXI는 ACLK에 동기화되지만, 주소/데이터/응답 채널이 서로 독립적으로 handshake됩니다.
+                    주소 채널의 <span class="text-blue-600 font-bold">Pipelining</span>과 ID 기반 <span class="text-indigo-600 font-bold">Response Reordering</span> 원리를 확인하세요.
                   </p>
                 </div>
               </header>
@@ -9138,7 +9580,7 @@
                   </div>
                   <h1 class="text-3xl font-black text-slate-900 tracking-tight">AXI ADVANCED CONTROL SIGNALS</h1>
                   <p class="text-slate-500 text-sm mt-1 max-w-3xl leading-relaxed">
-                    데이터 전송의 순서와 양을 넘어서, 시스템의 <b>보안(TrustZone), 캐시 일관성, 동기화(Semaphore), 우선순위(QoS)</b>를 제어하는 AXI 사이드밴드 신호들의 하드웨어 메커니즘을 분석합니다.
+                    데이터 전송의 순서와 양을 넘어서, 시스템의 <b>보안(TrustZone), 메모리 속성/캐시 정책, 동기화(Semaphore), 우선순위 힌트(QoS)</b>를 전달하는 AXI 사이드밴드 신호들의 하드웨어 메커니즘을 분석합니다.
                   </p>
                 </div>
               </header>
@@ -9319,7 +9761,7 @@
                       </div>
                       <div>
                         <h2 class="text-xl font-black text-slate-800 uppercase italic tracking-tight">AxCACHE</h2>
-                        <p class="text-[10px] text-blue-600 font-bold uppercase tracking-widest">Early Response &amp; Write-Back Flush</p>
+                        <p class="text-[10px] text-blue-600 font-bold uppercase tracking-widest">Bufferable Attribute &amp; Early Response</p>
                       </div>
                     </div>
                     <button onclick="runCache()" class="bg-slate-900 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-blue-600 transition-all flex items-center shadow-lg active:scale-95">
@@ -9337,7 +9779,7 @@
                     <div class="flex-1 w-full flex relative mt-6">
                       <div class="w-1/2 flex flex-col items-center border-r border-slate-200 border-dashed relative">
                         <div class="absolute -top-4 px-2 py-1 bg-blue-50 border border-blue-200 rounded shadow-sm flex items-center">
-                          <span class="text-[8px] font-black text-blue-600 uppercase tracking-widest">AxCACHE = 0011 (Write-Back)</span>
+                          <span class="text-[8px] font-black text-blue-600 uppercase tracking-widest">AxCACHE[0]=1 (Bufferable)</span>
                         </div>
                         <div class="w-[2px] h-10 bg-slate-200 mt-4"></div>
 
@@ -9371,14 +9813,14 @@
 
                   <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex-1">
                     <h4 class="text-sm font-extrabold text-blue-600 uppercase flex items-center mb-2">
-                      <span class="mr-2">🗂️</span> Bufferable Write-Back Principle
+                      <span class="mr-2">🗂️</span> Bufferable Memory Attribute
                     </h4>
                     <p class="text-[12px] text-slate-600 leading-relaxed mb-3">
-                      중간 캐시(혹은 버퍼)를 허용하는 환경에서의 성능 극대화 메커니즘을 시각화했습니다.
+                      중간 버퍼 또는 cache hierarchy가 write를 접수하고 나중에 하위 메모리로 밀어 넣는 정책을 시각화했습니다.
                     </p>
                     <ul class="text-[11px] text-slate-500 space-y-1.5 list-disc pl-5">
-                      <li><code class="bg-slate-100 px-1 rounded text-slate-600 font-bold">0000</code> (Device): 느린 DDR 메모리에 기록이 <b>완료될 때까지</b> Master가 멈춰서 기다려야 합니다. (Stall)</li>
-                      <li><code class="bg-blue-50 px-1 rounded text-blue-600 font-bold">0011</code> (Write-Back): Cache가 기록을 접수하자마자 Master에게 즉시 <b>Early Response(BVALID)</b>를 보냅니다. 마스터는 즉시 다음 연산을 수행할 수 있으며, DDR 기록(Eviction)은 백그라운드에서 지연 처리됩니다.</li>
+                      <li><code class="bg-slate-100 px-1 rounded text-slate-600 font-bold">0000</code> (Device / non-bufferable): peripheral 성격의 접근은 부작용 순서가 중요하므로 하위 target의 완료 시점까지 응답을 늦추는 정책이 흔합니다.</li>
+                      <li><code class="bg-blue-50 px-1 rounded text-blue-600 font-bold">0011</code>은 bufferable + modifiable normal access 예시입니다. 이것만으로 write-back을 명령하는 것은 아니며, interconnect/cache 정책이 허용할 때 중간 buffer 수락 후 <b>Early Response(BVALID)</b>를 반환할 수 있습니다.</li>
                     </ul>
                   </div>
                 </div>
@@ -9391,7 +9833,7 @@
                       </div>
                       <div>
                         <h2 class="text-xl font-black text-slate-800 uppercase italic tracking-tight">AxQOS</h2>
-                        <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Network-on-Chip Preemption</p>
+                        <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Network-on-Chip Arbitration Hint</p>
                       </div>
                     </div>
                     <button onclick="runQos()" class="bg-slate-900 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-emerald-500 transition-all flex items-center shadow-lg active:scale-95">
@@ -9443,14 +9885,14 @@
 
                   <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex-1">
                     <h4 class="text-sm font-extrabold text-emerald-600 uppercase flex items-center mb-2">
-                      <span class="mr-2">⚡</span> Arbiter Preemption Logic
+                      <span class="mr-2">⚡</span> Arbiter Weighting Logic
                     </h4>
                     <p class="text-[12px] text-slate-600 leading-relaxed mb-3">
                       복잡한 Network-on-Chip(NoC) 환경에서 다수의 마스터가 경합할 때, 트랜잭션의 <b>우선순위(Priority)</b>를 결정합니다.
                     </p>
                     <ul class="text-[11px] text-slate-500 space-y-1.5 list-disc pl-5">
                       <li><code class="bg-slate-100 px-1 rounded text-emerald-600 font-bold">0x0</code>(최하위)부터 <code class="bg-slate-100 px-1 rounded text-emerald-600 font-bold">0xF</code>(최상위)까지의 값을 가집니다.</li>
-                      <li>디스플레이나 실시간 오디오와 같이 <b>지연 시간에 민감한 트랜잭션(<code class="text-emerald-500 font-bold">QoS:F</code>)</b>이 도착하면, NoC 내부의 Arbiter가 대기 중이던 일반 트랜잭션(<code class="text-slate-500 font-bold">QoS:0</code>)을 중단시키고 <b>우선 라우팅(Bypass/Preemption)</b>합니다.</li>
+                      <li>디스플레이나 실시간 오디오와 같이 <b>지연 시간에 민감한 트랜잭션(<code class="text-emerald-500 font-bold">QoS:F</code>)</b>이 도착하면, NoC 내부 arbiter가 다음 선택 지점에서 우선권을 줄 수 있습니다. 이미 수락된 beat를 반드시 중단한다는 뜻은 아니며, 실제 보장 수준은 fabric 정책에 달려 있습니다.</li>
                     </ul>
                   </div>
                 </div>
@@ -9465,7 +9907,7 @@
                   <div class="text-[10px] font-mono text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest hidden md:block">AXI4 Spec Reference</div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
                   <div class="space-y-4">
                     <div class="flex items-center space-x-2 text-rose-600 mb-4">
                       <i data-lucide="code" class="w-5 h-5"></i>
@@ -9505,6 +9947,317 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-blue-600 mb-4">
+                      <i data-lucide="database" class="w-5 h-5"></i>
+                      <h4 class="font-bold uppercase tracking-widest text-sm">AxCACHE[3:0] Bit Allocation</h4>
+                    </div>
+                    <div class="overflow-hidden rounded-xl border border-slate-200">
+                      <table class="w-full text-left text-xs text-slate-600">
+                        <thead class="bg-slate-50 text-[10px] uppercase font-black text-slate-400">
+                          <tr><th class="p-3 border-b border-slate-200">Bit</th><th class="p-3 border-b border-slate-200">Meaning</th><th class="p-3 border-b border-slate-200">Protocol Note</th></tr>
+                        </thead>
+                        <tbody>
+                          <tr class="border-b border-slate-100"><td class="p-3 font-bold mono bg-slate-50">[0]</td><td class="p-3">Bufferable</td><td class="p-3">중간 buffer가 write response timing을 최적화할 수 있습니다.</td></tr>
+                          <tr class="border-b border-slate-100"><td class="p-3 font-bold mono bg-slate-50">[1]</td><td class="p-3">Modifiable</td><td class="p-3">interconnect가 transaction을 merge/split/transform할 수 있음을 뜻합니다.</td></tr>
+                          <tr class="border-b border-slate-100"><td class="p-3 font-bold mono bg-slate-50">[2]</td><td class="p-3">Read Allocate</td><td class="p-3">cache miss 때 read allocation 정책 힌트로 쓰입니다.</td></tr>
+                          <tr><td class="p-3 font-bold mono bg-slate-50">[3]</td><td class="p-3">Write Allocate</td><td class="p-3">cache miss 때 write allocation 정책 힌트로 쓰입니다.</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p class="text-[11px] leading-relaxed text-slate-500">
+                      AXI4에서는 allocate bit가 set될 때 <code>AxCACHE[1]</code>도 set되어야 합니다. AxCACHE는 coherency 자체를 보장하지 않으므로, 캐시 일관성이 필요한 시스템은 ACE/CHI 또는 coherent interconnect 정책을 함께 봐야 합니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="axi-expert-section mb-8 rounded-[32px] bg-slate-50 p-4 md:p-8">
+            <div class="max-w-[1400px] mx-auto space-y-8">
+              <header class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+                <div>
+                  <div class="flex items-center space-x-2 text-indigo-600 mb-2">
+                    <i data-lucide="cpu" class="w-5 h-5"></i>
+                    <span class="text-xs font-bold tracking-widest uppercase">Protocol Engineering Unit</span>
+                  </div>
+                  <h3 class="text-3xl font-black text-slate-900 tracking-tight">AXI FULL에서 놓치기 쉬운 실무 규칙</h3>
+                  <p class="text-slate-500 text-sm mt-1 max-w-3xl leading-relaxed">
+                    검증 핵심축: <b>handshake 계약성</b>, <b>burst 합법성</b>, <b>write-data 순서성</b>, <b>response 완결성</b>, <b>attribute 해석성</b>, <b>bridge 보존성</b>.
+                  </p>
+                </div>
+                <div class="hidden md:flex text-[10px] font-mono text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest">
+                  AXI4 / AXI5 Spec Lens
+                </div>
+              </header>
+
+              <div class="axi-expert-visual-card rounded-3xl p-4 md:p-6">
+              <div class="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between mb-4">
+                <div>
+                  <div class="text-[10px] font-black uppercase tracking-[0.24em] text-indigo-500 mb-2">Schematic Guardrail Map</div>
+                  <h4 class="text-xl font-black text-slate-900 tracking-tight uppercase italic">Channel Contract Review Plane</h4>
+                  <p class="mt-1 text-sm leading-6 text-slate-600">AW/W/B/AR/R 흐름과 RTL review 포인트를 회로도 톤으로 요약합니다.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="axi-expert-status-pill is-amber">🤝 Contract</span>
+                  <span class="axi-expert-status-pill is-emerald">✅ Completion</span>
+                  <span class="axi-expert-status-pill">⚠️ Boundary</span>
+                </div>
+              </div>
+
+              <div class="relative z-10 w-full overflow-x-auto">
+                <svg class="axi-expert-svg" viewBox="0 0 860 360" role="img" aria-labelledby="axiExpertMapTitle axiExpertMapDesc">
+                  <title id="axiExpertMapTitle">AXI Full protocol guardrail map</title>
+                  <desc id="axiExpertMapDesc">Animated AXI manager, fabric, and target lanes showing address, data, response, and validation guardrails.</desc>
+                  <defs>
+                    <linearGradient id="axiExpertManagerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#eff6ff" />
+                      <stop offset="100%" stop-color="#dbeafe" />
+                    </linearGradient>
+                    <linearGradient id="axiExpertFabricGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#f8fafc" />
+                      <stop offset="100%" stop-color="#eef2ff" />
+                    </linearGradient>
+                    <linearGradient id="axiExpertTargetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#ecfdf5" />
+                      <stop offset="100%" stop-color="#dcfce7" />
+                    </linearGradient>
+                    <marker id="axiExpertArrowBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+                    </marker>
+                    <marker id="axiExpertArrowGreen" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+                    </marker>
+                    <marker id="axiExpertArrowAmber" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+                    </marker>
+                  </defs>
+
+                  <rect x="22" y="24" width="816" height="312" rx="28" fill="rgba(255,255,255,0.78)" stroke="#e2e8f0" />
+
+                  <g>
+                    <rect class="axi-expert-node-shadow" x="48" y="138" width="138" height="96" rx="14" />
+                    <rect class="axi-expert-hw-block-svg is-manager" x="42" y="132" width="138" height="96" rx="14" />
+                    <text x="111" y="160" text-anchor="middle" fill="#b45309" font-size="10" font-weight="900">AXI Manager</text>
+                    <text x="111" y="184" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">VALID SRC</text>
+                    <text x="111" y="205" text-anchor="middle" fill="#64748b" font-size="10" font-weight="800">ADDR / DATA ISSUE</text>
+                  </g>
+
+                  <g>
+                    <rect class="axi-expert-node-shadow" x="346" y="108" width="180" height="156" rx="16" />
+                    <rect class="axi-expert-hw-block-svg is-fabric" x="340" y="102" width="180" height="156" rx="16" />
+                    <text x="430" y="132" text-anchor="middle" fill="#475569" font-size="10" font-weight="900">Interconnect</text>
+                    <text x="430" y="156" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">RULE CHECKER</text>
+                    <rect x="374" y="178" width="112" height="42" rx="8" fill="#f8fafc" stroke="#e2e8f0" />
+                    <circle class="axi-expert-check-dot" cx="397" cy="199" r="7" fill="#f59e0b" opacity="0.9" />
+                    <circle class="axi-expert-check-dot" cx="430" cy="199" r="7" fill="#3b82f6" opacity="0.9" />
+                    <circle class="axi-expert-check-dot" cx="463" cy="199" r="7" fill="#10b981" opacity="0.9" />
+                    <text x="430" y="239" text-anchor="middle" fill="#334155" font-size="10" font-weight="900">ORDER / CDC / RESP</text>
+                  </g>
+
+                  <g>
+                    <rect class="axi-expert-node-shadow" x="686" y="138" width="138" height="96" rx="14" />
+                    <rect class="axi-expert-hw-block-svg is-target" x="680" y="132" width="138" height="96" rx="14" />
+                    <text x="749" y="160" text-anchor="middle" fill="#047857" font-size="10" font-weight="900">AXI Target</text>
+                    <text x="749" y="184" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">READY / RESP</text>
+                    <text x="749" y="205" text-anchor="middle" fill="#64748b" font-size="10" font-weight="800">COMPLETION NODE</text>
+                  </g>
+
+                  <path class="axi-expert-signal-base" d="M 198 84 H 666" />
+                  <path class="axi-expert-signal-base" d="M 198 126 H 666" />
+                  <path class="axi-expert-signal-base" d="M 666 168 H 198" />
+                  <path class="axi-expert-signal-base" d="M 198 252 H 666" />
+                  <path class="axi-expert-signal-base" d="M 666 294 H 198" />
+                  <path class="axi-expert-lane is-aw" d="M 198 84 H 666" marker-end="url(#axiExpertArrowAmber)" />
+                  <path class="axi-expert-lane is-w" d="M 198 126 H 666" marker-end="url(#axiExpertArrowBlue)" />
+                  <path class="axi-expert-lane is-reverse is-b" d="M 666 168 H 198" marker-end="url(#axiExpertArrowGreen)" />
+                  <path class="axi-expert-lane is-ar" d="M 198 252 H 666" marker-end="url(#axiExpertArrowAmber)" />
+                  <path class="axi-expert-lane is-reverse is-r" d="M 666 294 H 198" marker-end="url(#axiExpertArrowGreen)" />
+
+                  <text x="210" y="74" fill="#b45309" font-size="11" font-weight="900">AW</text>
+                  <text x="210" y="116" fill="#2563eb" font-size="11" font-weight="900">W</text>
+                  <text x="632" y="158" fill="#047857" font-size="11" font-weight="900">B</text>
+                  <text x="210" y="242" fill="#b45309" font-size="11" font-weight="900">AR</text>
+                  <text x="632" y="284" fill="#047857" font-size="11" font-weight="900">R</text>
+
+                  <g class="axi-expert-packet axi-expert-packet--fwd axi-expert-packet-aw">
+                    <rect x="218" y="68" width="54" height="30" rx="10" fill="#2563eb" />
+                    <text x="245" y="88" text-anchor="middle" fill="white" font-size="11" font-weight="900">AW</text>
+                  </g>
+                  <g class="axi-expert-packet axi-expert-packet--fwd axi-expert-packet-w">
+                    <rect x="218" y="110" width="54" height="30" rx="10" fill="#4f46e5" />
+                    <text x="245" y="130" text-anchor="middle" fill="white" font-size="11" font-weight="900">W</text>
+                  </g>
+                  <g class="axi-expert-packet axi-expert-packet--rev axi-expert-packet-b">
+                    <rect x="584" y="152" width="54" height="30" rx="10" fill="#059669" />
+                    <text x="611" y="172" text-anchor="middle" fill="white" font-size="11" font-weight="900">B</text>
+                  </g>
+                  <g class="axi-expert-packet axi-expert-packet--fwd axi-expert-packet-ar">
+                    <rect x="218" y="236" width="54" height="30" rx="10" fill="#2563eb" />
+                    <text x="245" y="256" text-anchor="middle" fill="white" font-size="11" font-weight="900">AR</text>
+                  </g>
+                  <g class="axi-expert-packet axi-expert-packet--rev axi-expert-packet-r">
+                    <rect x="584" y="278" width="54" height="30" rx="10" fill="#d97706" />
+                    <text x="611" y="298" text-anchor="middle" fill="white" font-size="11" font-weight="900">R</text>
+                  </g>
+
+                  <g>
+                    <rect x="80" y="276" width="166" height="34" rx="17" fill="#f8fafc" stroke="#e2e8f0" />
+                    <text x="163" y="298" text-anchor="middle" fill="#475569" font-size="11" font-weight="900">VALID independent</text>
+                  </g>
+                  <g>
+                    <rect x="594" y="54" width="184" height="34" rx="17" fill="#fffbeb" stroke="#fed7aa" />
+                    <text x="686" y="76" text-anchor="middle" fill="#b45309" font-size="11" font-weight="900">4KB boundary guard</text>
+                  </g>
+                </svg>
+                <div class="axi-expert-mobile-flow" aria-label="AXI Full compact channel flow">
+                  <div class="axi-expert-mobile-flow-row" style="--axi-mobile-flow:#f59e0b">
+                    <strong>AW</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>주소 계약</span>
+                  </div>
+                  <div class="axi-expert-mobile-flow-row" style="--axi-mobile-flow:#3b82f6">
+                    <strong>W</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>데이터 순서</span>
+                  </div>
+                  <div class="axi-expert-mobile-flow-row is-reverse" style="--axi-mobile-flow:#10b981">
+                    <strong>B</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>Write 응답</span>
+                  </div>
+                  <div class="axi-expert-mobile-flow-row" style="--axi-mobile-flow:#f59e0b">
+                    <strong>AR</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>Read 요청</span>
+                  </div>
+                  <div class="axi-expert-mobile-flow-row is-reverse" style="--axi-mobile-flow:#10b981">
+                    <strong>R</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>Beat 응답</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col gap-4 border-b border-slate-100 pb-5 md:flex-row md:items-center md:justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-2 h-8 bg-slate-800 rounded-full"></div>
+                    <div>
+                      <div class="text-[11px] font-black tracking-[0.22em] uppercase text-indigo-500">Implementation Review Checklist</div>
+                      <h4 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Protocol Guard Rules</h4>
+                    </div>
+                  </div>
+                  <div class="text-[10px] font-mono text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest self-start md:self-auto">
+                    RTL / Verification Notes
+                  </div>
+                </div>
+
+                <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              <article class="axi-expert-rule-card is-slate rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="handshake" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-slate-500 mb-1">🤝 Handshake</div>
+                    <h4 class="font-black text-slate-900">VALID/READY 계약</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">⚡</span><div><strong>VALID 독립 Assert</strong><small>READY 비대기</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">📌</span><div><strong>Payload 안정성</strong><small>stall 구간 sideband 고정</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🔒</span><div><strong>Loop 차단성</strong><small>deadlock loop 예방</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-blue rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="rows-3" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-blue-500 mb-1">📏 Burst</div>
+                    <h4 class="font-black text-slate-900">Burst 합법성</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🔢</span><div><strong>AxLEN = Beats - 1</strong><small>INCR 최대 256 beats</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧭</span><div><strong>WRAP 경계 정렬</strong><small>2 / 4 / 8 / 16 beats</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🚧</span><div><strong>4KB Boundary</strong><small>cross 금지 / early termination 금지</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-indigo rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="route" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-indigo-500 mb-1">🧩 Write Path</div>
+                    <h4 class="font-black text-slate-900">Write Data 순서</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🏷️</span><div><strong>WID 제거</strong><small>AXI4 W channel 규칙</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">➡️</span><div><strong>Interleaving 금지</strong><small>burst 단위 연속 W beats</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧰</span><div><strong>AW/W Realign</strong><small>decode buffer</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-emerald rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="list-checks" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-emerald-500 mb-1">✅ Response</div>
+                    <h4 class="font-black text-slate-900">Response 완결</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">📬</span><div><strong>BRESP 단일성</strong><small>write burst 전체 결과</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">📦</span><div><strong>RRESP Beat성</strong><small>read beat별 상태</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧯</span><div><strong>Error 완결성</strong><small>SLVERR / DECERR 후 completion</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-amber rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="database" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-amber-500 mb-1">⚙️ Attribute</div>
+                    <h4 class="font-black text-slate-900">Attribute 해석</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🗂️</span><div><strong>AxCACHE 의미성</strong><small>buffer / modify / allocate</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🎚️</span><div><strong>AxQOS 힌트성</strong><small>SLA / preemption 비보장</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🔁</span><div><strong>ACE / CHI 경계성</strong><small>coherency 별도 정책</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-rose rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="git-branch" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-rose-500 mb-1">🌉 Boundary</div>
+                    <h4 class="font-black text-slate-900">Bridge/CDC 보존</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">⏱️</span><div><strong>ACLK 도메인성</strong><small>single clock 기준</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧷</span><div><strong>Adapter 보존성</strong><small>ID / order / resp 유지</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧮</span><div><strong>Width 변환성</strong><small>WSTRB / narrow / unalign</small></div></div>
+                </div>
+              </article>
                 </div>
               </div>
             </div>
@@ -9576,18 +10329,22 @@
 
             <div class="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.85fr)] items-start">
               <div class="rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#f4f9ff_100%)] p-5 md:p-6">
-                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-5">
-                  <div>
+                <div class="flex flex-col gap-4 mb-5">
+                  <div class="axi-full-timing-heading">
                     <div id="axi-full-timing-kicker" class="text-[11px] font-black tracking-[0.24em] uppercase text-blue-500 mb-2">Write Dependency</div>
-                    <h4 id="axi-full-timing-title" class="text-lg font-bold text-gray-900">AXI4 write response waits for address and last data</h4>
+                    <h4 id="axi-full-timing-title" class="text-lg font-bold text-gray-900">AXI4 BRESP after AW + final W</h4>
                   </div>
-                  <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit" id="axi-full-timing-controls">
+                  <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit max-w-full" id="axi-full-timing-controls">
                     <button data-wave="axi_full_write_dependency" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200">Write Dep</button>
                     <button data-wave="axi_full_read_dependency" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read Dep</button>
+                    <button data-wave="axi_full_write_backpressure" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Write Stall</button>
+                    <button data-wave="axi_full_read_backpressure" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read Stall</button>
                     <button data-wave="axi_full_write_burst" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Write Burst</button>
                     <button data-wave="axi_full_read_burst" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read Burst</button>
                     <button data-wave="axi_full_write_data_first" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Leading W</button>
                     <button data-wave="axi_full_read_id_order" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">ID Order</button>
+                    <button data-wave="axi_full_reset_release" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Reset</button>
+                    <button data-wave="axi_full_axi3_write_response" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">AXI3 B</button>
                   </div>
                 </div>
 
@@ -9611,7 +10368,7 @@
                   <ul id="axi-full-timing-points" class="space-y-2 text-sm leading-6 text-gray-700"></ul>
                 </div>
 
-                <div id="axi-full-timing-footnote" class="rounded-[20px] border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-900"></div>
+                <div id="axi-full-timing-footnote" class="hidden rounded-[20px] border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-900" aria-hidden="true"></div>
               </div>
             </div>
           </div>
@@ -10976,94 +11733,132 @@
       axi_full_write_dependency: {
         signal: [
           { name: 'ACLK', wave: 'p.........' },
-          { name: 'AWADDR', wave: 'x==x......', data: ['0x8000'] },
+          { name: 'AWADDR', wave: 'x==x......', data: ['A0'] },
+          { name: 'AWLEN', wave: 'x==x......', data: ['2'] },
+          { name: 'AWSIZE', wave: 'x==x......', data: ['4B'] },
           { name: 'AWVALID', wave: '01.0......' },
           { name: 'AWREADY', wave: '0.10......' },
           { name: 'WDATA', wave: 'xxx===x...', data: ['D0', 'D1', 'D2'] },
-          { name: 'WSTRB', wave: 'xxx===x...', data: ['1111', '1111', '0011'] },
+          { name: 'WSTRB', wave: 'xxx===x...', data: ['F', 'F', '3'] },
           { name: 'WVALID', wave: '0001..0...' },
           { name: 'WREADY', wave: '0001..0...' },
           { name: 'WLAST', wave: '0000010...' },
-          { name: 'BRESP', wave: 'xxxxxxx=x.', data: ['OKAY'] },
+          { name: 'BRESP', wave: 'xxxxxxx=x.', data: ['OK'] },
           { name: 'BVALID', wave: '000000010.' },
           { name: 'BREADY', wave: '01........' }
         ],
-        head: { text: 'AXI4 Write Dependency: BVALID after AW + final W beat', tick: 0 },
-        config: { hscale: 1.05 }
+        head: { text: 'Write Dep', tick: 0 },
+        config: { hscale: 1.08 }
       },
       axi_full_read_dependency: {
         signal: [
           { name: 'ACLK', wave: 'p.........' },
-          { name: 'ARADDR', wave: 'x==x......', data: ['0x9000'] },
+          { name: 'ARADDR', wave: 'x==x......', data: ['A0'] },
+          { name: 'ARLEN', wave: 'x==x......', data: ['2'] },
+          { name: 'ARSIZE', wave: 'x==x......', data: ['8B'] },
           { name: 'ARVALID', wave: '01.0......' },
           { name: 'ARREADY', wave: '0.10......' },
           { name: 'RID', wave: 'xxxx===x..', data: ['0', '0', '0'] },
           { name: 'RDATA', wave: 'xxxx===x..', data: ['Q0', 'Q1', 'Q2'] },
-          { name: 'RRESP', wave: 'xxxx===x..', data: ['OKAY', 'OKAY', 'OKAY'] },
+          { name: 'RRESP', wave: 'xxxx===x..', data: ['OK', 'OK', 'OK'] },
           { name: 'RVALID', wave: '00001..0..' },
           { name: 'RREADY', wave: '01........' },
           { name: 'RLAST', wave: '00000010..' }
         ],
-        head: { text: 'AXI4 Read Dependency: read data follows accepted AR', tick: 0 },
-        config: { hscale: 1.05 }
+        head: { text: 'Read Dep', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_full_write_backpressure: {
+        signal: [
+          { name: 'ACLK', wave: 'p...........' },
+          { name: 'AWADDR', wave: 'x==x........', data: ['A0'] },
+          { name: 'AWVALID', wave: '01.0........' },
+          { name: 'AWREADY', wave: '0.10........' },
+          { name: 'WDATA', wave: 'xxx=....x...', data: ['D0'] },
+          { name: 'WSTRB', wave: 'xxx=....x...', data: ['F'] },
+          { name: 'WVALID', wave: '0001....0...' },
+          { name: 'WREADY', wave: '000000010...' },
+          { name: 'WLAST', wave: '0001....0...' },
+          { name: 'BRESP', wave: 'xxxxxxxxx=x.', data: ['OK'] },
+          { name: 'BVALID', wave: '00000000010.' },
+          { name: 'BREADY', wave: '01..........' }
+        ],
+        head: { text: 'W Stall', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_full_read_backpressure: {
+        signal: [
+          { name: 'ACLK', wave: 'p...........' },
+          { name: 'ARADDR', wave: 'x==x........', data: ['A0'] },
+          { name: 'ARVALID', wave: '01.0........' },
+          { name: 'ARREADY', wave: '0.10........' },
+          { name: 'RID', wave: 'xxxx=...x...', data: ['7'] },
+          { name: 'RDATA', wave: 'xxxx=...x...', data: ['Q0'] },
+          { name: 'RRESP', wave: 'xxxx=...x...', data: ['OK'] },
+          { name: 'RVALID', wave: '00001...0...' },
+          { name: 'RREADY', wave: '000000010...' },
+          { name: 'RLAST', wave: '00001...0...' }
+        ],
+        head: { text: 'R Stall', tick: 0 },
+        config: { hscale: 1.08 }
       },
       axi_full_write_burst: {
         signal: [
           { name: 'ACLK', wave: 'p...........' },
-          { name: 'AWADDR', wave: 'x==x........', data: ['0xA000'] },
-          { name: 'AWLEN', wave: 'x==x........', data: ['LEN=3'] },
+          { name: 'AWADDR', wave: 'x==x........', data: ['A0'] },
+          { name: 'AWLEN', wave: 'x==x........', data: ['3'] },
           { name: 'AWSIZE', wave: 'x==x........', data: ['4B'] },
           { name: 'AWBURST', wave: 'x==x........', data: ['INCR'] },
           { name: 'AWVALID', wave: '01.0........' },
           { name: 'AWREADY', wave: '0.10........' },
           { name: 'WDATA', wave: 'xxx====x....', data: ['D0', 'D1', 'D2', 'D3'] },
-          { name: 'WSTRB', wave: 'xxx====x....', data: ['1111', '1111', '1111', '1111'] },
+          { name: 'WSTRB', wave: 'xxx====x....', data: ['F', 'F', 'F', 'F'] },
           { name: 'WVALID', wave: '0001...0....' },
           { name: 'WREADY', wave: '0001...0....' },
           { name: 'WLAST', wave: '00000010....' },
-          { name: 'BRESP', wave: 'xxxxxxxx=x..', data: ['OKAY'] },
+          { name: 'BRESP', wave: 'xxxxxxxx=x..', data: ['OK'] },
           { name: 'BVALID', wave: '0000000010..' },
           { name: 'BREADY', wave: '01..........' }
         ],
-        head: { text: 'AXI4 Write Burst: one AW, four W beats, one BRESP', tick: 0 },
-        config: { hscale: 0.95 }
+        head: { text: 'Write Burst', tick: 0 },
+        config: { hscale: 1.02 }
       },
       axi_full_read_burst: {
         signal: [
           { name: 'ACLK', wave: 'p...........' },
-          { name: 'ARADDR', wave: 'x==x........', data: ['0xB000'] },
-          { name: 'ARLEN', wave: 'x==x........', data: ['LEN=2'] },
+          { name: 'ARADDR', wave: 'x==x........', data: ['A0'] },
+          { name: 'ARLEN', wave: 'x==x........', data: ['2'] },
           { name: 'ARSIZE', wave: 'x==x........', data: ['8B'] },
           { name: 'ARBURST', wave: 'x==x........', data: ['INCR'] },
           { name: 'ARVALID', wave: '01.0........' },
           { name: 'ARREADY', wave: '0.10........' },
           { name: 'RID', wave: 'xxxx===x....', data: ['4', '4', '4'] },
           { name: 'RDATA', wave: 'xxxx===x....', data: ['Q0', 'Q1', 'Q2'] },
-          { name: 'RRESP', wave: 'xxxx===x....', data: ['OKAY', 'OKAY', 'OKAY'] },
+          { name: 'RRESP', wave: 'xxxx===x....', data: ['OK', 'OK', 'OK'] },
           { name: 'RVALID', wave: '00001..0....' },
           { name: 'RREADY', wave: '01..........' },
           { name: 'RLAST', wave: '00000010....' }
         ],
-        head: { text: 'AXI4 Read Burst: one AR, per-beat RRESP, final RLAST', tick: 0 },
-        config: { hscale: 0.95 }
+        head: { text: 'Read Burst', tick: 0 },
+        config: { hscale: 1.02 }
       },
       axi_full_write_data_first: {
         signal: [
           { name: 'ACLK', wave: 'p.........' },
-          { name: 'WDATA', wave: 'x==x......', data: ['Lead D0'] },
-          { name: 'WSTRB', wave: 'x==x......', data: ['1111'] },
+          { name: 'WDATA', wave: 'x==x......', data: ['D0'] },
+          { name: 'WSTRB', wave: 'x==x......', data: ['F'] },
           { name: 'WVALID', wave: '01.0......' },
           { name: 'WREADY', wave: '0.10......' },
           { name: 'WLAST', wave: '0.10......' },
-          { name: 'AWADDR', wave: 'xxxx==x...', data: ['0x8040'] },
+          { name: 'AWADDR', wave: 'xxxx==x...', data: ['A0'] },
           { name: 'AWVALID', wave: '00001.0...' },
           { name: 'AWREADY', wave: '0000.10...' },
-          { name: 'BRESP', wave: 'xxxxxxx=x.', data: ['OKAY'] },
+          { name: 'BRESP', wave: 'xxxxxxx=x.', data: ['OK'] },
           { name: 'BVALID', wave: '00000010..' },
           { name: 'BREADY', wave: '01........' }
         ],
-        head: { text: 'AXI4 Leading Write Data: W can arrive before AW', tick: 0 },
-        config: { hscale: 1.0 }
+        head: { text: 'Leading W', tick: 0 },
+        config: { hscale: 1.08 }
       },
       axi_full_read_id_order: {
         signal: [
@@ -11078,8 +11873,38 @@
           { name: 'RREADY', wave: '01..........' },
           { name: 'RLAST', wave: '0000101010..' }
         ],
-        head: { text: 'AXI4 Read ID Ordering: different IDs may bypass, same ID stays ordered', tick: 0 },
-        config: { hscale: 0.95 }
+        head: { text: 'ID Order', tick: 0 },
+        config: { hscale: 1.05 }
+      },
+      axi_full_reset_release: {
+        signal: [
+          { name: 'ACLK', wave: 'p.........' },
+          { name: 'ARESETn', wave: '0.1.......' },
+          { name: 'AWVALID', wave: '0..10.....' },
+          { name: 'WVALID', wave: '0...10....' },
+          { name: 'ARVALID', wave: '0..10.....' },
+          { name: 'BVALID', wave: '0.....10..' },
+          { name: 'RVALID', wave: '0.....10..' }
+        ],
+        head: { text: 'Reset', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_full_axi3_write_response: {
+        signal: [
+          { name: 'ACLK', wave: 'p.........' },
+          { name: 'WDATA', wave: 'x==x......', data: ['D0'] },
+          { name: 'WVALID', wave: '01.0......' },
+          { name: 'WREADY', wave: '0.10......' },
+          { name: 'WLAST', wave: '0.10......' },
+          { name: 'AWADDR', wave: 'xxxx==x...', data: ['A0'] },
+          { name: 'AWVALID', wave: '00001.0...' },
+          { name: 'AWREADY', wave: '0000.10...' },
+          { name: 'BRESP', wave: 'xxxxx=x...', data: ['OK'] },
+          { name: 'BVALID', wave: '0000010...' },
+          { name: 'BREADY', wave: '01........' }
+        ],
+        head: { text: 'AXI3 B', tick: 0 },
+        config: { hscale: 1.08 }
       }
     };
 
@@ -11117,69 +11942,103 @@
     const axiFullTimingWaveMeta = {
       axi_full_write_dependency: {
         kicker: 'Write Dependency',
-        title: 'AXI4 write response waits for address and last data',
-        description: '<code>BVALID</code>는 AXI4에서 <code>AWVALID/AWREADY</code>와 마지막 <code>WVALID/WREADY + WLAST</code>가 모두 성립된 뒤에만 올라올 수 있습니다.',
+        title: 'AXI4 BRESP after AW + final W',
+        description: '<code>BVALID</code>는 AXI4에서 write address와 마지막 write data beat가 모두 수락된 뒤에만 올라올 수 있습니다.',
         points: [
           '<code>AWVALID</code>와 <code>WVALID</code>는 각각 READY를 기다리지 않고 독립적으로 나와야 합니다.',
-          'write response는 마지막 write beat 이전에 나오면 안 됩니다.',
-          'single <code>BRESP</code>는 burst 전체 결과를 대표합니다.'
-        ],
-        footnote: 'ARM IHI 0022H Figure A3-7, A3-45~A3-46 기준입니다. AXI4에서는 AXI3보다 더 엄격하게, address acceptance까지 끝나야 <code>BVALID</code>가 나올 수 있습니다.'
+          'AXI4/AXI5 write response는 address acceptance까지 끝난 뒤에만 가능합니다.',
+          '하나의 <code>BRESP</code>는 burst 전체 결과를 대표합니다.'
+        ]
       },
       axi_full_read_dependency: {
         kicker: 'Read Dependency',
-        title: 'Read data only follows an accepted read address',
-        description: '<code>RVALID</code>는 <code>ARVALID/ARREADY</code> 핸드셰이크 이후에만 생성될 수 있고, slave는 <code>RREADY</code>를 기다리며 데이터를 만들 수는 있어도 <code>RVALID</code> assert 자체를 의존시키면 안 됩니다.',
+        title: 'AXI4 RVALID after AR',
+        description: '<code>RVALID</code>는 read address가 수락된 뒤에만 생성될 수 있고, read data channel의 payload는 <code>RVALID</code>와 함께 유효해야 합니다.',
         points: [
           '<code>ARVALID</code>는 master가 먼저 구동합니다.',
           '<code>RVALID</code>가 올라오면 <code>RDATA</code>, <code>RRESP</code>, <code>RID</code>가 함께 유효해야 합니다.',
           '마지막 beat에서는 <code>RLAST</code>가 반드시 함께 올라와야 합니다.'
-        ],
-        footnote: 'ARM IHI 0022H Figure A3-5, A3-44~A3-45 및 A3-43의 read data channel 정의를 반영했습니다.'
+        ]
+      },
+      axi_full_write_backpressure: {
+        kicker: 'Write Backpressure',
+        title: 'W channel holds during stall',
+        description: '<code>WVALID</code>가 HIGH인데 <code>WREADY</code>가 LOW이면 master는 <code>WDATA</code>, <code>WSTRB</code>, <code>WLAST</code>를 안정적으로 유지해야 합니다.',
+        points: [
+          '<code>WVALID</code>는 <code>WREADY</code>를 기다린 뒤에야 올라오는 구조가 되면 안 됩니다.',
+          'stall 동안 write data/control 정보는 같은 beat를 가리켜야 합니다.',
+          'single-beat write라도 <code>WLAST</code>는 해당 beat와 함께 유지됩니다.'
+        ]
+      },
+      axi_full_read_backpressure: {
+        kicker: 'Read Backpressure',
+        title: 'R channel holds during stall',
+        description: '<code>RVALID</code>가 HIGH인데 <code>RREADY</code>가 LOW이면 slave는 read data beat를 유지하고, handshake가 된 뒤 다음 상태로 넘어갑니다.',
+        points: [
+          '<code>RVALID</code>는 master의 <code>RREADY</code> 선행 여부와 독립적으로 assert될 수 있어야 합니다.',
+          '<code>RDATA</code>, <code>RRESP</code>, <code>RID</code>, <code>RLAST</code>는 stall 동안 한 beat로 고정됩니다.',
+          'master는 준비가 되면 <code>RREADY</code>를 올려 해당 beat를 수락합니다.'
+        ]
       },
       axi_full_write_burst: {
         kicker: 'Write Burst',
-        title: 'One AW handshake expands to multiple W beats',
+        title: 'One AW, many W beats',
         description: 'AXI4 write burst는 주소를 한 번만 보내고, <code>WDATA</code>를 여러 beat로 전송한 뒤 burst 전체에 대해 <code>BRESP</code>를 한 번 받습니다.',
         points: [
           '<code>AWLEN=3</code>은 총 4 beats 전송을 뜻합니다.',
           '<code>WLAST</code>는 마지막 beat에서만 HIGH가 됩니다.',
           '어느 beat에서 에러가 나더라도 slave는 burst를 끝까지 받은 뒤 최종 <code>BRESP</code>를 반환합니다.'
-        ],
-        footnote: 'Introduction to AMBA AXI4 pp. 22~24 및 ARM IHI 0022H A3-43의 write data / write response 규칙을 바탕으로 구성했습니다.'
+        ]
       },
       axi_full_read_burst: {
         kicker: 'Read Burst',
-        title: 'Read burst returns data and response on every beat',
+        title: 'One AR, many R beats',
         description: 'read burst에서는 <code>AR</code>가 한 번 수락된 뒤, slave가 각 beat마다 <code>RDATA</code>와 <code>RRESP</code>를 함께 반환하고 마지막에서 <code>RLAST</code>를 표시합니다.',
         points: [
           '<code>ARLEN=2</code>는 총 3 beats 반환을 의미합니다.',
           'read는 <code>RRESP</code>가 beat마다 붙고, write처럼 별도 B 채널 응답을 쓰지 않습니다.',
           '도중에 error가 보고돼도 burst 길이 자체는 끝까지 유지됩니다.'
-        ],
-        footnote: 'Introduction to AMBA AXI4 pp. 25~27 기준입니다. 문서에는 read burst에서 early termination이 없다고 명시되어 있습니다.'
+        ]
       },
       axi_full_write_data_first: {
         kicker: 'Leading Write Data',
-        title: 'Write data may appear before the write address',
+        title: 'W channel can lead AW',
         description: 'AXI는 채널 간 고정 타이밍 관계를 정의하지 않기 때문에, interface 상에서는 <code>W</code> 채널이 <code>AW</code>보다 먼저 보일 수 있습니다.',
         points: [
           '이 동작은 AXI 프로토콜상 허용되며, interconnect가 필요하면 AW/W를 내부에서 realign해야 합니다.',
           '선행 write data가 있어도 최종 write response는 address acceptance까지 끝난 뒤에만 가능합니다.',
           '실제 RTL에서는 destination decode가 address에 의존한다면 write data buffering이 필요합니다.'
-        ],
-        footnote: 'ARM IHI 0022H A3-44는 write data가 address보다 먼저 혹은 같은 cycle에 나타날 수 있다고 설명합니다.'
+        ]
       },
       axi_full_read_id_order: {
         kicker: 'ID Ordering',
-        title: 'Different IDs may bypass, but the same ID must stay in order',
+        title: 'Same RID stays ordered',
         description: '예시에서는 ID 1의 응답이 ID 0보다 먼저 돌아오지만, 같은 ID 0으로 발행된 A와 C는 요청된 순서를 유지해 A 뒤에 C가 반환됩니다.',
         points: [
           '서로 다른 ID 사이에는 read return order 제한이 없습니다.',
           '같은 ID는 요청 순서대로 complete되어야 하므로 C가 A를 추월하면 안 됩니다.',
           'master는 <code>RID</code>를 보고 response matching과 reorder handling을 수행합니다.'
-        ],
-        footnote: 'Introduction to AMBA AXI4 pp. 50~53 및 ARM IHI 0022H A6 ordering model 설명과 일치합니다.'
+        ]
+      },
+      axi_full_reset_release: {
+        kicker: 'Reset',
+        title: 'VALID low until reset release',
+        description: '<code>ARESETn</code>이 assert된 동안 master VALID 신호는 LOW여야 하며, reset 해제는 <code>ACLK</code> 상승 에지에 동기화해서 정상 transaction을 시작합니다.',
+        points: [
+          'reset 중 <code>ARVALID</code>, <code>AWVALID</code>, <code>WVALID</code>는 LOW로 유지합니다.',
+          'reset 해제 뒤 첫 valid transfer는 clock edge 기준으로 정렬합니다.',
+          'slave response VALID도 reset 이후 정상 request 흐름에 맞춰 생성됩니다.'
+        ]
+      },
+      axi_full_axi3_write_response: {
+        kicker: 'AXI3 Contrast',
+        title: 'AXI3 BRESP dependency differs',
+        description: 'AXI3에서는 legacy write response dependency를 비교용으로 보여줍니다. AXI4/AXI5에서는 같은 RTL로 구현하면 안 되고, address acceptance까지 기다려야 합니다.',
+        points: [
+          'AXI3 diagram은 마지막 W beat 이후 response가 가능했던 과거 규칙을 설명하기 위한 비교 예시입니다.',
+          'AXI4/AXI5 설계에서는 <code>AW</code>와 마지막 <code>W</code> 모두 수락된 뒤 <code>BVALID</code>를 올립니다.',
+          '프로젝트가 AXI4 기반이면 이 버튼은 legacy 차이를 이해하는 용도로만 보면 됩니다.'
+        ]
       }
     };
 
@@ -12156,7 +13015,7 @@
       }
 
       const req = createPkt(
-        isCacheable ? 'WRITE (CACHE=0011)' : 'WRITE (CACHE=0000)',
+        isCacheable ? 'WRITE (BUFFERABLE)' : 'WRITE (DEVICE)',
         isCacheable ? 'border-blue-500 bg-blue-100 text-blue-800' : 'border-slate-500 bg-slate-100 text-slate-800',
         '70px',
         '50%'
@@ -12307,7 +13166,7 @@
       arbiterStatus.classList.replace('bg-slate-100', 'bg-emerald-100');
       arbiterStatus.classList.replace('text-slate-500', 'text-emerald-700');
       arbiterBox.classList.add('arbiter-active');
-      showAxiFullControlMsg('qos-msg', 'Arbiter Preemption!<br>QoS:F Bypasses QoS:0', 2000, '<i data-lucide="arrow-up-circle" class="w-5 h-5 mb-1 text-emerald-300"></i>');
+      showAxiFullControlMsg('qos-msg', 'Priority Hint Applied<br>QoS:F selected before QoS:0', 2000, '<i data-lucide="arrow-up-circle" class="w-5 h-5 mb-1 text-emerald-300"></i>');
 
       await sleep(800);
       arbiterStatus.innerText = 'Routing LCD (0xF)';
@@ -12350,7 +13209,7 @@
       AWSIZE: 'beat당 바이트 수입니다.',
       AWBURST: '주소 증가 방식을 지정합니다.',
       AWLOCK: 'exclusive access 여부입니다.',
-      AWCACHE: 'cache/buffer 속성입니다.',
+      AWCACHE: 'memory attribute bits입니다.',
       AWPROT: '보호 속성 정보입니다.',
       AWQOS: 'QoS 우선순위 힌트입니다.',
       AWREGION: '논리 region 구분용 신호입니다.',
@@ -12374,7 +13233,7 @@
       ARSIZE: 'beat당 바이트 수입니다.',
       ARBURST: '주소 증가 방식을 지정합니다.',
       ARLOCK: 'exclusive access 여부입니다.',
-      ARCACHE: 'cache/buffer 속성입니다.',
+      ARCACHE: 'memory attribute bits입니다.',
       ARPROT: '보호 속성 정보입니다.',
       ARQOS: 'QoS 우선순위 힌트입니다.',
       ARREGION: '논리 region 구분용 신호입니다.',
@@ -12464,7 +13323,7 @@
             width: '4 bits',
             source: 'Master',
             usage: 'Conditional',
-            description: 'bufferable, cacheable, allocate 관련 메모리 속성을 전달합니다. interconnect와 memory subsystem의 처리 정책에 영향을 줍니다.',
+            description: 'bufferable, modifiable, allocate 관련 메모리 속성을 전달합니다. cache coherency를 직접 보장하는 신호는 아니며 interconnect와 memory subsystem의 처리 정책에 영향을 줍니다.',
           },
           {
             signal: 'AWPROT',
@@ -12653,7 +13512,7 @@
             width: '4 bits',
             source: 'Master',
             usage: 'Conditional',
-            description: 'read access의 cache/buffer/allocate 속성을 제공합니다. memory hierarchy와 coherency-adjacent 정책에 영향을 줄 수 있습니다.',
+            description: 'read access의 bufferable, modifiable, allocate 속성을 제공합니다. memory hierarchy의 처리 정책에 영향을 주지만, cache coherency 자체는 ACE/CHI나 coherent fabric 정책이 담당합니다.',
           },
           {
             signal: 'ARPROT',
@@ -13355,18 +14214,19 @@
     function renderWaveDromToContainer(sourceJson, containerId, targetIndex) {
       if (typeof WaveDrom === 'undefined') return;
       const container = document.getElementById(containerId);
+      const diagramMinWidth = Number(sourceJson?.config?.diagramMinWidth || 0);
       if (container) {
         container.innerHTML = '';
-        container.style.minWidth = '0';
-        container.style.width = '100%';
+        container.style.minWidth = diagramMinWidth ? `${diagramMinWidth}px` : '0';
+        container.style.width = diagramMinWidth ? `${diagramMinWidth}px` : '100%';
         container.style.display = 'flex';
         container.style.justifyContent = 'center';
       }
       WaveDrom.RenderWaveForm(targetIndex, sourceJson, 'WaveDrom_Display_');
       const svg = container?.querySelector('svg');
       if (svg) {
-        svg.style.width = '100%';
-        svg.style.maxWidth = '100%';
+        svg.style.width = diagramMinWidth ? `${diagramMinWidth}px` : '100%';
+        svg.style.maxWidth = diagramMinWidth ? 'none' : '100%';
         svg.style.height = 'auto';
         svg.style.display = 'block';
         svg.style.margin = '0 auto';
@@ -13459,7 +14319,10 @@
             axiFullTimingRefs.points.innerHTML = meta.points.map((item) => `<li>- ${item}</li>`).join('');
           }
           if (axiFullTimingRefs.footnote) {
-            axiFullTimingRefs.footnote.innerHTML = meta.footnote;
+            const footnote = (meta.footnote || '').trim();
+            axiFullTimingRefs.footnote.innerHTML = footnote;
+            axiFullTimingRefs.footnote.classList.toggle('hidden', !footnote);
+            axiFullTimingRefs.footnote.setAttribute('aria-hidden', String(!footnote));
           }
         }
         axiFullTimingRefs.buttons.forEach((button) => {

@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modeling a Bus Using a Class - Semiconductor Design Guide</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts: Pretendard & IBM Plex Sans -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                        mono: ['IBM Plex Sans', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            600: '#475569',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        blue: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for Animations and Patterns -->
+    <style>
+        /* Grid Background Pattern */
+        .diagram-grid {
+            background-color: #f8fafc;
+            background-image: 
+                linear-gradient(#e2e8f0 1px, transparent 1px), 
+                linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
+            background-position: center center;
+        }
+
+        /* SVG Node Hover Effects */
+        .svg-node {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s;
+            transform-origin: center;
+        }
+        .svg-node:hover {
+            transform: translateY(-4px) scale(1.02);
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Signal Flow Animation */
+        @keyframes dash-flow {
+            to { stroke-dashoffset: -24; }
+        }
+        .animate-flow {
+            stroke-dasharray: 12;
+            animation: dash-flow 0.8s linear infinite;
+        }
+        .animate-flow-reverse {
+            stroke-dasharray: 12;
+            animation: dash-flow 0.8s linear infinite reverse;
+        }
+
+        /* Pulse Animation for Active Nodes */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .node-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            transform-origin: center;
+        }
+
+        /* Packet Move Animation */
+        @keyframes move-packet {
+            0% { transform: translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(180px); opacity: 0; }
+        }
+        .animate-packet {
+            animation: move-packet 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Gear Spin Animations for Automation */
+        @keyframes spin-gear {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spin-gear-reverse {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+        .animate-gear {
+            animation: spin-gear 8s linear infinite;
+        }
+        .animate-gear-reverse {
+            animation: spin-gear-reverse 8s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased p-6 md:p-12 selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- Header Section -->
+    <header class="max-w-6xl mx-auto mb-12">
+        <div class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-bold mb-4 tracking-wide uppercase">
+            UVM Architecture Guide
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
+            Modeling a Bus Using a Class
+        </h1>
+        <p class="text-lg text-slate-600 max-w-3xl leading-relaxed">
+            검증 환경에서 버스(Bus) 프로토콜이나 트랜잭션 데이터를 효과적으로 생성하고 전달하기 위해 
+            <code class="font-mono bg-slate-200 px-1.5 py-0.5 rounded text-slate-800 text-sm">uvm_sequence_item</code>을 상속받아 클래스로 모델링하는 방법을 다룹니다.
+        </p>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-12">
+
+        <!-- Section 1: 역할 및 상속 구조 -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- [1] Item의 역할 -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 flex flex-col justify-center">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-200">
+                        <span class="text-blue-600 font-bold text-lg">1</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900">Item의 역할</h2>
+                </div>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                    <strong>Sequence Item</strong>은 검증 환경 내에서 데이터를 운반하는 기본 단위입니다. 
+                    마치 택배 상자처럼 주소(Address), 데이터(Data), 제어 신호(Control) 등을 캡슐화하여 
+                    생성기(Sequence)에서 구동기(Driver)로 전달합니다.
+                </p>
+
+                <!-- SVG Diagram: Item Role -->
+                <div class="w-full h-40 diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden mb-6">
+                    <svg viewBox="0 0 420 180" class="w-full h-full max-w-sm">
+                        <defs>
+                            <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#60a5fa"/>
+                            </marker>
+                        </defs>
+                        
+                        <!-- Raw Pin Signals -->
+                        <g class="svg-node" transform="translate(10, 50)">
+                            <path d="M 0 10 L 40 10 M 0 30 L 40 30 M 0 50 L 40 50 M 0 70 L 40 70" fill="none" class="stroke-slate-300 stroke-[3]" />
+                            <text x="20" y="-5" text-anchor="middle" class="font-sans text-[11px] font-bold fill-slate-500">Pin-Level</text>
+                        </g>
+
+                        <!-- Abstracting arrow -->
+                        <path d="M 60 90 C 80 90, 100 90, 110 90" fill="none" class="stroke-blue-400 stroke-[3] stroke-dasharray-4" marker-end="url(#arrow-blue)" />
+                        <text x="85" y="80" text-anchor="middle" class="font-sans text-[10px] font-bold fill-blue-500">추상화</text>
+
+                        <!-- Sequence Item Box -->
+                        <g class="svg-node" transform="translate(130, 20)">
+                            <!-- Box Body -->
+                            <rect width="140" height="140" rx="12" class="fill-white stroke-blue-500 stroke-[3] drop-shadow-md" />
+                            <!-- Box Header -->
+                            <path d="M 0 12 Q 0 0 12 0 L 128 0 Q 140 0 140 12 L 140 35 L 0 35 Z" class="fill-blue-50" />
+                            <path d="M 0 35 L 140 35" fill="none" class="stroke-blue-500 stroke-[3]" />
+                            <text x="70" y="22" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-800">Sequence Item</text>
+                            
+                            <!-- Encapsulated Fields -->
+                            <g transform="translate(20, 50)">
+                                <rect width="100" height="22" rx="4" class="fill-slate-50 stroke-slate-200 stroke-1" />
+                                <text x="50" y="15" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-600">rand Addr</text>
+                            </g>
+                            <g transform="translate(20, 80)">
+                                <rect width="100" height="22" rx="4" class="fill-slate-50 stroke-slate-200 stroke-1" />
+                                <text x="50" y="15" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-600">rand Data</text>
+                            </g>
+                            <g transform="translate(20, 110)">
+                                <rect width="100" height="22" rx="4" class="fill-slate-50 stroke-slate-200 stroke-1" />
+                                <text x="50" y="15" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-600">rand Ctrl</text>
+                            </g>
+                        </g>
+
+                        <!-- Send arrow -->
+                        <path d="M 280 90 L 320 90" fill="none" class="stroke-blue-400 stroke-[3] animate-flow" marker-end="url(#arrow-blue)" />
+
+                        <!-- Driver Target -->
+                        <g class="svg-node" transform="translate(330, 60)">
+                            <rect width="60" height="60" rx="8" class="fill-indigo-50 stroke-indigo-400 stroke-[2]" />
+                            <text x="30" y="34" text-anchor="middle" class="font-mono text-xs font-bold fill-indigo-700">Driver</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <ul class="space-y-3 text-slate-600">
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span><strong>데이터 추상화:</strong> 복잡한 핀 레벨 신호를 논리적인 객체로 변환</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span><strong>무작위화(Randomization):</strong> 다양한 테스트 시나리오를 위한 랜덤 데이터 생성 보장</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- [2] 상속 구조 -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-200">
+                        <span class="text-blue-600 font-bold text-lg">2</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900">상속 구조 (Inheritance)</h2>
+                </div>
+                
+                <!-- SVG Diagram: Inheritance -->
+                <div class="w-full h-48 diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
+                    <svg viewBox="0 0 600 200" class="w-full h-full max-w-lg">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+                            </marker>
+                        </defs>
+                        
+                        <!-- Base Classes -->
+                        <g class="svg-node" transform="translate(20, 80)">
+                            <rect width="100" height="40" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                            <text x="50" y="25" text-anchor="middle" class="font-mono text-sm fill-slate-500">uvm_object</text>
+                        </g>
+
+                        <line x1="120" y1="100" x2="160" y2="100" class="stroke-slate-300 stroke-2" marker-end="url(#arrow)" />
+
+                        <g class="svg-node" transform="translate(170, 80)">
+                            <rect width="120" height="40" rx="6" class="fill-white stroke-slate-400 stroke-2" />
+                            <text x="60" y="25" text-anchor="middle" class="font-mono text-sm fill-slate-600">uvm_transaction</text>
+                        </g>
+
+                        <line x1="290" y1="100" x2="330" y2="100" class="stroke-slate-400 stroke-2" marker-end="url(#arrow)" />
+
+                        <!-- Core UVM Item -->
+                        <g class="svg-node" transform="translate(340, 80)">
+                            <rect width="140" height="40" rx="6" class="fill-blue-50 stroke-blue-400 stroke-2" />
+                            <text x="70" y="25" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-700">uvm_sequence_item</text>
+                        </g>
+
+                        <!-- Inherited Custom Class -->
+                        <path d="M 410 120 L 410 150 L 410 160" class="stroke-blue-500 stroke-2" marker-end="url(#arrow)" />
+
+                        <g class="svg-node" transform="translate(340, 160)">
+                            <rect width="140" height="40" rx="8" class="fill-white stroke-blue-600 stroke-[3]" />
+                            <text x="70" y="25" text-anchor="middle" class="font-mono text-sm font-bold fill-slate-900">my_bus_item</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- [NEW] Section 1.5: uvm_sequence_item 내부 구조 (Anatomy) -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center border border-indigo-200">
+                    <svg class="w-5 h-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">uvm_sequence_item 심층 해부 (Anatomy)</h2>
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-8">
+                <code class="font-mono text-sm bg-slate-100 px-1.5 py-0.5 rounded text-slate-800">uvm_sequence_item</code>은 단순한 데이터 컨테이너가 아닙니다. 네트워크 통신의 OSI 7계층 모델처럼, <strong>UVM 상속 계층을 거치며 각 부모 클래스로부터 강력한 메타데이터(Header)를 누적하여 상속</strong>받습니다. 사용자가 정의한 데이터(Payload)는 이 거대한 관리 정보들로 둘러싸여 안전하게 추적 및 라우팅됩니다.
+            </p>
+
+            <div class="flex flex-col xl:flex-row gap-10 items-start">
+                
+                <!-- Expanded Layered SVG Diagram -->
+                <div class="w-full xl:w-3/5 h-[480px] diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden p-6 relative">
+                    <!-- Layer Indicator Line -->
+                    <div class="absolute left-6 top-8 bottom-8 w-1 bg-gradient-to-b from-slate-300 via-blue-300 to-emerald-400 rounded-full hidden sm:block"></div>
+
+                    <svg viewBox="0 0 600 440" class="w-full h-full max-w-2xl drop-shadow-sm">
+                        
+                        <!-- Layer 1: uvm_object -->
+                        <g transform="translate(30, 10)">
+                            <rect width="550" height="90" rx="8" class="fill-slate-50 stroke-slate-300 stroke-[2]" />
+                            <text x="15" y="25" class="font-mono text-xs font-bold fill-slate-500 tracking-wider">L1: uvm_object (기본 객체 속성)</text>
+                            
+                            <g transform="translate(30, 40)">
+                                <rect width="150" height="32" rx="4" class="fill-white stroke-slate-300 stroke-1" />
+                                <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-600">m_inst_id</text>
+                            </g>
+                            <g transform="translate(195, 40)">
+                                <rect width="150" height="32" rx="4" class="fill-white stroke-slate-300 stroke-1" />
+                                <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-600">m_name</text>
+                            </g>
+                            <g transform="translate(360, 40)">
+                                <rect width="150" height="32" rx="4" class="fill-white stroke-slate-300 stroke-1" />
+                                <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-600">m_inst_count</text>
+                            </g>
+                        </g>
+
+                        <!-- Connector -->
+                        <line x1="305" y1="100" x2="305" y2="120" class="stroke-slate-300 stroke-[3] stroke-dasharray-4" />
+
+                        <!-- Layer 2: uvm_transaction -->
+                        <g transform="translate(30, 120)">
+                            <rect width="550" height="90" rx="8" class="fill-blue-50 stroke-blue-300 stroke-[2]" />
+                            <text x="15" y="25" class="font-mono text-xs font-bold fill-blue-600 tracking-wider">L2: uvm_transaction (시간/이벤트 추적)</text>
+                            
+                            <g transform="translate(30, 40)">
+                                <rect width="150" height="32" rx="4" class="fill-white stroke-blue-200 stroke-2" />
+                                <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-blue-700">transaction_id</text>
+                            </g>
+                            <g transform="translate(195, 40)">
+                                <rect width="150" height="32" rx="4" class="fill-white stroke-blue-200 stroke-2" />
+                                <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-blue-700">begin_time</text>
+                            </g>
+                            <g transform="translate(360, 40)">
+                                <rect width="150" height="32" rx="4" class="fill-white stroke-blue-200 stroke-2" />
+                                <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-blue-700">end_time</text>
+                            </g>
+                        </g>
+
+                        <!-- Connector -->
+                        <line x1="305" y1="210" x2="305" y2="230" class="stroke-blue-300 stroke-[3] stroke-dasharray-4" />
+
+                        <!-- Layer 3: uvm_sequence_item -->
+                        <g transform="translate(30, 230)">
+                            <rect width="550" height="90" rx="8" class="fill-indigo-50 stroke-indigo-300 stroke-[2]" />
+                            <text x="15" y="25" class="font-mono text-xs font-bold fill-indigo-600 tracking-wider">L3: uvm_sequence_item (라우팅 및 시퀀스 제어)</text>
+                            
+                            <g transform="translate(30, 40)">
+                                <rect width="150" height="32" rx="4" class="fill-white stroke-indigo-300 stroke-2" />
+                                <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-indigo-800">sequence_id</text>
+                            </g>
+                            <g transform="translate(195, 40)">
+                                <rect width="150" height="32" rx="4" class="fill-white stroke-indigo-300 stroke-2" />
+                                <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-indigo-800">sequencer_ptr</text>
+                            </g>
+                            <g transform="translate(360, 40)">
+                                <rect width="150" height="32" rx="4" class="fill-white stroke-indigo-300 stroke-2" />
+                                <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-indigo-800">parent_sequence</text>
+                            </g>
+                        </g>
+
+                        <!-- Connector -->
+                        <line x1="305" y1="320" x2="305" y2="340" class="stroke-indigo-300 stroke-[3] stroke-dasharray-4" />
+
+                        <!-- Layer 4: User Payload -->
+                        <g transform="translate(30, 340)">
+                            <rect width="550" height="90" rx="8" class="fill-emerald-50 stroke-emerald-400 stroke-[3] stroke-dasharray-6" />
+                            <text x="15" y="25" class="font-mono text-xs font-bold fill-emerald-700 tracking-wider">L4: my_bus_item (User Payload)</text>
+                            
+                            <g transform="translate(30, 40)">
+                                <rect width="150" height="36" rx="6" class="fill-white stroke-emerald-400 stroke-[2] shadow-sm" />
+                                <text x="75" y="22" text-anchor="middle" class="font-mono text-sm font-bold fill-emerald-800">rand addr</text>
+                            </g>
+                            <g transform="translate(195, 40)">
+                                <rect width="150" height="36" rx="6" class="fill-white stroke-emerald-400 stroke-[2] shadow-sm" />
+                                <text x="75" y="22" text-anchor="middle" class="font-mono text-sm font-bold fill-emerald-800">rand data</text>
+                            </g>
+                            <g transform="translate(360, 40)">
+                                <rect width="150" height="36" rx="6" class="fill-white stroke-emerald-400 stroke-[2] shadow-sm" />
+                                <text x="75" y="22" text-anchor="middle" class="font-mono text-sm font-bold fill-emerald-800">rand ctrl</text>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Expanded Text Descriptions -->
+                <div class="w-full xl:w-2/5 space-y-5">
+                    
+                    <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-400"></div>
+                        <h3 class="font-mono text-slate-800 font-bold mb-2 flex items-center gap-2 text-base ml-2">
+                            L1: uvm_object (식별 속성)
+                        </h3>
+                        <p class="text-sm text-slate-600 leading-relaxed ml-2">
+                            모든 UVM 객체의 최상위 부모입니다. Factory에서 객체를 생성하고 관리하기 위한 <strong>고유 인스턴스 ID(<code class="text-xs bg-white px-1 border border-slate-200 rounded">m_inst_id</code>)</strong>와 문자열 이름(<code class="text-xs bg-white px-1 border border-slate-200 rounded">m_name</code>)을 제공하여 시뮬레이션 전체에서 객체를 식별 가능하게 합니다.
+                        </p>
+                    </div>
+
+                    <div class="p-5 bg-blue-50 border border-blue-200 rounded-xl relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-400"></div>
+                        <h3 class="font-mono text-blue-900 font-bold mb-2 flex items-center gap-2 text-base ml-2">
+                            L2: uvm_transaction (시간/이벤트)
+                        </h3>
+                        <p class="text-sm text-slate-600 leading-relaxed ml-2">
+                            트랜잭션 레벨 모델링(TLM)을 위한 계층입니다. 파형(Waveform) 뷰어에 트랜잭션을 박스 형태로 시각화하기 위해 트랜잭션의 <strong>생성/종료 시간(<code class="text-xs bg-white px-1 border border-blue-100 rounded text-blue-700">begin_time</code>, <code class="text-xs bg-white px-1 border border-blue-100 rounded text-blue-700">end_time</code>)</strong>과 고유 트랜잭션 ID를 관리합니다.
+                        </p>
+                    </div>
+
+                    <div class="p-5 bg-indigo-50 border border-indigo-200 rounded-xl relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-indigo-500"></div>
+                        <h3 class="font-mono text-indigo-900 font-bold mb-2 flex items-center gap-2 text-base ml-2">
+                            L3: uvm_sequence_item (라우팅)
+                        </h3>
+                        <ul class="text-sm text-slate-600 leading-relaxed ml-2 space-y-2">
+                            <li><strong class="text-indigo-700">sequence_id:</strong> 여러 시퀀스가 동시 동작할 때, Driver가 응답(Response)을 정확히 원래 요청자에게 반환하도록 돕는 라우팅 키입니다.</li>
+                            <li><strong class="text-indigo-700">sequencer_ptr:</strong> 이 아이템을 처리하고 있는 대상 Sequencer의 포인터(핸들)를 저장하여 상태 제어에 사용됩니다.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-5 bg-emerald-50 border border-emerald-200 rounded-xl relative overflow-hidden shadow-sm">
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-emerald-500"></div>
+                        <h3 class="font-sans text-emerald-900 font-bold mb-2 flex items-center gap-2 text-base ml-2">
+                            L4: my_bus_item (사용자 페이로드)
+                        </h3>
+                        <p class="text-sm text-slate-600 leading-relaxed ml-2">
+                            설계자가 직접 정의하는 영역입니다. 하드웨어 핀으로 구동될 <code class="text-xs bg-white px-1 border border-emerald-100 rounded text-emerald-700">addr</code>, <code class="text-xs bg-white px-1 border border-emerald-100 rounded text-emerald-700">data</code> 값들이 담겨 있으며, <strong>위의 3개 레이어(L1~L3)가 제공하는 메타데이터의 보호와 안내를 받아 Driver까지 안전하게 전달</strong>됩니다.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: 클래스 내부 구조 (Field, Constructor, Factory, Automation) -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-3">Item 클래스 내부 구조 설계</h2>
+                <p class="text-slate-600">성공적인 Bus Modeling을 위해 필수적으로 포함되어야 하는 요소들입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Code Architecture Diagram -->
+                <div class="lg:col-span-7 diagram-grid rounded-xl border border-slate-200 p-6 h-full flex flex-col justify-center">
+                    <svg viewBox="0 0 500 450" class="w-full h-auto drop-shadow-sm">
+                        <!-- Class Container -->
+                        <rect x="10" y="10" width="480" height="430" rx="12" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="30" y="40" class="font-mono text-blue-600 font-bold">class <tspan class="fill-slate-900">my_bus_item</tspan> extends <tspan class="fill-slate-600">uvm_sequence_item;</tspan></text>
+                        
+                        <!-- [3] Field Modeling -->
+                        <g transform="translate(30, 60)">
+                            <rect width="440" height="60" rx="6" class="fill-slate-50 stroke-slate-200 stroke-1" />
+                            <rect x="0" y="0" width="4" height="60" rx="2" class="fill-blue-500" />
+                            <text x="15" y="25" class="font-sans text-xs font-bold fill-slate-400 tracking-wide uppercase">[3] Field Modeling</text>
+                            <text x="15" y="45" class="font-mono text-sm fill-slate-700">rand bit [31:0] addr;  <tspan class="fill-slate-400">// 무작위화 변수</tspan></text>
+                        </g>
+
+                        <!-- [5] Factory Registration & [6] Field Automation -->
+                        <g transform="translate(30, 130)">
+                            <rect width="440" height="90" rx="6" class="fill-slate-50 stroke-slate-200 stroke-1" />
+                            <rect x="0" y="0" width="4" height="90" rx="2" class="fill-indigo-500" />
+                            <text x="15" y="25" class="font-sans text-xs font-bold fill-slate-400 tracking-wide uppercase">[5] Factory & [6] Automation Macros</text>
+                            <text x="15" y="45" class="font-mono text-sm font-bold fill-indigo-600">`uvm_object_utils_begin<tspan class="fill-slate-700 font-normal">(my_bus_item)</tspan></text>
+                            <text x="30" y="65" class="font-mono text-sm font-bold fill-indigo-500">`uvm_field_int<tspan class="fill-slate-700 font-normal">(addr, UVM_ALL_ON)</tspan></text>
+                            <text x="15" y="85" class="font-mono text-sm font-bold fill-indigo-600">`uvm_object_utils_end</text>
+                        </g>
+
+                        <!-- [4] Constructor -->
+                        <g transform="translate(30, 230)">
+                            <rect width="440" height="70" rx="6" class="fill-slate-50 stroke-slate-200 stroke-1" />
+                            <rect x="0" y="0" width="4" height="70" rx="2" class="fill-teal-500" />
+                            <text x="15" y="25" class="font-sans text-xs font-bold fill-slate-400 tracking-wide uppercase">[4] Constructor</text>
+                            <text x="15" y="45" class="font-mono text-sm fill-teal-700">function new<tspan class="fill-slate-700">(string name = "my_bus_item");</tspan></text>
+                            <text x="30" y="65" class="font-mono text-sm font-bold fill-teal-600">super.new<tspan class="fill-slate-700 font-normal">(name);</tspan></text>
+                        </g>
+
+                        <!-- [7] Constraint -->
+                        <g transform="translate(30, 310)">
+                            <rect width="440" height="60" rx="6" class="fill-slate-50 stroke-slate-200 stroke-1" />
+                            <rect x="0" y="0" width="4" height="60" rx="2" class="fill-amber-500" />
+                            <text x="15" y="25" class="font-sans text-xs font-bold fill-slate-400 tracking-wide uppercase">[7] Constraint</text>
+                            <text x="15" y="45" class="font-mono text-sm font-bold fill-amber-600">constraint <tspan class="fill-slate-700 font-normal">addr_c { addr &lt; 32'h1000; }</tspan></text>
+                        </g>
+
+                        <text x="30" y="410" class="font-mono text-blue-600 font-bold">endclass</text>
+                    </svg>
+                </div>
+
+                <!-- Text Descriptions -->
+                <div class="lg:col-span-5 flex flex-col gap-4">
+                    <div class="p-5 bg-slate-50 rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all duration-300">
+                        <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span> [3] Field Modeling
+                        </h3>
+                        <p class="text-sm text-slate-600">버스 프로토콜에 필요한 신호(Address, Data, Command 등)를 클래스의 변수로 정의합니다. 시퀀스에서 자동 생성을 위해 <code class="font-mono text-xs bg-slate-200 px-1 rounded">rand</code> 키워드를 사용합니다.</p>
+                    </div>
+
+                    <div class="p-5 bg-slate-50 rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all duration-300">
+                        <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-indigo-500"></span> [5] Factory & [6] Automation
+                        </h3>
+                        <p class="text-sm text-slate-600"><code class="font-mono text-xs bg-slate-200 px-1 rounded">`uvm_object_utils</code> 매크로를 통해 UVM Factory에 객체를 등록합니다. <code class="font-mono text-xs bg-slate-200 px-1 rounded">`uvm_field_*</code> 매크로는 print, copy, compare 등의 기본 함수를 자동화합니다.</p>
+                    </div>
+
+                    <div class="p-5 bg-slate-50 rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all duration-300">
+                        <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-teal-500"></span> [4] Constructor (new)
+                        </h3>
+                        <p class="text-sm text-slate-600">UVM Object의 생성자는 보통 하나의 인자(name)만을 받습니다. 내부에서 부모 클래스의 생성자인 <code class="font-mono text-xs bg-slate-200 px-1 rounded">super.new(name)</code>을 반드시 호출해야 합니다.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- [NEW] Section 2.5: Field Automation (uvm_field_*) -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center border border-rose-200">
+                    <svg class="w-5 h-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Field Automation: <code class="font-mono text-rose-600 bg-rose-50 px-2 py-0.5 rounded text-xl">`uvm_field_*</code> 매크로의 마법</h2>
+            </div>
+            
+            <p class="text-slate-600 leading-relaxed mb-8">
+                객체 지향 프로그래밍에서 클래스 내부에 선언된 변수들을 제대로 활용하려면 깊은 복사(Deep Copy), 문자열 출력(Print), 두 객체 간의 값 비교(Compare) 등의 코드를 일일이 작성해야 합니다. 
+                UVM에서는 <code class="font-mono text-sm bg-slate-100 px-1 rounded">`uvm_field_*</code> 매크로를 통해 이러한 <strong>지루하고 반복적인 수백 줄의 코드를 단 한 줄로 자동화(Automation)</strong>합니다.
+            </p>
+
+            <!-- Automation Factory SVG Diagram -->
+            <div class="w-full h-80 diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden mb-8 relative">
+                <svg viewBox="0 0 800 300" class="w-full h-full">
+                    
+                    <!-- 1. Input Side (Raw Variable) -->
+                    <g transform="translate(40, 110)" class="svg-node">
+                        <rect width="180" height="80" rx="8" class="fill-white stroke-slate-300 stroke-[3] drop-shadow-md" />
+                        <text x="90" y="35" text-anchor="middle" class="font-sans text-[11px] font-bold fill-slate-500 uppercase tracking-wide">Raw Variable</text>
+                        <text x="90" y="55" text-anchor="middle" class="font-mono text-sm font-bold fill-slate-800">rand bit[31:0]</text>
+                        <text x="90" y="70" text-anchor="middle" class="font-mono text-sm font-bold fill-rose-600">addr;</text>
+                    </g>
+
+                    <!-- Connection to Engine -->
+                    <path d="M 220 150 L 300 150" fill="none" class="stroke-slate-300 stroke-[4] animate-flow" />
+
+                    <!-- 2. The Macro Engine -->
+                    <g transform="translate(380, 150)">
+                        <!-- Main Engine Body -->
+                        <rect x="-80" y="-80" width="160" height="160" rx="20" class="fill-indigo-50 stroke-indigo-400 stroke-[4] drop-shadow-lg" />
+                        
+                        <!-- Animated Gears using stroke-dasharray trick -->
+                        <g style="transform-origin: 0px 0px;">
+                            <!-- Big Gear (Reverse Spin) -->
+                            <g class="animate-gear-reverse">
+                                <circle cx="0" cy="0" r="50" fill="none" class="stroke-indigo-200 stroke-[16]" stroke-dasharray="14 10" />
+                                <circle cx="0" cy="0" r="44" class="fill-white stroke-indigo-300 stroke-[4]" />
+                                <circle cx="0" cy="0" r="15" class="fill-indigo-100" />
+                            </g>
+                            <!-- Small Gear (Normal Spin) -->
+                            <g transform="translate(-40, -40)" class="animate-gear">
+                                <circle cx="0" cy="0" r="25" fill="none" class="stroke-rose-300 stroke-[10]" stroke-dasharray="8 6" />
+                                <circle cx="0" cy="0" r="21" class="fill-rose-50 stroke-rose-400 stroke-[3]" />
+                                <circle cx="0" cy="0" r="8" class="fill-rose-200" />
+                            </g>
+                        </g>
+
+                        <!-- Engine Label -->
+                        <rect x="-60" y="-20" width="120" height="40" rx="6" class="fill-indigo-700 shadow-inner" />
+                        <text x="0" y="0" text-anchor="middle" class="font-mono text-xs font-bold fill-white">`uvm_field_int</text>
+                        <text x="0" y="12" text-anchor="middle" class="font-mono text-[9px] fill-indigo-200">(addr, UVM_ALL_ON)</text>
+                    </g>
+
+                    <!-- Connection to Outputs -->
+                    <!-- Path to Print -->
+                    <path d="M 460 150 C 500 150, 500 60, 560 60" fill="none" class="stroke-emerald-400 stroke-[4] animate-flow" />
+                    <!-- Path to Copy -->
+                    <path d="M 460 150 L 560 150" fill="none" class="stroke-blue-400 stroke-[4] animate-flow" />
+                    <!-- Path to Compare -->
+                    <path d="M 460 150 C 500 150, 500 240, 560 240" fill="none" class="stroke-amber-400 stroke-[4] animate-flow" />
+
+                    <!-- 3. Outputs (Automated Functions) -->
+                    <!-- Print Function -->
+                    <g transform="translate(560, 40)" class="svg-node">
+                        <rect width="180" height="40" rx="20" class="fill-white stroke-emerald-500 stroke-[3] drop-shadow-sm" />
+                        <circle cx="20" cy="20" r="12" class="fill-emerald-100" />
+                        <text x="20" y="24" text-anchor="middle" class="font-bold fill-emerald-600 text-sm">P</text>
+                        <text x="45" y="25" class="font-mono text-sm font-bold fill-emerald-800">print()</text>
+                    </g>
+
+                    <!-- Copy Function -->
+                    <g transform="translate(560, 130)" class="svg-node">
+                        <rect width="180" height="40" rx="20" class="fill-white stroke-blue-500 stroke-[3] drop-shadow-sm" />
+                        <circle cx="20" cy="20" r="12" class="fill-blue-100" />
+                        <text x="20" y="24" text-anchor="middle" class="font-bold fill-blue-600 text-sm">C</text>
+                        <text x="45" y="25" class="font-mono text-sm font-bold fill-blue-800">copy() & clone()</text>
+                    </g>
+
+                    <!-- Compare Function -->
+                    <g transform="translate(560, 220)" class="svg-node">
+                        <rect width="180" height="40" rx="20" class="fill-white stroke-amber-500 stroke-[3] drop-shadow-sm" />
+                        <circle cx="20" cy="20" r="12" class="fill-amber-100" />
+                        <text x="20" y="24" text-anchor="middle" class="font-bold fill-amber-600 text-sm">=</text>
+                        <text x="45" y="25" class="font-mono text-sm font-bold fill-amber-800">compare()</text>
+                    </g>
+
+                </svg>
+            </div>
+
+            <!-- Detailed Explanation Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100 relative overflow-hidden group hover:shadow-md transition-all">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-emerald-500/10 rounded-full group-hover:scale-150 transition-transform"></div>
+                    <h4 class="font-mono font-bold text-emerald-800 text-lg mb-2">print()</h4>
+                    <p class="text-sm text-slate-600">시뮬레이션 로그 파일에 객체 내부의 모든 변수 이름, 타입, 크기, 현재 할당된 값을 표 형태(Table format)로 깔끔하게 정렬하여 출력합니다.</p>
+                </div>
+                
+                <div class="bg-blue-50 rounded-xl p-5 border border-blue-100 relative overflow-hidden group hover:shadow-md transition-all">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/10 rounded-full group-hover:scale-150 transition-transform"></div>
+                    <h4 class="font-mono font-bold text-blue-800 text-lg mb-2">copy()</h4>
+                    <p class="text-sm text-slate-600">원본 객체와 동일한 데이터를 가지는 새로운 객체를 생성합니다. 포인터 주소만 넘기는 얕은 복사(Shallow copy)가 아닌 완벽한 깊은 복사(Deep copy)를 지원합니다.</p>
+                </div>
+                
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-100 relative overflow-hidden group hover:shadow-md transition-all">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-amber-500/10 rounded-full group-hover:scale-150 transition-transform"></div>
+                    <h4 class="font-mono font-bold text-amber-800 text-lg mb-2">compare()</h4>
+                    <p class="text-sm text-slate-600">Scoreboard 등에서 DUT의 출력 결과와 참조 모델(Reference Model)의 결과가 일치하는지 변수 단위로 자동 비교하고, 불일치 시 에러 로그를 띄워줍니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- [NEW] Section 2.6: Field Automation Flags -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center border border-cyan-200">
+                    <svg class="w-5 h-5 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Automation Flags: 세밀한 동작 제어</h2>
+            </div>
+
+            <p class="text-slate-600 leading-relaxed mb-8">
+                <code class="font-mono text-sm bg-slate-100 px-1 rounded">`uvm_field_*</code> 매크로의 두 번째 인자로 들어가는 <strong>플래그(Flag)</strong>들은 비트 논리합 연산자(<code class="font-mono text-cyan-600 font-bold bg-cyan-50 px-1 rounded">|</code>)를 사용하여 조합됩니다. 기본 묶음(Preset)을 바탕으로, 특정 변수의 출력 형식을 바꾸거나 비교/복사 대상에서 제외하는 등 동작을 커스터마이징할 수 있습니다.
+            </p>
+
+            <!-- SVG Diagram: Bitwise Flag Combiner -->
+            <div class="w-full h-64 diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden mb-10">
+                <svg viewBox="0 0 800 240" class="w-full h-full max-w-3xl drop-shadow-sm">
+                    
+                    <!-- Base Preset Input -->
+                    <g class="svg-node" transform="translate(60, 40)">
+                        <rect width="160" height="40" rx="8" class="fill-indigo-50 stroke-indigo-300 stroke-[2]" />
+                        <text x="80" y="25" text-anchor="middle" class="font-mono text-sm font-bold fill-indigo-700">UVM_DEFAULT</text>
+                        <text x="170" y="25" text-anchor="start" class="font-sans text-[10px] fill-slate-500 font-bold">기본 설정</text>
+                    </g>
+                    <path d="M 140 80 L 140 120 L 360 120" fill="none" class="stroke-indigo-300 stroke-[3] stroke-dasharray-4" />
+
+                    <!-- Format Modifier Input -->
+                    <g class="svg-node" transform="translate(60, 100)">
+                        <rect width="160" height="40" rx="8" class="fill-purple-50 stroke-purple-300 stroke-[2]" />
+                        <text x="80" y="25" text-anchor="middle" class="font-mono text-sm font-bold fill-purple-700">UVM_HEX</text>
+                        <text x="170" y="25" text-anchor="start" class="font-sans text-[10px] fill-slate-500 font-bold">16진수 출력</text>
+                    </g>
+                    <path d="M 220 120 L 360 120" fill="none" class="stroke-purple-300 stroke-[3] stroke-dasharray-4" />
+
+                    <!-- Action Modifier Input -->
+                    <g class="svg-node" transform="translate(60, 160)">
+                        <rect width="160" height="40" rx="8" class="fill-rose-50 stroke-rose-300 stroke-[2]" />
+                        <text x="80" y="25" text-anchor="middle" class="font-mono text-sm font-bold fill-rose-700">UVM_NOCOMPARE</text>
+                        <text x="170" y="25" text-anchor="start" class="font-sans text-[10px] fill-slate-500 font-bold">비교 제외</text>
+                    </g>
+                    <path d="M 140 160 L 140 120" fill="none" class="stroke-rose-300 stroke-[3] stroke-dasharray-4" />
+
+                    <!-- OR Gate logic -->
+                    <g transform="translate(360, 100)">
+                        <circle cx="20" cy="20" r="24" class="fill-white stroke-cyan-500 stroke-[4]" />
+                        <text x="20" y="28" text-anchor="middle" class="font-mono text-xl font-bold fill-cyan-600">|</text>
+                        <text x="20" y="-12" text-anchor="middle" class="font-sans text-[10px] font-bold fill-cyan-700">Bitwise OR</text>
+                    </g>
+
+                    <path d="M 404 120 L 480 120" fill="none" class="stroke-cyan-400 stroke-[4] animate-flow" />
+
+                    <!-- Final Combination Output -->
+                    <g class="svg-node" transform="translate(480, 85)">
+                        <rect width="300" height="70" rx="12" class="fill-white stroke-slate-400 stroke-[3] drop-shadow-md" />
+                        <text x="20" y="30" class="font-mono text-[11px] fill-slate-500">`uvm_field_int(addr,</text>
+                        <text x="40" y="50" class="font-mono text-[11px] font-bold fill-slate-800">
+                            <tspan class="fill-indigo-600">UVM_DEFAULT</tspan> | 
+                            <tspan class="fill-purple-600">UVM_HEX</tspan> | 
+                            <tspan class="fill-rose-600">UVM_NOCOMPARE</tspan>
+                        </text>
+                        <text x="280" y="50" class="font-mono text-[11px] fill-slate-500">)</text>
+                    </g>
+
+                </svg>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- 1. 동작 제어 (Action Control) -->
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 lg:row-span-2">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-rose-500 rounded-full"></span> 1. 동작 제어 (Action Control)
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">각 자동화 기능의 활성화/비활성화 여부를 명시적으로 지정합니다. (ON vs OFF)</p>
+                    
+                    <ul class="text-sm space-y-2 font-mono">
+                        <li class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <code class="text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded text-xs">UVM_COPY</code>
+                            <span class="text-slate-500 text-[11px] font-sans">copy() 수행</span>
+                            <code class="text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded text-xs">UVM_NOCOPY</code>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <code class="text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded text-xs">UVM_COMPARE</code>
+                            <span class="text-slate-500 text-[11px] font-sans">compare() 수행</span>
+                            <code class="text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded text-xs">UVM_NOCOMPARE</code>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <code class="text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded text-xs">UVM_PRINT</code>
+                            <span class="text-slate-500 text-[11px] font-sans">print() 수행</span>
+                            <code class="text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded text-xs">UVM_NOPRINT</code>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <code class="text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded text-xs">UVM_RECORD</code>
+                            <span class="text-slate-500 text-[11px] font-sans">Waveform 기록</span>
+                            <code class="text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded text-xs">UVM_NORECORD</code>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <code class="text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded text-xs">UVM_PACK</code>
+                            <span class="text-slate-500 text-[11px] font-sans">Bit-stream 변환</span>
+                            <code class="text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded text-xs">UVM_NOPACK</code>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <code class="text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded text-xs">UVM_UNPACK</code>
+                            <span class="text-slate-500 text-[11px] font-sans">Bit-stream 복원</span>
+                            <code class="text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded text-xs">UVM_NOUNPACK</code>
+                        </li>
+                        <li class="flex items-center justify-between pb-1">
+                            <code class="text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded text-xs">UVM_SET</code>
+                            <span class="text-slate-500 text-[11px] font-sans">Config DB 설정</span>
+                            <div class="flex flex-col gap-1 items-end">
+                                <code class="text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded text-xs">UVM_NOSET</code>
+                                <code class="text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded text-[10px]">UVM_READONLY</code>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. 묶음 (Presets) & 4. 객체 복사 정책 (Copy Policy) -->
+                <div class="space-y-6">
+                    <div class="bg-indigo-50 rounded-xl p-6 border border-indigo-100">
+                        <h3 class="font-bold text-indigo-900 mb-3 flex items-center gap-2">
+                            <span class="w-1.5 h-6 bg-indigo-500 rounded-full"></span> 2. 묶음 (Presets / Bundles)
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <code class="px-2 py-1 bg-white border border-indigo-200 text-indigo-700 rounded text-xs font-mono font-bold shadow-sm">UVM_ALL_ON</code>
+                            <code class="px-2 py-1 bg-white border border-indigo-200 text-indigo-700 rounded text-xs font-mono font-bold shadow-sm">UVM_DEFAULT</code>
+                            <code class="px-2 py-1 bg-white border border-indigo-200 text-slate-500 rounded text-xs font-mono">UVM_FLAGS_ON</code>
+                            <code class="px-2 py-1 bg-white border border-indigo-200 text-slate-500 rounded text-xs font-mono">UVM_FLAGS_OFF</code>
+                        </div>
+                        <p class="text-xs text-indigo-700 mt-3"><code class="font-mono bg-indigo-100 px-1">UVM_ALL_ON</code> 또는 <code class="font-mono bg-indigo-100 px-1">UVM_DEFAULT</code>는 모든 기능을 활성화하는 가장 일반적인 베이스 플래그입니다.</p>
+                    </div>
+
+                    <div class="bg-blue-50 rounded-xl p-6 border border-blue-100">
+                        <h3 class="font-bold text-blue-900 mb-3 flex items-center gap-2">
+                            <span class="w-1.5 h-6 bg-blue-500 rounded-full"></span> 3. Object 복사 정책 (Copy Policy)
+                        </h3>
+                        <p class="text-xs text-blue-700 mb-3">클래스 내부의 객체(Object 핸들)를 복사할 때의 정책입니다.</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <code class="p-1.5 bg-white border border-blue-200 text-blue-800 rounded text-center">UVM_DEFAULT_POLICY</code>
+                            <code class="p-1.5 bg-white border border-blue-200 text-blue-800 rounded text-center">UVM_DEEP</code>
+                            <code class="p-1.5 bg-white border border-blue-200 text-blue-800 rounded text-center">UVM_SHALLOW</code>
+                            <code class="p-1.5 bg-white border border-blue-200 text-blue-800 rounded text-center">UVM_REFERENCE</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. 출력 형식 (Radix / Format) -->
+                <div class="bg-purple-50 rounded-xl p-6 border border-purple-100 lg:col-span-2">
+                    <h3 class="font-bold text-purple-900 mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-purple-500 rounded-full"></span> 4. 출력 형식 (Radix / Format)
+                    </h3>
+                    <p class="text-xs text-purple-700 mb-4"><code class="font-mono bg-purple-100 px-1">print()</code> 함수가 호출될 때 시뮬레이션 로그에 값이 표시되는 진수나 데이터 포맷을 결정합니다.</p>
+                    
+                    <div class="flex flex-wrap gap-2 text-xs font-mono">
+                        <!-- Numeric -->
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_BIN (2진수)</code>
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_OCT (8진수)</code>
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_DEC (10진수)</code>
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm font-bold">UVM_HEX (16진수)</code>
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_UNSIGNED</code>
+                        <!-- Real/Time -->
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_TIME</code>
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_REAL</code>
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_REAL_DEC</code>
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_REAL_EXP</code>
+                        <!-- Others -->
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_STRING</code>
+                        <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_ENUM</code>
+                        <!-- Format Modifiers -->
+                        <code class="px-2 py-1 bg-white border border-slate-200 text-slate-500 rounded">UVM_UNFORMAT2</code>
+                        <code class="px-2 py-1 bg-white border border-slate-200 text-slate-500 rounded">UVM_UNFORMAT4</code>
+                        <code class="px-2 py-1 bg-white border border-slate-200 text-slate-500 rounded">UVM_NORADIX</code>
+                    </div>
+                </div>
+
+                <!-- 6. 호환 및 특수 (Compatibility & Special) -->
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 lg:col-span-2 shadow-inner">
+                    <h3 class="font-bold text-white mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-slate-400 rounded-full"></span> 5. 호환 / 특수 (Special / Advanced)
+                    </h3>
+                    <div class="flex flex-wrap gap-3 font-mono text-xs">
+                        <div class="flex items-center gap-2 bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-600">
+                            <code class="text-slate-300 font-bold">UVM_PHYSICAL</code>
+                            <span class="text-slate-400 text-[10px] font-sans">실제 하드웨어 연결용 필드 표시</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-600">
+                            <code class="text-slate-300 font-bold">UVM_ABSTRACT</code>
+                            <span class="text-slate-400 text-[10px] font-sans">추상화된 가상 필드 표시</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-600">
+                            <code class="text-rose-400 font-bold">UVM_NODEFPRINT</code>
+                            <span class="text-slate-400 text-[10px] font-sans">Default Print에서 제외</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3: 무작위화 흐름 (Constraints & Hooks) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center border border-amber-200">
+                        <span class="text-amber-600 font-bold text-lg">7</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900">Constraint (제약조건)</h2>
+                </div>
+                <p class="text-slate-600 leading-relaxed mb-4">
+                    <code class="font-mono text-sm bg-slate-100 px-1 rounded">rand</code> 변수가 가질 수 있는 유효한 값의 범위를 지정합니다. 
+                    유효하지 않은 주소 접근을 막거나, 특정 데이터 패턴을 집중적으로 테스트하기 위해 필수적입니다.
+                </p>
+                <div class="bg-slate-800 rounded-lg p-4 text-sm font-mono text-slate-200 shadow-inner">
+                    <span class="text-amber-400">constraint</span> addr_align_c {<br>
+                    &nbsp;&nbsp;addr[1:0] == 2'b00; <span class="text-slate-500">// 4-byte align</span><br>
+                    }
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center border border-purple-200">
+                        <span class="text-purple-600 font-bold text-lg">8</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900">Optional Hooks</h2>
+                </div>
+                <!-- Interactive Timeline SVG -->
+                <div class="w-full h-32 flex items-center">
+                    <svg viewBox="0 0 400 100" class="w-full h-full">
+                        <line x1="40" y1="50" x2="360" y2="50" class="stroke-slate-300 stroke-2" />
+                        
+                        <!-- pre_randomize -->
+                        <g class="svg-node" transform="translate(80, 50)">
+                            <circle cx="0" cy="0" r="8" class="fill-purple-500" />
+                            <text x="0" y="-15" text-anchor="middle" class="font-mono text-xs font-bold fill-purple-700">pre_randomize()</text>
+                            <text x="0" y="25" text-anchor="middle" class="font-sans text-[10px] fill-slate-500">값 초기화</text>
+                        </g>
+
+                        <!-- randomize -->
+                        <g class="svg-node" transform="translate(200, 50)">
+                            <circle cx="0" cy="0" r="10" class="fill-blue-500 stroke-white stroke-2" />
+                            <text x="0" y="-18" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-700">randomize()</text>
+                            <text x="0" y="28" text-anchor="middle" class="font-sans text-[10px] fill-slate-500">Constraint 적용</text>
+                        </g>
+
+                        <!-- post_randomize -->
+                        <g class="svg-node" transform="translate(320, 50)">
+                            <circle cx="0" cy="0" r="8" class="fill-purple-500" />
+                            <text x="0" y="-15" text-anchor="middle" class="font-mono text-xs font-bold fill-purple-700">post_randomize()</text>
+                            <text x="0" y="25" text-anchor="middle" class="font-sans text-[10px] fill-slate-500">패리티/CRC 계산</text>
+                        </g>
+                    </svg>
+                </div>
+                <p class="text-sm text-slate-600 mt-2">
+                    무작위화 전후에 자동으로 실행되는 콜백 함수입니다. 무작위화 불가능한 필드(예: Parity bit)를 생성된 데이터를 바탕으로 계산할 때 유용합니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 4: 실제 코드 구성 & 실행 흐름 -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+            <h2 class="text-2xl font-bold text-slate-900 mb-8">[9] 실제 코드 구성 흐름 & [10] 실행 흐름</h2>
+            
+            <div class="space-y-10">
+                <!-- Data Flow Animation SVG -->
+                <div class="relative w-full h-64 diagram-grid rounded-xl border border-slate-200 overflow-hidden">
+                    <h3 class="absolute top-4 left-6 font-bold text-slate-700 z-10 bg-white/80 px-2 py-1 rounded">Execution Flow: Sequence &rarr; Driver &rarr; DUT</h3>
+                    
+                    <svg viewBox="0 0 800 200" class="w-full h-full mt-8">
+                        <!-- Connecting Lines with Flow Animation -->
+                        <!-- Seq to Driver -->
+                        <path d="M 220 100 L 400 100" fill="none" class="stroke-blue-400 stroke-[4] animate-flow" />
+                        <!-- Driver to DUT -->
+                        <path d="M 520 100 L 680 100" fill="none" class="stroke-emerald-400 stroke-[4] animate-flow" />
+                        <!-- Feedback (Optional) -->
+                        <path d="M 680 120 C 600 160, 480 160, 460 120" fill="none" class="stroke-slate-300 stroke-[2] stroke-dasharray-4" />
+                        
+                        <!-- Animated Item Packet 1 (Seq -> Drv) -->
+                        <g class="animate-packet" transform="translate(220, 85)">
+                            <rect width="30" height="30" rx="4" class="fill-blue-600 shadow-lg" />
+                            <text x="15" y="20" text-anchor="middle" class="fill-white font-mono text-xs font-bold">req</text>
+                        </g>
+
+                        <!-- Animated Item Packet 2 (Drv -> DUT) -->
+                        <g class="animate-packet" transform="translate(500, 85)" style="animation-delay: 1s;">
+                            <circle cx="15" cy="15" r="10" class="fill-emerald-500" />
+                            <path d="M 10 10 L 20 15 L 10 20 Z" class="fill-white" /> <!-- Pin Icon -->
+                        </g>
+
+                        <!-- Node 1: Sequence -->
+                        <g class="svg-node" transform="translate(80, 60)">
+                            <rect width="140" height="80" rx="8" class="fill-white stroke-blue-500 stroke-[3]" />
+                            <text x="70" y="35" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-800">uvm_sequence</text>
+                            <text x="70" y="55" text-anchor="middle" class="font-sans text-[11px] fill-slate-500">Item 생성 & 무작위화</text>
+                            <text x="70" y="70" text-anchor="middle" class="font-mono text-[10px] fill-blue-500">`uvm_do(req)</text>
+                        </g>
+
+                        <!-- Node 2: Driver -->
+                        <g class="svg-node" transform="translate(400, 60)">
+                            <rect width="120" height="80" rx="8" class="fill-white stroke-indigo-500 stroke-[3]" />
+                            <text x="60" y="35" text-anchor="middle" class="font-mono text-sm font-bold fill-indigo-800">uvm_driver</text>
+                            <text x="60" y="55" text-anchor="middle" class="font-sans text-[11px] fill-slate-500">Pin-Level 변환</text>
+                            <text x="60" y="70" text-anchor="middle" class="font-mono text-[10px] fill-indigo-500">seq_item_port</text>
+                        </g>
+
+                        <!-- Node 3: DUT -->
+                        <g class="svg-node" transform="translate(680, 50)">
+                            <rect width="100" height="100" rx="4" class="fill-slate-800 stroke-slate-900 stroke-[3]" />
+                            <path d="M 0 20 L -10 20 M 0 40 L -10 40 M 0 60 L -10 60 M 0 80 L -10 80" class="stroke-slate-400 stroke-2" /> <!-- Fake Pins -->
+                            <text x="50" y="55" text-anchor="middle" class="font-sans text-lg font-bold fill-white tracking-widest">DUT</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Text Breakdown -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 rounded-lg bg-blue-50 border border-blue-100">
+                        <h4 class="font-bold text-blue-800 mb-2 font-mono text-sm">1. Sequence (생성)</h4>
+                        <p class="text-sm text-slate-600"><code class="font-mono">my_bus_item</code> 객체를 생성(create)하고, 제약조건에 맞춰 무작위화(randomize)한 뒤 Driver로 전송합니다.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-indigo-50 border border-indigo-100">
+                        <h4 class="font-bold text-indigo-800 mb-2 font-mono text-sm">2. Driver (변환)</h4>
+                        <p class="text-sm text-slate-600">포트를 통해 Item을 수신합니다. 클래스 내의 <code class="font-mono">addr</code>, <code class="font-mono">data</code> 값을 실제 하드웨어 Interface 핀 신호로 구동(Driving)합니다.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-slate-100 border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-2 font-mono text-sm">3. DUT (동작)</h4>
+                        <p class="text-sm text-slate-600">Driver가 구동한 전기적 신호(0과 1)를 입력받아 설계된 RTL 로직에 따라 동작을 수행합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="max-w-6xl mx-auto mt-12 pt-6 border-t border-slate-200 text-center text-slate-500 text-sm">
+        <p>&copy; Semiconductor Digital Circuit Design Guidebook - UI/UX Design System Applied.</p>
+    </footer>
+
+</body>
+</html>

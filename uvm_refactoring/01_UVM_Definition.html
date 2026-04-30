@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UVM (Universal Verification Methodology) | 반도체 디지털 회로설계 가이드북</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS & Animations -->
+    <style>
+        :root {
+            --font-pretendard: 'Pretendard', sans-serif;
+            --font-ibm: 'IBM Plex Sans', sans-serif;
+        }
+        
+        body {
+            font-family: var(--font-pretendard);
+        }
+        
+        .font-ibm {
+            font-family: var(--font-ibm);
+        }
+
+        /* 눈금자 배경 패턴 */
+        .diagram-grid {
+            background-color: #f8fafc;
+            background-image: 
+                linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+                linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* 라인 흐름 애니메이션 */
+        @keyframes flow-forward {
+            from { stroke-dashoffset: 24; }
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes flow-backward {
+            from { stroke-dashoffset: 0; }
+            to { stroke-dashoffset: 24; }
+        }
+        
+        .animate-flow-blue {
+            stroke-dasharray: 6 6;
+            animation: flow-forward 1s linear infinite;
+        }
+        .animate-flow-teal {
+            stroke-dasharray: 6 6;
+            animation: flow-forward 1s linear infinite;
+        }
+        .animate-flow-gray {
+            stroke-dasharray: 4 4;
+            animation: flow-forward 0.8s linear infinite;
+        }
+
+        /* SVG 노드 펄스 애니메이션 (활성화 상태 표현) */
+        @keyframes svg-pulse {
+            0% { filter: drop-shadow(0 0 0 rgba(59, 130, 246, 0.4)); }
+            50% { filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)); transform: translateY(-2px); }
+            100% { filter: drop-shadow(0 0 0 rgba(59, 130, 246, 0.4)); transform: translateY(0); }
+        }
+        .hover-active-node:hover {
+            animation: svg-pulse 1.5s infinite;
+        }
+
+        /* 모바일 환경 다이어그램 가로 스크롤바 제어 및 애니메이션 */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes bounce-x {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(15%); }
+        }
+        .animate-bounce-x {
+            animation: bounce-x 1.5s infinite;
+        }
+
+        /* Active / Passive Agent Toggle - Toss-like segmented control */
+        .mode-panel {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 1.6rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92));
+            border: 1px solid rgba(226,232,240,0.95);
+            box-shadow: 0 18px 42px rgba(15,23,42,0.07);
+            backdrop-filter: blur(14px);
+        }
+        .mode-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 0;
+        }
+        .mode-kicker {
+            width: fit-content;
+            padding: 0.28rem 0.66rem;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #2563eb;
+            font-family: var(--font-ibm);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            border: 1px solid #dbeafe;
+        }
+        .mode-status {
+            margin: 0;
+            color: #475569;
+            font-size: 0.94rem;
+            line-height: 1.58;
+        }
+        .mode-status strong { color: #0f172a; }
+        .mode-control {
+            display: inline-flex;
+            gap: 0.35rem;
+            padding: 0.38rem;
+            border-radius: 1.35rem;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .mode-button {
+            display: inline-grid;
+            grid-template-columns: auto 1fr;
+            grid-template-rows: auto auto;
+            column-gap: 0.52rem;
+            row-gap: 0.03rem;
+            align-items: center;
+            min-width: 11.2rem;
+            min-height: 3.15rem;
+            padding: 0.68rem 0.9rem;
+            border-radius: 1.05rem;
+            font-weight: 850;
+            font-size: 0.92rem;
+            text-align: left;
+            border: 1px solid transparent;
+            color: #475569;
+            background: transparent;
+            transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+        }
+        .mode-button:hover {
+            transform: translateY(-1px);
+            background: rgba(255,255,255,0.72);
+        }
+        .mode-button small {
+            grid-column: 2;
+            color: #94a3b8;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .mode-dot {
+            grid-row: 1 / span 2;
+            width: 0.72rem;
+            height: 0.72rem;
+            border-radius: 999px;
+            background: #cbd5e1;
+            box-shadow: 0 0 0 4px rgba(148,163,184,0.12);
+            transition: background .2s ease, box-shadow .2s ease;
+        }
+        .mode-button[data-active="true"] {
+            color: #0f172a;
+            background: #ffffff;
+            border-color: #dbeafe;
+            box-shadow: 0 14px 26px rgba(37,99,235,0.12), 0 2px 8px rgba(15,23,42,0.05);
+        }
+        .mode-button[data-agent-mode="active"][data-active="true"] .mode-dot {
+            background: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.14), 0 0 18px rgba(37,99,235,0.35);
+        }
+        .mode-button[data-agent-mode="passive"][data-active="true"] {
+            border-color: #ccfbf1;
+            box-shadow: 0 14px 26px rgba(15,118,110,0.10), 0 2px 8px rgba(15,23,42,0.05);
+        }
+        .mode-button[data-agent-mode="passive"][data-active="true"] .mode-dot {
+            background: #0f766e;
+            box-shadow: 0 0 0 4px rgba(15,118,110,0.14), 0 0 18px rgba(15,118,110,0.25);
+        }
+        .mode-button[data-active="true"] small { color: #64748b; }
+        #uvm-diagram .active-only,
+        #uvm-diagram .passive-only,
+        #uvm-diagram .mode-sensitive {
+            transition: opacity .32s ease, filter .32s ease, transform .32s ease;
+        }
+        #uvm-diagram[data-mode="active"] .passive-only {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #uvm-diagram[data-mode="passive"] .active-only {
+            opacity: 0.12;
+            filter: grayscale(1);
+            pointer-events: none;
+        }
+        #uvm-diagram[data-mode="passive"] .active-flow {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #uvm-diagram[data-mode="passive"] .passive-only {
+            opacity: 1;
+        }
+
+        /* --- 컴포넌트 선택(Click) 시 SVG 강조 효과 --- */
+        .selected-node rect:first-child {
+            stroke-width: 3.5px !important;
+            stroke: #3b82f6 !important;
+            fill: rgba(59, 130, 246, 0.04);
+            filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.45)) !important;
+            /* Layout 틀어짐 방지를 위해 scale 제거 */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .selected-node text {
+            fill: #1e3a8a !important;
+        }
+
+        /* 하단 설명 패널 전환 효과 */
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(4px);
+        }
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 300ms ease-out, transform 300ms ease-out;
+        }
+        .fade-exit {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-exit-active {
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 200ms ease-in, transform 200ms ease-in;
+        }
+
+        @media (max-width: 768px) {
+            .mode-panel {
+                grid-template-columns: 1fr;
+            }
+            .mode-control {
+                width: 100%;
+            }
+            .mode-button {
+                min-width: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 antialiased min-h-screen">
+
+    <main class="max-w-6xl mx-auto px-6 py-16 space-y-20">
+
+        <!-- Header Section -->
+        <header class="space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold mb-2">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                Verification Methodology
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+                UVM <span class="block mt-2 text-2xl md:text-3xl text-slate-500 font-medium">Universal Verification Methodology</span>
+            </h1>
+            <p class="text-lg text-slate-600 max-w-3xl leading-relaxed mt-4">
+                반도체 검증을 위한 <strong>재사용 가능한 표준 검증 프레임워크 (Reusable Verification Framework)</strong>입니다. SystemVerilog의 객체 지향 프로그래밍(OOP) 특성을 활용하여 검증 환경의 모듈화, 자동화 및 재사용성을 극대화합니다.
+            </p>
+        </header>
+
+        <!-- Why UVM? Section -->
+        <section class="space-y-6">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-blue-600 pb-2 inline-block">왜 UVM이 필요한가?</h2>
+            <p class="text-slate-600">규모가 커지는 최신 반도체 설계에서 기존 검증 방식이 가진 한계를 극복하기 위해 등장했습니다.</p>
+            
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- SV TB (As-Is) -->
+                <div class="flex-1 bg-gradient-to-br from-white to-slate-50 p-8 rounded-2xl border border-slate-200 shadow-sm transition-transform duration-300 hover:-translate-y-1 group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-slate-100 rounded-bl-full -z-10 opacity-50"></div>
+                    <h3 class="text-slate-800 font-bold text-lg mb-4 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        일반 SystemVerilog Testbench의 한계
+                    </h3>
+                    <ul class="text-slate-600 space-y-3 mb-8 text-sm relative z-10">
+                        <li class="flex items-start gap-2"><span class="text-red-400 font-bold">•</span> 구조의 표준화 부재로 인해 엔지니어마다 코딩 스타일 파편화</li>
+                        <li class="flex items-start gap-2"><span class="text-red-400 font-bold">•</span> 컴포넌트 간 강한 결합(Hardcoded)으로 인한 스파게티 코드</li>
+                        <li class="flex items-start gap-2"><span class="text-red-400 font-bold">•</span> 다른 프로젝트나 블록(Block) 레벨 검증으로의 재사용 어려움</li>
+                    </ul>
+                    
+                    <!-- Upgraded Visualization: Spaghetti / As-Is -->
+                    <svg viewBox="0 0 300 140" class="w-full h-auto mt-4 drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300 relative z-10">
+                        <defs>
+                            <filter id="shadow-gray" x="-10%" y="-10%" width="120%" height="120%">
+                                <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#64748b" flood-opacity="0.15"/>
+                            </filter>
+                        </defs>
+                        <!-- Background Frame -->
+                        <rect x="10" y="10" width="280" height="120" rx="8" class="fill-slate-50 stroke-slate-300 stroke-[1.5] stroke-dasharray-[6_4]"/>
+                        <text x="150" y="28" text-anchor="middle" class="fill-slate-500 text-[10px] font-bold font-ibm tracking-widest">MONOLITHIC TESTBENCH</text>
+                        
+                        <!-- Chaotic Wires (Spaghetti code representation) -->
+                        <path d="M 50 60 C 120 10, 180 150, 250 60" fill="none" class="stroke-red-400 stroke-[2.5] opacity-70" stroke-linecap="round"/>
+                        <path d="M 60 100 C 140 140, 120 20, 240 100" fill="none" class="stroke-orange-400 stroke-[2.5] opacity-70" stroke-linecap="round"/>
+                        <path d="M 70 40 C 100 80, 200 30, 220 110" fill="none" class="stroke-rose-400 stroke-[2.5] opacity-70" stroke-linecap="round"/>
+                        <path d="M 30 80 C 150 80, 160 40, 270 90" fill="none" class="stroke-purple-400 stroke-[2.5] opacity-70" stroke-linecap="round"/>
+                        
+                        <!-- Tightly coupled / randomly placed blocks -->
+                        <rect x="25" y="45" width="46" height="32" rx="4" class="fill-white stroke-slate-400 stroke-[1.5]" filter="url(#shadow-gray)"/>
+                        <text x="48" y="65" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold font-ibm">Gen</text>
+                        
+                        <rect x="100" y="85" width="46" height="32" rx="4" class="fill-white stroke-slate-400 stroke-[1.5]" filter="url(#shadow-gray)"/>
+                        <text x="123" y="105" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold font-ibm">Drv</text>
+                        
+                        <rect x="170" y="35" width="46" height="32" rx="4" class="fill-white stroke-slate-400 stroke-[1.5]" filter="url(#shadow-gray)"/>
+                        <text x="193" y="55" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold font-ibm">Mon</text>
+                        
+                        <rect x="235" y="75" width="46" height="32" rx="4" class="fill-white stroke-slate-400 stroke-[1.5]" filter="url(#shadow-gray)"/>
+                        <text x="258" y="95" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold font-ibm">Chk</text>
+                        
+                        <!-- Vulnerability/Warning Indicator (Animation Removed) -->
+                        <g transform="translate(150, 70)">
+                            <circle cx="0" cy="0" r="14" class="fill-red-50 stroke-red-200 stroke-2" filter="url(#shadow-gray)"/>
+                            <path d="M-4 -4 L4 4 M4 -4 L-4 4" class="stroke-red-500 stroke-[2.5]" stroke-linecap="round"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- UVM (To-Be) -->
+                <div class="flex-1 bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl border border-blue-200 shadow-sm relative overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-md group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-bl-full -z-0 opacity-40"></div>
+                    <h3 class="text-blue-900 font-bold text-lg mb-4 flex items-center gap-2 relative z-10">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+                        UVM Framework
+                    </h3>
+                    <ul class="text-blue-900 space-y-3 mb-8 text-sm relative z-10">
+                        <li class="flex items-start gap-2"><span class="text-blue-500 font-bold">•</span> OOP 기반의 강력한 표준 아키텍처 제공</li>
+                        <li class="flex items-start gap-2"><span class="text-blue-500 font-bold">•</span> 독립적인 모듈화(Agent, Env) 및 계층 구조 지원</li>
+                        <li class="flex items-start gap-2"><span class="text-blue-500 font-bold">•</span> VIP(Verification IP) 형태로 극대화된 재사용성</li>
+                    </ul>
+                    
+                    <!-- Upgraded Visualization: Plug-and-Play Reusability / To-Be -->
+                    <svg viewBox="0 0 300 140" class="w-full h-auto mt-4 drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300 relative z-10">
+                        <defs>
+                            <filter id="shadow-blue" x="-10%" y="-10%" width="120%" height="120%">
+                                <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#3b82f6" flood-opacity="0.2"/>
+                            </filter>
+                            <linearGradient id="uvm-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
+                                <stop offset="100%" stop-color="#eff6ff" stop-opacity="0.9"/>
+                            </linearGradient>
+                            <marker id="arrow-down-blue" viewBox="0 0 0 10 10" refX="5" refY="8" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                <path d="M 0 0 L 5 10 L 10 0 z" class="fill-blue-500" />
+                            </marker>
+                        </defs>
+                        
+                        <!-- Background Frame -->
+                        <rect x="10" y="10" width="280" height="120" rx="8" fill="url(#uvm-grad)" class="stroke-blue-300 stroke-[1.5] stroke-dasharray-[4_4]"/>
+                        <text x="150" y="28" text-anchor="middle" class="fill-blue-600 text-[10px] font-bold font-ibm tracking-widest">STANDARDIZED ARCHITECTURE</text>
+                        
+                        <!-- Base Platform (System Level Environment) -->
+                        <rect x="30" y="90" width="240" height="28" rx="6" class="fill-blue-100 stroke-blue-400 stroke-[1.5]"/>
+                        <text x="150" y="108" text-anchor="middle" class="fill-blue-800 text-[10px] font-bold font-pretendard tracking-wide">System/Top-level Environment</text>
+
+                        <!-- Standardized Sockets (Indicators) -->
+                        <!-- Socket A -->
+                        <path d="M 60 90 L 60 86 L 100 86 L 100 90" fill="none" class="stroke-blue-400 stroke-[2]"/>
+                        <circle cx="80" cy="86" r="2" class="fill-white stroke-blue-500 stroke-[1.5]"/>
+                        <!-- Socket B -->
+                        <path d="M 200 90 L 200 86 L 240 86 L 240 90" fill="none" class="stroke-blue-400 stroke-[2]"/>
+                        <circle cx="220" cy="86" r="2" class="fill-white stroke-blue-500 stroke-[1.5]"/>
+
+                        <!-- VIP A (Reusable Block) - Animation Removed, Fixed in connected state -->
+                        <g class="translate-y-4">
+                            <rect x="50" y="40" width="60" height="34" rx="6" class="fill-white stroke-blue-500 stroke-[1.5]" filter="url(#shadow-blue)"/>
+                            <text x="80" y="56" text-anchor="middle" class="fill-slate-800 text-[11px] font-bold font-ibm">VIP A</text>
+                            <text x="80" y="68" text-anchor="middle" class="fill-teal-600 text-[8px] font-bold font-pretendard tracking-wider">REUSABLE</text>
+                        </g>
+
+                        <!-- VIP B (Reusable Block) - Animation Removed, Fixed in connected state -->
+                        <g class="translate-y-4">
+                            <rect x="190" y="40" width="60" height="34" rx="6" class="fill-white stroke-blue-500 stroke-[1.5]" filter="url(#shadow-blue)"/>
+                            <text x="220" y="56" text-anchor="middle" class="fill-slate-800 text-[11px] font-bold font-ibm">VIP B</text>
+                            <text x="220" y="68" text-anchor="middle" class="fill-teal-600 text-[8px] font-bold font-pretendard tracking-wider">REUSABLE</text>
+                        </g>
+                        
+                        <!-- Center Sync/Standard Icon (플러그인 허브 상징) -->
+                        <circle cx="150" cy="90" r="12" class="fill-white stroke-blue-400 stroke-[1.5]"/>
+                        <path d="M145 90 h10 M150 85 v10" class="stroke-blue-500 stroke-[2]"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Objectives Section -->
+        <section class="space-y-6">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-blue-600 pb-2 inline-block">UVM의 핵심 목적</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1. Reusability -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm group hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg viewBox="0 0 24 24" class="w-7 h-7 stroke-blue-600 fill-none stroke-2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 10h16v10H4z" class="fill-blue-100"/>
+                            <path d="M8 10V6h8v4"/>
+                            <path d="M8 14h8"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-slate-900 font-bold mb-2">1. 재사용성 (Reusability)</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">블록 레벨에서 검증된 컴포넌트(Agent 등)를 수정 없이 시스템 레벨(SoC) 환경으로 재사용할 수 있습니다.</p>
+                </div>
+
+                <!-- 2. Hierarchy -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm group hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg viewBox="0 0 24 24" class="w-7 h-7 stroke-blue-600 fill-none stroke-2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="10" y="3" width="4" height="4" rx="1" class="fill-blue-100"/>
+                            <path d="M12 7v4" />
+                            <path d="M6 11h12" />
+                            <path d="M6 11v4" />
+                            <path d="M18 11v4" />
+                            <rect x="4" y="15" width="4" height="4" rx="1" class="fill-blue-100"/>
+                            <rect x="16" y="15" width="4" height="4" rx="1" class="fill-blue-100"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-slate-900 font-bold mb-2">2. 계층 구조 (Hierarchy)</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Test, Env, Agent 단위로 명확한 계층 트리를 형성하여 테스트벤치의 구조를 일관되게 유지합니다.</p>
+                </div>
+
+                <!-- 3. Transaction -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm group hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg viewBox="0 0 24 24" class="w-7 h-7 stroke-blue-600 fill-none stroke-2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="8" width="18" height="8" rx="2" class="fill-blue-100"/>
+                            <path d="M7 12h10" class="stroke-[3]"/>
+                            <path d="M14 9l3 3-3 3" class="stroke-[3]"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-slate-900 font-bold mb-2">3. Transaction 기반 검증</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">핀(Pin) 레벨의 복잡한 신호 제어 대신, 데이터 패킷(Transaction) 단위로 통신하여 코딩을 추상화합니다.</p>
+                </div>
+
+                <!-- 4. Automation -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm group hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg viewBox="0 0 24 24" class="w-7 h-7 stroke-blue-600 fill-none stroke-2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4" class="fill-blue-100"/>
+                            <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-slate-900 font-bold mb-2">4. 자동화 검증</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">랜덤 테스트 생성(Randomization)과 자동 데이터 비교(Scoreboard)를 통해 사람의 개입을 최소화합니다.</p>
+                </div>
+
+                <!-- 5. Coverage -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm group hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                    <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg viewBox="0 0 24 24" class="w-7 h-7 stroke-blue-600 fill-none stroke-2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20z" class="fill-blue-50"/>
+                            <path d="M12 22a10 10 0 0 1-10-10h10v10z" class="fill-blue-200 stroke-none"/>
+                            <path d="M12 12l4-4" />
+                            <circle cx="12" cy="12" r="1.5" class="fill-blue-600 stroke-none"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-slate-900 font-bold mb-2">5. Coverage 기반 완료 판단</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">설계 스펙이 모두 테스트되었는지 정량적인 수치(Functional Coverage)로 측정하여 검증 종료 시점을 명확히 합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Diagram Section (Expert Focus) -->
+        <section class="space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-100 text-blue-600 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
+                        </div>
+                        <h2 class="text-3xl font-bold text-slate-900 tracking-tight">UVM Diagram</h2>
+                    </div>
+                </div>
+                <div class="mt-4 md:mt-0 flex gap-4 text-sm font-ibm font-medium text-slate-500 bg-white px-4 py-2 rounded-full shadow-sm ring-1 ring-slate-200">
+                    <span class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-blue-500"></div> Sequence Item</span>
+                    <span class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-teal-400"></div> Analysis Port</span>
+                </div>
+            </div>
+
+            <!-- Active / Passive Agent Mode Toggle -->
+            <div class="mode-panel" aria-label="UVM Agent Active Passive Mode Toggle">
+                <div class="mode-copy">
+                    <div class="mode-kicker">AGENT MODE</div>
+                    <div id="agent-mode-status" class="mode-status mt-1">
+                        <!-- JS에서 초기화됨 -->
+                    </div>
+                </div>
+                <div class="mode-control" role="group" aria-label="Agent mode selector">
+                    <button type="button" class="mode-button" data-agent-mode="active" data-active="true" aria-pressed="true">
+                        <span class="mode-dot" aria-hidden="true"></span>
+                        <span>ACTIVE Agent</span>
+                        <small>Drive + Monitor</small>
+                    </button>
+                    <button type="button" class="mode-button" data-agent-mode="passive" data-active="false" aria-pressed="false">
+                        <span class="mode-dot" aria-hidden="true"></span>
+                        <span>PASSIVE Agent</span>
+                        <small>Monitor Only</small>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Diagram & Interaction Container -->
+            <div class="space-y-6">
+                <!-- SVG Container (Premium UI & Responsive Fix) -->
+                <div class="relative w-full rounded-[2rem] border border-slate-200 shadow-2xl shadow-slate-200/50 overflow-hidden group bg-white">
+                    
+                    <!-- 모바일 전용 스크롤 유도 인디케이터 -->
+                    <div class="md:hidden absolute top-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-3 text-[0.8rem] text-blue-700 font-semibold flex items-center justify-center gap-2 z-10 shadow-md border border-blue-100 pointer-events-none transition-opacity duration-500">
+                        <svg class="w-5 h-5 animate-bounce-x" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+                        <span>화면이 작습니다. 좌우로 스크롤하여 원본 비율로 확인하세요.</span>
+                    </div>
+
+                    <div class="overflow-x-auto diagram-grid p-4 pt-20 md:p-10 hide-scrollbar w-full">
+                        <svg id="uvm-diagram" data-mode="active" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 880" preserveAspectRatio="xMidYMid meet" class="min-w-[900px] w-full h-auto font-ibm text-sm mx-auto">
+                            <!-- Definitions for advanced graphics & Glow -->
+                            <defs>
+                                <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
+                                    <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.06"/>
+                                </filter>
+                                
+                                <filter id="glow-blue" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="3" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+                                <filter id="glow-teal" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="3" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+
+                                <linearGradient id="env-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#f8fafc" />
+                                    <stop offset="100%" stop-color="#f1f5f9" />
+                                </linearGradient>
+                                <linearGradient id="agent-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffffff" />
+                                    <stop offset="100%" stop-color="#f8fafc" />
+                                </linearGradient>
+
+                                <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
+                                </marker>
+                                <marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-400" />
+                                </marker>
+
+                                <path id="path-seq-sqr" d="M 220 200 L 220 300" />
+                                <path id="path-sqr-drv" d="M 220 370 L 220 490" />
+                                <path id="path-mon-sb" d="M 550 525 L 600 525 L 600 340 L 640 340" />
+                                <path id="path-mon-cov" d="M 550 525 L 600 525 L 600 490 L 640 490" />
+                            </defs>
+
+                            <!-- ================= Framework Boundaries ================= -->
+
+                            <!-- Root: UVM Test Class -->
+                            <rect x="40" y="40" width="920" height="630" rx="16" class="fill-white stroke-slate-300 stroke-[2]" stroke-dasharray="12 6" />
+                            <rect x="56" y="56" width="292" height="42" rx="14" class="fill-white stroke-slate-200 stroke-[1.2]" />
+                            <text x="72" y="82" class="fill-slate-800 font-bold text-xl font-pretendard tracking-tight">UVM Test Class <tspan dx="8" class="fill-slate-500 font-medium text-sm font-ibm">(uvm_test)</tspan></text>
+
+                            <!-- Top-level utility chips (Animation Removed) -->
+                            <g class="tool-chip cursor-pointer" data-info="factory" transform="translate(592, 56)">
+                                <rect x="0" y="0" width="148" height="42" rx="14" class="fill-slate-50 stroke-slate-200 stroke-[1.2]" filter="url(#soft-shadow)" />
+                                <circle cx="22" cy="21" r="12" class="fill-slate-800" />
+                                <path d="M18 25V18C18 17.4 18.4 17 19 17H25C25.6 17 26 17.4 26 18V25M18 21H26M22 17V13M22 13L19 10M22 13L25 10" class="stroke-white fill-none stroke-[1.4]" />
+                                <text x="43" y="19" class="fill-slate-800 font-bold font-ibm text-[11px] tracking-wider">UVM_FACTORY</text>
+                                <text x="43" y="32" class="fill-slate-400 font-ibm text-[9px]">create / override</text>
+                            </g>
+
+                            <g class="tool-chip cursor-pointer" data-info="config_db" transform="translate(752, 56)">
+                                <rect x="0" y="0" width="178" height="42" rx="14" class="fill-blue-50 stroke-blue-100 stroke-[1.2]" filter="url(#soft-shadow)" />
+                                <circle cx="22" cy="21" r="12" class="fill-blue-100 stroke-blue-200 stroke-[1]" />
+                                <path d="M17 17h10v2H17zM17 22h10v2H17z" class="fill-blue-600" />
+                                <text x="43" y="19" class="fill-blue-800 font-bold font-ibm text-[11px] tracking-wide">uvm_config_db</text>
+                                <text x="43" y="32" class="fill-blue-500 font-ibm text-[9px]">set / get resources</text>
+                            </g>
+
+                            <!-- UVM Environment (Entire box grouped for clicking) -->
+                            <g class="hover-active-node cursor-pointer" data-info="env">
+                                <rect x="80" y="110" width="840" height="540" rx="16" fill="url(#env-bg)" class="stroke-blue-200 stroke-[1.5]" />
+                                <text x="100" y="145" class="fill-blue-800 font-bold text-lg font-pretendard tracking-tight">UVM Environment <tspan dx="6" class="fill-blue-500 font-medium text-sm font-ibm">(uvm_env)</tspan></text>
+                            </g>
+
+                            <!-- ================= Core Nodes ================= -->
+
+                            <!-- 1. Sequence -->
+                            <g class="hover-active-node cursor-pointer active-only" data-info="sequence">
+                                <rect x="140" y="150" width="160" height="50" rx="25" class="fill-blue-600 stroke-blue-700 stroke-2" filter="url(#soft-shadow)" />
+                                <text x="220" y="176" text-anchor="middle" class="fill-white font-bold font-pretendard tracking-wide">Sequence</text>
+                                <text x="220" y="190" text-anchor="middle" class="fill-blue-200 text-[10px] font-ibm">(uvm_sequence)</text>
+                            </g>
+
+                            <!-- 2. RAL Model -->
+                            <g class="hover-active-node cursor-pointer" data-info="ral">
+                                <rect x="360" y="150" width="220" height="50" rx="10" class="fill-violet-50 stroke-violet-400 stroke-[1.5]" filter="url(#soft-shadow)" />
+                                <text x="470" y="176" text-anchor="middle" class="fill-violet-900 font-bold font-pretendard">Register Model (RAL)</text>
+                                <text x="470" y="190" text-anchor="middle" class="fill-violet-600 text-[10px] font-ibm">(uvm_reg_block)</text>
+                                <path d="M 470 200 L 470 230" fill="none" class="stroke-violet-300 stroke-2" stroke-dasharray="4 4" />
+                            </g>
+
+                            <!-- 3. Active Agent (Entire box grouped for clicking) -->
+                            <g class="hover-active-node cursor-pointer" data-info="agent">
+                                <rect id="agent-boundary" x="110" y="230" width="460" height="400" rx="12" fill="url(#agent-bg)" class="stroke-blue-300 stroke-[1.8]" />
+                                <text x="130" y="260" class="fill-slate-800 font-bold text-[1.05rem] font-pretendard">UVM Agent</text>
+                            </g>
+
+                            <!-- State Pills (Placed after agent to stay on top, disabled pointers) -->
+                            <rect id="agent-state-pill" x="390" y="242" width="156" height="24" rx="12" class="fill-blue-50 stroke-blue-200 stroke-1" pointer-events="none" />
+                            <text id="agent-state-label" x="406" y="259" class="fill-blue-700 text-xs font-bold font-ibm" pointer-events="none">is_active = UVM_ACTIVE</text>
+
+                            <!-- Sequencer -->
+                            <g class="hover-active-node cursor-pointer active-only" data-info="sequencer">
+                                <rect x="140" y="300" width="160" height="70" rx="8" class="fill-white stroke-blue-400 stroke-[1.5]" filter="url(#soft-shadow)" />
+                                <text x="220" y="335" text-anchor="middle" class="fill-slate-900 font-bold font-pretendard text-[1.05rem]">Sequencer</text>
+                                <text x="220" y="355" text-anchor="middle" class="fill-slate-500 text-[11px] font-ibm">(uvm_sequencer)</text>
+                                <text x="230" y="385" class="fill-blue-600 text-[10px] font-ibm font-semibold">seq_item_export</text>
+                            </g>
+
+                            <!-- Driver -->
+                            <g class="hover-active-node cursor-pointer active-only" data-info="driver">
+                                <rect x="140" y="490" width="160" height="70" rx="8" class="fill-white stroke-blue-500 stroke-[1.5]" filter="url(#soft-shadow)" />
+                                <text x="220" y="525" text-anchor="middle" class="fill-slate-900 font-bold font-pretendard text-[1.05rem]">Driver</text>
+                                <text x="220" y="545" text-anchor="middle" class="fill-slate-500 text-[11px] font-ibm">(uvm_driver)</text>
+                                <text x="230" y="475" class="fill-blue-600 text-[10px] font-ibm font-semibold">seq_item_port</text>
+                            </g>
+
+                            <!-- Passive Agent View -->
+                            <g class="passive-only">
+                                <rect x="135" y="300" width="185" height="260" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.6" stroke-dasharray="7 7" />
+                                <circle cx="228" cy="370" r="34" fill="#ecfeff" stroke="#14b8a6" stroke-width="2" />
+                                <path d="M214 370h28M228 356v28" stroke="#0f766e" stroke-width="4" stroke-linecap="round" opacity="0.18" />
+                                <path d="M211 393L245 349" stroke="#0f766e" stroke-width="5" stroke-linecap="round" />
+                                <text x="228" y="430" text-anchor="middle" class="fill-slate-900 font-bold font-pretendard text-[1rem]">Sequencer / Driver OFF</text>
+                                <text x="228" y="452" text-anchor="middle" class="fill-slate-500 font-ibm text-xs">Passive Agent = Monitor Only</text>
+                                <rect x="157" y="474" width="142" height="38" rx="19" fill="#f0fdfa" stroke="#5eead4" stroke-width="1.2" />
+                                <text x="228" y="498" text-anchor="middle" class="fill-teal-700 font-bold font-ibm text-xs">No Pin Driving</text>
+                            </g>
+
+                            <!-- Monitor -->
+                            <g class="hover-active-node cursor-pointer mode-sensitive" data-info="monitor">
+                                <rect x="390" y="490" width="160" height="70" rx="8" class="fill-white stroke-teal-500 stroke-[1.5]" filter="url(#soft-shadow)" />
+                                <text x="470" y="525" text-anchor="middle" class="fill-slate-900 font-bold font-pretendard text-[1.05rem]">Monitor</text>
+                                <text x="470" y="545" text-anchor="middle" class="fill-slate-500 text-[11px] font-ibm">(uvm_monitor)</text>
+                                <text x="495" y="480" class="fill-teal-600 text-[10px] font-ibm font-semibold">analysis_port (AP)</text>
+                            </g>
+
+                            <!-- Scoreboard -->
+                            <g class="hover-active-node cursor-pointer" data-info="scoreboard">
+                                <rect x="640" y="300" width="250" height="80" rx="10" class="fill-white stroke-teal-600 stroke-[1.5]" filter="url(#soft-shadow)" />
+                                <text x="765" y="340" text-anchor="middle" class="fill-slate-900 font-bold font-pretendard text-lg tracking-wide">Scoreboard</text>
+                                <text x="765" y="360" text-anchor="middle" class="fill-slate-500 text-xs font-ibm">(uvm_scoreboard / check)</text>
+                                <text x="655" y="290" class="fill-teal-700 text-[10px] font-ibm font-semibold">analysis_export</text>
+                            </g>
+
+                            <!-- Coverage -->
+                            <g class="hover-active-node cursor-pointer" data-info="coverage">
+                                <rect x="640" y="450" width="250" height="80" rx="10" class="fill-white stroke-indigo-400 stroke-[1.5]" filter="url(#soft-shadow)" />
+                                <text x="765" y="490" text-anchor="middle" class="fill-slate-900 font-bold font-pretendard text-lg tracking-wide">Coverage Collector</text>
+                                <text x="765" y="510" text-anchor="middle" class="fill-slate-500 text-xs font-ibm">(uvm_subscriber / sample)</text>
+                                <text x="655" y="440" class="fill-indigo-600 text-[10px] font-ibm font-semibold">analysis_export</text>
+                            </g>
+
+                            <!-- ================= TLM Ports Icons & Connections ================= -->
+
+                            <!-- Base connection lines -->
+                            <path d="M 220 200 L 220 300" fill="none" class="stroke-blue-200 stroke-[3] active-only" />
+                            <path d="M 220 370 L 220 490" fill="none" class="stroke-blue-200 stroke-[3] active-only" />
+                            <path d="M 550 525 L 600 525 L 600 340 L 640 340" fill="none" class="stroke-teal-200 stroke-[3]" />
+                            <path d="M 550 525 L 600 525 L 600 490 L 640 490" fill="none" class="stroke-teal-200 stroke-[3]" />
+
+                            <!-- Port / Export Shapes -->
+                            <rect x="214" y="294" width="12" height="12" class="fill-white stroke-blue-500 stroke-2 active-only"/>
+                            <rect x="214" y="364" width="12" height="12" class="fill-white stroke-blue-500 stroke-2 active-only"/>
+                            <rect x="214" y="484" width="12" height="12" class="fill-white stroke-blue-500 stroke-2 active-only"/>
+                            
+                            <polygon points="550,519 556,525 550,531 544,525" class="fill-white stroke-teal-500 stroke-2" />
+                            <circle cx="640" cy="340" r="6" class="fill-white stroke-teal-600 stroke-2" />
+                            <circle cx="640" cy="340" r="2" class="fill-teal-600" />
+                            <circle cx="640" cy="490" r="6" class="fill-white stroke-indigo-500 stroke-2" />
+                            <circle cx="640" cy="490" r="2" class="fill-indigo-500" />
+
+                            <!-- ================= Flow Animations (Particles) ================= -->
+                            
+                            <rect x="234" y="207" width="128" height="20" rx="5" class="fill-white/95 stroke-blue-100 stroke-1 active-only active-flow" />
+                            <text x="240" y="221" class="fill-blue-700 font-bold font-ibm text-xs active-only active-flow">uvm_sequence_item</text>
+                            <circle r="4" class="fill-blue-500 active-only active-flow" filter="url(#glow-blue)">
+                                <animateMotion dur="1s" repeatCount="indefinite">
+                                    <mpath href="#path-seq-sqr" xlink:href="#path-seq-sqr"/>
+                                </animateMotion>
+                            </circle>
+
+                            <text x="235" y="430" class="fill-blue-700 font-bold font-ibm text-xs active-only active-flow">get_next_item()</text>
+                            <circle r="4.5" class="fill-blue-500 active-only active-flow" filter="url(#glow-blue)">
+                                <animateMotion dur="1.5s" repeatCount="indefinite">
+                                    <mpath href="#path-sqr-drv" xlink:href="#path-sqr-drv"/>
+                                </animateMotion>
+                            </circle>
+
+                            <text x="590" y="310" class="fill-teal-700 font-bold font-ibm text-xs">write()</text>
+                            <circle r="4" class="fill-teal-400" filter="url(#glow-teal)">
+                                <animateMotion dur="1.8s" repeatCount="indefinite">
+                                    <mpath href="#path-mon-sb" xlink:href="#path-mon-sb"/>
+                                </animateMotion>
+                            </circle>
+                            <circle r="4" class="fill-teal-400" filter="url(#glow-teal)">
+                                <animateMotion dur="1.8s" begin="0.9s" repeatCount="indefinite">
+                                    <mpath href="#path-mon-cov" xlink:href="#path-mon-cov"/>
+                                </animateMotion>
+                            </circle>
+
+                            <!-- ================= Hardware Boundary ================= -->
+                            
+                            <!-- Virtual Interface -->
+                            <g class="hover-active-node cursor-pointer" data-info="vif">
+                                <rect x="80" y="710" width="840" height="36" rx="8" class="fill-slate-200 stroke-slate-300 stroke-[1.5]" filter="url(#soft-shadow)" />
+                                <text x="500" y="733" text-anchor="middle" class="fill-slate-600 font-bold font-ibm text-[0.9rem] tracking-wide">Virtual Interface <tspan dx="5" class="font-normal fill-slate-500">(SystemVerilog interface)</tspan></text>
+                            </g>
+
+                            <!-- Pin-level Flows -->
+                            <path d="M 220 560 L 220 710" fill="none" class="stroke-slate-400 stroke-[3] animate-flow-gray active-only active-flow" marker-end="url(#arrow-gray)" />
+                            <text x="235" y="640" class="fill-slate-600 font-bold font-ibm text-xs active-only active-flow">Pin Wiggle (Drive)</text>
+
+                            <path d="M 470 710 L 470 560" fill="none" class="stroke-slate-400 stroke-[3] animate-flow-gray" marker-end="url(#arrow-gray)" style="animation-duration: 0.6s;" />
+                            <text x="485" y="640" class="fill-slate-600 font-bold font-ibm text-xs">Pin Observe (Sample)</text>
+
+                            <!-- DUT -->
+                            <g>
+                                <rect x="180" y="780" width="640" height="60" rx="12" class="fill-slate-800 stroke-slate-900 stroke-[2]" filter="url(#soft-shadow)" />
+                                <text x="500" y="817" text-anchor="middle" class="fill-white font-extrabold font-pretendard tracking-widest text-[1.1rem]">DUT (Design Under Test)</text>
+                            </g>
+
+                            <!-- Physical Wires -->
+                            <path d="M 220 746 L 220 780" fill="none" class="stroke-slate-800 stroke-[4] active-only" />
+                            <path d="M 230 746 L 230 780" fill="none" class="stroke-slate-400 stroke-2 active-only" />
+                            <path d="M 210 746 L 210 780" fill="none" class="stroke-slate-400 stroke-2 active-only" />
+                            
+                            <path d="M 470 780 L 470 746" fill="none" class="stroke-slate-800 stroke-[4]" />
+                            <path d="M 460 780 L 460 746" fill="none" class="stroke-slate-400 stroke-2" />
+                            <path d="M 480 780 L 480 746" fill="none" class="stroke-slate-400 stroke-2" />
+
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- --- 하단 정적 정보 출력 패널 (Interactive Panel) --- -->
+                <div id="comp-info-panel" class="w-full min-h-[160px] p-6 md:p-8 bg-white rounded-3xl border border-slate-200 shadow-sm transition-all duration-300 flex items-center justify-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-teal-400 to-indigo-500"></div>
+                    
+                    <!-- Default State -->
+                    <div id="default-msg" class="flex flex-col items-center justify-center text-slate-400 w-full transition-opacity duration-300">
+                        <svg class="w-10 h-10 mb-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+                        </svg>
+                        <p class="font-pretendard text-sm md:text-base font-medium">위 다이어그램의 요소를 클릭하면 상세 설명이 표시됩니다.</p>
+                    </div>
+
+                    <!-- Content State -->
+                    <div id="info-content" class="hidden items-start gap-5 w-full max-w-4xl mx-auto transition-opacity duration-300 opacity-0">
+                        <div id="comp-icon" class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center shrink-0 text-blue-600 shadow-inner border border-blue-100/50">
+                            <!-- Icon injected by JS -->
+                        </div>
+                        <div class="space-y-2 flex-1">
+                            <h3 id="comp-title" class="text-xl md:text-2xl font-bold text-slate-900 font-pretendard tracking-tight"></h3>
+                            <div id="comp-desc" class="text-slate-600 leading-relaxed font-ibm text-[0.95rem] md:text-[1.05rem]"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        (() => {
+            const diagram = document.getElementById('uvm-diagram');
+            const buttons = document.querySelectorAll('[data-agent-mode]');
+            const status = document.getElementById('agent-mode-status');
+            const badgeRect = document.getElementById('agent-state-pill');
+            const badgeText = document.getElementById('agent-state-label');
+            const agentBoundary = document.getElementById('agent-boundary');
+
+            const modeCopy = {
+                active: `<div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            <span><strong class="text-blue-700">ACTIVE 모드</strong>: 직접 신호를 인가하는 환경입니다. Sequence가 데이터를 만들고 Driver가 DUT에 주입하며, 동시에 Monitor가 결과를 관찰합니다.</span>
+                         </div>`,
+                passive: `<div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-teal-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            <span><strong class="text-teal-700">PASSIVE 모드</strong>: 관찰 전용 환경입니다. 신호 인가 컴포넌트(Sequencer/Driver)를 비활성화하고, Monitor만 동작하여 DUT의 상태를 읽어 들입니다.</span>
+                          </div>`
+            };
+
+            function setMode(mode) {
+                if(!diagram) return;
+                diagram.dataset.mode = mode;
+                buttons.forEach((button) => {
+                    const selected = button.dataset.agentMode === mode;
+                    button.dataset.active = String(selected);
+                    button.setAttribute('aria-pressed', String(selected));
+                });
+
+                status.innerHTML = modeCopy[mode];
+
+                if (mode === 'active') {
+                    badgeText.textContent = 'is_active = UVM_ACTIVE';
+                    badgeRect.setAttribute('width', '156');
+                    badgeRect.style.fill = '#eff6ff';
+                    badgeRect.style.stroke = '#bfdbfe';
+                    badgeText.style.fill = '#2563eb';
+                    agentBoundary.style.stroke = '#93c5fd';
+                } else {
+                    badgeText.textContent = 'is_active = UVM_PASSIVE';
+                    badgeRect.setAttribute('width', '166');
+                    badgeRect.style.fill = '#f0fdfa';
+                    badgeRect.style.stroke = '#5eead4';
+                    badgeText.style.fill = '#0f766e';
+                    agentBoundary.style.stroke = '#2dd4bf';
+                }
+            }
+
+            buttons.forEach((button) => {
+                button.addEventListener('click', () => setMode(button.dataset.agentMode));
+            });
+
+            setMode('active');
+
+            // --- Component Description Logic ---
+            const bulletIcon = `<svg class="w-[1.1rem] h-[1.1rem] text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            
+            const compData = {
+                env: {
+                    title: 'UVM Environment (환경)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>검증 환경의 최상위 컨테이너</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>하위 컴포넌트(Agent, Scoreboard 등)를 조립 및 관리하여 완전한 테스트 환경 구성</span></li>
+                           </ul>`
+                },
+                agent: {
+                    title: 'UVM Agent (에이전트)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>특정 프로토콜(AXI, I2C 등) 인터페이스를 전담하는 독립적인 컴포넌트 집합체</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>Sequencer, Driver, Monitor를 포함하여 검증 IP(VIP) 형태로 모듈화 및 재사용 극대화</span></li>
+                           </ul>`
+                },
+                vif: {
+                    title: 'Virtual Interface (가상 인터페이스)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>객체 지향적인 UVM 환경과 실제 하드웨어 핀(Pin)을 연결하는 다리(Bridge) 역할</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>하드웨어 신호를 소프트웨어에서 참조 및 제어하기 위한 SystemVerilog 핸들</span></li>
+                           </ul>`
+                },
+                factory: {
+                    title: 'UVM Factory (팩토리)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>소스 코드의 수정 없이 런타임 시점에 기존 객체를 상속된 다른 객체로 교체(Override)</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>다형성(Polymorphism)을 기반으로 테스트벤치의 유연성 및 확장성 제공</span></li>
+                           </ul>`
+                },
+                config_db: {
+                    title: 'uvm_config_db (설정 데이터베이스)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2 1.5 3 3.5 3h9c2 0 3.5-1 3.5-3V7c0-2-1.5-3-3.5-3h-9C5.5 4 4 5 4 7zM4 7l8 5 8-5"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>계층 구조와 무관하게 설정 값(Virtual Interface, 구성 변수 등)을 공유하기 위한 전역 데이터베이스</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span><code>set()</code> 및 <code>get()</code> 함수를 활용한 안전하고 독립적인 데이터 전달</span></li>
+                           </ul>`
+                },
+                sequence: {
+                    title: 'Sequence (시퀀스)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>검증을 위한 자극(Stimulus)인 Transaction 패턴 및 시나리오 정의</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>루프 및 랜덤 제약을 활용하여 독립적이고 다채로운 테스트 흐름 생성</span></li>
+                           </ul>`
+                },
+                ral: {
+                    title: 'Register Model (RAL 블록)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>방대한 레지스터 물리 주소(Address)를 직관적인 이름(Name) 기반의 객체로 추상화한 레지스터 모델</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>백도어(Backdoor) 및 프론트도어(Frontdoor) 접근을 지원하여 손쉬운 레지스터 검증 환경 제공</span></li>
+                           </ul>`
+                },
+                sequencer: {
+                    title: 'Sequencer (시퀀서)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>Sequence에서 생성된 Transaction 패킷들을 저장 및 관리하는 대기열(FIFO)</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>하위 Driver의 데이터 요청(<code>get_next_item</code>)에 동기화하여 순차적으로 패킷 전달</span></li>
+                           </ul>`
+                },
+                driver: {
+                    title: 'Driver (드라이버)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>Sequencer로부터 전달받은 Transaction 수준의 패킷 분석</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>하드웨어 클럭(Clock) 주기에 맞춰 Virtual Interface의 물리적 핀(Pin) 신호로 구동(Drive)</span></li>
+                           </ul>`
+                },
+                monitor: {
+                    title: 'Monitor (모니터)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>DUT 인터페이스의 핀(Pin) 신호를 수동적으로 캡처(Capture)하여 Transaction 객체로 재조립</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>재조립된 데이터를 Analysis Port를 통해 Scoreboard 및 Coverage Collector로 브로드캐스트</span></li>
+                           </ul>`
+                },
+                scoreboard: {
+                    title: 'Scoreboard (스코어보드)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>Monitor가 수집하여 전송한 DUT의 실제 출력 결과(Actual) 수신</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>내부 레퍼런스 모델의 예상 정답(Expected)과 비교 분석하여 테스트의 Pass/Fail 최종 판단</span></li>
+                           </ul>`
+                },
+                coverage: {
+                    title: 'Coverage Collector (커버리지 수집기)',
+                    icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>',
+                    desc: `<ul class="space-y-2 mt-2">
+                            <li class="flex items-start gap-2">${bulletIcon} <span>Analysis Port로 유입되는 데이터를 샘플링하여 기능 커버리지(Functional Coverage) 측정</span></li>
+                            <li class="flex items-start gap-2">${bulletIcon} <span>검증 계획에 정의된 동작 조건들의 달성 여부를 정량적 수치로 가시화</span></li>
+                           </ul>`
+                }
+            };
+
+            const infoNodes = document.querySelectorAll('[data-info]');
+            const defaultMsg = document.getElementById('default-msg');
+            const infoContent = document.getElementById('info-content');
+            
+            const compTitleEl = document.getElementById('comp-title');
+            const compDescEl = document.getElementById('comp-desc');
+            const compIconEl = document.getElementById('comp-icon');
+
+            function resetInfoPanel() {
+                infoNodes.forEach(n => n.classList.remove('selected-node'));
+                
+                infoContent.style.opacity = 0;
+                setTimeout(() => {
+                    infoContent.classList.add('hidden');
+                    infoContent.classList.remove('flex');
+                    defaultMsg.classList.remove('hidden');
+                    defaultMsg.classList.add('flex');
+                    
+                    setTimeout(() => {
+                        defaultMsg.style.opacity = 1;
+                    }, 10);
+                }, 300);
+            }
+
+            infoNodes.forEach(node => {
+                node.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const infoKey = node.dataset.info;
+                    const data = compData[infoKey];
+                    
+                    if(data) {
+                        infoNodes.forEach(n => n.classList.remove('selected-node'));
+                        node.classList.add('selected-node');
+                        
+                        compTitleEl.textContent = data.title;
+                        compDescEl.innerHTML = data.desc;
+                        compIconEl.innerHTML = data.icon;
+                        
+                        defaultMsg.style.opacity = 0;
+                        infoContent.style.opacity = 0;
+                        
+                        setTimeout(() => {
+                            defaultMsg.classList.add('hidden');
+                            defaultMsg.classList.remove('flex');
+                            
+                            infoContent.classList.remove('hidden');
+                            infoContent.classList.add('flex');
+                            
+                            setTimeout(() => {
+                                infoContent.style.opacity = 1;
+                            }, 10);
+                        }, 300);
+                    }
+                });
+            });
+
+            // 다이어그램 외부 또는 빈 공간 클릭 시 초기 안내문구로 복귀
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('[data-info]')) {
+                    if (!infoContent.classList.contains('hidden')) {
+                        resetInfoPanel();
+                    }
+                }
+            });
+
+        })();
+    </script>
+</body>
+</html>
