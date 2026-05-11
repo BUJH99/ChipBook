@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UVM Env : Integrate Verification Components</title>
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                        mono: ['"IBM Plex Sans"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6', // blue-500
+                            600: '#2563eb', // blue-600
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS & Animations -->
+    <style>
+        body {
+            background-color: #f8fafc; /* slate-50 */
+            color: #475569; /* slate-600 */
+        }
+        
+        .diagram-grid {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+                linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* SVG Element Base (호버 애니메이션 제거됨) */
+        .svg-node {
+            transform-origin: center;
+        }
+
+        /* Flow Animations */
+        .flow-line {
+            stroke-dasharray: 6;
+            animation: flow-anim 1.5s linear infinite;
+        }
+        .flow-line-fast {
+            stroke-dasharray: 6;
+            animation: flow-anim 0.8s linear infinite;
+        }
+        .flow-line-reverse {
+            stroke-dasharray: 6;
+            animation: flow-anim-rev 1.5s linear infinite;
+        }
+        
+        @keyframes flow-anim {
+            from { stroke-dashoffset: 12; }
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes flow-anim-rev {
+            from { stroke-dashoffset: 0; }
+            to { stroke-dashoffset: 12; }
+        }
+
+        /* Pulse / Highlight Effects */
+        .pulse-active {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { stroke-opacity: 1; stroke-width: 2px; }
+            50% { stroke-opacity: 0.5; stroke-width: 4px; stroke: #2563eb; }
+        }
+
+        /* Text styling for SVG */
+        .svg-text-title { font-family: 'Pretendard', sans-serif; font-weight: 700; fill: #0f172a; }
+        .svg-text-body { font-family: 'Pretendard', sans-serif; font-weight: 500; fill: #475569; }
+        .svg-text-mono { font-family: '"IBM Plex Sans"', monospace; font-weight: 600; fill: #1e293b; }
+    </style>
+</head>
+<body class="antialiased min-h-screen p-6 md:p-12 selection:bg-brand-100 selection:text-brand-700">
+
+    <!-- Header Section -->
+    <header class="max-w-7xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 text-brand-600 text-sm font-bold mb-4 border border-brand-100">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            UVM Architecture Guide
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Env : <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">Integrate Verification Components</span>
+        </h1>
+        <p class="text-lg text-slate-600 max-w-3xl leading-relaxed">
+            <code class="text-sm bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded font-mono">uvm_env</code>는 검증 환경의 최상위 컨테이너입니다.
+            Agent, Scoreboard, Reference Model 등 하위 컴포넌트들을 인스턴스화하고(Build), 이들 간의 통신 채널을 연결(Connect)하는 중추적인 역할을 시각적으로 파악해보세요.
+        </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+        <!-- 1. Core Architecture Diagram (Spans full width on large screens) -->
+        <section class="xl:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-brand-500 rounded-sm inline-block"></span>
+                        [1, 3, 6, 7, 9] UVM Environment Core Architecture
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">Env의 역할과 내부 구성요소 간의 유기적인 데이터 흐름 (TLM Connections)</p>
+                </div>
+            </div>
+            
+            <div class="p-6 diagram-grid relative flex-1 flex justify-center overflow-x-auto border-b border-slate-100">
+                <!-- SVG Core Diagram -->
+                <svg viewBox="0 0 1000 550" class="w-full max-w-5xl min-w-[800px] h-auto drop-shadow-sm">
+                    <defs>
+                        <!-- Arrowheads -->
+                        <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-brand-500" />
+                        </marker>
+                        <marker id="arrow-slate" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-400" />
+                        </marker>
+                        
+                        <!-- Drop Shadow Filter -->
+                        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.05" />
+                        </filter>
+                    </defs>
+
+                    <!-- Background Env Boundary -->
+                    <rect x="20" y="20" width="960" height="510" rx="16" class="fill-transparent stroke-brand-200 stroke-2" stroke-dasharray="8 4" />
+                    <text x="40" y="45" class="svg-text-mono text-lg fill-brand-600">my_env (extends uvm_env)</text>
+                    <rect x="40" y="55" width="40" height="4" rx="2" class="fill-brand-500" />
+
+                    <!-- [9] Virtual Sequencer -->
+                    <g class="svg-node" transform="translate(60, 100)">
+                        <rect width="180" height="80" rx="12" class="fill-white stroke-slate-200 stroke-2" filter="url(#shadow)"/>
+                        <rect x="0" y="0" width="180" height="30" rx="12" class="fill-slate-100" />
+                        <text x="90" y="20" text-anchor="middle" class="svg-text-title text-sm">Virtual Sequencer</text>
+                        <text x="90" y="50" text-anchor="middle" class="svg-text-body text-xs">Coordinates multiple</text>
+                        <text x="90" y="65" text-anchor="middle" class="svg-text-body text-xs">sub-sequencers</text>
+                        <circle cx="140" cy="80" r="4" class="fill-brand-500" /> <!-- Port -->
+                    </g>
+
+                    <!-- [3] Agent 1 (Active) -->
+                    <g class="svg-node" transform="translate(60, 240)">
+                        <rect width="220" height="260" rx="12" class="fill-white stroke-slate-300 stroke-2 pulse-active" filter="url(#shadow)"/>
+                        <rect x="0" y="0" width="220" height="30" rx="12" class="fill-slate-100" />
+                        <text x="110" y="20" text-anchor="middle" class="svg-text-title text-sm">UVM Agent (Active)</text>
+                        
+                        <!-- Sequencer -->
+                        <g transform="translate(20, 50)">
+                            <rect width="180" height="40" rx="6" class="fill-brand-50 stroke-brand-200 stroke-2" />
+                            <text x="90" y="25" text-anchor="middle" class="svg-text-mono text-xs">Sequencer</text>
+                        </g>
+                        <!-- Driver -->
+                        <g transform="translate(20, 120)">
+                            <rect width="180" height="40" rx="6" class="fill-brand-50 stroke-brand-200 stroke-2" />
+                            <text x="90" y="25" text-anchor="middle" class="svg-text-mono text-xs">Driver</text>
+                        </g>
+                        <!-- Monitor -->
+                        <g transform="translate(20, 190)">
+                            <rect width="180" height="40" rx="6" class="fill-slate-50 stroke-slate-300 stroke-2" />
+                            <text x="90" y="25" text-anchor="middle" class="svg-text-mono text-xs">Monitor</text>
+                            <circle cx="180" cy="20" r="4" class="fill-brand-500" /> <!-- AP Port -->
+                        </g>
+                        
+                        <!-- Internal Agent Connections -->
+                        <path d="M 110 90 L 110 120" class="stroke-slate-400 stroke-2" fill="none" marker-end="url(#arrow-slate)" />
+                        <text x="115" y="110" class="svg-text-body text-[10px]">TLM FIFO (Pull)</text>
+                    </g>
+
+                    <!-- Flow Line: Virtual Seq to Active Seq (Orthogonal) -->
+                    <path d="M 200 180 L 200 230 L 170 230 L 170 290" class="stroke-brand-500 stroke-2 flow-line" stroke-linejoin="round" fill="none" marker-end="url(#arrow-blue)" />
+                    <text x="175" y="225" class="svg-text-mono text-[10px] fill-brand-600 font-bold">seq_item</text>
+
+                    <!-- [7] Reference Model / Predictor -->
+                    <g class="svg-node" transform="translate(420, 140)">
+                        <rect width="180" height="90" rx="12" class="fill-white stroke-slate-200 stroke-2" filter="url(#shadow)"/>
+                        <rect x="0" y="0" width="180" height="30" rx="12" class="fill-slate-100" />
+                        <text x="90" y="20" text-anchor="middle" class="svg-text-title text-sm">Reference Model</text>
+                        <text x="90" y="55" text-anchor="middle" class="svg-text-body text-xs">Golden Model / Predictor</text>
+                        <text x="90" y="75" text-anchor="middle" class="svg-text-mono text-[10px] fill-slate-400">Generates Expected Data</text>
+                        <circle cx="0" cy="45" r="4" class="fill-slate-400" /> <!-- Export -->
+                        <circle cx="180" cy="45" r="4" class="fill-brand-500" /> <!-- Port -->
+                    </g>
+
+                    <!-- [6] Scoreboard -->
+                    <g class="svg-node" transform="translate(740, 140)">
+                        <rect width="200" height="220" rx="12" class="fill-white stroke-slate-200 stroke-2" filter="url(#shadow)"/>
+                        <path d="M 0 12 Q 0 0 12 0 L 188 0 Q 200 0 200 12 L 200 30 L 0 30 Z" class="fill-slate-800" />
+                        <text x="100" y="20" text-anchor="middle" class="svg-text-title text-sm fill-white">UVM Scoreboard</text>
+                        
+                        <rect x="20" y="60" width="160" height="40" rx="6" class="fill-indigo-50 stroke-indigo-200 stroke-2" />
+                        <text x="100" y="85" text-anchor="middle" class="svg-text-mono text-xs">Expected Queue</text>
+                        
+                        <rect x="20" y="120" width="160" height="40" rx="6" class="fill-indigo-50 stroke-indigo-200 stroke-2" />
+                        <text x="100" y="145" text-anchor="middle" class="svg-text-mono text-xs">Actual Queue</text>
+
+                        <rect x="20" y="175" width="160" height="30" rx="6" class="fill-slate-100" />
+                        <text x="100" y="195" text-anchor="middle" class="svg-text-title text-xs">Comparator (Check!)</text>
+
+                        <circle cx="0" cy="80" r="4" class="fill-slate-400" /> <!-- Exp Export -->
+                        <circle cx="0" cy="140" r="4" class="fill-slate-400" /> <!-- Act Export -->
+                    </g>
+
+                    <!-- [6] Coverage Collector -->
+                    <g class="svg-node" transform="translate(740, 390)">
+                        <rect width="200" height="80" rx="12" class="fill-white stroke-slate-200 stroke-2" filter="url(#shadow)"/>
+                        <rect x="0" y="0" width="200" height="30" rx="12" class="fill-slate-100" />
+                        <text x="100" y="20" text-anchor="middle" class="svg-text-title text-sm">Coverage Collector</text>
+                        <text x="100" y="55" text-anchor="middle" class="svg-text-mono text-xs">covergroup / coverpoint</text>
+                        <circle cx="0" cy="40" r="4" class="fill-slate-400" /> <!-- Export -->
+                    </g>
+
+                    <!-- TLM Connections (Data Flow) - Orthogonal Routing -->
+                    <!-- Monitor to Ref Model & Scoreboard (Actual) & Coverage -->
+                    <!-- 1. Main Backbone (Monitor -> Ref Model) -->
+                    <path d="M 260 450 L 350 450 L 350 185 L 420 185" class="stroke-brand-500 stroke-2 flow-line-fast" stroke-linejoin="round" fill="none" marker-end="url(#arrow-blue)" />
+                    <text x="360" y="320" class="svg-text-mono text-[10px] fill-brand-600 font-bold bg-white">TLM Analysis Port (Write)</text>
+                    
+                    <!-- 2. Branch to Scoreboard (Actual) -->
+                    <circle cx="350" cy="280" r="3" class="fill-brand-500" /> <!-- Junction Dot -->
+                    <path d="M 350 280 L 740 280" class="stroke-brand-500 stroke-2 flow-line-fast" fill="none" marker-end="url(#arrow-blue)" />
+                    
+                    <!-- 3. Branch to Coverage Collector -->
+                    <circle cx="350" cy="430" r="3" class="fill-brand-500" /> <!-- Junction Dot -->
+                    <path d="M 350 430 L 740 430" class="stroke-brand-500 stroke-2 flow-line-fast" fill="none" marker-end="url(#arrow-blue)" />
+
+                    <!-- Ref Model to Scoreboard (Expected) - Orthogonal -->
+                    <path d="M 600 185 L 670 185 L 670 220 L 740 220" class="stroke-indigo-500 stroke-2 flow-line" stroke-linejoin="round" fill="none" marker-end="url(#arrow-blue)" />
+                    <text x="630" y="175" class="svg-text-mono text-[10px] fill-indigo-600 font-bold">Expected Item</text>
+
+                    <!-- External DUT Boundary Representation -->
+                    <path d="M 60 550 L 280 550" class="stroke-slate-800 stroke-[4px]" stroke-dasharray="10 5" />
+                    <text x="170" y="540" text-anchor="middle" class="svg-text-title text-sm">Interface to DUT</text>
+
+                </svg>
+            </div>
+
+            <!-- 보충된 텍스트 설명 영역 -->
+            <div class="p-6 bg-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="space-y-2">
+                    <h3 class="text-sm font-bold text-slate-800 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> [3] Agent의 구성</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">DUT 인터페이스 프로토콜 처리를 전담합니다. <b>Active Agent</b>는 Stimulus 구동(Driver/Seq)과 모니터링을 모두 수행하며, <b>Passive Agent</b>는 모니터링만 수행하여 리소스를 최적화합니다.</p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-sm font-bold text-slate-800 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> [7] Reference Model</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">입력 트랜잭션을 기반으로 DUT가 출력해야 할 정확한 <b>기대값(Expected Data)</b>을 생성하는 골든 모델입니다. 주로 C/C++나 SystemVerilog로 구현된 Predictor 역할을 수행합니다.</p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-sm font-bold text-slate-800 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span> [6] Scoreboard / Coverage</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed"><b>Scoreboard</b>는 Ref Model의 기대값과 실제 DUT 출력값을 비교(Check)합니다. <b>Coverage Collector</b>는 검증 목표 달성도를 정량적으로 측정하기 위해 커버리지를 샘플링합니다.</p>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-sm font-bold text-slate-800 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> [9] Virtual Sequencer</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">여러 개의 하위 Sequencer들을 중앙에서 제어하여 복잡한 시스템 레벨 시나리오를 연출합니다. 직접 아이템을 생성하지 않고 다른 Sequencer로 트래픽을 분배합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Inheritance Structure & Config DB -->
+        <div class="xl:col-span-1 flex flex-col gap-8">
+            
+            <!-- [2] Inheritance Structure -->
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex-1">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2 mb-6">
+                    <span class="w-2 h-6 bg-slate-800 rounded-sm inline-block"></span>
+                    [2] uvm_env 상속구조
+                </h2>
+                <div class="diagram-grid p-4 rounded-xl flex justify-center items-center h-[280px]">
+                    <svg viewBox="0 0 200 250" class="w-full max-w-[200px] h-auto">
+                        <g class="svg-node" transform="translate(50, 10)">
+                            <rect width="100" height="24" rx="4" class="fill-slate-100 stroke-slate-300" />
+                            <text x="50" y="16" text-anchor="middle" class="svg-text-mono text-[10px]">uvm_void</text>
+                        </g>
+                        <path d="M 100 34 L 100 50" class="stroke-slate-300 stroke-2" marker-end="url(#arrow-slate)" />
+                        
+                        <g class="svg-node" transform="translate(50, 50)">
+                            <rect width="100" height="24" rx="4" class="fill-slate-100 stroke-slate-300" />
+                            <text x="50" y="16" text-anchor="middle" class="svg-text-mono text-[10px]">uvm_object</text>
+                        </g>
+                        <path d="M 100 74 L 100 90" class="stroke-slate-300 stroke-2" marker-end="url(#arrow-slate)" />
+
+                        <g class="svg-node" transform="translate(30, 90)">
+                            <rect width="140" height="24" rx="4" class="fill-slate-100 stroke-slate-300" />
+                            <text x="70" y="16" text-anchor="middle" class="svg-text-mono text-[10px]">uvm_report_object</text>
+                        </g>
+                        <path d="M 100 114 L 100 130" class="stroke-slate-300 stroke-2" marker-end="url(#arrow-slate)" />
+
+                        <g class="svg-node" transform="translate(30, 130)">
+                            <rect width="140" height="24" rx="4" class="fill-slate-200 stroke-slate-400 stroke-2" />
+                            <text x="70" y="16" text-anchor="middle" class="svg-text-mono text-[10px] font-bold">uvm_component</text>
+                        </g>
+                        <path d="M 100 154 L 100 170" class="stroke-slate-400 stroke-2" marker-end="url(#arrow-slate)" />
+
+                        <g class="svg-node" transform="translate(30, 170)">
+                            <rect width="140" height="30" rx="6" class="fill-brand-50 stroke-brand-500 stroke-2 pulse-active" />
+                            <text x="70" y="19" text-anchor="middle" class="svg-text-mono text-xs font-bold fill-brand-700">uvm_env</text>
+                        </g>
+                        <path d="M 100 200 L 100 216" class="stroke-brand-500 stroke-2" marker-end="url(#arrow-blue)" />
+
+                        <g class="svg-node" transform="translate(30, 216)">
+                            <rect width="140" height="24" rx="4" class="fill-white stroke-slate-400 stroke-dasharray-[4,2]" />
+                            <text x="70" y="16" text-anchor="middle" class="svg-text-mono text-[10px]">my_custom_env</text>
+                        </g>
+                    </svg>
+                </div>
+                <div class="mt-4 p-3 bg-slate-50 rounded-lg text-sm text-slate-600 leading-relaxed border border-slate-100">
+                    <p><code>uvm_env</code>는 <code>uvm_component</code>를 상속받습니다. 이는 Env가 검증 환경 계층 구조에서 <b>고정된 물리적 위치</b>를 가지며, 시뮬레이션 Phase 주기에 따라 순차적으로 동작함을 의미합니다.</p>
+                </div>
+            </section>
+
+            <!-- [8] Env Config -->
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col flex-1">
+                <div class="p-5 border-b border-slate-100 bg-slate-50/50">
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-indigo-500 rounded-sm inline-block"></span>
+                        [8] Env Config (uvm_config_db)
+                    </h2>
+                </div>
+                <div class="diagram-grid p-6 relative flex-1 flex justify-center items-center border-b border-slate-100">
+                    <svg viewBox="0 0 350 360" class="w-full max-w-[320px] h-auto drop-shadow-sm">
+                        <defs>
+                            <marker id="arrow-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="fill-indigo-500" />
+                            </marker>
+                            <marker id="arrow-slate-small" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-400" />
+                            </marker>
+                            <filter id="shadow-indigo" x="-10%" y="-10%" width="120%" height="120%">
+                                <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08" />
+                            </filter>
+                        </defs>
+
+                        <!-- Test Layer (Top) -->
+                        <g transform="translate(10, 20)">
+                            <rect width="130" height="65" rx="6" class="fill-white stroke-slate-300 stroke-2" filter="url(#shadow-indigo)" />
+                            <text x="65" y="20" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-800">my_test</text>
+                            
+                            <!-- Config Object inside Test -->
+                            <rect x="15" y="32" width="100" height="22" rx="4" class="fill-indigo-50 stroke-indigo-200 stroke-[1.5px]" />
+                            <text x="65" y="47" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-indigo-800">env_cfg_obj</text>
+                        </g>
+
+                        <!-- Config DB Database shape (Right Center) -->
+                        <g transform="translate(200, 20)" filter="url(#shadow-indigo)">
+                            <!-- DB Body -->
+                            <path d="M0,15 C0,5 110,5 110,15 L110,75 C110,85 0,85 0,75 Z" class="fill-indigo-50 stroke-indigo-300 stroke-2" />
+                            <!-- DB Top Lid -->
+                            <ellipse cx="55" cy="15" rx="55" ry="10" class="fill-indigo-100 stroke-indigo-300 stroke-2" />
+                            <text x="55" y="42" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-indigo-900">uvm_config_db</text>
+                            <text x="55" y="58" text-anchor="middle" class="svg-text-mono text-[9px] fill-indigo-600">#(env_config)</text>
+                            
+                            <!-- Slot indication -->
+                            <path d="M 25 70 L 85 70" class="stroke-indigo-200 stroke-[2px]" />
+                        </g>
+
+                        <!-- SET Path (Test -> DB) -->
+                        <path d="M 140 55 L 170 55 L 170 45 L 200 45" class="stroke-indigo-500 stroke-[2px]" stroke-linejoin="round" stroke-dasharray="4 2" fill="none" marker-end="url(#arrow-indigo)" />
+                        <rect x="145" y="25" width="40" height="14" rx="2" class="fill-white" />
+                        <text x="165" y="36" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-indigo-700">set()</text>
+
+                        <!-- Env Layer (Bottom) -->
+                        <g transform="translate(10, 150)" filter="url(#shadow-indigo)">
+                            <rect width="330" height="190" rx="8" class="fill-white stroke-brand-300 stroke-2" />
+                            <rect x="0" y="0" width="330" height="30" rx="8" class="fill-brand-50 border-b border-brand-200" />
+                            <text x="165" y="19" text-anchor="middle" class="svg-text-mono text-[13px] font-bold fill-brand-900">my_env::build_phase()</text>
+
+                            <!-- GET Command Box -->
+                            <rect x="115" y="45" width="100" height="24" rx="4" class="fill-indigo-50 stroke-indigo-300 stroke-[1.5px]" />
+                            <text x="165" y="61" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-indigo-900">cfg = get()</text>
+
+                            <!-- Decision tree lines -->
+                            <path d="M 165 69 L 165 85 L 85 85 L 85 95" class="stroke-slate-400 stroke-[1.5px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-slate-small)" />
+                            <path d="M 165 69 L 165 85 L 245 85 L 245 95" class="stroke-slate-400 stroke-[1.5px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-slate-small)" />
+
+                            <!-- Decision 1: has_agent -->
+                            <rect x="25" y="100" width="120" height="22" rx="4" class="fill-slate-50 stroke-slate-300" />
+                            <text x="85" y="114" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-slate-700">if (cfg.has_agent)</text>
+                            
+                            <path d="M 85 122 L 85 135" class="stroke-brand-400 stroke-[1.5px]" fill="none" marker-end="url(#arrow-slate-small)" />
+                            
+                            <!-- Build Agent -->
+                            <rect x="35" y="140" width="100" height="35" rx="4" class="fill-white stroke-brand-400 stroke-[1.5px]" stroke-dasharray="2 2" />
+                            <text x="85" y="156" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-brand-700">Agent</text>
+                            <text x="85" y="169" text-anchor="middle" class="svg-text-mono text-[8px] fill-slate-500">create()</text>
+
+                            <!-- Decision 2: has_scoreboard -->
+                            <rect x="185" y="100" width="120" height="22" rx="4" class="fill-slate-50 stroke-slate-300" />
+                            <text x="245" y="114" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-slate-700">if (cfg.has_sb)</text>
+                            
+                            <path d="M 245 122 L 245 135" class="stroke-teal-400 stroke-[1.5px]" fill="none" marker-end="url(#arrow-slate-small)" />
+                            
+                            <!-- Build Scoreboard -->
+                            <rect x="195" y="140" width="100" height="35" rx="4" class="fill-white stroke-teal-400 stroke-[1.5px]" stroke-dasharray="2 2" />
+                            <text x="245" y="156" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-teal-700">Scoreboard</text>
+                            <text x="245" y="169" text-anchor="middle" class="svg-text-mono text-[8px] fill-slate-500">create()</text>
+                        </g>
+
+                        <!-- Global GET Path (DB -> Env) -->
+                        <path d="M 255 105 L 255 130 L 175 130 L 175 185" class="stroke-indigo-500 stroke-[2px]" stroke-dasharray="4 2" stroke-linejoin="round" fill="none" marker-end="url(#arrow-indigo)" />
+                    </svg>
+                </div>
+                <div class="p-5 bg-white flex flex-col gap-3 text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+                    <p>
+                        <b class="text-slate-800">Dynamic Hierarchy:</b> UVM 환경은 고정되어 있지 않습니다. 최상위 Test에서 검증 시나리오에 맞는 <code>env_cfg</code>(설정 객체)를 조립하여 <b>글로벌 데이터베이스(uvm_config_db)에 set</b> 합니다.
+                    </p>
+                    <p>
+                        이후 Env는 자신의 <code>build_phase</code>에서 이 <b>설정값을 get</b> 하여 읽어 들인 뒤, 조건문(if)에 따라 내부의 Agent나 Scoreboard를 메모리에 <b>동적으로 할당할지 말지 결정</b>합니다. 이를 통해 하나의 Env 코드로 다양한 검증 모드(Top-level, Block-level, Active/Passive)를 완벽히 커버할 수 있습니다.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- 3. Phases (Build & Connect) -->
+        <section class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2 mb-6">
+                <span class="w-2 h-6 bg-teal-500 rounded-sm inline-block"></span>
+                [4, 5, 10] Phase별 Env 역할 메커니즘
+            </h2>
+            
+            <!-- 1열 4행 구조 컨테이너 -->
+            <div class="flex flex-col gap-6 h-full">
+                
+                <!-- 1행: Build Phase -->
+                <div class="flex flex-col lg:flex-row bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="flex-1 p-6 lg:p-8 flex flex-col justify-center bg-slate-50/50">
+                        <h3 class="text-xl font-bold text-slate-800 mb-1 font-mono">[4] build_phase()</h3>
+                        <p class="text-sm font-bold text-teal-600 mb-4 flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg> Top-Down 실행: Config 수신 & UVM Factory 메모리 할당</p>
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <b class="text-slate-800">Top-Down 원칙:</b> 상위 컴포넌트(Env)가 먼저 생성되고, 이후 하위 컴포넌트(Agent, SB)가 생성됩니다. 상위 계층에서 <code>uvm_config_db::set()</code>으로 내려보낸 설정(Virtual Interface, 동작 모드 등)을 하위 객체가 안전하게 <code>get()</code>하여 자신의 구조를 결정할 수 있게 합니다.
+                            </p>
+                            <div class="h-px w-full bg-slate-100"></div>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <b class="text-slate-800">Factory 패턴:</b> UVM에서는 일반적인 <code>new()</code> 생성자 대신 <code>type_id::create()</code> 메서드를 사용합니다. 이를 통해 검증 환경 코드를 수정하지 않고도 외부 테스트 시나리오에서 내부 객체를 다른 타입으로 덮어쓰기(Override)할 수 있는 엄청난 유연성을 확보합니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="diagram-grid p-6 lg:w-1/2 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-slate-200">
+                        <svg viewBox="0 0 380 300" class="w-full max-w-[420px] h-auto drop-shadow-sm">
+                            <defs>
+                                <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-teal-500" />
+                                </marker>
+                                <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-brand-500" />
+                                </marker>
+                                <marker id="arrow-slate" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-400" />
+                                </marker>
+                                <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08" />
+                                </filter>
+                            </defs>
+                            
+                            <!-- Top-Down Execution Arrow Base -->
+                            <path d="M 30 20 L 30 280" class="stroke-teal-500 stroke-[4px] stroke-dasharray-[6,4]" fill="none" marker-end="url(#arrow-teal)" />
+                            <text x="45" y="150" class="svg-text-title text-[12px] fill-teal-700 transform -rotate-90 origin-[45px_150px]">Top-Down Phase Execution</text>
+
+                            <!-- Config DB Base -->
+                            <g transform="translate(240, 20)">
+                                <path d="M0,15 C0,5 110,5 110,15 L110,45 C110,55 0,55 0,45 Z" class="fill-indigo-50 stroke-indigo-300 stroke-2" />
+                                <ellipse cx="55" cy="15" rx="55" ry="10" class="fill-indigo-100 stroke-indigo-300 stroke-2" />
+                                <text x="55" y="35" text-anchor="middle" class="svg-text-mono text-[11px] fill-indigo-800 font-bold">uvm_config_db</text>
+                                <text x="55" y="48" text-anchor="middle" class="svg-text-mono text-[8px] fill-indigo-600">Virtual IF, Config Obj</text>
+                            </g>
+
+                            <!-- my_env Main Box -->
+                            <g class="svg-node" transform="translate(70, 70)" filter="url(#soft-shadow)">
+                                <rect width="140" height="65" rx="8" class="fill-white stroke-brand-500 stroke-2" />
+                                <text x="70" y="24" text-anchor="middle" class="svg-text-mono text-[14px] font-bold fill-slate-800">my_env</text>
+                                <rect x="15" y="35" width="110" height="20" rx="4" class="fill-slate-100" />
+                                <text x="70" y="49" text-anchor="middle" class="svg-text-mono text-[11px] fill-slate-600">build_phase(this)</text>
+                            </g>
+
+                            <!-- Data Flow from Config DB to Env -->
+                            <path d="M 295 60 L 295 100 L 220 100" class="stroke-indigo-400 stroke-[2px]" stroke-dasharray="4 2" stroke-linejoin="round" fill="none" marker-end="url(#arrow-slate)" />
+                            <rect x="235" y="80" width="40" height="14" rx="2" class="fill-white stroke-indigo-200" />
+                            <text x="255" y="90" text-anchor="middle" class="svg-text-mono text-[9px] fill-indigo-700 font-bold">get()</text>
+
+                            <!-- UVM Factory Container -->
+                            <g class="svg-node" transform="translate(70, 180)">
+                                <rect width="280" height="100" rx="10" class="fill-slate-50 stroke-slate-300 stroke-2" stroke-dasharray="6 3" />
+                                <text x="140" y="22" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-500 uppercase tracking-widest">UVM Factory Allocation</text>
+                                
+                                <!-- Agent Allocation -->
+                                <rect x="25" y="40" width="100" height="45" rx="6" class="fill-white stroke-brand-400 stroke-2" filter="url(#soft-shadow)" />
+                                <text x="75" y="60" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-800">Agent</text>
+                                <text x="75" y="75" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">Memory Allocated</text>
+
+                                <!-- Scoreboard Allocation -->
+                                <rect x="155" y="40" width="100" height="45" rx="6" class="fill-white stroke-brand-400 stroke-2" filter="url(#soft-shadow)" />
+                                <text x="205" y="60" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-800">Scoreboard</text>
+                                <text x="205" y="75" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">Memory Allocated</text>
+                            </g>
+
+                            <!-- Creation Action Arrows (my_env -> Factory) -->
+                            <path d="M 120 135 L 120 180" class="stroke-brand-500 stroke-[2px]" fill="none" marker-end="url(#arrow-blue)" />
+                            <path d="M 160 135 L 160 160 L 275 160 L 275 180" class="stroke-brand-500 stroke-[2px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-blue)" />
+                            
+                            <!-- create() Text Tags -->
+                            <rect x="90" y="145" width="60" height="16" rx="4" class="fill-brand-50 stroke-brand-200" />
+                            <text x="120" y="156" text-anchor="middle" class="svg-text-mono text-[9px] fill-brand-700 font-bold">type_id::create</text>
+                            
+                            <rect x="220" y="145" width="60" height="16" rx="4" class="fill-brand-50 stroke-brand-200" />
+                            <text x="250" y="156" text-anchor="middle" class="svg-text-mono text-[9px] fill-brand-700 font-bold">type_id::create</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 2행: Connect Phase -->
+                <div class="flex flex-col lg:flex-row bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="flex-1 p-6 lg:p-8 flex flex-col justify-center bg-slate-50/50">
+                        <h3 class="text-xl font-bold text-slate-800 mb-1 font-mono">[5] connect_phase()</h3>
+                        <p class="text-sm font-bold text-orange-600 mb-4 flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg> Bottom-Up 실행: TLM 포트/소켓 결합 및 포인터 매핑</p>
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <b class="text-slate-800">Bottom-Up 원칙:</b> 하위 인스턴스들의 <code>build_phase</code>가 모두 완료되어 메모리(객체)가 확실히 생성된 이후에 실행됩니다. 이는 아직 할당되지 않은 Null 포인터 객체에 접근하여 발생하는 에러를 구조적으로 원천 차단합니다.
+                            </p>
+                            <div class="h-px w-full bg-slate-100"></div>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <b class="text-slate-800">TLM Channel Binding:</b> 서로 다른 하위 컴포넌트 간의 통신을 위해 <code>connect()</code> 메서드를 사용합니다. 이 과정은 송신 측의 <b>Port(플러그)</b>에 수신 측 <b>Export/Imp(소켓)</b>의 메모리 주소(Handle)를 등록하여 고속 트랜잭션 패스를 완성하는 작업입니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="diagram-grid p-6 lg:w-1/2 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-slate-200">
+                        <svg viewBox="0 0 380 300" class="w-full max-w-[420px] h-auto drop-shadow-sm">
+                            <defs>
+                                <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-orange-500" />
+                                </marker>
+                                <marker id="arrow-orange-rev" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 10 0 L 0 5 L 10 10 z" class="fill-orange-500" />
+                                </marker>
+                                <filter id="soft-shadow-orange" x="-10%" y="-10%" width="120%" height="120%">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08" />
+                                </filter>
+                            </defs>
+                            
+                            <!-- Bottom-Up Execution Arrow Base -->
+                            <path d="M 30 280 L 30 20" class="stroke-orange-500 stroke-[4px] stroke-dasharray-[6,4]" fill="none" marker-end="url(#arrow-orange)" />
+                            <text x="45" y="150" class="svg-text-title text-[12px] fill-orange-700 transform -rotate-90 origin-[45px_150px]">Bottom-Up Phase Execution</text>
+
+                            <!-- my_env Main Box Scope -->
+                            <rect x="70" y="20" width="290" height="260" rx="10" class="fill-white stroke-slate-200 stroke-2" stroke-dasharray="8 4" filter="url(#soft-shadow-orange)" />
+                            <rect x="70" y="20" width="290" height="35" rx="10" class="fill-slate-50 border-b border-slate-200" />
+                            <text x="215" y="42" text-anchor="middle" class="svg-text-mono text-[14px] font-bold fill-slate-800">my_env::connect_phase(this)</text>
+
+                            <!-- Connection Command Execution Box -->
+                            <g transform="translate(130, 70)">
+                                <rect width="170" height="30" rx="6" class="fill-orange-50 stroke-orange-400 stroke-2" filter="url(#soft-shadow-orange)" />
+                                <text x="85" y="19" text-anchor="middle" class="svg-text-mono text-[11px] fill-orange-800 font-bold">agt.ap.connect(sb.exp)</text>
+                            </g>
+
+                            <!-- Agent Component (Left) -->
+                            <g class="svg-node" transform="translate(85, 140)">
+                                <rect width="90" height="110" rx="8" class="fill-slate-50 stroke-slate-300 stroke-2" />
+                                <text x="45" y="22" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-700">Agent</text>
+                                
+                                <!-- Monitor inside Agent -->
+                                <rect x="10" y="40" width="70" height="60" rx="4" class="fill-white stroke-slate-200 stroke-2" />
+                                <text x="45" y="55" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">Monitor</text>
+                                
+                                <!-- Analysis Port (Plug) -->
+                                <rect x="50" y="70" width="45" height="20" rx="4" class="fill-brand-50 stroke-brand-300 stroke-2" />
+                                <text x="65" y="83" text-anchor="middle" class="svg-text-mono text-[9px] fill-brand-700 font-bold">ap</text>
+                                <!-- Plug Pin -->
+                                <path d="M 95 76 L 105 76 M 105 73 L 112 76 L 105 79 Z" class="fill-brand-500 stroke-brand-500 stroke-2" />
+                            </g>
+
+                            <!-- Scoreboard Component (Right) -->
+                            <g class="svg-node" transform="translate(255, 140)">
+                                <rect width="90" height="110" rx="8" class="fill-slate-50 stroke-slate-300 stroke-2" />
+                                <text x="45" y="22" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-700">Scoreboard</text>
+                                
+                                <!-- Internal Compare Logic -->
+                                <rect x="10" y="40" width="70" height="60" rx="4" class="fill-white stroke-slate-200 stroke-2" />
+                                <text x="45" y="55" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">Comparator</text>
+
+                                <!-- Analysis Export (Socket) -->
+                                <rect x="-5" y="70" width="45" height="20" rx="4" class="fill-indigo-50 stroke-indigo-300 stroke-2" />
+                                <text x="25" y="83" text-anchor="middle" class="svg-text-mono text-[9px] fill-indigo-700 font-bold">exp</text>
+                                <!-- Socket Hole -->
+                                <path d="M -5 74 L -12 74 L -12 86 L -5 86 Z" class="fill-indigo-100 stroke-indigo-400 stroke-2" />
+                            </g>
+
+                            <!-- Connection Line (TLM Binding) -->
+                            <!-- Command arrow pointing down to the connection -->
+                            <path d="M 215 100 L 215 130" class="stroke-orange-400 stroke-[2px]" stroke-dasharray="4 2" fill="none" marker-end="url(#arrow-orange)" />
+                            
+                            <!-- The Physical/Logical Link -->
+                            <path d="M 197 216 L 243 216" class="stroke-orange-500 stroke-[4px]" fill="none" />
+                            
+                            <!-- Pointer/Handle Passing Visual -->
+                            <circle cx="215" cy="216" r="14" class="fill-white stroke-orange-300 stroke-[2px]" />
+                            <path d="M 210 216 L 222 216" class="stroke-orange-500 stroke-[2px]" fill="none" marker-end="url(#arrow-orange)" />
+                            <text x="215" y="245" text-anchor="middle" class="svg-text-mono text-[10px] fill-orange-700 font-bold">Handle Passed</text>
+
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 3행: End of Elaboration Phase -->
+                <div class="flex flex-col lg:flex-row bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="flex-1 p-6 lg:p-8 flex flex-col justify-center bg-slate-50/50">
+                        <h3 class="text-xl font-bold text-slate-800 mb-1 font-mono">end_of_elaboration_phase()</h3>
+                        <p class="text-sm font-bold text-blue-600 mb-4 flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Bottom-Up 실행: 계층 구조 확정(Lock) 및 최종 점검</p>
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <b class="text-slate-800">Hierarchy Lock:</b> 이 Phase에 진입하면 UVM 프레임워크는 현재까지 생성된 모든 컴포넌트의 <b>계층 구조를 잠금(Lock)</b> 처리합니다. 이후에는 새로운 컴포넌트를 동적으로 인스턴스화하거나 구조를 변경할 수 없게 되어, 시뮬레이션 안정성이 보장됩니다.
+                            </p>
+                            <div class="h-px w-full bg-slate-100"></div>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <b class="text-slate-800">Topology Printing:</b> 모든 구조 생성과 포트 연결이 정상적으로 완료되었는지 시뮬레이션 시간 0(Zero-time)에서 최종 확인하는 단계입니다. 테스트 벤치 최상위에서 <code>uvm_top.print_topology()</code>를 호출하여 전체 컴포넌트 트리와 포트 결합 상태를 터미널 창에 시각적으로 출력합니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="diagram-grid p-6 lg:w-1/2 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-slate-200">
+                        <svg viewBox="0 0 380 300" class="w-full max-w-[420px] h-auto drop-shadow-sm">
+                            <defs>
+                                <marker id="arrow-blue-static" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
+                                </marker>
+                                <filter id="soft-shadow-blue" x="-10%" y="-10%" width="120%" height="120%">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08" />
+                                </filter>
+                            </defs>
+                            
+                            <!-- Bottom-Up Execution Arrow Base -->
+                            <path d="M 30 280 L 30 20" class="stroke-blue-500 stroke-[4px] stroke-dasharray-[6,4]" fill="none" marker-end="url(#arrow-blue-static)" />
+                            <text x="45" y="150" class="svg-text-title text-[12px] fill-blue-700 transform -rotate-90 origin-[45px_150px]">Bottom-Up Phase Execution</text>
+
+                            <!-- Hierarchy Locked Section -->
+                            <g transform="translate(70, 20)">
+                                <rect width="290" height="110" rx="8" class="fill-slate-50 stroke-slate-300 stroke-2 stroke-dasharray-[6,4]" filter="url(#soft-shadow-blue)" />
+                                
+                                <!-- Padlock Icon -->
+                                <rect x="15" y="15" width="20" height="16" rx="3" class="fill-yellow-100 stroke-yellow-500 stroke-2" />
+                                <path d="M 19 15 L 19 10 C 19 6, 31 6, 31 10 L 31 15" class="fill-none stroke-yellow-500 stroke-2" />
+                                <text x="45" y="27" class="svg-text-mono text-[11px] font-bold fill-slate-600">UVM Hierarchy Locked</text>
+                                
+                                <!-- Mini Tree Visual -->
+                                <rect x="110" y="45" width="70" height="18" rx="4" class="fill-blue-100 stroke-blue-400 stroke-[1.5px]" />
+                                <text x="145" y="57" text-anchor="middle" class="svg-text-mono text-[9px] font-bold fill-blue-800">my_env</text>
+                                
+                                <path d="M 145 63 L 145 75 M 145 75 L 85 75 L 85 85 M 145 75 L 205 75 L 205 85" class="stroke-slate-400 stroke-[1.5px]" fill="none" />
+                                
+                                <rect x="50" y="85" width="70" height="18" rx="4" class="fill-white stroke-slate-300 stroke-[1.5px]" />
+                                <text x="85" y="97" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-700">agent</text>
+                                
+                                <rect x="170" y="85" width="70" height="18" rx="4" class="fill-white stroke-slate-300 stroke-[1.5px]" />
+                                <text x="205" y="97" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-700">scoreboard</text>
+                            </g>
+
+                            <!-- Command Arrow -->
+                            <path d="M 215 130 L 215 155" class="stroke-blue-400 stroke-[2px]" fill="none" marker-end="url(#arrow-blue-static)" />
+                            <rect x="145" y="135" width="140" height="16" rx="4" class="fill-white stroke-blue-200" />
+                            <text x="215" y="146" text-anchor="middle" class="svg-text-mono text-[9px] fill-blue-700 font-bold">uvm_top.print_topology()</text>
+
+                            <!-- Terminal Window -->
+                            <g transform="translate(70, 160)" filter="url(#soft-shadow-blue)">
+                                <rect width="290" height="120" rx="6" class="fill-slate-900 stroke-slate-700" />
+                                <rect x="0" y="0" width="290" height="20" rx="6" class="fill-slate-800" />
+                                <rect x="0" y="10" width="290" height="10" class="fill-slate-800" /> <!-- Square bottom of header -->
+                                
+                                <!-- Window Buttons -->
+                                <circle cx="15" cy="10" r="4" class="fill-rose-500" />
+                                <circle cx="30" cy="10" r="4" class="fill-yellow-500" />
+                                <circle cx="45" cy="10" r="4" class="fill-emerald-500" />
+                                <text x="145" y="13" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-400">Simulation Console</text>
+                                
+                                <!-- Terminal Output Content -->
+                                <text x="15" y="35" class="svg-text-mono text-[9px] fill-emerald-400">UVM_INFO @ 0: reporter [UVMTOP] UVM test topology:</text>
+                                <text x="15" y="47" class="svg-text-mono text-[9px] fill-slate-500">---------------------------------------------------------</text>
+                                <text x="15" y="59" class="svg-text-mono text-[9px] fill-slate-300">Name          Type               Size  Value</text>
+                                <text x="15" y="71" class="svg-text-mono text-[9px] fill-slate-500">---------------------------------------------------------</text>
+                                <text x="15" y="83" class="svg-text-mono text-[9px] fill-blue-300">my_env        my_env_type        -     @123</text>
+                                <text x="15" y="95" class="svg-text-mono text-[9px] fill-slate-300">  agent       uvm_agent          -     @456</text>
+                                <text x="15" y="107" class="svg-text-mono text-[9px] fill-slate-400">    sqr       uvm_sequencer      -     @789</text>
+                                <text x="15" y="119" class="svg-text-mono text-[9px] fill-slate-500">---------------------------------------------------------</text>
+                            </g>
+
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 4행: Run Phase -->
+                <div class="flex flex-col lg:flex-row bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="flex-1 p-6 lg:p-8 flex flex-col justify-center bg-slate-50/50">
+                        <h3 class="text-xl font-bold text-slate-800 mb-1 font-mono">run_phase(uvm_phase phase)</h3>
+                        <p class="text-sm font-bold text-purple-600 mb-4 flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Parallel 실행: 병렬 스레드 구동 및 Objection 제어</p>
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <b class="text-slate-800">Time-Consuming Task:</b> <code>build</code>, <code>connect</code> 등 0초(Zero-time)에 실행되는 함수(Function) Phase와 달리, 유일하게 시간(Time)을 소모하며 실제 검증 시나리오를 구동하는 Task Phase입니다.
+                            </p>
+                            <div class="h-px w-full bg-slate-100"></div>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <b class="text-slate-800">Parallel & Objection:</b> Env 하위의 모든 컴포넌트(Seq, Drv, Mon, SB)들의 <code>run_phase</code>가 <code>fork~join</code> 형태로 <b>동시에 병렬(Parallel) 실행</b>됩니다. 또한 <code>raise_objection</code>과 <code>drop_objection</code>을 통해 모든 스레드의 작업이 안전하게 완료될 때까지 시뮬레이션 종료를 지연시킵니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="diagram-grid p-6 lg:w-1/2 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-slate-200">
+                        <svg viewBox="0 0 380 300" class="w-full max-w-[420px] h-auto drop-shadow-sm">
+                            <defs>
+                                <marker id="arrow-purple-static" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-purple-500" />
+                                </marker>
+                                <filter id="soft-shadow-purple" x="-10%" y="-10%" width="120%" height="120%">
+                                    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08" />
+                                </filter>
+                            </defs>
+                            
+                            <!-- Run Phase Main Box Scope -->
+                            <rect x="70" y="20" width="290" height="230" rx="10" class="fill-white stroke-purple-200 stroke-2" stroke-dasharray="8 4" filter="url(#soft-shadow-purple)" />
+                            <rect x="70" y="20" width="290" height="35" rx="10" class="fill-purple-50 border-b border-purple-200" />
+                            <text x="215" y="42" text-anchor="middle" class="svg-text-mono text-[14px] font-bold fill-purple-900">run_phase(uvm_phase phase)</text>
+
+                            <!-- Time Axis -->
+                            <path d="M 30 280 L 350 280" class="stroke-slate-400 stroke-[3px]" fill="none" marker-end="url(#arrow-purple-static)" />
+                            <text x="190" y="270" text-anchor="middle" class="svg-text-mono text-[11px] fill-slate-500 font-bold">Simulation Time (t)</text>
+                            <path d="M 90 275 L 90 285 M 150 275 L 150 285 M 210 275 L 210 285 M 270 275 L 270 285 M 330 275 L 330 285" class="stroke-slate-400 stroke-[2px]" />
+
+                            <!-- Objection Mechanism -->
+                            <rect x="90" y="65" width="85" height="18" rx="4" class="fill-rose-50 stroke-rose-300 stroke-[1.5px]" />
+                            <text x="132" y="77" text-anchor="middle" class="svg-text-mono text-[9px] fill-rose-700 font-bold">raise_objection</text>
+                            
+                            <rect x="250" y="65" width="85" height="18" rx="4" class="fill-rose-50 stroke-rose-300 stroke-[1.5px]" />
+                            <text x="292" y="77" text-anchor="middle" class="svg-text-mono text-[9px] fill-rose-700 font-bold">drop_objection</text>
+
+                            <!-- Fork / Parallel Execution -->
+                            <path d="M 100 95 L 320 95" class="stroke-purple-300 stroke-[2px] stroke-dasharray-[4,2]" fill="none" />
+                            <text x="80" y="105" text-anchor="middle" class="svg-text-mono text-[11px] fill-purple-700 font-bold">fork</text>
+
+                            <path d="M 100 230 L 320 230" class="stroke-purple-300 stroke-[2px] stroke-dasharray-[4,2]" fill="none" />
+                            <text x="80" y="235" text-anchor="middle" class="svg-text-mono text-[11px] fill-purple-700 font-bold">join</text>
+
+                            <!-- Thread Lines (Vertical Boundaries) -->
+                            <path d="M 105 95 L 105 230 M 315 95 L 315 230" class="stroke-purple-300 stroke-[2px]" fill="none" />
+
+                            <!-- Track 1: Sequencer -->
+                            <g transform="translate(120, 110)">
+                                <rect width="70" height="22" rx="4" class="fill-white stroke-slate-300 stroke-[1.5px]" />
+                                <text x="35" y="15" text-anchor="middle" class="svg-text-mono text-[9px] font-bold fill-slate-700">Sequencer</text>
+                                <path d="M 75 11 L 180 11" class="stroke-slate-300 stroke-[1.5px] stroke-dasharray-[2,2]" fill="none" />
+                                <!-- Items Generated -->
+                                <rect x="90" y="7" width="12" height="8" rx="2" class="fill-brand-100 stroke-brand-500 stroke-[1.5px]" />
+                                <rect x="130" y="7" width="12" height="8" rx="2" class="fill-brand-100 stroke-brand-500 stroke-[1.5px]" />
+                                <rect x="160" y="7" width="12" height="8" rx="2" class="fill-brand-100 stroke-brand-500 stroke-[1.5px]" />
+                            </g>
+
+                            <!-- Track 2: Driver -->
+                            <g transform="translate(120, 140)">
+                                <rect width="70" height="22" rx="4" class="fill-white stroke-slate-300 stroke-[1.5px]" />
+                                <text x="35" y="15" text-anchor="middle" class="svg-text-mono text-[9px] font-bold fill-slate-700">Driver</text>
+                                <path d="M 75 11 L 180 11" class="stroke-slate-300 stroke-[1.5px] stroke-dasharray-[2,2]" fill="none" />
+                                <!-- Driving Waveform -->
+                                <path d="M 85 15 L 90 15 L 90 7 L 100 7 L 100 15 L 105 15" class="stroke-indigo-500 stroke-[1.5px]" fill="none" />
+                                <path d="M 125 15 L 130 15 L 130 7 L 140 7 L 140 15 L 145 15" class="stroke-indigo-500 stroke-[1.5px]" fill="none" />
+                                <path d="M 155 15 L 160 15 L 160 7 L 170 7 L 170 15 L 175 15" class="stroke-indigo-500 stroke-[1.5px]" fill="none" />
+                            </g>
+
+                            <!-- Track 3: Monitor -->
+                            <g transform="translate(120, 170)">
+                                <rect width="70" height="22" rx="4" class="fill-white stroke-slate-300 stroke-[1.5px]" />
+                                <text x="35" y="15" text-anchor="middle" class="svg-text-mono text-[9px] font-bold fill-slate-700">Monitor</text>
+                                <path d="M 75 11 L 180 11" class="stroke-slate-300 stroke-[1.5px] stroke-dasharray-[2,2]" fill="none" />
+                                <!-- Observing Waveform & Sampling dots -->
+                                <path d="M 85 15 L 90 15 L 90 7 L 100 7 L 100 15 L 105 15" class="stroke-teal-400 stroke-[1.5px]" fill="none" />
+                                <circle cx="95" cy="11" r="2.5" class="fill-teal-600" />
+                                
+                                <path d="M 125 15 L 130 15 L 130 7 L 140 7 L 140 15 L 145 15" class="stroke-teal-400 stroke-[1.5px]" fill="none" />
+                                <circle cx="135" cy="11" r="2.5" class="fill-teal-600" />
+
+                                <path d="M 155 15 L 160 15 L 160 7 L 170 7 L 170 15 L 175 15" class="stroke-teal-400 stroke-[1.5px]" fill="none" />
+                                <circle cx="165" cy="11" r="2.5" class="fill-teal-600" />
+                            </g>
+
+                            <!-- Track 4: Scoreboard -->
+                            <g transform="translate(120, 200)">
+                                <rect width="70" height="22" rx="4" class="fill-white stroke-slate-300 stroke-[1.5px]" />
+                                <text x="35" y="15" text-anchor="middle" class="svg-text-mono text-[9px] font-bold fill-slate-700">Scoreboard</text>
+                                <path d="M 75 11 L 180 11" class="stroke-slate-300 stroke-[1.5px] stroke-dasharray-[2,2]" fill="none" />
+                                <!-- Compare Logic VS -->
+                                <rect x="90" y="5" width="16" height="12" rx="2" class="fill-orange-50 stroke-orange-400 stroke-[1.5px]" />
+                                <text x="98" y="13" text-anchor="middle" class="svg-text-mono text-[7px] font-bold fill-orange-600">VS</text>
+
+                                <rect x="130" y="5" width="16" height="12" rx="2" class="fill-orange-50 stroke-orange-400 stroke-[1.5px]" />
+                                <text x="138" y="13" text-anchor="middle" class="svg-text-mono text-[7px] font-bold fill-orange-600">VS</text>
+
+                                <rect x="160" y="5" width="16" height="12" rx="2" class="fill-orange-50 stroke-orange-400 stroke-[1.5px]" />
+                                <text x="168" y="13" text-anchor="middle" class="svg-text-mono text-[7px] font-bold fill-orange-600">VS</text>
+                            </g>
+
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. Hierarchical Environment (Vertical Reuse) -->
+        <section class="xl:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-purple-500 rounded-sm inline-block"></span>
+                        [11] Hierarchical Env (Vertical Reuse)
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">블록 레벨(Block-level) Env를 시스템 레벨(System-level) Env에서 재사용하는 계층적 통합 아키텍처</p>
+                </div>
+            </div>
+            <div class="p-6 diagram-grid relative flex justify-center overflow-x-auto border-b border-slate-100">
+                <svg viewBox="0 0 1000 520" class="w-full max-w-5xl min-w-[800px] h-auto drop-shadow-sm">
+                    <defs>
+                        <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-purple-500" />
+                        </marker>
+                        <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-teal-500" />
+                        </marker>
+                        <filter id="soft-shadow-purple" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.08" />
+                        </filter>
+                    </defs>
+
+                    <!-- System Env Boundary (The Motherboard) -->
+                    <rect x="20" y="20" width="960" height="480" rx="16" class="fill-transparent stroke-purple-300 stroke-[3px]" stroke-dasharray="10 5" />
+                    <rect x="40" y="35" width="220" height="30" rx="6" class="fill-purple-100 border border-purple-200" />
+                    <text x="55" y="55" class="svg-text-mono text-[14px] font-bold fill-purple-800">sys_env (System Level Env)</text>
+
+                    <!-- System Virtual Sequencer -->
+                    <g class="svg-node" transform="translate(350, 60)" filter="url(#soft-shadow-purple)">
+                        <rect width="300" height="80" rx="8" class="fill-white stroke-purple-400 stroke-2" />
+                        <rect x="0" y="0" width="300" height="30" rx="8" class="fill-purple-50" />
+                        <text x="150" y="20" text-anchor="middle" class="svg-text-title text-[14px] fill-purple-900">System Virtual Sequencer</text>
+                        <text x="150" y="45" text-anchor="middle" class="svg-text-mono text-[11px] fill-purple-600 font-bold">sys_vseqr</text>
+                        
+                        <rect x="30" y="55" width="80" height="16" rx="4" class="fill-slate-100" />
+                        <text x="70" y="66" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">uvm_sequencer</text>
+                        
+                        <rect x="190" y="55" width="80" height="16" rx="4" class="fill-slate-100" />
+                        <text x="230" y="66" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">uvm_sequencer</text>
+
+                        <!-- Origin points for handles -->
+                        <circle cx="70" cy="80" r="4" class="fill-purple-500" />
+                        <circle cx="230" cy="80" r="4" class="fill-purple-500" />
+                    </g>
+
+                    <!-- System Scoreboard -->
+                    <g class="svg-node" transform="translate(400, 390)" filter="url(#soft-shadow-purple)">
+                        <rect width="200" height="90" rx="8" class="fill-slate-800 stroke-slate-700 stroke-2" />
+                        <text x="100" y="30" text-anchor="middle" class="svg-text-title text-[14px] fill-white">System Scoreboard</text>
+                        <text x="100" y="50" text-anchor="middle" class="svg-text-mono text-[10px] fill-slate-300">sys_sb (End-to-End Check)</text>
+                        
+                        <!-- Analysis Export Ports -->
+                        <rect x="-10" y="40" width="20" height="30" rx="4" class="fill-teal-100 stroke-teal-500 stroke-2" />
+                        <text x="0" y="55" text-anchor="middle" class="svg-text-mono text-[8px] fill-teal-800 font-bold transform -rotate-90 origin-[0px_55px]">exp_a</text>
+                        
+                        <rect x="190" y="40" width="20" height="30" rx="4" class="fill-teal-100 stroke-teal-500 stroke-2" />
+                        <text x="200" y="55" text-anchor="middle" class="svg-text-mono text-[8px] fill-teal-800 font-bold transform -rotate-90 origin-[200px_55px]">exp_b</text>
+                    </g>
+
+
+                    <!-- Block Env A (MAC) -->
+                    <g transform="translate(60, 200)">
+                        <rect width="320" height="200" rx="10" class="fill-slate-50 stroke-slate-300 stroke-2" filter="url(#soft-shadow-purple)" />
+                        <rect x="0" y="0" width="320" height="30" rx="10" class="fill-slate-200" />
+                        <text x="160" y="20" text-anchor="middle" class="svg-text-title text-[13px] fill-slate-800">Block Env A (MAC IP)</text>
+
+                        <!-- Agent A -->
+                        <rect x="20" y="45" width="120" height="140" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="80" y="60" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-slate-700">MAC Agent</text>
+                        
+                        <rect x="30" y="70" width="100" height="25" rx="4" class="fill-brand-50 stroke-brand-200 stroke-[1.5px]" />
+                        <text x="80" y="86" text-anchor="middle" class="svg-text-mono text-[10px] fill-brand-800">sqr</text>
+                        <circle cx="80" cy="70" r="4" class="fill-purple-400" /> <!-- Handle Target -->
+
+                        <rect x="30" y="105" width="100" height="25" rx="4" class="fill-white stroke-slate-200 stroke-[1.5px]" />
+                        <text x="80" y="121" text-anchor="middle" class="svg-text-mono text-[10px] fill-slate-600">drv</text>
+
+                        <rect x="30" y="140" width="100" height="25" rx="4" class="fill-teal-50 stroke-teal-200 stroke-[1.5px]" />
+                        <text x="80" y="156" text-anchor="middle" class="svg-text-mono text-[10px] fill-teal-800">mon</text>
+                        <circle cx="80" cy="165" r="4" class="fill-teal-500" /> <!-- AP Source -->
+
+                        <!-- Local SB A -->
+                        <rect x="180" y="45" width="120" height="140" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="240" y="115" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-slate-400">Local SB (A)</text>
+                        <path d="M 130 152 L 180 152" class="stroke-slate-300 stroke-[2px] stroke-dasharray-[2,2]" fill="none" />
+                    </g>
+
+                    <!-- Block Env B (PHY) -->
+                    <g transform="translate(620, 200)">
+                        <rect width="320" height="200" rx="10" class="fill-slate-50 stroke-slate-300 stroke-2" filter="url(#soft-shadow-purple)" />
+                        <rect x="0" y="0" width="320" height="30" rx="10" class="fill-slate-200" />
+                        <text x="160" y="20" text-anchor="middle" class="svg-text-title text-[13px] fill-slate-800">Block Env B (PHY IP)</text>
+
+                        <!-- Agent B -->
+                        <rect x="20" y="45" width="120" height="140" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="80" y="60" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-slate-700">PHY Agent</text>
+                        
+                        <rect x="30" y="70" width="100" height="25" rx="4" class="fill-brand-50 stroke-brand-200 stroke-[1.5px]" />
+                        <text x="80" y="86" text-anchor="middle" class="svg-text-mono text-[10px] fill-brand-800">sqr</text>
+                        <circle cx="80" cy="70" r="4" class="fill-purple-400" /> <!-- Handle Target -->
+
+                        <rect x="30" y="105" width="100" height="25" rx="4" class="fill-white stroke-slate-200 stroke-[1.5px]" />
+                        <text x="80" y="121" text-anchor="middle" class="svg-text-mono text-[10px] fill-slate-600">drv</text>
+
+                        <rect x="30" y="140" width="100" height="25" rx="4" class="fill-teal-50 stroke-teal-200 stroke-[1.5px]" />
+                        <text x="80" y="156" text-anchor="middle" class="svg-text-mono text-[10px] fill-teal-800">mon</text>
+                        <circle cx="80" cy="165" r="4" class="fill-teal-500" /> <!-- AP Source -->
+
+                        <!-- Local SB B -->
+                        <rect x="180" y="45" width="120" height="140" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="240" y="115" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-slate-400">Local SB (B)</text>
+                        <path d="M 130 152 L 180 152" class="stroke-slate-300 stroke-[2px] stroke-dasharray-[2,2]" fill="none" />
+                    </g>
+
+                    <!-- ORTHOGONAL ROUTING CONNECTIONS -->
+                    
+                    <!-- 1. Handle Assignment (Purple) - Top-Down -->
+                    <!-- Path to MAC sqr -->
+                    <path d="M 420 140 L 420 170 L 140 170 L 140 265" class="stroke-purple-500 stroke-[3px]" stroke-dasharray="6 3" stroke-linejoin="round" fill="none" marker-end="url(#arrow-purple)" />
+                    <rect x="220" y="160" width="120" height="20" rx="4" class="fill-white border border-purple-200" />
+                    <text x="280" y="173" text-anchor="middle" class="svg-text-mono text-[10px] fill-purple-700 font-bold">Assign Handle (Pointer)</text>
+                    <text x="280" y="155" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">vseqr.mac_sqr = mac_env.agent.sqr</text>
+
+                    <!-- Path to PHY sqr -->
+                    <path d="M 580 140 L 580 170 L 700 170 L 700 265" class="stroke-purple-500 stroke-[3px]" stroke-dasharray="6 3" stroke-linejoin="round" fill="none" marker-end="url(#arrow-purple)" />
+                    <rect x="660" y="160" width="120" height="20" rx="4" class="fill-white border border-purple-200" />
+                    <text x="720" y="173" text-anchor="middle" class="svg-text-mono text-[10px] fill-purple-700 font-bold">Assign Handle (Pointer)</text>
+                    <text x="720" y="155" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">vseqr.phy_sqr = phy_env.agent.sqr</text>
+
+
+                    <!-- 2. Data Flow (Teal) - Bottom-Up -->
+                    <!-- Path from MAC mon to sys_sb -->
+                    <path d="M 140 370 L 140 445 L 385 445" class="stroke-teal-500 stroke-[3px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-teal)" />
+                    <rect x="200" y="435" width="110" height="20" rx="4" class="fill-teal-50 stroke-teal-200" />
+                    <text x="255" y="448" text-anchor="middle" class="svg-text-mono text-[10px] fill-teal-800 font-bold">TLM Analysis Port</text>
+
+                    <!-- Path from PHY mon to sys_sb -->
+                    <path d="M 700 370 L 700 445 L 615 445" class="stroke-teal-500 stroke-[3px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-teal)" />
+                    <rect x="690" y="435" width="110" height="20" rx="4" class="fill-teal-50 stroke-teal-200" />
+                    <text x="745" y="448" text-anchor="middle" class="svg-text-mono text-[10px] fill-teal-800 font-bold">TLM Analysis Port</text>
+
+                </svg>
+            </div>
+            <div class="p-6 bg-white flex flex-col lg:flex-row gap-6">
+                <div class="flex-1 space-y-3 bg-purple-50/50 p-5 rounded-xl border border-purple-100">
+                    <h3 class="text-sm font-bold text-purple-900 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-600"></span> 수직적 재사용 (Vertical Reuse)의 핵심</h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">UVM Env는 그 자체로 독립적인 검증 환경(Block-level)이 될 수 있으며, 코드 수정 없이 <b>상위 시스템 환경(System-level Env)의 하위 컴포넌트로 그대로 재사용(Instance)</b>될 수 있습니다. 위 다이어그램처럼 이미 개발 검증이 완료된 MAC Env와 PHY Env를 System Env 내부에 블록 쌓듯 통합함으로써 검증 환경 개발 리소스를 극적으로 절약할 수 있습니다.</p>
+                </div>
+                <div class="flex-1 space-y-3 bg-brand-50/50 p-5 rounded-xl border border-brand-100">
+                    <h3 class="text-sm font-bold text-brand-900 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-600"></span> System Virtual Sequencer 할당 로직</h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">최상위의 <code>System Virtual Sequencer</code>는 자신이 직접 트랜잭션을 생성하지 않고, 내부에 선언된 빈 포인터 변수(Handle)에 <b>하위 블록(MAC, PHY)의 실제 물리적 Sequencer 주소를 할당(Assign)</b> 받습니다. 이를 통해 SoC 레벨의 단일 통합 시나리오(Virtual Sequence)에서 MAC과 PHY에 동시에 복합적인 트래픽을 인가하는 오케스트레이션(Orchestration)이 가능해집니다.</p>
+                </div>
+                <div class="flex-1 space-y-3 bg-teal-50/50 p-5 rounded-xl border border-teal-100">
+                    <h3 class="text-sm font-bold text-teal-900 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-teal-600"></span> System-Level Scoreboard 연동</h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">블록 내부에 Local Scoreboard가 존재하더라도, 시스템 레벨의 데이터 정합성(End-to-End Checking)을 확인하기 위해 <b>하위 Env의 Monitor Port를 최상위 System Scoreboard에 직접 연결(Connect)</b>할 수 있습니다. 이는 계층 구조를 뚫고 데이터를 유연하게 라우팅할 수 있는 TLM(Transaction Level Modeling)의 강력함을 보여줍니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. RAL Integration in Env -->
+        <section class="xl:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-rose-500 rounded-sm inline-block"></span>
+                        [12] Register Model (RAL) Integration in Env
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">Env 내부에서 추상화된 레지스터 모델(RAL), Adapter, Predictor가 물리적 Bus Agent와 연동되는 양방향 아키텍처</p>
+                </div>
+            </div>
+            <div class="p-6 diagram-grid relative flex justify-center overflow-x-auto border-b border-slate-100">
+                <svg viewBox="0 0 1000 520" class="w-full max-w-5xl min-w-[800px] h-auto drop-shadow-sm">
+                    <defs>
+                        <marker id="arrow-rose" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-rose-500" />
+                        </marker>
+                        <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-teal-500" />
+                        </marker>
+                        <marker id="arrow-brand" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-brand-500" />
+                        </marker>
+                        <filter id="soft-shadow-rose" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.08" />
+                        </filter>
+                    </defs>
+
+                    <!-- Main Env Boundary -->
+                    <rect x="20" y="20" width="960" height="480" rx="16" class="fill-transparent stroke-slate-300 stroke-[3px]" stroke-dasharray="10 5" />
+                    <rect x="40" y="35" width="80" height="30" rx="6" class="fill-slate-100 border border-slate-200" />
+                    <text x="80" y="55" text-anchor="middle" class="svg-text-mono text-[14px] font-bold fill-slate-700">my_env</text>
+
+                    <!-- 1. uvm_reg_block (RAL Model) -->
+                    <g class="svg-node" transform="translate(200, 40)" filter="url(#soft-shadow-rose)">
+                        <rect width="600" height="150" rx="10" class="fill-rose-50 stroke-rose-300 stroke-[2px]" />
+                        <rect x="0" y="0" width="600" height="35" rx="10" class="fill-rose-100 border-b border-rose-200" />
+                        <text x="300" y="23" text-anchor="middle" class="svg-text-title text-[15px] fill-rose-900">uvm_reg_block (RAL Model)</text>
+                        
+                        <!-- Map -->
+                        <rect x="20" y="50" width="160" height="80" rx="6" class="fill-white stroke-rose-300 stroke-[1.5px]" stroke-dasharray="4 2" />
+                        <text x="100" y="70" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-rose-800">default_map</text>
+                        <rect x="30" y="85" width="140" height="18" rx="4" class="fill-rose-50" />
+                        <text x="100" y="98" text-anchor="middle" class="svg-text-mono text-[9px] fill-rose-700">Base Addr: 'h0000</text>
+                        <circle cx="100" cy="130" r="4" class="fill-rose-500" /> <!-- Output port from map to adapter -->
+
+                        <!-- Registers -->
+                        <g transform="translate(200, 50)">
+                            <rect width="380" height="80" rx="6" class="fill-white stroke-rose-200" />
+                            <text x="190" y="20" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-slate-600">Register Bank</text>
+                            
+                            <!-- Headers -->
+                            <text x="70" y="38" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-400">Reg Name</text>
+                            <text x="190" y="38" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-400">Desired Value</text>
+                            <text x="310" y="38" text-anchor="middle" class="svg-text-mono text-[9px] fill-teal-600 font-bold">Mirror Value</text>
+
+                            <!-- Reg: CTRL -->
+                            <rect x="20" y="45" width="100" height="20" rx="4" class="fill-slate-50 stroke-slate-200" />
+                            <text x="70" y="59" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-slate-700">CTRL ('h00)</text>
+                            
+                            <rect x="140" y="45" width="100" height="20" rx="4" class="fill-rose-50 stroke-rose-200" />
+                            <text x="190" y="59" text-anchor="middle" class="svg-text-mono text-[10px] fill-rose-700">0x00000001</text>
+
+                            <rect x="260" y="45" width="100" height="20" rx="4" class="fill-teal-50 stroke-teal-200" />
+                            <text x="310" y="59" text-anchor="middle" class="svg-text-mono text-[10px] fill-teal-700 font-bold">0x00000001</text>
+                            
+                            <circle cx="360" cy="55" r="4" class="fill-teal-500" /> <!-- Input port for Predictor -->
+                        </g>
+                    </g>
+
+                    <!-- 2. Adapter (Left Side - Driving) -->
+                    <g class="svg-node" transform="translate(150, 260)" filter="url(#soft-shadow-rose)">
+                        <!-- Hexagon/Trapezoid shape for conversion -->
+                        <path d="M 40 0 L 160 0 L 200 40 L 160 80 L 40 80 L 0 40 Z" class="fill-white stroke-rose-400 stroke-[2px]" />
+                        <text x="100" y="30" text-anchor="middle" class="svg-text-title text-[14px] fill-rose-800">uvm_reg_adapter</text>
+                        <rect x="30" y="45" width="140" height="18" rx="4" class="fill-rose-50 border border-rose-200" />
+                        <text x="100" y="58" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-rose-700">reg2bus()</text>
+                    </g>
+
+                    <!-- 3. Predictor (Right Side - Observing) -->
+                    <g class="svg-node" transform="translate(650, 260)" filter="url(#soft-shadow-rose)">
+                        <path d="M 40 0 L 160 0 L 200 40 L 160 80 L 40 80 L 0 40 Z" class="fill-white stroke-teal-400 stroke-[2px]" />
+                        <text x="100" y="30" text-anchor="middle" class="svg-text-title text-[14px] fill-teal-800">uvm_reg_predictor</text>
+                        <rect x="30" y="45" width="140" height="18" rx="4" class="fill-teal-50 border border-teal-200" />
+                        <text x="100" y="58" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-teal-700">bus2reg()</text>
+                    </g>
+
+                    <!-- 4. Bus Agent (Bottom Center) -->
+                    <g class="svg-node" transform="translate(250, 380)">
+                        <rect width="500" height="100" rx="10" class="fill-slate-50 stroke-slate-300 stroke-[2px]" filter="url(#soft-shadow-rose)" />
+                        <text x="250" y="25" text-anchor="middle" class="svg-text-title text-[14px] fill-slate-800">Bus Agent (e.g., APB/AXI)</text>
+                        
+                        <!-- Sequencer -->
+                        <rect x="20" y="40" width="140" height="40" rx="6" class="fill-white stroke-brand-300 stroke-[1.5px]" />
+                        <text x="90" y="64" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-brand-700">Sequencer</text>
+                        <circle cx="90" cy="40" r="4" class="fill-brand-500" />
+
+                        <!-- Driver -->
+                        <rect x="180" y="40" width="140" height="40" rx="6" class="fill-white stroke-brand-300 stroke-[1.5px]" />
+                        <text x="250" y="64" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-brand-700">Driver</text>
+
+                        <!-- Monitor -->
+                        <rect x="340" y="40" width="140" height="40" rx="6" class="fill-white stroke-teal-300 stroke-[1.5px]" />
+                        <text x="410" y="64" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-teal-700">Monitor</text>
+                        <circle cx="480" cy="60" r="4" class="fill-teal-500" /> <!-- AP out -->
+                    </g>
+
+
+                    <!-- ORTHOGONAL ROUTING CONNECTIONS -->
+                    
+                    <!-- 1. Logical Binding (Dashed Line) -->
+                    <path d="M 220 130 L 220 180 L 120 180 L 120 400 L 270 400" class="stroke-slate-400 stroke-[2px]" stroke-dasharray="4 4" stroke-linejoin="round" fill="none" />
+                    <rect x="40" y="172" width="150" height="16" rx="2" class="fill-white" />
+                    <text x="115" y="183" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500 font-bold">map.set_sequencer(sqr, adapter)</text>
+
+
+                    <!-- 2. Execution Path (Reg -> Adapter -> Sqr) -->
+                    <!-- RAL down to Adapter -->
+                    <path d="M 300 170 L 300 230 L 250 230 L 250 260" class="stroke-rose-400 stroke-[3px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-rose)" />
+                    <rect x="255" y="222" width="80" height="16" rx="4" class="fill-rose-50" />
+                    <text x="295" y="233" text-anchor="middle" class="svg-text-mono text-[10px] fill-rose-700 font-bold">uvm_reg_item</text>
+
+                    <!-- Adapter down to Sequencer -->
+                    <path d="M 250 340 L 250 360 L 340 360 L 340 420" class="stroke-brand-400 stroke-[3px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-brand)" />
+                    <rect x="250" y="352" width="60" height="16" rx="4" class="fill-brand-50" />
+                    <text x="280" y="363" text-anchor="middle" class="svg-text-mono text-[10px] fill-brand-700 font-bold">bus_item</text>
+
+
+                    <!-- 3. Observation Path (Mon -> Predictor -> RAL) -->
+                    <!-- Monitor up to Predictor -->
+                    <path d="M 730 440 L 750 440 L 750 340" class="stroke-teal-400 stroke-[3px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-teal)" />
+                    <rect x="755" y="382" width="100" height="16" rx="4" class="fill-teal-50" />
+                    <text x="805" y="393" text-anchor="middle" class="svg-text-mono text-[10px] fill-teal-700 font-bold">Analysis Port (bus_item)</text>
+
+                    <!-- Predictor up to RAL Mirror -->
+                    <path d="M 750 260 L 750 210 L 560 210 L 560 145" class="stroke-teal-400 stroke-[3px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-teal)" />
+                    <rect x="630" y="202" width="100" height="16" rx="4" class="fill-teal-50" />
+                    <text x="680" y="213" text-anchor="middle" class="svg-text-mono text-[10px] fill-teal-700 font-bold">Update Mirror Value</text>
+
+                </svg>
+            </div>
+            <div class="p-6 bg-white grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-3 bg-rose-50/50 p-5 rounded-xl border border-rose-100">
+                    <h3 class="text-sm font-bold text-rose-900 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> uvm_reg_block (RAL) & Map</h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">디자인의 실제 하드웨어 레지스터 맵을 검증 환경 내부에 추상화한 <b>가상 메모리 공간</b>입니다. Env의 <code>connect_phase</code>에서 <code>default_map.set_sequencer()</code>를 호출하여 하위의 물리적 버스 Agent(Sequencer 및 Adapter)와 바인딩됩니다. 시퀀스에서 <code>rm.CTRL.write()</code>를 호출하면 이 맵을 타고 데이터가 내려갑니다.</p>
+                </div>
+                <div class="space-y-3 bg-slate-50 p-5 rounded-xl border border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> uvm_reg_adapter (변환기)</h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">UVM 프레임워크가 생성하는 범용 레지스터 객체(<code>uvm_reg_item</code>)와 사용자가 정의한 특정 버스 프로토콜 트랜잭션(예: APB/AXI <code>bus_item</code>) 간의 형 변환을 담당합니다. <b>Top-Down 시에는 <code>reg2bus()</code></b>로 버스 시퀀스 아이템을 생성하고, 예측을 위해서는 <code>bus2reg()</code>를 제공하는 필수 브릿지입니다.</p>
+                </div>
+                <div class="space-y-3 bg-teal-50/50 p-5 rounded-xl border border-teal-100">
+                    <h3 class="text-sm font-bold text-teal-900 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> uvm_reg_predictor & Mirror</h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">Bus Agent의 Monitor가 캡처한 '실제 버스 트래픽'을 Analysis Port를 통해 수신합니다. 이를 Adapter의 <code>bus2reg()</code>를 이용해 다시 레지스터 트랜잭션으로 해석한 뒤, <b>RAL 모델 내부의 Mirror Value를 실제 하드웨어 상태와 완벽하게 동기화</b>하여 추후 정합성 검사(Checking)에 사용합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Code Snippet Section -->
+        <section class="xl:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-slate-800 rounded-sm inline-block"></span>
+                        [13] UVM Env Code Template
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">위에서 설명한 UVM Env의 계층 구조와 Phase 동작 원리가 실제 SystemVerilog(SV) 코드에서 구현되는 템플릿입니다.</p>
+                </div>
+            </div>
+            <div class="p-6 md:p-8 bg-slate-900 overflow-x-auto selection:bg-brand-500/30">
+<pre class="font-mono text-sm md:text-[15px] leading-relaxed text-slate-300"><code><span class="text-slate-500 italic">// my_env.sv</span>
+<span class="text-pink-400 font-bold">class</span> <span class="text-amber-300 font-bold">my_env</span> <span class="text-pink-400 font-bold">extends</span> <span class="text-teal-300">uvm_env</span>;
+
+  <span class="text-slate-500 italic">// 1. 하위 컴포넌트 및 Config 핸들 선언</span>
+  <span class="text-teal-300">my_agent</span>       agent;
+  <span class="text-teal-300">my_scoreboard</span>  sb;
+  <span class="text-teal-300">my_env_config</span>  cfg;
+
+  <span class="text-slate-500 italic">// 2. UVM Component Automation Macro 등록</span>
+  <span class="text-indigo-400">`uvm_component_utils</span>(my_env)
+
+  <span class="text-slate-500 italic">// 3. 생성자 (Constructor)</span>
+  <span class="text-pink-400 font-bold">function</span> <span class="text-amber-200">new</span>(<span class="text-pink-400 font-bold">string</span> name = <span class="text-green-300">"my_env"</span>, <span class="text-teal-300">uvm_component</span> parent = <span class="text-pink-400 font-bold">null</span>);
+    <span class="text-pink-400 font-bold">super</span>.<span class="text-amber-200">new</span>(name, parent);
+  <span class="text-pink-400 font-bold">endfunction</span>
+
+  <span class="text-slate-500 italic">// ---------------------------------------------------------</span>
+  <span class="text-slate-500 italic">// [4] Build Phase (Top-Down Execution)</span>
+  <span class="text-slate-500 italic">// ---------------------------------------------------------</span>
+  <span class="text-pink-400 font-bold">virtual function void</span> <span class="text-amber-200">build_phase</span>(<span class="text-teal-300">uvm_phase</span> phase);
+    <span class="text-pink-400 font-bold">super</span>.<span class="text-amber-200">build_phase</span>(phase);
+    
+    <span class="text-slate-500 italic">// [8] Config DB에서 설정 객체(cfg) 가져오기 (get)</span>
+    <span class="text-pink-400 font-bold">if</span> (!<span class="text-indigo-400">uvm_config_db</span>#(<span class="text-teal-300">my_env_config</span>)::<span class="text-amber-200">get</span>(<span class="text-pink-400 font-bold">this</span>, <span class="text-green-300">""</span>, <span class="text-green-300">"env_cfg"</span>, cfg)) <span class="text-pink-400 font-bold">begin</span>
+      <span class="text-indigo-400">`uvm_fatal</span>(<span class="text-green-300">"ENV/NOCFG"</span>, <span class="text-green-300">"No configuration specified for my_env"</span>)
+    <span class="text-pink-400 font-bold">end</span>
+
+    <span class="text-slate-500 italic">// 설정값(cfg)에 따라 서브 컴포넌트를 Factory를 통해 동적 생성 (create)</span>
+    <span class="text-pink-400 font-bold">if</span> (cfg.has_agent) <span class="text-pink-400 font-bold">begin</span>
+      agent = <span class="text-teal-300">my_agent</span>::type_id::<span class="text-amber-200">create</span>(<span class="text-green-300">"agent"</span>, <span class="text-pink-400 font-bold">this</span>);
+    <span class="text-pink-400 font-bold">end</span>
+    
+    <span class="text-pink-400 font-bold">if</span> (cfg.has_sb) <span class="text-pink-400 font-bold">begin</span>
+      sb = <span class="text-teal-300">my_scoreboard</span>::type_id::<span class="text-amber-200">create</span>(<span class="text-green-300">"sb"</span>, <span class="text-pink-400 font-bold">this</span>);
+    <span class="text-pink-400 font-bold">end</span>
+  <span class="text-pink-400 font-bold">endfunction</span>
+
+  <span class="text-slate-500 italic">// ---------------------------------------------------------</span>
+  <span class="text-slate-500 italic">// [5] Connect Phase (Bottom-Up Execution)</span>
+  <span class="text-slate-500 italic">// ---------------------------------------------------------</span>
+  <span class="text-pink-400 font-bold">virtual function void</span> <span class="text-amber-200">connect_phase</span>(<span class="text-teal-300">uvm_phase</span> phase);
+    <span class="text-pink-400 font-bold">super</span>.<span class="text-amber-200">connect_phase</span>(phase);
+    
+    <span class="text-slate-500 italic">// Agent의 Analysis Port(ap)를 Scoreboard의 Analysis Export(exp)와 물리적 연결</span>
+    <span class="text-pink-400 font-bold">if</span> (cfg.has_agent && cfg.has_sb) <span class="text-pink-400 font-bold">begin</span>
+      agent.ap.<span class="text-amber-200">connect</span>(sb.exp);
+    <span class="text-pink-400 font-bold">end</span>
+  <span class="text-pink-400 font-bold">endfunction</span>
+
+<span class="text-pink-400 font-bold">endclass</span> : <span class="text-amber-300 font-bold">my_env</span></code></pre>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Summary -->
+    <footer class="max-w-7xl mx-auto mt-12 mb-12 p-6 bg-slate-800 rounded-2xl text-slate-300 text-sm">
+        <h4 class="text-white font-bold mb-3 font-mono">Summary Checkpoints</h4>
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> Env는 UVM Verification Topology의 컨테이너입니다. (Not a stimulus generator)</li>
+            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> <code class="font-mono text-teal-300">build_phase</code>에서 모든 서브 컴포넌트를 생성합니다.</li>
+            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> <code class="font-mono text-orange-300">connect_phase</code>에서 TLM 포트 연결을 수행하여 데이터 패스를 완성합니다.</li>
+            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> Active Agent는 Stimulus를, Passive Agent는 Monitoring만 수행합니다.</li>
+            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> Virtual Sequencer는 환경 내 여러 Agent의 Sequencer들을 제어합니다.</li>
+        </ul>
+    </footer>
+
+</body>
+</html>

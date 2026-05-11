@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반도체 설계 가이드북 - UVM Sequence</title>
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config for Design System -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+                        mono: ['"IBM Plex Sans"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            600: '#475569',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        blue: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS (Grid, Animations, specific styles) -->
+    <style>
+        /* Diagram Grid Background */
+        .diagram-grid {
+            background-color: #f8fafc;
+            background-image: 
+                linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+                linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center center;
+        }
+
+        /* SVG Flow Animation for Data/Signal Path */
+        @keyframes flow {
+            from { stroke-dashoffset: 24; }
+            to { stroke-dashoffset: 0; }
+        }
+        .animate-flow {
+            stroke-dasharray: 6 6;
+            animation: flow 0.8s linear infinite;
+        }
+
+        /* Pulse Animation for Active Nodes */
+        @keyframes pulse-node {
+            0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(37, 99, 235, 0)); }
+            50% { transform: scale(1.02); filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.4)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(37, 99, 235, 0)); }
+        }
+        .active-node {
+            animation: pulse-node 2.5s infinite ease-in-out;
+            transform-origin: center;
+        }
+
+        /* Fade-in up for content */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        /* Code Block Syntax Highlighting */
+        .keyword { color: #2563eb; font-weight: 600; }
+        .string { color: #059669; }
+        .comment { color: #64748b; font-style: italic; }
+        .type { color: #7c3aed; }
+        .function { color: #ea580c; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-600 antialiased min-h-screen">
+
+    <!-- Header Area -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div>
+                <p class="text-sm font-bold text-blue-600 mb-1 tracking-wider uppercase">Digital Circuit Verification</p>
+                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Sequence : Generate Transaction Scenario</h1>
+            </div>
+            <div class="hidden md:flex items-center space-x-2 text-sm font-medium text-slate-500">
+                <span>UVM Guidebook</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                <span class="text-slate-900">Sequence</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 py-10 flex flex-col gap-10">
+
+        <!-- Section 1 & 2: Role and Inheritance -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden fade-in-up" style="animation-delay: 0.1s;">
+            <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+                
+                <!-- Column 1: Role -->
+                <div class="p-8 lg:p-10 flex flex-col gap-8">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                            <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100 text-blue-600 text-sm">1</span>
+                            Sequence의 역할
+                        </h2>
+                        <p class="mb-4 leading-relaxed">
+                            <strong class="text-slate-800">Sequence</strong>는 DUT(Device Under Test)에 인가할 자극(Stimulus)인 <strong class="text-blue-600">Transaction(Item)을 생성하고, 동작의 시나리오를 구성</strong>하는 핵심 객체입니다.
+                        </p>
+                        <p class="leading-relaxed">
+                            Sequence는 생성된 Item을 Driver에게 직접 전달하지 않습니다. 대신, <code class="font-mono bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded text-sm">Sequencer</code>라는 중개자를 거쳐 Driver가 요청할 때마다 데이터를 공급하는 구조를 가집니다. 이를 통해 복잡한 시나리오를 모듈화하고 재사용성을 극대화할 수 있습니다.
+                        </p>
+                    </div>
+                    
+                    <div class="diagram-grid border border-slate-200 rounded-xl p-6 flex-grow flex flex-col justify-center items-center relative">
+                        <div class="w-full max-w-md">
+                            <h3 class="text-xs font-bold text-slate-500 mb-6 uppercase tracking-wide text-center">Data Flow Scenario</h3>
+                            <svg viewBox="0 0 400 120" class="w-full h-auto drop-shadow-sm">
+                                <defs>
+                                    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
+                                    </marker>
+                                </defs>
+                                
+                                <!-- Path Sequence -> Sequencer -->
+                                <path d="M 110 60 L 170 60" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#arrow)" />
+                                
+                                <!-- Path Sequencer -> Driver -->
+                                <path d="M 270 60 L 330 60" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#arrow)" />
+
+                                <!-- Nodes -->
+                                <g class="transition-transform duration-300 hover:-translate-y-1 active-node">
+                                    <rect x="10" y="30" width="100" height="60" rx="12" class="fill-white stroke-blue-600 stroke-2" />
+                                    <text x="60" y="65" text-anchor="middle" class="font-sans font-bold text-sm fill-slate-800">Sequence</text>
+                                </g>
+                                
+                                <g class="transition-transform duration-300 hover:-translate-y-1">
+                                    <rect x="170" y="30" width="100" height="60" rx="12" class="fill-white stroke-slate-300 stroke-2" />
+                                    <text x="220" y="60" text-anchor="middle" class="font-sans font-bold text-sm fill-slate-800">Sequencer</text>
+                                    <text x="220" y="75" text-anchor="middle" class="font-sans text-[10px] fill-slate-500">(FIFO)</text>
+                                </g>
+
+                                <g class="transition-transform duration-300 hover:-translate-y-1">
+                                    <rect x="330" y="30" width="60" height="60" rx="12" class="fill-slate-800 stroke-slate-800 stroke-2" />
+                                    <text x="360" y="65" text-anchor="middle" class="font-sans font-bold text-sm fill-white">Driver</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Column 2: Inheritance -->
+                <div class="p-8 lg:p-10 flex flex-col gap-8">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                            <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100 text-blue-600 text-sm">2</span>
+                            uvm_sequence 상속 구조
+                        </h2>
+                        <p class="leading-relaxed">
+                            Sequence는 테스트 벤치의 계층 구조에 고정된 Component(예: Env, Agent)가 아닙니다. 수명이 짧고 동적으로 생성 및 소멸되는 <strong>Object(객체)</strong>입니다. <code class="font-mono bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded text-sm">uvm_object</code>를 최상위로 하여 상속받으며, 동적 생성 및 Factory 오버라이딩 기능을 완벽하게 지원합니다.
+                        </p>
+                    </div>
+
+                    <div class="diagram-grid border border-slate-200 rounded-xl p-6 flex-grow flex flex-col justify-center items-center relative">
+                        <div class="w-full max-w-md">
+                            <h3 class="text-xs font-bold text-slate-500 mb-6 uppercase tracking-wide text-center">Inheritance Tree</h3>
+                            <svg viewBox="0 0 400 240" class="w-full h-auto drop-shadow-sm">
+                                <defs>
+                                    <marker id="tree-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-400" />
+                                    </marker>
+                                </defs>
+                                <!-- Lines -->
+                                <path d="M 200 30 L 200 60" class="stroke-slate-300 stroke-2 fill-none" marker-end="url(#tree-arrow)" />
+                                <path d="M 200 80 L 200 110" class="stroke-slate-300 stroke-2 fill-none" marker-end="url(#tree-arrow)" />
+                                <path d="M 200 130 L 200 160" class="stroke-slate-300 stroke-2 fill-none" marker-end="url(#tree-arrow)" />
+                                <path d="M 200 180 L 200 210" class="stroke-slate-300 stroke-2 fill-none" marker-end="url(#tree-arrow)" />
+
+                                <!-- Nodes -->
+                                <g class="transition-transform duration-300 hover:-translate-y-0.5">
+                                    <rect x="130" y="10" width="140" height="24" rx="6" class="fill-slate-100 stroke-slate-300 stroke-1" />
+                                    <text x="200" y="26" text-anchor="middle" class="font-mono text-xs fill-slate-600">uvm_object</text>
+                                </g>
+                                <g class="transition-transform duration-300 hover:-translate-y-0.5">
+                                    <rect x="130" y="60" width="140" height="24" rx="6" class="fill-slate-100 stroke-slate-300 stroke-1" />
+                                    <text x="200" y="76" text-anchor="middle" class="font-mono text-xs fill-slate-600">uvm_transaction</text>
+                                </g>
+                                <g class="transition-transform duration-300 hover:-translate-y-0.5">
+                                    <rect x="120" y="110" width="160" height="24" rx="6" class="fill-slate-100 stroke-slate-300 stroke-1" />
+                                    <text x="200" y="126" text-anchor="middle" class="font-mono text-xs fill-slate-600">uvm_sequence_item</text>
+                                </g>
+                                <g class="transition-transform duration-300 hover:-translate-y-0.5">
+                                    <rect x="120" y="160" width="160" height="24" rx="6" class="fill-slate-100 stroke-slate-300 stroke-1" />
+                                    <text x="200" y="176" text-anchor="middle" class="font-mono text-xs fill-slate-600">uvm_sequence_base</text>
+                                </g>
+                                <g class="transition-transform duration-300 hover:-translate-y-0.5">
+                                    <rect x="110" y="210" width="180" height="28" rx="6" class="fill-blue-50 stroke-blue-400 stroke-2 shadow-sm" />
+                                    <text x="200" y="228" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-700">uvm_sequence</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3, 4, 5: Code Structure -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden fade-in-up" style="animation-delay: 0.2s;">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <div class="p-8 lg:p-10 flex flex-col justify-center order-2 lg:order-1 bg-slate-900 text-slate-300 relative">
+                    <!-- Code Block UI Header -->
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span class="ml-2 text-xs font-mono text-slate-400">my_sequence.sv</span>
+                    </div>
+                    
+                    <pre class="font-mono text-sm leading-relaxed overflow-x-auto">
+<span class="keyword">class</span> <span class="type">my_sequence</span> <span class="keyword">extends</span> uvm_sequence <span class="text-yellow-400">#(my_item)</span>;
+
+  <span class="comment">// 5. Factory Registration</span>
+  <span class="keyword">`uvm_object_utils</span>(<span class="type">my_sequence</span>)
+
+  <span class="comment">// 4. Constructor</span>
+  <span class="keyword">function</span> <span class="function">new</span>(<span class="type">string</span> name = <span class="string">"my_sequence"</span>);
+    <span class="keyword">super</span>.<span class="function">new</span>(name);
+  <span class="keyword">endfunction</span>
+
+  <span class="comment">// 6. task body() </span>
+  <span class="keyword">virtual task</span> <span class="function">body</span>();
+    <span class="comment">// ... item creation and stimulus ...</span>
+  <span class="keyword">endtask</span>
+
+<span class="keyword">endclass</span></pre>
+                </div>
+
+                <div class="p-8 lg:p-10 flex flex-col justify-center order-1 lg:order-2">
+                    <div class="space-y-8">
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-3">
+                                <span class="flex items-center justify-center w-7 h-7 rounded bg-slate-100 border border-slate-200 text-slate-600 text-sm">3</span>
+                                Parameterized Type : #(ItemType)
+                            </h2>
+                            <p class="text-sm leading-relaxed">
+                                <code class="font-mono text-blue-600">uvm_sequence #(my_item)</code>와 같이 클래스를 정의할 때 파라미터를 통해 Sequence가 다룰 <strong>Sequence Item의 타입</strong>을 명시합니다. 이를 통해 컴파일러는 타입 안정성을 보장하며, 내부의 <code>req</code>와 <code>rsp</code> 핸들이 해당 타입으로 자동 선언됩니다.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-3">
+                                <span class="flex items-center justify-center w-7 h-7 rounded bg-slate-100 border border-slate-200 text-slate-600 text-sm">4</span>
+                                Constructor : new() / super.new()
+                            </h2>
+                            <p class="text-sm leading-relaxed">
+                                Sequence는 컴포넌트 계층 트리에 속하지 않으므로, <code>new()</code> 함수의 인자로는 오직 <code>name</code>만 필요합니다. (parent 인자가 없음). 내부에서 반드시 <code>super.new(name)</code>을 호출하여 상위 클래스를 초기화해야 합니다.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-3">
+                                <span class="flex items-center justify-center w-7 h-7 rounded bg-slate-100 border border-slate-200 text-slate-600 text-sm">5</span>
+                                Factory Registration
+                            </h2>
+                            <p class="text-sm leading-relaxed">
+                                <code>`uvm_object_utils(my_sequence)</code> 매크로를 사용하여 Factory에 등록합니다. Sequence는 Component가 아니기 때문에 <code>_component_utils</code>가 아닌 <strong><code>_object_utils</code></strong>를 사용합니다. 이를 통해 테스트 단위에서 다른 Sequence로의 오버라이딩(Overriding)이 가능해집니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6~10: task body() & Item Flow -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 lg:p-10 fade-in-up" style="animation-delay: 0.3s;">
+            <div class="mb-8">
+                <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-3">
+                    <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100 text-blue-600 text-sm">6</span>
+                    task body() 와 Item 생성 라이프사이클
+                </h2>
+                <p class="leading-relaxed text-slate-600">
+                    <code class="font-mono bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded text-sm">body()</code> 태스크는 Sequence의 심장부입니다. Sequence가 <code>start()</code> 메소드에 의해 구동되면 자동으로 호출되며, 이곳에 Transaction(Item)을 생성하고 Driver로 보내는 시나리오가 작성됩니다. 다음 다이어그램은 <code>body()</code> 내부에서 단일 Item이 처리되는 표준 흐름을 보여줍니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- SVG Diagram (Task body lifecycle) -->
+                <div class="lg:col-span-6 diagram-grid rounded-xl p-6 border border-slate-200 relative">
+                    <svg viewBox="0 0 300 450" class="w-full h-auto">
+                        <defs>
+                            <marker id="arrow-down" viewBox="0 0 10 10" refX="5" refY="8" markerWidth="6" markerHeight="6" orient="auto">
+                                <path d="M 0 0 L 5 10 L 10 0 z" class="fill-slate-400" />
+                            </marker>
+                            <marker id="arrow-flow" viewBox="0 0 10 10" refX="5" refY="8" markerWidth="6" markerHeight="6" orient="auto">
+                                <path d="M 0 0 L 5 10 L 10 0 z" class="fill-blue-500" />
+                            </marker>
+                            <!-- Filter for glow -->
+                            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="3" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+
+                        <!-- Base Lines -->
+                        <path d="M 150 40 L 150 80" class="stroke-slate-300 stroke-2 fill-none" marker-end="url(#arrow-down)" />
+                        <path d="M 150 120 L 150 160" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#arrow-flow)" />
+                        <path d="M 150 200 L 150 240" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#arrow-flow)" />
+                        <path d="M 150 280 L 150 320" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#arrow-flow)" />
+                        <path d="M 150 360 L 150 400" class="stroke-slate-300 stroke-2 fill-none" marker-end="url(#arrow-down)" />
+
+                        <!-- Constraint Arrow -->
+                        <path d="M 230 260 L 210 260" class="stroke-slate-400 stroke-2 fill-none stroke-dasharray-4" marker-end="url(#arrow-down)" transform="rotate(90 220 260)" />
+                        <path d="M 230 260 L 195 260" class="stroke-slate-400 stroke-2 fill-none" marker-end="url(#arrow-down)" />
+
+                        <!-- Start Node -->
+                        <circle cx="150" cy="20" r="15" class="fill-slate-800" />
+                        <text x="150" y="24" text-anchor="middle" class="font-sans font-bold text-xs fill-white">start</text>
+
+                        <!-- Step 7: Create -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="50" y="80" width="200" height="40" rx="8" class="fill-white stroke-slate-300 stroke-2 shadow-sm" />
+                            <text x="70" y="105" class="font-mono font-bold text-xs fill-slate-800">7. type_id::create()</text>
+                        </g>
+
+                        <!-- Step 8: start_item -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="50" y="160" width="200" height="40" rx="8" class="fill-white stroke-slate-300 stroke-2 shadow-sm" />
+                            <text x="70" y="185" class="font-mono font-bold text-xs fill-slate-800">8. start_item(req)</text>
+                            <text x="195" y="185" class="font-sans text-[9px] fill-slate-400 italic">Wait Grant</text>
+                        </g>
+
+                        <!-- Step 9: randomize -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1 active-node">
+                            <rect x="50" y="240" width="200" height="40" rx="8" class="fill-blue-50 stroke-blue-500 stroke-2 shadow-sm" />
+                            <text x="70" y="265" class="font-mono font-bold text-xs fill-blue-700">9. req.randomize()</text>
+                        </g>
+
+                        <!-- Step 10: Inline Constraint Box -->
+                        <g class="transition-transform duration-300 hover:translate-x-1">
+                            <rect x="230" y="240" width="60" height="40" rx="6" class="fill-yellow-50 stroke-yellow-400 stroke-2 stroke-dasharray-2" />
+                            <text x="260" y="258" text-anchor="middle" class="font-sans font-bold text-[10px] fill-yellow-700">10. Local/</text>
+                            <text x="260" y="270" text-anchor="middle" class="font-sans font-bold text-[10px] fill-yellow-700">Inline</text>
+                        </g>
+
+                        <!-- Step finish_item -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="50" y="320" width="200" height="40" rx="8" class="fill-white stroke-slate-300 stroke-2 shadow-sm" />
+                            <text x="70" y="345" class="font-mono font-bold text-xs fill-slate-800">finish_item(req)</text>
+                            <text x="190" y="345" class="font-sans text-[9px] fill-slate-400 italic">Send to Driver</text>
+                        </g>
+
+                        <!-- End Node -->
+                        <circle cx="150" cy="420" r="15" class="fill-white stroke-slate-800 stroke-4" />
+                        <circle cx="150" cy="420" r="6" class="fill-slate-800" />
+                    </svg>
+                </div>
+
+                <!-- Text Explanations -->
+                <div class="lg:col-span-6 space-y-6">
+                    
+                    <div class="group">
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2 mb-1">
+                            <span class="w-6 h-6 rounded bg-slate-100 flex items-center justify-center text-xs group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">7</span>
+                            Item Creation
+                        </h3>
+                        <p class="text-sm leading-relaxed">
+                            <code>req = my_item::type_id::create("req");</code><br>
+                            Factory 메커니즘을 통해 Transaction 객체를 생성합니다. 일반적인 <code>new()</code> 대신 <code>create()</code>를 사용하여 향후 다형성을 통한 Test 계층에서의 객체 오버라이딩을 지원합니다.
+                        </p>
+                    </div>
+
+                    <div class="group">
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2 mb-1">
+                            <span class="w-6 h-6 rounded bg-slate-100 flex items-center justify-center text-xs group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">8</span>
+                            start_item(item)
+                        </h3>
+                        <p class="text-sm leading-relaxed">
+                            생성된 객체를 Driver로 보내기 위한 첫 단계입니다. 이 함수는 비동기적으로 동작하며, Sequencer에게 버스 사용 권한(Grant)을 요청하고 승인이 떨어질 때까지 대기(Block)합니다.
+                        </p>
+                    </div>
+
+                    <div class="group">
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2 mb-1">
+                            <span class="w-6 h-6 rounded bg-slate-100 flex items-center justify-center text-xs group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">9</span>
+                            item.randomize()
+                        </h3>
+                        <p class="text-sm leading-relaxed">
+                            Sequencer로부터 승인을 얻은 직후, 실제로 데이터를 전송하기 전(<code class="text-xs">finish_item</code> 직전)에 데이터를 Randomize 합니다. 이를 <strong>Late Randomization</strong>이라고 하며, 시뮬레이션의 가장 최신 상태를 반영한 무작위 값을 생성할 수 있어 매우 중요합니다.
+                        </p>
+                    </div>
+
+                    <div class="group bg-blue-50 border border-blue-100 p-4 rounded-xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-blue-100 rounded-bl-full -mr-8 -mt-8 opacity-50"></div>
+                        <h3 class="text-sm font-bold text-blue-900 flex items-center gap-2 mb-2 relative z-10">
+                            <span class="w-6 h-6 rounded bg-blue-600 text-white flex items-center justify-center text-xs">10</span>
+                            Local / Inline Constraint
+                        </h3>
+                        <p class="text-sm text-blue-800 leading-relaxed relative z-10 font-mono">
+                            if (!req.randomize() <strong class="text-blue-600">with { addr == 32'hA000; }</strong>)
+                        </p>
+                        <p class="text-sm text-blue-800 leading-relaxed mt-2 relative z-10">
+                            기본 Item 클래스에 정의된 Constraint 외에, 특정 Sequence 시나리오에서만 유효한 제약 조건을 <code class="font-mono bg-white px-1 rounded text-xs">with</code> 구문을 사용하여 즉석에서(Inline) 주입합니다. 이를 통해 Item 클래스의 수정 없이 유연한 시나리오 구성이 가능합니다.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 11: Lifecycle Intent Diagram (New Separated Section) -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 lg:p-10 fade-in-up" style="animation-delay: 0.4s;">
+            <div class="mb-8">
+                <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-3">
+                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Item Lifecycle 설계 의도 (Intent Analysis)
+                </h2>
+                <p class="leading-relaxed text-slate-600">
+                    UVM Sequence에서 Item이 생성되고 전달되는 각 단계는 단순한 함수 호출이 아닌 <strong>독립적인 설계 의도(Intent)</strong>를 가지고 있습니다. 다음 다이어그램은 각 단계별 핵심 목적과 아키텍처적 이점을 시각화합니다.
+                </p>
+            </div>
+
+            <!-- Horizontal Lifecycle SVG Wrapper -->
+            <div class="diagram-grid rounded-xl border border-slate-200 overflow-x-auto p-8 relative">
+                <div class="min-w-[800px]">
+                    <svg viewBox="0 0 900 250" class="w-full h-auto drop-shadow-sm font-sans">
+                        <defs>
+                            <marker id="flow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
+                            </marker>
+                        </defs>
+
+                        <!-- Main Flow Lines -->
+                        <path d="M 190 120 L 260 120" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow)" />
+                        <path d="M 410 120 L 480 120" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow)" />
+                        <path d="M 630 120 L 700 120" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow)" />
+
+                        <!-- Step 1: Create -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                            <!-- Intent Box (Top) -->
+                            <path d="M 120 100 L 120 70" class="stroke-slate-300 stroke-[1.5] stroke-dasharray-4 fill-none" />
+                            <rect x="30" y="20" width="180" height="50" rx="8" class="fill-indigo-50 stroke-indigo-200 stroke-1 shadow-sm" />
+                            <text x="120" y="40" text-anchor="middle" class="text-[12px] font-bold fill-indigo-900">Factory 패턴의 다형성</text>
+                            <text x="120" y="56" text-anchor="middle" class="text-[11px] fill-indigo-700">Test 코드 수정 없는 객체 Override</text>
+
+                            <!-- Node -->
+                            <rect x="50" y="100" width="140" height="40" rx="8" class="fill-white stroke-slate-800 stroke-2 shadow-sm" />
+                            <text x="120" y="125" text-anchor="middle" class="font-mono text-sm font-bold fill-slate-800">create()</text>
+                        </g>
+
+                        <!-- Step 2: Start Item -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                            <!-- Intent Box (Bottom) -->
+                            <path d="M 340 140 L 340 170" class="stroke-slate-300 stroke-[1.5] stroke-dasharray-4 fill-none" />
+                            <rect x="250" y="170" width="180" height="50" rx="8" class="fill-amber-50 stroke-amber-200 stroke-1 shadow-sm" />
+                            <text x="340" y="190" text-anchor="middle" class="text-[12px] font-bold fill-amber-900">Sequencer 중재 요청</text>
+                            <text x="340" y="206" text-anchor="middle" class="text-[11px] fill-amber-700">Grant 획득 시점까지 Blocking 대기</text>
+
+                            <!-- Node -->
+                            <rect x="270" y="100" width="140" height="40" rx="8" class="fill-white stroke-slate-800 stroke-2 shadow-sm" />
+                            <text x="340" y="125" text-anchor="middle" class="font-mono text-sm font-bold fill-slate-800">start_item()</text>
+                        </g>
+
+                        <!-- Step 3: Randomize -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer active-node">
+                            <!-- Intent Box (Top) -->
+                            <path d="M 560 100 L 560 70" class="stroke-slate-300 stroke-[1.5] stroke-dasharray-4 fill-none" />
+                            <rect x="470" y="20" width="180" height="50" rx="8" class="fill-emerald-50 stroke-emerald-200 stroke-1 shadow-sm" />
+                            <text x="560" y="40" text-anchor="middle" class="text-[12px] font-bold fill-emerald-900">Late Randomization</text>
+                            <text x="560" y="56" text-anchor="middle" class="text-[11px] fill-emerald-700">시뮬레이션 최신 상태를 반영한 할당</text>
+
+                            <!-- Node -->
+                            <rect x="490" y="100" width="140" height="40" rx="8" class="fill-white stroke-blue-600 stroke-2 shadow-sm" />
+                            <text x="560" y="125" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-700">randomize()</text>
+                        </g>
+
+                        <!-- Step 4: Finish Item -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                            <!-- Intent Box (Bottom) -->
+                            <path d="M 780 140 L 780 170" class="stroke-slate-300 stroke-[1.5] stroke-dasharray-4 fill-none" />
+                            <rect x="690" y="170" width="180" height="50" rx="8" class="fill-rose-50 stroke-rose-200 stroke-1 shadow-sm" />
+                            <text x="780" y="190" text-anchor="middle" class="text-[12px] font-bold fill-rose-900">Driver 데이터 전송</text>
+                            <text x="780" y="206" text-anchor="middle" class="text-[11px] fill-rose-700">Item_done 응답까지 동기화 유지</text>
+
+                            <!-- Node -->
+                            <rect x="710" y="100" width="140" height="40" rx="8" class="fill-white stroke-slate-800 stroke-2 shadow-sm" />
+                            <text x="780" y="125" text-anchor="middle" class="font-mono text-sm font-bold fill-slate-800">finish_item()</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 12: Item Handshake Internal Mechanism (New) -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 lg:p-10 fade-in-up" style="animation-delay: 0.5s;">
+            <div class="mb-8">
+                <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-3">
+                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    item() 라이브러리 함수 내부: Sequence-Driver TLM Handshake
+                </h2>
+                <p class="leading-relaxed text-slate-600">
+                    <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-sm text-slate-800">start_item()</code>과 <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-sm text-slate-800">finish_item()</code> 함수 내부에서는 사실 <strong>Sequencer를 중개자로 하여 Driver와 타이밍을 맞추는 복잡한 양방향 통신(Handshake)</strong>이 일어납니다. 아래 시퀀스 다이어그램은 시간에 따른 각 컴포넌트의 내부 호출 상태를 시각화한 것입니다.
+                </p>
+            </div>
+
+            <div class="diagram-grid rounded-xl border border-slate-200 p-8 relative overflow-x-auto">
+                <div class="min-w-[800px]">
+                    <svg viewBox="0 0 900 450" class="w-full h-auto drop-shadow-sm font-sans">
+                        <defs>
+                            <marker id="seq-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-600" />
+                            </marker>
+                            <marker id="seq-arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
+                            </marker>
+                            <marker id="seq-arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="fill-emerald-500" />
+                            </marker>
+                        </defs>
+
+                        <!-- Lifelines -->
+                        <path d="M 150 60 L 150 420" class="stroke-slate-300 stroke-2 stroke-dasharray-6 fill-none" />
+                        <path d="M 450 60 L 450 420" class="stroke-slate-300 stroke-2 stroke-dasharray-6 fill-none" />
+                        <path d="M 750 60 L 750 420" class="stroke-slate-300 stroke-2 stroke-dasharray-6 fill-none" />
+
+                        <!-- Headers -->
+                        <rect x="80" y="10" width="140" height="40" rx="8" class="fill-blue-600 stroke-blue-700 stroke-2 shadow-md" />
+                        <text x="150" y="35" text-anchor="middle" class="font-bold text-white tracking-wide">Sequence</text>
+
+                        <rect x="380" y="10" width="140" height="40" rx="8" class="fill-slate-700 stroke-slate-800 stroke-2 shadow-md" />
+                        <text x="450" y="35" text-anchor="middle" class="font-bold text-white tracking-wide">Sequencer (FIFO)</text>
+
+                        <rect x="680" y="10" width="140" height="40" rx="8" class="fill-emerald-600 stroke-emerald-700 stroke-2 shadow-md" />
+                        <text x="750" y="35" text-anchor="middle" class="font-bold text-white tracking-wide">Driver</text>
+
+                        <!-- Execution Blocks (Activation Boxes) -->
+                        <rect x="142" y="100" width="16" height="60" rx="4" class="fill-blue-200 stroke-blue-400 stroke-1" />
+                        <rect x="142" y="220" width="16" height="150" rx="4" class="fill-blue-200 stroke-blue-400 stroke-1" />
+                        
+                        <rect x="442" y="100" width="16" height="270" rx="4" class="fill-slate-200 stroke-slate-400 stroke-1" />
+                        
+                        <rect x="742" y="70" width="16" height="170" rx="4" class="fill-emerald-200 stroke-emerald-400 stroke-1" />
+                        <rect x="742" y="320" width="16" height="50" rx="4" class="fill-emerald-200 stroke-emerald-400 stroke-1" />
+
+                        <!-- Communication Arrows & Labels -->
+                        
+                        <!-- 1. get_next_item -->
+                        <path d="M 740 85 L 465 85" class="stroke-emerald-500 stroke-2 fill-none" marker-end="url(#seq-arrow-green)" />
+                        <text x="600" y="75" text-anchor="middle" class="font-mono text-xs font-bold fill-emerald-700 bg-white px-1">1. get_next_item(req)</text>
+                        <text x="600" y="100" text-anchor="middle" class="font-sans text-[10px] fill-slate-500">(Item을 요청하고 대기/Blocking)</text>
+
+                        <!-- 2. start_item -->
+                        <path d="M 160 115 L 435 115" class="stroke-blue-500 stroke-2 fill-none" marker-end="url(#seq-arrow-blue)" />
+                        <text x="300" y="105" text-anchor="middle" class="font-mono text-xs font-bold fill-blue-700">2. start_item(req)</text>
+
+                        <!-- 3. Grant (Arbitration) -->
+                        <path d="M 435 145 L 165 145" class="stroke-slate-500 stroke-2 stroke-dasharray-4 fill-none" marker-end="url(#seq-arrow)" />
+                        <text x="300" y="135" text-anchor="middle" class="font-sans text-xs font-bold fill-slate-700">3. Grant (접근 승인)</text>
+                        <text x="300" y="160" text-anchor="middle" class="font-sans text-[10px] fill-slate-500">(Driver의 요청이 있으므로 즉시 승인)</text>
+
+                        <!-- 4. Randomize -->
+                        <rect x="100" y="175" width="100" height="24" rx="12" class="fill-yellow-100 stroke-yellow-400 stroke-2 active-node" />
+                        <text x="150" y="191" text-anchor="middle" class="font-mono text-[11px] font-bold fill-yellow-800">4. randomize()</text>
+
+                        <!-- 5. finish_item -->
+                        <path d="M 160 235 L 435 235" class="stroke-blue-500 stroke-2 fill-none animate-flow" marker-end="url(#seq-arrow-blue)" />
+                        <text x="300" y="225" text-anchor="middle" class="font-mono text-xs font-bold fill-blue-700">5. finish_item(req)</text>
+                        
+                        <!-- 6. Item Delivery to Driver -->
+                        <path d="M 465 255 L 735 255" class="stroke-slate-500 stroke-2 fill-none animate-flow" marker-end="url(#seq-arrow)" />
+                        <text x="600" y="245" text-anchor="middle" class="font-sans text-xs font-bold fill-slate-700">6. Item 전달 & Unblock</text>
+                        
+                        <!-- Driver Processing / Driving -->
+                        <path d="M 770 260 L 780 260 L 780 310 L 770 310" class="stroke-emerald-400 stroke-2 fill-none" />
+                        <text x="790" y="280" class="font-mono text-[11px] font-bold fill-emerald-800">Drive Signals</text>
+                        <text x="790" y="295" class="font-sans text-[10px] fill-slate-500">(@posedge clk ...)</text>
+
+                        <!-- 7. item_done -->
+                        <path d="M 735 335 L 465 335" class="stroke-emerald-500 stroke-2 fill-none" marker-end="url(#seq-arrow-green)" />
+                        <text x="600" y="325" text-anchor="middle" class="font-mono text-xs font-bold fill-emerald-700">7. item_done()</text>
+
+                        <!-- 8. Finish Item Unblock -->
+                        <path d="M 435 355 L 165 355" class="stroke-slate-500 stroke-2 stroke-dasharray-4 fill-none" marker-end="url(#seq-arrow)" />
+                        <text x="300" y="345" text-anchor="middle" class="font-sans text-xs font-bold fill-slate-700">8. Unblock finish_item</text>
+                        <text x="300" y="370" text-anchor="middle" class="font-sans text-[10px] fill-slate-500">(다음 Item 생성 준비 완료)</text>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Detailed Explanation Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
+                    <h4 class="font-bold text-emerald-700 text-sm mb-2 font-mono">1. Driver's Request</h4>
+                    <p class="text-sm leading-relaxed text-slate-600">
+                        Driver는 구동할 데이터가 필요할 때 <code>get_next_item()</code>을 호출합니다. 만약 Sequencer에 준비된 Item이 없다면, 이 함수는 <strong>Blocking 상태</strong>로 대기합니다.
+                    </p>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
+                    <h4 class="font-bold text-blue-700 text-sm mb-2 font-mono">2~5. Sequence Handshake</h4>
+                    <p class="text-sm leading-relaxed text-slate-600">
+                        Sequence가 <code>start_item()</code>을 호출하면 Sequencer가 중재(Arbitration)를 수행합니다. Driver가 대기 중이므로 즉시 Grant를 주고, 값을 Randomize한 후 <code>finish_item()</code>을 통해 Item을 보냅니다.
+                    </p>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
+                    <h4 class="font-bold text-emerald-700 text-sm mb-2 font-mono">6~8. Driver Completion</h4>
+                    <p class="text-sm leading-relaxed text-slate-600">
+                        데이터를 받은 Driver는 물리적 핀(Pin)에 신호를 인가합니다. 구동이 끝나면 <code>item_done()</code>을 호출하여 완료를 알리고, 이때 Blocking되어 있던 <code>finish_item()</code>이 해제되며 단일 사이클이 종료됩니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 13: Internal Actual Flow (New) -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden fade-in-up" style="animation-delay: 0.6s;">
+            <div class="p-8 lg:p-10 border-b border-slate-200">
+                <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-3">
+                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    UVM 내부 실제 흐름 및 소스 코드 로직
+                </h2>
+                <p class="leading-relaxed text-slate-600">
+                    단순해 보이는 <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-sm text-slate-800">start_item()</code>과 <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-sm text-slate-800">finish_item()</code> 태스크는 UVM Base Class 내부적으로 검증, 권한 획득, 그리고 다양한 <strong>Callback(<code class="font-mono text-orange-600">pre_do, mid_do, post_do</code>)</strong>을 호출하는 견고한 로직을 포함하고 있습니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+                
+                <!-- Timeline SVG Column -->
+                <div class="lg:col-span-5 diagram-grid p-8 flex justify-center">
+                    <svg viewBox="0 0 300 750" class="w-full max-w-[280px] h-auto drop-shadow-sm font-sans">
+                        <defs>
+                            <marker id="flow-arrow-down" viewBox="0 0 10 10" refX="5" refY="8" markerWidth="6" markerHeight="6" orient="auto">
+                                <path d="M 0 0 L 5 10 L 10 0 z" class="fill-blue-500" />
+                            </marker>
+                        </defs>
+
+                        <!-- Grouping Boxes -->
+                        <rect x="20" y="20" width="260" height="230" rx="12" class="fill-blue-50/50 stroke-blue-200 stroke-1 stroke-dasharray-4" />
+                        <text x="30" y="40" class="text-[11px] font-bold fill-blue-500 uppercase tracking-wider">start_item scope</text>
+
+                        <rect x="20" y="380" width="260" height="340" rx="12" class="fill-blue-50/50 stroke-blue-200 stroke-1 stroke-dasharray-4" />
+                        <text x="30" y="400" class="text-[11px] font-bold fill-blue-500 uppercase tracking-wider">finish_item scope</text>
+
+                        <!-- Lines connecting nodes -->
+                        <path d="M 150 70 L 150 110" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow-down)" />
+                        <path d="M 150 150 L 150 190" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow-down)" />
+                        <path d="M 150 230 L 150 290" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow-down)" />
+                        <path d="M 150 330 L 150 430" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow-down)" />
+                        <path d="M 150 470 L 150 510" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow-down)" />
+                        <path d="M 150 550 L 150 590" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow-down)" />
+                        <path d="M 150 630 L 150 670" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow-down)" />
+
+                        <!-- Flow Nodes -->
+                        
+                        <!-- 1. start_item -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="50" y="50" width="200" height="40" rx="8" class="fill-blue-600 stroke-blue-700 stroke-2 shadow-sm" />
+                            <text x="150" y="75" text-anchor="middle" class="font-mono text-sm font-bold fill-white">start_item(item)</text>
+                        </g>
+
+                        <!-- 2. wait_for_grant -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="60" y="130" width="180" height="40" rx="8" class="fill-white stroke-slate-400 stroke-2 shadow-sm" />
+                            <text x="150" y="155" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-700">seqr.wait_for_grant()</text>
+                        </g>
+
+                        <!-- 3. pre_do -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="70" y="210" width="160" height="36" rx="8" class="fill-orange-50 stroke-orange-400 stroke-2 shadow-sm" />
+                            <text x="150" y="233" text-anchor="middle" class="font-mono text-xs font-bold fill-orange-700">pre_do(1)</text>
+                        </g>
+
+                        <!-- 4. randomize (User Area) -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1 active-node">
+                            <rect x="40" y="310" width="220" height="44" rx="8" class="fill-indigo-50 stroke-indigo-500 stroke-2 shadow-md" />
+                            <text x="150" y="337" text-anchor="middle" class="font-mono text-sm font-bold fill-indigo-800">item.randomize()</text>
+                            <text x="270" y="335" class="font-sans text-[10px] fill-slate-500 italic font-bold">User Code</text>
+                        </g>
+
+                        <!-- 5. finish_item -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="50" y="410" width="200" height="40" rx="8" class="fill-blue-600 stroke-blue-700 stroke-2 shadow-sm" />
+                            <text x="150" y="435" text-anchor="middle" class="font-mono text-sm font-bold fill-white">finish_item(item)</text>
+                        </g>
+
+                        <!-- 6. mid_do -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="70" y="490" width="160" height="36" rx="8" class="fill-orange-50 stroke-orange-400 stroke-2 shadow-sm" />
+                            <text x="150" y="513" text-anchor="middle" class="font-mono text-xs font-bold fill-orange-700">mid_do(item)</text>
+                        </g>
+
+                        <!-- 7. send_request -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="60" y="570" width="180" height="40" rx="8" class="fill-white stroke-slate-400 stroke-2 shadow-sm" />
+                            <text x="150" y="595" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-700">seqr.send_request()</text>
+                        </g>
+
+                        <!-- 8. wait_for_item_done -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="60" y="650" width="180" height="40" rx="8" class="fill-white stroke-slate-400 stroke-2 shadow-sm" />
+                            <text x="150" y="675" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-700">seqr.wait_for_item_done()</text>
+                        </g>
+
+                        <!-- 9. post_do -->
+                        <g class="transition-transform duration-300 hover:-translate-y-1">
+                            <rect x="70" y="730" width="160" height="36" rx="8" class="fill-orange-50 stroke-orange-400 stroke-2 shadow-sm" />
+                            <text x="150" y="753" text-anchor="middle" class="font-mono text-xs font-bold fill-orange-700">post_do(item)</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Source Code Column -->
+                <div class="lg:col-span-7 bg-slate-900 text-slate-300 p-8 lg:p-10 flex flex-col gap-8">
+                    
+                    <!-- start_item block -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded">uvm_sequence_base.svh</span>
+                        </div>
+                        <pre class="font-mono text-[13px] leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="keyword">task</span> <span class="function">start_item</span>(<span class="type">uvm_sequence_item</span> item);
+  <span class="comment">// 1. item이 null이면 fatal 에러 발생</span>
+  <span class="keyword">if</span> (item == <span class="keyword">null</span>) <span class="function">`uvm_fatal</span>(<span class="string">"SEQ"</span>, <span class="string">"Item is null"</span>);
+
+  <span class="comment">// 2. sequence가 아니라 진짜 item인지 검사</span>
+  <span class="keyword">if</span> (!item.<span class="function">is_item</span>()) <span class="function">`uvm_fatal</span>(<span class="string">"SEQ"</span>, <span class="string">"Not an item"</span>);
+
+  <span class="comment">// 3. sequencer 찾기</span>
+  sequencer = item.<span class="function">get_sequencer</span>();
+  <span class="keyword">if</span> (sequencer == <span class="keyword">null</span>)
+      sequencer = <span class="function">get_sequencer</span>();
+
+  <span class="comment">// 4. item에 parent sequence와 sequencer 연결</span>
+  item.<span class="function">set_item_context</span>(<span class="keyword">this</span>, sequencer);
+
+  <span class="comment">// 5. priority(우선순위) 결정</span>
+  <span class="keyword">if</span> (priority < 0)
+      priority = <span class="function">get_priority</span>();
+
+  <span class="comment">// 6. sequencer grant 대기 (Driver가 받을 준비가 될 때까지 Blocking)</span>
+  sequencer.<span class="function">wait_for_grant</span>(<span class="keyword">this</span>, priority);
+
+  <span class="comment">// 7. pre_do callback 호출 (Randomize 직전에 개입 가능)</span>
+  <span class="function">pre_do</span>(1);
+<span class="keyword">endtask</span></pre>
+                    </div>
+
+                    <hr class="border-slate-700">
+
+                    <!-- finish_item block -->
+                    <div>
+                        <pre class="font-mono text-[13px] leading-relaxed overflow-x-auto whitespace-pre-wrap"><span class="keyword">task</span> <span class="function">finish_item</span>(<span class="type">uvm_sequence_item</span> item);
+  <span class="comment">// 1. item에 연결된 sequencer 가져오기</span>
+  sequencer = item.<span class="function">get_sequencer</span>();
+  <span class="keyword">if</span> (sequencer == <span class="keyword">null</span>)
+      <span class="function">`uvm_fatal</span>(<span class="string">"SEQ"</span>, <span class="string">"Sequencer is null"</span>);
+
+  <span class="comment">// 2. 보내기 직전 callback 호출</span>
+  <span class="function">mid_do</span>(item);
+
+  <span class="comment">// 3. sequencer로 request(실제 데이터) 전송</span>
+  sequencer.<span class="function">send_request</span>(<span class="keyword">this</span>, item);
+
+  <span class="comment">// 4. driver가 item_done() 할 때까지 대기 (Blocking)</span>
+  sequencer.<span class="function">wait_for_item_done</span>(<span class="keyword">this</span>, -1);
+
+  <span class="comment">// 5. 완료 후 callback 호출</span>
+  <span class="function">post_do</span>(item);
+<span class="keyword">endtask</span></pre>
+                    </div>
+                    
+                    <!-- Info Box -->
+                    <div class="mt-4 bg-slate-800/50 border border-slate-700 rounded-lg p-4 flex gap-3">
+                        <svg class="w-5 h-5 text-orange-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            <strong class="text-orange-400">Callback (pre_do, mid_do, post_do)의 중요성:</strong> 사용자는 기본 Sequence 로직을 수정하지 않고도, 상속받은 Sequence에서 해당 함수들을 <code>override</code>하여 특정 시점에 원하는 로직(예: 디버깅 출력, 강제 제약조건 삽입, 완료 후 스코어보드 알림 등)을 손쉽게 끼워 넣을 수 있습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-slate-400">
+        &copy; 2026 Semiconductor Verification Guide. Built with UVM standards & Pure Inline SVG.
+    </footer>
+
+</body>
+</html>

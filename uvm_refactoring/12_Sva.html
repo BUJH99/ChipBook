@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반도체 디지털 회로설계 가이드북 - SVA</title>
+    
+    <!-- Fonts: Pretendard (UI/본문) & IBM Plex Sans (Code/영문) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config & Custom CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', '"Helvetica Neue"', '"Segoe UI"', '"Apple SD Gothic Neo"', '"Noto Sans KR"', '"Malgun Gothic"', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', 'sans-serif'],
+                        mono: ['"IBM Plex Sans"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            600: '#475569',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        blue: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styling */
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Diagram Grid Background */
+        .diagram-grid {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+                linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* SVG Animations */
+        @keyframes flow {
+            from { stroke-dashoffset: 24; }
+            to { stroke-dashoffset: 0; }
+        }
+        .animate-flow {
+            stroke-dasharray: 6 6;
+            animation: flow 1s linear infinite;
+        }
+
+        @keyframes pulse-node {
+            0%, 100% { fill: #ffffff; stroke: #cbd5e1; }
+            50% { fill: #eff6ff; stroke: #3b82f6; }
+        }
+        .animate-pulse-node {
+            animation: pulse-node 2.5s infinite;
+        }
+
+        @keyframes wave-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-40px); }
+        }
+
+        /* Card Hover Effects */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #93c5fd;
+        }
+
+        /* Custom Code Tag */
+        code {
+            font-family: 'IBM Plex Sans', monospace;
+            background-color: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+            color: #2563eb;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <!-- Header -->
+    <header class="max-w-6xl mx-auto mb-16 mt-8">
+        <div class="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-bold tracking-wide mb-4 font-mono">
+            Chapter 04. Verification
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+            SVA : Protocol Rule & Timing Behavior
+        </h1>
+        <p class="text-lg text-slate-600 max-w-3xl leading-relaxed">
+            SystemVerilog Assertions(SVA)를 활용하여 설계의 동작, 타이밍, 프로토콜 규칙을 검증하는 방법을 시각적으로 학습합니다. 텍스트를 넘어 파형과 데이터 흐름을 통해 직관적으로 이해해보세요. 기존의 절차적 검증(Procedural Verification)이 잡아내기 힘든 복잡한 타이밍 이슈와 코너 케이스(Corner Case)를 효과적으로 검출할 수 있습니다.
+        </p>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-16">
+
+        <!-- 1. SVA Architecture & Role -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">1</span>
+                SVA 검증 아키텍처 및 역할
+            </h2>
+            
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lg:p-10 card-hover">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                    <!-- SVG Diagram -->
+                    <div class="diagram-grid rounded-xl border border-slate-200 p-6 overflow-hidden relative w-full h-80">
+                        <svg viewBox="0 0 400 300" class="w-full h-full drop-shadow-sm">
+                            <defs>
+                                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
+                                </marker>
+                            </defs>
+                            
+                            <!-- DUT -->
+                            <g class="animate-pulse-node">
+                                <rect x="30" y="40" width="120" height="200" rx="12" stroke-width="2" />
+                                <text x="90" y="140" text-anchor="middle" class="font-sans font-bold text-lg fill-slate-800">DUT</text>
+                                <text x="90" y="160" text-anchor="middle" class="font-sans text-xs fill-slate-500">(Design Under Test)</text>
+                            </g>
+
+                            <!-- Interface -->
+                            <g>
+                                <rect x="220" y="40" width="150" height="60" rx="8" class="fill-white stroke-slate-300 stroke-2" />
+                                <text x="295" y="75" text-anchor="middle" class="font-mono font-bold text-sm fill-slate-700">SystemVerilog Interface</text>
+                            </g>
+
+                            <!-- Assertion Module (Protocol Checker) -->
+                            <g>
+                                <rect x="220" y="150" width="150" height="90" rx="8" class="fill-blue-50 stroke-blue-400 stroke-2" />
+                                <text x="295" y="185" text-anchor="middle" class="font-sans font-bold text-sm fill-blue-800">Protocol Checker</text>
+                                <text x="295" y="205" text-anchor="middle" class="font-mono text-xs fill-blue-600">(Assertion Module)</text>
+                            </g>
+
+                            <!-- Data Lines -->
+                            <path d="M 150 70 L 220 70" class="stroke-slate-400 stroke-2 animate-flow" fill="none" />
+                            <text x="185" y="60" text-anchor="middle" class="font-mono text-xs fill-slate-500">Signals</text>
+
+                            <!-- Bind Flow -->
+                            <path d="M 295 150 L 295 100" class="stroke-blue-500 stroke-2" fill="none" marker-end="url(#arrow)" />
+                            <rect x="275" y="115" width="40" height="16" rx="4" class="fill-white stroke-blue-200" />
+                            <text x="295" y="127" text-anchor="middle" class="font-mono text-[10px] fill-blue-600 font-bold">bind</text>
+
+                            <path d="M 220 195 L 150 195" class="stroke-blue-500 stroke-2" fill="none" marker-end="url(#arrow)" />
+                            <rect x="165" y="187" width="40" height="16" rx="4" class="fill-white stroke-blue-200" />
+                            <text x="185" y="199" text-anchor="middle" class="font-mono text-[10px] fill-blue-600 font-bold">bind</text>
+                        </svg>
+                    </div>
+                    
+                    <!-- Text Content -->
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">설계 의도와 동작을 감시하는 눈</h3>
+                            <p class="text-slate-600 leading-relaxed text-sm mb-3">
+                                SVA는 설계가 명세서(Specification)에 정의된 <strong>프로토콜 규칙</strong>과 <strong>타이밍 동작</strong>을 정확히 준수하는지 런타임에 확인합니다. Interface 내부나 별도의 Assertion Module에 작성되며, <code>bind</code>를 통해 DUT 내부 구조를 건드리지 않고 연결(Plug-in) 구조로 동작합니다.
+                            </p>
+                            <p class="text-slate-600 leading-relaxed text-sm">
+                                이를 통해 시뮬레이션 중 발생하는 버그를 발생 즉시(Fail-fast) 포착할 수 있으며, Formal Verification 도구와 결합하여 수학적 증명을 통한 무결성 검증에도 필수적으로 사용됩니다.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-mono font-semibold text-blue-600 text-sm mb-1">Immediate Assertion</h4>
+                                <p class="text-xs text-slate-500 leading-snug">RTL 절차적 블록(always, initial) 내에서 일반적인 if문처럼 조합 논리(Combinational logic) 조건을 즉각적으로 검사합니다. 시간에 따른 흐름은 검사할 수 없습니다.</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 border-l-4 border-l-blue-500">
+                                <h4 class="font-mono font-semibold text-blue-600 text-sm mb-1">Concurrent Assertion</h4>
+                                <p class="text-xs text-slate-500 leading-snug">클럭 엣지(Clocking event)를 기준으로 <strong>시간의 흐름(Sequence)</strong>에 따른 동작을 검사합니다. 여러 사이클에 걸친 프로토콜 검증에 주로 사용됩니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SVA Hierarchy (assert / assume / property / sequence) -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">2</span>
+                SVA 계층 구조 & 지시어
+            </h2>
+            
+            <div class="flex flex-col gap-6">
+                <!-- 1. SVG Hierarchy Pyramid (Full Width) -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-10 card-hover diagram-grid flex items-center justify-center min-h-[300px]">
+                    <svg viewBox="0 0 400 250" class="w-full max-w-[500px]">
+                        <!-- Layer 1: Boolean -->
+                        <path d="M 40 200 L 360 200 L 380 230 L 20 230 Z" class="fill-slate-100 stroke-slate-300 stroke-2" />
+                        <text x="200" y="220" text-anchor="middle" class="font-mono text-sm font-bold fill-slate-500">1. Boolean Expression</text>
+
+                        <!-- Layer 2: Sequence -->
+                        <path d="M 80 150 L 320 150 L 340 180 L 60 180 Z" class="fill-blue-50 stroke-blue-200 stroke-2 transition-transform duration-300 hover:-translate-y-1" />
+                        <text x="200" y="170" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-600">2. sequence</text>
+
+                        <!-- Layer 3: Property -->
+                        <path d="M 120 100 L 280 100 L 300 130 L 100 130 Z" class="fill-blue-100 stroke-blue-300 stroke-2 transition-transform duration-300 hover:-translate-y-1" />
+                        <text x="200" y="120" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-700">3. property</text>
+
+                        <!-- Layer 4: Directive -->
+                        <path d="M 160 50 L 240 50 L 260 80 L 140 80 Z" class="fill-blue-600 stroke-blue-700 stroke-2 transition-transform duration-300 hover:-translate-y-1" />
+                        <text x="200" y="70" text-anchor="middle" class="font-mono text-sm font-bold fill-white">4. Directive</text>
+                        
+                        <!-- Connectors -->
+                        <path d="M 200 85 L 200 95 M 200 135 L 200 145 M 200 185 L 200 195" class="stroke-slate-300 stroke-2 animate-flow" />
+                    </svg>
+                </div>
+
+                <!-- 🌟 NEW: Bottom-Up Code Construction (SVG & Text) 🌟 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm flex flex-col gap-6 card-hover">
+                    <div class="font-mono font-bold text-slate-800 text-xl border-b border-slate-100 pb-3">Bottom-Up 기반의 모듈화 & 재사용 (Code Mapping)</div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <!-- Text Content -->
+                        <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                            <p>
+                                SVA는 단순한 조건식에서 출발하여 복잡한 검증 룰로 확장해가는 <strong>상향식(Bottom-Up) 계층 구조</strong>를 채택하고 있습니다. 이는 마치 레고 블록을 조립하는 것과 같아서, 한 번 잘 만들어둔 <code>sequence</code>와 <code>property</code>는 모듈화되어 여러 검증 환경에서 재사용이 가능합니다.
+                            </p>
+                            <ul class="space-y-4 list-none bg-slate-50 p-5 rounded-xl border border-slate-200">
+                                <li class="flex gap-3">
+                                    <span class="font-mono font-bold text-slate-500">1.</span>
+                                    <div><strong class="text-slate-700 font-mono">Boolean:</strong> <code>req == 1</code>과 같이 단일 클럭에서 평가되는 기초 논리식입니다.</div>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="font-mono font-bold text-blue-500">2.</span>
+                                    <div><strong class="text-blue-600 font-mono">sequence:</strong> Boolean 조건들에 <code>##N</code> 같은 타이밍 연산자를 결합하여 <strong>시간의 흐름(패턴)</strong>을 만듭니다.</div>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="font-mono font-bold text-purple-500">3.</span>
+                                    <div><strong class="text-purple-600 font-mono">property:</strong> 시퀀스에 클럭 동기화(<code>@posedge clk</code>), 리셋 무시(<code>disable iff</code>) 등의 환경을 입혀 <strong>독립적인 규칙</strong>으로 포장합니다.</div>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="font-mono font-bold text-green-500">4.</span>
+                                    <div><strong class="text-green-600 font-mono">Directive:</strong> 완성된 프로퍼티를 <code>assert</code>, <code>assume</code>, <code>cover</code> 지시어를 통해 시뮬레이터에 <strong>실행 명령</strong>을 내립니다.</div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- IDE Style Code SVG -->
+                        <div class="h-full w-full min-h-[320px] bg-slate-900 rounded-xl border border-slate-800 p-4 relative overflow-hidden flex items-center justify-center shadow-inner">
+                            <svg viewBox="0 0 400 320" class="w-full h-full max-w-[400px]">
+                                <defs>
+                                    <marker id="arrow-up" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 10 L 5 0 L 10 10 z" class="fill-slate-500" />
+                                    </marker>
+                                </defs>
+
+                                <!-- Layer 4: Directive -->
+                                <rect x="15" y="20" width="370" height="45" rx="6" class="fill-slate-800 stroke-green-500/50 stroke-[1.5]" />
+                                <text x="35" y="48" class="font-mono text-[12px] font-bold fill-slate-300">
+                                    <tspan class="fill-green-400">assert property</tspan> ( p_req_ack );
+                                </text>
+
+                                <path d="M 200 85 L 200 65" class="stroke-slate-500 stroke-[1.5] animate-flow" fill="none" marker-end="url(#arrow-up)" />
+                                <rect x="205" y="68" width="55" height="14" rx="3" class="fill-slate-800 border-none" />
+                                <text x="232" y="79" text-anchor="middle" class="font-mono text-[9px] fill-slate-400 font-bold">Execute</text>
+
+                                <!-- Layer 3: Property -->
+                                <rect x="15" y="85" width="370" height="70" rx="6" class="fill-slate-800 stroke-purple-500/50 stroke-[1.5]" />
+                                <text x="35" y="108" class="font-mono text-[12px] font-bold fill-slate-300">
+                                    <tspan class="fill-purple-400">property</tspan> p_req_ack;
+                                </text>
+                                <text x="50" y="128" class="font-mono text-[11px] fill-slate-300">
+                                    <tspan class="fill-slate-500">@(posedge clk)</tspan> req <tspan class="fill-purple-400 font-bold">|-&gt;</tspan> s_ack;
+                                </text>
+                                <text x="35" y="145" class="font-mono text-[12px] font-bold fill-purple-400">endproperty</text>
+
+                                <path d="M 200 175 L 200 155" class="stroke-slate-500 stroke-[1.5] animate-flow" fill="none" marker-end="url(#arrow-up)" />
+                                <rect x="205" y="158" width="75" height="14" rx="3" class="fill-slate-800 border-none" />
+                                <text x="242" y="169" text-anchor="middle" class="font-mono text-[9px] fill-slate-400 font-bold">Encapsulate</text>
+
+                                <!-- Layer 2: Sequence -->
+                                <rect x="15" y="175" width="370" height="70" rx="6" class="fill-slate-800 stroke-blue-500/50 stroke-[1.5]" />
+                                <text x="35" y="198" class="font-mono text-[12px] font-bold fill-slate-300">
+                                    <tspan class="fill-blue-400">sequence</tspan> s_ack;
+                                </text>
+                                <text x="50" y="218" class="font-mono text-[11px] fill-slate-300">
+                                    <tspan class="fill-yellow-400 font-bold">##[1:3]</tspan> (ack == 1);
+                                </text>
+                                <text x="35" y="235" class="font-mono text-[12px] font-bold fill-blue-400">endsequence</text>
+
+                                <path d="M 200 265 L 200 245" class="stroke-slate-500 stroke-[1.5] animate-flow" fill="none" marker-end="url(#arrow-up)" />
+                                <rect x="205" y="248" width="60" height="14" rx="3" class="fill-slate-800 border-none" />
+                                <text x="235" y="259" text-anchor="middle" class="font-mono text-[9px] fill-slate-400 font-bold">Add Time</text>
+
+                                <!-- Layer 1: Boolean -->
+                                <rect x="15" y="265" width="370" height="40" rx="6" class="fill-slate-800 stroke-slate-500/50 stroke-[1.5]" />
+                                <text x="35" y="290" class="font-mono text-[11px] fill-slate-300">
+                                    <tspan class="fill-slate-500">// Boolean Expression</tspan> (req == 1)
+                                </text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Directives (Full Width, 3 Columns Inside) -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm flex flex-col gap-6">
+                    <div class="font-mono font-bold text-slate-800 text-xl border-b border-slate-100 pb-3">Directives (지시어) & Verification Flow</div>
+                    
+                    <!-- 🌟 Unified Composite SVG for Directives 🌟 -->
+                    <div class="h-80 w-full bg-slate-50 rounded-xl border border-slate-200 mb-4 flex items-center justify-center p-4 relative overflow-hidden diagram-grid">
+                        <svg viewBox="0 0 700 250" class="w-full h-full max-w-[700px]">
+                            <defs>
+                                <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-purple-500" />
+                                </marker>
+                                <marker id="arrow-slate" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-500" />
+                                </marker>
+                                <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
+                                </marker>
+                                <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-green-500" />
+                                </marker>
+                            </defs>
+
+                            <!-- 1. Stimulus / Input -->
+                            <g transform="translate(10, 110)">
+                                <path d="M 0 -15 L 30 -15 M 0 0 L 30 0 M 0 15 L 30 15" class="stroke-slate-300 stroke-[2] stroke-dasharray-[4] animate-flow" fill="none" />
+                                <text x="15" y="-30" text-anchor="middle" class="font-mono text-[10px] fill-slate-500 font-bold">Stimulus</text>
+                            </g>
+
+                            <!-- 2. ASSUME BLOCK (Filter) -->
+                            <g transform="translate(60, 65)" class="card-hover">
+                                <rect x="0" y="0" width="140" height="90" rx="8" class="fill-white stroke-purple-400 stroke-[2] shadow-sm" />
+                                <rect x="0" y="0" width="140" height="26" rx="8" class="fill-purple-50 stroke-purple-400 stroke-[2]" />
+                                <rect x="0" y="13" width="140" height="13" class="fill-purple-50 border-none" />
+                                <line x1="0" y1="26" x2="140" y2="26" class="stroke-purple-400 stroke-[2]" />
+                                <text x="70" y="18" text-anchor="middle" class="font-mono text-xs font-bold fill-purple-700">assume</text>
+                                
+                                <!-- Funnel Icon -->
+                                <path d="M 50 40 L 90 40 L 75 60 L 75 75 L 65 75 L 65 60 Z" class="fill-purple-100 stroke-purple-500 stroke-[1.5]" />
+                                <text x="70" y="82" text-anchor="middle" class="font-sans text-[9px] font-bold fill-slate-600">Constraint / Filter</text>
+                            </g>
+
+                            <!-- Flow: Assume -> DUT -->
+                            <path d="M 210 110 L 250 110" class="stroke-purple-400 stroke-[2] animate-flow" fill="none" marker-end="url(#arrow-purple)" />
+
+                            <!-- 3. DUT BLOCK -->
+                            <g transform="translate(260, 65)">
+                                <rect x="0" y="0" width="100" height="90" rx="12" class="fill-slate-50 stroke-slate-400 stroke-[2]" />
+                                <text x="50" y="45" text-anchor="middle" class="font-sans text-xl font-bold fill-slate-800">DUT</text>
+                                <text x="50" y="60" text-anchor="middle" class="font-mono text-[9px] fill-slate-500">(Design Under Test)</text>
+                            </g>
+
+                            <!-- Flow: DUT -> Branches -->
+                            <path d="M 370 110 L 400 110" class="stroke-slate-400 stroke-[2] animate-flow" fill="none" />
+                            <circle cx="400" cy="110" r="3" class="fill-slate-400" />
+                            
+                            <!-- Branch to Assert -->
+                            <path d="M 400 110 L 400 55 L 430 55" class="stroke-blue-400 stroke-[2] animate-flow" fill="none" marker-end="url(#arrow-blue)" />
+                            
+                            <!-- Branch to Cover -->
+                            <path d="M 400 110 L 400 165 L 430 165" class="stroke-green-400 stroke-[2] animate-flow" fill="none" marker-end="url(#arrow-green)" />
+
+                            <!-- 4. ASSERT BLOCK (Check) -->
+                            <g transform="translate(440, 20)" class="card-hover">
+                                <rect x="0" y="0" width="200" height="70" rx="8" class="fill-white stroke-blue-400 stroke-[2] shadow-sm" />
+                                <rect x="0" y="0" width="200" height="26" rx="8" class="fill-blue-50 stroke-blue-400 stroke-[2]" />
+                                <rect x="0" y="13" width="200" height="13" class="fill-blue-50 border-none" />
+                                <line x1="0" y1="26" x2="200" y2="26" class="stroke-blue-400 stroke-[2]" />
+                                <text x="100" y="18" text-anchor="middle" class="font-mono text-xs font-bold fill-blue-700">assert</text>
+                                
+                                <!-- Check Icon -->
+                                <circle cx="60" cy="48" r="12" class="fill-blue-100 stroke-blue-500 stroke-[1.5]" />
+                                <path d="M 55 48 L 59 52 L 66 44" class="stroke-blue-600 stroke-[2]" fill="none" />
+                                <text x="120" y="52" text-anchor="middle" class="font-sans text-[10px] font-bold fill-slate-700">Verify Pass / Fail</text>
+                            </g>
+
+                            <!-- 5. COVER BLOCK (Measure) -->
+                            <g transform="translate(440, 130)" class="card-hover">
+                                <rect x="0" y="0" width="200" height="70" rx="8" class="fill-white stroke-green-400 stroke-[2] shadow-sm" />
+                                <rect x="0" y="0" width="200" height="26" rx="8" class="fill-green-50 stroke-green-400 stroke-[2]" />
+                                <rect x="0" y="13" width="200" height="13" class="fill-green-50 border-none" />
+                                <line x1="0" y1="26" x2="200" y2="26" class="stroke-green-400 stroke-[2]" />
+                                <text x="100" y="18" text-anchor="middle" class="font-mono text-xs font-bold fill-green-700">cover</text>
+                                
+                                <!-- Target Icon -->
+                                <circle cx="60" cy="48" r="10" class="fill-none stroke-green-500 stroke-[1.5]" />
+                                <circle cx="60" cy="48" r="4" class="fill-none stroke-green-500 stroke-[1.5]" />
+                                <circle cx="60" cy="48" r="1.5" class="fill-green-600" />
+                                <text x="120" y="52" text-anchor="middle" class="font-sans text-[10px] font-bold fill-slate-700">Measure Coverage Hits</text>
+                            </g>
+
+                        </svg>
+                    </div>
+
+                    <!-- Details Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-2 border-t border-slate-100 pt-6">
+                        <!-- assume desc -->
+                        <div class="flex flex-col gap-2">
+                            <strong class="text-purple-600 font-mono text-base block mb-1">assume <span class="text-slate-500 font-sans text-xs font-normal">(입력 제약/필터)</span></strong>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                검증 환경이나 시뮬레이터가 <strong>의도치 않은(유효하지 않은) 자극(Stimulus)</strong>을 DUT에 주입하지 못하도록 사전에 필터링하는 제약(Constraint) 역할을 합니다. 특히 Formal Verification에서 탐색 공간을 줄이는 데 필수적입니다.
+                            </p>
+                        </div>
+                        
+                        <!-- assert desc -->
+                        <div class="flex flex-col gap-2 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6">
+                            <strong class="text-blue-600 font-mono text-base block mb-1">assert <span class="text-slate-500 font-sans text-xs font-normal">(출력 검증)</span></strong>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                DUT의 상태나 출력 결과가 정의된 Property(규칙)를 항상 만족하는지(True) 지속적으로 확인합니다. 위반 사항이 발생하면 즉시 오류(에러)를 보고하여 설계 버그를 잡아냅니다.
+                            </p>
+                        </div>
+
+                        <!-- cover desc -->
+                        <div class="flex flex-col gap-2 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6">
+                            <strong class="text-green-600 font-mono text-base block mb-1">cover <span class="text-slate-500 font-sans text-xs font-normal">(커버리지 측정)</span></strong>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                성공/실패를 따지는 것이 아니라, 우리가 의도한 특수한 코너 케이스(Corner Case)나 타이밍 흐름이 시뮬레이션 중 <strong>한 번이라도 발생했는지(Hit) 횟수를 카운트</strong>합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. property & sequence (Full Width) -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm flex flex-col">
+                    <div class="font-mono font-bold text-blue-600 text-xl border-b border-slate-100 pb-3 mb-6">property & sequence</div>
+                    
+                    <!-- SVG Visualization for Property & Sequence -->
+                    <div class="h-64 w-full bg-slate-50 rounded-xl border border-slate-200 mb-8 flex items-center justify-center p-4 relative overflow-hidden diagram-grid">
+                        <svg viewBox="0 0 700 220" class="w-full h-full max-w-[700px]">
+                            <defs>
+                                <marker id="arrow-slate" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-400" />
+                                </marker>
+                            </defs>
+
+                            <!-- SEQUENCE BLOCK -->
+                            <g transform="translate(40, 60)" class="card-hover">
+                                <rect x="0" y="0" width="200" height="100" rx="8" class="fill-white stroke-blue-400 stroke-[2] shadow-sm" />
+                                <rect x="0" y="0" width="200" height="30" rx="8" class="fill-blue-50 stroke-blue-400 stroke-[2]" />
+                                <!-- remove bottom radius of header -->
+                                <rect x="0" y="15" width="200" height="15" class="fill-blue-50 border-none" />
+                                <line x1="0" y1="30" x2="200" y2="30" class="stroke-blue-400 stroke-[2]" />
+                                
+                                <text x="100" y="20" text-anchor="middle" class="font-mono font-bold text-sm fill-blue-700">sequence (Pattern)</text>
+                                
+                                <!-- Internal timing visual -->
+                                <circle cx="40" cy="65" r="12" class="fill-blue-100 stroke-blue-500 stroke-[1.5]" />
+                                <text x="40" y="69" text-anchor="middle" class="font-mono text-[10px] font-bold fill-blue-800">A</text>
+                                
+                                <path d="M 52 65 L 148 65" class="stroke-blue-400 stroke-[1.5] stroke-dasharray-[4]" fill="none" marker-end="url(#arrow-slate)"/>
+                                <rect x="80" y="55" width="40" height="20" rx="10" class="fill-white stroke-slate-300" />
+                                <text x="100" y="68" text-anchor="middle" class="font-mono text-[10px] fill-slate-600 font-bold">##1</text>
+
+                                <circle cx="160" cy="65" r="12" class="fill-blue-100 stroke-blue-500 stroke-[1.5]" />
+                                <text x="160" y="69" text-anchor="middle" class="font-mono text-[10px] font-bold fill-blue-800">B</text>
+                            </g>
+
+                            <!-- Arrow joining them -->
+                            <path d="M 250 110 L 330 110" class="stroke-slate-400 stroke-[2] animate-flow" fill="none" marker-end="url(#arrow-slate)" />
+                            <text x="290" y="100" text-anchor="middle" class="font-mono text-[10px] fill-slate-500 font-bold">Encapsulate</text>
+
+                            <!-- PROPERTY BLOCK -->
+                            <g transform="translate(350, 20)" class="card-hover">
+                                <rect x="0" y="0" width="310" height="180" rx="8" class="fill-white stroke-purple-400 stroke-[2] shadow-sm" />
+                                <rect x="0" y="0" width="310" height="30" rx="8" class="fill-purple-50 stroke-purple-400 stroke-[2]" />
+                                <rect x="0" y="15" width="310" height="15" class="fill-purple-50 border-none" />
+                                <line x1="0" y1="30" x2="310" y2="30" class="stroke-purple-400 stroke-[2]" />
+                                
+                                <text x="155" y="20" text-anchor="middle" class="font-mono font-bold text-sm fill-purple-700">property (Rule Container)</text>
+
+                                <!-- Attributes -->
+                                <rect x="25" y="50" width="120" height="24" rx="4" class="fill-slate-50 stroke-slate-300 stroke-[1.5]" />
+                                <text x="85" y="66" text-anchor="middle" class="font-mono text-[10px] fill-slate-700">@(posedge clk)</text>
+
+                                <rect x="165" y="50" width="120" height="24" rx="4" class="fill-red-50 stroke-red-300 stroke-[1.5]" />
+                                <text x="225" y="66" text-anchor="middle" class="font-mono text-[10px] fill-red-600">disable iff (!rst)</text>
+
+                                <!-- Implication + Sequence box inside property -->
+                                <rect x="25" y="95" width="260" height="65" rx="6" class="fill-blue-50/50 stroke-purple-300 stroke-[1.5] stroke-dasharray-[4]" />
+                                <text x="155" y="115" text-anchor="middle" class="font-mono text-xs fill-slate-800">
+                                    Trigger <tspan class="text-purple-600 font-bold text-sm">|-></tspan> <tspan class="text-blue-600 font-bold">[ sequence ]</tspan>
+                                </text>
+                                
+                                <!-- Code Example inside the box -->
+                                <rect x="45" y="125" width="220" height="22" rx="4" class="fill-white stroke-slate-200" />
+                                <text x="155" y="140" text-anchor="middle" class="font-mono text-[10px] fill-slate-600">
+                                    req <tspan class="fill-purple-500 font-bold">|-></tspan> A <tspan class="fill-slate-400">##1</tspan> B
+                                </text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="flex items-start gap-4">
+                            <span class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold font-mono text-sm shrink-0">1</span>
+                            <div>
+                                <strong class="text-slate-800 text-lg block mb-2 font-mono">sequence <span class="text-sm font-sans font-normal text-slate-500">(시퀀스)</span></strong>
+                                <p class="text-sm text-slate-600 leading-relaxed">
+                                    <code>req ##1 ack</code>와 같이 한 클럭 또는 여러 클럭에 걸친 신호의 연속적인 타이밍 흐름을 정의하는 기본 단위 블록입니다. 블록 단위로 생성되어 다른 곳에서 재사용이 가능합니다.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold font-mono text-sm shrink-0">2</span>
+                            <div>
+                                <strong class="text-slate-800 text-lg block mb-2 font-mono">property <span class="text-sm font-sans font-normal text-slate-500">(프로퍼티)</span></strong>
+                                <p class="text-sm text-slate-600 leading-relaxed">
+                                    sequence들을 Implication(<code>|-></code>) 연산자로 결합하여 인과관계를 설정합니다. 또한 어떤 클럭을 사용할지(Clocking Event), 어떤 조건에서 검사를 무시할지(<code>disable iff</code>)를 정의하여 완전한 룰을 구성합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Timing Operators & Implication -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">3</span>
+                Timing & Implication Operators 시각화
+            </h2>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden card-hover">
+                <div class="p-6 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+                    <h3 class="font-bold text-slate-800">주요 연산자 Waveform 동작 분석</h3>
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-mono">##N</span>
+                        <span class="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-mono">|-></span>
+                        <span class="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-mono">|=></span>
+                        <span class="px-2 py-1 bg-white border border-slate-200 rounded text-xs font-mono">[*N]</span>
+                    </div>
+                </div>
+
+                <div class="p-6 overflow-x-auto diagram-grid">
+                    <svg viewBox="0 0 800 320" class="min-w-[600px] w-full" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
+                            </marker>
+                            <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="fill-red-500" />
+                            </marker>
+                        </defs>
+
+                        <!-- Grid Lines (Clock Edges) -->
+                        <g class="stroke-slate-200 stroke-[1.5]" stroke-dasharray="4 4">
+                            <line x1="100" y1="20" x2="100" y2="300" />
+                            <line x1="200" y1="20" x2="200" y2="300" />
+                            <line x1="300" y1="20" x2="300" y2="300" />
+                            <line x1="400" y1="20" x2="400" y2="300" />
+                            <line x1="500" y1="20" x2="500" y2="300" />
+                            <line x1="600" y1="20" x2="600" y2="300" />
+                            <line x1="700" y1="20" x2="700" y2="300" />
+                        </g>
+
+                        <!-- Labels -->
+                        <text x="80" y="45" text-anchor="end" class="font-mono text-sm font-bold fill-slate-800">clk</text>
+                        <text x="80" y="115" text-anchor="end" class="font-mono text-sm font-bold fill-slate-800">req</text>
+                        <text x="80" y="185" text-anchor="end" class="font-mono text-sm font-bold fill-slate-800">ack (##1)</text>
+                        <text x="80" y="255" text-anchor="end" class="font-mono text-sm font-bold fill-slate-800">data [*3]</text>
+
+                        <!-- Clock Waveform -->
+                        <path d="M 90 50 L 100 50 L 100 20 L 150 20 L 150 50 L 200 50 L 200 20 L 250 20 L 250 50 L 300 50 L 300 20 L 350 20 L 350 50 L 400 50 L 400 20 L 450 20 L 450 50 L 500 50 L 500 20 L 550 20 L 550 50 L 600 50 L 600 20 L 650 20 L 650 50 L 700 50 L 700 20 L 750 20" class="stroke-slate-800 stroke-2" fill="none" />
+                        <text x="105" y="15" class="font-mono text-[10px] fill-slate-400">T0</text>
+                        <text x="205" y="15" class="font-mono text-[10px] fill-slate-400">T1</text>
+                        <text x="305" y="15" class="font-mono text-[10px] fill-slate-400">T2</text>
+                        <text x="405" y="15" class="font-mono text-[10px] fill-slate-400">T3</text>
+                        <text x="505" y="15" class="font-mono text-[10px] fill-slate-400">T4</text>
+                        
+                        <!-- REQ Signal -->
+                        <path d="M 90 120 L 180 120 L 190 90 L 310 90 L 320 120 L 750 120" class="stroke-blue-600 stroke-2" fill="none" />
+                        <circle cx="200" cy="90" r="4" class="fill-blue-600" />
+                        
+                        <!-- ACK (Delay ##1 / Non-Overlapping |=>) -->
+                        <path d="M 90 190 L 280 190 L 290 160 L 410 160 L 420 190 L 750 190" class="stroke-green-500 stroke-2" fill="none" />
+                        <circle cx="300" cy="160" r="4" class="fill-green-500" />
+
+                        <!-- Data (Repetition [*3]) -->
+                        <path d="M 90 260 L 380 260 L 390 230 L 710 230 L 720 260 L 750 260" class="stroke-purple-500 stroke-2" fill="none" />
+                        <circle cx="400" cy="230" r="4" class="fill-purple-500" />
+                        <circle cx="500" cy="230" r="4" class="fill-purple-500" />
+                        <circle cx="600" cy="230" r="4" class="fill-purple-500" />
+
+                        <!-- Visualizing Relationships -->
+                        
+                        <!-- 1. Implication & Delay -->
+                        <path d="M 200 90 Q 250 50 300 150" class="stroke-blue-500 stroke-[1.5] stroke-dasharray-[4]" fill="none" marker-end="url(#arrow-blue)" />
+                        <rect x="235" y="80" width="30" height="18" rx="4" class="fill-white stroke-blue-200" />
+                        <text x="250" y="93" text-anchor="middle" class="font-mono text-[10px] font-bold fill-blue-600">|=&gt;</text>
+                        
+                        <text x="250" y="115" text-anchor="middle" class="font-mono text-xs fill-slate-500">req ##1 ack</text>
+
+                        <!-- 2. Repetition -->
+                        <path d="M 400 220 L 600 220" class="stroke-purple-400 stroke-2" fill="none" />
+                        <line x1="400" y1="215" x2="400" y2="225" class="stroke-purple-400 stroke-2" />
+                        <line x1="600" y1="215" x2="600" y2="225" class="stroke-purple-400 stroke-2" />
+                        <rect x="475" y="200" width="50" height="16" rx="4" class="fill-white stroke-purple-200" />
+                        <text x="500" y="211" text-anchor="middle" class="font-mono text-[10px] font-bold fill-purple-600">data [*3]</text>
+                    </svg>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 border-t border-slate-100">
+                    <div class="p-5 border-r border-slate-100">
+                        <div class="font-mono font-bold text-sm text-slate-800 mb-2">Overlapping <span class="text-blue-600">|-></span></div>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-2">조건(Antecedent)이 참이 되는 <strong>바로 그 클럭 사이클</strong>에서 결과(Consequent) 평가를 시작합니다.</p>
+                        <code class="text-[10px] bg-slate-100 p-1 rounded text-slate-700 block">req |-> ack</code>
+                    </div>
+                    <div class="p-5 border-r border-slate-100">
+                        <div class="font-mono font-bold text-sm text-slate-800 mb-2">Non-Overlapping <span class="text-blue-600">|=></span></div>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-2">조건이 참이 된 <strong>그 다음 클럭 사이클</strong>부터 결과를 평가합니다. (<code>|-> ##1</code> 과 정확히 동일)</p>
+                        <code class="text-[10px] bg-slate-100 p-1 rounded text-slate-700 block">req |=> ack</code>
+                    </div>
+                    <div class="p-5 border-r border-slate-100">
+                        <div class="font-mono font-bold text-sm text-slate-800 mb-2">Delay <span class="text-blue-600">##N, ##[M:N]</span></div>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-2">정확히 N 클럭 지연 후 평가합니다. <code>[M:N]</code>을 사용하면 지정된 윈도우 내 언제든(Eventually) 발생하는지 유연하게 검사할 수 있습니다.</p>
+                        <code class="text-[10px] bg-slate-100 p-1 rounded text-slate-700 block">req |-> ##[1:5] ack</code>
+                    </div>
+                    <div class="p-5">
+                        <div class="font-mono font-bold text-sm text-slate-800 mb-2">Repetition <span class="text-blue-600">[*N]</span></div>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-2">신호가 연속으로 N 클럭 동안 참임을 나타냅니다. <code>[*]</code>는 0번 이상, <code>[+]</code>는 1번 이상 연속됨을 의미합니다.</p>
+                        <code class="text-[10px] bg-slate-100 p-1 rounded text-slate-700 block">req |=> data [*3]</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Sampled Value Functions -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">4</span>
+                Sampled Value Functions
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- SVG Function Viz -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm diagram-grid relative min-h-[250px] card-hover">
+                    <svg viewBox="0 0 400 200" class="w-full h-full">
+                        <!-- Clocks -->
+                        <g class="stroke-slate-200" stroke-dasharray="3 3">
+                            <line x1="50" y1="20" x2="50" y2="180" />
+                            <line x1="150" y1="20" x2="150" y2="180" />
+                            <line x1="250" y1="20" x2="250" y2="180" />
+                            <line x1="350" y1="20" x2="350" y2="180" />
+                        </g>
+
+                        <!-- Signal -->
+                        <path d="M 20 140 L 40 140 L 60 60 L 160 60 L 180 140 L 240 140 L 260 90 L 340 90" class="stroke-slate-800 stroke-2" fill="none" />
+                        
+                        <!-- Unknown 'X' overlay -->
+                        <rect x="260" y="80" width="80" height="20" fill="url(#diagonal-stripe)" opacity="0.3"/>
+                        <defs>
+                            <pattern id="diagonal-stripe" width="8" height="8" patternTransform="rotate(45)">
+                                <line x1="0" y1="0" x2="0" y2="8" stroke="#ef4444" stroke-width="2"/>
+                            </pattern>
+                        </defs>
+                        <text x="300" y="105" text-anchor="middle" class="font-mono text-sm font-bold fill-red-500">X</text>
+
+                        <!-- Points & Labels -->
+                        <circle cx="50" cy="100" r="4" class="fill-green-500" />
+                        <rect x="25" y="40" width="50" height="18" rx="4" class="fill-white border border-green-200 stroke-green-200 stroke-1" />
+                        <text x="50" y="53" text-anchor="middle" class="font-mono text-[10px] font-bold fill-green-600">$rose</text>
+
+                        <circle cx="150" cy="60" r="4" class="fill-blue-500" />
+                        <rect x="125" y="30" width="50" height="18" rx="4" class="fill-white stroke-blue-200 stroke-1" />
+                        <text x="150" y="43" text-anchor="middle" class="font-mono text-[10px] font-bold fill-blue-600">$stable</text>
+                        <!-- $past arrow -->
+                        <path d="M 140 60 Q 100 30 60 60" class="stroke-blue-400 stroke-1 stroke-dasharray-[2]" fill="none" marker-end="url(#arrow-blue)"/>
+                        <text x="100" y="40" text-anchor="middle" class="font-mono text-[8px] fill-blue-500">$past</text>
+
+                        <circle cx="250" cy="140" r="4" class="fill-orange-500" />
+                        <rect x="225" y="160" width="50" height="18" rx="4" class="fill-white stroke-orange-200 stroke-1" />
+                        <text x="250" y="173" text-anchor="middle" class="font-mono text-[10px] font-bold fill-orange-600">$fell</text>
+
+                        <circle cx="350" cy="90" r="4" class="fill-red-500" />
+                        <rect x="315" y="130" width="70" height="18" rx="4" class="fill-white stroke-red-200 stroke-1" />
+                        <text x="350" y="143" text-anchor="middle" class="font-mono text-[10px] font-bold fill-red-600">$isunknown</text>
+
+                    </svg>
+                </div>
+                
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-center">
+                    <h3 class="font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">신호의 상태 변화를 포착하는 내장 함수</h3>
+                    <ul class="space-y-5">
+                        <li class="flex items-start gap-4">
+                            <span class="mt-0.5 shrink-0 px-2 py-1 bg-green-50 text-green-600 rounded text-xs font-mono border border-green-200 w-24 text-center">$rose / $fell</span>
+                            <div class="text-sm text-slate-600 leading-relaxed">
+                                <strong class="text-slate-800">Edge Detection:</strong> 이전 클럭 대비 신호가 0에서 1로 상승($rose)하거나, 1에서 0으로 하강($fell)했는지 평가합니다. 인터럽트 발생기나 트리거 조건을 검증할 때 필수적입니다.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="mt-0.5 shrink-0 px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs font-mono border border-blue-200 w-24 text-center">$stable</span>
+                            <div class="text-sm text-slate-600 leading-relaxed">
+                                <strong class="text-slate-800">Value Hold:</strong> 이전 클럭의 값과 현재 클럭의 값이 동일한지 검사합니다. AXI와 같은 핸드셰이크 프로토콜에서 Ready가 올 때까지 Data가 변경되지 않아야 한다는 규칙(Stable Check)에 주로 쓰입니다.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="mt-0.5 shrink-0 px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs font-mono border border-slate-200 w-24 text-center">$past(sig, N)</span>
+                            <div class="text-sm text-slate-600 leading-relaxed">
+                                <strong class="text-slate-800">History Reference:</strong> N 클럭 이전의 신호 값을 참조합니다(N 생략 시 1클럭 이전). 복잡한 파이프라인 설계에서 과거의 제어 신호와 현재의 데이터 출력을 비교 대조할 때 강력한 도구입니다.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <span class="mt-0.5 shrink-0 px-2 py-1 bg-red-50 text-red-600 rounded text-xs font-mono border border-red-200 w-24 text-center">$isunknown</span>
+                            <div class="text-sm text-slate-600 leading-relaxed">
+                                <strong class="text-slate-800">X/Z Propagation Check:</strong> 데이터 버스나 제어 신호에 의도치 않은 X(Unknown) 또는 Z(High-Impedance) 값이 섞여 있는지 검출합니다. 컨트롤 경로의 치명적인 오작동을 사전에 방지합니다.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Essential SVA Protocol Patterns -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">5</span>
+                실전 필수 SVA 패턴
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1. Ready/Valid Handshake -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm card-hover flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 mb-3 text-sm">1. Ready/Valid Protocol</h3>
+                        <div class="h-24 w-full bg-slate-50 rounded-lg border border-slate-200 mb-4 flex items-center justify-center p-2 relative overflow-hidden">
+                            <svg viewBox="0 0 200 80" class="w-full">
+                                <rect x="10" y="20" width="80" height="40" rx="4" class="fill-white stroke-slate-300 stroke-[1.5]" />
+                                <text x="50" y="44" text-anchor="middle" class="font-mono text-xs fill-slate-700">Valid</text>
+                                <rect x="110" y="20" width="80" height="40" rx="4" class="fill-white stroke-slate-300 stroke-[1.5]" />
+                                <text x="150" y="44" text-anchor="middle" class="font-mono text-xs fill-slate-700">Ready</text>
+                                <path d="M 50 60 Q 100 80 150 60" class="stroke-green-500 stroke-[1.5]" fill="none" marker-end="url(#arrow-blue)"/>
+                                <text x="100" y="75" text-anchor="middle" class="font-mono text-[8px] fill-green-600">Handshake</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto whitespace-nowrap">
+                        <span class="text-blue-400">property</span> p_rv;<br>
+                        &nbsp;&nbsp;valid &amp;&amp; !ready <span class="text-pink-400">|=></span> valid;<br>
+                        <span class="text-blue-400">endproperty</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mt-4 leading-relaxed">
+                        <strong class="text-slate-800 block mb-1">AXI / APB 필수 규칙</strong>
+                        Valid가 Assert 되었으나 수신 측에서 Ready를 주지 않았다면(거절/대기 상태), 송신 측은 임의로 Valid를 내리거나 Drop해서는 안 되며 다음 클럭에도 반드시 유지해야 합니다.
+                    </p>
+                </div>
+
+                <!-- 2. Stable Check -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm card-hover flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 mb-3 text-sm">2. Data Stable Check</h3>
+                        <div class="h-24 w-full bg-slate-50 rounded-lg border border-slate-200 mb-4 flex items-center justify-center p-2">
+                             <svg viewBox="0 0 200 80" class="w-full">
+                                <path d="M 20 40 L 40 40 L 50 20 L 150 20 L 160 40 L 180 40" class="stroke-blue-500 stroke-2" fill="none" />
+                                <path d="M 50 60 L 150 60" class="stroke-slate-400 stroke-1 stroke-dasharray-[2]" fill="none" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)" />
+                                <text x="100" y="75" text-anchor="middle" class="font-mono text-[10px] fill-blue-600 font-bold">$stable(data)</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto whitespace-nowrap">
+                        <span class="text-blue-400">property</span> p_stable;<br>
+                        &nbsp;&nbsp;valid &amp;&amp; !ready <span class="text-pink-400">|=></span> <span class="text-green-400">$stable</span>(data);<br>
+                        <span class="text-blue-400">endproperty</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mt-4 leading-relaxed">
+                        <strong class="text-slate-800 block mb-1">데이터 무결성 보장</strong>
+                        Valid가 활성화된 상태에서 아직 전송이 완료(Ready)되지 않았다면, 버스에 실린 Payload(Data, Address 등) 값은 중간에 변경되지 않고 이전 사이클과 동일하게 유지($stable)되어야 합니다.
+                    </p>
+                </div>
+
+                <!-- 3. Timeout Assertion -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm card-hover flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 mb-3 text-sm">3. Timeout / Address Range</h3>
+                        <div class="h-24 w-full bg-slate-50 rounded-lg border border-slate-200 mb-4 flex items-center justify-center p-2">
+                             <svg viewBox="0 0 200 80" class="w-full">
+                                <circle cx="40" cy="40" r="15" class="fill-blue-100 stroke-blue-500 stroke-2" />
+                                <text x="40" y="44" text-anchor="middle" class="font-mono text-[10px]">Req</text>
+                                
+                                <circle cx="160" cy="40" r="15" class="fill-green-100 stroke-green-500 stroke-2" />
+                                <text x="160" y="44" text-anchor="middle" class="font-mono text-[10px]">Ack</text>
+
+                                <path d="M 60 40 L 140 40" class="stroke-slate-400 stroke-2 stroke-dasharray-[4]" fill="none" marker-end="url(#arrow-blue)"/>
+                                <text x="100" y="32" text-anchor="middle" class="font-mono text-[10px] font-bold text-slate-600">Max 32 Cycles</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="text-xs font-mono bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto whitespace-nowrap">
+                        <span class="text-blue-400">property</span> p_timeout;<br>
+                        &nbsp;&nbsp;req <span class="text-pink-400">|-></span> <span class="text-yellow-400">##[1:32]</span> ack;<br>
+                        <span class="text-blue-400">endproperty</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mt-4 leading-relaxed">
+                        <strong class="text-slate-800 block mb-1">Deadlock (교착 상태) 방지</strong>
+                        시스템에 요청(Req)이 발생한 후 무한정 대기하는 것을 막기 위해, 최대 허용 사이클(예: 32 사이클) 내에 반드시 응답(Ack)이 수신됨을 보장합니다. 시스템 Hang을 검출하는 핵심 패턴입니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. UVM Integration & Debugging -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">6</span>
+                Action Block, UVM 연동 및 디버깅
+            </h2>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lg:p-10 card-hover">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                                Assertion이 실패(Fail)했을 때 단순히 터미널에 로그만 남기는 것을 넘어, <strong>UVM(Universal Verification Methodology) 환경</strong>과 적극적으로 연동하는 것이 실무적인 Best Practice입니다.
+                            </p>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                <code>else</code> 블록(Action Block)을 활용하여 에러 발생 시 커스텀 메시지를 출력하고, 시뮬레이션을 중단시키거나 커버리지 데이터를 수집할 수 있습니다.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-slate-900 rounded-xl p-4 overflow-x-auto">
+<pre class="font-mono text-sm leading-relaxed"><code class="text-slate-300 bg-transparent p-0"><span class="text-green-400">// 15. Reset Assertion (disable iff)</span>
+ASSERT_RV_STABLE: <span class="text-blue-400">assert property</span> (
+    <span class="text-yellow-400">@</span>(<span class="text-blue-400">posedge</span> clk) <span class="text-blue-400">disable iff</span> (!rst_n)
+    p_rv_stable
+) <span class="text-green-400">// 19. Action Block (Pass)</span>
+<span class="text-blue-400">else</span> <span class="text-blue-400">begin</span> <span class="text-green-400">// Action Block (Fail)</span>
+    <span class="text-green-400">// 20. UVM 연동</span>
+    <span class="text-purple-400">`uvm_error</span>(<span class="text-orange-300">"SVA_ERR"</span>, 
+        <span class="text-orange-300">$sformatf</span>(<span class="text-orange-300">"Stable violated! data=%h"</span>, data))
+<span class="text-blue-400">end</span></code></pre>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                            <ul class="text-sm text-slate-700 space-y-3 list-disc list-inside">
+                                <li><strong>Assertion Labeling:</strong> <code>ASSERT_RV_STABLE</code>처럼 명확한 레이블(이름)을 부여해야 Verdi와 같은 Waveform Debug 툴에서 해당 에러 발생 시점으로 즉시 이동(Trace)하기 용이합니다.</li>
+                                <li><strong>Reset 필터링 (disable iff):</strong> 시스템 초기화(Reset) 구간에서는 신호가 불안정하므로 <code>disable iff (!rst_n)</code>를 추가하여 False Alarm(오탐)을 원천 차단해야 합니다.</li>
+                                <li><strong>UVM Error 매핑:</strong> <code>`uvm_error</code> 매크로를 호출하면 UVM 리포팅 시스템이 이를 감지하여 최종 테스트 결과를 FAIL로 마킹하고, Regression 관리 도구에 정확하게 보고합니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Flow Diagram -->
+                    <div class="diagram-grid rounded-xl border border-slate-200 p-6 flex items-center justify-center relative">
+                        <svg viewBox="0 0 300 250" class="w-full">
+                            <!-- SVA Eval -->
+                            <rect x="100" y="10" width="100" height="40" rx="6" class="fill-white stroke-slate-400 stroke-2" />
+                            <text x="150" y="34" text-anchor="middle" class="font-mono text-xs font-bold text-slate-800">SVA Evaluation</text>
+
+                            <!-- Branching -->
+                            <path d="M 150 50 L 150 70 L 60 70 L 60 90" class="stroke-green-500 stroke-2" fill="none" marker-end="url(#arrow-blue)" />
+                            <path d="M 150 50 L 150 70 L 240 70 L 240 90" class="stroke-red-500 stroke-2" fill="none" marker-end="url(#arrow-red)" />
+                            
+                            <!-- Pass (Cover) -->
+                            <rect x="20" y="90" width="80" height="30" rx="4" class="fill-green-50 stroke-green-400 stroke-[1.5]" />
+                            <text x="60" y="109" text-anchor="middle" class="font-mono text-[10px] font-bold text-green-700">PASS (Cover)</text>
+
+                            <!-- Fail -->
+                            <rect x="200" y="90" width="80" height="30" rx="4" class="fill-red-50 stroke-red-400 stroke-[1.5]" />
+                            <text x="240" y="109" text-anchor="middle" class="font-mono text-[10px] font-bold text-red-700">FAIL (else block)</text>
+
+                            <!-- UVM Error -->
+                            <path d="M 240 120 L 240 150" class="stroke-red-400 stroke-2" fill="none" marker-end="url(#arrow-red)" />
+                            <rect x="190" y="150" width="100" height="30" rx="4" class="fill-purple-50 stroke-purple-400 stroke-[1.5]" />
+                            <text x="240" y="169" text-anchor="middle" class="font-mono text-[10px] font-bold text-purple-700">`uvm_error</text>
+
+                            <!-- Debugging -->
+                            <path d="M 240 180 L 240 195 L 150 195 L 150 210" class="stroke-slate-400 stroke-2" fill="none" marker-end="url(#arrow-blue)" />
+                            <rect x="70" y="210" width="160" height="30" rx="4" class="fill-slate-800 stroke-slate-700 shadow-sm" />
+                            <text x="150" y="229" text-anchor="middle" class="font-sans text-[11px] font-bold fill-green-400 tracking-wide">
+                                Waveform Debug (Verdi)
+                            </text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Sequence Composition Operators -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">7</span>
+                고급 시퀀스 결합 연산자 (Sequence Composition)
+            </h2>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                복잡한 프로토콜을 검증할 때는 여러 개의 시퀀스를 시간 축에서 겹치거나 병합해야 할 때가 있습니다. SVA는 여러 시퀀스의 시간적 관계를 명확히 정의하는 결합 연산자를 제공합니다.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- 1. intersect -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm card-hover flex flex-col">
+                    <div class="font-mono font-bold text-blue-600 mb-1 text-base">seq1 intersect seq2</div>
+                    <p class="text-xs text-slate-500 mb-4 h-8 leading-snug">두 시퀀스가 <strong>정확히 동일한 시점</strong>에 시작하고 종료해야 참(True)이 됩니다.</p>
+                    
+                    <div class="h-28 w-full bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-center p-4 relative overflow-hidden diagram-grid mt-auto">
+                        <svg viewBox="0 0 200 80" class="w-full h-full">
+                            <!-- Guides -->
+                            <line x1="40" y1="10" x2="40" y2="70" class="stroke-slate-300 stroke-1 stroke-dasharray-[2]" />
+                            <line x1="160" y1="10" x2="160" y2="70" class="stroke-slate-300 stroke-1 stroke-dasharray-[2]" />
+                            
+                            <!-- seq1 -->
+                            <rect x="40" y="15" width="120" height="20" rx="4" class="fill-blue-100 stroke-blue-500 stroke-[1.5]" />
+                            <text x="100" y="28" text-anchor="middle" class="font-mono text-[10px] fill-blue-700 font-bold">seq1</text>
+                            
+                            <!-- seq2 -->
+                            <rect x="40" y="45" width="120" height="20" rx="4" class="fill-purple-100 stroke-purple-500 stroke-[1.5]" />
+                            <text x="100" y="58" text-anchor="middle" class="font-mono text-[10px] fill-purple-700 font-bold">seq2</text>
+
+                            <!-- Match text -->
+                            <text x="40" y="8" text-anchor="middle" class="font-mono text-[8px] fill-slate-500">Start</text>
+                            <text x="160" y="8" text-anchor="middle" class="font-mono text-[8px] fill-slate-500">End</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 2. within -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm card-hover flex flex-col">
+                    <div class="font-mono font-bold text-blue-600 mb-1 text-base">seq1 within seq2</div>
+                    <p class="text-xs text-slate-500 mb-4 h-8 leading-snug">seq1이 seq2의 <strong>시작과 종료 범위(Window) 안</strong>에서 완전히 발생해야 합니다.</p>
+                    
+                    <div class="h-28 w-full bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-center p-4 relative overflow-hidden diagram-grid mt-auto">
+                        <svg viewBox="0 0 200 80" class="w-full h-full">
+                            <!-- seq2 (Outer Window) -->
+                            <rect x="20" y="45" width="160" height="20" rx="4" class="fill-slate-200 stroke-slate-400 stroke-[1.5]" />
+                            <text x="100" y="58" text-anchor="middle" class="font-mono text-[10px] fill-slate-600 font-bold">seq2 (Window)</text>
+
+                            <!-- Guides for inner -->
+                            <line x1="60" y1="10" x2="60" y2="45" class="stroke-slate-300 stroke-1 stroke-dasharray-[2]" />
+                            <line x1="130" y1="10" x2="130" y2="45" class="stroke-slate-300 stroke-1 stroke-dasharray-[2]" />
+
+                            <!-- seq1 (Inner) -->
+                            <rect x="60" y="15" width="70" height="20" rx="4" class="fill-blue-100 stroke-blue-500 stroke-[1.5]" />
+                            <text x="95" y="28" text-anchor="middle" class="font-mono text-[10px] fill-blue-700 font-bold">seq1</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 3. throughout -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm card-hover flex flex-col">
+                    <div class="font-mono font-bold text-blue-600 mb-1 text-base">expr throughout seq</div>
+                    <p class="text-xs text-slate-500 mb-4 h-8 leading-snug">시퀀스가 진행되는 <strong>전체 기간 내내</strong> 특정 조건(expr)이 참으로 유지되어야 합니다.</p>
+                    
+                    <div class="h-28 w-full bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-center p-4 relative overflow-hidden diagram-grid mt-auto">
+                        <svg viewBox="0 0 200 80" class="w-full h-full">
+                            <!-- seq -->
+                            <rect x="50" y="45" width="100" height="20" rx="4" class="fill-blue-100 stroke-blue-500 stroke-[1.5]" />
+                            <text x="100" y="58" text-anchor="middle" class="font-mono text-[10px] fill-blue-700 font-bold">seq</text>
+
+                            <!-- expr (Waveform holding high) -->
+                            <path d="M 20 35 L 40 35 L 50 15 L 150 15 L 160 35 L 180 35" class="stroke-green-500 stroke-[2]" fill="none" />
+                            
+                            <!-- Highlight zone -->
+                            <rect x="50" y="10" width="100" height="25" fill="rgba(34, 197, 94, 0.1)" />
+                            <text x="100" y="25" text-anchor="middle" class="font-mono text-[10px] fill-green-700 font-bold">expr == 1</text>
+                            
+                            <!-- Guides -->
+                            <line x1="50" y1="15" x2="50" y2="45" class="stroke-slate-300 stroke-1 stroke-dasharray-[2]" />
+                            <line x1="150" y1="15" x2="150" y2="45" class="stroke-slate-300 stroke-1 stroke-dasharray-[2]" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. disable iff & Reset Handling -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">8</span>
+                비동기 리셋 처리와 평가 취소 (disable iff)
+            </h2>
+            
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lg:p-8 card-hover grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        하드웨어 동작 중 <strong>리셋(Reset)</strong>이 인가되면 진행 중이던 모든 트랜잭션은 즉각 폐기되어야 합니다. SVA도 마찬가지로 프로퍼티 평가 도중 리셋이 떨어지면, 이를 <span class="text-red-500 font-bold">Assertion Fail</span>로 처리하는 것이 아니라 <span class="text-slate-500 font-bold">평가 취소(Abort/Kill)</span>로 안전하게 무시해야 합니다.
+                    </p>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        이를 위해 SVA에서는 <code>disable iff</code> 지시어를 지원하며, 이는 클럭 엣지에 동기화되지 않고 <strong>비동기적으로(Asynchronously)</strong> 동작하여 즉시 평가를 멈춥니다.
+                    </p>
+                    <div class="bg-slate-900 rounded-xl p-4">
+<pre class="font-mono text-sm leading-relaxed"><code class="text-slate-300 bg-transparent p-0"><span class="text-blue-400">assert property</span> (
+    <span class="text-yellow-400">@</span>(<span class="text-blue-400">posedge</span> clk) 
+    <span class="text-red-400 font-bold">disable iff</span> (!rst_n) <span class="text-green-400">// rst_n이 0이 되면 즉시 취소</span>
+    req <span class="text-pink-400">|-></span> <span class="text-yellow-400">##[1:5]</span> ack
+);</code></pre>
+                    </div>
+                </div>
+
+                <div class="diagram-grid border border-slate-200 rounded-xl p-4 flex flex-col justify-center">
+                    <h3 class="text-xs font-bold text-slate-500 mb-4 text-center uppercase tracking-wider">Evaluation Abort 동작 시각화</h3>
+                    <svg viewBox="0 0 400 150" class="w-full">
+                        <!-- Clock ticks -->
+                        <g class="stroke-slate-200" stroke-dasharray="2 2">
+                            <line x1="50" y1="10" x2="50" y2="130" />
+                            <line x1="120" y1="10" x2="120" y2="130" />
+                            <line x1="190" y1="10" x2="190" y2="130" />
+                            <line x1="260" y1="10" x2="260" y2="130" />
+                            <line x1="330" y1="10" x2="330" y2="130" />
+                        </g>
+
+                        <!-- Labels -->
+                        <text x="40" y="30" text-anchor="end" class="font-mono text-[10px] font-bold fill-slate-800">clk</text>
+                        <text x="40" y="65" text-anchor="end" class="font-mono text-[10px] font-bold fill-blue-600">req</text>
+                        <text x="40" y="100" text-anchor="end" class="font-mono text-[10px] font-bold fill-red-600">rst_n</text>
+
+                        <!-- req signal -->
+                        <path d="M 50 70 L 110 70 L 120 50 L 140 50 L 150 70 L 350 70" class="stroke-blue-500 stroke-[1.5]" fill="none" />
+                        
+                        <!-- rst_n signal (drops midway) -->
+                        <path d="M 50 90 L 230 90 L 230 110 L 350 110" class="stroke-red-500 stroke-[2]" fill="none" />
+
+                        <!-- Evaluation Window -->
+                        <!-- Box starts at req, is supposed to go to ack (say x=330), but gets cut at x=230 -->
+                        <rect x="120" y="115" width="210" height="20" class="fill-slate-100 stroke-slate-300 stroke-1 stroke-dasharray-[4]" />
+                        <rect x="120" y="115" width="110" height="20" class="fill-yellow-100 border-none" />
+                        
+                        <text x="175" y="129" text-anchor="middle" class="font-mono text-[9px] fill-yellow-700">Evaluating...</text>
+                        <text x="285" y="129" text-anchor="middle" class="font-mono text-[9px] fill-slate-400">Discarded</text>
+
+                        <!-- Kill Mark -->
+                        <line x1="230" y1="80" x2="230" y2="140" class="stroke-red-500 stroke-[1.5] stroke-dasharray-[4]" />
+                        <circle cx="230" cy="125" r="6" class="fill-red-100 stroke-red-500 stroke-[1.5]" />
+                        <path d="M 227 122 L 233 128 M 233 122 L 227 128" class="stroke-red-500 stroke-[1.5]" fill="none" />
+                        <text x="230" y="148" text-anchor="middle" class="font-sans text-[9px] font-bold fill-red-600">Evaluation Aborted (Safe)</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Assertion Placement & Bind -->
+        <section>
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">9</span>
+                Assertion 삽입 위치와 무결점 플러그인 (bind)
+            </h2>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                SVA 코드는 물리적으로 어디에 작성해야 할까요? 설계 코드(RTL) 안에 직접 섞어 쓰는 방식은 설계와 검증의 분리(Separation of Concerns) 원칙에 위배됩니다. 실무에서는 인터페이스 내부나 별도의 Checker 모듈에 SVA를 작성하고, <code>bind</code> 지시어를 통해 원격으로 연결하는 방식을 표준으로 사용합니다.
+            </p>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8 card-hover flex flex-col gap-8">
+                <!-- SVG Comparison -->
+                <div class="h-80 w-full bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center p-4 relative overflow-hidden diagram-grid">
+                    <svg viewBox="0 0 800 280" class="w-full h-full max-w-[800px]">
+                        <defs>
+                            <marker id="arrow-bind" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
+                            </marker>
+                        </defs>
+
+                        <!-- Method 1: Inline (Not Recommended) -->
+                        <g transform="translate(40, 40)">
+                            <rect x="0" y="0" width="200" height="180" rx="8" class="fill-white stroke-slate-300 stroke-[2] shadow-sm" />
+                            <text x="100" y="25" text-anchor="middle" class="font-mono font-bold text-xs fill-slate-700">1. Inline RTL (비권장)</text>
+                            
+                            <rect x="20" y="50" width="160" height="110" rx="6" class="fill-slate-100 border-none" />
+                            <text x="30" y="70" class="font-mono text-[10px] fill-slate-600">module DUT;</text>
+                            <text x="40" y="90" class="font-mono text-[10px] fill-blue-600 font-bold">// RTL Logic...</text>
+                            <text x="40" y="110" class="font-mono text-[10px] fill-purple-600 font-bold">assert property (...);</text>
+                            <text x="40" y="130" class="font-mono text-[10px] fill-blue-600 font-bold">// More RTL...</text>
+                            <text x="30" y="150" class="font-mono text-[10px] fill-slate-600">endmodule</text>
+
+                            <!-- Warning Icon -->
+                            <circle cx="100" cy="180" r="14" class="fill-red-50 stroke-red-400 stroke-[1.5]" />
+                            <text x="100" y="184" text-anchor="middle" class="font-sans font-bold text-red-500 text-[14px]">!</text>
+                        </g>
+
+                        <!-- Vertical Divider -->
+                        <line x1="280" y1="20" x2="280" y2="260" class="stroke-slate-200 stroke-[2] stroke-dasharray-[6]" />
+
+                        <!-- Method 2: Interface -->
+                        <g transform="translate(320, 40)">
+                            <rect x="0" y="0" width="200" height="180" rx="8" class="fill-white stroke-slate-300 stroke-[2] shadow-sm" />
+                            <text x="100" y="25" text-anchor="middle" class="font-mono font-bold text-xs fill-slate-700">2. Interface (표준 버스)</text>
+                            
+                            <rect x="20" y="50" width="160" height="110" rx="6" class="fill-green-50 border-none" />
+                            <text x="30" y="70" class="font-mono text-[10px] fill-slate-600">interface AXI_IF;</text>
+                            <text x="40" y="90" class="font-mono text-[10px] fill-slate-500">logic valid, ready;</text>
+                            <text x="40" y="115" class="font-mono text-[10px] fill-green-600 font-bold">// Protocol SVA</text>
+                            <text x="40" y="130" class="font-mono text-[10px] fill-purple-600 font-bold">assert property (...);</text>
+                            <text x="30" y="150" class="font-mono text-[10px] fill-slate-600">endinterface</text>
+
+                            <circle cx="100" cy="180" r="14" class="fill-green-50 stroke-green-400 stroke-[1.5]" />
+                            <text x="100" y="184" text-anchor="middle" class="font-sans font-bold text-green-500 text-[14px]">✓</text>
+                        </g>
+
+                        <!-- Method 3: Bind (Plugin) -->
+                        <g transform="translate(560, 40)">
+                            <text x="100" y="25" text-anchor="middle" class="font-mono font-bold text-xs fill-blue-700">3. Bind Plugin (강력 추천)</text>
+                            
+                            <!-- Assertion Module -->
+                            <rect x="10" y="40" width="180" height="60" rx="6" class="fill-purple-50 stroke-purple-400 stroke-[1.5]" />
+                            <text x="100" y="55" text-anchor="middle" class="font-mono text-[10px] fill-purple-800 font-bold">module SVA_Checker</text>
+                            <text x="100" y="75" text-anchor="middle" class="font-mono text-[9px] fill-purple-600">assert property (...);</text>
+
+                            <!-- The Bind Action -->
+                            <path d="M 100 100 L 100 135" class="stroke-blue-500 stroke-[2] stroke-dasharray-[4] animate-flow" fill="none" marker-end="url(#arrow-bind)" />
+                            <rect x="70" y="105" width="60" height="18" rx="4" class="fill-blue-500 stroke-none" />
+                            <text x="100" y="117" text-anchor="middle" class="font-mono text-[10px] fill-white font-bold">bind</text>
+
+                            <!-- Locked DUT -->
+                            <rect x="10" y="140" width="180" height="60" rx="6" class="fill-slate-100 stroke-slate-400 stroke-[1.5]" />
+                            <!-- Lock Icon -->
+                            <rect x="15" y="145" width="8" height="6" rx="1" class="fill-slate-400" />
+                            <path d="M 17 145 C 17 141, 21 141, 21 145" class="stroke-slate-400 stroke-1" fill="none" />
+                            <text x="100" y="165" text-anchor="middle" class="font-mono text-[10px] fill-slate-800 font-bold">module DUT</text>
+                            <text x="100" y="180" text-anchor="middle" class="font-mono text-[9px] fill-slate-500">(RTL 코드 수정 없음)</text>
+
+                            <circle cx="100" cy="210" r="14" class="fill-blue-50 stroke-blue-400 stroke-[1.5]" />
+                            <text x="100" y="214" text-anchor="middle" class="font-sans font-bold text-blue-600 text-[14px]">★</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <!-- Explain Bind -->
+                    <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                        <h3 class="font-bold text-slate-800 text-lg">왜 <code>bind</code>를 사용해야 할까요?</h3>
+                        <ul class="space-y-3 list-disc list-inside bg-blue-50 p-5 rounded-xl border border-blue-100 text-blue-900">
+                            <li><strong class="text-blue-700">RTL 무결성 보존:</strong> 검증 코드를 넣기 위해 원본 설계 코드를 수정할 필요가 없습니다. (Risk Zero)</li>
+                            <li><strong class="text-blue-700">검증 환경의 유연성:</strong> 합성(Synthesis) 시에는 검증 모듈을 빼고, 시뮬레이션 환경(Testbench) 최상단에서만 결합하여 오버헤드를 없앨 수 있습니다.</li>
+                            <li><strong class="text-blue-700">Third-party IP 검증:</strong> 수정이 불가능하게 암호화되거나 미리 컴파일된 외부 IP 모듈 내부의 신호에도 Assertion 모듈을 플러그인할 수 있습니다.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Code Example -->
+                    <div class="space-y-2">
+                        <h3 class="font-bold text-slate-800 text-sm mb-2">Bind 문법 및 사용 예시</h3>
+                        <div class="bg-slate-900 rounded-xl p-4 overflow-x-auto shadow-inner h-[220px]">
+<pre class="font-mono text-[13px] leading-relaxed"><code class="text-slate-300 bg-transparent p-0"><span class="text-green-400">// 1. 순수 Assertion Module 정의</span>
+<span class="text-blue-400">module</span> <span class="text-yellow-200">apb_checker</span> (<span class="text-blue-400">input</span> pclk, prst_n, psel);
+    <span class="text-green-400">// ... SVA properties & assert ...</span>
+<span class="text-blue-400">endmodule</span>
+
+<span class="text-green-400">// 2. Testbench 상단에서 DUT에 플러그인 (Bind)</span>
+<span class="text-green-400">// 문법: bind [Target] [Checker] [Instance_name] (Ports)</span>
+<span class="text-purple-400 font-bold">bind</span> <span class="text-slate-100">apb_slave_dut</span> <span class="text-yellow-200">apb_checker</span> <span class="text-orange-200">u_chk</span> (
+    .pclk(clk_i),      <span class="text-green-400">// DUT 내부 신호 맵핑</span>
+    .prst_n(rst_ni),
+    .psel(sel_i)
+);</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto mt-20 mb-8 border-t border-slate-200 pt-8 text-center">
+        <p class="text-sm text-slate-500 font-sans">
+            &copy; 2026 Semiconductor Digital Circuit Design Guidebook. Designed with Tailwind CSS & Pure SVG.
+        </p>
+    </footer>
+
+</body>
+</html>

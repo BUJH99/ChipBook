@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>최종 고도화된 Full UVM Sequence 다이어그램</title>
+  
+  <!-- Fonts -->
+  <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"SUIT Variable"', 'SUIT', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['"IBM Plex Sans"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc;
+    }
+    
+    .diagram-grid {
+      background-color: #f8fafc;
+      background-image: 
+        linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+        linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+      background-size: 20px 20px;
+      background-position: center center;
+    }
+
+    .scroll-container {
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 transparent;
+    }
+    .scroll-container::-webkit-scrollbar { height: 12px; width: 12px; }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background-color: #94a3b8;
+      border-radius: 6px;
+      border: 3px solid transparent;
+      background-clip: padding-box;
+    }
+
+    @keyframes flow {
+      from { stroke-dashoffset: 24; }
+      to { stroke-dashoffset: 0; }
+    }
+    .animate-flow {
+      stroke-dasharray: 6 6;
+      animation: flow 0.8s linear infinite;
+    }
+
+    .active-node {
+      animation: pulse-node 2.5s infinite ease-in-out;
+    }
+    @keyframes pulse-node {
+      0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(147, 51, 234, 0)); }
+      50% { transform: scale(1.02); filter: drop-shadow(0 0 10px rgba(147, 51, 234, 0.4)); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(147, 51, 234, 0)); }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 antialiased font-sans">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const App = () => {
+      // 1. Participant (UVM Components)
+      const participants = [
+        { id: 'test', name: 'Test (Env)', x: 320, color: '#4f46e5', boxFill: '#4f46e5', boxStroke: '#4338ca', actFill: '#c7d2fe', actStroke: '#818cf8' },
+        { id: 'seq', name: 'Sequence', x: 580, color: '#2563eb', boxFill: '#2563eb', boxStroke: '#1d4ed8', actFill: '#bfdbfe', actStroke: '#60a5fa' },
+        { id: 'sqr', name: 'Sequencer', x: 840, color: '#475569', boxFill: '#334155', boxStroke: '#1e293b', actFill: '#e2e8f0', actStroke: '#94a3b8' },
+        { id: 'drv', name: 'Driver', x: 1100, color: '#10b981', boxFill: '#059669', boxStroke: '#047857', actFill: '#a7f3d0', actStroke: '#34d399' },
+        { id: 'dut', name: 'DUT', x: 1360, color: '#f97316', boxFill: '#ea580c', boxStroke: '#c2410c', actFill: '#fed7aa', actStroke: '#fb923c' },
+        { id: 'mon', name: 'Monitor', x: 1620, color: '#06b6d4', boxFill: '#0891b2', boxStroke: '#0e7490', actFill: '#a5f3fc', actStroke: '#22d3ee' },
+        { id: 'sb', name: 'Scoreboard', x: 1880, color: '#f43f5e', boxFill: '#e11d48', boxStroke: '#be123c', actFill: '#fecdd3', actStroke: '#fb7185' },
+        { id: 'cov', name: 'Coverage', x: 2140, color: '#8b5cf6', boxFill: '#7c3aed', boxStroke: '#5b21b6', actFill: '#ddd6fe', actStroke: '#a78bfa' },
+      ];
+
+      // 2. Phase Zones Background Definitions
+      const phases = [
+        { id: 'build', name: '1. build_phase()', start: 100, end: 760, bgColor: 'rgba(238, 242, 255, 0.4)', stroke: '#c7d2fe', desc: 'UVM Factory 객체 생성 및 Configuration DB 세팅' },
+        { id: 'connect', name: '2. connect_phase()', start: 760, end: 960, bgColor: 'rgba(241, 245, 249, 0.5)', stroke: '#cbd5e1', desc: 'TLM Port-Export 연결 및 VIF 바인딩 (Agent 역할 핵심)' },
+        { id: 'run', name: '3. run_phase() (Time Consuming)', start: 960, end: 2480, bgColor: 'rgba(255, 255, 255, 0)', stroke: '#94a3b8', desc: 'Objection 제어, Handshake 기반 자극 인가 및 SVA 검증' },
+        { id: 'extract', name: '4. extract/report_phase()', start: 2480, end: 2730, bgColor: 'rgba(254, 242, 242, 0.4)', stroke: '#fecaca', desc: '결과 검증, Coverage 추출 및 Pass/Fail 판정' },
+      ];
+
+      // 3. Messages & Loopbacks (UVM Expert Level Details - Connected & Continuous Flow)
+      const messages = [
+        /* === BUILD PHASE === */
+        { id: 1, type: 'loop', on: 'test', y: 160, text: '🌱 uvm_root::run_test("Top_Test")', sub: '(Top Test 생성 및 Phase Scheduler 진입)', color: '#4f46e5', width: 330 },
+        { id: 2, type: 'loop', on: 'test', y: 210, text: '🛠️ uvm_config_db#(vif)::set()', sub: '(Virtual Interface 하위 계층에 등록)', color: '#4f46e5' },
+        { id: 3, type: 'loop', on: 'test', y: 260, text: '🏭 factory.set_type_override()', sub: '(다형성을 활용한 Component 타입 오버라이드)', color: '#4f46e5' },
+        
+        { id: 4, type: 'action', on: 'sqr', xOffset: 130, y: 310, text: 'if (get_is_active() == UVM_ACTIVE)', fill: '#e0e7ff', stroke: '#4f46e5', textFill: '#3730a3', className: '', width: 360 },
+        
+        // 다이어그램 분리시키지 않고 생성 흐름 이어주기 (화살표 활용) - 끝단(end) 정렬 적용
+        { id: 5, type: 'msg', from: 'test', to: 'sqr', y: 360, text: '🧱 Sequencer::type_id::create("sqr", this)', sub: '(Active일 때만 생성)', color: '#475569', dashed: true, flow: false, align: 'end', width: 340 },
+        { id: 6, type: 'msg', from: 'test', to: 'drv', y: 410, text: '🧱 Driver::type_id::create("drv", this)', sub: '(Active일 때만 생성)', color: '#059669', dashed: true, flow: false, align: 'end', width: 320 },
+        
+        { id: 7, type: 'msg', from: 'test', to: 'mon', y: 460, text: '🧱 Monitor::type_id::create("mon", this)', sub: '(모드 관계없이 항상 생성)', color: '#0891b2', dashed: true, flow: false, align: 'end', width: 330 },
+        { id: 8, type: 'msg', from: 'test', to: 'sb', y: 510, text: '🧱 Scoreboard::type_id::create("sb", this)', sub: '(Env에서 생성)', color: '#be123c', dashed: true, flow: false, align: 'end', width: 330 },
+        { id: 9, type: 'msg', from: 'test', to: 'cov', y: 560, text: '🧱 Coverage::type_id::create("cov", this)', sub: '(Env에서 생성)', color: '#5b21b6', dashed: true, flow: false, align: 'end', width: 320 },
+        
+        { id: 10, type: 'loop', on: 'drv', y: 610, text: '🔍 uvm_config_db::get(vif)', sub: '(구동할 Interface 획득)', color: '#059669' },
+        { id: 11, type: 'loop', on: 'mon', y: 660, text: '🔍 uvm_config_db::get(vif)', sub: '(관찰할 Interface 획득)', color: '#0891b2' },
+        
+        /* === CONNECT PHASE === */
+        { id: 12, type: 'msg', from: 'drv', to: 'sqr', y: 810, text: '🔗 seq_item_port.connect(seq_item_export)', sub: '(Agent 내부에서 Driver-Sequencer 연결)', color: '#475569', dashed: true, flow: false, width: 340 },
+        { id: 13, type: 'msg', from: 'mon', to: 'sb', y: 860, text: '🔗 ap.connect(sb_export)', sub: '(Scoreboard로 Analysis Port 연결)', color: '#06b6d4', dashed: true, flow: false, align: 'end', width: 270 },
+        { id: 14, type: 'msg', from: 'mon', to: 'cov', y: 910, text: '🔗 ap.connect(cov_export)', sub: '(Coverage 수집기로 Analysis Port 연결)', color: '#06b6d4', dashed: true, flow: false, align: 'end', width: 280 },
+        
+        /* === RUN PHASE (Handshake & Validation) === */
+        { id: 15, type: 'loop', on: 'test', y: 1010, text: '🔒 phase.raise_objection()', sub: '(시뮬레이션 조기 종료 방지)', color: '#4f46e5' },
+        { id: 16, type: 'msg', from: 'test', to: 'seq', y: 1060, text: '🚀 seq.start(sqr)', sub: '(Sequence 구동 시작)', color: '#4f46e5', dashed: false, flow: false },
+        { id: 17, type: 'loop', on: 'seq', y: 1110, text: '🏭 item_type::type_id::create("req")', sub: '(Factory를 통한 Transaction 객체 생성)', color: '#2563eb' },
+        
+        { id: 18, type: 'msg', from: 'drv', to: 'sqr', y: 1160, text: '📥 1. get_next_item(req)', sub: '(Driver는 Item이 올 때까지 Block 대기)', color: '#10b981', dashed: false, flow: false },
+        { id: 19, type: 'msg', from: 'seq', to: 'sqr', y: 1210, text: '📤 2. start_item(req)', sub: '(Sequencer에 버스 권한 요청)', color: '#2563eb', dashed: false, flow: false },
+        { id: 20, type: 'loop', on: 'sqr', y: 1260, text: '⚖️ wait_for_grant()', sub: '(Sequencer 내부 FIFO 우선순위 중재)', color: '#475569' },
+        { id: 21, type: 'msg', from: 'sqr', to: 'seq', y: 1310, text: '✅ 3. Grant (접근 승인)', sub: '(Sequence의 start_item Block 해제)', color: '#64748b', dashed: true, flow: false },
+        
+        { id: 22, type: 'loop', on: 'seq', y: 1360, text: '🔄 pre_do(1)', sub: '(Item 전송 직전 User Callback)', color: '#2563eb' },
+        { id: 23, type: 'loop', on: 'seq', y: 1410, text: '🎲 4. req.randomize()', sub: '(최신 상태를 반영한 Late Randomization)', color: '#eab308' },
+        
+        { id: 24, type: 'msg', from: 'seq', to: 'sqr', y: 1460, text: '🚀 5. finish_item(req)', sub: '(전송 완료될 때까지 Sequence Block 진입)', color: '#2563eb', dashed: false, flow: true },
+        { id: 25, type: 'loop', on: 'seq', y: 1510, text: '🔄 mid_do(req)', sub: '(전송 중 User Callback)', color: '#2563eb' },
+        { id: 26, type: 'msg', from: 'sqr', to: 'drv', y: 1560, text: '📦 6. send_request(req) & Unblock', sub: '(Driver에 데이터 전달 및 대기 해제)', color: '#475569', dashed: false, flow: true },
+        { id: 27, type: 'loop', on: 'seq', y: 1610, text: '⏳ wait_for_item_done()', sub: '(Sequence 내부 동기화용 대기 함수)', color: '#2563eb' },
+        
+        // Detailed Driver/DUT logic with Assertions
+        { id: 28, type: 'loop', on: 'drv', y: 1660, text: '⚡ drive_one_item(req)', sub: '(Protocol Pin-level Task 실행)', color: '#059669' },
+        { id: 29, type: 'msg', from: 'drv', to: 'dut', y: 1710, text: '🔌 Drive Physical Signals', sub: '(@posedge clk)', color: '#10b981', dashed: false, flow: true },
+        { id: 30, type: 'action', on: 'dut', y: 1760, text: '⚙️ Hardware State Change', fill: '#ffedd5', stroke: '#f97316', textFill: '#9a3412', className: 'active-node', width: 200 },
+        { id: 31, type: 'loop', on: 'dut', y: 1810, text: '🚨 SVA / Concurrent Assertion', sub: '(프로토콜 및 타이밍 규칙 실시간 하드웨어 검증)', color: '#ea580c' },
+        
+        // Monitor Sampling & Broadcasting
+        { id: 32, type: 'msg', from: 'dut', to: 'mon', y: 1860, text: '👀 Sample Interface', sub: '(Virtual Interface 관찰)', color: '#06b6d4', dashed: true, flow: false },
+        { id: 33, type: 'loop', on: 'mon', y: 1910, text: '🧩 assemble_pkt()', sub: '(TLM Analysis Port 패킷 조립)', color: '#0891b2' },
+        { id: 34, type: 'msg', from: 'mon', to: 'sb', y: 1960, text: '📡 ap.write(item)', sub: '(To Scoreboard)', color: '#06b6d4', dashed: false, flow: true, align: 'end', width: 160 },
+        { id: 35, type: 'msg', from: 'mon', to: 'cov', y: 2010, text: '📡 ap.write(item)', sub: '(To Coverage)', color: '#8b5cf6', dashed: false, flow: true, align: 'end', width: 160 },
+        
+        // Handshake Closure (Response)
+        { id: 36, type: 'loop', on: 'drv', y: 2060, text: '🏭 type_id::create("rsp")', sub: '(응답용 Transaction 객체 생성)', color: '#059669' },
+        { id: 37, type: 'loop', on: 'drv', y: 2110, text: '🔄 7. rsp.set_id_info(req)', sub: '(요청-응답 간의 패킷 ID 동기화)', color: '#059669' },
+        { id: 38, type: 'msg', from: 'drv', to: 'sqr', y: 2160, text: '🏁 8. item_done(rsp)', sub: '(응답 전달 및 단일 트랜잭션 종료 통보)', color: '#10b981', dashed: false, flow: true },
+        { id: 39, type: 'msg', from: 'sqr', to: 'seq', y: 2210, text: '🔓 9. Unblock finish_item', sub: '(Sequence의 대기 상태 해제)', color: '#64748b', dashed: true, flow: false },
+        
+        { id: 40, type: 'loop', on: 'seq', y: 2260, text: '🔄 post_do(req)', sub: '(전송 완료 후 User Callback)', color: '#2563eb' },
+        { id: 41, type: 'msg', from: 'seq', to: 'sqr', y: 2310, text: '📬 10. get_response(rsp)', sub: '(선택적: Driver의 응답 데이터 최종 수거)', color: '#2563eb', dashed: false, flow: true },
+        
+        { id: 42, type: 'msg', from: 'seq', to: 'test', y: 2360, text: '🎉 Sequence Complete', sub: '(Test로 제어권 반환)', color: '#4f46e5', dashed: true, flow: false },
+        { id: 43, type: 'loop', on: 'test', y: 2410, text: '🔓 phase.drop_objection()', sub: '(시뮬레이션 종료 허가)', color: '#4f46e5' },
+
+        /* === EXTRACT / REPORT PHASE === */
+        { id: 44, type: 'loop', on: 'sb', y: 2560, text: '⚖️ Report: Match/Mismatch', sub: '(Scoreboard 데이터 무결성 검증 및 집계)', color: '#ef4444' },
+        { id: 45, type: 'loop', on: 'cov', y: 2610, text: '🎯 Report: Coverage %', sub: '(Functional Coverage 커버리지 산출)', color: '#9333ea' },
+        { id: 46, type: 'loop', on: 'test', y: 2660, text: '🏆 UVM_INFO ("TEST_PASSED")', sub: '(최종 시뮬레이션 성공 여부 출력)', color: '#4f46e5' },
+      ];
+
+      // 4. Activation Box (연속성 강화: 페이즈 별로 끊기지 않고 하나로 이음)
+      const activations = [
+        /* Build Phase (100 - 760) */
+        { on: 'test', start: 140, end: 580 },
+        { on: 'sqr', start: 360, end: 400 },
+        { on: 'drv', start: 410, end: 630 },
+        { on: 'mon', start: 460, end: 680 },
+        { on: 'sb', start: 510, end: 550 },
+        { on: 'cov', start: 560, end: 600 },
+        
+        /* Connect Phase (760 - 960) */
+        { on: 'drv', start: 790, end: 830 },
+        { on: 'sqr', start: 790, end: 830 },
+        { on: 'mon', start: 840, end: 930 },
+        { on: 'sb', start: 840, end: 880 },
+        { on: 'cov', start: 890, end: 930 },
+        
+        /* Run Phase (960 - 2480) - 분리시키지 않고 전체 구간을 이음 */
+        { on: 'test', start: 990, end: 2430 }, 
+        { on: 'seq', start: 1040, end: 2380 }, 
+        { on: 'sqr', start: 1090, end: 2330 },
+        { on: 'drv', start: 1140, end: 2180 }, 
+        { on: 'dut', start: 1690, end: 1830 },
+        { on: 'mon', start: 1840, end: 2030 },
+        { on: 'sb', start: 1940, end: 1980 },
+        { on: 'cov', start: 1990, end: 2030 },
+        
+        /* Report Phase (2480 - 2730) */
+        { on: 'sb', start: 2540, end: 2580 },
+        { on: 'cov', start: 2590, end: 2630 },
+        { on: 'test', start: 2640, end: 2680 },
+      ];
+
+      // Safe filtering for color markers
+      const msgColors = [...new Set(messages.filter(m => m.type === 'msg' || m.type === 'loop').map(m => m.color))];
+
+      // Render Line Message
+      const renderArrow = (msg) => {
+        const fromP = participants.find(p => p.id === msg.from);
+        const toP = participants.find(p => p.id === msg.to);
+        const isRight = toP.x > fromP.x;
+        
+        const startX = isRight ? fromP.x + 8 : fromP.x - 8;
+        const endX = isRight ? toP.x - 14 : toP.x + 14; 
+        const markerId = `arrow-${msg.color.replace('#', '')}`;
+
+        let lineClasses = "transition-all duration-300 cursor-pointer fill-none";
+        if (msg.flow) lineClasses += " animate-flow";
+
+        // 정렬 처리 (align: 'end'가 있으면 텍스트 박스의 중심을 화살촉 끝부분(endX)에 배치하여 우측으로 밀어줌)
+        const boxWidth = msg.width || 160;
+        let cx = (startX + endX) / 2;
+        if (msg.align === 'end') {
+          cx = isRight ? endX : startX;
+        } else if (msg.align === 'start') {
+          cx = isRight ? startX : endX;
+        }
+
+        return (
+          <g key={msg.id} className="group">
+            <path 
+              d={`M ${startX} ${msg.y} L ${endX} ${msg.y}`}
+              stroke={msg.color} 
+              strokeWidth="2"
+              strokeDasharray={(msg.dashed && !msg.flow) ? "4 4" : "none"}
+              className={lineClasses}
+              markerEnd={`url(#${markerId})`}
+            />
+            {/* 텍스트 배경 박스를 텍스트 유무에 맞춰 높이 조정 */}
+            <rect x={cx - boxWidth/2} y={msg.y - 20} width={boxWidth} height={msg.sub ? 38 : 18} fill="rgba(248, 250, 252, 0.85)" rx="4" />
+            <text x={cx} y={msg.y - 6} fill={msg.color} className="font-mono text-[13px] font-bold" textAnchor="middle">
+              {msg.text}
+            </text>
+            {msg.sub && (
+              <text x={cx} y={msg.y + 13} fill="#64748b" className="font-sans text-[11px]" textAnchor="middle">
+                {msg.sub}
+              </text>
+            )}
+            <line x1={startX} y1={msg.y} x2={endX} y2={msg.y} stroke="transparent" strokeWidth="20" className="cursor-pointer" />
+          </g>
+        )
+      }
+
+      // Render TLM Loopback Arrow
+      const renderLoop = (msg) => {
+        const p = participants.find(p => p.id === msg.on);
+        const startX = p.x + 8;
+        const y = msg.y;
+        const markerId = `arrow-${msg.color.replace('#', '')}`;
+
+        const pathD = `M ${startX} ${y - 14} C ${startX + 50} ${y - 14}, ${startX + 50} ${y + 14}, ${startX + 4} ${y + 14}`;
+        
+        const boxWidth = msg.width || 220;
+
+        return (
+          <g key={msg.id} className="group cursor-pointer">
+            <path 
+              d={pathD}
+              stroke={msg.color} 
+              strokeWidth="2"
+              fill="none"
+              className="transition-all duration-300"
+              markerEnd={`url(#${markerId})`}
+            />
+            <rect x={startX + 35} y={y - 14} width={boxWidth} height="28" fill="rgba(248, 250, 252, 0.9)" rx="4" />
+            <text x={startX + 40} y={y} fill={msg.color} className="font-mono text-[13px] font-bold" textAnchor="start">
+              {msg.text}
+            </text>
+            {msg.sub && (
+              <text x={startX + 40} y={y + 12} fill="#64748b" className="font-sans text-[11px]" textAnchor="start">
+                {msg.sub}
+              </text>
+            )}
+          </g>
+        )
+      }
+
+      // Render Direct Action Box
+      const renderAction = (msg) => {
+        const p = participants.find(p => p.id === msg.on);
+        const cx = p.x + (msg.xOffset || 0);
+        const width = msg.width || 140;
+        const height = 32;
+        return (
+          <g key={msg.id} className={`${msg.className} cursor-pointer`} style={{transformOrigin: `${cx}px ${msg.y}px`}}>
+            <rect 
+              x={cx - width/2} y={msg.y - height/2} 
+              width={width} height={height} rx="15" ry="15"
+              fill={msg.fill} stroke={msg.stroke} strokeWidth="2"
+            />
+            <text x={cx} y={msg.y + 4} fill={msg.textFill} className="font-mono text-[12px] font-bold tracking-tight" textAnchor="middle">
+              {msg.text}
+            </text>
+          </g>
+        )
+      }
+
+      return (
+        <div className="w-full h-screen flex flex-col box-border bg-slate-50">
+          
+          <header className="bg-white border-b border-slate-200 shrink-0 z-10 relative shadow-sm">
+            <div className="max-w-[2400px] mx-auto px-6 py-5 flex items-center justify-between">
+                <div>
+                    <p className="text-sm font-bold text-blue-600 mb-1 tracking-wider uppercase">Digital Circuit Verification</p>
+                    <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Full Scale UVM Component Interaction & Phases</h1>
+                </div>
+                <div className="hidden md:flex items-center space-x-2 text-sm font-medium text-slate-500">
+                    <span className="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-bold border border-slate-300">Agent Boundary</span>
+                    <span className="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs font-bold border border-amber-200">Objection Control</span>
+                    <span className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-xs font-bold border border-indigo-200">UVM Callbacks</span>
+                    <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold border border-emerald-200">config_db & TLM</span>
+                    <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold border border-orange-200">SVA</span>
+                    <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold border border-blue-200">UVM Factory</span>
+                </div>
+            </div>
+          </header>
+
+          <main className="flex-1 overflow-hidden p-6 max-w-[100vw] mx-auto w-full">
+            <div className="w-full h-full overflow-auto scroll-container rounded-2xl shadow-sm border border-slate-200 relative diagram-grid">
+              <div className="p-8 inline-block min-w-max">
+                <svg width="2400" height="2800" xmlns="http://www.w3.org/2000/svg" className="font-sans">
+                  <defs>
+                    {msgColors.map(color => {
+                      const c = color.replace('#', '');
+                      return (
+                        <marker key={`marker-${c}`} id={`arrow-${c}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill={color} />
+                        </marker>
+                      )
+                    })}
+                    <filter id="box-shadow" x="-10%" y="-10%" width="120%" height="120%">
+                      <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.1"/>
+                    </filter>
+                  </defs>
+
+                  {/* 1. UVM Phase Background Zones */}
+                  {phases.map(phase => (
+                    <g key={phase.id}>
+                      <rect 
+                        x="10" y={phase.start} width="2380" height={phase.end - phase.start} 
+                        fill={phase.bgColor} 
+                      />
+                      <line x1="10" y1={phase.start} x2="2390" y2={phase.start} stroke={phase.stroke} strokeWidth="2" strokeDasharray="8 4" />
+                      
+                      <rect x="20" y={phase.start + 15} width="270" height="50" rx="8" fill="white" stroke={phase.stroke} strokeWidth="1" filter="url(#box-shadow)" />
+                      <text x="35" y={phase.start + 35} className="font-mono text-[14px] font-bold fill-slate-800">{phase.name}</text>
+                      <text x="35" y={phase.start + 52} className="font-sans text-[11px] fill-slate-500">{phase.desc}</text>
+                    </g>
+                  ))}
+                  <line x1="10" y1="2730" x2="2390" y2="2730" stroke="#fecaca" strokeWidth="2" strokeDasharray="8 4" />
+
+                  {/* 2. BOUNDARY BOXES */}
+                  
+                  {/* UVM Active Agent (Sequencer, Driver) */}
+                  <g className="active-agent-boundary">
+                    <rect 
+                      x="730" y="30" width="460" height="2670" rx="16" 
+                      fill="rgba(241, 245, 249, 0.6)" 
+                      stroke="#3b82f6" strokeWidth="2" strokeDasharray="8 6" 
+                    />
+                    <rect x="750" y="6" width="160" height="24" rx="4" fill="#eff6ff" stroke="#3b82f6" strokeWidth="1" />
+                    <text x="760" y="23" className="font-mono text-[13px] font-bold fill-blue-700">📦 UVM Active Agent</text>
+                  </g>
+
+                  {/* RTL Domain (DUT) */}
+                  <g className="rtl-domain-boundary">
+                    <rect 
+                      x="1250" y="30" width="220" height="2670" rx="16" 
+                      fill="rgba(255, 247, 237, 0.6)" 
+                      stroke="#f97316" strokeWidth="2" strokeDasharray="8 6" 
+                    />
+                    <rect x="1270" y="6" width="120" height="24" rx="4" fill="#fff7ed" stroke="#f97316" strokeWidth="1" />
+                    <text x="1280" y="23" className="font-mono text-[13px] font-bold fill-orange-700">🖥️ RTL Domain</text>
+                  </g>
+
+                  {/* Agent Monitor (Monitor) */}
+                  <g className="monitor-boundary">
+                    <rect 
+                      x="1510" y="30" width="220" height="2670" rx="16" 
+                      fill="rgba(236, 254, 255, 0.6)" 
+                      stroke="#06b6d4" strokeWidth="2" strokeDasharray="8 6" 
+                    />
+                    <rect x="1530" y="6" width="120" height="24" rx="4" fill="#ecfeff" stroke="#06b6d4" strokeWidth="1" />
+                    <text x="1540" y="23" className="font-mono text-[13px] font-bold fill-cyan-700">👁️ Agent Monitor</text>
+                  </g>
+
+                  {/* 3. Lifelines */}
+                  {participants.map(p => (
+                    <path 
+                      key={`ll-${p.id}`} 
+                      d={`M ${p.x} 80 L ${p.x} 2750`}
+                      stroke="#cbd5e1" strokeWidth="2" strokeDasharray="6 6" fill="none"
+                    />
+                  ))}
+
+                  {/* 4. Activation Boxes */}
+                  {activations.map((act, i) => {
+                    const p = participants.find(p => p.id === act.on);
+                    return (
+                      <rect 
+                        key={`act-${i}`}
+                        x={p.x - 8} y={act.start} 
+                        width="16" height={act.end - act.start} 
+                        rx="4" fill={p.actFill} stroke={p.actStroke} strokeWidth="1"
+                      />
+                    )
+                  })}
+
+                  {/* 5. Messages & Actions & Loops */}
+                  {messages.map(msg => {
+                    if (msg.type === 'msg') return renderArrow(msg);
+                    if (msg.type === 'loop') return renderLoop(msg);
+                    if (msg.type === 'action') return renderAction(msg);
+                    return null;
+                  })}
+
+                  {/* 6. Top Header Nodes */}
+                  {participants.map(p => (
+                    <g key={`box-${p.id}`} className="transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                      <rect 
+                        x={p.x - 70} y="30" width="140" height="40" rx="8" 
+                        fill={p.boxFill} stroke={p.boxStroke} strokeWidth="2"
+                        filter="url(#box-shadow)" 
+                      />
+                      <text x={p.x} y="55" fill="white" className="font-sans text-[14px] font-bold tracking-wide" textAnchor="middle">
+                        {p.name}
+                      </text>
+                    </g>
+                  ))}
+                </svg>
+              </div>
+            </div>
+          </main>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반도체 디지털 회로설계 가이드북 - Coverage</title>
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                        mono: ['IBM Plex Sans', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles & Animations -->
+    <style>
+        /* Diagram Grid Background */
+        .diagram-grid {
+            background-size: 24px 24px;
+            background-image: 
+                linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+                linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+        }
+
+        /* SVG Animations */
+        @keyframes flow {
+            to { stroke-dashoffset: -24; }
+        }
+        .animate-flow {
+            stroke-dasharray: 6 6;
+            animation: flow 1s linear infinite;
+        }
+
+        @keyframes fill-progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        .animate-progress {
+            animation: fill-progress 2s ease-out forwards;
+        }
+
+        @keyframes pulse-signal {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; filter: drop-shadow(0 0 4px #2563eb); }
+        }
+        .animate-signal {
+            animation: pulse-signal 2s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+        .animate-pulse-fast {
+            animation: pulse-fast 1.5s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        @keyframes pulse-error {
+            0%, 100% { stroke-width: 2; opacity: 1; }
+            50% { stroke-width: 4; opacity: 0.7; }
+        }
+        .animate-pulse-error {
+            animation: pulse-error 1s ease-in-out infinite;
+        }
+
+        /* Code Syntax Highlighting Colors */
+        .kw { color: #c678dd; font-weight: 600; } /* Keyword */
+        .ty { color: #e5c07b; } /* Type */
+        .fn { color: #61afef; } /* Function */
+        .st { color: #98c379; } /* String */
+        .cm { color: #7f848e; font-style: italic; } /* Comment */
+        .op { color: #56b6c2; } /* Operator */
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-600 font-sans antialiased selection:bg-brand-100 selection:text-brand-700 pb-20">
+
+    <main class="max-w-5xl mx-auto p-6 space-y-10 mt-10">
+
+        <!-- Header -->
+        <header class="space-y-4 mb-12">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-brand-50 text-brand-600 rounded-full text-sm font-semibold tracking-wide">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+                <span>Verification Guide</span>
+            </div>
+            <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Coverage : Check Verification Completeness</h1>
+            <p class="text-lg text-slate-500 max-w-2xl">검증이 얼마나 완벽하게 이루어졌는지 정량적으로 측정하는 Coverage의 역할과 UVM 환경에서의 구현 구조를 시각적으로 이해합니다.</p>
+        </header>
+
+        <!-- [1] Coverage의 역할 -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-transform duration-300 hover:shadow-md">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center mr-3 text-lg font-mono">1</span>
+                Coverage의 역할
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <p class="mb-4 text-slate-600 leading-relaxed">
+                        디자인의 모든 기능이 제대로 테스트되었는지 확인하는 <strong>지표(Metric)</strong>입니다. "검증을 언제 끝낼 수 있는가?"에 대한 명확한 해답을 제공합니다.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-brand-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 테스트 진행 상황의 정량적 수치화 (0% ~ 100%)</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-brand-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 미테스트 영역(Coverage Hole) 발견</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-brand-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 검증 종료 조건(Sign-off)의 기준점</li>
+                    </ul>
+                </div>
+                <div class="relative h-40 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-center px-8 overflow-hidden">
+                    <div class="flex justify-between mb-2 text-sm font-bold text-slate-700">
+                        <span>Verification Progress</span>
+                        <span class="text-brand-600">100% Goal</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-4 relative overflow-hidden">
+                        <div class="bg-brand-500 h-4 rounded-full animate-progress absolute left-0 top-0"></div>
+                        <div class="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.15)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.15)_50%,rgba(255,255,255,0.15)_75%,transparent_75%,transparent)] bg-[length:1rem_1rem] animate-[flow_1s_linear_infinite]"></div>
+                    </div>
+                    <div class="mt-4 flex justify-between text-xs text-slate-400">
+                        <span>Stimulus</span>
+                        <span>Monitor</span>
+                        <span>Coverage Collection</span>
+                        <span>Sign-off</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-slate-50 border-l-4 border-brand-500 rounded-r-xl p-5">
+                <h3 class="text-sm font-bold text-slate-800 mb-2 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-brand-600" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4z"/></svg>
+                    UVM Expert Insight : Code Coverage vs Functional Coverage
+                </h3>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    업계에서는 <strong>Code Coverage</strong>(Statement, Branch, Toggle 등 RTL 코드가 얼마나 실행되었는가)와 <strong>Functional Coverage</strong>(설계 스펙/의도대로 기능이 동작했는가)를 구분합니다. Code Coverage가 100%라고 해서 스펙을 완벽히 구현했다는 보장은 없습니다. (구현 자체가 누락된 코드는 측정되지 않기 때문입니다). 따라서 UVM 환경에서는 검증 엔지니어가 직접 스펙을 기반으로 정의한 Functional Coverage를 핵심 Sign-off 기준으로 삼습니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- [2] & [3] UVM 구조 & 연결 -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-transform duration-300 hover:shadow-md overflow-hidden">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center mr-3 text-lg font-mono">2</span>
+                UVM 상속구조 & 연결 (Monitor → Coverage)
+            </h2>
+            <p class="text-slate-500 mb-8 ml-11">Coverage Component는 <code class="font-mono text-sm bg-slate-100 px-1 py-0.5 rounded text-brand-600">uvm_subscriber</code>를 상속받으며, Monitor로부터 TLM Port를 통해 트랜잭션을 수신합니다.</p>
+            
+            <div class="diagram-grid rounded-xl border border-slate-200 p-6 relative h-64 flex items-center justify-center">
+                <!-- SVG Diagram for Monitor -> Coverage Flow -->
+                <svg class="w-full h-full max-w-3xl" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.05"/>
+                        </filter>
+                    </defs>
+
+                    <!-- Background Base Classes -->
+                    <rect x="50" y="20" width="200" height="40" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="4"/>
+                    <text x="150" y="45" text-anchor="middle" class="fill-slate-500 font-mono text-sm font-bold">uvm_monitor</text>
+                    
+                    <rect x="550" y="20" width="200" height="40" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="4"/>
+                    <text x="650" y="45" text-anchor="middle" class="fill-slate-500 font-mono text-sm font-bold">uvm_subscriber</text>
+
+                    <!-- Inheritance Arrows -->
+                    <path d="M150 60 L150 80" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M650 60 L650 80" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <defs>
+                        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+                        </marker>
+                        <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+                        </marker>
+                    </defs>
+
+                    <!-- Main Components -->
+                    <rect x="50" y="80" width="200" height="80" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)" class="hover:-translate-y-1 transition-transform cursor-pointer"/>
+                    <text x="150" y="115" text-anchor="middle" class="fill-slate-800 font-sans text-lg font-bold">my_monitor</text>
+                    <text x="150" y="140" text-anchor="middle" class="fill-slate-400 font-mono text-xs">Virtual Interface 참조</text>
+
+                    <rect x="550" y="80" width="200" height="80" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)" class="hover:-translate-y-1 transition-transform cursor-pointer"/>
+                    <text x="650" y="115" text-anchor="middle" class="fill-slate-800 font-sans text-lg font-bold">my_coverage</text>
+                    <text x="650" y="140" text-anchor="middle" class="fill-slate-400 font-mono text-xs">Covergroup 포함</text>
+
+                    <!-- TLM Ports -->
+                    <!-- Monitor Port -->
+                    <rect x="230" y="110" width="40" height="20" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="210" y="100" text-anchor="middle" class="fill-brand-600 font-mono text-xs font-bold">ap</text>
+                    
+                    <!-- Coverage Export -->
+                    <circle cx="550" cy="120" r="10" fill="#ffffff" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="585" y="100" text-anchor="middle" class="fill-brand-600 font-mono text-xs font-bold">analysis_export</text>
+
+                    <!-- Connection Line (Animated) -->
+                    <path d="M270 120 L540 120" fill="none" stroke="#2563eb" stroke-width="3" class="animate-flow" marker-end="url(#arrow-blue)"/>
+                    
+                    <!-- Flowing Transaction Packet -->
+                    <rect x="380" y="105" width="40" height="30" rx="4" fill="#3b82f6" class="animate-float"/>
+                    <text x="400" y="125" text-anchor="middle" class="fill-white font-mono text-xs font-bold">TR</text>
+                    <text x="400" y="155" text-anchor="middle" class="fill-brand-500 font-mono text-xs font-bold">write(T t)</text>
+
+                </svg>
+            </div>
+            
+            <div class="mt-6 bg-slate-50 border-l-4 border-brand-500 rounded-r-xl p-5">
+                <h3 class="text-sm font-bold text-slate-800 mb-2 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-brand-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                    UVM Expert Insight : 왜 uvm_subscriber를 사용할까요?
+                </h3>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    UVM의 핵심 철학은 <strong>'컴포넌트 간의 결합도(Coupling)를 낮추는 것'</strong>입니다. Monitor는 트랜잭션을 수집하여 <code class="bg-slate-200 px-1 rounded text-slate-700">analysis_port (ap)</code>를 통해 단순히 브로드캐스트할 뿐, 누가 그 데이터를 사용하는지 알지 못합니다. Coverage Component는 <code class="bg-slate-200 px-1 rounded text-slate-700">uvm_subscriber</code>를 상속받아 포트를 연결하고 데이터를 수동적으로 받아 처리합니다. 이렇게 분리하면 Monitor 코드를 수정하지 않고도 Scoreboard나 Coverage Collector를 자유롭게 붙이거나 뗄 수 있어 재사용성이 극대화됩니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- [4] ~ [9] Functional Coverage 핵심 개념 시각화 -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-transform duration-300 hover:shadow-md">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 flex items-center">
+                    <span class="w-8 h-8 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center mr-3 text-lg font-mono">3</span>
+                    Functional Coverage 구조 (Covergroup ~ Cross)
+                </h2>
+                <p class="text-slate-500 ml-11">테스트 목표를 정의하는 <code class="font-mono text-sm">covergroup</code>과 트랜잭션이 Bins에 매핑되어 Cross 매트릭스를 채우는 흐름입니다.</p>
+            </div>
+
+            <!-- Advanced Complex SVG Visualization -->
+            <div class="diagram-grid rounded-xl border border-slate-200 p-8 w-full overflow-x-auto relative">
+                <svg viewBox="0 0 1050 600" class="w-full min-w-[950px] h-auto" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="card-shadow" x="-5%" y="-5%" width="110%" height="110%">
+                            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+                        </filter>
+                        <linearGradient id="grad-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="100%" stop-color="#f8fafc"/>
+                        </linearGradient>
+                        <pattern id="stripes" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                            <line x1="0" y1="0" x2="0" y2="8" stroke="#cbd5e1" stroke-width="4" opacity="0.3"/>
+                        </pattern>
+                        <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+                        </marker>
+                        <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" />
+                        </marker>
+                        <marker id="arrow-slate" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+                        </marker>
+                    </defs>
+
+                    <!-- [5] Covergroup Container -->
+                    <rect x="10" y="20" width="1020" height="560" rx="16" fill="url(#grad-bg)" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8 4"/>
+                    <rect x="30" y="0" width="180" height="40" rx="8" fill="#1e293b"/>
+                    <text x="120" y="25" text-anchor="middle" class="fill-white font-mono text-sm font-bold">[5] covergroup cg;</text>
+
+                    <!-- Connectors / Data Flow Paths -->
+                    <path d="M 120 305 L 220 305" class="stroke-brand-500 stroke-2 fill-none animate-flow"/>
+                    <circle cx="220" cy="305" r="3" fill="#3b82f6"/>
+                    <path d="M 220 305 L 220 180 L 255 180" class="stroke-brand-500 stroke-2 fill-none animate-flow" marker-end="url(#arrow-blue)"/>
+                    <path d="M 220 305 L 220 440 L 255 440" class="stroke-brand-500 stroke-2 fill-none animate-flow" marker-end="url(#arrow-blue)"/>
+                    
+                    <path d="M 580 180 L 630 180 L 630 300 L 675 300" class="stroke-slate-400 stroke-2 fill-none stroke-dasharray-4" marker-end="url(#arrow-slate)"/>
+                    <path d="M 580 440 L 630 440 L 630 310 L 675 310" class="stroke-slate-400 stroke-2 fill-none stroke-dasharray-4" marker-end="url(#arrow-slate)"/>
+
+                    <!-- Data Packet visual cue -->
+                    <rect x="150" y="295" width="40" height="20" rx="4" fill="#dbeafe" stroke="#3b82f6" class="animate-pulse-fast"/>
+                    <text x="170" y="309" text-anchor="middle" class="fill-brand-700 font-mono text-[10px] font-bold">TR</text>
+
+                    <!-- [8] IFF Condition Gate -->
+                    <g transform="translate(30, 265)">
+                        <rect x="0" y="0" width="110" height="80" rx="12" fill="#ffffff" stroke="#ef4444" stroke-width="2" filter="url(#card-shadow)"/>
+                        <rect x="0" y="0" width="110" height="24" rx="10" fill="#fee2e2"/>
+                        <text x="55" y="16" text-anchor="middle" class="fill-red-700 font-mono text-xs font-bold">[8] Gate</text>
+                        <text x="55" y="45" text-anchor="middle" class="fill-slate-700 font-mono text-sm font-bold">iff</text>
+                        <text x="55" y="65" text-anchor="middle" class="fill-slate-500 font-mono text-xs">(!reset)</text>
+                    </g>
+
+                    <!-- [6] Coverpoint ADDR -->
+                    <g transform="translate(260, 80)">
+                        <rect x="0" y="0" width="320" height="210" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#card-shadow)"/>
+                        <rect x="0" y="0" width="320" height="36" rx="12" fill="#f1f5f9"/>
+                        <text x="160" y="23" text-anchor="middle" class="fill-slate-800 font-mono text-sm font-bold">[6] coverpoint addr</text>
+                        
+                        <text x="20" y="55" class="fill-slate-500 font-mono text-xs font-bold">[7] bins</text>
+                        
+                        <!-- Normal Bin 1 -->
+                        <g transform="translate(20, 65)">
+                            <rect x="0" y="0" width="280" height="36" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+                            <text x="10" y="22" class="fill-slate-700 font-mono text-xs">low_range <tspan class="fill-slate-400">[0:127]</tspan></text>
+                            <rect x="150" y="14" width="90" height="8" rx="4" fill="#e2e8f0"/>
+                            <rect x="150" y="14" width="90" height="8" rx="4" fill="#10b981"/> <!-- 100% -->
+                            <text x="260" y="22" class="fill-emerald-600 font-mono text-[10px] font-bold text-right">100%</text>
+                        </g>
+                        <!-- Normal Bin 2 -->
+                        <g transform="translate(20, 110)">
+                            <rect x="0" y="0" width="280" height="36" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+                            <text x="10" y="22" class="fill-slate-700 font-mono text-xs">high_range <tspan class="fill-slate-400">[128:255]</tspan></text>
+                            <rect x="150" y="14" width="90" height="8" rx="4" fill="#e2e8f0"/>
+                            <rect x="150" y="14" width="45" height="8" rx="4" fill="#f59e0b"/> <!-- 50% -->
+                            <text x="260" y="22" class="fill-amber-500 font-mono text-[10px] font-bold text-right">50%</text>
+                        </g>
+                        <!-- Ignore Bin -->
+                        <g transform="translate(20, 155)">
+                            <rect x="0" y="0" width="280" height="36" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="4"/>
+                            <text x="10" y="22" class="fill-slate-500 font-mono text-xs">ignore_bins <tspan class="fill-slate-400">rsvd [256:MAX]</tspan></text>
+                            <rect x="150" y="14" width="90" height="8" rx="4" fill="url(#stripes)"/>
+                            <text x="260" y="22" class="fill-slate-400 font-sans text-[10px] font-bold text-right">Excluded</text>
+                        </g>
+                    </g>
+
+                    <!-- [6] Coverpoint CMD -->
+                    <g transform="translate(260, 340)">
+                        <rect x="0" y="0" width="320" height="210" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#card-shadow)"/>
+                        <rect x="0" y="0" width="320" height="36" rx="12" fill="#f1f5f9"/>
+                        <text x="160" y="23" text-anchor="middle" class="fill-slate-800 font-mono text-sm font-bold">[6] coverpoint cmd</text>
+                        
+                        <text x="20" y="55" class="fill-slate-500 font-mono text-xs font-bold">[7] bins</text>
+
+                        <!-- Normal Bin 1 -->
+                        <g transform="translate(20, 65)">
+                            <rect x="0" y="0" width="280" height="36" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+                            <text x="10" y="22" class="fill-slate-700 font-mono text-xs">read <tspan class="fill-slate-400">{2'b01}</tspan></text>
+                            <rect x="150" y="14" width="90" height="8" rx="4" fill="#e2e8f0"/>
+                            <rect x="150" y="14" width="90" height="8" rx="4" fill="#10b981"/> <!-- 100% -->
+                            <text x="260" y="22" class="fill-emerald-600 font-mono text-[10px] font-bold text-right">100%</text>
+                        </g>
+                        <!-- Normal Bin 2 -->
+                        <g transform="translate(20, 110)">
+                            <rect x="0" y="0" width="280" height="36" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+                            <text x="10" y="22" class="fill-slate-700 font-mono text-xs">write <tspan class="fill-slate-400">{2'b10}</tspan></text>
+                            <rect x="150" y="14" width="90" height="8" rx="4" fill="#e2e8f0"/>
+                            <rect x="150" y="14" width="72" height="8" rx="4" fill="#3b82f6"/> <!-- 80% -->
+                            <text x="260" y="22" class="fill-blue-500 font-mono text-[10px] font-bold text-right">80%</text>
+                        </g>
+                        <!-- Illegal Bin -->
+                        <g transform="translate(20, 155)">
+                            <rect x="0" y="0" width="280" height="36" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-dasharray="4" class="animate-pulse-error"/>
+                            <text x="10" y="22" class="fill-red-700 font-mono text-xs font-bold">illegal_bins <tspan class="fill-red-400">inv {2'b11}</tspan></text>
+                            <path d="M 150 18 L 240 18" stroke="#ef4444" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 8"/>
+                            <text x="260" y="22" class="fill-red-600 font-sans text-[10px] font-bold text-right">ERROR</text>
+                        </g>
+                    </g>
+
+                    <!-- [9] Cross Coverage Matrix -->
+                    <g transform="translate(620, 80)">
+                        <rect x="0" y="0" width="400" height="460" rx="12" fill="#ffffff" stroke="#8b5cf6" stroke-width="2" filter="url(#card-shadow)"/>
+                        <rect x="0" y="0" width="400" height="40" rx="12" fill="#ede9fe"/>
+                        <text x="200" y="25" text-anchor="middle" class="fill-violet-800 font-mono text-sm font-bold">[9] cross addr_x_cmd</text>
+                        
+                        <text x="200" y="65" text-anchor="middle" class="fill-slate-500 font-sans text-xs">Cartesian Product (조합 매트릭스) & 예외 처리</text>
+
+                        <g transform="translate(50, 110)">
+                            <!-- Ignore & Illegal Background Regions -->
+                            <!-- Ignore Row Background -->
+                            <rect x="40" y="120" width="240" height="60" fill="url(#stripes)"/>
+                            <!-- Illegal Column Background -->
+                            <rect x="200" y="0" width="80" height="120" fill="#fee2e2" opacity="0.6"/>
+
+                            <!-- Axes Lines -->
+                            <line x1="40" y1="0" x2="40" y2="180" stroke="#cbd5e1" stroke-width="2"/>
+                            <line x1="0" y1="180" x2="280" y2="180" stroke="#cbd5e1" stroke-width="2"/>
+                            
+                            <!-- Grid Lines -->
+                            <line x1="120" y1="0" x2="120" y2="180" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
+                            <line x1="200" y1="0" x2="200" y2="180" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
+                            <line x1="280" y1="0" x2="280" y2="180" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
+                            
+                            <line x1="0" y1="60" x2="280" y2="60" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
+                            <line x1="0" y1="120" x2="280" y2="120" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
+
+                            <!-- Y Axis Labels (ADDR) -->
+                            <text x="35" y="35" text-anchor="end" class="fill-slate-700 font-mono text-xs">low_range</text>
+                            <text x="35" y="95" text-anchor="end" class="fill-slate-700 font-mono text-xs">high_range</text>
+                            <text x="35" y="155" text-anchor="end" class="fill-slate-400 font-mono text-xs">rsvd (ignore)</text>
+
+                            <!-- X Axis Labels (CMD) -->
+                            <text x="80" y="200" text-anchor="middle" class="fill-slate-700 font-mono text-xs">read</text>
+                            <text x="160" y="200" text-anchor="middle" class="fill-slate-700 font-mono text-xs">write</text>
+                            <text x="240" y="200" text-anchor="middle" class="fill-red-500 font-mono text-xs font-bold">inv (illegal)</text>
+
+                            <!-- Ignore Text Hint -->
+                            <text x="160" y="154" text-anchor="middle" class="fill-slate-500 font-sans text-[10px] font-bold tracking-wide">Coverage 모수(분모)에서 완전 제외됨</text>
+
+                            <!-- Bubbles (Data Points) -->
+                            <!-- (low, read) -->
+                            <circle cx="80" cy="30" r="16" fill="#10b981" opacity="0.9" filter="url(#card-shadow)"/>
+                            <text x="80" y="34" text-anchor="middle" class="fill-white font-mono text-[10px] font-bold">100</text>
+                            
+                            <!-- (low, write) -->
+                            <circle cx="160" cy="30" r="14" fill="#3b82f6" opacity="0.9"/>
+                            <text x="160" y="34" text-anchor="middle" class="fill-white font-mono text-[10px] font-bold">80</text>
+
+                            <!-- (low, invalid) - ILLEGAL -->
+                            <circle cx="240" cy="30" r="14" fill="#fef2f2" stroke="#dc2626" stroke-width="2" class="animate-pulse-error"/>
+                            <text x="240" y="34" text-anchor="middle" class="fill-red-600 font-mono text-[10px] font-bold">ERR</text>
+
+                            <!-- (high, read) -->
+                            <circle cx="80" cy="90" r="11" fill="#f59e0b" opacity="0.9"/>
+                            <text x="80" y="94" text-anchor="middle" class="fill-white font-mono text-[10px] font-bold">45</text>
+
+                            <!-- (high, write) - HOLE -->
+                            <circle cx="160" cy="90" r="16" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="4" class="animate-pulse-fast"/>
+                            <text x="160" y="94" text-anchor="middle" class="fill-red-500 font-mono text-[10px] font-bold">0</text>
+                            
+                            <!-- Hole Label Tooltip -->
+                            <path d="M 175 100 L 185 115" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+                            <rect x="145" y="118" width="85" height="20" rx="4" fill="#fee2e2" filter="url(#card-shadow)"/>
+                            <text x="187.5" y="132" text-anchor="middle" class="fill-red-700 font-sans text-[10px] font-bold tracking-wide">Coverage Hole</text>
+
+                            <!-- (high, invalid) - ILLEGAL -->
+                            <circle cx="240" cy="90" r="14" fill="#fef2f2" stroke="#dc2626" stroke-width="2" class="animate-pulse-error"/>
+                            <text x="240" y="94" text-anchor="middle" class="fill-red-600 font-mono text-[10px] font-bold">ERR</text>
+                        </g>
+
+                        <!-- Summary Bottom -->
+                        <rect x="40" y="370" width="320" height="60" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
+                        <text x="200" y="395" text-anchor="middle" class="fill-slate-800 font-sans text-sm font-bold">
+                            Total Cross Coverage : <tspan class="fill-brand-600">75%</tspan> (3/4 Bins)
+                        </text>
+                        <text x="200" y="415" text-anchor="middle" class="fill-slate-500 font-sans text-[11px]">
+                            * ignore/illegal 영역은 전체 100% 계산 목표(Denominator)에서 제외됨
+                        </text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-50 border-l-4 border-brand-500 rounded-r-xl p-5 shadow-sm">
+                    <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+                        <svg class="w-4 h-4 mr-2 text-brand-600" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+                        💡 UVM Expert Insight : Bins와 Coverage Hole
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-2">
+                        Coverpoint 내부의 각각의 <code class="text-xs bg-slate-200 px-1 rounded">bins</code>가 모두 채워져야 해당 항목이 100%가 됩니다. 위 그림의 매트릭스에서 <strong>0번 찍힌 붉은색 영역(Coverage Hole)</strong>은 (High Address + Write Cmd) 조합이 시뮬레이션 중 단 한 번도 발생하지 않았음을 의미합니다. 
+                    </p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        이 Hole을 메우기 위해 검증 엔지니어는 시드(Seed)를 바꾸거나 테스트 벤치의 Constrained Random 구문을 수정하여 해당 시나리오로 Stimulus를 유도해야 합니다.
+                    </p>
+                </div>
+                <div class="bg-slate-50 border-l-4 border-purple-500 rounded-r-xl p-5 shadow-sm">
+                    <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+                        <svg class="w-4 h-4 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                        ⚠️ State Explosion과 예외 처리 (ignore_bins)
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-2">
+                        단순히 모든 변수를 Cross하면 <strong>상태 공간 폭발(State Space Explosion)</strong>이 발생하여 툴에 엄청난 부하를 줍니다. 
+                    </p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        만약 저 'Coverage Hole'이 <strong>"스펙상 절대 발생할 수 없는 조합"</strong>(예: Read-only 영역에 Write 시도)이라면, 해당 조합을 <code class="text-xs text-slate-500 bg-slate-200 px-1 rounded">ignore_bins</code>나 <code class="text-xs text-red-600 bg-red-100 px-1 rounded">illegal_bins</code>로 지정하여 전체 모수(Denominator)에서 제외해야 비로소 최종 Coverage 100% Goal을 달성할 수 있습니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- [10] write() Function -->
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-transform duration-300 hover:shadow-md flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
+                        <span class="w-7 h-7 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center mr-3 text-base font-mono">4</span>
+                        [10] write() Function
+                    </h2>
+                    <p class="text-sm text-slate-600 mb-4">Subscriber의 핵심 콜백(Callback) 함수입니다. Monitor로부터 트랜잭션을 수신할 때마다 즉시 호출되어 Coverage를 샘플링합니다.</p>
+                </div>
+                
+                <!-- SVG: write() execution and Zero-time concept -->
+                <div class="mt-2 mb-6 bg-slate-50 border border-slate-200 rounded-xl p-4 w-full relative shadow-inner flex items-center justify-center overflow-hidden h-[240px]">
+                    <svg viewBox="0 0 500 240" class="w-full h-full max-w-md" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="shadow-light" x="-10%" y="-10%" width="120%" height="120%">
+                                <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.1"/>
+                            </filter>
+                            <marker id="arrow-blue-sm" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+                            </marker>
+                            <marker id="arrow-slate-sm" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+                            </marker>
+                        </defs>
+
+                        <!-- Left: Monitor -->
+                        <g transform="translate(10, 80)">
+                            <rect x="0" y="0" width="120" height="80" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow-light)"/>
+                            <text x="60" y="25" text-anchor="middle" class="fill-slate-800 font-mono text-xs font-bold">Monitor</text>
+                            
+                            <rect x="15" y="40" width="90" height="24" rx="4" fill="#eff6ff" stroke="#3b82f6"/>
+                            <text x="60" y="56" text-anchor="middle" class="fill-brand-600 font-mono text-[10px] font-bold">ap.write(tr)</text>
+                        </g>
+
+                        <!-- TLM Connection -->
+                        <path d="M 130 120 L 250 120" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4" class="animate-flow" marker-end="url(#arrow-blue-sm)"/>
+                        
+                        <!-- Floating Transaction Packet -->
+                        <rect x="170" y="108" width="30" height="24" rx="4" fill="#3b82f6" class="animate-pulse-fast"/>
+                        <text x="185" y="124" text-anchor="middle" class="fill-white font-mono text-[10px] font-bold">TR</text>
+
+                        <!-- Right: Subscriber / write() body -->
+                        <g transform="translate(260, 20)">
+                            <rect x="0" y="0" width="230" height="200" rx="12" fill="#ffffff" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 2" filter="url(#shadow-light)"/>
+                            <rect x="0" y="0" width="230" height="30" rx="12" fill="#1e293b"/>
+                            <text x="115" y="20" text-anchor="middle" class="fill-white font-mono text-xs font-bold">uvm_subscriber</text>
+
+                            <!-- Zero-Time Badge -->
+                            <rect x="135" y="40" width="80" height="20" rx="10" fill="#fee2e2" stroke="#ef4444"/>
+                            <circle cx="147" cy="50" r="6" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+                            <path d="M 147 46 L 147 50 L 150 50" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+                            <text x="180" y="53" text-anchor="middle" class="fill-red-700 font-sans text-[9px] font-bold">Zero-Time (0ns)</text>
+
+                            <!-- write() function execution box -->
+                            <rect x="15" y="70" width="200" height="115" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+                            <text x="100" y="90" text-anchor="middle" class="fill-slate-800 font-mono text-[11px] font-bold text-brand-600">function void write(T t)</text>
+                            <line x1="15" y1="100" x2="215" y2="100" stroke="#e2e8f0" stroke-width="1"/>
+
+                            <!-- Step 1: Copy -->
+                            <text x="25" y="120" class="fill-slate-600 font-mono text-[10px]">1. this.tr = t;</text>
+                            
+                            <!-- Step 2: Sample -->
+                            <text x="25" y="145" class="fill-slate-600 font-mono text-[10px]">2. cg.sample();</text>
+                            
+                            <!-- Internal Flow Arrow -->
+                            <path d="M 110 120 L 110 135" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow-slate-sm)"/>
+
+                            <!-- Covergroup Hit Animation -->
+                            <rect x="120" y="132" width="70" height="16" rx="4" fill="#10b981" fill-opacity="0.2" stroke="#10b981"/>
+                            <text x="155" y="143" text-anchor="middle" class="fill-emerald-700 font-mono text-[9px] font-bold">Covered!</text>
+                            <circle cx="185" cy="140" r="3" fill="#10b981" class="animate-pulse"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="bg-[#282c34] rounded-xl p-4 font-mono text-sm text-[#abb2bf] shadow-inner mb-5 overflow-x-auto border border-slate-700">
+                    <span class="kw">virtual function</span> <span class="ty">void</span> <span class="fn">write</span>(<span class="ty">T</span> t);<br>
+                    &nbsp;&nbsp;<span class="cm">// 1. 트랜잭션 데이터 복사</span><br>
+                    &nbsp;&nbsp;<span class="kw">this</span>.tr = t;<br>
+                    <br>
+                    &nbsp;&nbsp;<span class="cm">// 2. Covergroup 샘플링 트리거</span><br>
+                    &nbsp;&nbsp;<span class="kw">this</span>.cg.<span class="fn">sample</span>(); <span class="inline-block w-2 h-2 rounded-full bg-green-400 animate-signal ml-2"></span><br>
+                    <span class="kw">endfunction</span>
+                </div>
+
+                <div class="bg-slate-50 border-l-4 border-brand-500 rounded-r-xl p-4 shadow-sm">
+                    <h3 class="text-xs font-bold text-slate-800 mb-1 flex items-center">
+                        <svg class="w-3 h-3 mr-1.5 text-brand-600" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4z"/></svg>
+                        UVM Expert Insight : Zero-Time Execution
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        SystemVerilog에서 <code>function</code>은 시간 지연(<code>#10</code>, <code>@(posedge clk)</code> 등)을 허용하지 않는 즉시 실행 구문입니다. Monitor가 버스에서 패킷을 캡처하여 <code>ap.write()</code>를 호출하는 순간, 연결된 모든 Subscriber의 <code>write()</code> 콜백이 시뮬레이션 타임(Tick) 증가 없이 <strong>Zero-Time</strong>으로 동기화되어 실행됩니다. 이를 통해 트랜잭션의 유실이나 타이밍 왜곡 없이 가장 정확한 상태에서 Coverage를 수집할 수 있습니다.
+                    </p>
+                </div>
+            </section>
+
+            <!-- [11] Reset Handling -->
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-transform duration-300 hover:shadow-md flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
+                        <span class="w-7 h-7 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center mr-3 text-base font-mono">5</span>
+                        [11] Reset Handling
+                    </h2>
+                    <p class="text-sm text-slate-600 mb-4">리셋 구간에서는 잘못된 값이 수집되지 않도록 <code class="font-mono bg-slate-100 px-1 rounded">stop()</code>, 이후 <code class="font-mono bg-slate-100 px-1 rounded">start()</code>를 제어하여 데이터 오염을 방지합니다.</p>
+                </div>
+                
+                <!-- Upgraded Timing Diagram SVG -->
+                <div class="mt-4 bg-[#1e293b] border border-slate-700 rounded-xl p-4 w-full overflow-hidden relative shadow-inner">
+                    <svg viewBox="0 0 500 240" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="x-state" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                                <line x1="0" y1="0" x2="0" y2="8" stroke="#ef4444" stroke-width="2" opacity="0.6"/>
+                            </pattern>
+                            <marker id="arrow-down-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"/>
+                            </marker>
+                            <marker id="arrow-down-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444"/>
+                            </marker>
+                        </defs>
+
+                        <!-- Background Grid / Time ticks -->
+                        <line x1="120" y1="20" x2="120" y2="220" stroke="#334155" stroke-width="1" stroke-dasharray="4"/>
+                        <line x1="220" y1="20" x2="220" y2="220" stroke="#334155" stroke-width="1" stroke-dasharray="4"/>
+                        <line x1="380" y1="20" x2="380" y2="220" stroke="#334155" stroke-width="1" stroke-dasharray="4"/>
+
+                        <!-- Track 1: rst_n -->
+                        <text x="10" y="45" class="fill-slate-300 font-mono text-xs font-bold">rst_n</text>
+                        <path d="M 60 30 L 220 30 L 220 55 L 380 55 L 380 30 L 480 30" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+                        <!-- Reset Active Shaded Area -->
+                        <rect x="220" y="20" width="160" height="200" fill="#ef4444" opacity="0.1"/>
+                        <text x="300" y="30" text-anchor="middle" class="fill-red-400 font-mono text-[9px] font-bold">RESET ACTIVE</text>
+
+                        <!-- Track 2: Transaction Data -->
+                        <text x="10" y="95" class="fill-slate-300 font-mono text-xs font-bold">tr.data</text>
+                        <!-- Valid Data 1 -->
+                        <polygon points="60,90 70,80 180,80 190,90 180,100 70,100" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="125" y="94" text-anchor="middle" class="fill-brand-300 font-mono text-[10px]">Valid TR</text>
+                        
+                        <!-- X-State / Unknown Data during Reset -->
+                        <polygon points="210,90 220,80 370,80 380,90 370,100 220,100" fill="url(#x-state)" stroke="#ef4444" stroke-width="1.5"/>
+                        <text x="295" y="94" text-anchor="middle" class="fill-white font-mono text-[10px] font-bold drop-shadow-md">Garbage (X/0)</text>
+
+                        <!-- Valid Data 2 -->
+                        <polygon points="390,90 400,80 480,80 490,90 480,100 400,100" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="1.5"/>
+                        <text x="440" y="94" text-anchor="middle" class="fill-emerald-300 font-mono text-[10px]">Valid TR</text>
+
+                        <!-- Track 3: Covergroup Status -->
+                        <text x="10" y="145" class="fill-slate-300 font-mono text-xs font-bold">cg_bus</text>
+                        
+                        <!-- cg.start() block 1 -->
+                        <rect x="60" y="130" width="160" height="20" rx="4" fill="#10b981" fill-opacity="0.2" stroke="#10b981"/>
+                        <text x="140" y="144" text-anchor="middle" class="fill-emerald-400 font-mono text-[10px] font-bold">ACTIVE</text>
+                        
+                        <!-- cg.stop() block -->
+                        <rect x="220" y="130" width="160" height="20" rx="4" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444"/>
+                        <text x="300" y="144" text-anchor="middle" class="fill-red-400 font-mono text-[10px] font-bold">STOPPED</text>
+                        <text x="250" y="125" class="fill-red-400 font-mono text-[9px]">cg.stop()</text>
+
+                        <!-- cg.start() block 2 -->
+                        <rect x="380" y="130" width="100" height="20" rx="4" fill="#10b981" fill-opacity="0.2" stroke="#10b981"/>
+                        <text x="430" y="144" text-anchor="middle" class="fill-emerald-400 font-mono text-[10px] font-bold">ACTIVE</text>
+                        <text x="400" y="125" class="fill-emerald-400 font-mono text-[9px]">cg.start()</text>
+
+                        <!-- Track 4: Sampling Action -->
+                        <text x="10" y="195" class="fill-slate-300 font-mono text-xs font-bold">sample()</text>
+                        
+                        <!-- Success Sample -->
+                        <path d="M 125 105 L 125 180" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3" marker-end="url(#arrow-down-green)"/>
+                        <circle cx="125" cy="190" r="8" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="2"/>
+                        <path d="M 121 190 L 124 193 L 129 187" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        <text x="125" y="210" text-anchor="middle" class="fill-emerald-400 font-mono text-[9px]">Collected</text>
+
+                        <!-- Blocked Sample (The Shield) -->
+                        <path d="M 295 105 L 295 155" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3" marker-end="url(#arrow-down-red)"/>
+                        <!-- Shield/Block visual -->
+                        <rect x="280" y="165" width="30" height="6" rx="2" fill="#ef4444" class="animate-pulse"/>
+                        <circle cx="295" cy="190" r="8" fill="none" stroke="#ef4444" stroke-width="2"/>
+                        <path d="M 291 186 L 299 194 M 299 186 L 291 194" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+                        <text x="295" y="210" text-anchor="middle" class="fill-red-400 font-mono text-[9px] font-bold tracking-widest">DROP</text>
+
+                        <!-- Success Sample 2 -->
+                        <path d="M 440 105 L 440 180" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3" marker-end="url(#arrow-down-green)"/>
+                        <circle cx="440" cy="190" r="8" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="2"/>
+                        <path d="M 436 190 L 439 193 L 444 187" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        <text x="440" y="210" text-anchor="middle" class="fill-emerald-400 font-mono text-[9px]">Collected</text>
+                    </svg>
+                </div>
+
+                <div class="mt-5 bg-slate-50 border-l-4 border-red-500 rounded-r-xl p-4 shadow-sm">
+                    <h3 class="text-xs font-bold text-slate-800 mb-1 flex items-center">
+                        <svg class="w-3 h-3 mr-1.5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                        UVM Expert Insight : False Positive 방어선
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        리셋이 인가되는 동안 DUT 내부 레지스터는 강제로 <code>0</code>으로 초기화되거나 <code>X(Unknown)</code> 상태가 될 수 있습니다. 만약 이 Garbage Data가 Monitor를 거쳐 Subscriber로 전달될 때 <code class="text-red-600">cg.stop()</code>으로 막지 않는다면, <code>Address=0, Cmd=0</code> 조합의 Coverage Bin이 달성된 것으로 잘못 기록됩니다. 이를 방지하기 위해 <strong><code class="font-mono bg-slate-200 px-1 rounded">iff(!reset)</code> 조건식</strong>과 <strong><code class="font-mono bg-slate-200 px-1 rounded">stop()/start()</code> 메소드</strong>를 이중 방어선으로 반드시 구축해야 합니다.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- [12] Coverage Report -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-transform duration-300 hover:shadow-md">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                <span class="w-8 h-8 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center mr-3 text-lg font-mono">6</span>
+                [12] Coverage Report & Regression Merge
+            </h2>
+            
+            <p class="text-slate-600 leading-relaxed mb-8">
+                단일 시뮬레이션(Single Test)만으로는 복잡한 디자인의 모든 코너 케이스를 커버할 수 없습니다. 실무에서는 <strong>수백 개의 서로 다른 Random Seed</strong>를 사용하여 시뮬레이션을 반복(Regression)하고, 여기서 생성된 Coverage Database들을 하나로 <strong>병합(Merge)</strong>하여 최종 Report를 생성합니다.
+            </p>
+
+            <!-- 1. Regression & Merge Flow SVG -->
+            <div class="diagram-grid rounded-xl border border-slate-200 p-6 mb-8 w-full overflow-x-auto relative">
+                <h3 class="text-sm font-bold text-slate-700 mb-4 font-mono absolute top-4 left-6 bg-white/80 px-2 py-1 rounded">Regression & DB Merge Flow</h3>
+                <svg viewBox="0 0 1000 220" class="w-full min-w-[800px] h-auto mt-4" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="shadow-sm" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.1"/>
+                        </filter>
+                        <marker id="arrow-flow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+                        </marker>
+                    </defs>
+
+                    <!-- Individual Tests -->
+                    <g transform="translate(20, 20)">
+                        <!-- Test 1 -->
+                        <rect x="0" y="0" width="160" height="40" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow-sm)"/>
+                        <text x="80" y="18" text-anchor="middle" class="fill-slate-800 font-mono text-xs font-bold">Test_001.ucdb</text>
+                        <text x="80" y="32" text-anchor="middle" class="fill-slate-500 font-mono text-[10px]">Seed: 10482</text>
+                        <path d="M 160 20 L 300 80" fill="none" stroke="#3b82f6" stroke-width="2" class="animate-flow" marker-end="url(#arrow-flow)"/>
+                        
+                        <!-- Test 2 -->
+                        <rect x="0" y="60" width="160" height="40" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow-sm)"/>
+                        <text x="80" y="78" text-anchor="middle" class="fill-slate-800 font-mono text-xs font-bold">Test_002.ucdb</text>
+                        <text x="80" y="92" text-anchor="middle" class="fill-slate-500 font-mono text-[10px]">Seed: 59301</text>
+                        <path d="M 160 80 L 300 80" fill="none" stroke="#3b82f6" stroke-width="2" class="animate-flow" marker-end="url(#arrow-flow)"/>
+
+                        <!-- Dots -->
+                        <circle cx="80" cy="115" r="2" fill="#94a3b8"/>
+                        <circle cx="80" cy="125" r="2" fill="#94a3b8"/>
+                        <circle cx="80" cy="135" r="2" fill="#94a3b8"/>
+
+                        <!-- Test N -->
+                        <rect x="0" y="150" width="160" height="40" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow-sm)"/>
+                        <text x="80" y="168" text-anchor="middle" class="fill-slate-800 font-mono text-xs font-bold">Test_500.ucdb</text>
+                        <text x="80" y="182" text-anchor="middle" class="fill-slate-500 font-mono text-[10px]">Seed: 88219</text>
+                        <path d="M 160 170 L 300 80" fill="none" stroke="#3b82f6" stroke-width="2" class="animate-flow" marker-end="url(#arrow-flow)"/>
+                    </g>
+
+                    <!-- Merge Engine -->
+                    <g transform="translate(320, 50)">
+                        <rect x="0" y="0" width="200" height="100" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" filter="url(#shadow-sm)"/>
+                        <circle cx="100" cy="40" r="16" fill="#3b82f6" class="animate-pulse-fast"/>
+                        <path d="M 92 40 L 108 40 M 100 32 L 100 48" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                        <text x="100" y="75" text-anchor="middle" class="fill-brand-800 font-mono text-sm font-bold">Coverage Merge</text>
+                        <text x="100" y="90" text-anchor="middle" class="fill-brand-600 font-mono text-[10px]">(vcover merge / imc)</text>
+                        
+                        <path d="M 200 50 L 340 50" fill="none" stroke="#10b981" stroke-width="3" class="animate-flow" marker-end="url(#arrow-flow)"/>
+                    </g>
+
+                    <!-- Final Merged Database -->
+                    <g transform="translate(560, 60)">
+                        <rect x="0" y="0" width="180" height="80" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2" filter="url(#shadow-sm)"/>
+                        <rect x="0" y="0" width="180" height="24" rx="8" fill="#10b981"/>
+                        <text x="90" y="16" text-anchor="middle" class="fill-white font-mono text-xs font-bold">Merged DB</text>
+                        <text x="90" y="45" text-anchor="middle" class="fill-emerald-800 font-mono text-sm font-bold">merged_final.ucdb</text>
+                        <text x="90" y="65" text-anchor="middle" class="fill-emerald-600 font-mono text-[10px]">Unified Coverage Data</text>
+
+                        <path d="M 180 40 L 260 40" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrow-flow)"/>
+                    </g>
+
+                    <!-- GUI Dashboard Generation -->
+                    <g transform="translate(760, 40)">
+                        <rect x="0" y="0" width="160" height="120" rx="8" fill="#1e293b" stroke="#334155" stroke-width="2" filter="url(#shadow-sm)"/>
+                        <rect x="10" y="10" width="140" height="20" rx="4" fill="#334155"/>
+                        <circle cx="20" cy="20" r="3" fill="#ef4444"/>
+                        <circle cx="32" cy="20" r="3" fill="#f59e0b"/>
+                        <circle cx="44" cy="20" r="3" fill="#10b981"/>
+                        <rect x="10" y="40" width="40" height="40" rx="20" fill="none" stroke="#3b82f6" stroke-width="4"/>
+                        <rect x="10" y="40" width="40" height="40" rx="20" fill="none" stroke="#10b981" stroke-width="4" stroke-dasharray="100" stroke-dashoffset="20"/>
+                        <rect x="60" y="45" width="90" height="6" rx="3" fill="#334155"/>
+                        <rect x="60" y="45" width="70" height="6" rx="3" fill="#10b981"/>
+                        <rect x="60" y="60" width="90" height="6" rx="3" fill="#334155"/>
+                        <rect x="60" y="60" width="85" height="6" rx="3" fill="#10b981"/>
+                        <text x="80" y="100" text-anchor="middle" class="fill-slate-300 font-mono text-[10px] font-bold">Sign-off Report</text>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- 2. Interactive SVG Dashboard -->
+            <div class="bg-[#0f172a] rounded-xl shadow-2xl overflow-hidden border border-slate-700 relative">
+                <!-- Dashboard Header -->
+                <div class="flex justify-between items-center px-6 py-4 border-b border-slate-700 bg-slate-800/50">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        <span class="text-white font-mono font-bold tracking-wide text-sm">Simulation Coverage Dashboard</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-slate-400 font-mono text-xs">DB: merged_final.ucdb</span>
+                        <div class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold border border-green-500/30 flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span> PASS
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Content (Pure SVG) -->
+                <div class="w-full overflow-x-auto">
+                    <svg viewBox="0 0 900 350" class="w-full min-w-[800px] h-auto" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Donut Chart Area (Overall Coverage) -->
+                        <g transform="translate(150, 175)">
+                            <!-- Background Circle -->
+                            <circle cx="0" cy="0" r="90" fill="none" stroke="#1e293b" stroke-width="18"/>
+                            
+                            <!-- Progress Circle (Total: 88%) 
+                                 Circumference = 2 * pi * 90 = 565.48
+                                 88% = 497.62, Offset = 565.48 - 497.62 = 67.85 -->
+                            <circle cx="0" cy="0" r="90" fill="none" stroke="url(#donut-grad)" stroke-width="18" stroke-linecap="round" 
+                                    stroke-dasharray="565.48" stroke-dashoffset="565.48" transform="rotate(-90)">
+                                <animate attributeName="stroke-dashoffset" from="565.48" to="67.85" dur="1.5s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
+                            </circle>
+                            
+                            <defs>
+                                <linearGradient id="donut-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#3b82f6" />
+                                    <stop offset="100%" stop-color="#10b981" />
+                                </linearGradient>
+                            </defs>
+
+                            <text x="0" y="-10" text-anchor="middle" class="fill-slate-400 font-sans text-sm">Total Coverage</text>
+                            <text x="0" y="25" text-anchor="middle" class="fill-white font-mono text-5xl font-bold">88<tspan class="text-2xl fill-slate-500">%</tspan></text>
+                        </g>
+
+                        <!-- Tree/Hierarchy Area -->
+                        <g transform="translate(350, 50)">
+                            <!-- Headers -->
+                            <text x="0" y="0" class="fill-slate-400 font-mono text-xs">HIERARCHY</text>
+                            <text x="350" y="0" class="fill-slate-400 font-mono text-xs">PROGRESS</text>
+                            <text x="500" y="0" class="fill-slate-400 font-mono text-xs text-right">SCORE</text>
+                            
+                            <line x1="0" y1="15" x2="500" y2="15" stroke="#334155" stroke-width="1"/>
+
+                            <!-- Root Node: Covergroup -->
+                            <g transform="translate(0, 45)">
+                                <rect x="0" y="-15" width="24" height="24" rx="4" fill="#3b82f6" fill-opacity="0.2"/>
+                                <text x="12" y="2" text-anchor="middle" class="fill-brand-400 font-mono text-xs font-bold">CG</text>
+                                <text x="35" y="3" class="fill-slate-200 font-mono text-sm font-bold">cg_bus_protocol</text>
+                                
+                                <!-- Progress Bar (88%) -->
+                                <rect x="350" y="-5" width="100" height="8" rx="4" fill="#1e293b"/>
+                                <rect x="350" y="-5" width="0" height="8" rx="4" fill="#3b82f6">
+                                    <animate attributeName="width" from="0" to="88" dur="1.5s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
+                                </rect>
+                                <text x="500" y="3" class="fill-brand-400 font-mono text-sm font-bold text-right">88.0%</text>
+                            </g>
+
+                            <!-- Branch line -->
+                            <path d="M 12 55 L 12 220" fill="none" stroke="#334155" stroke-width="2"/>
+
+                            <!-- Child 1: cp_addr (100%) -->
+                            <g transform="translate(0, 95)">
+                                <line x1="12" y1="-3" x2="30" y2="-3" stroke="#334155" stroke-width="2"/>
+                                <rect x="35" y="-15" width="24" height="24" rx="4" fill="#10b981" fill-opacity="0.2"/>
+                                <text x="47" y="2" text-anchor="middle" class="fill-emerald-400 font-mono text-xs font-bold">CP</text>
+                                <text x="70" y="3" class="fill-slate-300 font-mono text-sm">cp_addr</text>
+                                
+                                <rect x="350" y="-5" width="100" height="8" rx="4" fill="#1e293b"/>
+                                <rect x="350" y="-5" width="0" height="8" rx="4" fill="#10b981">
+                                    <animate attributeName="width" from="0" to="100" dur="1s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
+                                </rect>
+                                <text x="500" y="3" class="fill-emerald-400 font-mono text-sm text-right">100.0%</text>
+                            </g>
+
+                            <!-- Child 2: cp_cmd (100%) -->
+                            <g transform="translate(0, 145)">
+                                <line x1="12" y1="-3" x2="30" y2="-3" stroke="#334155" stroke-width="2"/>
+                                <rect x="35" y="-15" width="24" height="24" rx="4" fill="#10b981" fill-opacity="0.2"/>
+                                <text x="47" y="2" text-anchor="middle" class="fill-emerald-400 font-mono text-xs font-bold">CP</text>
+                                <text x="70" y="3" class="fill-slate-300 font-mono text-sm">cp_cmd</text>
+                                
+                                <rect x="350" y="-5" width="100" height="8" rx="4" fill="#1e293b"/>
+                                <rect x="350" y="-5" width="0" height="8" rx="4" fill="#10b981">
+                                    <animate attributeName="width" from="0" to="100" dur="1s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
+                                </rect>
+                                <text x="500" y="3" class="fill-emerald-400 font-mono text-sm text-right">100.0%</text>
+                            </g>
+
+                            <!-- Child 3: cross (75%) - with Waiver -->
+                            <g transform="translate(0, 195)">
+                                <line x1="12" y1="-3" x2="30" y2="-3" stroke="#334155" stroke-width="2"/>
+                                <rect x="35" y="-15" width="24" height="24" rx="4" fill="#f59e0b" fill-opacity="0.2"/>
+                                <text x="47" y="2" text-anchor="middle" class="fill-amber-400 font-mono text-xs font-bold">CR</text>
+                                <text x="70" y="3" class="fill-slate-300 font-mono text-sm">cross_addr_cmd</text>
+                                
+                                <rect x="350" y="-5" width="100" height="8" rx="4" fill="#1e293b"/>
+                                <rect x="350" y="-5" width="0" height="8" rx="4" fill="#f59e0b">
+                                    <animate attributeName="width" from="0" to="75" dur="1.2s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
+                                </rect>
+                                <text x="500" y="3" class="fill-amber-400 font-mono text-sm text-right">75.0%</text>
+                            </g>
+                            
+                            <!-- Child 3 details (Waiver Info) -->
+                            <g transform="translate(70, 220)">
+                                <path d="M 0 0 L 0 10 L 10 10" fill="none" stroke="#475569" stroke-width="1.5"/>
+                                <rect x="15" y="2" width="40" height="16" rx="4" fill="#334155"/>
+                                <text x="35" y="14" text-anchor="middle" class="fill-slate-300 font-sans text-[9px] font-bold">WAIVER</text>
+                                <text x="65" y="14" class="fill-slate-400 font-mono text-[10px]">1 Bin Excluded (ignore_bins)</text>
+                                <text x="380" y="14" class="fill-slate-500 font-mono text-[10px] text-right">Adjusted Goal: 100%</text>
+                            </g>
+
+                            <!-- Overall Status Message -->
+                            <rect x="0" y="260" width="500" height="30" rx="6" fill="#1e293b" stroke="#334155"/>
+                            <text x="250" y="280" text-anchor="middle" class="fill-slate-300 font-sans text-xs">
+                                <tspan class="fill-brand-400 font-bold">INFO:</tspan> All required functional bins have been hit. Ready for Sign-off.
+                            </text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-50 border-l-4 border-brand-500 rounded-r-xl p-5 shadow-sm">
+                    <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+                        <svg class="w-4 h-4 mr-2 text-brand-600" fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/></svg>
+                        UVM Expert Insight : Regression & Merge
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        하나의 시뮬레이션에서 100% Coverage를 달성하는 것은 불가능에 가깝습니다. 실무에서는 UVM Randomization을 활용하여 수천 개의 <strong>Random Seed</strong>로 병렬 시뮬레이션(Regression)을 돌립니다. 이후 각 결과 파일(<code>.ucdb</code> 등)을 <strong>Merge(병합)</strong>하여 최종 누적 Coverage를 확인하는 것이 검증의 표준 워크플로우입니다.
+                    </p>
+                </div>
+                <div class="bg-slate-50 border-l-4 border-purple-500 rounded-r-xl p-5 shadow-sm">
+                    <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+                        <svg class="w-4 h-4 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                        Sign-off와 Exclusion (Waiver)
+                    </h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        모든 기능 Coverage가 100%에 도달해야 테이프아웃(Sign-off)이 가능합니다. 단, 스펙상 발생할 수 없는 시나리오(예: Reserved 영역 접근)로 인해 발생한 Coverage Hole은 팀 리뷰를 거쳐 <strong>Exclusion(Waiver)</strong> 처리하여 강제로 분모에서 제외시킵니다. 대시보드의 'WAIVER' 마크가 이를 의미합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- [13] 실제 코드 구조 -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-transform duration-300 hover:shadow-md">
+            <div class="p-6 border-b border-slate-100 bg-slate-50">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center">
+                    <span class="w-7 h-7 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center mr-3 text-base font-mono">7</span>
+                    [13] 실제 코드 구조 (UVM Subscriber)
+                </h2>
+            </div>
+            <div class="p-6 bg-[#282c34] overflow-x-auto">
+<pre class="font-mono text-sm leading-relaxed text-[#abb2bf]">
+<span class="kw">class</span> <span class="ty">my_coverage</span> <span class="kw">extends</span> <span class="ty">uvm_subscriber</span> #(<span class="ty">my_transaction</span>);
+  <span class="cm">`uvm_component_utils(my_coverage)</span>
+
+  <span class="ty">my_transaction</span> tr;
+
+  <span class="cm">// [5] covergroup 정의</span>
+  <span class="kw">covergroup</span> cg_bus;
+    <span class="cm">// [8] 옵션/조건 설정</span>
+    <span class="kw">option.per_instance</span> = <span class="op">1</span>;
+    <span class="cm">// Reset이 아닐 때만 수집</span>
+    
+    <span class="cm">// [6] coverpoint 정의 (Address)</span>
+    cp_addr: <span class="kw">coverpoint</span> tr.addr <span class="kw">iff</span>(!tr.reset) {
+      <span class="cm">// [7] bins 정의</span>
+      <span class="kw">bins</span> low_range  = {[<span class="op">0</span>:<span class="op">8'h7F</span>]};
+      <span class="kw">bins</span> high_range = {[<span class="op">8'h80</span>:<span class="op">8'hFF</span>]};
+    }
+
+    <span class="cm">// [6] coverpoint 정의 (Command)</span>
+    cp_cmd: <span class="kw">coverpoint</span> tr.cmd <span class="kw">iff</span>(!tr.reset) {
+      <span class="kw">bins</span> read  = {<span class="op">2'b01</span>};
+      <span class="kw">bins</span> write = {<span class="op">2'b10</span>};
+    }
+
+    <span class="cm">// [9] cross Coverage</span>
+    cross_addr_cmd: <span class="kw">cross</span> cp_addr, cp_cmd;
+  <span class="kw">endgroup</span>
+
+  <span class="kw">function</span> <span class="kw">new</span>(<span class="ty">string</span> name, <span class="ty">uvm_component</span> parent);
+    <span class="kw">super.new</span>(name, parent);
+    cg_bus = <span class="kw">new</span>(); <span class="cm">// covergroup 인스턴스화</span>
+  <span class="kw">endfunction</span>
+
+  <span class="cm">// [10] write function 구현 (analysis port로부터 수신)</span>
+  <span class="kw">virtual function void</span> <span class="fn">write</span>(<span class="ty">my_transaction</span> t);
+    <span class="kw">this</span>.tr = t;
+    
+    <span class="cm">// [11] Reset Handling </span>
+    <span class="kw">if</span> (tr.reset) <span class="kw">begin</span>
+      cg_bus.<span class="fn">stop</span>();  <span class="cm">// 리셋 중 샘플링 중단</span>
+    <span class="kw">end else begin</span>
+      cg_bus.<span class="fn">start</span>(); <span class="cm">// 리셋 해제 시 샘플링 시작</span>
+      cg_bus.<span class="fn">sample</span>(); <span class="cm">// Coverage 샘플링 수행</span>
+    <span class="kw">end</span>
+  <span class="kw">endfunction</span>
+<span class="kw">endclass</span>
+</pre>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver: Transfer Transaction to DUT Signals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 폰트 설정 */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap');
+
+        :root {
+            --font-pretendard: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            --font-ibm: 'IBM Plex Sans', monospace;
+        }
+
+        body {
+            font-family: var(--font-pretendard);
+            background-color: #f8fafc; /* slate-50 */
+            color: #475569; /* slate-600 */
+        }
+
+        .font-code {
+            font-family: var(--font-ibm);
+        }
+
+        /* 다이어그램 눈금자 배경 */
+        .diagram-grid {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+                linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* 커스텀 애니메이션 */
+        @keyframes dashFlow {
+            from { stroke-dashoffset: 40; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes reverseDashFlow {
+            from { stroke-dashoffset: 0; }
+            to { stroke-dashoffset: 40; }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.2)); stroke: #3b82f6; }
+            50% { filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.6)); stroke: #2563eb; }
+        }
+
+        @keyframes dataMove {
+            0% { transform: translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100px); opacity: 0; }
+        }
+
+        .animate-flow {
+            stroke-dasharray: 8 8;
+            animation: dashFlow 1.5s linear infinite;
+        }
+        
+        .animate-flow-reverse {
+            stroke-dasharray: 8 8;
+            animation: reverseDashFlow 1.5s linear infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+
+        .data-packet {
+            animation: dataMove 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 새롭게 추가된 애니메이션 & 스타일 */
+        @keyframes bitstreamFlow {
+            0% { transform: translateX(0); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(120px); opacity: 0; }
+        }
+        .bitstream {
+            animation: bitstreamFlow 2s linear infinite;
+        }
+        .bit-1 { animation-delay: 0s; }
+        .bit-2 { animation-delay: 0.4s; }
+        .bit-3 { animation-delay: 0.8s; }
+
+        @keyframes drawClock {
+            from { stroke-dashoffset: 40; }
+            to { stroke-dashoffset: 0; }
+        }
+        .clock-signal {
+            stroke-dasharray: 40;
+            animation: drawClock 2s linear infinite;
+        }
+
+        /* Waveform 애니메이션 (새로 추가) */
+        @keyframes drawWave {
+            0% { stroke-dashoffset: 500; }
+            50% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .animate-wave {
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+            animation: drawWave 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .animate-wave-delay {
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+            animation: drawWave 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            animation-delay: 0.8s;
+        }
+
+        /* 카드 호버 효과 */
+        .guide-card {
+            transition: all 0.3s ease;
+        }
+        .guide-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-20">
+
+    <!-- Header Section -->
+    <header class="bg-white border-b border-slate-200 pt-16 pb-12 mb-10 px-6 shadow-sm">
+        <div class="max-w-6xl mx-auto">
+            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 font-semibold text-sm rounded-full mb-4">UVM Guidebook</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+                Driver <br/>
+                <span class="text-2xl md:text-3xl font-medium text-slate-500 mt-2 block">Transfer Transaction to DUT Signals</span>
+            </h1>
+            <p class="text-lg text-slate-600 max-w-2xl mt-4">
+                추상적인 Transaction 객체를 실제 하드웨어의 Pin-level 신호로 변환하여 DUT를 구동하는 UVM의 핵심 컴포넌트입니다.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 grid grid-cols-1 gap-10">
+
+        <!-- 1. Driver의 역할 & Active Agent -->
+        <section class="guide-card bg-white rounded-2xl border border-slate-200 p-8">
+            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2">[1] Driver의 역할 & [3] Active Agent</h2>
+                    <p class="text-slate-600 leading-relaxed">
+                        Active Agent는 시뮬레이션에서 '구동(Drive)'과 '모니터링(Monitor)'을 동시에 수행하는 에이전트입니다. 
+                        이 안에서 <strong class="text-blue-600">Driver</strong>는 Sequencer로부터 받은 상위 레벨의 Transaction(예: AXI/APB Read/Write 패킷)을 해석하여, 
+                        지정된 프로토콜 스펙과 클럭(Clock) 타이밍에 맞게 실제 하드웨어의 물리적 핀 신호(0과 1)로 변환해 DUT에 인가(Pin Wiggle)합니다.
+                    </p>
+                </div>
+                <div class="bg-blue-50 rounded-xl p-4 border border-blue-100 flex items-center">
+                    <p class="text-sm text-blue-800">
+                        <span class="font-bold">💡 Key Insight:</span> Transaction은 "주소 0x100에 데이터 0xFF를 써라"라는 S/W적 지시라면, Driver는 이를 "Clock Rising Edge에서 PADDR=0x100, PWRITE=1, PWDATA=0xFF로 1사이클 유지하라"는 H/W적 동작으로 번역하는 통역사 역할을 합니다.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="diagram-grid rounded-xl border border-slate-200 h-[340px] w-full overflow-hidden relative">
+                <svg viewBox="0 0 800 340" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-400" />
+                        </marker>
+                    </defs>
+
+                    <!-- Active Agent Box -->
+                    <rect x="50" y="40" width="380" height="260" rx="12" class="fill-slate-50 stroke-slate-300 stroke-2 stroke-dasharray-[8_4]" />
+                    <text x="70" y="70" class="font-bold text-slate-500 text-sm">ACTIVE AGENT</text>
+
+                    <!-- Sequencer -->
+                    <g transform="translate(80, 100)">
+                        <rect width="120" height="80" rx="8" class="fill-white stroke-slate-300 stroke-2 hover:stroke-slate-500 transition-colors" />
+                        <text x="60" y="35" text-anchor="middle" class="font-bold text-slate-800">Sequencer</text>
+                        <rect x="30" y="45" width="60" height="20" rx="4" class="fill-slate-100 stroke-slate-200" />
+                        <text x="60" y="58" text-anchor="middle" class="font-code text-[10px] text-slate-600">req_item</text>
+                    </g>
+
+                    <!-- Driver (Accent) -->
+                    <g transform="translate(280, 100)">
+                        <rect width="120" height="130" rx="8" class="fill-white stroke-blue-600 stroke-[3] animate-pulse-glow" />
+                        <text x="60" y="35" text-anchor="middle" class="font-bold text-blue-700">Driver</text>
+                        <text x="60" y="55" text-anchor="middle" class="font-code text-xs text-blue-500">uvm_driver</text>
+                        
+                        <!-- Internal Translation Logic -->
+                        <path d="M 60 65 L 60 90" class="stroke-blue-300 stroke-2" marker-end="url(#arrow)" />
+                        <rect x="20" y="95" width="80" height="20" rx="4" class="fill-blue-50 stroke-blue-200" />
+                        <text x="60" y="108" text-anchor="middle" class="font-code text-[10px] font-bold text-blue-800">Pin Wiggling</text>
+                    </g>
+
+                    <!-- DUT -->
+                    <g transform="translate(600, 80)">
+                        <rect width="140" height="150" rx="8" class="fill-slate-800 stroke-slate-900 stroke-2" />
+                        <text x="70" y="70" text-anchor="middle" class="font-bold text-white text-lg">DUT</text>
+                        <text x="70" y="90" text-anchor="middle" class="font-code text-xs text-slate-300">RTL Module</text>
+                        
+                        <!-- DUT Pins -->
+                        <rect x="-10" y="40" width="10" height="8" class="fill-slate-500" />
+                        <rect x="-10" y="70" width="10" height="8" class="fill-slate-500" />
+                        <rect x="-10" y="100" width="10" height="8" class="fill-slate-500" />
+                    </g>
+
+                    <!-- Connections -->
+                    <!-- Seq to Driver (TLM) -->
+                    <path d="M 200 140 L 280 140" class="stroke-slate-400 stroke-2" marker-end="url(#arrow)" />
+                    <text x="240" y="130" text-anchor="middle" class="font-code text-xs fill-slate-500 font-bold">TLM Port</text>
+                    <!-- Data Packet Animation -->
+                    <rect x="210" y="135" width="20" height="12" rx="2" class="fill-slate-400 data-packet" />
+                    <text x="220" y="144" text-anchor="middle" class="font-code text-[8px] fill-white data-packet font-bold">req</text>
+
+                    <!-- Driver to DUT (Virtual Interface) -->
+                    <!-- Data Lines -->
+                    <path d="M 400 120 L 590 120" class="stroke-blue-500 stroke-[3]" />
+                    <path d="M 400 150 L 590 150" class="stroke-blue-500 stroke-[3]" />
+                    
+                    <!-- Clock Signal Line -->
+                    <path d="M 400 180 L 590 180" class="stroke-slate-300 stroke-[2] stroke-dasharray-[4_2]" />
+                    <path d="M 420 190 L 420 170 L 440 170 L 440 190 L 460 190 L 460 170 L 480 170 L 480 190 L 500 190 L 500 170 L 520 170 L 520 190 L 540 190 L 540 170 L 560 170 L 560 190 L 580 190 L 580 170 L 590 170" 
+                          class="stroke-slate-400 stroke-[2] fill-none clock-signal" />
+
+                    <!-- Labels -->
+                    <text x="500" y="105" text-anchor="middle" class="font-bold text-blue-600 text-sm bg-white">Virtual Interface (vif)</text>
+                    <text x="500" y="210" text-anchor="middle" class="font-code text-[10px] fill-slate-500">Synchronized with CLK</text>
+
+                    <!-- Bitstream Animations (0 and 1 flowing) -->
+                    <g transform="translate(410, 115)">
+                        <text class="font-code font-bold text-blue-700 text-sm bitstream bit-1">1</text>
+                        <text class="font-code font-bold text-blue-700 text-sm bitstream bit-2">0</text>
+                        <text class="font-code font-bold text-blue-700 text-sm bitstream bit-3">1</text>
+                    </g>
+                    <g transform="translate(410, 145)">
+                        <text class="font-code font-bold text-blue-700 text-sm bitstream bit-2">0</text>
+                        <text class="font-code font-bold text-blue-700 text-sm bitstream bit-3">0</text>
+                        <text class="font-code font-bold text-blue-700 text-sm bitstream bit-1">1</text>
+                    </g>
+                </svg>
+            </div>
+        </section>
+
+        <!-- 2. uvm_driver 상속구조 & Interface vs Virtual Interface -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            
+            <!-- 상속구조 -->
+            <section class="guide-card bg-white rounded-2xl border border-slate-200 p-8 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">[2] uvm_driver 상속구조</h2>
+                    <p class="text-sm text-slate-600 mb-6">
+                        직접 설계하는 사용자 드라이버는 반드시 <code>uvm_driver</code>를 상속받아야 합니다. 이때, <code>#(REQ, RSP)</code> 파라미터를 통해 Sequencer와 주고받을 Transaction의 타입을 명시합니다. (일반적으로 RSP는 생략하여 REQ와 동일하게 사용합니다.)
+                    </p>
+                </div>
+                
+                <div class="diagram-grid rounded-xl border border-slate-200 h-64 w-full flex items-center justify-center relative overflow-hidden">
+                    <svg viewBox="0 0 300 240" class="w-full h-full">
+                        <g class="font-code text-sm">
+                            <rect x="100" y="20" width="100" height="30" rx="4" class="fill-white stroke-slate-300" />
+                            <text x="150" y="40" text-anchor="middle" class="fill-slate-600">uvm_component</text>
+
+                            <path d="M 150 50 L 150 80" class="stroke-slate-300 stroke-2" marker-end="url(#arrow)" />
+
+                            <!-- REQ / RSP Parameters -->
+                            <rect x="30" y="90" width="45" height="20" rx="4" class="fill-yellow-50 stroke-yellow-300" />
+                            <text x="52" y="104" text-anchor="middle" class="text-[10px] text-yellow-700 font-bold">REQ</text>
+                            
+                            <rect x="225" y="90" width="45" height="20" rx="4" class="fill-green-50 stroke-green-300" />
+                            <text x="247" y="104" text-anchor="middle" class="text-[10px] text-green-700 font-bold">RSP</text>
+
+                            <rect x="80" y="80" width="140" height="40" rx="4" class="fill-blue-50 stroke-blue-500 stroke-2" />
+                            <text x="150" y="100" text-anchor="middle" class="fill-blue-700 font-bold">uvm_driver</text>
+                            <text x="150" y="115" text-anchor="middle" class="fill-blue-600 text-[10px]">#(REQ, RSP)</text>
+
+                            <path d="M 150 120 L 150 150" class="stroke-slate-300 stroke-2" marker-end="url(#arrow)" />
+
+                            <rect x="80" y="150" width="140" height="30" rx="4" class="fill-white stroke-slate-400 stroke-2" />
+                            <text x="150" y="170" text-anchor="middle" class="fill-slate-800 font-bold">my_driver</text>
+                        </g>
+                    </svg>
+                </div>
+                <div class="mt-4 p-4 bg-slate-800 rounded-lg shadow-inner">
+                    <p class="font-code text-xs md:text-sm text-slate-300">
+                        <span class="text-purple-400">class</span> <span class="text-white">my_driver</span> <span class="text-purple-400">extends</span> <span class="text-blue-400 font-bold">uvm_driver</span> #(<span class="text-yellow-300">my_transaction</span>);
+                    </p>
+                </div>
+            </section>
+
+            <!-- Interface vs Virtual Interface -->
+            <section class="guide-card bg-white rounded-2xl border border-slate-200 p-8 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2">[4] Interface vs Virtual Interface</h2>
+                    <p class="text-sm text-slate-600 mb-4">
+                        동적으로 메모리에 할당되는 Class(S/W)는 하드웨어 배선 덩어리인 정적 Module(H/W) Interface를 직접 가질 수 없습니다. 
+                        따라서 <code>virtual interface</code>라는 '포인터(핸들)'를 통해 물리적 선들에 접근합니다. 이 둘을 이어주는 매개체가 바로 <code>uvm_config_db</code>입니다.
+                    </p>
+                </div>
+                
+                <div class="diagram-grid rounded-xl border border-slate-200 h-[280px] w-full relative">
+                    <svg viewBox="0 0 400 280" class="w-full h-full">
+                        
+                        <!-- uvm_config_db (Database Cylinder) -->
+                        <g transform="translate(140, 20)">
+                            <path d="M 0 10 C 0 0, 120 0, 120 10 L 120 40 C 120 50, 0 50, 0 40 Z" class="fill-yellow-50 stroke-yellow-400 stroke-2" />
+                            <path d="M 0 10 C 0 20, 120 20, 120 10" class="fill-none stroke-yellow-400 stroke-2" />
+                            <text x="60" y="32" text-anchor="middle" class="font-code font-bold text-yellow-700 text-sm">uvm_config_db</text>
+                        </g>
+
+                        <!-- DB Set/Get Arrows -->
+                        <path d="M 280 80 L 220 50" class="stroke-slate-400 stroke-2 stroke-dasharray-[4_2]" marker-end="url(#arrow)" />
+                        <text x="270" y="60" text-anchor="middle" class="font-code text-[10px] text-slate-500">set() by Top</text>
+
+                        <path d="M 180 50 L 120 80" class="stroke-slate-400 stroke-2 stroke-dasharray-[4_2]" marker-end="url(#arrow)" />
+                        <text x="130" y="60" text-anchor="middle" class="font-code text-[10px] text-slate-500">get() by Driver</text>
+
+                        <!-- Virtual Interface (Class) -->
+                        <g transform="translate(20, 90)">
+                            <rect width="140" height="120" rx="8" class="fill-white stroke-blue-300 stroke-2" />
+                            <rect width="140" height="30" class="fill-blue-50 border-b border-blue-200" rx="8" />
+                            <text x="70" y="20" text-anchor="middle" class="font-bold text-blue-800 text-xs">UVM Driver (Class)</text>
+                            
+                            <rect x="15" y="50" width="110" height="50" rx="4" class="fill-blue-100 stroke-blue-400 border border-dashed" />
+                            <text x="70" y="70" text-anchor="middle" class="font-code font-bold text-blue-700 text-xs">virtual interface</text>
+                            <text x="70" y="90" text-anchor="middle" class="font-code text-slate-500 text-[10px]">(Pointer/Handle)</text>
+                        </g>
+
+                        <!-- Static Interface (Module) -->
+                        <g transform="translate(240, 90)">
+                            <rect width="140" height="120" rx="8" class="fill-white stroke-slate-300 stroke-2" />
+                            <rect width="140" height="30" class="fill-slate-100 border-b border-slate-200" rx="8" />
+                            <text x="70" y="20" text-anchor="middle" class="font-bold text-slate-700 text-xs">Testbench (Module)</text>
+                            
+                            <rect x="15" y="50" width="110" height="50" rx="4" class="fill-slate-100 stroke-slate-400 stroke-2" />
+                            <text x="70" y="70" text-anchor="middle" class="font-code font-bold text-slate-700 text-xs">interface instance</text>
+                            <text x="70" y="90" text-anchor="middle" class="font-code text-slate-500 text-[10px]">(Physical Wires)</text>
+                        </g>
+
+                        <!-- Pointer Link Animation -->
+                        <path d="M 140 150 C 180 150, 200 150, 230 150" class="stroke-blue-500 stroke-[4] animate-flow" marker-end="url(#arrow)" />
+                        <rect x="165" y="140" width="40" height="20" rx="10" class="fill-white stroke-blue-400 stroke-1" />
+                        <text x="185" y="154" text-anchor="middle" class="font-code text-[10px] text-blue-600 font-bold">Access</text>
+                    </svg>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- 3. Lifecycle (build_phase, run_phase, virtual interface timing) -->
+        <section class="guide-card bg-white rounded-2xl border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">[5] 연결 타이밍 & [6] build_phase & [7] run_phase</h2>
+            <p class="text-slate-600 mb-6">
+                Driver의 생명주기는 철저히 분리됩니다. 준비 단계인 <code>build_phase</code>에서 하드웨어와 연결할 포인터를 미리 설정하고, 
+                실제 시뮬레이션 시간이 흐르는 <code>run_phase</code>에서는 무한 루프를 돌며 신호를 지속적으로 구동합니다.
+            </p>
+            
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Phases Timeline -->
+                <div class="flex-1 diagram-grid rounded-xl border border-slate-200 p-4 relative">
+                    <svg viewBox="0 0 400 300" class="w-full h-auto">
+                        <g font-family="var(--font-code)">
+                            <!-- Time Axis -->
+                            <path d="M 20 20 L 20 280" class="stroke-slate-300 stroke-[3] stroke-dasharray-[4_4]" />
+                            <circle cx="20" cy="50" r="6" class="fill-blue-500" />
+                            <text x="35" y="55" class="text-xs font-bold fill-blue-600">Sim Time = 0</text>
+                            
+                            <circle cx="20" cy="220" r="6" class="fill-green-500" />
+                            <text x="35" y="225" class="text-xs font-bold fill-green-600">Sim Time > 0</text>
+
+                            <!-- build_phase -->
+                            <rect x="60" y="20" width="320" height="110" rx="8" class="fill-white stroke-slate-300 stroke-2" />
+                            <!-- Gear Icon (SVG) -->
+                            <path d="M 80 40 A 10 10 0 1 0 100 40 A 10 10 0 1 0 80 40 M 87 30 L 93 30 L 95 25 L 85 25 Z M 87 50 L 93 50 L 95 55 L 85 55 Z M 75 37 L 75 43 L 70 45 L 70 35 Z M 105 37 L 105 43 L 110 45 L 110 35 Z" class="fill-blue-400 animate-spin-slow" style="transform-origin: 90px 40px;" />
+                            
+                            <text x="115" y="46" class="font-bold text-blue-700 text-lg">build_phase()</text>
+                            <text x="80" y="75" class="text-sm fill-slate-600 font-bold bg-yellow-100 px-1">1. Get Virtual Interface</text>
+                            <text x="80" y="95" class="text-[11px] fill-slate-500">uvm_config_db에서 vif 핸들을 가져옴</text>
+                            <text x="80" y="115" class="text-[11px] fill-red-400">(*실패 시 `uvm_fatal 발생으로 즉시 종료)</text>
+
+                            <!-- Arrow Down -->
+                            <path d="M 220 130 L 220 160" class="stroke-slate-400 stroke-2" marker-end="url(#arrow)" />
+
+                            <!-- run_phase -->
+                            <rect x="60" y="170" width="320" height="110" rx="8" class="fill-blue-50 stroke-blue-500 stroke-2" />
+                            <!-- Play Icon -->
+                            <polygon points="80,185 80,205 95,195" class="fill-blue-600" />
+                            
+                            <text x="105" y="198" class="font-bold text-blue-800 text-lg">run_phase()</text>
+                            <text x="80" y="225" class="text-sm fill-blue-900 font-bold bg-blue-200 px-1">2. forever begin ... end</text>
+                            <text x="80" y="245" class="text-[11px] fill-slate-600">무한 루프 속에서 Item을 요청하고 Drive</text>
+                            <text x="80" y="265" class="text-[11px] fill-slate-600">실제 하드웨어 클럭에 맞춰 동작함</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Code Snippet Box -->
+                <div class="flex-1 bg-slate-900 rounded-xl p-6 shadow-xl text-sm text-slate-300 font-code overflow-x-auto relative">
+                    <!-- Mac OS like top bar -->
+                    <div class="absolute top-3 left-4 flex gap-1.5">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="mt-4 mb-6 pt-2 border-t border-slate-700 border-dashed">
+                        <span class="text-slate-500">// [6] build_phase: Get Virtual Interface</span><br>
+                        <span class="text-purple-400">function void</span> <span class="text-blue-300">build_phase</span>(uvm_phase phase);<br>
+                        &nbsp;&nbsp;<span class="text-purple-400">super</span>.<span class="text-blue-300">build_phase</span>(phase);<br>
+                        &nbsp;&nbsp;<span class="text-slate-400">// 하위 컴포넌트(Driver)는 값을 받아옵니다(get)</span><br>
+                        &nbsp;&nbsp;<span class="text-yellow-300">if</span> (!uvm_config_db#(virtual bus_if)::<span class="text-blue-300">get</span>(<span class="text-purple-400">this</span>, "", "vif", vif))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-red-400">`uvm_fatal</span>("NO_VIF", "Virtual interface not found")<br>
+                        <span class="text-purple-400">endfunction</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500">// [7] run_phase: Active Loop</span><br>
+                        <span class="text-purple-400">task</span> <span class="text-blue-300">run_phase</span>(uvm_phase phase);<br>
+                        &nbsp;&nbsp;<span class="text-slate-400">// 시뮬레이션 내내 종료되지 않는 무한 루프</span><br>
+                        &nbsp;&nbsp;<span class="text-yellow-300">forever begin</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;seq_item_port.get_next_item(req); <span class="text-slate-500">// 1. Wait & Get</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;drive_one_item(req);              <span class="text-slate-500">// 2. Drive to DUT</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;seq_item_port.item_done();        <span class="text-slate-500">// 3. Handshake Done</span><br>
+                        &nbsp;&nbsp;<span class="text-yellow-300">end</span><br>
+                        <span class="text-purple-400">endtask</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Driver 구동 매커니즘 (get_next_item, drive_one_item, item_done) -->
+        <section class="guide-card bg-white rounded-2xl border border-slate-200 p-8 mb-10">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Driver Transaction Loop 메커니즘</h2>
+                <p class="text-slate-600">
+                    Sequencer와 Driver 사이의 통신은 매우 엄격한 <strong class="text-blue-600">Handshake 프로토콜</strong>을 따릅니다. 
+                    요청(Req)을 받아 처리하고, 완료(Done)를 알리기 전까지 다음 Transaction은 전달되지 않습니다.
+                </p>
+            </div>
+
+            <div class="diagram-grid rounded-xl border border-slate-200 p-6 relative flex justify-center">
+                <svg viewBox="0 0 900 450" class="w-full max-w-5xl" style="max-height: 450px;">
+                    <defs>
+                        <!-- Lock Icon for Blocking -->
+                        <g id="lock">
+                            <rect x="4" y="6" width="12" height="10" rx="2" class="fill-red-500" />
+                            <path d="M 6 6 L 6 3 C 6 0, 14 0, 14 3 L 14 6" class="fill-none stroke-red-500 stroke-[2]" />
+                        </g>
+                    </defs>
+
+                    <!-- Sequencer Side -->
+                    <rect x="50" y="50" width="220" height="350" rx="8" class="fill-slate-50 stroke-slate-300 stroke-2" />
+                    <text x="160" y="80" text-anchor="middle" class="font-bold text-slate-800 text-lg">Sequencer</text>
+                    <rect x="190" y="180" width="40" height="80" rx="4" class="fill-slate-200 stroke-slate-400 stroke-2" />
+                    <text x="210" y="225" text-anchor="middle" transform="rotate(-90 210 225)" class="font-code text-xs font-bold fill-slate-700">Export</text>
+
+                    <!-- FIFO / Buffer representation -->
+                    <rect x="80" y="180" width="80" height="80" class="fill-white stroke-slate-300 stroke-dasharray-[4_4]" />
+                    <text x="120" y="170" text-anchor="middle" class="font-code text-xs text-slate-500">Req Queue</text>
+                    <rect x="85" y="235" width="70" height="20" rx="2" class="fill-blue-100 stroke-blue-300" />
+                    <text x="120" y="248" text-anchor="middle" class="font-code text-[10px]">req_1</text>
+                    <rect x="85" y="210" width="70" height="20" rx="2" class="fill-slate-100 stroke-slate-300 opacity-50" />
+                    <rect x="85" y="185" width="70" height="20" rx="2" class="fill-slate-100 stroke-slate-300 opacity-50" />
+
+                    <!-- Driver Side -->
+                    <rect x="500" y="50" width="350" height="350" rx="8" class="fill-blue-50 stroke-blue-200 stroke-2" />
+                    <text x="675" y="80" text-anchor="middle" class="font-bold text-blue-800 text-lg">Driver</text>
+                    <rect x="480" y="180" width="40" height="80" rx="4" class="fill-blue-200 stroke-blue-400 stroke-2" />
+                    <text x="500" y="225" text-anchor="middle" transform="rotate(-90 500 225)" class="font-code text-xs font-bold fill-blue-900">[8] seq_item_port</text>
+
+                    <!-- Driver Internal Loop -->
+                    <g transform="translate(560, 120)">
+                        
+                        <!-- Loop Background Line -->
+                        <path d="M 110 30 L 110 240 Q 110 260 90 260 L 0 260 Q -20 260 -20 240 L -20 30 Q -20 10 0 10 L 90 10 Q 110 10 110 30" class="fill-none stroke-blue-300 stroke-dasharray-[6_6] stroke-2" />
+                        <text x="-35" y="140" text-anchor="middle" transform="rotate(-90 -35 140)" class="font-code text-xs font-bold text-blue-400 bg-blue-50">forever loop</text>
+
+                        <!-- [9] get_next_item() -->
+                        <rect x="0" y="0" width="220" height="45" rx="22" class="fill-white stroke-slate-300 hover:stroke-blue-500 hover:shadow-md transition-all cursor-pointer" />
+                        <text x="110" y="20" text-anchor="middle" class="font-code text-sm font-bold fill-slate-800">[9] get_next_item(req)</text>
+                        <text x="110" y="35" text-anchor="middle" class="font-code text-[10px] fill-red-500">Wait for Queue (Blocking)</text>
+                        <use href="#lock" x="15" y="12" />
+
+                        <!-- Arrow -->
+                        <path d="M 110 45 L 110 90" class="stroke-slate-400 stroke-2" marker-end="url(#arrow)" />
+
+                        <!-- [11] drive_one_item() -->
+                        <rect x="0" y="100" width="220" height="50" rx="8" class="fill-blue-600 stroke-blue-700 cursor-pointer shadow-md animate-pulse" />
+                        <text x="110" y="120" text-anchor="middle" class="font-code text-sm font-bold fill-white">[11] drive_one_item(req)</text>
+                        <text x="110" y="135" text-anchor="middle" class="font-code text-[10px] fill-blue-200">Consume Time (ex. @(posedge clk))</text>
+
+                        <!-- Arrow -->
+                        <path d="M 110 150 L 110 190" class="stroke-slate-400 stroke-2" marker-end="url(#arrow)" />
+
+                        <!-- [10] item_done() -->
+                        <rect x="0" y="200" width="220" height="45" rx="22" class="fill-white stroke-slate-300 hover:stroke-green-500 transition-all cursor-pointer" />
+                        <text x="110" y="220" text-anchor="middle" class="font-code text-sm font-bold fill-slate-800">[10] item_done()</text>
+                        <text x="110" y="235" text-anchor="middle" class="font-code text-[10px] fill-green-600">Send ACK (Non-blocking)</text>
+
+                    </g>
+
+                    <!-- Communication Arrows -->
+                    <!-- Request Path (Top) -->
+                    <path d="M 230 190 L 480 190" class="stroke-blue-500 stroke-[3] animate-flow" marker-end="url(#arrow)" />
+                    <text x="355" y="180" text-anchor="middle" class="font-code text-sm font-bold text-blue-700 bg-white px-2">1. Request (req)</text>
+                    
+                    <!-- Done Path (Bottom) -->
+                    <path d="M 480 250 L 230 250" class="stroke-green-500 stroke-[3] animate-flow-reverse" marker-start="url(#arrow)" />
+                    <text x="355" y="270" text-anchor="middle" class="font-code text-sm font-bold text-green-700 bg-white px-2">2. ACK (item_done)</text>
+                </svg>
+            </div>
+
+            <!-- 하단 상세 설명 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-6">
+                <div class="bg-slate-50 p-5 rounded-xl border border-slate-100 hover:border-blue-200 transition-colors">
+                    <h3 class="font-code font-bold text-blue-700 mb-2 flex items-center gap-2">
+                        <span class="bg-blue-100 text-blue-800 rounded px-1.5 py-0.5 text-xs">[8]</span> seq_item_port
+                    </h3>
+                    <p class="text-sm text-slate-600">Driver 내부에 내장된(built-in) TLM 포트입니다. Sequencer의 <code>seq_item_export</code>와 연결(Connect)되어 두 컴포넌트 간의 고속도로 역할을 합니다.</p>
+                </div>
+                <div class="bg-slate-50 p-5 rounded-xl border border-slate-100 hover:border-blue-200 transition-colors">
+                    <h3 class="font-code font-bold text-red-600 mb-2 flex items-center gap-2">
+                        <span class="bg-red-100 text-red-800 rounded px-1.5 py-0.5 text-xs">[9]</span> get_next_item()
+                    </h3>
+                    <p class="text-sm text-slate-600">Sequencer 내부 FIFO에 새로운 Transaction이 들어올 때까지 <strong class="text-red-500">대기(Blocking)</strong>합니다. 아이템이 준비되면 이를 가져와 루프의 다음 단계를 진행합니다.</p>
+                </div>
+                <div class="bg-slate-50 p-5 rounded-xl border border-blue-200 bg-blue-50/50 hover:bg-blue-50 transition-colors shadow-sm">
+                    <h3 class="font-code font-bold text-blue-700 mb-2 flex items-center gap-2">
+                        <span class="bg-blue-600 text-white rounded px-1.5 py-0.5 text-xs">[11]</span> drive_one_item()
+                    </h3>
+                    <p class="text-sm text-slate-700">사용자가 직접 구현하는 User Task입니다. `req` 객체의 데이터를 Virtual Interface의 핀에 인가하며, 클럭 지연(`@(posedge clk)`) 등 실제 <strong class="text-blue-600">시뮬레이션 타임을 소모</strong>합니다.</p>
+                </div>
+                <div class="bg-slate-50 p-5 rounded-xl border border-slate-100 hover:border-green-200 transition-colors">
+                    <h3 class="font-code font-bold text-green-700 mb-2 flex items-center gap-2">
+                        <span class="bg-green-100 text-green-800 rounded px-1.5 py-0.5 text-xs">[10]</span> item_done()
+                    </h3>
+                    <p class="text-sm text-slate-600">하드웨어 구동이 완벽히 끝났음을 Sequencer에 알립니다. 이 함수가 호출되어야만 Sequencer가 블로킹을 풀고 다음 Transaction을 보낼 수 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Protocol Specific Task & HW Rules (새로 추가된 섹션) -->
+        <section class="guide-card bg-white rounded-2xl border border-slate-200 p-8 mb-10">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">[12] HW Rule 준수 및 Signal Control Task</h2>
+                <p class="text-slate-600">
+                    실무에서는 <code>drive_one_item()</code> 내에 모든 로직을 하드코딩하지 않습니다. 대신, <strong>프로토콜 스펙(APB, AXI 등)의 엄격한 HW 규칙(Setup/Hold 시간, Handshake, Burst 등)</strong>을 지키기 위해 개별 <code>Task</code>(예: <code>drive_write</code>, <code>drive_read</code>)로 분리하여 핀 레벨의 정밀한 신호 제어(Signal Control)를 수행합니다.
+                </p>
+            </div>
+
+            <div class="flex flex-col xl:flex-row gap-6">
+                <!-- SVG Diagram for Dispatcher & Waveform -->
+                <div class="flex-[3] diagram-grid rounded-xl border border-slate-200 p-4 relative overflow-hidden h-[380px]">
+                    <svg viewBox="0 0 800 350" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                        <!-- Transaction Input -->
+                        <g transform="translate(20, 140)">
+                            <rect width="100" height="60" rx="8" class="fill-indigo-50 stroke-indigo-300 stroke-2" />
+                            <text x="50" y="25" text-anchor="middle" class="font-code font-bold text-indigo-800 text-sm">req</text>
+                            <text x="50" y="45" text-anchor="middle" class="font-code text-indigo-600 text-[10px]">cmd = WRITE</text>
+                        </g>
+
+                        <path d="M 120 170 L 160 170" class="stroke-slate-400 stroke-2" marker-end="url(#arrow)" />
+
+                        <!-- Dispatcher (drive_one_item) -->
+                        <g transform="translate(170, 70)">
+                            <rect width="160" height="200" rx="12" class="fill-slate-50 stroke-slate-300 stroke-2 stroke-dasharray-[6_4]" />
+                            <text x="80" y="25" text-anchor="middle" class="font-code font-bold text-slate-700 text-sm">drive_one_item()</text>
+                            
+                            <!-- Switch Case logic -->
+                            <rect x="20" y="50" width="120" height="30" rx="4" class="fill-slate-200" />
+                            <text x="80" y="70" text-anchor="middle" class="font-code text-slate-600 text-[10px] font-bold">case (req.cmd)</text>
+
+                            <!-- Task branch 1 -->
+                            <rect x="10" y="100" width="140" height="35" rx="6" class="fill-blue-100 stroke-blue-400 stroke-2" />
+                            <text x="80" y="122" text-anchor="middle" class="font-code text-blue-800 text-xs font-bold">drive_write(req)</text>
+
+                            <!-- Task branch 2 -->
+                            <rect x="10" y="150" width="140" height="35" rx="6" class="fill-green-50 stroke-green-300 stroke-2 opacity-60" />
+                            <text x="80" y="172" text-anchor="middle" class="font-code text-green-700 text-xs font-bold">drive_read(req)</text>
+                        </g>
+
+                        <!-- Highlight Active Path -->
+                        <path d="M 330 117 L 390 117" class="stroke-blue-500 stroke-[3] animate-flow" marker-end="url(#arrow)" />
+
+                        <!-- HW Rule Enforcement Box -->
+                        <g transform="translate(400, 40)">
+                            <rect width="380" height="260" rx="12" class="fill-slate-900 stroke-slate-700 stroke-2 shadow-xl" />
+                            <text x="190" y="30" text-anchor="middle" class="font-bold text-slate-300 text-sm tracking-wide">Protocol HW Rules & Signal Control</text>
+                            <line x1="20" y1="45" x2="360" y2="45" class="stroke-slate-700 stroke-2" />
+                            
+                            <!-- Internal Logic Labels -->
+                            <text x="30" y="70" class="font-code text-green-400 text-[10px]">1. @(posedge vif.clk)</text>
+                            <text x="30" y="85" class="font-code text-blue-400 text-[10px]">2. vif.valid <= 1'b1;</text>
+                            <text x="30" y="100" class="font-code text-yellow-400 text-[10px]">3. vif.data <= req.data;</text>
+                            <text x="30" y="115" class="font-code text-red-400 text-[10px]">4. wait(vif.ready == 1'b1);</text>
+
+                            <!-- Waveform Analyzer View -->
+                            <g transform="translate(180, 55)">
+                                <!-- Grid Lines -->
+                                <line x1="20" y1="0" x2="20" y2="180" class="stroke-slate-700 stroke-dasharray-[2_2]" />
+                                <line x1="60" y1="0" x2="60" y2="180" class="stroke-slate-700 stroke-dasharray-[2_2]" />
+                                <line x1="100" y1="0" x2="100" y2="180" class="stroke-slate-700 stroke-dasharray-[2_2]" />
+                                <line x1="140" y1="0" x2="140" y2="180" class="stroke-slate-700 stroke-dasharray-[2_2]" />
+                                
+                                <!-- CLK Wave -->
+                                <text x="-30" y="25" class="font-code text-[10px] fill-slate-400">CLK</text>
+                                <path d="M 0 30 h 20 v -20 h 20 v 20 h 20 v -20 h 20 v 20 h 20 v -20 h 20 v 20 h 20 v -20 h 20 v 20" class="stroke-green-400 stroke-2 fill-none" />
+                                
+                                <!-- VALID Wave (Drive Signal) -->
+                                <text x="-30" y="65" class="font-code text-[10px] fill-blue-400">VALID</text>
+                                <path d="M 0 70 h 25 l 5 -20 h 70 l 5 20 h 55" class="stroke-blue-400 stroke-[3] fill-none animate-wave" />
+                                
+                                <!-- DATA Wave (Bus Signal) -->
+                                <text x="-30" y="105" class="font-code text-[10px] fill-yellow-400">DATA</text>
+                                <!-- Hexagon-like data envelope -->
+                                <path d="M 0 110 h 25 l 5 -15 h 70 l 5 15 h 55" class="stroke-yellow-400 stroke-[2] fill-none animate-wave" />
+                                <path d="M 0 110 h 25 l 5 15 h 70 l 5 -15 h 55" class="stroke-yellow-400 stroke-[2] fill-none animate-wave" />
+                                <text x="65" y="113" text-anchor="middle" class="font-code text-[10px] fill-yellow-200">req.data</text>
+
+                                <!-- READY Wave (DUT Response) -->
+                                <text x="-30" y="155" class="font-code text-[10px] fill-red-400">READY</text>
+                                <path d="M 0 160 h 85 l 5 -20 h 30 l 5 20 h 35" class="stroke-red-400 stroke-[3] fill-none animate-wave-delay" />
+
+                                <!-- Handshake Highlight -->
+                                <circle cx="100" cy="60" r="15" class="fill-none stroke-white stroke-2 opacity-50" stroke-dasharray="4" />
+                                <circle cx="100" cy="150" r="15" class="fill-none stroke-white stroke-2 opacity-50" stroke-dasharray="4" />
+                                <path d="M 100 75 L 100 135" class="stroke-white stroke-2 stroke-dasharray-[2_4] opacity-50" />
+                                <text x="145" y="100" class="font-code text-[8px] fill-white opacity-80 bg-slate-800">Handshake Complete</text>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Code Example -->
+                <div class="flex-[2] bg-slate-900 rounded-xl p-6 shadow-inner text-sm text-slate-300 font-code overflow-x-auto border border-slate-800">
+                    <div class="mb-3 border-b border-slate-700 pb-2">
+                        <span class="text-slate-400">// Dispatcher: 명령어에 따른 Task 분기</span><br>
+                        <span class="text-purple-400">task</span> <span class="text-blue-300">drive_one_item</span>(my_tx req);<br>
+                        &nbsp;&nbsp;<span class="text-yellow-300">case</span> (req.cmd)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;WRITE: drive_write(req);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;READ : drive_read(req);<br>
+                        &nbsp;&nbsp;<span class="text-yellow-300">endcase</span><br>
+                        <span class="text-purple-400">endtask</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400">// HW Rules: 정밀한 Signal 제어 및 Handshake</span><br>
+                        <span class="text-purple-400">task</span> <span class="text-blue-300">drive_write</span>(my_tx req);<br>
+                        &nbsp;&nbsp;<span class="text-slate-500">// 1. Clock Sync (Setup time 보장)</span><br>
+                        &nbsp;&nbsp;@(posedge vif.clk);<br><br>
+                        &nbsp;&nbsp;<span class="text-slate-500">// 2. Drive Data & Valid High</span><br>
+                        &nbsp;&nbsp;vif.valid &lt;= 1'b1;<br>
+                        &nbsp;&nbsp;vif.data  &lt;= req.data;<br><br>
+                        &nbsp;&nbsp;<span class="text-slate-500">// 3. Wait for Handshake (HW Rule)</span><br>
+                        &nbsp;&nbsp;<span class="text-yellow-300">wait</span>(vif.ready == 1'b1);<br><br>
+                        &nbsp;&nbsp;<span class="text-slate-500">// 4. Clear signals after drive</span><br>
+                        &nbsp;&nbsp;@(posedge vif.clk);<br>
+                        &nbsp;&nbsp;vif.valid &lt;= 1'b0;<br>
+                        <span class="text-purple-400">endtask</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

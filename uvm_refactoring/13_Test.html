@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UVM Test : Control Verification Scenario</title>
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v3.2.1/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                        mono: ['IBM Plex Sans', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            600: '#475569',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        blue: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        violet: {
+                            50: '#f5f3ff',
+                            500: '#8b5cf6',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS for Animations & Grid -->
+    <style>
+        body {
+            background-color: #f8fafc; /* bg-slate-50 */
+            color: #1e293b;
+        }
+        
+        /* Diagram Grid Background */
+        .diagram-grid {
+            background-size: 24px 24px;
+            background-image: 
+                linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+                linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+            background-color: #ffffff;
+        }
+
+        /* Flow Animation for Paths */
+        @keyframes flow {
+            from { stroke-dashoffset: 24; }
+            to { stroke-dashoffset: 0; }
+        }
+        .animate-flow {
+            stroke-dasharray: 6, 6;
+            animation: flow 0.6s linear infinite;
+        }
+        .animate-flow-slow {
+            stroke-dasharray: 8, 8;
+            animation: flow 1s linear infinite;
+        }
+
+        /* Pulse Animation for Active Nodes */
+        @keyframes pulse-node {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+        
+        .pulse-effect {
+            animation: pulse-node 2s infinite;
+        }
+
+        /* Dash animation for graphs */
+        @keyframes draw-graph {
+            to { stroke-dashoffset: 0; }
+        }
+        .animate-graph {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: draw-graph 3s ease-in-out forwards;
+        }
+
+        /* Glow effect for SVG elements */
+        .svg-glow {
+            filter: drop-shadow(0px 0px 4px rgba(37, 99, 235, 0.5));
+        }
+
+        /* Typography Utilities for SVG */
+        .svg-text-title { fill: #0f172a; font-family: 'Pretendard', sans-serif; font-weight: 700; font-size: 16px; }
+        .svg-text-body { fill: #475569; font-family: 'Pretendard', sans-serif; font-weight: 500; font-size: 12px; }
+        .svg-text-code { fill: #2563eb; font-family: 'IBM Plex Sans', monospace; font-weight: 600; font-size: 13px; }
+        .svg-text-code-white { fill: #ffffff; font-family: 'IBM Plex Sans', monospace; font-weight: 600; font-size: 13px; }
+    </style>
+</head>
+<body class="antialiased font-sans pb-20">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div>
+                <p class="text-sm font-semibold text-blue-600 tracking-wider uppercase mb-1">Semiconductor Digital Circuit Design Guidebook</p>
+                <h1 class="text-2xl font-bold text-slate-900 font-mono">UVM Test : Control Verification Scenario</h1>
+            </div>
+            <div class="hidden md:flex gap-2">
+                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold font-mono">UVM 1.2</span>
+                <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-bold font-mono">SystemVerilog</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto px-6 py-10 flex flex-col gap-10">
+
+        <!-- Section 1: Test Hierarchy & Role -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-shadow hover:shadow-md">
+            <header class="mb-6 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full block"></span>
+                    1. 구조 및 역할 (Hierarchy & Role)
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">
+                    Test는 UVM 검증 환경의 최상위 컴포넌트(<code class="bg-slate-100 text-blue-600 px-1 rounded font-mono text-xs">uvm_test_top</code>)입니다. 모든 시나리오는 공통 환경(Base Test)을 상속받아 코드 중복을 최소화하고, 다형성(Polymorphism)을 활용해 시나리오별 파생 Test를 효율적으로 관리합니다.
+                </p>
+            </header>
+
+            <div class="diagram-grid rounded-xl h-[320px] border border-slate-200 overflow-hidden relative mb-6">
+                <svg viewBox="0 0 800 320" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    <!-- Definitions -->
+                    <defs>
+                        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-400" />
+                        </marker>
+                    </defs>
+
+                    <!-- Connections (Inheritance) -->
+                    <path d="M 400 60 L 400 100" class="stroke-slate-400 stroke-2" fill="none" marker-start="url(#arrow)" />
+                    <path d="M 400 160 L 400 180 L 250 180 L 250 210" class="stroke-slate-400 stroke-2" fill="none" marker-start="url(#arrow)" />
+                    <path d="M 400 160 L 400 180 L 550 180 L 550 210" class="stroke-slate-400 stroke-2" fill="none" marker-start="url(#arrow)" />
+
+                    <!-- Node: uvm_test -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                        <rect x="330" y="20" width="140" height="40" rx="8" class="fill-slate-100 stroke-slate-300 stroke-2" />
+                        <text x="400" y="45" text-anchor="middle" class="svg-text-code">uvm_test</text>
+                    </g>
+
+                    <!-- Node: base_test -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer group">
+                        <rect x="280" y="100" width="240" height="60" rx="8" class="fill-blue-50 stroke-blue-500 stroke-2 svg-glow" />
+                        <text x="400" y="125" text-anchor="middle" class="svg-text-code">base_test (extends uvm_test)</text>
+                        <text x="400" y="145" text-anchor="middle" class="svg-text-body">- Env 생성 / 공통 Config 설정</text>
+                    </g>
+
+                    <!-- Node: specific_test_1 -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                        <rect x="150" y="210" width="200" height="70" rx="8" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="250" y="235" text-anchor="middle" class="svg-text-code">test_scenario_A</text>
+                        <text x="250" y="255" text-anchor="middle" class="svg-text-body">- Factory Override 적용</text>
+                        <text x="250" y="270" text-anchor="middle" class="svg-text-body">- Sequence A 실행</text>
+                    </g>
+
+                    <!-- Node: specific_test_2 -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                        <rect x="450" y="210" width="200" height="70" rx="8" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="550" y="235" text-anchor="middle" class="svg-text-code">test_scenario_B</text>
+                        <text x="550" y="255" text-anchor="middle" class="svg-text-body">- Error Injection Config</text>
+                        <text x="550" y="270" text-anchor="middle" class="svg-text-body">- Sequence B 실행</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-blue-500 pl-2">[1] Test의 역할 & [14] Phase별 역할</h3>
+                    <ul class="space-y-3 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-blue-600 font-semibold">build_phase:</span> 하위 컴포넌트인 Env(Environment)를 생성하고, 전체 검증 환경의 토폴로지를 조립합니다. Top-down 방식으로 실행됩니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-blue-600 font-semibold">run_phase:</span> Time-consuming phase로, 실제 시뮬레이션 시간을 소모하며 트랜잭션을 발생시키는 시나리오(Sequence)를 구동합니다.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-blue-500 pl-2">[2] 상속구조 & [12] Scenario 분리</h3>
+                    <ul class="space-y-3 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">uvm_test 상속:</span> 모든 테스트는 기본 UVM 베이스 클래스를 상속받아야 합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">Base Test 분리:</span> Timeout 설정, 공통 Sequence 실행, Env 생성 등 모든 시나리오에 공통되는 요소는 <code class="bg-slate-100 text-slate-800 px-1 rounded font-mono text-xs">base_test</code>에 구현합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">Scenario Test 분리:</span> 각 테스트 시나리오(예: Error Injection)는 <code class="bg-slate-100 text-slate-800 px-1 rounded font-mono text-xs">base_test</code>를 다시 상속받아 필요한 부분만 재정의하여 사용합니다.</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Build Phase & Configuration -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-shadow hover:shadow-md">
+            <header class="mb-6 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full block"></span>
+                    2. 환경 구성 (build_phase & Config)
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">
+                    Test의 <code>build_phase</code>에서는 Factory 패턴을 활용해 동적으로 Env를 생성합니다. 또한 Config DB를 통해 하위 컴포넌트에 필요한 가상 인터페이스(Virtual IF)나 설정 객체(Config Object)를 배포하며, 기존 코드를 수정하지 않고도 동작을 변경할 수 있는 Factory Override를 적용합니다.
+                </p>
+            </header>
+
+            <div class="diagram-grid rounded-xl h-[340px] border border-slate-200 overflow-hidden relative mb-6">
+                <svg viewBox="0 0 800 340" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    <!-- Connections (Data Flow) -->
+                    <!-- Config DB to Env -->
+                    <path d="M 230 140 L 230 200 L 380 200 L 380 240" class="stroke-blue-500 stroke-2 animate-flow" fill="none" />
+                    <!-- Factory to Env -->
+                    <path d="M 570 140 L 570 200 L 420 200 L 420 240" class="stroke-violet-500 stroke-2 animate-flow" fill="none" />
+
+                    <!-- Top Node: build_phase -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <rect x="300" y="20" width="200" height="40" rx="20" class="fill-slate-800 stroke-slate-900 stroke-2" />
+                        <text x="400" y="45" text-anchor="middle" class="svg-text-code-white">function void build_phase()</text>
+                    </g>
+                    <path d="M 400 60 L 400 80 L 230 80 L 230 100" class="stroke-slate-300 stroke-2" fill="none" />
+                    <path d="M 400 60 L 400 80 L 570 80 L 570 100" class="stroke-slate-300 stroke-2" fill="none" />
+
+                    <!-- Node: Config DB -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                        <rect x="130" y="100" width="200" height="40" rx="4" class="fill-blue-50 stroke-blue-400 stroke-2" />
+                        <text x="230" y="125" text-anchor="middle" class="svg-text-code">uvm_config_db::set()</text>
+                        <!-- Config Value -->
+                        <rect x="250" y="160" width="90" height="24" rx="4" class="fill-white stroke-slate-200" />
+                        <text x="295" y="176" text-anchor="middle" class="svg-text-body text-[10px]">Virtual IF / CFG</text>
+                    </g>
+
+                    <!-- Node: Factory Override -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
+                        <rect x="470" y="100" width="200" height="40" rx="4" class="fill-violet-50 stroke-violet-400 stroke-2" />
+                        <text x="570" y="125" text-anchor="middle" class="svg-text-code" style="fill: #8b5cf6;">Factory Override</text>
+                        <!-- Override Value -->
+                        <rect x="460" y="160" width="140" height="24" rx="4" class="fill-white stroke-slate-200" />
+                        <text x="530" y="176" text-anchor="middle" class="svg-text-body text-[10px]">A_seq &rarr; Error_A_seq</text>
+                    </g>
+
+                    <!-- Node: Environment -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1 cursor-pointer group">
+                        <rect x="250" y="240" width="300" height="80" rx="8" class="fill-white stroke-slate-300 stroke-2" />
+                        <rect x="250" y="240" width="300" height="30" class="fill-slate-100 rounded-t-lg" />
+                        <text x="400" y="260" text-anchor="middle" class="svg-text-code text-slate-800">uvm_env (env)</text>
+                        <text x="400" y="290" text-anchor="middle" class="svg-text-body">Test가 생성하고 (<span class="font-mono text-blue-600">[3] Env 생성</span>)</text>
+                        <text x="400" y="308" text-anchor="middle" class="svg-text-body">전달된 Config와 Override Type을 적용받음.</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-blue-500 pl-2">[4] build_phase & [5] Config 설정</h3>
+                    <ul class="space-y-3 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">컴포넌 생성:</span> <code>new()</code> 대신 <code>type_id::create()</code>를 사용하여 UVM Factory를 통해 Env 및 하위 컴포넌트를 생성합니다. 이는 추후 Override를 가능하게 합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-blue-600 font-semibold">Config DB (uvm_config_db):</span> TB Top에서 전달된 Virtual Interface나 구조적 설정값(예: Agent의 Active/Passive 모드)을 Env 및 하위 Agent로 전달하는 전역 데이터베이스 역할을 합니다.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-blue-500 pl-2">[6] Factory Override</h3>
+                    <ul class="space-y-3 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">개념 및 장점:</span> 원본 클래스의 소스 코드를 단 한 줄도 수정하지 않고, 시뮬레이션 런타임에 특정 클래스를 다른 클래스(파생 클래스)로 교체하는 강력한 기능입니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">활용 사례:</span> 정상적인 트랜잭션을 발생시키는 <code>A_seq</code>를 에러를 주입하는 <code>Error_A_seq</code>로 교체하여 손쉽게 네거티브 테스트(Negative Test)를 구성할 수 있습니다.</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Run Phase & Sequence Execution -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-shadow hover:shadow-md">
+            <header class="mb-6 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full block"></span>
+                    3. 시나리오 실행 (run_phase & Sequence)
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">
+                    <code>run_phase</code>는 시뮬레이션의 실질적인 동작이 이루어지는 단계입니다. Objection 메커니즘을 통해 시뮬레이션의 시작과 끝을 제어하며, SoC/System 레벨에서는 Virtual Sequence를 사용하여 여러 하위 에이전트들의 트랜잭션 흐름을 오케스트레이션(Orchestration) 합니다.
+                </p>
+            </header>
+
+            <div class="diagram-grid rounded-xl h-[420px] border border-slate-200 overflow-hidden relative mb-6">
+                <svg viewBox="0 0 800 420" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    <!-- Timeline background -->
+                    <rect x="50" y="50" width="700" height="340" rx="16" class="fill-slate-50 stroke-slate-200 stroke-2" stroke-dasharray="10, 5" />
+                    
+                    <!-- Objection Gates -->
+                    <!-- Raise -->
+                    <path d="M 120 50 L 120 390" class="stroke-emerald-500 stroke-[3]" stroke-dasharray="4,4" />
+                    <rect x="60" y="210" width="120" height="30" rx="4" class="fill-emerald-100 stroke-emerald-500" />
+                    <text x="120" y="230" text-anchor="middle" class="svg-text-code" style="fill: #10b981; font-size:11px;">raise_objection</text>
+                    
+                    <!-- Drop -->
+                    <path d="M 680 50 L 680 390" class="stroke-rose-500 stroke-[3]" stroke-dasharray="4,4" />
+                    <rect x="620" y="210" width="120" height="30" rx="4" class="fill-rose-100 stroke-rose-500" />
+                    <text x="680" y="230" text-anchor="middle" class="svg-text-code" style="fill: #f43f5e; font-size:11px;">drop_objection</text>
+
+                    <!-- Title -->
+                    <text x="400" y="30" text-anchor="middle" class="svg-text-title text-slate-800">task run_phase() Execution Timeline</text>
+
+                    <!-- Virtual Sequence Block -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <rect x="250" y="80" width="300" height="180" rx="12" class="fill-white stroke-violet-400 stroke-2 shadow-sm" />
+                        <rect x="250" y="80" width="300" height="30" class="fill-violet-50 rounded-t-xl" />
+                        <text x="400" y="100" text-anchor="middle" class="svg-text-code" style="fill: #8b5cf6;">Virtual Sequence</text>
+                        
+                        <!-- Inner Sequences -->
+                        <rect x="280" y="130" width="240" height="34" rx="4" class="fill-slate-100 stroke-slate-300" />
+                        <text x="400" y="152" text-anchor="middle" class="svg-text-code text-slate-700">seq_A.start(sqr_A)</text>
+                        
+                        <rect x="280" y="180" width="240" height="34" rx="4" class="fill-slate-100 stroke-slate-300" />
+                        <text x="400" y="202" text-anchor="middle" class="svg-text-code text-slate-700">seq_B.start(sqr_B)</text>
+                        
+                        <text x="400" y="240" text-anchor="middle" class="svg-text-body" style="font-size: 10px;">(Orchestrates Sub-Sequences)</text>
+                    </g>
+
+                    <!-- Data Flows (Animated) -->
+                    <!-- Seq A to Sqr A -->
+                    <path d="M 400 164 L 400 290 L 300 290 L 300 320" class="stroke-blue-500 stroke-2 animate-flow" fill="none" />
+                    <!-- Seq B to Sqr B -->
+                    <path d="M 400 214 L 400 280 L 500 280 L 500 320" class="stroke-blue-500 stroke-2 animate-flow" fill="none" />
+
+                    <!-- Sequencers -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <rect x="220" y="320" width="160" height="40" rx="8" class="fill-blue-50 stroke-blue-500 stroke-2" />
+                        <text x="300" y="345" text-anchor="middle" class="svg-text-code">Physical Sequencer A</text>
+                    </g>
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <rect x="420" y="320" width="160" height="40" rx="8" class="fill-blue-50 stroke-blue-500 stroke-2" />
+                        <text x="500" y="345" text-anchor="middle" class="svg-text-code">Physical Sequencer B</text>
+                    </g>
+
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-emerald-500 pl-2">[8] Objection Mechanism</h3>
+                    <ul class="space-y-2 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">▸</span>
+                            <div>백그라운드 프로세스가 완료될 때까지 시뮬레이션이 조기 종료되는 것을 막아주는 타이머 역할을 합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">▸</span>
+                            <div>Test의 <code>run_phase</code> 시작 시 <code>raise_objection</code>을, 메인 Sequence 완료 후 <code>drop_objection</code>을 호출합니다. 카운트가 0이 되면 phase가 종료됩니다.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-blue-500 pl-2">[9] 생성 & [10] Start</h3>
+                    <ul class="space-y-2 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div>Test 내부에서 검증 목적에 맞는 메인 Sequence 객체를 Factory를 통해 <code>create()</code> 합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div>생성된 Sequence를 어느 물리적 대상(Physical Sequencer)에서 실행할지 지정하여 <code>start()</code> 메서드를 호출, 트랜잭션 발생을 트리거합니다.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-violet-500 pl-2">[11] Virtual Sequence</h3>
+                    <ul class="space-y-2 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-violet-500 mt-0.5">▸</span>
+                            <div>단일 IP가 아닌 SoC 환경에서는 여러 Agent(예: AXI, APB)를 동시에 제어해야 합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-violet-500 mt-0.5">▸</span>
+                            <div>자신만의 BFM/Driver 없이, 다른 Sub-Sequence들을 생성한 뒤 각각 알맞은 Physical Sequencer에 할당하여 <strong>실행 순서와 동기화를 지휘(Orchestrate)</strong>합니다.</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Runtime Control & Verification Result -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-shadow hover:shadow-md">
+            <header class="mb-6 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full block"></span>
+                    4. 실행 옵션 및 결과 확인 (Runtime & Report)
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">
+                    UVM은 컴파일을 다시 하지 않고도 실행 인자(Runtime Option)만 변경하여 다양한 테스트를 수행할 수 있는 유연성을 제공합니다. 시뮬레이션이 종료되면 Report phase에서 Scoreboard와 Coverage 결과를 종합하여 최종 PASS/FAIL을 판정합니다.
+                </p>
+            </header>
+
+            <div class="diagram-grid rounded-xl h-[280px] border border-slate-200 overflow-hidden relative mb-6">
+                <svg viewBox="0 0 800 280" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    
+                    <!-- Terminal Console Block -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <rect x="50" y="40" width="400" height="80" rx="8" class="fill-slate-900" />
+                        <circle cx="70" cy="55" r="4" class="fill-rose-500" />
+                        <circle cx="85" cy="55" r="4" class="fill-yellow-500" />
+                        <circle cx="100" cy="55" r="4" class="fill-emerald-500" />
+                        <text x="65" y="80" class="svg-text-code" style="fill:#10b981;">&gt; make sim <tspan style="fill:#fff;">RUN_OPT="</tspan><tspan style="fill:#fbbf24;">+UVM_TESTNAME=test_A +err_inj=1</tspan><tspan style="fill:#fff;">"</tspan></text>
+                    </g>
+
+                    <!-- Flow from Terminal to Report -->
+                    <path d="M 250 120 L 250 160 L 550 160 L 550 200" class="stroke-slate-400 stroke-2 animate-flow" fill="none" />
+
+                    <!-- UVM Report Phase Block -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <rect x="400" y="40" width="350" height="80" rx="8" class="fill-white stroke-slate-300 stroke-2" />
+                        <rect x="400" y="40" width="350" height="24" class="fill-slate-100 rounded-t-lg" />
+                        <text x="575" y="57" text-anchor="middle" class="svg-text-body font-bold text-slate-800">function void report_phase()</text>
+                        <text x="420" y="85" class="svg-text-code" style="fill:#475569; font-size:11px;">if (err_cnt == 0) </text>
+                        <text x="420" y="105" class="svg-text-code" style="fill:#10b981; font-size:11px;">  `uvm_info("TEST", "TEST PASSED!", UVM_LOW)</text>
+                    </g>
+
+                    <!-- Result Banner (Pulse) -->
+                    <g class="pulse-effect group cursor-pointer">
+                        <rect x="450" y="200" width="200" height="50" rx="25" class="fill-emerald-500 shadow-md" />
+                        <text x="550" y="230" text-anchor="middle" class="svg-text-title" style="fill:white;">✓ TEST PASSED</text>
+                    </g>
+
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-blue-500 pl-2">[13] Plusarg / Runtime Option</h3>
+                    <ul class="space-y-3 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-blue-600 font-semibold">+UVM_TESTNAME=&lt;name&gt;:</span> <code>run_test()</code> 함수와 연계되어, UVM Factory가 해당 문자열을 기반으로 Test 클래스를 찾아 인스턴스화하고 시뮬레이션을 시작하게 합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">$value$plusargs:</span> 터미널에서 <code>+err_inj=1</code>과 같이 입력한 커스텀 실행 변수를 런타임에 받아와, Test 내부의 조건문 분기나 시나리오 강도(Iteration 횟수 등)를 동적으로 조절하는 데 활용합니다.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-blue-500 pl-2">[15] Report / Result Check</h3>
+                    <ul class="space-y-3 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">데이터 수집:</span> 시뮬레이션 종료 시점인 <code>extract_phase</code> 및 <code>check_phase</code>에서 Scoreboard의 Error 카운트나 Functional Coverage 달성도를 수집합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-blue-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">최종 판정:</span> <code>report_phase</code>에서 <code>`uvm_info</code>, <code>`uvm_error</code> 매크로를 사용하여 결과를 로그(Log) 파일 및 콘솔에 명확하게 출력합니다. 에러가 0건일 때만 <code>TEST PASSED</code>를 선언합니다.</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Full TB Topology -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-shadow hover:shadow-md">
+            <header class="mb-6 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full block"></span>
+                    5. 전체 검증 환경 토폴로지 (TB Topology Overview)
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">
+                    Test 클래스는 전체 검증 환경(Testbench)을 담는 최상위 컨테이너입니다. 하위의 Env, Agent, Scoreboard 간의 계층 구조와 TLM(Transaction Level Modeling) 통신 채널을 시각적으로 구성합니다.
+                </p>
+            </header>
+
+            <div class="diagram-grid rounded-xl h-[460px] border border-slate-200 overflow-hidden relative mb-6">
+                <svg viewBox="0 0 800 460" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    <!-- Definitions -->
+                    <defs>
+                        <marker id="arrow-solid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-500" />
+                        </marker>
+                        <marker id="arrow-tlm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" class="fill-violet-500" />
+                        </marker>
+                    </defs>
+
+                    <!-- Top Level DUT (Hardware) -->
+                    <rect x="50" y="380" width="700" height="60" rx="8" class="fill-slate-800 stroke-slate-900 stroke-2" />
+                    <text x="400" y="415" text-anchor="middle" class="svg-text-code-white text-lg">DUT (Design Under Test) &amp; Interface</text>
+
+                    <!-- Connections to DUT -->
+                    <path d="M 180 340 L 180 380" class="stroke-slate-500 stroke-[3]" marker-end="url(#arrow-solid)" fill="none" />
+                    <path d="M 300 340 L 300 380" class="stroke-slate-500 stroke-[3]" marker-start="url(#arrow-solid)" fill="none" />
+                    <path d="M 520 340 L 520 380" class="stroke-slate-500 stroke-[3]" marker-start="url(#arrow-solid)" fill="none" />
+                    
+                    <!-- Virtual IF labels -->
+                    <rect x="150" y="350" width="60" height="20" rx="4" class="fill-white stroke-slate-300" />
+                    <text x="180" y="364" text-anchor="middle" class="svg-text-body text-[10px]">vif (drv)</text>
+                    
+                    <rect x="270" y="350" width="60" height="20" rx="4" class="fill-white stroke-slate-300" />
+                    <text x="300" y="364" text-anchor="middle" class="svg-text-body text-[10px]">vif (mon)</text>
+                    
+                    <rect x="490" y="350" width="60" height="20" rx="4" class="fill-white stroke-slate-300" />
+                    <text x="520" y="364" text-anchor="middle" class="svg-text-body text-[10px]">vif (mon)</text>
+
+                    <!-- uvm_test Block -->
+                    <rect x="30" y="20" width="740" height="320" rx="12" class="fill-blue-50/50 stroke-blue-200 stroke-2" />
+                    <text x="50" y="45" class="svg-text-code text-blue-700">uvm_test_top</text>
+
+                    <!-- uvm_env Block -->
+                    <rect x="50" y="60" width="700" height="260" rx="12" class="fill-white stroke-slate-300 stroke-2" />
+                    <rect x="50" y="60" width="700" height="30" class="fill-slate-100 rounded-t-xl" />
+                    <text x="70" y="80" class="svg-text-code text-slate-700">uvm_env (env)</text>
+
+                    <!-- Active Agent Block -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <rect x="70" y="110" width="280" height="190" rx="8" class="fill-emerald-50/30 stroke-emerald-300 stroke-2" />
+                        <text x="210" y="130" text-anchor="middle" class="svg-text-code text-emerald-700">Agent A (UVM_ACTIVE)</text>
+                        
+                        <!-- Sequencer -->
+                        <rect x="90" y="140" width="240" height="40" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="210" y="165" text-anchor="middle" class="svg-text-body font-bold text-slate-800">uvm_sequencer</text>
+                        
+                        <!-- Driver -->
+                        <rect x="90" y="210" width="110" height="70" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="145" y="245" text-anchor="middle" class="svg-text-body font-bold text-slate-800">uvm_driver</text>
+                        
+                        <!-- Monitor (Active) -->
+                        <rect x="220" y="210" width="110" height="70" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="275" y="245" text-anchor="middle" class="svg-text-body font-bold text-slate-800">uvm_monitor</text>
+
+                        <!-- SQR to DRV Connection -->
+                        <path d="M 145 180 L 145 210" class="stroke-slate-500 stroke-2" marker-end="url(#arrow-solid)" fill="none" />
+                        <text x="120" y="200" class="svg-text-body text-[10px]">seq_item_port</text>
+                    </g>
+
+                    <!-- Passive Agent Block -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <rect x="370" y="110" width="180" height="190" rx="8" class="fill-slate-50/50 stroke-slate-300 stroke-2" />
+                        <text x="460" y="130" text-anchor="middle" class="svg-text-code text-slate-600">Agent B (UVM_PASSIVE)</text>
+                        
+                        <!-- Monitor (Passive) -->
+                        <rect x="400" y="210" width="120" height="70" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="460" y="245" text-anchor="middle" class="svg-text-body font-bold text-slate-800">uvm_monitor</text>
+                    </g>
+
+                    <!-- Scoreboard Block -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <rect x="580" y="110" width="150" height="190" rx="8" class="fill-violet-50/30 stroke-violet-300 stroke-2" />
+                        <text x="655" y="130" text-anchor="middle" class="svg-text-code text-violet-700">uvm_scoreboard</text>
+                        
+                        <rect x="600" y="170" width="110" height="90" rx="6" class="fill-white stroke-slate-300 stroke-2" />
+                        <text x="655" y="210" text-anchor="middle" class="svg-text-body font-bold text-slate-800">Comparator &amp;</text>
+                        <text x="655" y="230" text-anchor="middle" class="svg-text-body font-bold text-slate-800">Predictor</text>
+                    </g>
+
+                    <!-- TLM Analysis Ports (Monitors to Scoreboard) -->
+                    <!-- Active Mon to SB -->
+                    <path d="M 330 245 L 600 185" class="stroke-violet-400 stroke-[3]" stroke-dasharray="6,4" fill="none" marker-end="url(#arrow-tlm)" />
+                    <!-- Passive Mon to SB -->
+                    <path d="M 520 245 L 600 225" class="stroke-violet-400 stroke-[3]" stroke-dasharray="6,4" fill="none" marker-end="url(#arrow-tlm)" />
+                    
+                    <rect x="360" y="175" width="80" height="20" rx="4" class="fill-violet-100 stroke-violet-300" />
+                    <text x="400" y="189" text-anchor="middle" class="svg-text-body text-[10px] text-violet-800">TLM Analysis Port</text>
+
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-emerald-500 pl-2">Active vs Passive Agent 구조</h3>
+                    <ul class="space-y-3 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">UVM_ACTIVE:</span> Test가 발생시킨 Sequence를 실제 DUT 신호로 변환하여 구동(Drive)해야 하는 경우, Sequencer와 Driver를 모두 활성화하여 생성합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 mt-0.5">▸</span>
+                            <div><span class="font-mono text-slate-900 font-semibold">UVM_PASSIVE:</span> 단순히 DUT에서 출력되는 데이터를 관찰하고 수집만 하는 포트의 경우, 메모리 최적화를 위해 Monitor 컴포넌트만 단독으로 생성합니다.</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-3 font-mono border-l-2 border-violet-500 pl-2">TLM 연결 (Transaction Level Modeling)</h3>
+                    <ul class="space-y-3 text-sm text-slate-600 list-none pl-1">
+                        <li class="flex items-start gap-2">
+                            <span class="text-violet-500 mt-0.5">▸</span>
+                            <div>Test의 <code>connect_phase</code>에서 하위 컴포넌트 간의 통신 채널을 연결합니다.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-violet-500 mt-0.5">▸</span>
+                            <div>각 Agent의 Monitor가 버스의 신호를 Transaction 객체로 묶어 <span class="font-mono text-slate-900 font-semibold">Analysis Port</span>를 통해 Broadcast하면, Scoreboard가 이를 수신(Analysis Export)하여 기대값(Predictor)과 실제값을 비교(Compare)합니다.</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Phase Execution Life-Cycle -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-shadow hover:shadow-md">
+            <header class="mb-6 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full block"></span>
+                    6. UVM Phase Life-Cycle (Test 관점)
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">
+                    Test는 UVM의 표준 Phase 매커니즘을 관장합니다. 준비(Setup), 실행(Run), 정리 및 확인(Cleanup & Check)의 순차적인 흐름을 시각적으로 파악할 수 있습니다. <code>run_phase</code>만이 유일하게 시뮬레이션 시간을 소모(Time-consuming)합니다.
+                </p>
+            </header>
+
+            <div class="diagram-grid rounded-xl h-[220px] border border-slate-200 overflow-hidden relative mb-6">
+                <svg viewBox="0 0 800 220" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    
+                    <!-- Background Time Arrow -->
+                    <path d="M 30 110 L 750 110" class="stroke-slate-300 stroke-[4]" stroke-dasharray="8,8" fill="none" />
+                    <polygon points="750,100 770,110 750,120" class="fill-slate-300" />
+                    <text x="750" y="90" text-anchor="middle" class="svg-text-body font-bold text-slate-500">Time (t)</text>
+
+                    <!-- Group 1: Setup Phases (Top-Down / Bottom-Up) -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <!-- Box -->
+                        <path d="M 50 60 L 250 60 L 270 110 L 250 160 L 50 160 Z" class="fill-blue-50 stroke-blue-400 stroke-2" />
+                        <text x="150" y="85" text-anchor="middle" class="svg-text-title text-blue-800">1. Setup Phases</text>
+                        <text x="150" y="110" text-anchor="middle" class="svg-text-code text-slate-700 text-[11px]">build_phase() [Top-Down]</text>
+                        <text x="150" y="130" text-anchor="middle" class="svg-text-code text-slate-700 text-[11px]">connect_phase() [Bottom-Up]</text>
+                        <text x="150" y="150" text-anchor="middle" class="svg-text-code text-slate-700 text-[11px]">end_of_elaboration()</text>
+                    </g>
+
+                    <!-- Group 2: Run Phase (Time Consuming) -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <!-- Box -->
+                        <path d="M 280 40 L 490 40 L 510 110 L 490 180 L 280 180 L 300 110 Z" class="fill-emerald-50 stroke-emerald-500 stroke-[3] shadow-sm" />
+                        <text x="400" y="70" text-anchor="middle" class="svg-text-title text-emerald-800">2. Run Phase</text>
+                        <text x="400" y="95" text-anchor="middle" class="svg-text-code text-emerald-700 font-bold">task run_phase()</text>
+                        
+                        <!-- Internal details -->
+                        <rect x="330" y="110" width="140" height="24" rx="4" class="fill-white stroke-emerald-200" />
+                        <text x="400" y="126" text-anchor="middle" class="svg-text-body text-[10px]">Consumes Simulation Time</text>
+                        <rect x="330" y="140" width="140" height="24" rx="4" class="fill-white stroke-emerald-200" />
+                        <text x="400" y="156" text-anchor="middle" class="svg-text-body text-[10px]">Sequence/Objection Control</text>
+                    </g>
+
+                    <!-- Group 3: Cleanup Phases -->
+                    <g class="transition-transform duration-300 hover:-translate-y-1">
+                        <!-- Box -->
+                        <path d="M 520 60 L 720 60 L 720 160 L 520 160 L 540 110 Z" class="fill-violet-50 stroke-violet-400 stroke-2" />
+                        <text x="630" y="85" text-anchor="middle" class="svg-text-title text-violet-800">3. Check & Report</text>
+                        <text x="630" y="110" text-anchor="middle" class="svg-text-code text-slate-700 text-[11px]">extract_phase()</text>
+                        <text x="630" y="130" text-anchor="middle" class="svg-text-code text-slate-700 text-[11px]">check_phase()</text>
+                        <text x="630" y="150" text-anchor="middle" class="svg-text-code text-slate-700 text-[11px]">report_phase()</text>
+                    </g>
+                    
+                    <!-- Top Labels -->
+                    <text x="150" y="45" text-anchor="middle" class="svg-text-body font-bold text-slate-500">t = 0 (Setup)</text>
+                    <text x="400" y="25" text-anchor="middle" class="svg-text-body font-bold text-emerald-600">t > 0 (Simulation)</text>
+                    <text x="630" y="45" text-anchor="middle" class="svg-text-body font-bold text-slate-500">t = End (Cleanup)</text>
+
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-2 font-mono text-sm border-l-2 border-blue-500 pl-2">Setup Phase (함수, 시간 0)</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        시뮬레이션 시간이 흐르기 전(<code>t=0</code>)에 실행됩니다. 객체를 생성하는 <code>build_phase</code>는 부모에서 자식 방향(Top-Down)으로 실행되며, 포트를 연결하는 <code>connect_phase</code>는 반대로 자식에서 부모 방향(Bottom-Up)으로 실행되어 안정적인 조립을 보장합니다.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-2 font-mono text-sm border-l-2 border-emerald-500 pl-2">Run Phase (Task, 시간 진행)</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        유일하게 <code>task</code>로 정의되며 <code># delay</code>나 <code>@ (posedge clk)</code>와 같이 <strong>실제 시뮬레이션 시간을 소모</strong>합니다. 모든 컴포넌트의 <code>run_phase</code>는 병렬(Fork-Join)로 동시 다발적으로 시작됩니다.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-2 font-mono text-sm border-l-2 border-violet-500 pl-2">Cleanup Phase (함수, 시간 정지)</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Objection이 모두 해제되어 시뮬레이션 메인 흐름이 종료된 후, 다시 <code>t=End</code> 시점에 멈춘 상태로 실행됩니다. Scoreboard에 남은 잔여 데이터를 추출(Extract)하고 데이터 결함 여부를 확인(Check)한 뒤, 최종 로그를 출력(Report)합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Objection Mechanism (New) -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-shadow hover:shadow-md">
+            <header class="mb-6 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full block"></span>
+                    7. Objection 매커니즘 심층 분석 (Objection & Drain Time)
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">
+                    UVM의 Phase(주로 <code>run_phase</code>) 종료를 제어하는 핵심 매커니즘입니다. 레퍼런스 카운팅(Reference Counting) 방식을 사용하며, 활성화된 Objection이 하나라도 남아있다면 해당 Phase는 계속 유지됩니다.
+                </p>
+            </header>
+
+            <div class="diagram-grid rounded-xl h-[360px] border border-slate-200 overflow-hidden relative mb-6">
+                <svg viewBox="0 0 800 360" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    
+                    <!-- Chart Axes -->
+                    <!-- X Axis (Time) -->
+                    <path d="M 80 240 L 740 240" class="stroke-slate-400 stroke-2" fill="none" />
+                    <!-- Y Axis (Count) -->
+                    <path d="M 80 240 L 80 40" class="stroke-slate-400 stroke-2" fill="none" />
+
+                    <!-- Y Axis Grid & Labels -->
+                    <text x="60" y="245" text-anchor="middle" class="svg-text-body font-bold text-slate-500">0</text>
+                    <path d="M 80 140 L 740 140" class="stroke-slate-200 stroke-2" stroke-dasharray="4,4" fill="none" />
+                    <text x="60" y="145" text-anchor="middle" class="svg-text-body font-bold text-slate-500">1</text>
+                    <path d="M 80 40 L 740 40" class="stroke-slate-200 stroke-2" stroke-dasharray="4,4" fill="none" />
+                    <text x="60" y="45" text-anchor="middle" class="svg-text-body font-bold text-slate-500">2</text>
+                    
+                    <text x="30" y="140" text-anchor="middle" transform="rotate(-90 30,140)" class="svg-text-body font-bold text-slate-600">Total Objections</text>
+
+                    <!-- Drain Time Highlight Background -->
+                    <rect x="600" y="40" width="100" height="200" class="fill-amber-50" />
+                    <text x="650" y="120" text-anchor="middle" class="svg-text-title text-amber-600 font-bold opacity-80" style="writing-mode: vertical-rl; text-orientation: mixed;">Drain Time</text>
+
+                    <!-- Sequence Execution Blocks (Bottom) -->
+                    <rect x="180" y="270" width="280" height="26" rx="6" class="fill-blue-50 stroke-blue-400 stroke-2" />
+                    <text x="320" y="288" text-anchor="middle" class="svg-text-code text-blue-700">Sequence A (Execution)</text>
+
+                    <rect x="320" y="310" width="280" height="26" rx="6" class="fill-violet-50 stroke-violet-400 stroke-2" />
+                    <text x="460" y="328" text-anchor="middle" class="svg-text-code text-violet-700">Sequence B (Execution)</text>
+
+                    <!-- The Objection Step Graph (Animated) -->
+                    <path d="M 80 240 L 180 240 L 180 140 L 320 140 L 320 40 L 460 40 L 460 140 L 600 140 L 600 240 L 700 240" 
+                          class="stroke-blue-600 stroke-[4] fill-none animate-graph" stroke-linejoin="round" />
+
+                    <!-- Node Markers & Labels -->
+                    <!-- Seq A Raise -->
+                    <circle cx="180" cy="140" r="6" class="fill-emerald-500 pulse-effect" />
+                    <text x="175" y="125" text-anchor="end" class="svg-text-code text-emerald-600">raise()</text>
+
+                    <!-- Seq B Raise -->
+                    <circle cx="320" cy="40" r="6" class="fill-emerald-500 pulse-effect" />
+                    <text x="315" y="25" text-anchor="end" class="svg-text-code text-emerald-600">raise()</text>
+
+                    <!-- Seq A Drop -->
+                    <circle cx="460" cy="140" r="6" class="fill-rose-500 pulse-effect" />
+                    <text x="465" y="125" text-anchor="start" class="svg-text-code text-rose-600">drop()</text>
+
+                    <!-- Seq B Drop -->
+                    <circle cx="600" cy="240" r="6" class="fill-rose-500 pulse-effect" />
+                    <text x="595" y="260" text-anchor="end" class="svg-text-code text-rose-600">drop() = 0</text>
+
+                    <!-- Phase End Line -->
+                    <path d="M 700 30 L 700 250" class="stroke-rose-600 stroke-[3]" stroke-dasharray="6,4" fill="none" />
+                    <text x="700" y="20" text-anchor="middle" class="svg-text-title text-rose-600">Phase End!</text>
+
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-2 font-mono text-sm border-l-2 border-emerald-500 pl-2">1. Raise & Drop 원리</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        여러 Sequence가 병렬로 실행될 때, 각각 시작 전 <code class="bg-slate-100 text-emerald-600 px-1 rounded">raise_objection</code>을 호출하여 카운트를 1 증가시키고, 완료 후 <code class="bg-slate-100 text-rose-600 px-1 rounded">drop_objection</code>으로 1을 감소시킵니다. 카운트가 0보다 큰 동안 시뮬레이션은 종료되지 않습니다.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-2 font-mono text-sm border-l-2 border-amber-500 pl-2">2. Drain Time (종료 유예)</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Total Objection이 0이 된 직후 Phase를 바로 종료하면, DUT 내부 파이프라인에 남아있는 잔여 데이터(Flush)를 모니터가 수집하지 못할 수 있습니다. <code class="bg-slate-100 text-slate-800 px-1 rounded">set_drain_time()</code>을 통해 최종 Phase 종료를 일정 시간(예: 50ns) 유예할 수 있습니다.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-2 font-mono text-sm border-l-2 border-blue-500 pl-2">3. 실무 최적화 가이드</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        하위 Sequence나 Driver 등 모든 컴포넌트 단위에서 Objection을 올리면 오버헤드가 발생해 시뮬레이션 속도가 저하됩니다. UVM 1.2+ 환경에서는 <strong>최상위 Test의 <code>run_phase</code> 또는 메인 Virtual Sequence 레벨</strong>에서만 단일하게 관리하는 것을 강력히 권장합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: Code Snippet -->
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 transition-shadow hover:shadow-md">
+            <header class="mb-6 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full block"></span>
+                    8. 실제 코드 구현 예시 (SystemVerilog / UVM)
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">
+                    앞서 설명한 <code class="bg-slate-100 text-slate-800 px-1 rounded font-mono text-xs">base_test</code> 상속 구조, Factory Override, Config DB 설정, 그리고 Objection 매커니즘을 포함한 전체 코드 스니펫입니다.
+                </p>
+            </header>
+
+            <div class="bg-slate-900 rounded-xl p-6 overflow-x-auto shadow-inner border border-slate-800">
+                <pre class="font-mono text-[13px] leading-relaxed text-slate-300"><code class="language-systemverilog"><span class="text-slate-500 italic">// -------------------------------------------------------------------------</span>
+<span class="text-slate-500 italic">// [Base Test] 모든 시나리오의 뼈대가 되는 공통 환경 설정</span>
+<span class="text-slate-500 italic">// -------------------------------------------------------------------------</span>
+<span class="text-blue-400 font-bold">class</span> base_test <span class="text-blue-400 font-bold">extends</span> <span class="text-emerald-400">uvm_test</span>;
+  <span class="text-violet-400">`uvm_component_utils</span>(base_test)
+
+  <span class="text-emerald-400">uvm_env</span> env;
+
+  <span class="text-blue-400 font-bold">function</span> <span class="text-blue-300">new</span>(<span class="text-emerald-400">string</span> name = <span class="text-yellow-300">"base_test"</span>, <span class="text-emerald-400">uvm_component</span> parent = <span class="text-blue-400 font-bold">null</span>);
+    <span class="text-blue-400 font-bold">super</span>.<span class="text-blue-300">new</span>(name, parent);
+  <span class="text-blue-400 font-bold">endfunction</span>
+
+  <span class="text-blue-400 font-bold">virtual function</span> <span class="text-emerald-400">void</span> <span class="text-blue-300">build_phase</span>(<span class="text-emerald-400">uvm_phase</span> phase);
+    <span class="text-blue-400 font-bold">super</span>.<span class="text-blue-300">build_phase</span>(phase);
+    <span class="text-slate-500 italic">// [3] Env 생성: UVM Factory 매커니즘 활용</span>
+    env = <span class="text-emerald-400">uvm_env</span>::type_id::<span class="text-blue-300">create</span>(<span class="text-yellow-300">"env"</span>, <span class="text-blue-400 font-bold">this</span>);
+    
+    <span class="text-slate-500 italic">// [5] Config DB: 하위 컴포넌트로 Timeout 설정값 배포</span>
+    uvm_config_db#(<span class="text-emerald-400">int</span>)::<span class="text-blue-300">set</span>(<span class="text-blue-400 font-bold">this</span>, <span class="text-yellow-300">"env.*"</span>, <span class="text-yellow-300">"timeout_cnt"</span>, <span class="text-orange-400">10000</span>);
+  <span class="text-blue-400 font-bold">endfunction</span>
+<span class="text-blue-400 font-bold">endclass</span>
+
+
+<span class="text-slate-500 italic">// -------------------------------------------------------------------------</span>
+<span class="text-slate-500 italic">// [Scenario Test] 특정 시나리오를 구동하기 위한 파생 Test</span>
+<span class="text-slate-500 italic">// -------------------------------------------------------------------------</span>
+<span class="text-blue-400 font-bold">class</span> test_scenario_A <span class="text-blue-400 font-bold">extends</span> base_test;
+  <span class="text-violet-400">`uvm_component_utils</span>(test_scenario_A)
+
+  <span class="text-blue-400 font-bold">function</span> <span class="text-blue-300">new</span>(<span class="text-emerald-400">string</span> name = <span class="text-yellow-300">"test_scenario_A"</span>, <span class="text-emerald-400">uvm_component</span> parent = <span class="text-blue-400 font-bold">null</span>);
+    <span class="text-blue-400 font-bold">super</span>.<span class="text-blue-300">new</span>(name, parent);
+  <span class="text-blue-400 font-bold">endfunction</span>
+
+  <span class="text-blue-400 font-bold">virtual function</span> <span class="text-emerald-400">void</span> <span class="text-blue-300">build_phase</span>(<span class="text-emerald-400">uvm_phase</span> phase);
+    <span class="text-slate-500 italic">// [6] Factory Override: 기존 정상 시퀀스(seq_A)를 Error 주입 시퀀스로 동적 교체</span>
+    seq_A::type_id::<span class="text-blue-300">set_type_override</span>(error_seq_A::get_type());
+    <span class="text-blue-400 font-bold">super</span>.<span class="text-blue-300">build_phase</span>(phase);
+  <span class="text-blue-400 font-bold">endfunction</span>
+
+  <span class="text-slate-500 italic">// [7] Run Phase: 실제 시뮬레이션 시간이 흐르는 단계</span>
+  <span class="text-blue-400 font-bold">virtual task</span> <span class="text-blue-300">run_phase</span>(<span class="text-emerald-400">uvm_phase</span> phase);
+    <span class="text-emerald-400">virtual_seq</span> vseq;
+    vseq = <span class="text-emerald-400">virtual_seq</span>::type_id::<span class="text-blue-300">create</span>(<span class="text-yellow-300">"vseq"</span>); <span class="text-slate-500 italic">// [9] 시퀀스 생성</span>
+    
+    <span class="text-slate-500 italic">// [Drain Time 설정] 전체 Objection이 0이 된 후 50ns 대기</span>
+    phase.<span class="text-blue-300">phase_done</span>.set_drain_time(<span class="text-blue-400 font-bold">this</span>, <span class="text-orange-400">50ns</span>);
+
+    <span class="text-slate-500 italic">// [8] Objection 매커니즘 시작 (Reference Count +1)</span>
+    phase.<span class="text-blue-300">raise_objection</span>(<span class="text-blue-400 font-bold">this</span>, <span class="text-yellow-300">"Scenario A Started"</span>);
+    <span class="text-violet-400">`uvm_info</span>(<span class="text-yellow-300">"TEST"</span>, <span class="text-yellow-300">"Executing Virtual Sequence..."</span>, UVM_LOW)
+    
+    <span class="text-slate-500 italic">// [10] 시퀀스 구동 트리거</span>
+    vseq.<span class="text-blue-300">start</span>(env.vsqr); 
+    
+    <span class="text-slate-500 italic">// [8] Objection 매커니즘 종료 (Reference Count -1)</span>
+    phase.<span class="text-blue-300">drop_objection</span>(<span class="text-blue-400 font-bold">this</span>, <span class="text-yellow-300">"Scenario A Finished"</span>);
+  <span class="text-blue-400 font-bold">endtask</span>
+<span class="text-blue-400 font-bold">endclass</span></code></pre>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
