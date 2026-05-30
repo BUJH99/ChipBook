@@ -1,0 +1,439 @@
+<div id="tab-axi-lite" class="tab-content space-y-8" data-part8-panel="axi-lite" data-guidebook-toc-title="AXI LITE">
+        <div class="bg-[#F7FAFF] rounded-[32px] p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-blue-500 text-white p-2 rounded-xl"><i data-lucide="cpu" class="w-6 h-6"></i></div>
+            <h2 class="text-3xl font-bold text-gray-900">AXI Lite (Advanced eXtensible Interface Lite)</h2>
+          </div>
+
+          <div class="grid gap-4 md:grid-cols-3 mb-8">
+            <div class="rounded-[24px] border border-blue-100 bg-white p-6 shadow-sm">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 border border-blue-100">
+                  <i data-lucide="minus-circle" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-black tracking-[0.24em] uppercase text-blue-500 mb-2">Simple</div>
+                  <div class="text-xl font-bold text-gray-900">No Burst</div>
+                </div>
+              </div>
+              <ul class="space-y-2.5 text-sm leading-6 text-gray-600">
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>1 address + 1 data 이동</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>단일 beat 전송 구조</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>slave decode 부담 감소</span></li>
+              </ul>
+            </div>
+            <div class="rounded-[24px] border border-blue-100 bg-white p-6 shadow-sm">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 border border-blue-100">
+                  <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-black tracking-[0.24em] uppercase text-blue-500 mb-2">Control</div>
+                  <div class="text-xl font-bold text-gray-900">Register Access</div>
+                </div>
+              </div>
+              <ul class="space-y-2.5 text-sm leading-6 text-gray-600">
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>설정 레지스터 쓰기</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>상태 레지스터 읽기</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>GPIO · UART · Timer · CSR 경로</span></li>
+              </ul>
+            </div>
+            <div class="rounded-[24px] border border-blue-100 bg-white p-6 shadow-sm">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 border border-blue-100">
+                  <i data-lucide="badge-dollar-sign" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-black tracking-[0.24em] uppercase text-blue-500 mb-2">Efficient</div>
+                  <div class="text-xl font-bold text-gray-900">Low Cost</div>
+                </div>
+              </div>
+              <ul class="space-y-2.5 text-sm leading-6 text-gray-600">
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span><code>WLAST</code> / <code>RLAST</code> 제거</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>burst length / ID 제거</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>interconnect · peripheral 면적 절감</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="git-merge" class="w-5 h-5 text-blue-500"></i>
+              AXI Lite Channel Architecture Diagram
+            </h3>
+            <div class="w-full flex justify-center">
+              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-3xl">
+                <svg width="100%" viewBox="0 0 800 350" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlackAXI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <rect x="50" y="20" width="140" height="280" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="120" y="155" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle">Master</text>
+
+                  <rect x="610" y="20" width="140" height="280" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="680" y="155" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle">Slave</text>
+
+                  <path d="M 190 60 L 600 60" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="52" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Write Address Channel (AW)</text>
+
+                  <path d="M 190 110 L 600 110" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="102" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Write Data Channel (W)</text>
+
+                  <path d="M 610 160 L 200 160" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="152" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Write Response Channel (B)</text>
+
+                  <path d="M 190 220 L 600 220" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="212" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Read Address Channel (AR)</text>
+
+                  <path d="M 610 270 L 200 270" stroke="#111827" stroke-width="2" fill="none" marker-end="url(#arrowBlackAXI)" />
+                  <text x="395" y="262" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Read Data Channel (R)</text>
+
+                  <line x1="190" y1="185" x2="610" y2="185" stroke="#94A3B8" stroke-width="1" stroke-dasharray="8,8" />
+                </svg>
+                <div class="mt-4 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 1-1</strong> Channel architecture of AXI Lite
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-6 px-4">
+              AXI Lite도 5개 독립 채널을 유지하지만, 각 read/write transaction은 1-beat 단일 전송으로 제한됩니다.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="handshake" class="w-5 h-5 text-blue-500"></i>
+              AXI Lite VALID / READY Handshake Diagram
+            </h3>
+            <div class="flex flex-col lg:flex-row gap-8 items-center justify-center">
+              <div class="border border-gray-400 bg-white p-6 inline-block w-full lg:w-1/2">
+                <svg width="100%" viewBox="0 0 500 220" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlackHand" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <rect x="20" y="40" width="140" height="140" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="90" y="105" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="16" text-anchor="middle">Source</text>
+                  <text x="90" y="125" fill="#111827" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">(Initiator)</text>
+
+                  <rect x="340" y="40" width="140" height="140" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="410" y="105" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="16" text-anchor="middle">Destination</text>
+                  <text x="410" y="125" fill="#111827" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">(Receiver)</text>
+
+                  <path d="M 160 70 L 330 70" stroke="#111827" stroke-width="3" fill="none" marker-end="url(#arrowBlackHand)" />
+                  <text x="250" y="62" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">Information (Data/Addr)</text>
+
+                  <path d="M 160 110 L 330 110" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackHand)" />
+                  <text x="250" y="102" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">VALID</text>
+
+                  <path d="M 340 150 L 170 150" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackHand)" />
+                  <text x="250" y="170" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">READY</text>
+                </svg>
+                <div class="mt-4 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 1-2</strong> Fundamental Handshake
+                </div>
+              </div>
+
+              <div class="w-full lg:w-1/2 space-y-4 text-gray-700">
+                <p>
+                  AXI Lite의 모든 5개 채널은 동일한 <b>VALID / READY 핸드셰이크 메커니즘</b>을 사용하여 주소, 데이터, 응답을 전송합니다.
+                </p>
+                <ul class="list-disc pl-5 space-y-2">
+                  <li><b>VALID 신호:</b> 정보를 보내는 측(Source)에서 구동하며, 채널의 주소나 데이터가 유효함을 나타냅니다.</li>
+                  <li><b>READY 신호:</b> 정보를 받는 측(Destination)에서 구동하며, 데이터를 받아들일 준비가 완료되었음을 나타냅니다.</li>
+                  <li><b>전송 발생 조건:</b> <code>VALID</code>와 <code>READY</code>가 모두 HIGH인 클럭 상승 에지에서 전송이 이루어집니다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-8 border-t border-gray-100 pt-8">
+              <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+                <h4 class="font-bold text-gray-800 flex items-center gap-2">
+                  <i data-lucide="clock" class="w-5 h-5 text-blue-500"></i>
+                  Handshake Timing Examples
+                </h4>
+                <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit" id="axi-waveform-controls">
+                  <button data-wave="axi_valid_before" class="axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200">VALID before READY</button>
+                  <button data-wave="axi_ready_before" class="axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">READY before VALID</button>
+                  <button data-wave="axi_concurrent" class="axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Concurrent VALID & READY</button>
+                </div>
+              </div>
+              <div class="w-full overflow-x-auto pb-4">
+                <div class="flex justify-center bg-white border-2 border-gray-100 rounded-xl py-6 min-h-[220px]">
+                  <div id="WaveDrom_Display_2"></div>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 mt-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                <i data-lucide="info" class="w-5 h-5 text-gray-600 shrink-0 mt-0.5"></i>
+                <div class="min-w-0">
+                  <div class="text-sm font-bold text-gray-800 mb-2">Timing Analysis</div>
+                  <ul id="axi-timing-analysis-list" class="space-y-1.5 text-sm leading-6 text-gray-600"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden mb-8">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+              <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                <i data-lucide="git-merge" class="w-5 h-5 text-blue-500"></i>
+                AXI Lite Transaction Dependencies
+              </h3>
+              <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit" id="axi-lite-dependency-controls">
+                <button data-axi-lite-dep="write" class="axi-lite-dep-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200">Write Path</button>
+                <button data-axi-lite-dep="read" class="axi-lite-dep-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read Path</button>
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              <div class="rounded-[24px] border border-blue-100 bg-blue-50/40 p-5" data-axi-lite-dep-panel="write">
+                <div class="text-[11px] font-black tracking-[0.24em] uppercase text-blue-500 mb-3">Write Path</div>
+                <h4 class="text-lg font-bold text-gray-900 mb-4">Write transaction dependencies</h4>
+                <div class="overflow-x-auto rounded-[20px] border border-gray-200 bg-white p-4">
+                  <svg width="100%" viewBox="0 0 480 170" class="max-w-full h-auto">
+                    <defs>
+                      <marker id="arrowAxiLiteWriteDep" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                      </marker>
+                      <marker id="doubleArrowAxiLiteWriteDep" viewBox="0 0 16 10" refX="15" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                        <path d="M 0 0 L 6 5 L 0 10 z M 8 0 L 14 5 L 8 10 z" fill="#111827" />
+                      </marker>
+                    </defs>
+
+                    <path d="M 25 31 H 87" stroke="#60A5FA" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+                    <path d="M 156 31 H 218" stroke="#60A5FA" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+                    <path d="M 324 31 H 386" stroke="#34D399" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+                    <path d="M 62 139 H 142" stroke="#34D399" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+                    <path d="M 222 139 H 296" stroke="#34D399" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+                    <path d="M 392 139 H 462" stroke="#60A5FA" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+
+                    <text x="56" y="38" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">AWVALID</text>
+                    <text x="187" y="38" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">WVALID</text>
+                    <text x="355" y="38" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">BVALID</text>
+
+                    <text x="102" y="146" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">AWREADY</text>
+                    <text x="259" y="146" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">WREADY</text>
+                    <text x="427" y="146" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">BREADY</text>
+
+                    <path d="M 58 48 L 90 118" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowAxiLiteWriteDep)" />
+                    <path d="M 182 48 L 118 118" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowAxiLiteWriteDep)" />
+                    <path d="M 70 48 L 238 118" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowAxiLiteWriteDep)" />
+                    <path d="M 188 48 L 252 118" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowAxiLiteWriteDep)" />
+
+                    <path d="M 64 26 C 118 -10, 245 -6, 330 24" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#doubleArrowAxiLiteWriteDep)" />
+                    <path d="M 214 34 L 320 34" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#doubleArrowAxiLiteWriteDep)" />
+                    <path d="M 118 123 C 184 92, 258 66, 332 40" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#doubleArrowAxiLiteWriteDep)" />
+                    <path d="M 272 123 C 286 92, 307 71, 330 46" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#doubleArrowAxiLiteWriteDep)" />
+
+                    <path d="M 353 48 L 410 118" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowAxiLiteWriteDep)" />
+                  </svg>
+                  <div class="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-[0.01em] text-gray-500">
+                    <span class="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3 py-1.5 text-blue-700 shadow-sm shadow-blue-100/40"><span class="h-2 w-2 rounded-full bg-blue-400"></span>Master-driven</span>
+                    <span class="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-white px-3 py-1.5 text-emerald-700 shadow-sm shadow-emerald-100/40"><span class="h-2 w-2 rounded-full bg-emerald-400"></span>Slave-driven</span>
+                  </div>
+                </div>
+                <div class="mt-4 space-y-3 text-sm leading-6 text-gray-700">
+                  <p><b>핵심 규칙:</b> <code>BVALID</code>는 <code>AWVALID/AWREADY</code>와 <code>WVALID/WREADY</code>의 두 핸드셰이크가 모두 끝난 뒤에만 올라올 수 있습니다.</p>
+                  <ul class="list-disc pl-5 space-y-2">
+                    <li><b>Master 측:</b> <code>AWVALID</code>, <code>WVALID</code>는 각 READY를 기다리지 않고 독립적으로 구동해야 합니다.</li>
+                    <li><b>Slave 측:</b> 단순 AXI Lite slave는 <code>AWVALID</code>와 <code>WVALID</code>가 모두 준비된 시점에 <code>AWREADY</code>/<code>WREADY</code>를 함께 여는 경우가 많습니다.</li>
+                    <li><b>Response:</b> <code>BREADY</code>는 <code>BVALID</code>보다 먼저 올라와도 되고 나중에 올라와도 됩니다. 둘 다 HIGH일 때 write response가 완료됩니다.</li>
+                  </ul>
+                  <p class="text-xs leading-5 text-gray-500">ARM IHI 0022H Figure A3-7 기준으로, <b>double-headed arrow</b>는 해당 신호가 앞선 조건이 성립한 뒤에만 assert될 수 있음을 의미합니다. 또한 <code>BVALID</code>는 마지막 write data beat, 즉 <code>WLAST</code>까지 확인된 뒤에만 생성될 수 있습니다.</p>
+                </div>
+              </div>
+
+              <div class="rounded-[24px] border border-emerald-100 bg-emerald-50/50 p-5 hidden" data-axi-lite-dep-panel="read">
+                <div class="text-[11px] font-black tracking-[0.24em] uppercase text-emerald-500 mb-3">Read Path</div>
+                <h4 class="text-lg font-bold text-gray-900 mb-4">Read transaction dependencies</h4>
+                <div class="overflow-x-auto rounded-[20px] border border-gray-200 bg-white p-4">
+                  <svg width="100%" viewBox="0 0 360 170" class="max-w-full h-auto">
+                    <defs>
+                      <marker id="arrowAxiLiteReadDep" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                      </marker>
+                    </defs>
+
+                    <path d="M 23 31 H 99" stroke="#60A5FA" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+                    <path d="M 175 31 H 245" stroke="#34D399" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+                    <path d="M 75 139 H 147" stroke="#34D399" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+                    <path d="M 246 139 H 318" stroke="#60A5FA" stroke-width="17" stroke-linecap="round" opacity="0.16" />
+
+                    <text x="61" y="38" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">ARVALID</text>
+                    <text x="210" y="38" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">RVALID</text>
+                    <text x="111" y="146" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">ARREADY</text>
+                    <text x="282" y="146" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">RREADY</text>
+
+                    <path d="M 102 34 L 182 34" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowAxiLiteReadDep)" />
+                    <path d="M 66 48 L 101 118" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowAxiLiteReadDep)" />
+                    <path d="M 126 120 C 152 101, 171 76, 198 48" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowAxiLiteReadDep)" />
+                    <path d="M 224 48 L 265 118" stroke="#111827" stroke-width="1.6" fill="none" marker-end="url(#arrowAxiLiteReadDep)" />
+                  </svg>
+                  <div class="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-[0.01em] text-gray-500">
+                    <span class="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3 py-1.5 text-blue-700 shadow-sm shadow-blue-100/40"><span class="h-2 w-2 rounded-full bg-blue-400"></span>Master-driven</span>
+                    <span class="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-white px-3 py-1.5 text-emerald-700 shadow-sm shadow-emerald-100/40"><span class="h-2 w-2 rounded-full bg-emerald-400"></span>Slave-driven</span>
+                  </div>
+                </div>
+                <div class="mt-4 space-y-3 text-sm leading-6 text-gray-700">
+                  <p><b>핵심 규칙:</b> <code>RVALID</code>는 읽기 주소 핸드셰이크(<code>ARVALID/ARREADY</code>)가 먼저 완료되어야만 생성될 수 있습니다.</p>
+                  <ul class="list-disc pl-5 space-y-2">
+                    <li><b>Master 측:</b> <code>ARVALID</code>는 <code>ARREADY</code>를 기다리지 않고 먼저 구동해야 합니다.</li>
+                    <li><b>Slave 측:</b> <code>ARREADY</code>는 내부 준비 상태에 따라 지연될 수 있고, 주소를 수락한 뒤 <code>RVALID</code>로 데이터를 반환합니다.</li>
+                    <li><b>Data Return:</b> <code>RREADY</code> 역시 먼저 HIGH로 유지될 수 있으며, <code>RVALID</code>와 동시에 HIGH가 되는 시점에 read data transfer가 완료됩니다.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="book-open" class="w-5 h-5 text-blue-500"></i>
+              AXI Lite Signal Descriptions
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[920px]">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap w-48">Signal</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap w-28">Width</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap w-32">Source</th>
+                    <th class="py-4 px-4 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Global Signals</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">ACLK, ARESETn</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit / 1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">System</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">AXI Lite 글로벌 클럭과 리셋 신호입니다. 모든 전송은 ACLK 상승 에지에서 샘플링됩니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Write Address Channel (AW)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">AWADDR</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[31:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기할 제어 레지스터 주소를 지정합니다. AXI Lite에서는 단일 주소 접근만 처리합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">AWVALID / AWREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit / 1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master / Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기 주소 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Write Data Channel (W)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">WDATA</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[31:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">지정한 레지스터에 기록할 데이터입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">WSTRB</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[3:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">바이트 단위 write enable입니다. 어떤 바이트 lane이 유효한지 지정합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">WVALID / WREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit / 1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master / Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기 데이터 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Write Response Channel (B)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">BRESP</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기 결과가 OKAY인지 ERROR인지 응답합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">BVALID / BREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit / 1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave / Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">쓰기 응답 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Read Address Channel (AR)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">ARADDR</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[31:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">읽을 제어 레지스터 주소를 지정합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">ARVALID / ARREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit / 1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Master / Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">읽기 주소 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Read Data Channel (R)</td></tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">RDATA</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[31:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">레지스터에서 읽어온 데이터입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">RRESP</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">읽기 결과의 상태 응답입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-blue-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">RVALID / RREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit / 1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Slave / Master</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">읽기 데이터 채널의 핸드셰이크 신호입니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden mb-8">
+            <h3 class="font-bold text-gray-800 flex items-center gap-2 mb-6">
+              <i data-lucide="clock-3" class="w-5 h-5 text-blue-500"></i>
+              AXI Lite Single-Beat Timing Diagrams
+            </h3>
+
+            <div class="rounded-[24px] border border-gray-200 bg-gray-50 p-4 md:p-5 max-w-4xl mx-auto">
+              <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-4">
+                <div>
+                  <div id="axi-lite-single-kicker" class="text-[11px] font-black tracking-[0.24em] uppercase text-blue-500 mb-2">Single Write</div>
+                  <h4 id="axi-lite-single-title" class="text-lg font-bold text-gray-900">Write transaction: single data item</h4>
+                </div>
+                <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit" id="axi-lite-single-controls">
+                  <button data-wave="axi_lite_write_single" class="axi-lite-single-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200">Single Write</button>
+                  <button data-wave="axi_lite_read_single" class="axi-lite-single-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Single Read</button>
+                </div>
+              </div>
+
+              <div class="w-full overflow-x-auto pb-2">
+                <div class="mx-auto flex justify-center rounded-xl border-2 border-gray-100 bg-white py-4 min-h-[220px] max-w-3xl">
+                  <div id="WaveDrom_Display_4"></div>
+                </div>
+              </div>
+
+              <div class="mt-4 rounded-[16px] border border-gray-200 bg-white px-4 py-3">
+                <p id="axi-lite-single-description" class="text-sm leading-6 text-gray-700">
+                  <code>AW</code>와 <code>W</code> 채널은 독립적으로 handshake될 수 있고, 두 채널이 모두 수락된 뒤 <code>BVALID</code> 응답이 반환됩니다.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      

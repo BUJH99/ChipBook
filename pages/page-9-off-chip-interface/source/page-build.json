@@ -1,0 +1,12 @@
+{
+  "output": "../../page-9-off-chip-interface.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-interface-stack.html",
+    "20-grid-start.html",
+    "sections/02-common-interfaces.html",
+    "sections/03-debug-checklist.html",
+    "29-grid-end.html",
+    "99-shell-end.html"
+  ]
+}

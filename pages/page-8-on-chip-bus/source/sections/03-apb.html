@@ -1,0 +1,230 @@
+<div id="tab-apb" class="tab-content space-y-8" data-part8-panel="apb" data-guidebook-toc-title="APB">
+        <div class="bg-[#FFFCF7] rounded-[32px] p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-amber-500 text-white p-2 rounded-xl"><i data-lucide="activity" class="w-6 h-6"></i></div>
+            <h2 class="text-3xl font-bold text-gray-900">APB (Advanced Peripheral Bus)</h2>
+          </div>
+          <ul class="text-gray-700 text-lg mb-6 space-y-2">
+            <li>- 저전력과 설계 단순화 중심의 버스 구조</li>
+            <li>- 단일 전송 기반의 순차적 통신 방식</li>
+          </ul>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="cpu" class="w-5 h-5 text-amber-500"></i>
+              APB Master-Slave Interface Diagram
+            </h3>
+            <div class="w-full flex justify-center">
+              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-2xl">
+                <svg width="100%" viewBox="0 0 700 360" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlackMS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <rect x="50" y="20" width="160" height="320" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="130" y="175" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">Master</text>
+                  <text x="130" y="195" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(APB Bridge)</text>
+
+                  <rect x="490" y="20" width="160" height="320" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="570" y="175" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="18" text-anchor="middle">Slave</text>
+                  <text x="570" y="195" fill="#111827" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">(APB Peripheral)</text>
+
+                  <path d="M 210 50 L 480 50" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="42" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PADDR</text>
+
+                  <path d="M 210 90 L 480 90" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="82" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PSELx</text>
+
+                  <path d="M 210 130 L 480 130" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="122" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PENABLE</text>
+
+                  <path d="M 210 170 L 480 170" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="162" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PWRITE</text>
+
+                  <path d="M 210 210 L 480 210" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="202" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PWDATA</text>
+
+                  <path d="M 490 250 L 220 250" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="242" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PREADY</text>
+
+                  <path d="M 490 290 L 220 290" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="282" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PRDATA</text>
+
+                  <path d="M 490 330 L 220 330" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlackMS)" />
+                  <text x="350" y="322" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="13" text-anchor="middle">PSLVERR</text>
+                </svg>
+                <div class="mt-6 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 2-1</strong> APB Master-Slave Interface
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-6 px-4">
+              APB 브릿지(Master)와 주변장치(Slave) 간의 물리적 신호 연결 다이어그램입니다. 공식 문서의 학술적 스타일(흑백, 직각 선)을 반영했습니다.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8 overflow-hidden">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="book-open" class="w-5 h-5 text-amber-500"></i>
+              Table 4-1 APB Signal Descriptions
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[700px]">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap">Signal</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap">Source</th>
+                    <th class="py-4 px-4 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PCLK</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Clock source</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Clock. APB의 모든 전송은 PCLK의 상승 에지(rising edge)에 동기화됩니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PRESETn</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">System bus equivalent</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Reset. Active LOW 리셋 신호입니다. 일반적으로 시스템 버스 리셋과 직접 연결됩니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PADDR</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Address. 주변장치 버스 브릿지가 구동하는 주소 버스입니다. (최대 32 bits)</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PSELx</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Select. 슬레이브 장치가 선택되었음을 알립니다. 슬레이브마다 각각 독립적인 PSELx 신호가 존재합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PENABLE</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Enable. APB 전송의 두 번째 사이클(ACCESS 단계) 및 그 이후를 나타내는 신호입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PWRITE</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Direction. HIGH일 때 쓰기(Write) 액세스를, LOW일 때 읽기(Read) 액세스를 의미합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PWDATA</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">APB bridge</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Write data. 쓰기 사이클 동안 브릿지가 구동하는 쓰기 데이터 버스입니다. (최대 32 bits)</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PREADY</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave interface</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Ready. 슬레이브가 처리를 완료했는지(HIGH), 혹은 전송 사이클을 연장할지(LOW) 결정하는 신호입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PRDATA</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave interface</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Read Data. 읽기 사이클 동안 선택된 슬레이브가 구동하는 읽기 데이터 버스입니다. (최대 32 bits)</td>
+                  </tr>
+                  <tr class="hover:bg-amber-50/30 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">PSLVERR</td>
+                    <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">Slave interface</td>
+                    <td class="py-4 px-4 text-sm text-gray-600 leading-relaxed">Transfer Error. 전송 실패를 나타냅니다. 지원하지 않는 주변장치의 경우 해당 핀은 LOW로 고정됩니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="git-commit" class="w-5 h-5 text-amber-500"></i>
+              APB State Machine
+            </h3>
+            <div class="w-full flex justify-center">
+              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-2xl">
+                <svg width="100%" viewBox="0 0 600 550" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlack" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <ellipse cx="300" cy="100" rx="80" ry="55" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="300" y="85" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">IDLE</text>
+                  <text x="300" y="105" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PSELx = 0</text>
+                  <text x="300" y="125" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PENABLE = 0</text>
+
+                  <ellipse cx="300" cy="270" rx="80" ry="55" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="300" y="255" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">SETUP</text>
+                  <text x="300" y="275" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PSELx = 1</text>
+                  <text x="300" y="295" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PENABLE = 0</text>
+
+                  <ellipse cx="300" cy="440" rx="80" ry="55" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <text x="300" y="425" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">ACCESS</text>
+                  <text x="300" y="445" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PSELx = 1</text>
+                  <text x="300" y="465" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PENABLE = 1</text>
+
+                  <path d="M 330 50 C 400 -10, 470 60, 380 95" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="445" y="45" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">No transfer</text>
+
+                  <path d="M 300 155 L 300 210" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="300" y="190" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">Transfer</text>
+
+                  <path d="M 300 325 L 300 380" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+
+                  <path d="M 350 480 C 430 520, 460 410, 375 425" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="440" y="470" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PREADY = 0</text>
+
+                  <path d="M 365 400 Q 480 340 375 285" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="460" y="340" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PREADY = 1</text>
+                  <text x="460" y="360" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">and transfer</text>
+
+                  <path d="M 220 440 Q 50 270 220 100" stroke="#111827" stroke-width="1.5" fill="none" marker-end="url(#arrowBlack)" />
+                  <text x="120" y="260" fill="#111827" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">PREADY = 1</text>
+                  <text x="120" y="280" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">and no</text>
+                  <text x="120" y="300" fill="#111827" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">transfer</text>
+                </svg>
+                <div class="mt-6 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 3-1</strong> State diagram
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-6 px-4">
+              데이터 요청이 들어오면 SETUP 상태로 이동한 뒤, ACCESS 상태에서 데이터를 읽고 씁니다. 공식 문서의 표준 상태도 구조입니다.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+              <h3 class="font-bold text-gray-800 flex items-center gap-2 text-xl">
+                <i data-lucide="activity" class="w-6 h-6 text-amber-500"></i>
+                APB Transfer Timing Diagram
+              </h3>
+
+              <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit" id="waveform-controls">
+                <button data-wave="write_nowait" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200">Write (No Wait)</button>
+                <button data-wave="write_wait" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Write (Wait)</button>
+                <button data-wave="read_nowait" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read (No Wait)</button>
+                <button data-wave="read_wait" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read (Wait)</button>
+                <button data-wave="error_response" class="wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Error Response</button>
+              </div>
+            </div>
+
+            <div class="w-full overflow-x-auto pb-4">
+              <div class="flex justify-center bg-white border-2 border-gray-100 rounded-xl py-6 min-h-[350px]">
+                <div id="WaveDrom_Display_0"></div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 mt-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+              <i data-lucide="info" class="w-5 h-5 text-gray-600 shrink-0 mt-0.5"></i>
+              <div class="min-w-0">
+                <div class="text-sm font-bold text-gray-800 mb-2">Timing Analysis</div>
+                <ul id="apb-timing-analysis-list" class="space-y-1.5 text-sm leading-6 text-gray-600"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      

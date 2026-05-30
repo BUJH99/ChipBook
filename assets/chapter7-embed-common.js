@@ -8,6 +8,23 @@
     let resizeObserver = null;
     let mutationObserver = null;
     let scheduled = false;
+    const isObservableNode = (target) => Boolean(
+        target &&
+        typeof target.nodeType === 'number' &&
+        typeof target.nodeName === 'string'
+    );
+    const observeTarget = (observer, target, options) => {
+        if (!observer || !isObservableNode(target)) return;
+        try {
+            if (options) {
+                observer.observe(target, options);
+            } else {
+                observer.observe(target);
+            }
+        } catch (error) {
+            // Some embedded browser surfaces expose DOM handles that observers reject.
+        }
+    };
 
     const markEmbedChrome = () => {
         const chromeIds = [
@@ -61,13 +78,13 @@
 
         if ('ResizeObserver' in window) {
             resizeObserver = new ResizeObserver(queueNotify);
-            resizeObserver.observe(document.documentElement);
-            resizeObserver.observe(document.body);
+            observeTarget(resizeObserver, document.documentElement);
+            observeTarget(resizeObserver, document.body);
         }
 
         if ('MutationObserver' in window) {
             mutationObserver = new MutationObserver(queueNotify);
-            mutationObserver.observe(document.body, {
+            observeTarget(mutationObserver, document.body, {
                 childList: true,
                 subtree: true,
                 attributes: true,

@@ -1,0 +1,254 @@
+<div id="tab-amba" class="tab-content active space-y-12" data-part8-panel="amba" data-guidebook-toc-title="AMBA Protocol">
+        <section class="bg-gray-50 rounded-[32px] p-8 md:p-10">
+          <h2 class="text-2xl font-bold mb-4">AMBA가 무엇인가요?</h2>
+          <ul class="text-gray-600 text-lg leading-relaxed mb-8 space-y-2">
+            <li>- AMBA(Advanced Microcontroller Bus Architecture): ARM 정의의 온칩(On-Chip) 버스 프로토콜 집합</li>
+            <li>- SoC 내부 CPU, DMA, 메모리, 주변장치 간 통신 규칙 표준</li>
+          </ul>
+
+          <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100">
+            <h3 class="font-bold text-gray-800 mb-6 text-center">SoC 내부 AMBA 버스 구조도</h3>
+            <div class="w-full flex justify-center">
+              <svg width="100%" viewBox="0 0 800 350" class="max-w-3xl">
+                <defs>
+                  <linearGradient id="axiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#3182F6" />
+                    <stop offset="100%" stop-color="#6B9AFF" />
+                  </linearGradient>
+                  <linearGradient id="ahbGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#22C55E" />
+                    <stop offset="100%" stop-color="#4ADE80" />
+                  </linearGradient>
+                  <linearGradient id="apbGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#F59E0B" />
+                    <stop offset="100%" stop-color="#FBBF24" />
+                  </linearGradient>
+                </defs>
+                <rect x="150" y="80" width="500" height="40" rx="20" fill="url(#axiGrad)" opacity="0.9" />
+                <text x="400" y="105" fill="white" font-weight="bold" font-size="16" text-anchor="middle">AXI Interconnect (초고속 도로)</text>
+                <rect x="150" y="170" width="500" height="30" rx="15" fill="url(#ahbGrad)" opacity="0.9" />
+                <text x="400" y="190" fill="white" font-weight="bold" font-size="14" text-anchor="middle">AHB Bus (고속 간선도로)</text>
+                <rect x="350" y="270" width="300" height="24" rx="12" fill="url(#apbGrad)" opacity="0.9" />
+                <text x="500" y="287" fill="white" font-weight="bold" font-size="12" text-anchor="middle">APB Bus (저속 골목길)</text>
+
+                <rect x="450" y="120" width="60" height="50" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2" />
+                <text x="480" y="148" fill="#475569" font-size="12" font-weight="bold" text-anchor="middle">Bridge</text>
+                <rect x="450" y="200" width="60" height="70" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2" />
+                <text x="480" y="238" fill="#475569" font-size="12" font-weight="bold" text-anchor="middle">Bridge</text>
+
+                <rect x="180" y="10" width="100" height="60" rx="12" fill="#1E293B" />
+                <text x="230" y="45" fill="white" font-weight="bold" font-size="16" text-anchor="middle">CPU (ARM)</text>
+                <line x1="230" y1="70" x2="230" y2="80" stroke="#3182F6" stroke-width="4" />
+                <rect x="330" y="10" width="100" height="60" rx="12" fill="#334155" />
+                <text x="380" y="45" fill="white" font-weight="bold" font-size="16" text-anchor="middle">DMA</text>
+                <line x1="380" y1="70" x2="380" y2="80" stroke="#3182F6" stroke-width="4" />
+                <rect x="520" y="10" width="100" height="60" rx="12" fill="#334155" />
+                <text x="570" y="45" fill="white" font-weight="bold" font-size="16" text-anchor="middle">DDR RAM</text>
+                <line x1="570" y1="70" x2="570" y2="80" stroke="#3182F6" stroke-width="4" />
+
+                <rect x="200" y="220" width="90" height="50" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+                <text x="245" y="250" fill="#334155" font-weight="bold" font-size="14" text-anchor="middle">SRAM</text>
+                <line x1="245" y1="200" x2="245" y2="220" stroke="#22C55E" stroke-width="3" />
+                <rect x="380" y="310" width="80" height="40" rx="8" fill="#FFFBEB" stroke="#FDE68A" stroke-width="2" />
+                <text x="420" y="335" fill="#B45309" font-weight="bold" font-size="12" text-anchor="middle">UART</text>
+                <line x1="420" y1="294" x2="420" y2="310" stroke="#F59E0B" stroke-width="2" />
+                <rect x="480" y="310" width="80" height="40" rx="8" fill="#FFFBEB" stroke="#FDE68A" stroke-width="2" />
+                <text x="520" y="335" fill="#B45309" font-weight="bold" font-size="12" text-anchor="middle">Timer</text>
+                <line x1="520" y1="294" x2="520" y2="310" stroke="#F59E0B" stroke-width="2" />
+                <rect x="580" y="310" width="80" height="40" rx="8" fill="#FFFBEB" stroke="#FDE68A" stroke-width="2" />
+                <text x="620" y="335" fill="#B45309" font-weight="bold" font-size="12" text-anchor="middle">Keypad</text>
+                <line x1="620" y1="294" x2="620" y2="310" stroke="#F59E0B" stroke-width="2" />
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="protocol-summary-card apb rounded-[28px] px-6 py-8 md:px-8 flex flex-col justify-center items-center text-center gap-4">
+            <div class="protocol-summary-chip apb">APB</div>
+            <p class="text-gray-600 font-medium">저속 주변장치용 (타이머, UART, GPIO)</p>
+          </div>
+          <div class="protocol-summary-card ahb rounded-[28px] px-6 py-8 md:px-8 flex flex-col justify-center items-center text-center gap-4">
+            <div class="protocol-summary-chip ahb">AHB</div>
+            <p class="text-gray-600 font-medium">고속 모듈용 (SRAM, DMA, Flash)</p>
+          </div>
+          <div class="protocol-summary-card axi rounded-[28px] px-6 py-8 md:px-8 flex flex-col justify-center items-center text-center gap-4">
+            <div class="protocol-summary-chip axi">AXI</div>
+            <p class="text-gray-600 font-medium">초고속 대역폭용 (CPU, DDR, Accelerator)</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-[32px] p-8 md:p-10 shadow-sm border border-gray-100">
+          <h3 class="font-bold text-gray-800 mb-8 text-xl flex items-center gap-2">
+            <i data-lucide="book-open" class="w-6 h-6 text-blue-500"></i>
+            AMBA 규격의 진화 역사 (Key AMBA Specifications)
+          </h3>
+
+          <div class="w-full overflow-x-auto pb-4 scrollbar-hide">
+            <div class="min-w-[900px]">
+              <div class="flex mb-6 px-2 items-center">
+                <div class="w-[440px] font-bold text-gray-900 text-lg">Key AMBA specifications</div>
+                <div class="flex-1 grid grid-cols-5 gap-3 text-center font-bold text-gray-900 text-base">
+                  <div>AMBA</div>
+                  <div>AMBA 2</div>
+                  <div>AMBA 3</div>
+                  <div>AMBA 4</div>
+                  <div>AMBA 5</div>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#112A46] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">CHI</div>
+                    <div class="text-xs opacity-90">Coherent Hub Interface</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    Coherent protocol
+                    Layered architecture for scalability
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div></div><div></div><div></div><div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#112A46] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">CHI</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#00779E] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">ACE</div>
+                    <div class="text-xs opacity-90">AXI Coherency Extensions</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    AXI 기반의 coherency 확장
+                    멀티코어 클러스터 system-wide coherence
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div></div><div></div><div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#00779E] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">ACE</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#00779E] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">ACE5</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#009CDB] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">AXI</div>
+                    <div class="text-xs opacity-90">Adv. eXtensible Interface</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    Separate address/data phases, bursts,
+                    outstanding transactions, high throughput
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div></div><div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#009CDB] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AXI3</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#009CDB] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AXI4</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite, +Stream</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#009CDB] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AXI5</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#8BC53F] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">AHB</div>
+                    <div class="text-xs opacity-90">Adv. High-performance Bus</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    Pipelined shared bus
+                    AHB-Lite for simpler single-manager systems
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#8BC53F] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AHB</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#8BC53F] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AHB</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite</span>
+                      </div>
+                    </div>
+                    <div></div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#8BC53F] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">AHB5</span>
+                        <span class="text-[13px] opacity-90 leading-tight mt-0.5">+Lite</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-stretch gap-4">
+                  <div class="bg-[#FAB100] w-[220px] text-white rounded-[20px] p-4 flex flex-col justify-center items-center text-center shrink-0 shadow-sm transition-transform hover:scale-[1.02] cursor-default">
+                    <div class="font-bold text-xl leading-tight mb-1">APB</div>
+                    <div class="text-xs opacity-90">Advanced Peripheral Bus</div>
+                  </div>
+                  <div class="w-[204px] flex items-center text-sm text-gray-600 leading-relaxed shrink-0 whitespace-pre-line py-2">
+                    System bus for low
+                    bandwidth peripherals
+                  </div>
+                  <div class="flex-1 grid grid-cols-5 gap-3">
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB2</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB3</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB4</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                      <div class="bg-[#FAB100] w-full h-full min-h-[72px] text-white rounded-[20px] flex flex-col justify-center items-center text-center shadow-sm p-2 transition-transform hover:scale-[1.05] cursor-default">
+                        <span class="font-bold text-lg">APB5</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="text-center text-sm text-gray-400 mt-6">
+            * 버전에 따라 도입된 새로운 프로토콜과 지원 기능을 보여줍니다.
+          </p>
+        </div>
+      </div>
+
+      

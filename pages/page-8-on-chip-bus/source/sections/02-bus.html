@@ -1,0 +1,402 @@
+<div id="tab-bus" class="tab-content space-y-8" data-part8-panel="bus" data-guidebook-toc-title="BUS">
+        <div class="bg-slate-50 rounded-[32px] p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-slate-700 text-white p-2 rounded-xl"><i data-lucide="git-branch" class="w-6 h-6"></i></div>
+            <h2 class="text-3xl font-bold text-gray-900">BUS</h2>
+          </div>
+          <div class="mb-8 rounded-[30px] border border-slate-200/90 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fbff_100%)] p-6 md:p-8 shadow-[0_18px_40px_rgba(15,23,42,0.05)]">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="rounded-[24px] border border-slate-200 bg-white px-5 py-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
+                <div class="flex items-start gap-4">
+                  <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 ring-1 ring-slate-200">
+                    <i data-lucide="handshake" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-[1.15rem] font-black tracking-[-0.03em] text-slate-900">Master &amp; Slave</h4>
+                    <p class="text-sm md:text-[15px] leading-7 text-slate-500">요청자(Initiator)와 응답자(Target) 파악</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-[24px] border border-slate-200 bg-white px-5 py-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
+                <div class="flex items-start gap-4">
+                  <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 ring-1 ring-slate-200">
+                    <i data-lucide="clock" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-[1.15rem] font-black tracking-[-0.03em] text-slate-900">타이밍 규칙</h4>
+                    <p class="text-sm md:text-[15px] leading-7 text-slate-500">주소, 데이터, 제어 신호의 분리 해석</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-[24px] border border-slate-200 bg-white px-5 py-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
+                <div class="flex items-start gap-4">
+                  <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 ring-1 ring-slate-200">
+                    <i data-lucide="map" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-[1.15rem] font-black tracking-[-0.03em] text-slate-900">Address Map</h4>
+                    <p class="text-sm md:text-[15px] leading-7 text-slate-500">주소에 따른 대상 라우팅 결정</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-[24px] border border-slate-200 bg-white px-5 py-5 shadow-[0_10px_24px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-0.5">
+                <div class="flex items-start gap-4">
+                  <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 ring-1 ring-slate-200">
+                    <i data-lucide="info" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-[1.15rem] font-black tracking-[-0.03em] text-slate-900">예외 응답</h4>
+                    <p class="text-sm md:text-[15px] leading-7 text-slate-500">Wait state 및 Error 처리 방식 확인</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <i data-lucide="git-merge" class="w-5 h-5 text-slate-600"></i>
+              BUS 트랜잭션의 기본 데이터 흐름
+            </h3>
+            <p class="text-sm md:text-[15px] leading-7 text-slate-600 mb-6">
+              <b>요청 발생 → 중재 및 주소 해석 → 대상 선택 → 데이터 전송 및 응답 반환</b>
+            </p>
+            <div class="w-full flex justify-center">
+              <div class="rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] p-5 md:p-8 lg:px-10 inline-block w-full max-w-[1120px] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+                <svg width="100%" viewBox="0 0 1180 500" class="max-w-full" role="img" aria-labelledby="busTxnTitle busTxnDesc">
+                  <title id="busTxnTitle">Generic Bus Transaction Flow</title>
+                  <desc id="busTxnDesc">Master, Interconnect, and Slave blocks with grant, request, write data, and read response paths.</desc>
+                  <defs>
+                    <filter id="busSoftShadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.10" />
+                    </filter>
+                    <filter id="busPillShadow" x="-40%" y="-60%" width="180%" height="220%">
+                      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#2563EB" flood-opacity="0.14" />
+                    </filter>
+                    <filter id="busWarmPillShadow" x="-40%" y="-60%" width="180%" height="220%">
+                      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#F97316" flood-opacity="0.14" />
+                    </filter>
+                    <filter id="busSlatePillShadow" x="-40%" y="-60%" width="180%" height="220%">
+                      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#64748B" flood-opacity="0.12" />
+                    </filter>
+                    <linearGradient id="busBoardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#FDFEFF" />
+                      <stop offset="100%" stop-color="#F5F8FC" />
+                    </linearGradient>
+                    <linearGradient id="busMasterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#FFFFFF" />
+                      <stop offset="100%" stop-color="#F7FAFD" />
+                    </linearGradient>
+                    <linearGradient id="busFabricGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#F8FAFF" />
+                      <stop offset="100%" stop-color="#EEF3FF" />
+                    </linearGradient>
+                    <linearGradient id="busSlaveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#FFFFFF" />
+                      <stop offset="100%" stop-color="#F7FAFD" />
+                    </linearGradient>
+                    <marker id="arrowAmberBus" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+                      <path d="M 0 0 L 12 6 L 0 12 z" fill="#F97316" />
+                    </marker>
+                    <marker id="arrowBlueBus" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+                      <path d="M 0 0 L 12 6 L 0 12 z" fill="#2563EB" />
+                    </marker>
+                    <marker id="arrowGreenBus" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+                      <path d="M 0 0 L 12 6 L 0 12 z" fill="#059669" />
+                    </marker>
+                    <marker id="arrowSlateBus" viewBox="0 0 12 12" refX="10.5" refY="6" markerWidth="7" markerHeight="7" orient="auto">
+                      <path d="M 0 0 L 12 6 L 0 12 z" fill="#64748B" />
+                    </marker>
+                  </defs>
+
+                  <rect x="18" y="18" width="1144" height="464" rx="34" fill="url(#busBoardGrad)" stroke="#DCE4F0" />
+
+                  <rect x="32" y="36" width="320" height="408" rx="30" fill="url(#busMasterGrad)" stroke="#D7E0EE" filter="url(#busSoftShadow)" />
+                  <rect x="60" y="60" width="104" height="34" rx="17" fill="#EEF2F7" />
+                  <text x="112" y="82" fill="#475569" font-family="Arial, sans-serif" font-weight="bold" font-size="15" text-anchor="middle">Initiator</text>
+                  <text x="192" y="208" fill="#0F172A" font-family="Arial, sans-serif" font-weight="bold" font-size="94" letter-spacing="-1.5" text-anchor="middle">Master</text>
+                  <text x="192" y="258" fill="#64748B" font-family="Arial, sans-serif" font-size="30" text-anchor="middle">CPU / DMA / Bridge</text>
+                  <rect x="66" y="378" width="252" height="42" rx="21" fill="#FFF4EA" stroke="#FED7AA" />
+                  <text x="192" y="405" fill="#C2410C" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">요청 생성 · 주소 제시</text>
+
+                  <rect x="368" y="36" width="444" height="408" rx="32" fill="url(#busFabricGrad)" stroke="#D3DBF8" filter="url(#busSoftShadow)" />
+                  <text x="590" y="82" fill="#1E3A8A" font-family="Arial, sans-serif" font-weight="bold" font-size="31" text-anchor="middle">Interconnect</text>
+                  <text x="590" y="112" fill="#4F46E5" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Arbiter · Decoder · Bus Fabric</text>
+                  <line x1="418" y1="130" x2="762" y2="130" stroke="#D7DFF7" stroke-width="2" />
+
+                  <path d="M 820 166 L 360 166" stroke="#64748B" stroke-width="4.5" stroke-linecap="round" fill="none" marker-end="url(#arrowSlateBus)" />
+                  <rect x="508" y="145" width="164" height="42" rx="21" fill="#F1F5F9" stroke="#CBD5E1" filter="url(#busSlatePillShadow)" />
+                  <text x="590" y="172" fill="#475569" font-family="Arial, sans-serif" font-weight="bold" font-size="15" text-anchor="middle">Grant</text>
+
+                  <path d="M 360 226 L 502 226" stroke="#F97316" stroke-width="4.5" stroke-linecap="round" fill="none" />
+                  <path d="M 678 226 L 820 226" stroke="#F97316" stroke-width="4.5" stroke-linecap="round" fill="none" marker-end="url(#arrowAmberBus)" />
+                  <rect x="427.5" y="198" width="325" height="54" rx="27" fill="#FFF4EA" stroke="#FED7AA" filter="url(#busWarmPillShadow)" />
+                  <text x="590" y="219" fill="#C2410C" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">
+                    <tspan x="590" dy="0">Request / Address / Control</tspan>
+                    <tspan x="590" dy="17">Select / Forward</tspan>
+                  </text>
+
+                  <path d="M 360 302 L 506 302" stroke="#2563EB" stroke-width="4.5" stroke-linecap="round" fill="none" />
+                  <path d="M 674 302 L 820 302" stroke="#2563EB" stroke-width="4.5" stroke-linecap="round" fill="none" marker-end="url(#arrowBlueBus)" />
+                  <rect x="427.5" y="274" width="325" height="54" rx="27" fill="#EEF5FF" stroke="#BFDBFE" filter="url(#busPillShadow)" />
+                  <text x="590" y="306" fill="#1D4ED8" font-family="Arial, sans-serif" font-weight="bold" font-size="15" text-anchor="middle">Write Data Path</text>
+
+                  <path d="M 506 378 L 360 378" stroke="#059669" stroke-width="4.5" stroke-linecap="round" fill="none" marker-end="url(#arrowGreenBus)" />
+                  <path d="M 820 378 L 676 378" stroke="#059669" stroke-width="4.5" stroke-linecap="round" fill="none" />
+                  <rect x="427.5" y="350" width="325" height="54" rx="27" fill="#ECFDF5" stroke="#A7F3D0" filter="url(#busPillShadow)" />
+                  <text x="590" y="382" fill="#047857" font-family="Arial, sans-serif" font-weight="bold" font-size="15" text-anchor="middle">Read Data / Response Return</text>
+
+                  <rect x="828" y="36" width="320" height="408" rx="30" fill="url(#busSlaveGrad)" stroke="#D7E0EE" filter="url(#busSoftShadow)" />
+                  <rect x="856" y="60" width="104" height="34" rx="17" fill="#EEF2F7" />
+                  <text x="908" y="82" fill="#475569" font-family="Arial, sans-serif" font-weight="bold" font-size="17" text-anchor="middle">Target</text>
+                  <text x="988" y="208" fill="#0F172A" font-family="Arial, sans-serif" font-weight="bold" font-size="94" letter-spacing="-1.5" text-anchor="middle">Slave</text>
+                  <text x="988" y="258" fill="#64748B" font-family="Arial, sans-serif" font-size="30" text-anchor="middle">SRAM / UART / Timer</text>
+                  <rect x="862" y="378" width="252" height="42" rx="21" fill="#ECFDF5" stroke="#BBF7D0" />
+                  <text x="988" y="405" fill="#047857" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle">데이터 제공 · 상태 응답</text>
+                </svg>
+                <div class="mt-6 pt-4 border-t border-slate-200 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 1-1</strong> Generic Bus Transaction Flow
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8 overflow-hidden">
+            <div id="bus-interface-lab" class="bus-interface-lab">
+              <div class="bus-interface-lab__shell">
+                <div class="bus-interface-lab__toolbar">
+                  <div>
+                    <div class="bus-interface-lab__eyebrow">
+                      <i data-lucide="grid-2x2" class="w-4 h-4"></i>
+                      Bus Interface Visualization
+                    </div>
+                    <h3 class="bus-interface-lab__title">MMIO vs PMIO</h3>
+                  </div>
+
+                  <div class="bus-interface-lab__mode-toggle" role="tablist" aria-label="MMIO PMIO mode switch">
+                    <button id="bus-interface-lab-btn-mmio" type="button" class="bus-interface-lab__mode-btn is-active" data-bus-interface-mode="mmio" aria-pressed="true">
+                      MMIO <span class="bus-interface-lab__mode-note">(AXI Standard)</span>
+                    </button>
+                    <button id="bus-interface-lab-btn-pmio" type="button" class="bus-interface-lab__mode-btn" data-bus-interface-mode="pmio" aria-pressed="false">
+                      PMIO <span class="bus-interface-lab__mode-note">(Legacy I/O)</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="bus-interface-lab__main">
+                  <div class="bus-interface-lab__viz-panel">
+                    <div class="bus-interface-lab__address-map">
+                      <div class="bus-interface-lab__address-map-head">
+                        <span>0x0000_0000</span>
+                        <span>System Address Map</span>
+                        <span>0xFFFF_FFFF</span>
+                      </div>
+                      <div class="bus-interface-lab__address-map-bar">
+                        <div id="bus-interface-lab-addr-mem" class="bus-interface-lab__addr-segment bus-interface-lab__addr-segment--memory">System Memory</div>
+                        <div id="bus-interface-lab-addr-gap" class="bus-interface-lab__addr-segment bus-interface-lab__addr-segment--gap"></div>
+                        <div id="bus-interface-lab-addr-io" class="bus-interface-lab__addr-segment bus-interface-lab__addr-segment--io">Peripherals</div>
+                      </div>
+                    </div>
+
+                    <svg id="bus-interface-lab-svg" viewBox="0 0 800 450" class="bus-interface-lab__svg" role="img" aria-labelledby="busInterfaceLabTitle busInterfaceLabDesc">
+                      <title id="busInterfaceLabTitle">MMIO versus PMIO bus interface visualization</title>
+                      <desc id="busInterfaceLabDesc">CPU master, interconnect hub, main RAM, and UART or GPIO target with animated traffic paths that change between MMIO and PMIO modes.</desc>
+                      <defs>
+                        <linearGradient id="busInterfaceBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#3B82F6"></stop>
+                          <stop offset="100%" stop-color="#1D4ED8"></stop>
+                        </linearGradient>
+                        <filter id="busInterfaceGlow">
+                          <feGaussianBlur stdDeviation="2" result="blur"></feGaussianBlur>
+                          <feMerge>
+                            <feMergeNode in="blur"></feMergeNode>
+                            <feMergeNode in="SourceGraphic"></feMergeNode>
+                          </feMerge>
+                        </filter>
+                      </defs>
+
+                      <g id="bus-interface-lab-dynamic-lines" class="bus-interface-lab__dynamic-lines"></g>
+
+                      <circle id="bus-interface-lab-packet" class="bus-interface-lab__packet" r="6" fill="#FBBF24">
+                        <animateMotion id="bus-interface-lab-packet-motion" dur="1.5s" repeatCount="indefinite" rotate="auto"></animateMotion>
+                      </circle>
+
+                      <g class="bus-interface-lab__node">
+                        <rect x="40" y="165" width="140" height="120" rx="12" fill="url(#busInterfaceBlueGrad)" filter="url(#busInterfaceGlow)"></rect>
+                        <text x="110" y="220" text-anchor="middle" fill="white" font-weight="800" font-size="16">CPU MASTER</text>
+                        <text x="110" y="245" text-anchor="middle" fill="rgba(255,255,255,0.64)" font-size="9">AXI MANAGER</text>
+                      </g>
+
+                      <g id="bus-interface-lab-hub-group" class="bus-interface-lab__hub" transform="translate(320, 175)">
+                        <rect x="0" y="0" width="160" height="100" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"></rect>
+                        <rect x="5" y="5" width="150" height="90" rx="8" fill="#F8FAFC"></rect>
+                        <text x="80" y="45" text-anchor="middle" fill="#475569" font-weight="700" font-size="14">Interconnect</text>
+                        <text id="bus-interface-lab-hub-subtitle" x="80" y="70" text-anchor="middle" fill="#94A3B8" font-size="10">Active: Decoder Hub</text>
+                      </g>
+
+                      <g class="bus-interface-lab__node">
+                        <rect x="600" y="80" width="160" height="90" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"></rect>
+                        <text x="680" y="130" text-anchor="middle" fill="#1E293B" font-weight="700" font-size="14">Main RAM</text>
+                        <text x="680" y="150" text-anchor="middle" fill="#64748B" font-size="10">Slave ID: 0</text>
+                      </g>
+
+                      <g class="bus-interface-lab__node">
+                        <rect x="600" y="280" width="160" height="90" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"></rect>
+                        <text x="680" y="330" text-anchor="middle" fill="#1E293B" font-weight="700" font-size="14">UART / GPIO</text>
+                        <text x="680" y="350" text-anchor="middle" fill="#64748B" font-size="10">Slave ID: 1</text>
+                      </g>
+                    </svg>
+
+                    <div class="bus-interface-lab__status-card">
+                      <div class="bus-interface-lab__status-title">
+                        <i data-lucide="activity" class="w-4 h-4 text-blue-500"></i>
+                        Hardware Logic
+                      </div>
+                      <p id="bus-interface-lab-status-text" class="bus-interface-lab__status-copy">AXI Interconnect가 중앙 허브 역할을 수행합니다. 모든 주소와 데이터는 인터커넥트를 통해 직교 라우팅됩니다.</p>
+                    </div>
+                  </div>
+
+                  <div class="bus-interface-lab__aside">
+                    <div class="bus-interface-lab__glass-card">
+                      <div class="bus-interface-lab__panel-head">
+                        <i data-lucide="code" class="text-blue-500"></i>
+                        Software View
+                      </div>
+                      <div id="bus-interface-lab-code-block" class="bus-interface-lab__code-shell mono">
+                        <div><span class="bus-interface-lab__code-keyword">#define</span> UART_BASE <span class="bus-interface-lab__code-number">0x40001000</span></div>
+                        <div><span class="bus-interface-lab__code-type">volatile uint32_t</span>* reg = UART_BASE;</div>
+                        <div>*reg = <span class="bus-interface-lab__code-char">'A'</span>; <span class="bus-interface-lab__code-comment">// Through AXI Fabric</span></div>
+                      </div>
+                      <p id="bus-interface-lab-software-desc" class="bus-interface-lab__software-desc">소프트웨어는 I/O를 단순 메모리 접근으로 인식합니다. 인터커넥트가 물리적 주소를 찾아 신호를 라우팅합니다.</p>
+                    </div>
+
+                    <div class="bus-interface-lab__glass-card">
+                      <div class="bus-interface-lab__panel-head">
+                        <i data-lucide="lightbulb" class="text-amber-500"></i>
+                        AXI + MMIO Synergy
+                      </div>
+                      <div id="bus-interface-lab-insights" class="bus-interface-lab__insight-list">
+                        <div class="bus-interface-lab__insight" style="animation-delay: 0ms;">
+                          <div class="bus-interface-lab__insight-icon"><i data-lucide="share-2"></i></div>
+                          <div>
+                            <div class="bus-interface-lab__insight-title">Unified Fabric</div>
+                            <div class="bus-interface-lab__insight-text">모든 컴포넌트가 동일한 AXI 인터페이스를 사용합니다.</div>
+                          </div>
+                        </div>
+                        <div class="bus-interface-lab__insight" style="animation-delay: 100ms;">
+                          <div class="bus-interface-lab__insight-icon"><i data-lucide="maximize"></i></div>
+                          <div>
+                            <div class="bus-interface-lab__insight-title">Address Decoding</div>
+                            <div class="bus-interface-lab__insight-text">인터커넥트가 주소에 따라 경로를 자동 분배합니다.</div>
+                          </div>
+                        </div>
+                        <div class="bus-interface-lab__insight" style="animation-delay: 200ms;">
+                          <div class="bus-interface-lab__insight-icon"><i data-lucide="fast-forward"></i></div>
+                          <div>
+                            <div class="bus-interface-lab__insight-title">AXI Pipelining</div>
+                            <div class="bus-interface-lab__insight-text">I/O 접근 시에도 AXI의 throughput 이점을 그대로 활용합니다.</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bus-interface-lab__footer-grid">
+                  <div class="bus-interface-lab__footer-card group">
+                    <div class="bus-interface-lab__footer-icon bus-interface-lab__footer-icon--blue bg-blue-50 text-blue-600">
+                      <i data-lucide="cpu"></i>
+                    </div>
+                    <div class="bus-interface-lab__footer-title">명령어 세트 효율성</div>
+                    <p class="bus-interface-lab__footer-copy">MMIO는 CPU에서 I/O 전용 명령 로직을 제거하게 해 줍니다. <code>LDR/STR</code>만으로 모든 제어가 가능해져 파이프라인 구조가 더 단순해집니다.</p>
+                  </div>
+                  <div class="bus-interface-lab__footer-card group">
+                    <div class="bus-interface-lab__footer-icon bus-interface-lab__footer-icon--emerald bg-emerald-50 text-emerald-600">
+                      <i data-lucide="shield-check"></i>
+                    </div>
+                    <div class="bus-interface-lab__footer-title">접근 제어와 보안</div>
+                    <p class="bus-interface-lab__footer-copy">AXI의 <code>AxPROT</code>와 MMIO를 결합하면, 특정 메모리 영역과 I/O 레지스터에 대한 보안/비보안 접근 권한을 fabric 차원에서 통합 제어할 수 있습니다.</p>
+                  </div>
+                  <div class="bus-interface-lab__footer-card group">
+                    <div class="bus-interface-lab__footer-icon bus-interface-lab__footer-icon--amber bg-amber-50 text-amber-600">
+                      <i data-lucide="shuffle"></i>
+                    </div>
+                    <div class="bus-interface-lab__footer-title">비순차 처리 활용</div>
+                    <p class="bus-interface-lab__footer-copy">I/O 장치는 메모리보다 응답이 느립니다. AXI의 ID 기반 outstanding transaction은 I/O 응답을 기다리는 동안에도 메모리 접근을 계속 흘려 throughput을 유지합니다.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-8">
+            <div class="bg-white rounded-[24px] p-6 shadow-sm border border-gray-100 overflow-hidden">
+              <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <i data-lucide="map" class="w-5 h-5 text-slate-600"></i>
+                Address Map 해석 예시
+              </h3>
+              <p class="text-sm md:text-[15px] leading-7 text-slate-600 mb-5">
+                주소 범위는 단순한 메모리 배치가 아니라, 어떤 Slave로 트랜잭션을 라우팅할지 결정하는 하드웨어 규칙입니다.
+              </p>
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-3 px-3 font-bold text-gray-700">주소 범위</th>
+                    <th class="py-3 px-3 font-bold text-gray-700">선택 대상</th>
+                    <th class="py-3 px-3 font-bold text-gray-700">용도</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr>
+                    <td class="py-3 px-3 font-mono text-slate-700">0x0000_0000 - 0x0FFF_FFFF</td>
+                    <td class="py-3 px-3 font-semibold text-slate-900">SRAM / ROM</td>
+                    <td class="py-3 px-3 text-slate-600">명령어 및 데이터의 저지연 접근 영역</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 px-3 font-mono text-slate-700">0x1000_0000 - 0x1FFF_FFFF</td>
+                    <td class="py-3 px-3 font-semibold text-slate-900">AHB Peripheral</td>
+                    <td class="py-3 px-3 text-slate-600">DMA 등 고속 제어 블록 연결 영역</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 px-3 font-mono text-slate-700">0x4000_0000 - 0x4000_FFFF</td>
+                    <td class="py-3 px-3 font-semibold text-slate-900">APB Peripheral</td>
+                    <td class="py-3 px-3 text-slate-600">UART, GPIO, Timer의 레지스터 접근 영역</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="text-sm text-gray-500 mt-4 leading-6">
+                실제 SoC에서는 decoder가 이 memory map에 따라 대상 Slave를 선택하므로, 주소 범위는 곧 버스 라우팅 규칙을 의미합니다.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100">
+            <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <i data-lucide="route" class="w-5 h-5 text-slate-600"></i>
+              AMBA 버스를 APB / AHB / AXI로 분화하는 이유
+            </h3>
+            <p class="text-sm md:text-[15px] leading-7 text-slate-600 mb-6">
+              하나의 BUS 구조로 모든 요구사항을 만족시키기 어렵기 때문에, AMBA는 대역폭, 복잡도, 전력, 동시성 요구에 따라 프로토콜을 계층적으로 분화했습니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="rounded-[20px] bg-amber-50 p-5 border border-amber-100">
+                <div class="font-black text-amber-700 mb-2">APB</div>
+                <p class="text-sm leading-7 text-amber-900/80">레지스터 접근 중심의 저속 주변장치는 구조의 단순성, 구현 용이성, 저전력 특성이 우선되므로 APB가 적합합니다.</p>
+              </div>
+              <div class="rounded-[20px] bg-green-50 p-5 border border-green-100">
+                <div class="font-black text-green-700 mb-2">AHB</div>
+                <p class="text-sm leading-7 text-green-900/80">중간 수준의 대역폭과 공유형 시스템 버스가 필요한 구간에서는 burst와 pipeline을 지원하는 AHB 구조가 효율적입니다.</p>
+              </div>
+              <div class="rounded-[20px] bg-blue-50 p-5 border border-blue-100">
+                <div class="font-black text-blue-700 mb-2">AXI</div>
+                <p class="text-sm leading-7 text-blue-900/80">CPU, DMA, DDR처럼 높은 처리량과 동시 전송이 필요한 구간에서는 독립 채널 기반의 AXI 구조가 필요합니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      

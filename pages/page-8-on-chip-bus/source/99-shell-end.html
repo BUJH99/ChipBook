@@ -1,0 +1,4030 @@
+
+    </section>
+  </main>
+  <script src="../assets/guidebook-page-common.js"></script>
+  <script>
+    const tabBtnBaseClass = 'tab-btn flex min-w-max items-center gap-3 rounded-[16px] border px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base';
+    const tabBtnInactiveClass = `${tabBtnBaseClass} border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900`;
+    const tabBtnActiveClass = `${tabBtnBaseClass} bg-[#3182F6] border-blue-200 text-white shadow-md shadow-blue-200/50`;
+    let part8SectionEngine = null;
+    const syncPageHeight = () => {
+      window.requestAnimationFrame(() => {
+        if (part8SectionEngine) {
+          part8SectionEngine.syncBridge();
+          return;
+        }
+        window.GuidebookPage.notifyHeight();
+      });
+    };
+
+    function restartAhbDescriptionAnimations() {
+      const pulseNodes = Array.from(document.querySelectorAll('.ahb-arb-pulse'));
+      const lockNodes = Array.from(document.querySelectorAll('.ahb-arb-lock-badge'));
+
+      pulseNodes.forEach((node, index) => {
+        node.style.setProperty('--ahb-delay', `${(index % 4) * 0.14}s`);
+        node.style.animationName = 'none';
+        void node.offsetWidth;
+        node.style.animationName = '';
+      });
+
+      lockNodes.forEach((node, index) => {
+        node.style.setProperty('--ahb-delay', `${0.12 + (index % 2) * 0.16}s`);
+        node.style.animationName = 'none';
+        void node.offsetWidth;
+        node.style.animationName = '';
+      });
+    }
+
+    const axisStreamLabPacketPalette = [
+      { hex: '#2563eb' },
+      { hex: '#059669' },
+      { hex: '#f59e0b' },
+      { hex: '#ea580c' },
+      { hex: '#dc2626' },
+      { hex: '#9333ea' },
+    ];
+
+    const axisStreamLabToneMap = {
+      blue: '#2563eb',
+      emerald: '#059669',
+      amber: '#d97706',
+      green: '#10b981',
+      red: '#dc2626',
+      slate: '#94a3b8',
+    };
+
+    function createAxisStreamLabDefaultSignals() {
+      return {
+        tvalid: false,
+        tready: true,
+        tlast: false,
+        tuser: false,
+        tkeep: [true, true, true, true],
+        tstrb: [true, true, true, true],
+        tid: 0,
+        tdest: 0,
+      };
+    }
+
+    const axisStreamLabState = {
+      initialized: false,
+      refs: null,
+      signals: createAxisStreamLabDefaultSignals(),
+      interconnectTready: true,
+      fifo: [],
+      maxFifo: 4,
+      colorIndex: 0,
+      clkCycle: 0,
+      lastClockTick: 0,
+      simSpeed: 1000,
+      isPaused: false,
+      rafId: 0,
+      timeouts: new Set(),
+      hubPulseToken: 0,
+      routeToken: 0,
+      routeColorHex: null,
+      routeDest: null,
+    };
+
+    function hexToAxisStreamLabRgb(hex = '#3b82f6') {
+      const normalized = hex.replace('#', '');
+      const expanded = normalized.length === 3
+        ? normalized.split('').map((char) => `${char}${char}`).join('')
+        : normalized;
+      if (expanded.length !== 6) return '59, 130, 246';
+      const value = Number.parseInt(expanded, 16);
+      if (Number.isNaN(value)) return '59, 130, 246';
+      return `${(value >> 16) & 255}, ${(value >> 8) & 255}, ${value & 255}`;
+    }
+
+    function getAxisStreamLabThemeHexByColorIndex(colorIndex = 0) {
+      return axisStreamLabPacketPalette[colorIndex]?.hex || axisStreamLabPacketPalette[0].hex;
+    }
+
+    function getAxisStreamLabResolvedHubColor() {
+      if (axisStreamLabState.routeColorHex) {
+        return axisStreamLabState.routeColorHex;
+      }
+
+      if (axisStreamLabState.fifo[0]) {
+        return getAxisStreamLabThemeHexByColorIndex(axisStreamLabState.fifo[0].colorIndex);
+      }
+
+      return axisStreamLabPacketPalette[0].hex;
+    }
+
+    function getAxisStreamLabRefs() {
+      if (axisStreamLabState.refs?.root?.isConnected) {
+        return axisStreamLabState.refs;
+      }
+
+      const root = document.getElementById('axis-stream-channel-lab');
+      if (!root) return null;
+
+      axisStreamLabState.refs = {
+        root,
+        simArea: document.getElementById('axis-stream-lab-sim-area'),
+        packetLane: document.getElementById('axis-stream-lab-packet-lane'),
+        beam: document.getElementById('axis-stream-lab-beam-line'),
+        clkCycle: document.getElementById('axis-stream-lab-clk-cycle'),
+        txPulse: document.getElementById('axis-stream-lab-tx-pulse'),
+        txStatusLabel: document.getElementById('axis-stream-lab-tx-status-label'),
+        masterNode: document.getElementById('axis-stream-lab-master-node'),
+        masterTreadyLed: document.getElementById('axis-stream-lab-master-tready-led'),
+        masterTreadyText: document.getElementById('axis-stream-lab-master-tready-text'),
+        switchNode: document.getElementById('axis-stream-lab-switch-node'),
+        hubStatusText: document.getElementById('axis-stream-lab-hub-status-text'),
+        resetButton: document.getElementById('axis-stream-lab-reset-sim'),
+        pauseButton: document.getElementById('axis-stream-lab-toggle-pause'),
+        pauseText: document.getElementById('axis-stream-lab-pause-text'),
+        statusLed: document.getElementById('axis-stream-lab-status-led'),
+        statusLabel: document.getElementById('axis-stream-lab-status-label'),
+        bpWarning: document.getElementById('axis-stream-lab-bp-warning'),
+        signalButtons: Array.from(root.querySelectorAll('[data-axis-sig]')),
+        maskButtons: Array.from(root.querySelectorAll('[data-axis-mask]')),
+        idButtons: Array.from(root.querySelectorAll('[data-axis-id]')),
+        fifoSlots: Array.from(root.querySelectorAll('#axis-stream-lab-fifo-viz .axis-fifo-slot')),
+        switchLeds: Array.from(root.querySelectorAll('.axis-switch-led')),
+        slaveNodes: [0, 1, 2, 3].map((index) => document.getElementById(`axis-stream-lab-slave-node-${index}`)),
+        valueEls: {
+          tvalid: document.getElementById('axis-stream-lab-val-tvalid'),
+          tready: document.getElementById('axis-stream-lab-val-tready'),
+        },
+      };
+
+      return axisStreamLabState.refs;
+    }
+
+    function scheduleAxisStreamLabTimeout(callback, delay) {
+      const timeoutId = window.setTimeout(() => {
+        axisStreamLabState.timeouts.delete(timeoutId);
+        callback();
+      }, delay);
+      axisStreamLabState.timeouts.add(timeoutId);
+      return timeoutId;
+    }
+
+    function clearAxisStreamLabTimeouts() {
+      axisStreamLabState.timeouts.forEach((timeoutId) => {
+        window.clearTimeout(timeoutId);
+      });
+      axisStreamLabState.timeouts.clear();
+    }
+
+    function setAxisStreamLabStatus(text, tone = 'slate') {
+      const refs = getAxisStreamLabRefs();
+      if (!refs?.statusLed || !refs.statusLabel) return;
+
+      const color = axisStreamLabToneMap[tone] || axisStreamLabToneMap.slate;
+      refs.statusLed.style.backgroundColor = color;
+      refs.statusLabel.textContent = text;
+      refs.statusLabel.style.color = color;
+    }
+
+    function updateAxisStreamLabSignalButtons() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs) return;
+
+      refs.signalButtons.forEach((button) => {
+        const sig = button.dataset.axisSig;
+        const tone = button.dataset.tone || 'blue';
+        const isActive = Boolean(axisStreamLabState.signals[sig]);
+        const led = button.querySelector('.axis-sig-btn__led');
+        button.classList.toggle('is-active', isActive);
+
+        if (led) {
+          led.style.backgroundColor = isActive ? axisStreamLabToneMap[tone] : '#e2e8f0';
+          led.style.boxShadow = isActive ? `0 0 12px ${axisStreamLabToneMap[tone]}55` : 'none';
+        }
+
+        const valueEl = refs.valueEls[sig];
+        if (valueEl) {
+          valueEl.textContent = isActive ? 'HIGH' : 'LOW';
+          valueEl.style.color = isActive ? axisStreamLabToneMap[tone] : '#cbd5e1';
+        }
+      });
+    }
+
+    function updateAxisStreamLabBitButtons() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs) return;
+
+      refs.maskButtons.forEach((button) => {
+        const maskType = button.dataset.axisMask;
+        const bitIndex = Number(button.dataset.axisIndex);
+        button.classList.toggle('is-active', Boolean(axisStreamLabState.signals[maskType]?.[bitIndex]));
+      });
+
+      refs.idButtons.forEach((button) => {
+        const idType = button.dataset.axisId;
+        const value = Number(button.dataset.axisValue);
+        button.classList.toggle('is-active', axisStreamLabState.signals[idType] === value);
+      });
+    }
+
+    function syncAxisStreamLabHubVisuals(colorHex = getAxisStreamLabResolvedHubColor()) {
+      const refs = getAxisStreamLabRefs();
+      if (!refs?.switchNode) return;
+
+      const rgb = hexToAxisStreamLabRgb(colorHex);
+      refs.switchNode.style.setProperty('--axis-hub-color', colorHex);
+      refs.switchNode.style.setProperty('--axis-hub-rgb', rgb);
+
+      if (refs.beam) {
+        refs.beam.style.setProperty('--beam-color', colorHex);
+        refs.beam.style.setProperty('--beam-rgb', rgb);
+      }
+
+      refs.switchNode.classList.toggle(
+        'has-payload',
+        axisStreamLabState.fifo.length > 0 || Boolean(axisStreamLabState.routeColorHex)
+      );
+      refs.switchNode.classList.toggle('is-routing', Boolean(axisStreamLabState.routeColorHex));
+    }
+
+    function pulseAxisStreamLabHub(colorHex, options = {}) {
+      const { routing = false, duration = 900, destIndex = null } = options;
+      const refs = getAxisStreamLabRefs();
+      if (!refs?.switchNode) return;
+
+      if (routing) {
+        axisStreamLabState.routeColorHex = colorHex;
+        axisStreamLabState.routeDest = destIndex;
+      }
+
+      syncAxisStreamLabHubVisuals(colorHex);
+      updateAxisStreamLabFifoViz();
+
+      refs.switchNode.classList.remove('is-energized');
+      void refs.switchNode.offsetWidth;
+      refs.switchNode.classList.add('is-energized');
+
+      const pulseToken = ++axisStreamLabState.hubPulseToken;
+      scheduleAxisStreamLabTimeout(() => {
+        if (pulseToken === axisStreamLabState.hubPulseToken) {
+          refs.switchNode?.classList.remove('is-energized');
+        }
+      }, Math.max(680, Math.min(duration, 1400)));
+
+      if (routing) {
+        const routeToken = ++axisStreamLabState.routeToken;
+        scheduleAxisStreamLabTimeout(() => {
+          if (routeToken === axisStreamLabState.routeToken) {
+            axisStreamLabState.routeColorHex = null;
+            axisStreamLabState.routeDest = null;
+            updateAxisStreamLabFifoViz();
+          }
+        }, duration);
+      }
+    }
+
+    function updateAxisStreamLabFifoViz() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs) return;
+
+      refs.fifoSlots.forEach((slot, index) => {
+        const packet = axisStreamLabState.fifo[index];
+        const colorHex = packet ? getAxisStreamLabThemeHexByColorIndex(packet.colorIndex) : null;
+
+        slot.classList.toggle('is-full', Boolean(packet));
+        slot.style.backgroundColor = colorHex || '#dbe3ee';
+        slot.style.boxShadow = colorHex ? `0 0 12px ${colorHex}55` : 'none';
+        slot.style.opacity = packet ? '1' : '0.55';
+      });
+
+      if (refs.hubStatusText) {
+        refs.hubStatusText.textContent = `FIFO: ${axisStreamLabState.fifo.length}/${axisStreamLabState.maxFifo}`;
+      }
+
+      axisStreamLabState.interconnectTready = axisStreamLabState.fifo.length < axisStreamLabState.maxFifo;
+
+      if (refs.masterTreadyLed && refs.masterTreadyText) {
+        refs.masterTreadyLed.style.backgroundColor = axisStreamLabState.interconnectTready ? '#0f172a' : '#dc2626';
+        refs.masterTreadyText.textContent = axisStreamLabState.interconnectTready ? 'Interconnect Ready' : 'FIFO FULL (BP)';
+      }
+
+      refs.masterNode?.classList.toggle('is-link-ready', axisStreamLabState.interconnectTready);
+      refs.masterNode?.classList.toggle('is-link-blocked', !axisStreamLabState.interconnectTready);
+      applyAxisStreamLabMasterState(deriveAxisStreamLabMasterState());
+
+      if (refs.bpWarning) {
+        refs.bpWarning.classList.toggle('is-visible', !axisStreamLabState.interconnectTready);
+      }
+
+      const resolvedHubColor = getAxisStreamLabResolvedHubColor();
+      refs.switchLeds.forEach((led, index) => {
+        const routedActive = axisStreamLabState.routeDest === index;
+        const queuedPacket = axisStreamLabState.fifo.find((packet) => packet.tdest === index);
+        const tone = routedActive
+          ? (axisStreamLabState.routeColorHex || resolvedHubColor)
+          : queuedPacket
+            ? getAxisStreamLabThemeHexByColorIndex(queuedPacket.colorIndex)
+            : '#334155';
+        const isActive = routedActive || Boolean(queuedPacket);
+
+        led.classList.toggle('is-active', isActive);
+        led.classList.toggle('is-route-active', routedActive);
+        led.style.backgroundColor = isActive ? tone : '#334155';
+        led.style.boxShadow = isActive ? `0 0 14px ${tone}66` : 'none';
+        led.style.opacity = isActive ? '1' : '0.72';
+      });
+
+      syncAxisStreamLabHubVisuals(resolvedHubColor);
+    }
+
+    function updateAxisStreamLabPauseButton() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs?.pauseButton || !refs.pauseText || !refs.root) return;
+
+      const pauseLabel = axisStreamLabState.isPaused ? 'Resume Engine' : 'Pause Engine';
+      refs.pauseText.textContent = pauseLabel;
+      refs.pauseButton.setAttribute('aria-label', pauseLabel);
+      refs.pauseButton.setAttribute('title', pauseLabel);
+      refs.pauseButton.classList.toggle('is-paused', axisStreamLabState.isPaused);
+      refs.root.classList.toggle('is-paused', axisStreamLabState.isPaused);
+    }
+
+    function deriveAxisStreamLabMasterState({ handshake = false } = {}) {
+      if (handshake) return 'driving';
+      if (!axisStreamLabState.signals.tvalid) return 'idle';
+      return axisStreamLabState.interconnectTready ? 'armed' : 'stalled';
+    }
+
+    function getAxisStreamLabMasterThemeHex(masterState = 'idle') {
+      if (masterState === 'stalled') {
+        return axisStreamLabToneMap.amber;
+      }
+
+      return getAxisStreamLabThemeHexByColorIndex(axisStreamLabState.colorIndex);
+    }
+
+    function applyAxisStreamLabMasterState(masterState = 'idle') {
+      const refs = getAxisStreamLabRefs();
+      if (!refs?.masterNode) return;
+
+      const themeHex = getAxisStreamLabMasterThemeHex(masterState);
+      refs.masterNode.style.setProperty('--axis-master-color', themeHex);
+      refs.masterNode.style.setProperty('--axis-master-rgb', hexToAxisStreamLabRgb(themeHex));
+      refs.masterNode.classList.remove('is-idle', 'is-armed', 'is-driving', 'is-stalled');
+      refs.masterNode.classList.add(`is-${masterState}`);
+
+      if (refs.txStatusLabel) {
+        refs.txStatusLabel.textContent = ({
+          idle: 'IDLE',
+          armed: 'ARMED',
+          driving: 'DRIVING',
+          stalled: 'STALLED',
+        })[masterState] || 'IDLE';
+      }
+    }
+
+    function refreshAxisStreamLabUI() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs) return;
+
+      if (refs.clkCycle) {
+        refs.clkCycle.textContent = `${axisStreamLabState.clkCycle.toFixed(1)}ns`;
+      }
+
+      applyAxisStreamLabMasterState(deriveAxisStreamLabMasterState());
+      refs.masterNode?.classList.remove('is-bursting');
+      refs.txPulse?.classList.remove('is-firing');
+      updateAxisStreamLabSignalButtons();
+      updateAxisStreamLabBitButtons();
+      updateAxisStreamLabFifoViz();
+      updateAxisStreamLabPauseButton();
+      setAxisStreamLabStatus('Back-pressure Monitor Active', 'slate');
+    }
+
+    function resetAxisStreamLab(options = {}) {
+      const keepPause = options.keepPause === true;
+      const refs = getAxisStreamLabRefs();
+      if (!refs) return;
+
+      clearAxisStreamLabTimeouts();
+      refs.packetLane.innerHTML = '';
+      refs.beam.style.opacity = '0';
+      refs.beam.classList.remove('is-active');
+      refs.switchNode?.classList.remove('is-energized', 'is-routing');
+      refs.slaveNodes.forEach((node) => node?.classList.remove('is-active'));
+
+      axisStreamLabState.signals = createAxisStreamLabDefaultSignals();
+      axisStreamLabState.interconnectTready = true;
+      axisStreamLabState.fifo = [];
+      axisStreamLabState.colorIndex = 0;
+      axisStreamLabState.clkCycle = 0;
+      axisStreamLabState.lastClockTick = 0;
+      axisStreamLabState.hubPulseToken = 0;
+      axisStreamLabState.routeToken = 0;
+      axisStreamLabState.routeColorHex = null;
+      axisStreamLabState.routeDest = null;
+      if (!keepPause) {
+        axisStreamLabState.isPaused = false;
+      }
+
+      refreshAxisStreamLabUI();
+      window.setTimeout(syncPageHeight, 40);
+    }
+
+    function createAxisStreamLabPacketMarkup(packetData, mode = 'master') {
+      const theme = axisStreamLabPacketPalette[packetData.colorIndex] || axisStreamLabPacketPalette[0];
+      const shapeClass = `shape-${packetData.tid}`;
+
+      if (mode === 'master') {
+        return `
+          <div class="axis-packet__body ${shapeClass}" style="--axis-packet-color:${theme.hex};">
+            ${packetData.tuser ? '<div class="axis-packet__user-tag">U:0x0A</div>' : ''}
+            <div class="axis-packet__headline mono">0x${packetData.data}</div>
+            <div class="axis-packet__sub mono">TDEST:${packetData.tdest} / TID:${packetData.tid}</div>
+          </div>
+        `;
+      }
+
+      const bytesMarkup = [3, 2, 1, 0].map((index) => {
+        const keep = packetData.tkeep[index];
+        const strobe = packetData.tstrb[index];
+        const byteData = packetData.data.substring((3 - index) * 2, (3 - index) * 2 + 2);
+        const classes = [
+          'axis-byte',
+          keep ? '' : 'is-keep-off',
+          keep && !strobe ? 'is-strobe-off' : '',
+        ].filter(Boolean).join(' ');
+        return `<div class="${classes}">${byteData}</div>`;
+      }).join('');
+
+      return `
+        <div class="axis-packet__body ${shapeClass}" style="--axis-packet-color:${theme.hex};">
+          ${packetData.tuser ? '<div class="axis-packet__user-tag">U:0x0A</div>' : ''}
+          <div class="axis-packet__route-tag">ID:${packetData.tid} D:${packetData.tdest}</div>
+          <div class="axis-packet__bytes">${bytesMarkup}</div>
+          <div class="axis-packet__headline mono">0x${packetData.data}</div>
+          ${packetData.tlast ? '<div class="axis-packet__last-tag">TLAST</div>' : ''}
+        </div>
+      `;
+    }
+
+    function flashAxisStreamLabSlave(targetId) {
+      const refs = getAxisStreamLabRefs();
+      const slave = refs?.slaveNodes?.[targetId];
+      if (!slave) return;
+      slave.classList.add('is-active');
+      scheduleAxisStreamLabTimeout(() => {
+        slave.classList.remove('is-active');
+      }, 620);
+    }
+
+    function fireAxisStreamLabTxPulse() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs?.txPulse) return;
+      refs.masterNode?.classList.remove('is-bursting');
+      void refs.masterNode?.offsetWidth;
+      refs.masterNode?.classList.add('is-bursting');
+      refs.txPulse.classList.add('is-firing');
+      scheduleAxisStreamLabTimeout(() => {
+        refs.txPulse?.classList.remove('is-firing');
+        refs.masterNode?.classList.remove('is-bursting');
+      }, 320);
+    }
+
+    function driveAxisStreamLabMasterPacket() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs?.packetLane || !refs.packetLane.clientWidth) return;
+
+      const dataVal = Math.floor(Math.random() * 0xFFFFFFFF).toString(16).toUpperCase().padStart(8, '0');
+      const packetData = {
+        data: dataVal,
+        tid: axisStreamLabState.signals.tid,
+        tdest: axisStreamLabState.signals.tdest,
+        tuser: axisStreamLabState.signals.tuser,
+        tlast: axisStreamLabState.signals.tlast,
+        tkeep: [...axisStreamLabState.signals.tkeep],
+        tstrb: [...axisStreamLabState.signals.tstrb],
+        colorIndex: axisStreamLabState.colorIndex,
+      };
+
+      const laneRect = refs.packetLane.getBoundingClientRect();
+      const masterRect = refs.masterNode?.getBoundingClientRect();
+      const startX = masterRect
+        ? Math.max(88, masterRect.right - laneRect.left - 20)
+        : 104;
+      const switchX = refs.packetLane.clientWidth * 0.75 - 76;
+      const packet = document.createElement('div');
+      packet.className = 'axis-packet';
+      packet.style.left = `${startX}px`;
+      packet.style.marginTop = '-30px';
+      packet.innerHTML = createAxisStreamLabPacketMarkup(packetData, 'master');
+      refs.packetLane.appendChild(packet);
+
+      window.requestAnimationFrame(() => {
+        packet.style.transform = `translate3d(${switchX - startX}px, 0, 0)`;
+      });
+
+      scheduleAxisStreamLabTimeout(() => {
+        packet.remove();
+        axisStreamLabState.fifo.push(packetData);
+        updateAxisStreamLabFifoViz();
+        pulseAxisStreamLabHub(getAxisStreamLabThemeHexByColorIndex(packetData.colorIndex), { duration: 820 });
+      }, 1000);
+
+      if (axisStreamLabState.signals.tlast) {
+        axisStreamLabState.colorIndex = (axisStreamLabState.colorIndex + 1) % axisStreamLabPacketPalette.length;
+      }
+    }
+
+    function popAxisStreamLabInterconnectPacket() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs?.packetLane || axisStreamLabState.fifo.length === 0) return;
+      if (!refs.packetLane.clientWidth || !refs.packetLane.clientHeight) return;
+
+      const packetData = axisStreamLabState.fifo.shift();
+      const slave = refs.slaveNodes[packetData.tdest];
+      if (!slave) {
+        updateAxisStreamLabFifoViz();
+        return;
+      }
+
+      updateAxisStreamLabFifoViz();
+
+      const startX = refs.packetLane.clientWidth * 0.75 - 76;
+      const packet = document.createElement('div');
+      packet.className = 'axis-packet';
+      packet.style.left = `${startX}px`;
+      packet.style.marginTop = '-34px';
+      packet.innerHTML = createAxisStreamLabPacketMarkup(packetData, 'detail');
+      refs.packetLane.appendChild(packet);
+
+      const canvasRect = refs.simArea.getBoundingClientRect();
+      const hubRect = refs.switchNode.getBoundingClientRect();
+      const slaveRect = slave.getBoundingClientRect();
+      const x1 = hubRect.left + hubRect.width / 2 - canvasRect.left;
+      const y1 = hubRect.top + hubRect.height / 2 - canvasRect.top;
+      const x2 = slaveRect.left + slaveRect.width / 2 - canvasRect.left;
+      const y2 = slaveRect.top + slaveRect.height / 2 - canvasRect.top;
+      const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+      const distance = Math.hypot(x2 - x1, y2 - y1);
+      const theme = axisStreamLabPacketPalette[packetData.colorIndex] || axisStreamLabPacketPalette[0];
+      const beamRgb = hexToAxisStreamLabRgb(theme.hex);
+
+      refs.beam.style.setProperty('--beam-color', theme.hex);
+      refs.beam.style.setProperty('--beam-rgb', beamRgb);
+      refs.beam.style.width = `${distance}px`;
+      refs.beam.style.left = `${x1}px`;
+      refs.beam.style.top = `${y1}px`;
+      refs.beam.style.transform = `rotate(${angle}deg)`;
+      refs.beam.style.opacity = '0.6';
+      refs.beam.classList.add('is-active');
+      pulseAxisStreamLabHub(theme.hex, {
+        routing: true,
+        duration: 1260,
+        destIndex: packetData.tdest,
+      });
+
+      window.requestAnimationFrame(() => {
+        const laneRect = refs.packetLane.getBoundingClientRect();
+        const packetRect = packet.getBoundingClientRect();
+        const targetCenterX = slaveRect.left + slaveRect.width / 2 - laneRect.left;
+        const targetCenterY = slaveRect.top + slaveRect.height / 2 - laneRect.top;
+        const startCenterX = packetRect.left + packetRect.width / 2 - laneRect.left;
+        const startCenterY = packetRect.top + packetRect.height / 2 - laneRect.top;
+        const deltaX = targetCenterX - startCenterX;
+        const deltaY = targetCenterY - startCenterY;
+        packet.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0)`;
+      });
+
+      scheduleAxisStreamLabTimeout(() => {
+        packet.style.opacity = '0';
+        refs.beam.style.opacity = '0';
+        refs.beam.classList.remove('is-active');
+        flashAxisStreamLabSlave(packetData.tdest);
+        scheduleAxisStreamLabTimeout(() => {
+          packet.remove();
+        }, 360);
+      }, 1200);
+    }
+
+    function toggleAxisStreamLabPause() {
+      axisStreamLabState.isPaused = !axisStreamLabState.isPaused;
+      updateAxisStreamLabPauseButton();
+    }
+
+    function handleAxisStreamLabResize() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs?.beam) return;
+      refs.beam.style.opacity = '0';
+      refs.beam.classList.remove('is-active');
+      window.setTimeout(syncPageHeight, 20);
+    }
+
+    function bindAxisStreamLabEvents() {
+      const refs = getAxisStreamLabRefs();
+      if (!refs || refs.root.dataset.axisLabBound === 'true') return;
+
+      refs.signalButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const sig = button.dataset.axisSig;
+          axisStreamLabState.signals[sig] = !axisStreamLabState.signals[sig];
+          updateAxisStreamLabSignalButtons();
+          applyAxisStreamLabMasterState(deriveAxisStreamLabMasterState());
+        });
+      });
+
+      refs.maskButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const maskType = button.dataset.axisMask;
+          const bitIndex = Number(button.dataset.axisIndex);
+          axisStreamLabState.signals[maskType][bitIndex] = !axisStreamLabState.signals[maskType][bitIndex];
+          updateAxisStreamLabBitButtons();
+        });
+      });
+
+      refs.idButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const idType = button.dataset.axisId;
+          const value = Number(button.dataset.axisValue);
+          axisStreamLabState.signals[idType] = value;
+          updateAxisStreamLabBitButtons();
+        });
+      });
+
+      refs.resetButton?.addEventListener('click', () => {
+        resetAxisStreamLab();
+      });
+
+      refs.pauseButton?.addEventListener('click', () => {
+        toggleAxisStreamLabPause();
+      });
+
+      refs.root.dataset.axisLabBound = 'true';
+      window.addEventListener('resize', handleAxisStreamLabResize, { passive: true });
+    }
+
+    function initializeAxiStreamChannelLab(forceRefresh = false) {
+      const refs = getAxisStreamLabRefs();
+      if (!refs) return;
+
+      bindAxisStreamLabEvents();
+
+      if (!axisStreamLabState.initialized) {
+        axisStreamLabState.initialized = true;
+        resetAxisStreamLab();
+        axisStreamLabState.rafId = window.requestAnimationFrame(runAxisStreamLabLoop);
+      } else if (forceRefresh) {
+        refreshAxisStreamLabUI();
+      }
+    }
+
+    function runAxisStreamLabLoop(timestamp) {
+      const refs = getAxisStreamLabRefs();
+      if (!refs) {
+        axisStreamLabState.rafId = window.requestAnimationFrame(runAxisStreamLabLoop);
+        return;
+      }
+
+      if (!axisStreamLabState.lastClockTick) {
+        axisStreamLabState.lastClockTick = timestamp;
+      }
+
+      const elapsed = timestamp - axisStreamLabState.lastClockTick;
+
+      if (!axisStreamLabState.isPaused && elapsed > axisStreamLabState.simSpeed) {
+        axisStreamLabState.lastClockTick = timestamp;
+        axisStreamLabState.clkCycle += 1.0;
+
+        if (refs.clkCycle) {
+          refs.clkCycle.textContent = `${axisStreamLabState.clkCycle.toFixed(1)}ns`;
+        }
+
+        if (axisStreamLabState.signals.tready && axisStreamLabState.fifo.length > 0) {
+          popAxisStreamLabInterconnectPacket();
+        }
+
+        const masterHandshake = axisStreamLabState.signals.tvalid && axisStreamLabState.interconnectTready;
+
+        if (masterHandshake) {
+          driveAxisStreamLabMasterPacket();
+          applyAxisStreamLabMasterState('driving');
+          fireAxisStreamLabTxPulse();
+        } else {
+          applyAxisStreamLabMasterState(deriveAxisStreamLabMasterState());
+        }
+
+        if (masterHandshake) {
+          setAxisStreamLabStatus('Transfer Active', 'green');
+        } else if (!axisStreamLabState.interconnectTready) {
+          setAxisStreamLabStatus('Back-pressure Stalled', 'red');
+        } else if (!axisStreamLabState.signals.tready && axisStreamLabState.fifo.length > 0) {
+          setAxisStreamLabStatus('Sink Waiting', 'amber');
+        } else {
+          setAxisStreamLabStatus('Ready', 'blue');
+        }
+      } else if (axisStreamLabState.isPaused) {
+        axisStreamLabState.lastClockTick = timestamp;
+      }
+
+      axisStreamLabState.rafId = window.requestAnimationFrame(runAxisStreamLabLoop);
+    }
+
+    const busInterfaceLabInsights = {
+      mmio: [
+        { icon: 'share-2', title: 'Unified Fabric', text: '모든 컴포넌트가 동일한 AXI 인터페이스를 사용합니다.' },
+        { icon: 'maximize', title: 'Address Decoding', text: '인터커넥트가 주소에 따라 경로를 자동 분배합니다.' },
+        { icon: 'fast-forward', title: 'AXI Pipelining', text: 'I/O 접근 시에도 AXI의 throughput 이점을 그대로 활용합니다.' },
+      ],
+      pmio: [
+        { icon: 'alert-triangle', title: 'Hard-Wired Path', text: 'ISA에 종속된 전용 배선으로 유연성이 크게 떨어집니다.' },
+        { icon: 'layers', title: 'Bus Complexity', text: 'I/O 전용 버스와 decode 로직이 늘어나며 하드웨어 리소스를 더 소모합니다.' },
+        { icon: 'lock', title: 'Legacy Block', text: '현대 SoC 관점에서는 인터커넥트를 우회하는 구조가 확장성과 재사용성에 불리합니다.' },
+      ],
+    };
+
+    const busInterfaceLabModeContent = {
+      mmio: {
+        status: 'AXI Interconnect가 중앙 허브 역할을 수행합니다. 모든 주소와 데이터는 인터커넥트를 통해 직교 라우팅됩니다.',
+        hubSubtitle: 'Active: Decoder Hub',
+        softwareDesc: '소프트웨어는 I/O를 단순 메모리 접근으로 인식합니다. 인터커넥트가 물리적 주소를 찾아 신호를 라우팅합니다.',
+        codeLines: [
+          '<span class="bus-interface-lab__code-keyword">#define</span> UART_BASE <span class="bus-interface-lab__code-number">0x40001000</span>',
+          '<span class="bus-interface-lab__code-type">volatile uint32_t</span>* reg = UART_BASE;',
+          '*reg = <span class="bus-interface-lab__code-char">\'A\'</span>; <span class="bus-interface-lab__code-comment">// Through AXI Fabric</span>',
+        ],
+        map: { mem: '75%', gap: '0%', io: '25%', gapLabel: '' },
+        lines: `
+          <path d="M 180 225 L 600 225" stroke="#CBD5E1" stroke-width="2" fill="none" opacity="0.3"></path>
+          <path d="M 400 225 L 400 125 L 600 125" stroke="#CBD5E1" stroke-width="2" fill="none" opacity="0.3"></path>
+          <path d="M 400 225 L 400 325 L 600 325" stroke="#CBD5E1" stroke-width="2" fill="none" opacity="0.3"></path>
+
+          <path d="M 180 225 L 400 225" stroke="#3B82F6" stroke-width="4" fill="none" class="bus-interface-lab__address-pulse"></path>
+          <path d="M 400 225 L 400 125 L 600 125" stroke="#94A3B8" stroke-width="3" fill="none" class="bus-interface-lab__data-flow" opacity="0.4"></path>
+          <path d="M 400 225 L 400 325 L 600 325" stroke="#10B981" stroke-width="3" fill="none" class="bus-interface-lab__data-flow" opacity="0.6"></path>
+        `,
+        sequence: [
+          { path: 'M 180 225 L 400 225 L 400 125 L 600 125', fill: '#3B82F6' },
+          { path: 'M 180 225 L 400 225 L 400 325 L 600 325', fill: '#10B981' },
+        ],
+      },
+      pmio: {
+        status: 'I/O 전용 버스가 인터커넥트 하드웨어 영역을 우회합니다. 블록 아래에 가려진 bypass 경로를 통해 슬레이브로 직접 연결됩니다.',
+        hubSubtitle: 'Hidden Bypass',
+        softwareDesc: 'ISA 전용 명령어 OUT이 실행될 때만 전용 버스가 활성화됩니다. 소프트웨어 이식성과 fabric 일관성이 떨어집니다.',
+        codeLines: [
+          '<span class="bus-interface-lab__code-keyword">mov</span> dx, <span class="bus-interface-lab__code-number">0x3F8</span>',
+          '<span class="bus-interface-lab__code-keyword">mov</span> al, <span class="bus-interface-lab__code-char">\'A\'</span>',
+          '<span class="bus-interface-lab__code-type">out</span> dx, al <span class="bus-interface-lab__code-comment">; Dedicated I/O Logic</span>',
+        ],
+        map: { mem: '50%', gap: '40%', io: '10%', gapLabel: 'Reserved' },
+        lines: `
+          <path d="M 180 210 L 400 210 L 400 125 L 600 125" stroke="#3B82F6" stroke-width="3" fill="none" opacity="0.2"></path>
+          <path d="M 180 240 L 400 240 L 400 325 L 600 325" stroke="#10B981" stroke-width="4" fill="none" class="bus-interface-lab__address-pulse"></path>
+        `,
+        sequence: [
+          { path: 'M 180 210 L 400 210 L 400 125 L 600 125', fill: '#94A3B8' },
+          { path: 'M 180 240 L 400 240 L 400 325 L 600 325', fill: '#10B981' },
+        ],
+      },
+    };
+
+    const busInterfaceLabState = {
+      initialized: false,
+      activeMode: 'mmio',
+      timerId: 0,
+      packetStep: 0,
+      refs: null,
+    };
+
+    function getBusInterfaceLabRefs() {
+      if (busInterfaceLabState.refs?.root?.isConnected) {
+        return busInterfaceLabState.refs;
+      }
+
+      const root = document.getElementById('bus-interface-lab');
+      if (!root) return null;
+
+      busInterfaceLabState.refs = {
+        root,
+        buttons: Array.from(root.querySelectorAll('[data-bus-interface-mode]')),
+        dynamicLines: document.getElementById('bus-interface-lab-dynamic-lines'),
+        packet: document.getElementById('bus-interface-lab-packet'),
+        packetMotion: document.getElementById('bus-interface-lab-packet-motion'),
+        statusText: document.getElementById('bus-interface-lab-status-text'),
+        hubGroup: document.getElementById('bus-interface-lab-hub-group'),
+        hubSubtitle: document.getElementById('bus-interface-lab-hub-subtitle'),
+        codeBlock: document.getElementById('bus-interface-lab-code-block'),
+        softwareDesc: document.getElementById('bus-interface-lab-software-desc'),
+        insightContainer: document.getElementById('bus-interface-lab-insights'),
+        addrMem: document.getElementById('bus-interface-lab-addr-mem'),
+        addrGap: document.getElementById('bus-interface-lab-addr-gap'),
+        addrIo: document.getElementById('bus-interface-lab-addr-io'),
+      };
+
+      return busInterfaceLabState.refs;
+    }
+
+    function stopBusInterfaceVisualization() {
+      if (busInterfaceLabState.timerId) {
+        window.clearInterval(busInterfaceLabState.timerId);
+        busInterfaceLabState.timerId = 0;
+      }
+    }
+
+    function renderBusInterfaceLabInsights(mode) {
+      const refs = getBusInterfaceLabRefs();
+      if (!refs?.insightContainer) return;
+
+      refs.insightContainer.innerHTML = (busInterfaceLabInsights[mode] || []).map((item, index) => `
+        <div class="bus-interface-lab__insight" style="animation-delay: ${index * 100}ms;">
+          <div class="bus-interface-lab__insight-icon"><i data-lucide="${item.icon}"></i></div>
+          <div>
+            <div class="bus-interface-lab__insight-title">${item.title}</div>
+            <div class="bus-interface-lab__insight-text">${item.text}</div>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function startBusInterfaceLabPacketAnimation(sequence) {
+      const refs = getBusInterfaceLabRefs();
+      if (!refs?.packet || !refs.packetMotion || !sequence?.length) return;
+
+      stopBusInterfaceVisualization();
+      busInterfaceLabState.packetStep = 0;
+      refs.packet.style.visibility = 'visible';
+
+      const animatePacket = () => {
+        const step = sequence[busInterfaceLabState.packetStep % sequence.length];
+        refs.packet.setAttribute('fill', step.fill);
+        refs.packet.style.filter = `drop-shadow(0 0 4px ${step.fill})`;
+        refs.packetMotion.setAttribute('path', step.path);
+        refs.packetMotion.beginElement();
+        busInterfaceLabState.packetStep += 1;
+      };
+
+      animatePacket();
+      busInterfaceLabState.timerId = window.setInterval(animatePacket, 2000);
+    }
+
+    function renderBusInterfaceLabMode(mode = 'mmio') {
+      const refs = getBusInterfaceLabRefs();
+      const content = busInterfaceLabModeContent[mode];
+      if (!refs || !content) return;
+
+      busInterfaceLabState.activeMode = mode;
+
+      refs.buttons.forEach((button) => {
+        const isActive = button.dataset.busInterfaceMode === mode;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-pressed', String(isActive));
+      });
+
+      refs.statusText.textContent = content.status;
+      refs.hubSubtitle.textContent = content.hubSubtitle;
+      refs.hubGroup.classList.toggle('is-inactive', mode === 'pmio');
+
+      refs.addrMem.style.width = content.map.mem;
+      refs.addrGap.style.width = content.map.gap;
+      refs.addrGap.textContent = content.map.gapLabel;
+      refs.addrIo.style.width = content.map.io;
+
+      refs.codeBlock.innerHTML = content.codeLines.map((line) => `<div>${line}</div>`).join('');
+      refs.softwareDesc.textContent = content.softwareDesc;
+      refs.dynamicLines.innerHTML = content.lines;
+
+      renderBusInterfaceLabInsights(mode);
+      startBusInterfaceLabPacketAnimation(content.sequence);
+      window.setTimeout(syncPageHeight, 20);
+    }
+
+    function bindBusInterfaceLabEvents() {
+      const refs = getBusInterfaceLabRefs();
+      if (!refs || refs.root.dataset.busInterfaceBound === 'true') return;
+
+      refs.buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          renderBusInterfaceLabMode(button.dataset.busInterfaceMode || 'mmio');
+        });
+      });
+
+      refs.root.dataset.busInterfaceBound = 'true';
+    }
+
+    function initializeBusInterfaceVisualization(forceRefresh = false) {
+      const refs = getBusInterfaceLabRefs();
+      if (!refs) return;
+
+      bindBusInterfaceLabEvents();
+
+      if (!busInterfaceLabState.initialized || forceRefresh) {
+        busInterfaceLabState.initialized = true;
+        renderBusInterfaceLabMode(busInterfaceLabState.activeMode);
+      }
+    }
+
+    part8SectionEngine = window.GuidebookPage.initActionSectionPage({
+      defaultKey: 'amba',
+      panelSelector: '[data-part8-panel]',
+      panelKeyDataset: 'part8Panel',
+      titleAttribute: 'data-guidebook-toc-title',
+      panelStateMode: 'class',
+      panelActiveClass: 'active',
+      buttonSelector: '.tab-btn',
+      buttonKeyDataset: 'tab',
+      buttonLabelSelector: '[data-tab-label]',
+      currentHeader: {
+        shellId: 'part8-current-shell',
+        labelId: 'part8-current-label',
+      },
+      beforeInit: () => {
+        if (window.parent && window.parent !== window) {
+          document.body.classList.add('is-embedded');
+        }
+        lucide.createIcons();
+      },
+      applyButtonState: ({ button, isActive }) => {
+        button.className = isActive ? tabBtnActiveClass : tabBtnInactiveClass;
+        button.setAttribute('aria-pressed', String(isActive));
+        const icon = button.querySelector('svg');
+        if (icon) {
+          icon.setAttribute('stroke-width', isActive ? '2.5' : '2');
+        }
+      },
+      onAfterSet: ({ activeKey }) => {
+        if (activeKey !== 'bus') {
+          stopBusInterfaceVisualization();
+        }
+
+        if (activeKey === 'bus') {
+          window.setTimeout(() => {
+            initializeBusInterfaceVisualization(true);
+          }, 60);
+          return;
+        }
+
+        if (activeKey === 'ahb') {
+          window.setTimeout(() => {
+            restartAhbDescriptionAnimations();
+            initializeInternalArbiterAnimation(true);
+            renderWaveDrom(getSelectedWaveType('.ahb-wave-btn', 'ahb_single'));
+            renderAhbArbWaveDrom(getSelectedWaveType('.ahb-arb-wave-btn', 'ahbarb_grant_nowait'));
+          }, 60);
+          return;
+        }
+
+        if (activeKey === 'apb') {
+          window.setTimeout(() => {
+            renderWaveDrom(getSelectedWaveType('.wave-btn', 'write_nowait'));
+          }, 60);
+          return;
+        }
+
+        if (activeKey === 'axi-lite') {
+          window.setTimeout(() => {
+            renderWaveDrom(getSelectedWaveType('.axi-wave-btn', 'axi_valid_before'));
+            renderSupplementalWaveforms('axi-lite');
+            renderAxiLiteDependencyPanel(activeAxiLiteDependencyPanel);
+          }, 60);
+        }
+
+        if (activeKey === 'axi-stream') {
+          window.setTimeout(() => {
+            renderSupplementalWaveforms('axi-stream');
+            initializeAxiStreamChannelLab(true);
+          }, 60);
+        }
+
+        if (activeKey === 'axi-full') {
+          window.setTimeout(() => {
+            renderSupplementalWaveforms('axi-full');
+            renderAxiFullSignalGroup(activeAxiFullSignalGroup);
+          }, 60);
+        }
+      },
+      afterInit: () => {
+        window.setTimeout(() => {
+          restartAhbDescriptionAnimations();
+          initializeInternalArbiterAnimation();
+          renderWaveDrom(getSelectedWaveType('.wave-btn', 'write_nowait'));
+          renderWaveDrom(getSelectedWaveType('.ahb-wave-btn', 'ahb_single'));
+          renderAhbArbWaveDrom(getSelectedWaveType('.ahb-arb-wave-btn', 'ahbarb_grant_nowait'));
+          renderWaveDrom(getSelectedWaveType('.axi-wave-btn', 'axi_valid_before'));
+          renderSupplementalWaveforms('axi-lite');
+          renderSupplementalWaveforms('axi-stream');
+          renderSupplementalWaveforms('axi-full');
+          initializeAxiStreamChannelLab(true);
+          renderAxiLiteDependencyPanel(activeAxiLiteDependencyPanel);
+        }, 150);
+      },
+    });
+
+    const waveData = {
+      write_nowait: {
+        signal: [
+          { name: 'PCLK', wave: 'p....' },
+          { name: 'PADDR', wave: 'x=.x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '01.0.' },
+          { name: 'PSELx', wave: '01.0.' },
+          { name: 'PENABLE', wave: '0.10.' },
+          { name: 'PWDATA', wave: 'x=.x.', data: ['WData'] },
+          { name: 'PREADY', wave: '1....' },
+          { name: 'PRDATA', wave: 'x....' },
+          { name: 'PSLVERR', wave: '0....' }
+        ],
+        head: { text: 'Write Transfer (No Wait States)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      write_wait: {
+        signal: [
+          { name: 'PCLK', wave: 'p......' },
+          { name: 'PADDR', wave: 'x=...x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '01...0.' },
+          { name: 'PSELx', wave: '01...0.' },
+          { name: 'PENABLE', wave: '0.1..0.' },
+          { name: 'PWDATA', wave: 'x=...x.', data: ['WData'] },
+          { name: 'PREADY', wave: '1.0.1..' },
+          { name: 'PRDATA', wave: 'x......' },
+          { name: 'PSLVERR', wave: '0......' }
+        ],
+        head: { text: 'Write Transfer (With Wait States)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      read_nowait: {
+        signal: [
+          { name: 'PCLK', wave: 'p....' },
+          { name: 'PADDR', wave: 'x=.x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '0....' },
+          { name: 'PSELx', wave: '01.0.' },
+          { name: 'PENABLE', wave: '0.10.' },
+          { name: 'PWDATA', wave: 'x....' },
+          { name: 'PREADY', wave: '1....' },
+          { name: 'PRDATA', wave: 'x.=.x', data: ['RData'] },
+          { name: 'PSLVERR', wave: '0....' }
+        ],
+        head: { text: 'Read Transfer (No Wait States)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      read_wait: {
+        signal: [
+          { name: 'PCLK', wave: 'p......' },
+          { name: 'PADDR', wave: 'x=...x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '0......' },
+          { name: 'PSELx', wave: '01...0.' },
+          { name: 'PENABLE', wave: '0.1..0.' },
+          { name: 'PWDATA', wave: 'x......' },
+          { name: 'PREADY', wave: '1.0.1..' },
+          { name: 'PRDATA', wave: 'x...=.x', data: ['RData'] },
+          { name: 'PSLVERR', wave: '0......' }
+        ],
+        head: { text: 'Read Transfer (With Wait States)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      error_response: {
+        signal: [
+          { name: 'PCLK', wave: 'p....' },
+          { name: 'PADDR', wave: 'x=.x.', data: ['Addr'] },
+          { name: 'PWRITE', wave: '01.0.' },
+          { name: 'PSELx', wave: '01.0.' },
+          { name: 'PENABLE', wave: '0.10.' },
+          { name: 'PWDATA', wave: 'x=.x.', data: ['WData'] },
+          { name: 'PREADY', wave: '1....' },
+          { name: 'PRDATA', wave: 'x....' },
+          { name: 'PSLVERR', wave: '0.10.' }
+        ],
+        head: { text: 'Error Response (Write, No Wait)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      ahb_single: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x==x....', data: ['Addr A', 'Addr B'] },
+          { name: 'HWRITE', wave: 'x10x....' },
+          { name: 'HSIZE', wave: 'x22x....', data: ['WORD', 'WORD'] },
+          { name: 'HBURST', wave: 'x22x....', data: ['SINGLE', 'SINGLE'] },
+          { name: 'HTRANS', wave: 'x==x....', data: ['NONSEQ', 'NONSEQ'] },
+          { name: 'HWDATA', wave: 'xx=x....', data: ['WData(A)'] },
+          { name: 'HRDATA', wave: 'xxx=....', data: ['RData(B)'] },
+          { name: 'HREADY', wave: '1.......' }
+        ],
+        head: { text: 'AHB Basic Single Transfers (Write followed by Read)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      ahb_incr4: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x====xx.', data: ['0x38', '0x3C', '0x40', '0x44'] },
+          { name: 'HWRITE', wave: 'x1...xx.' },
+          { name: 'HSIZE', wave: 'x2...xx.', data: ['WORD'] },
+          { name: 'HBURST', wave: 'x2...xx.', data: ['INCR4'] },
+          { name: 'HTRANS', wave: 'x====xx.', data: ['NONSEQ', 'SEQ', 'SEQ', 'SEQ'] },
+          { name: 'HWDATA', wave: 'xx====x.', data: ['D(0x38)', 'D(0x3C)', 'D(0x40)', 'D(0x44)'] },
+          { name: 'HREADY', wave: '1.......' }
+        ],
+        head: { text: 'AHB 4-Beat Incrementing Burst (INCR4, Word Size)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      ahb_wrap4: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x====xx.', data: ['0x38', '0x3C', '0x30', '0x34'] },
+          { name: 'HWRITE', wave: 'x1...xx.' },
+          { name: 'HSIZE', wave: 'x2...xx.', data: ['WORD'] },
+          { name: 'HBURST', wave: 'x2...xx.', data: ['WRAP4'] },
+          { name: 'HTRANS', wave: 'x====xx.', data: ['NONSEQ', 'SEQ', 'SEQ', 'SEQ'] },
+          { name: 'HWDATA', wave: 'xx====x.', data: ['D(0x38)', 'D(0x3C)', 'D(0x30)', 'D(0x34)'] },
+          { name: 'HREADY', wave: '1.......' }
+        ],
+        head: { text: 'AHB 4-Beat Wrapping Burst (WRAP4, Word Size)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      ahb_burst_wait: {
+        signal: [
+          { name: 'HCLK', wave: 'p........' },
+          { name: 'HADDR', wave: 'x==..=xx.', data: ['0x38', '0x3C', '0x40'] },
+          { name: 'HWRITE', wave: 'x1....xx.' },
+          { name: 'HSIZE', wave: 'x2....xx.', data: ['WORD'] },
+          { name: 'HBURST', wave: 'x2....xx.', data: ['INCR4'] },
+          { name: 'HTRANS', wave: 'x==..=xx.', data: ['NONSEQ', 'SEQ', 'SEQ'] },
+          { name: 'HWDATA', wave: 'xx=..==x.', data: ['D(0x38)', 'D(0x3C)', 'D(0x40)'] },
+          { name: 'HREADY', wave: '1.0.1....' }
+        ],
+        head: { text: 'AHB Burst with Wait States (INCR4)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      ahb_error_response: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x=x.....', data: ['A'] },
+          { name: 'HWRITE', wave: 'x1......' },
+          { name: 'HSIZE', wave: 'x2......', data: ['WORD'] },
+          { name: 'HTRANS', wave: 'x=......', data: ['NONSEQ'] },
+          { name: 'HWDATA', wave: 'xx=.....', data: ['Data(A)'] },
+          { name: 'HREADY', wave: '1.0.1...' },
+          { name: 'HRESP[1:0]', wave: 'xx===...', data: ['OKAY', 'ERROR', 'ERROR'] }
+        ],
+        head: { text: 'AHB Error Response (Wait State then Two-Cycle ERROR)', tick: 0 },
+        config: { hscale: 1.55 }
+      },
+      ahb_retry_response: {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x==x=...', data: ['A', 'A+4', 'A (retry)'] },
+          { name: 'HWRITE', wave: 'x1......' },
+          { name: 'HSIZE', wave: 'x2......', data: ['WORD'] },
+          { name: 'HTRANS', wave: 'x====...', data: ['NONSEQ', 'SEQ', 'IDLE', 'NONSEQ'] },
+          { name: 'HWDATA', wave: 'xx=x.=..', data: ['Data(A)', 'Data(A)'] },
+          { name: 'HREADY', wave: '1.01....' },
+          { name: 'HRESP[1:0]', wave: 'xx==x=..', data: ['RETRY', 'RETRY', 'OKAY'] }
+        ],
+        head: { text: 'AHB Retry Response (Cancel Next Beat and Re-Issue Transfer)', tick: 0 },
+        config: { hscale: 1.55 }
+      },
+      ahbarb_grant_nowait: {
+        signal: [
+          { name: 'HCLK', wave: 'p........' },
+          { name: 'HBUSREQ_M1', wave: '01.......' },
+          { name: 'HGRANT_M1', wave: '0..1.....' },
+          { name: 'HMASTER[3:0]', wave: 'x..=.....', data: ['#1'] },
+          { name: 'HREADY', wave: '1........' },
+          { name: 'HTRANS[1:0]', wave: 'x...==x..', data: ['NONSEQ', 'SEQ'] },
+          { name: 'HADDR[31:0]', wave: 'x...==x..', data: ['A', 'A+4'] },
+          { name: 'HWDATA[31:0]', wave: 'xxxxx==x.', data: ['Data(A)', 'Data(A+4)'] }
+        ],
+        head: { text: 'AHB Arbitration: Granting Access with No Wait States', tick: 0 },
+        config: { hscale: 1.6 }
+      },
+      ahbarb_grant_wait: {
+        signal: [
+          { name: 'HCLK', wave: 'p..........' },
+          { name: 'HBUSREQ_M1', wave: '01.........' },
+          { name: 'HGRANT_M1', wave: '0..1.......' },
+          { name: 'HREADY', wave: '1...00.1111' },
+          { name: 'HMASTER[3:0]', wave: 'x......=...', data: ['#1'] },
+          { name: 'HTRANS[1:0]', wave: 'x.......==x', data: ['NONSEQ', 'SEQ'] },
+          { name: 'HADDR[31:0]', wave: 'x.......==x', data: ['A', 'A+4'] },
+          { name: 'HWDATA[31:0]', wave: 'xxxxxxxx=.x', data: ['Data(A)'] }
+        ],
+        head: { text: 'AHB Arbitration: Granting Access with Wait States', tick: 0 },
+        config: { hscale: 1.6 }
+      },
+      ahbarb_handover: {
+        signal: [
+          { name: 'HCLK', wave: 'p.........' },
+          { name: 'HGRANT_M1', wave: '1....0....' },
+          { name: 'HGRANT_M2', wave: '0....1....' },
+          { name: 'HMASTER[3:0]', wave: 'x====.===.', data: ['#1', '#1', '#1', '#1', '#2', '#2', '#2'] },
+          { name: 'HREADY', wave: '1.........' },
+          { name: 'HTRANS[1:0]', wave: 'x====.==x.', data: ['NONSEQ', 'SEQ', 'SEQ', 'SEQ', 'NONSEQ', 'SEQ'] },
+          { name: 'HADDR[31:0]', wave: 'x====.==x.', data: ['A', 'A+4', 'A+8', 'A+12', 'B', 'B+4'] },
+          { name: 'HWDATA[31:0]', wave: 'xx====.=x.', data: ['Data(A)', 'Data(A+4)', 'Data(A+8)', 'Data(A+12)', 'Data(B)'] }
+        ],
+        head: { text: 'AHB Arbitration: Bus Master Handover (Ownership)', tick: 0 },
+        config: { hscale: 1.55 }
+      },
+      axi_valid_before: {
+        signal: [
+          { name: 'ACLK', wave: 'p....' },
+          { name: 'Information', wave: 'x=...x', data: ['Valid Data'] },
+          { name: 'VALID', wave: '01...0' },
+          { name: 'READY', wave: '0..10.' }
+        ],
+        head: { text: 'VALID before READY (Source가 먼저 데이터 준비)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      axi_ready_before: {
+        signal: [
+          { name: 'ACLK', wave: 'p....' },
+          { name: 'Information', wave: 'x..=.x', data: ['Valid Data'] },
+          { name: 'VALID', wave: '0..10.' },
+          { name: 'READY', wave: '01...0' }
+        ],
+        head: { text: 'READY before VALID (Destination이 먼저 받을 준비)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      axi_concurrent: {
+        signal: [
+          { name: 'ACLK', wave: 'p....' },
+          { name: 'Information', wave: 'x=.x..', data: ['Valid Data'] },
+          { name: 'VALID', wave: '010...' },
+          { name: 'READY', wave: '010...' }
+        ],
+        head: { text: 'Concurrent VALID & READY (동시에 준비됨)', tick: 0 },
+        config: { hscale: 1.5 }
+      },
+      axi_lite_write_single: {
+        signal: [
+          { name: 'ACLK', wave: 'p.......' },
+          { name: 'AWADDR', wave: 'x==x....', data: ['Reg A'] },
+          { name: 'AWVALID', wave: '01.0....' },
+          { name: 'AWREADY', wave: '0.10....' },
+          { name: 'WDATA', wave: 'xx==x...', data: ['WData'] },
+          { name: 'WSTRB', wave: 'xx==x...', data: ['1111'] },
+          { name: 'WVALID', wave: '0.01.0..' },
+          { name: 'WREADY', wave: '0..10...' },
+          { name: 'BRESP', wave: 'xxxx=x..', data: ['OKAY'] },
+          { name: 'BVALID', wave: '0...10..' },
+          { name: 'BREADY', wave: '01......' }
+        ],
+        head: { text: 'AXI4-Lite Write Transaction (Single Data Item)', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_lite_read_single: {
+        signal: [
+          { name: 'ACLK', wave: 'p.......' },
+          { name: 'ARADDR', wave: 'x==x....', data: ['Reg B'] },
+          { name: 'ARVALID', wave: '01.0....' },
+          { name: 'ARREADY', wave: '0.10....' },
+          { name: 'RDATA', wave: 'xxxx==x.', data: ['0x1234_5678'] },
+          { name: 'RRESP', wave: 'xxxx=x..', data: ['OKAY'] },
+          { name: 'RVALID', wave: '0...10..' },
+          { name: 'RREADY', wave: '01......' }
+        ],
+        head: { text: 'AXI4-Lite Read Transaction (Single Data Item)', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axis_basic_transfer: {
+        signal: [
+          { name: 'ACLK', wave: 'p.......' },
+          { name: 'TDATA', wave: 'x====x..', data: ['D0', 'D1', 'D2', 'D3'] },
+          { name: 'TVALID', wave: '01....0.' },
+          { name: 'TREADY', wave: '01....0.' },
+          { name: 'TLAST', wave: '0....10.' }
+        ],
+        head: { text: 'AXI4-Stream Basic Transfer', tick: 0 },
+        config: { hscale: 1.2 }
+      },
+      axis_backpressure_stall: {
+        signal: [
+          { name: 'ACLK', wave: 'p.......' },
+          { name: 'TDATA', wave: 'x=...x..', data: ['Beat0'] },
+          { name: 'TVALID', wave: '01....0.' },
+          { name: 'TREADY', wave: '0001....' }
+        ],
+        head: { text: 'AXI4-Stream Backpressure Stall', tick: 0 },
+        config: { hscale: 1.2 }
+      },
+      axis_tlast_packet: {
+        signal: [
+          { name: 'ACLK', wave: 'p.......' },
+          { name: 'TDATA', wave: 'x====x..', data: ['P0', 'P1', 'P2', 'P3'] },
+          { name: 'TKEEP', wave: 'x====x..', data: ['F', 'F', 'F', '3'] },
+          { name: 'TVALID', wave: '01....0.' },
+          { name: 'TREADY', wave: '01....0.' },
+          { name: 'TLAST', wave: '0....10.' }
+        ],
+        head: { text: 'AXI4-Stream Packet End with TLAST', tick: 0 },
+        config: { hscale: 1.2 }
+      },
+      axi_full_write_dependency: {
+        signal: [
+          { name: 'ACLK', wave: 'p.........' },
+          { name: 'AWADDR', wave: 'x==x......', data: ['A0'] },
+          { name: 'AWLEN', wave: 'x==x......', data: ['2'] },
+          { name: 'AWSIZE', wave: 'x==x......', data: ['4B'] },
+          { name: 'AWVALID', wave: '01.0......' },
+          { name: 'AWREADY', wave: '0.10......' },
+          { name: 'WDATA', wave: 'xxx===x...', data: ['D0', 'D1', 'D2'] },
+          { name: 'WSTRB', wave: 'xxx===x...', data: ['F', 'F', '3'] },
+          { name: 'WVALID', wave: '0001..0...' },
+          { name: 'WREADY', wave: '0001..0...' },
+          { name: 'WLAST', wave: '0000010...' },
+          { name: 'BRESP', wave: 'xxxxxxx=x.', data: ['OK'] },
+          { name: 'BVALID', wave: '000000010.' },
+          { name: 'BREADY', wave: '01........' }
+        ],
+        head: { text: 'Write Dep', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_full_read_dependency: {
+        signal: [
+          { name: 'ACLK', wave: 'p.........' },
+          { name: 'ARADDR', wave: 'x==x......', data: ['A0'] },
+          { name: 'ARLEN', wave: 'x==x......', data: ['2'] },
+          { name: 'ARSIZE', wave: 'x==x......', data: ['8B'] },
+          { name: 'ARVALID', wave: '01.0......' },
+          { name: 'ARREADY', wave: '0.10......' },
+          { name: 'RID', wave: 'xxxx===x..', data: ['0', '0', '0'] },
+          { name: 'RDATA', wave: 'xxxx===x..', data: ['Q0', 'Q1', 'Q2'] },
+          { name: 'RRESP', wave: 'xxxx===x..', data: ['OK', 'OK', 'OK'] },
+          { name: 'RVALID', wave: '00001..0..' },
+          { name: 'RREADY', wave: '01........' },
+          { name: 'RLAST', wave: '00000010..' }
+        ],
+        head: { text: 'Read Dep', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_full_write_backpressure: {
+        signal: [
+          { name: 'ACLK', wave: 'p...........' },
+          { name: 'AWADDR', wave: 'x==x........', data: ['A0'] },
+          { name: 'AWVALID', wave: '01.0........' },
+          { name: 'AWREADY', wave: '0.10........' },
+          { name: 'WDATA', wave: 'xxx=....x...', data: ['D0'] },
+          { name: 'WSTRB', wave: 'xxx=....x...', data: ['F'] },
+          { name: 'WVALID', wave: '0001....0...' },
+          { name: 'WREADY', wave: '000000010...' },
+          { name: 'WLAST', wave: '0001....0...' },
+          { name: 'BRESP', wave: 'xxxxxxxxx=x.', data: ['OK'] },
+          { name: 'BVALID', wave: '00000000010.' },
+          { name: 'BREADY', wave: '01..........' }
+        ],
+        head: { text: 'W Stall', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_full_read_backpressure: {
+        signal: [
+          { name: 'ACLK', wave: 'p...........' },
+          { name: 'ARADDR', wave: 'x==x........', data: ['A0'] },
+          { name: 'ARVALID', wave: '01.0........' },
+          { name: 'ARREADY', wave: '0.10........' },
+          { name: 'RID', wave: 'xxxx=...x...', data: ['7'] },
+          { name: 'RDATA', wave: 'xxxx=...x...', data: ['Q0'] },
+          { name: 'RRESP', wave: 'xxxx=...x...', data: ['OK'] },
+          { name: 'RVALID', wave: '00001...0...' },
+          { name: 'RREADY', wave: '000000010...' },
+          { name: 'RLAST', wave: '00001...0...' }
+        ],
+        head: { text: 'R Stall', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_full_write_burst: {
+        signal: [
+          { name: 'ACLK', wave: 'p...........' },
+          { name: 'AWADDR', wave: 'x==x........', data: ['A0'] },
+          { name: 'AWLEN', wave: 'x==x........', data: ['3'] },
+          { name: 'AWSIZE', wave: 'x==x........', data: ['4B'] },
+          { name: 'AWBURST', wave: 'x==x........', data: ['INCR'] },
+          { name: 'AWVALID', wave: '01.0........' },
+          { name: 'AWREADY', wave: '0.10........' },
+          { name: 'WDATA', wave: 'xxx====x....', data: ['D0', 'D1', 'D2', 'D3'] },
+          { name: 'WSTRB', wave: 'xxx====x....', data: ['F', 'F', 'F', 'F'] },
+          { name: 'WVALID', wave: '0001...0....' },
+          { name: 'WREADY', wave: '0001...0....' },
+          { name: 'WLAST', wave: '00000010....' },
+          { name: 'BRESP', wave: 'xxxxxxxx=x..', data: ['OK'] },
+          { name: 'BVALID', wave: '0000000010..' },
+          { name: 'BREADY', wave: '01..........' }
+        ],
+        head: { text: 'Write Burst', tick: 0 },
+        config: { hscale: 1.02 }
+      },
+      axi_full_read_burst: {
+        signal: [
+          { name: 'ACLK', wave: 'p...........' },
+          { name: 'ARADDR', wave: 'x==x........', data: ['A0'] },
+          { name: 'ARLEN', wave: 'x==x........', data: ['2'] },
+          { name: 'ARSIZE', wave: 'x==x........', data: ['8B'] },
+          { name: 'ARBURST', wave: 'x==x........', data: ['INCR'] },
+          { name: 'ARVALID', wave: '01.0........' },
+          { name: 'ARREADY', wave: '0.10........' },
+          { name: 'RID', wave: 'xxxx===x....', data: ['4', '4', '4'] },
+          { name: 'RDATA', wave: 'xxxx===x....', data: ['Q0', 'Q1', 'Q2'] },
+          { name: 'RRESP', wave: 'xxxx===x....', data: ['OK', 'OK', 'OK'] },
+          { name: 'RVALID', wave: '00001..0....' },
+          { name: 'RREADY', wave: '01..........' },
+          { name: 'RLAST', wave: '00000010....' }
+        ],
+        head: { text: 'Read Burst', tick: 0 },
+        config: { hscale: 1.02 }
+      },
+      axi_full_write_data_first: {
+        signal: [
+          { name: 'ACLK', wave: 'p.........' },
+          { name: 'WDATA', wave: 'x==x......', data: ['D0'] },
+          { name: 'WSTRB', wave: 'x==x......', data: ['F'] },
+          { name: 'WVALID', wave: '01.0......' },
+          { name: 'WREADY', wave: '0.10......' },
+          { name: 'WLAST', wave: '0.10......' },
+          { name: 'AWADDR', wave: 'xxxx==x...', data: ['A0'] },
+          { name: 'AWVALID', wave: '00001.0...' },
+          { name: 'AWREADY', wave: '0000.10...' },
+          { name: 'BRESP', wave: 'xxxxxxx=x.', data: ['OK'] },
+          { name: 'BVALID', wave: '00000010..' },
+          { name: 'BREADY', wave: '01........' }
+        ],
+        head: { text: 'Leading W', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_full_read_id_order: {
+        signal: [
+          { name: 'ACLK', wave: 'p...........' },
+          { name: 'ARID', wave: 'x=x=x=x.....', data: ['0', '1', '0'] },
+          { name: 'ARADDR', wave: 'x=x=x=x.....', data: ['A', 'B', 'C'] },
+          { name: 'ARVALID', wave: '0101010.....' },
+          { name: 'ARREADY', wave: '0101010.....' },
+          { name: 'RID', wave: 'xxxx=x=x=x..', data: ['1', '0', '0'] },
+          { name: 'RDATA', wave: 'xxxx=x=x=x..', data: ['B0', 'A0', 'C0'] },
+          { name: 'RVALID', wave: '0000101010..' },
+          { name: 'RREADY', wave: '01..........' },
+          { name: 'RLAST', wave: '0000101010..' }
+        ],
+        head: { text: 'ID Order', tick: 0 },
+        config: { hscale: 1.05 }
+      },
+      axi_full_reset_release: {
+        signal: [
+          { name: 'ACLK', wave: 'p.........' },
+          { name: 'ARESETn', wave: '0.1.......' },
+          { name: 'AWVALID', wave: '0..10.....' },
+          { name: 'WVALID', wave: '0...10....' },
+          { name: 'ARVALID', wave: '0..10.....' },
+          { name: 'BVALID', wave: '0.....10..' },
+          { name: 'RVALID', wave: '0.....10..' }
+        ],
+        head: { text: 'Reset', tick: 0 },
+        config: { hscale: 1.08 }
+      },
+      axi_full_axi3_write_response: {
+        signal: [
+          { name: 'ACLK', wave: 'p.........' },
+          { name: 'WDATA', wave: 'x==x......', data: ['D0'] },
+          { name: 'WVALID', wave: '01.0......' },
+          { name: 'WREADY', wave: '0.10......' },
+          { name: 'WLAST', wave: '0.10......' },
+          { name: 'AWADDR', wave: 'xxxx==x...', data: ['A0'] },
+          { name: 'AWVALID', wave: '00001.0...' },
+          { name: 'AWREADY', wave: '0000.10...' },
+          { name: 'BRESP', wave: 'xxxxx=x...', data: ['OK'] },
+          { name: 'BVALID', wave: '0000010...' },
+          { name: 'BREADY', wave: '01........' }
+        ],
+        head: { text: 'AXI3 B', tick: 0 },
+        config: { hscale: 1.08 }
+      }
+    };
+
+    const axiLiteSingleWaveMeta = {
+      axi_lite_write_single: {
+        kicker: 'Single Write',
+        title: 'Write transaction: single data item',
+        description: '<code>AW</code>와 <code>W</code> 채널은 독립적으로 handshake될 수 있고, 두 채널이 모두 수락된 뒤 <code>BVALID</code> 응답이 반환됩니다.',
+      },
+      axi_lite_read_single: {
+        kicker: 'Single Read',
+        title: 'Read transaction: single data item',
+        description: '<code>AR</code> 주소가 먼저 수락된 뒤 slave가 <code>RDATA</code>/<code>RRESP</code>를 내보내며, <code>RVALID</code>와 <code>RREADY</code>가 동시에 HIGH일 때 read가 완료됩니다.',
+      },
+    };
+
+    const axiStreamTimingWaveMeta = {
+      axis_basic_transfer: {
+        kicker: 'Transfer',
+        title: 'Basic TVALID / TREADY transfer',
+        description: 'source와 sink가 모두 준비되면 매 cycle마다 1 beat씩 수락되며, 주소 채널 없이 payload가 바로 진행됩니다.',
+      },
+      axis_backpressure_stall: {
+        kicker: 'Backpressure',
+        title: 'Stall while TREADY is LOW',
+        description: '<code>TREADY</code>가 LOW인 동안 source는 <code>TVALID</code>와 현재 <code>TDATA</code>를 유지한 채 기다리며, ready가 복귀한 에지에서 transfer가 재개됩니다.',
+      },
+      axis_tlast_packet: {
+        kicker: 'Packet End',
+        title: 'TLAST packet boundary',
+        description: '마지막 beat에서 <code>TLAST</code>가 packet 종료를 표시하고, <code>TKEEP</code>는 마지막 beat의 유효 byte 범위를 함께 설명할 수 있습니다.',
+      },
+    };
+
+    const axiFullTimingWaveMeta = {
+      axi_full_write_dependency: {
+        kicker: 'Write Dependency',
+        title: 'AXI4 BRESP after AW + final W',
+        description: '<code>BVALID</code>는 AXI4에서 write address와 마지막 write data beat가 모두 수락된 뒤에만 올라올 수 있습니다.',
+        points: [
+          '<code>AWVALID</code>와 <code>WVALID</code>는 각각 READY를 기다리지 않고 독립적으로 나와야 합니다.',
+          'AXI4/AXI5 write response는 address acceptance까지 끝난 뒤에만 가능합니다.',
+          '하나의 <code>BRESP</code>는 burst 전체 결과를 대표합니다.'
+        ]
+      },
+      axi_full_read_dependency: {
+        kicker: 'Read Dependency',
+        title: 'AXI4 RVALID after AR',
+        description: '<code>RVALID</code>는 read address가 수락된 뒤에만 생성될 수 있고, read data channel의 payload는 <code>RVALID</code>와 함께 유효해야 합니다.',
+        points: [
+          '<code>ARVALID</code>는 master가 먼저 구동합니다.',
+          '<code>RVALID</code>가 올라오면 <code>RDATA</code>, <code>RRESP</code>, <code>RID</code>가 함께 유효해야 합니다.',
+          '마지막 beat에서는 <code>RLAST</code>가 반드시 함께 올라와야 합니다.'
+        ]
+      },
+      axi_full_write_backpressure: {
+        kicker: 'Write Backpressure',
+        title: 'W channel holds during stall',
+        description: '<code>WVALID</code>가 HIGH인데 <code>WREADY</code>가 LOW이면 master는 <code>WDATA</code>, <code>WSTRB</code>, <code>WLAST</code>를 안정적으로 유지해야 합니다.',
+        points: [
+          '<code>WVALID</code>는 <code>WREADY</code>를 기다린 뒤에야 올라오는 구조가 되면 안 됩니다.',
+          'stall 동안 write data/control 정보는 같은 beat를 가리켜야 합니다.',
+          'single-beat write라도 <code>WLAST</code>는 해당 beat와 함께 유지됩니다.'
+        ]
+      },
+      axi_full_read_backpressure: {
+        kicker: 'Read Backpressure',
+        title: 'R channel holds during stall',
+        description: '<code>RVALID</code>가 HIGH인데 <code>RREADY</code>가 LOW이면 slave는 read data beat를 유지하고, handshake가 된 뒤 다음 상태로 넘어갑니다.',
+        points: [
+          '<code>RVALID</code>는 master의 <code>RREADY</code> 선행 여부와 독립적으로 assert될 수 있어야 합니다.',
+          '<code>RDATA</code>, <code>RRESP</code>, <code>RID</code>, <code>RLAST</code>는 stall 동안 한 beat로 고정됩니다.',
+          'master는 준비가 되면 <code>RREADY</code>를 올려 해당 beat를 수락합니다.'
+        ]
+      },
+      axi_full_write_burst: {
+        kicker: 'Write Burst',
+        title: 'One AW, many W beats',
+        description: 'AXI4 write burst는 주소를 한 번만 보내고, <code>WDATA</code>를 여러 beat로 전송한 뒤 burst 전체에 대해 <code>BRESP</code>를 한 번 받습니다.',
+        points: [
+          '<code>AWLEN=3</code>은 총 4 beats 전송을 뜻합니다.',
+          '<code>WLAST</code>는 마지막 beat에서만 HIGH가 됩니다.',
+          '어느 beat에서 에러가 나더라도 slave는 burst를 끝까지 받은 뒤 최종 <code>BRESP</code>를 반환합니다.'
+        ]
+      },
+      axi_full_read_burst: {
+        kicker: 'Read Burst',
+        title: 'One AR, many R beats',
+        description: 'read burst에서는 <code>AR</code>가 한 번 수락된 뒤, slave가 각 beat마다 <code>RDATA</code>와 <code>RRESP</code>를 함께 반환하고 마지막에서 <code>RLAST</code>를 표시합니다.',
+        points: [
+          '<code>ARLEN=2</code>는 총 3 beats 반환을 의미합니다.',
+          'read는 <code>RRESP</code>가 beat마다 붙고, write처럼 별도 B 채널 응답을 쓰지 않습니다.',
+          '도중에 error가 보고돼도 burst 길이 자체는 끝까지 유지됩니다.'
+        ]
+      },
+      axi_full_write_data_first: {
+        kicker: 'Leading Write Data',
+        title: 'W channel can lead AW',
+        description: 'AXI는 채널 간 고정 타이밍 관계를 정의하지 않기 때문에, interface 상에서는 <code>W</code> 채널이 <code>AW</code>보다 먼저 보일 수 있습니다.',
+        points: [
+          '이 동작은 AXI 프로토콜상 허용되며, interconnect가 필요하면 AW/W를 내부에서 realign해야 합니다.',
+          '선행 write data가 있어도 최종 write response는 address acceptance까지 끝난 뒤에만 가능합니다.',
+          '실제 RTL에서는 destination decode가 address에 의존한다면 write data buffering이 필요합니다.'
+        ]
+      },
+      axi_full_read_id_order: {
+        kicker: 'ID Ordering',
+        title: 'Same RID stays ordered',
+        description: '예시에서는 ID 1의 응답이 ID 0보다 먼저 돌아오지만, 같은 ID 0으로 발행된 A와 C는 요청된 순서를 유지해 A 뒤에 C가 반환됩니다.',
+        points: [
+          '서로 다른 ID 사이에는 read return order 제한이 없습니다.',
+          '같은 ID는 요청 순서대로 complete되어야 하므로 C가 A를 추월하면 안 됩니다.',
+          'master는 <code>RID</code>를 보고 response matching과 reorder handling을 수행합니다.'
+        ]
+      },
+      axi_full_reset_release: {
+        kicker: 'Reset',
+        title: 'VALID low until reset release',
+        description: '<code>ARESETn</code>이 assert된 동안 master VALID 신호는 LOW여야 하며, reset 해제는 <code>ACLK</code> 상승 에지에 동기화해서 정상 transaction을 시작합니다.',
+        points: [
+          'reset 중 <code>ARVALID</code>, <code>AWVALID</code>, <code>WVALID</code>는 LOW로 유지합니다.',
+          'reset 해제 뒤 첫 valid transfer는 clock edge 기준으로 정렬합니다.',
+          'slave response VALID도 reset 이후 정상 request 흐름에 맞춰 생성됩니다.'
+        ]
+      },
+      axi_full_axi3_write_response: {
+        kicker: 'AXI3 Contrast',
+        title: 'AXI3 BRESP dependency differs',
+        description: 'AXI3에서는 legacy write response dependency를 비교용으로 보여줍니다. AXI4/AXI5에서는 같은 RTL로 구현하면 안 되고, address acceptance까지 기다려야 합니다.',
+        points: [
+          'AXI3 diagram은 마지막 W beat 이후 response가 가능했던 과거 규칙을 설명하기 위한 비교 예시입니다.',
+          'AXI4/AXI5 설계에서는 <code>AW</code>와 마지막 <code>W</code> 모두 수락된 뒤 <code>BVALID</code>를 올립니다.',
+          '프로젝트가 AXI4 기반이면 이 버튼은 legacy 차이를 이해하는 용도로만 보면 됩니다.'
+        ]
+      }
+    };
+
+    const axiLiteSingleRefs = {
+      buttons: Array.from(document.querySelectorAll('.axi-lite-single-btn')),
+      kicker: document.getElementById('axi-lite-single-kicker'),
+      title: document.getElementById('axi-lite-single-title'),
+      description: document.getElementById('axi-lite-single-description'),
+    };
+
+    const axiStreamTimingRefs = {
+      buttons: Array.from(document.querySelectorAll('.axi-stream-timing-btn')),
+      kicker: document.getElementById('axi-stream-timing-kicker'),
+      title: document.getElementById('axi-stream-timing-title'),
+      description: document.getElementById('axi-stream-timing-description'),
+    };
+
+    const axiFullTimingRefs = {
+      buttons: Array.from(document.querySelectorAll('.axi-full-timing-btn')),
+      kicker: document.getElementById('axi-full-timing-kicker'),
+      title: document.getElementById('axi-full-timing-title'),
+      description: document.getElementById('axi-full-timing-description'),
+      points: document.getElementById('axi-full-timing-points'),
+      footnote: document.getElementById('axi-full-timing-footnote'),
+    };
+
+    const axiLiteDependencyRefs = {
+      buttons: Array.from(document.querySelectorAll('.axi-lite-dep-btn')),
+      panels: Array.from(document.querySelectorAll('[data-axi-lite-dep-panel]')),
+    };
+
+    let activeAxiLiteSingleWave = 'axi_lite_write_single';
+    let activeAxiStreamTimingWave = 'axis_basic_transfer';
+    let activeAxiFullTimingWave = 'axi_full_write_dependency';
+    let activeAxiLiteDependencyPanel = 'write';
+
+    function formatHex(value) {
+      return `0x${value.toString(16).toUpperCase()}`;
+    }
+
+    function createIncrAddresses(start, beats, step) {
+      return Array.from({ length: beats }, (_, index) => formatHex(start + (index * step)));
+    }
+
+    function createWrapAddresses(start, beats, step) {
+      const windowSize = beats * step;
+      const base = Math.floor(start / windowSize) * windowSize;
+      return Array.from({ length: beats }, (_, index) => {
+        const offset = (start - base + (index * step)) % windowSize;
+        return formatHex(base + offset);
+      });
+    }
+
+    function createAhbTransferPairWave({ title, hsizeLabel, hburstLabel, addrA, addrB }) {
+      return {
+        signal: [
+          { name: 'HCLK', wave: 'p.......' },
+          { name: 'HADDR', wave: 'x==x....', data: [addrA, addrB] },
+          { name: 'HWRITE', wave: 'x10x....' },
+          { name: 'HSIZE', wave: 'x22x....', data: [hsizeLabel, hsizeLabel] },
+          { name: 'HBURST', wave: 'x22x....', data: [hburstLabel, hburstLabel] },
+          { name: 'HTRANS', wave: 'x==x....', data: ['NONSEQ', 'NONSEQ'] },
+          { name: 'HWDATA', wave: 'xx=x....', data: [`WData ${hsizeLabel}`] },
+          { name: 'HRDATA', wave: 'xxx=....', data: [`RData ${hsizeLabel}`] },
+          { name: 'HREADY', wave: '1.......' }
+        ],
+        head: { text: title, tick: 0 },
+        config: { hscale: 1.5 }
+      };
+    }
+
+    function createAhbSingleBurstWave({ title, hsizeLabel, hburstLabel, address }) {
+      return {
+        signal: [
+          { name: 'HCLK', wave: 'p.....' },
+          { name: 'HADDR', wave: 'x=x...' , data: [address] },
+          { name: 'HWRITE', wave: 'x1x...' },
+          { name: 'HSIZE', wave: 'x2x...', data: [hsizeLabel] },
+          { name: 'HBURST', wave: 'x2x...', data: [hburstLabel] },
+          { name: 'HTRANS', wave: 'x=x...', data: ['NONSEQ'] },
+          { name: 'HWDATA', wave: 'xx=x..', data: [`D(${address})`] },
+          { name: 'HREADY', wave: '1.....' }
+        ],
+        head: { text: title, tick: 0 },
+        config: { hscale: 1.5 }
+      };
+    }
+
+    function createAhbBurstWave({ title, hsizeLabel, hburstLabel, addresses }) {
+      const beats = addresses.length;
+      const hclkWave = `p${'.'.repeat(beats + 3)}`;
+      const addrWave = `x${'='.repeat(beats)}xx.`;
+      const scalarWave = `x2${'.'.repeat(Math.max(beats - 1, 0))}xx.`;
+      const transWave = `x${'='.repeat(beats)}xx.`;
+      const dataWave = `xx${'='.repeat(beats)}x.`;
+      const readyWave = `1${'.'.repeat(beats + 3)}`;
+      const dataLabels = addresses.map((_, index) => `D${index}`);
+      const hscale = beats >= 16 ? 2.6 : beats >= 8 ? 2.2 : 1.8;
+      const diagramMinWidth = beats >= 16 ? 2600 : beats >= 8 ? 1800 : 1320;
+
+      return {
+        signal: [
+          { name: 'HCLK', wave: hclkWave },
+          { name: 'HADDR', wave: addrWave, data: addresses },
+          { name: 'HWRITE', wave: `x1${'.'.repeat(Math.max(beats - 1, 0))}xx.` },
+          { name: 'HSIZE', wave: scalarWave, data: [hsizeLabel] },
+          { name: 'HBURST', wave: scalarWave, data: [hburstLabel] },
+          { name: 'HTRANS', wave: transWave, data: ['NONSEQ', ...Array.from({ length: Math.max(beats - 1, 0) }, () => 'SEQ')] },
+          { name: 'HWDATA', wave: dataWave, data: dataLabels },
+          { name: 'HREADY', wave: readyWave }
+        ],
+        head: { text: title, tick: 0 },
+        config: { hscale, diagramMinWidth }
+      };
+    }
+
+    const ahbHsizeExamples = [
+      { key: 'ahb_hsize_byte', code: '000', label: 'BYTE', bits: 8, bytes: 1 },
+      { key: 'ahb_hsize_halfword', code: '001', label: 'HALFWORD', bits: 16, bytes: 2 },
+      { key: 'ahb_hsize_word', code: '010', label: 'WORD', bits: 32, bytes: 4 },
+      { key: 'ahb_hsize_doubleword', code: '011', label: 'DOUBLEWORD', bits: 64, bytes: 8 },
+      { key: 'ahb_hsize_128', code: '100', label: '128-bit', bits: 128, bytes: 16 },
+      { key: 'ahb_hsize_256', code: '101', label: '256-bit', bits: 256, bytes: 32 },
+      { key: 'ahb_hsize_512', code: '110', label: '512-bit', bits: 512, bytes: 64 },
+      { key: 'ahb_hsize_1024', code: '111', label: '1024-bit', bits: 1024, bytes: 128 }
+    ];
+
+    const ahbBurstExamples = [
+      { key: 'ahb_burst_single', code: '000', label: 'SINGLE', kind: 'single', beats: 1, start: 0x1000 },
+      { key: 'ahb_burst_incr', code: '001', label: 'INCR', kind: 'incr', beats: 6, start: 0x40 },
+      { key: 'ahb_wrap4', code: '010', label: 'WRAP4', kind: 'wrap', beats: 4, start: 0x38 },
+      { key: 'ahb_incr4', code: '011', label: 'INCR4', kind: 'incr', beats: 4, start: 0x38 },
+      { key: 'ahb_burst_wrap8', code: '100', label: 'WRAP8', kind: 'wrap', beats: 8, start: 0x58 },
+      { key: 'ahb_burst_incr8', code: '101', label: 'INCR8', kind: 'incr', beats: 8, start: 0x40 },
+      { key: 'ahb_burst_wrap16', code: '110', label: 'WRAP16', kind: 'wrap', beats: 16, start: 0x78 },
+      { key: 'ahb_burst_incr16', code: '111', label: 'INCR16', kind: 'incr', beats: 16, start: 0x40 }
+    ];
+
+    Object.assign(
+      waveData,
+      Object.fromEntries(
+        ahbHsizeExamples.map((example) => [
+          example.key,
+          createAhbTransferPairWave({
+            title: `AHB HSIZE ${example.label} Example (${example.bits}-bit)`,
+            hsizeLabel: example.label,
+            hburstLabel: 'SINGLE',
+            addrA: formatHex(0x1000),
+            addrB: formatHex(0x1000 + example.bytes)
+          })
+        ])
+      ),
+      Object.fromEntries(
+        ahbBurstExamples.map((example) => {
+          if (example.kind === 'single') {
+            return [
+              example.key,
+              createAhbSingleBurstWave({
+                title: `AHB HBURST ${example.label} Example`,
+                hsizeLabel: 'WORD',
+                hburstLabel: example.label,
+                address: formatHex(example.start)
+              })
+            ];
+          }
+
+          const addresses = example.kind === 'wrap'
+            ? createWrapAddresses(example.start, example.beats, 4)
+            : createIncrAddresses(example.start, example.beats, 4);
+
+          const suffix = example.label === 'INCR'
+            ? ' (6 Beats Shown)'
+            : '';
+
+          return [
+            example.key,
+            createAhbBurstWave({
+              title: `AHB HBURST ${example.label} Example${suffix}`,
+              hsizeLabel: 'WORD',
+              hburstLabel: example.label,
+              addresses
+            })
+          ];
+        })
+      )
+    );
+
+    const timingAnalysisData = {
+      apb: {
+        write_nowait: [
+          '<code>PSELx</code> 선행 활성화 뒤 <code>PENABLE</code> 1-cycle 지연 구조',
+          '<code>PADDR</code>·<code>PWRITE</code>·<code>PWDATA</code>의 SETUP 구간 유지 조건',
+          '<code>PREADY</code> HIGH 고정 상태의 2-cycle write 완료 패턴',
+          'ACCESS 종료 상승 에지의 write 데이터 샘플링 기준'
+        ],
+        write_wait: [
+          '<code>PENABLE</code> 유지 상태의 ACCESS 연장 구조',
+          '<code>PREADY</code> LOW 구간의 wait state 삽입 위치',
+          'wait 구간 전체의 address·control·data 유지 조건',
+          '<code>PREADY</code> HIGH 복귀 cycle의 전송 완료 판단'
+        ],
+        read_nowait: [
+          '<code>PWRITE=0</code> 기반 read transfer 식별 조건',
+          '<code>PRDATA</code> 유효 시점과 ACCESS 완료 에지 정렬',
+          '<code>PREADY</code> HIGH 고정 상태의 무지연 read 응답 구조',
+          'SETUP→ACCESS 2-cycle 기반의 read 반환 구조'
+        ],
+        read_wait: [
+          'slave read latency 반영용 ACCESS 확장 구조',
+          '<code>PRDATA</code> invalid 유지 구간과 valid 전환 cycle',
+          '<code>PREADY</code> HIGH 복귀 시점의 read data sampling 기준',
+          'wait 구간 전체의 control signal 유지 조건'
+        ],
+        error_response: [
+          '정상 transfer와 동일한 SETUP→ACCESS 기본 골격',
+          '<code>PREADY</code>·<code>PSLVERR</code> 동시 유효 기반 error completion',
+          'ACCESS 완료 cycle의 error 판정 시점',
+          '정상 완료와 오류 완료의 판별 기준'
+        ]
+      },
+      ahb: {
+        ahb_single: [
+          '<code>Address Phase</code> 선행, <code>Data Phase</code> 후행의 2단 파이프라인 구조',
+          '<code>HTRANS=NONSEQ</code> 기반 단일 전송 시작 조건',
+          '<code>HADDR</code>와 다음 cycle <code>HWDATA</code>/<code>HRDATA</code>의 대응 관계',
+          '<code>HREADY</code> HIGH 고정 상태의 무지연 완료 조건'
+        ],
+        ahb_incr4: [
+          '<code>HBURST=INCR4</code> 기반 선형 증가 주소 패턴',
+          '첫 beat <code>NONSEQ</code> 뒤 연속 <code>SEQ</code> 전개 구조',
+          'burst 주소와 write data beat의 1-cycle 오프셋 정렬',
+          '4-beat burst 경계와 다음 전송 연결 포인트'
+        ],
+        ahb_wrap4: [
+          '<code>HBURST=WRAP4</code> 기반 wrapping 주소 패턴',
+          'wrap boundary 도달 뒤 시작 경계 복귀 구조',
+          'cache line aligned burst 판독용 주소 순환 관계',
+          '<code>SEQ</code> 유지 상태의 연속 beat 진행 구조'
+        ],
+        ahb_burst_wait: [
+          '<code>HREADY</code> LOW 구간의 data phase stall 삽입',
+          '현재 data phase와 다음 address phase의 동시 정지 구조',
+          'stall 구간 전체의 address·control·data 유지 조건',
+          '<code>HREADY</code> HIGH 복귀 cycle의 burst 재개 기준'
+        ],
+        ahb_error_response: [
+          'ARM IHI 0011A Figure 3-14 기준: slave가 먼저 1-cycle <code>OKAY</code> wait를 넣은 뒤 two-cycle <code>ERROR</code>로 transfer를 종료',
+          '<code>HREADY</code> LOW 동안 write data phase가 유지되고, 마지막 <code>ERROR</code> cycle에서 <code>HREADY</code>가 HIGH로 올라오며 종료됨',
+          '<code>ERROR</code>는 현재 transfer 실패를 의미하므로 이후 burst continuation은 master가 선택적으로 중단 또는 지속 가능',
+          '파이프라인 구조상 error 판정은 이미 시작된 data phase에서 돌아오므로 응답 타이밍은 address phase보다 한 박자 늦게 보임'
+        ],
+        ahb_retry_response: [
+          'ARM IHI 0011A Figure 3-13 기준의 two-cycle <code>RETRY</code> 응답 예시',
+          'slave가 <code>RETRY</code>를 내면 이미 broadcast된 다음 주소 <code>A+4</code>는 취소되고, master는 <code>HTRANS=IDLE</code>로 되돌려 파이프라인을 비움',
+          '그 다음 동일 전송을 다시 <code>NONSEQ</code>로 재구동해 <code>A</code>를 재시도하며, 완료될 때까지 반복 가능',
+          '이 예시는 classic multi-master AHB response 동작을 보여주며, bus back-off와 재시도 관계를 이해할 때 핵심이 됨'
+        ]
+      },
+      ahbArb: {
+        ahbarb_grant_nowait: [
+          'ARM IHI 0011A Figure 3-15 기준의 zero wait-state arbitration 예시',
+          '<code>HBUSREQ</code> 요청 뒤 arbiter가 <code>HGRANT</code>를 올리고, <code>HREADY</code>가 HIGH인 상태에서 즉시 소유권 전환',
+          '<code>HMASTER</code>가 새 마스터 번호로 갱신된 직후 <code>HTRANS=NONSEQ</code> address phase 시작',
+          'wait state가 없으므로 address phase와 write data phase가 연속적으로 이어짐'
+        ],
+        ahbarb_grant_wait: [
+          'ARM IHI 0011A Figure 3-16 기준의 wait-state arbitration 예시',
+          '<code>HGRANT</code>가 먼저 유효해도 <code>HREADY</code>가 LOW이면 실제 handover가 지연됨',
+          '<code>HMASTER</code> 갱신과 address sampling은 <code>HREADY</code>가 HIGH로 복귀한 뒤에 진행',
+          '따라서 wait state는 grant latency보다 실제 bus ownership latency를 더 크게 만듦'
+        ],
+        ahbarb_handover: [
+          'ARM IHI 0011A Figure 3-17의 data bus ownership 개념을 기준으로 재구성',
+          'address/control bus ownership은 새 master로 먼저 넘어가도 data bus ownership은 직전 transfer 완료까지 유지됨',
+          '그래서 <code>HADDR=B</code>가 보이더라도 같은 구간에서 <code>HWDATA(A+12)</code>가 아직 master 1 데이터일 수 있음',
+          'AHB 파이프라인 특성상 address/control handover와 data handover는 1 phase 늦게 분리되어 보인다'
+        ]
+      },
+      axi: {
+        axi_valid_before: [
+          'source 선행 구동형 <code>VALID</code> 준비 구조',
+          '<code>READY</code> 대기 구간의 information 유지 조건',
+          'backpressure 흡수용 <code>VALID</code> 유지 구간',
+          '<code>VALID</code>·<code>READY</code> 동시 성립 에지의 전송 완료 기준'
+        ],
+        axi_ready_before: [
+          'destination 선행 구동형 <code>READY</code> 준비 구조',
+          '<code>VALID</code> 도착 직후의 zero-wait handshake 가능 상태',
+          'idle 구간의 ready pre-assertion 패턴',
+          '첫 simultaneous HIGH 에지의 전송 수용 기준'
+        ],
+        axi_concurrent: [
+          'same-cycle assertion 기반의 최소 지연 handshake',
+          'information valid와 acceptance의 동시 성립 구조',
+          'channel utilization 극대화 기준 파형',
+          '최소 latency 기준 패턴'
+        ]
+      }
+    };
+
+    Object.assign(
+      timingAnalysisData.ahb,
+      {
+        ahb_incr4: [
+          '<code>HBURST=011</code> 기반 4-beat incrementing burst 구조',
+          '<code>NONSEQ→SEQ→SEQ→SEQ</code> 전개의 고정 길이 burst 패턴',
+          '4Byte stride 기준의 선형 주소 증가 관계',
+          '4번째 beat 종료 시점의 burst completion 기준'
+        ],
+        ahb_wrap4: [
+          '<code>HBURST=010</code> 기반 4-beat wrapping burst 구조',
+          '16Byte wrap boundary 기준의 주소 순환 패턴',
+          'wrap boundary 도달 뒤 시작 경계 복귀 관계',
+          'cache line aligned transfer 판독 기준'
+        ]
+      },
+      Object.fromEntries(
+        ahbHsizeExamples.map((example) => [
+          example.key,
+          [
+            `<code>HSIZE=${example.code}</code> 기반 ${example.label} 전송 크기 정의`,
+            `${example.bytes}Byte 단위 주소 증가 기준`,
+            `${example.bytes}Byte 경계 기준의 주소 정렬 포인트`,
+            '<code>HBURST=SINGLE</code> 조건의 단일 전송 타이밍 기준'
+          ]
+        ])
+      ),
+      Object.fromEntries(
+        ahbBurstExamples.map((example) => {
+          if (example.key === 'ahb_burst_single') {
+            return [
+              example.key,
+              [
+                '<code>HBURST=000</code> 기반 1-beat 단일 전송 구조',
+                '<code>HTRANS=NONSEQ</code> 단독 발생 조건',
+                '추가 <code>SEQ</code> beat 부재 상태의 burst 종료 관계',
+                '단일 beat 완료 뒤 다음 전송 재개 기준'
+              ]
+            ];
+          }
+
+          if (example.key === 'ahb_burst_incr') {
+            return [
+              example.key,
+              [
+                '<code>HBURST=001</code> 기반 incrementing burst 예시',
+                '표시 구간 6-beat 기준의 선형 주소 증가 패턴',
+                '<code>NONSEQ</code> 뒤 연속 <code>SEQ</code> 전개 구조',
+                '고정 경계 복귀 없는 가변 길이 burst 기준'
+              ]
+            ];
+          }
+
+          const wrapBoundary = example.beats * 4;
+          const isWrap = example.kind === 'wrap';
+          return [
+            example.key,
+            [
+              `<code>HBURST=${example.code}</code> 기반 ${example.label} burst 구조`,
+              `${example.beats}-beat 고정 길이 burst 전개`,
+              isWrap
+                ? `${wrapBoundary}Byte wrap boundary 기준의 주소 순환 패턴`
+                : '4Byte stride 기준의 선형 주소 증가 패턴',
+              isWrap
+                ? 'wrap boundary 도달 뒤 시작 경계 복귀 관계'
+                : `제${example.beats} beat 종료 시점의 burst completion 기준`
+            ]
+          ];
+        })
+      )
+    );
+
+    const internalArbiterRefs = {
+      req0: document.getElementById('arbiter-logic-req0'),
+      req1: document.getElementById('arbiter-logic-req1'),
+      gnt0: document.getElementById('arbiter-logic-gnt0'),
+      gnt1: document.getElementById('arbiter-logic-gnt1'),
+      win: document.getElementById('arbiter-logic-win'),
+      hmaster: document.getElementById('arbiter-logic-hmaster'),
+      master0: document.getElementById('arbiter-logic-master0'),
+      master1: document.getElementById('arbiter-logic-master1'),
+      master0State: document.getElementById('arbiter-logic-master0-state'),
+      master1State: document.getElementById('arbiter-logic-master1-state'),
+      txtReq0: document.getElementById('arbiter-logic-txt-req0'),
+      txtReq1: document.getElementById('arbiter-logic-txt-req1'),
+      txtGnt0: document.getElementById('arbiter-logic-txt-gnt0'),
+      txtGnt1: document.getElementById('arbiter-logic-txt-gnt1'),
+      txtWin: document.getElementById('arbiter-logic-txt-win'),
+      txtHmaster: document.getElementById('arbiter-logic-txt-hmaster'),
+      priorityBox: document.getElementById('arbiter-logic-priority-box'),
+      ctrlBox: document.getElementById('arbiter-logic-ctrl-box'),
+      mux: document.getElementById('arbiter-logic-mux'),
+      muxM0: document.getElementById('arbiter-logic-mux-m0'),
+      muxM1: document.getElementById('arbiter-logic-mux-m1'),
+      muxOut: document.getElementById('arbiter-logic-mux-out'),
+      desc: document.getElementById('arbiter-internal-desc'),
+      flowChips: Array.from(document.querySelectorAll('.arbiter-internal-flow-chip[data-flow-stage]')),
+      stepButtons: Array.from(document.querySelectorAll('[data-arbiter-step]')),
+    };
+    let internalArbiterStateIndex = 0;
+    let internalArbiterIntervalId = null;
+    let internalArbiterInitialized = false;
+    let internalArbiterSelectedStepIndex = 0;
+
+    function getSelectedWaveType(selector, fallbackType) {
+      const activeButton = document.querySelector(`${selector}[class*="bg-white"]`);
+      return activeButton?.getAttribute('data-wave') || fallbackType;
+    }
+
+    function setInternalArbiterLine(element, state = '') {
+      if (!element) return;
+      const mappedState = state === 'is-req'
+        ? 'signal-req'
+        : state === 'is-compare'
+          ? 'signal-req'
+          : state === 'is-gnt'
+            ? 'signal-gnt'
+            : state === 'is-master'
+              ? 'signal-master'
+              : '';
+      element.setAttribute('class', ['signal-line', mappedState].filter(Boolean).join(' '));
+    }
+
+    function setInternalArbiterMuxPath(element, isActive = false) {
+      if (!element) return;
+      element.setAttribute('class', `mux-path${isActive ? ' active' : ''}`);
+    }
+
+    function setInternalArbiterTextColor(element, color = '#64748B') {
+      if (!element) return;
+      element.style.fill = color;
+    }
+
+    function setInternalArbiterMasterTone(element, tone = '') {
+      if (!element) return;
+      element.classList.remove('is-requesting', 'is-granted');
+      if (tone) {
+        element.classList.add(`is-${tone}`);
+      }
+    }
+
+    function setInternalArbiterMasterStateText(element, text = 'IDLE') {
+      if (!element) return;
+      element.textContent = text;
+    }
+
+    function activateInternalArbiterBox(element, toneClass) {
+      if (!element) return;
+      element.classList.add('arbiter-internal-box-active', toneClass);
+      element.classList.add('arb-box-active');
+    }
+
+    function syncInternalArbiterFlowStages(activeStages = []) {
+      const stageSet = new Set(activeStages);
+      internalArbiterRefs.flowChips.forEach((chip) => {
+        chip.classList.toggle('is-active', stageSet.has(chip.dataset.flowStage));
+      });
+    }
+
+    function syncInternalArbiterStepButtons(activeStepIndex) {
+      internalArbiterRefs.stepButtons.forEach((button) => {
+        const buttonStep = Number(button.dataset.arbiterStep);
+        button.classList.toggle('is-active', buttonStep === activeStepIndex);
+        button.setAttribute('aria-pressed', String(buttonStep === activeStepIndex));
+      });
+    }
+
+    function resetInternalArbiterAnimation() {
+      if (!internalArbiterRefs.desc) return;
+
+      ['req0', 'req1', 'gnt0', 'gnt1', 'win', 'hmaster'].forEach((key) => {
+        setInternalArbiterLine(internalArbiterRefs[key]);
+      });
+      setInternalArbiterMuxPath(internalArbiterRefs.muxM0, false);
+      setInternalArbiterMuxPath(internalArbiterRefs.muxM1, false);
+      setInternalArbiterMasterTone(internalArbiterRefs.master0);
+      setInternalArbiterMasterTone(internalArbiterRefs.master1);
+      setInternalArbiterMasterStateText(internalArbiterRefs.master0State, 'IDLE');
+      setInternalArbiterMasterStateText(internalArbiterRefs.master1State, 'IDLE');
+      syncInternalArbiterFlowStages([]);
+
+      [internalArbiterRefs.priorityBox, internalArbiterRefs.ctrlBox].forEach((box) => {
+        box?.classList.remove('arbiter-internal-box-active', 'arb-box-active', 'is-priority', 'is-control');
+      });
+
+      internalArbiterRefs.mux?.classList.remove('is-active');
+      internalArbiterRefs.muxOut?.classList.remove('is-active');
+
+      [internalArbiterRefs.txtReq0, internalArbiterRefs.txtReq1, internalArbiterRefs.txtGnt0, internalArbiterRefs.txtGnt1, internalArbiterRefs.txtWin, internalArbiterRefs.txtHmaster]
+        .forEach((element) => setInternalArbiterTextColor(element));
+
+      if (internalArbiterRefs.txtWin) {
+        internalArbiterRefs.txtWin.textContent = 'Eval';
+      }
+
+      internalArbiterRefs.desc.className = 'arbiter-internal-desc';
+      internalArbiterRefs.desc.textContent = 'IDLE: 버스 요청 대기 중...';
+    }
+
+    function applyInternalArbiterAnimationStep(nextStep = 0) {
+      if (!internalArbiterRefs.desc) return;
+
+      internalArbiterStateIndex = ((nextStep % 5) + 5) % 5;
+      resetInternalArbiterAnimation();
+
+      switch (internalArbiterStateIndex) {
+        case 1:
+          syncInternalArbiterFlowStages(['request', 'compare']);
+          setInternalArbiterMasterTone(internalArbiterRefs.master0, 'requesting');
+          setInternalArbiterMasterStateText(internalArbiterRefs.master0State, 'REQ');
+          setInternalArbiterLine(internalArbiterRefs.req0, 'is-req');
+          setInternalArbiterLine(internalArbiterRefs.win, 'is-compare');
+          setInternalArbiterTextColor(internalArbiterRefs.txtReq0, '#F59E0B');
+          setInternalArbiterTextColor(internalArbiterRefs.txtWin, '#F59E0B');
+          if (internalArbiterRefs.txtWin) {
+            internalArbiterRefs.txtWin.textContent = 'M0 Win';
+          }
+          activateInternalArbiterBox(internalArbiterRefs.priorityBox, 'is-priority');
+          internalArbiterRefs.desc.className = 'arbiter-internal-desc is-request';
+          internalArbiterRefs.desc.textContent = '[Step 1] Master 0가 HBUSREQ0를 올리면 Priority Logic이 활성 요청을 비교해 winner를 M0로 결정합니다.';
+          break;
+        case 2:
+          syncInternalArbiterFlowStages(['grant', 'select']);
+          setInternalArbiterMasterTone(internalArbiterRefs.master0, 'granted');
+          setInternalArbiterMasterStateText(internalArbiterRefs.master0State, 'GNT');
+          setInternalArbiterLine(internalArbiterRefs.gnt0, 'is-gnt');
+          setInternalArbiterLine(internalArbiterRefs.hmaster, 'is-master');
+          setInternalArbiterTextColor(internalArbiterRefs.txtGnt0, '#22C55E');
+          setInternalArbiterTextColor(internalArbiterRefs.txtHmaster, '#3B82F6');
+          activateInternalArbiterBox(internalArbiterRefs.ctrlBox, 'is-control');
+          setInternalArbiterMuxPath(internalArbiterRefs.muxM0, true);
+          internalArbiterRefs.mux?.classList.add('is-active');
+          internalArbiterRefs.muxOut?.classList.add('is-active');
+          internalArbiterRefs.desc.className = 'arbiter-internal-desc is-grant';
+          internalArbiterRefs.desc.textContent = '[Step 2] Control FSM이 HGRANT0와 HMASTER=0을 출력하고 MUX가 Master 0 Addr/Data 경로를 연결합니다.';
+          break;
+        case 3:
+          syncInternalArbiterFlowStages(['request', 'compare']);
+          setInternalArbiterMasterTone(internalArbiterRefs.master1, 'requesting');
+          setInternalArbiterMasterStateText(internalArbiterRefs.master1State, 'REQ');
+          setInternalArbiterLine(internalArbiterRefs.req1, 'is-req');
+          setInternalArbiterLine(internalArbiterRefs.win, 'is-compare');
+          setInternalArbiterTextColor(internalArbiterRefs.txtReq1, '#F59E0B');
+          setInternalArbiterTextColor(internalArbiterRefs.txtWin, '#F59E0B');
+          if (internalArbiterRefs.txtWin) {
+            internalArbiterRefs.txtWin.textContent = 'M1 Win!';
+          }
+          activateInternalArbiterBox(internalArbiterRefs.priorityBox, 'is-priority');
+          internalArbiterRefs.desc.className = 'arbiter-internal-desc is-request';
+          internalArbiterRefs.desc.textContent = '[Step 3] Master 1의 HBUSREQ1이 들어오면 Priority Logic이 더 높은 우선순위를 감지해 winner를 M1로 갱신합니다.';
+          break;
+        case 4:
+          syncInternalArbiterFlowStages(['grant', 'select']);
+          setInternalArbiterMasterTone(internalArbiterRefs.master1, 'granted');
+          setInternalArbiterMasterStateText(internalArbiterRefs.master1State, 'GNT');
+          setInternalArbiterLine(internalArbiterRefs.gnt1, 'is-gnt');
+          setInternalArbiterLine(internalArbiterRefs.hmaster, 'is-master');
+          setInternalArbiterTextColor(internalArbiterRefs.txtGnt1, '#22C55E');
+          setInternalArbiterTextColor(internalArbiterRefs.txtHmaster, '#3B82F6');
+          activateInternalArbiterBox(internalArbiterRefs.ctrlBox, 'is-control');
+          setInternalArbiterMuxPath(internalArbiterRefs.muxM1, true);
+          internalArbiterRefs.mux?.classList.add('is-active');
+          internalArbiterRefs.muxOut?.classList.add('is-active');
+          internalArbiterRefs.desc.className = 'arbiter-internal-desc is-switch';
+          internalArbiterRefs.desc.textContent = '[Step 4] HGRANT1과 HMASTER=1이 적용되면 MUX 선택이 바뀌고 버스 소유권이 Master 1로 넘어갑니다.';
+          break;
+        default:
+          break;
+      }
+
+      syncInternalArbiterStepButtons(internalArbiterStateIndex);
+      window.setTimeout(syncPageHeight, 40);
+    }
+
+    function startInternalArbiterAnimation() {
+      if (!internalArbiterRefs.desc) return;
+      const cadence = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 3600 : 2800;
+      window.clearInterval(internalArbiterIntervalId);
+      internalArbiterIntervalId = window.setInterval(() => {
+        applyInternalArbiterAnimationStep(internalArbiterStateIndex + 1);
+      }, cadence);
+    }
+
+    function initializeInternalArbiterAnimation(restart = false, initialStep = internalArbiterSelectedStepIndex) {
+      if (!internalArbiterRefs.desc) return;
+      if (internalArbiterInitialized && !restart) return;
+
+      internalArbiterInitialized = true;
+      window.clearInterval(internalArbiterIntervalId);
+      internalArbiterSelectedStepIndex = ((Number(initialStep) || 0) % 5 + 5) % 5;
+      internalArbiterStateIndex = internalArbiterSelectedStepIndex;
+      applyInternalArbiterAnimationStep(internalArbiterSelectedStepIndex);
+      startInternalArbiterAnimation();
+    }
+
+    let axiFullControlMathRendered = false;
+    let cacheToggle = false;
+
+    function renderAxiFullControlMath(force = false) {
+      const root = document.querySelector('.axi-full-control-showcase');
+      if (!root || typeof renderMathInElement !== 'function') return;
+      if (axiFullControlMathRendered && !force) return;
+
+      renderMathInElement(root, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false },
+        ],
+        throwOnError: false,
+      });
+
+      axiFullControlMathRendered = true;
+      window.setTimeout(syncPageHeight, 40);
+    }
+
+    function showAxiFullControlMsg(id, text, duration = 2000, icon = '<i data-lucide="info" class="w-5 h-5 mb-1 opacity-70"></i>') {
+      const msg = document.getElementById(id);
+      if (!msg) return;
+
+      msg.innerHTML = `${icon}<br>${text}`;
+      lucide.createIcons({ root: msg });
+      msg.style.opacity = 1;
+      msg.style.transform = 'translate(-50%, -50%) scale(1.1)';
+
+      window.setTimeout(() => {
+        msg.style.opacity = 0;
+        msg.style.transform = 'translate(-50%, -50%) scale(0.95)';
+      }, duration);
+    }
+
+    const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+    let lockAnimationRunning = false;
+
+    async function runLock() {
+      if (lockAnimationRunning) return;
+
+      const plane = document.getElementById('plane-lock');
+      const mon = document.getElementById('exclusive-monitor');
+      const mTable = document.getElementById('mon-table');
+      const mValid = document.getElementById('mon-valid');
+      const mAddr = document.getElementById('mon-addr');
+      const mId = document.getElementById('mon-id');
+      const monitorState = document.getElementById('lock-monitor-state');
+      const monitorDetail = document.getElementById('lock-monitor-detail');
+      const runBtn = document.getElementById('lock-run-btn');
+      const m0 = document.getElementById('lock-m0');
+      const m1 = document.getElementById('lock-m1');
+
+      if (!plane || !mon || !mTable || !mValid || !mAddr || !mId || !monitorState || !monitorDetail || !runBtn || !m0 || !m1) return;
+
+      lockAnimationRunning = true;
+      runBtn.disabled = true;
+      runBtn.classList.add('opacity-60', 'cursor-not-allowed');
+
+      const lockPacketThemes = {
+        amber: {
+          border: '#f59e0b',
+          background: '#fffbeb',
+          text: '#92400e',
+          chipBg: 'rgba(245, 158, 11, 0.16)',
+          chipColor: '#b45309',
+        },
+        slate: {
+          border: '#64748b',
+          background: '#f8fafc',
+          text: '#334155',
+          chipBg: 'rgba(100, 116, 139, 0.14)',
+          chipColor: '#475569',
+        },
+        rose: {
+          border: '#e11d48',
+          background: '#fff1f2',
+          text: '#be123c',
+          chipBg: 'rgba(225, 29, 72, 0.12)',
+          chipColor: '#be123c',
+        },
+      };
+
+      function setChip(node, label, state) {
+        node.textContent = label;
+        node.className = 'axlock-monitor-chip';
+        node.classList.add(`is-${state}`);
+      }
+
+      function clearMasterState() {
+        [m0, m1].forEach((node) => node.classList.remove('axlock-master-active', 'axlock-master-interloper'));
+      }
+
+      function setActiveMaster(which) {
+        clearMasterState();
+        if (which === 'm0') m0.classList.add('axlock-master-active');
+        if (which === 'm1') m1.classList.add('axlock-master-interloper');
+      }
+
+      function resetLockScene() {
+        plane.innerHTML = '';
+        clearMasterState();
+        mon.classList.remove('error-shake', 'monitor-locked', 'monitor-invalidated');
+        mValid.innerText = '0';
+        mValid.className = 'p-1 border-r border-slate-200 transition-colors text-slate-400';
+        mAddr.innerText = '-';
+        mAddr.className = 'p-1 border-r border-slate-200 transition-colors text-slate-400';
+        mId.innerText = '-';
+        mId.className = 'p-1 transition-colors text-slate-400';
+        mTable.className = 'text-[10px] mono font-bold text-slate-400 border border-slate-200 bg-white transition-colors duration-300';
+        setChip(monitorState, 'Idle', 'idle');
+        monitorDetail.textContent = '대기 중: exclusive read가 들어오면 여기에 읽기 예약이 생깁니다.';
+      }
+
+      function createPkt(horizontalClass, top, themeKey, channel, title, subtitle) {
+        const theme = lockPacketThemes[themeKey];
+        const p = document.createElement('div');
+        p.className = 'packet axlock-packet absolute z-20';
+        p.innerHTML = `<span class="axlock-packet__channel">${channel}</span><span class="axlock-packet__title">${title}</span><span class="axlock-packet__subtitle">${subtitle}</span>`;
+        p.style.top = top;
+        p.style.borderColor = theme.border;
+        p.style.background = theme.background;
+        p.style.color = theme.text;
+        p.style.setProperty('--axlock-packet-chip-bg', theme.chipBg);
+        p.style.setProperty('--axlock-packet-chip-color', theme.chipColor);
+        if (horizontalClass.startsWith('left-[')) {
+          p.style.left = horizontalClass.slice(6, -1);
+        } else if (horizontalClass.startsWith('right-[')) {
+          p.style.right = horizontalClass.slice(7, -1);
+        }
+        return p;
+      }
+
+      try {
+        resetLockScene();
+
+        setActiveMaster('m0');
+
+        const ar = createPkt('left-[60px]', '100px', 'amber', 'AR', 'ARLOCK=1', 'Exclusive Read @ 0x100');
+        plane.appendChild(ar);
+
+        await sleep(100);
+        ar.style.top = '220px';
+        ar.style.left = '50%';
+        ar.style.transform = 'translateX(-50%)';
+
+        await sleep(650);
+        ar.style.opacity = 0;
+
+        mon.classList.add('monitor-locked');
+        mValid.innerText = '1';
+        mValid.className = 'p-1 border-r border-slate-200 transition-colors text-emerald-600';
+        mAddr.innerText = '0x100';
+        mAddr.className = 'p-1 border-r border-slate-200 transition-colors text-amber-700';
+        mId.innerText = 'M0';
+        mId.className = 'p-1 transition-colors text-amber-700';
+        mTable.className = 'text-[10px] mono font-bold text-slate-400 border border-amber-400 bg-amber-50 transition-colors duration-300';
+        setChip(monitorState, 'Reservation Active', 'active');
+        monitorDetail.textContent = 'M0의 exclusive read가 0x100에 대한 읽기 예약을 만들었습니다.';
+
+        showAxiFullControlMsg('lock-msg', 'M0 Exclusive Read Accepted<br>Read Reservation Created', 1600, '<i data-lucide="lock" class="w-5 h-5 mb-1 text-amber-300"></i>');
+        await sleep(1600);
+
+        setActiveMaster('m1');
+
+        const nW = createPkt('right-[60px]', '100px', 'slate', 'AW', 'AWLOCK=0', 'Normal Write @ 0x100');
+        plane.appendChild(nW);
+
+        await sleep(100);
+        nW.style.top = '220px';
+        nW.style.left = '50%';
+        nW.style.right = 'auto';
+        nW.style.transform = 'translateX(-50%)';
+
+        await sleep(650);
+        nW.style.opacity = 0;
+
+        mon.classList.remove('monitor-locked');
+        mon.classList.add('monitor-invalidated', 'error-shake');
+        mValid.innerText = '0';
+        mValid.className = 'p-1 border-r border-slate-200 transition-colors text-rose-600';
+        mAddr.className = 'p-1 border-r border-slate-200 transition-colors text-slate-500';
+        mId.className = 'p-1 transition-colors text-slate-500';
+        mTable.className = 'text-[10px] mono font-bold text-slate-400 border border-rose-400 bg-rose-50 transition-colors duration-300';
+        setChip(monitorState, 'Reservation Invalidated', 'invalid');
+        monitorDetail.textContent = '다른 master의 normal write가 같은 주소를 갱신해 읽기 예약이 삭제되었습니다.';
+
+        showAxiFullControlMsg('lock-msg', 'M1 Normal Write Committed<br>Read Reservation Cleared', 2100, '<i data-lucide="shield-alert" class="w-5 h-5 mb-1 text-rose-300"></i>');
+        await sleep(2100);
+
+        setActiveMaster('m0');
+
+        const aw = createPkt('left-[60px]', '100px', 'amber', 'AW', 'AWLOCK=1', 'Exclusive Write @ 0x100');
+        plane.appendChild(aw);
+
+        await sleep(100);
+        aw.style.top = '220px';
+        aw.style.left = '50%';
+        aw.style.transform = 'translateX(-50%)';
+
+        await sleep(650);
+        aw.style.opacity = 0;
+
+        const resp = createPkt('left-[50%]', '220px', 'rose', 'B', 'BRESP=OKAY', 'Exclusive Fail / No Update');
+        plane.appendChild(resp);
+        resp.style.left = '50%';
+        resp.style.transform = 'translateX(-50%)';
+
+        await sleep(100);
+        resp.style.top = '100px';
+        resp.style.left = '60px';
+        resp.style.transform = 'none';
+
+        setChip(monitorState, 'Retry Required', 'invalid');
+        monitorDetail.textContent = '읽기에서 만든 예약이 이미 사라져서 M0는 read부터 다시 시작해야 하며, 이번 write는 메모리를 갱신하지 못합니다.';
+
+        showAxiFullControlMsg('lock-msg', 'BRESP=OKAY<br>Read Reservation Missing, Retry from Read', 2600, '<i data-lucide="x-circle" class="w-5 h-5 mb-1 text-rose-300"></i>');
+
+        await sleep(2600);
+        resp.style.opacity = 0;
+      } finally {
+        runBtn.disabled = false;
+        runBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+        lockAnimationRunning = false;
+      }
+    }
+
+    async function runProt() {
+      const plane = document.getElementById('plane-prot');
+      const tzcBlock = document.getElementById('tzc-block');
+      const rowSec = document.getElementById('tz-row-sec');
+      const rowNsec = document.getElementById('tz-row-nsec');
+      const evalBox = document.getElementById('tz-eval-box');
+
+      if (!plane || !tzcBlock || !rowSec || !rowNsec || !evalBox) return;
+
+      plane.innerHTML = '';
+      tzcBlock.classList.remove('firewall-active', 'error-shake');
+      rowSec.classList.remove('tz-row-active');
+      rowNsec.classList.remove('tz-row-active');
+      evalBox.innerText = 'Waiting for Req...';
+      evalBox.className = 'font-bold text-slate-700';
+
+      function createProtPkt(horizontalClass, top, color, protBits, addrHex, isSecure) {
+        const p = document.createElement('div');
+        p.className = `packet absolute w-24 h-8 border-2 border-${color}-500 bg-${color}-50 text-${color}-800 flex flex-col items-center justify-center text-[8px] font-black rounded shadow-md z-20`;
+        p.innerHTML = `<span class="tracking-tight">PROT:${protBits} (${isSecure ? 'S' : 'NS'})</span><span class="font-normal tracking-tight font-mono">ADDR:${addrHex}</span>`;
+        p.style.top = top;
+        if (horizontalClass.startsWith('left-[')) {
+          p.style.left = horizontalClass.slice(6, -1);
+        } else if (horizontalClass.startsWith('right-[')) {
+          p.style.right = horizontalClass.slice(7, -1);
+        }
+        return p;
+      }
+
+      const req1 = createProtPkt('right-[60px]', '100px', 'slate', '010', '0x120', false);
+      plane.appendChild(req1);
+
+      await sleep(100);
+      req1.style.top = '180px';
+      req1.style.left = '50%';
+      req1.style.right = 'auto';
+      req1.style.transform = 'translateX(-50%)';
+
+      await sleep(600);
+      rowNsec.classList.add('tz-row-active');
+      evalBox.innerHTML = '<span class="text-emerald-600">ADDR(0x120) in NS Region<br>-> Access Granted</span>';
+      evalBox.className = 'font-bold text-emerald-700';
+      showAxiFullControlMsg('prot-msg', 'Scenario 1: Normal Access OK', 1200, '<i data-lucide="check-circle" class="w-5 h-5 mb-1 text-emerald-300"></i>');
+
+      await sleep(1000);
+      req1.style.top = '300px';
+      req1.style.left = 'calc(100% - 80px)';
+      req1.style.transform = 'none';
+
+      await sleep(600);
+      req1.style.opacity = 0;
+      rowNsec.classList.remove('tz-row-active');
+      evalBox.innerText = 'Waiting for Req...';
+      evalBox.className = 'font-bold text-slate-700';
+
+      await sleep(500);
+
+      const req2 = createProtPkt('left-[60px]', '100px', 'emerald', '000', '0x050', true);
+      plane.appendChild(req2);
+
+      await sleep(100);
+      req2.style.top = '180px';
+      req2.style.left = '50%';
+      req2.style.transform = 'translateX(-50%)';
+
+      await sleep(600);
+      rowSec.classList.add('tz-row-active');
+      evalBox.innerHTML = '<span class="text-emerald-600">ADDR(0x050) in Secure Region<br>PROT[1]==0 -> Access Granted</span>';
+      evalBox.className = 'font-bold text-emerald-700';
+      showAxiFullControlMsg('prot-msg', 'Scenario 2: Secure Access OK', 1200, '<i data-lucide="shield-check" class="w-5 h-5 mb-1 text-emerald-300"></i>');
+
+      await sleep(1000);
+      req2.style.top = '300px';
+      req2.style.left = '80px';
+      req2.style.transform = 'translateX(-50%)';
+
+      await sleep(600);
+      req2.style.opacity = 0;
+      rowSec.classList.remove('tz-row-active');
+      evalBox.innerText = 'Waiting for Req...';
+      evalBox.className = 'font-bold text-slate-700';
+
+      await sleep(500);
+
+      const req3 = createProtPkt('right-[60px]', '100px', 'rose', '010', '0x050', false);
+      plane.appendChild(req3);
+
+      await sleep(100);
+      req3.style.top = '180px';
+      req3.style.left = '50%';
+      req3.style.right = 'auto';
+      req3.style.transform = 'translateX(-50%)';
+
+      await sleep(600);
+      rowSec.classList.add('tz-row-active');
+      evalBox.innerHTML = '<span class="text-rose-600">ADDR(0x050) in Secure Region!<br>But PROT[1]==1 -> BLOCKED</span>';
+      evalBox.className = 'font-bold text-rose-700';
+
+      tzcBlock.classList.add('firewall-active', 'error-shake');
+      req3.classList.add('error-shake');
+
+      showAxiFullControlMsg('prot-msg', 'Scenario 3: Security Violation!<br>TZC Returns DECERR', 2000, '<i data-lucide="shield-alert" class="w-5 h-5 mb-1 text-rose-300"></i>');
+
+      await sleep(1000);
+      req3.innerHTML = '<span class="tracking-tight text-rose-600">DECERR</span><span class="font-normal tracking-tight font-mono text-rose-600">Blocked by TZC</span>';
+      req3.classList.remove('error-shake');
+      req3.style.top = '100px';
+      req3.style.left = 'calc(100% - 120px)';
+      req3.style.transform = 'none';
+
+      await sleep(600);
+      req3.style.opacity = 0;
+      tzcBlock.classList.remove('firewall-active', 'error-shake');
+      rowSec.classList.remove('tz-row-active');
+      evalBox.innerText = 'Waiting for Req...';
+      evalBox.className = 'font-bold text-slate-700';
+    }
+
+    async function runCache() {
+      const plane = document.getElementById('plane-cache');
+      const cacheBlock = document.getElementById('cache-block');
+      const cacheFill = document.getElementById('cache-dirty-fill');
+      const cacheText = document.getElementById('cache-inner-text');
+      const masterStatus = document.getElementById('master-cache-status');
+      const ddrBlock = document.getElementById('ddr-block');
+      const ddrStatus = document.getElementById('ddr-status');
+
+      if (!plane || !cacheBlock || !cacheFill || !cacheText || !masterStatus || !ddrBlock || !ddrStatus) return;
+
+      plane.innerHTML = '';
+      cacheBlock.classList.remove('cache-dirty');
+      cacheFill.style.width = '0%';
+      cacheText.innerText = 'Line Empty';
+      cacheText.classList.remove('text-blue-700');
+      cacheText.classList.add('text-slate-400');
+      masterStatus.innerText = 'WAITING';
+      masterStatus.className = 'mt-0.5 text-[8px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-400';
+      ddrBlock.classList.remove('ddr-writing');
+      ddrStatus.innerText = 'IDLE';
+
+      cacheToggle = !cacheToggle;
+      const isCacheable = cacheToggle;
+
+      function createPkt(text, color, top, left) {
+        const p = document.createElement('div');
+        p.className = `packet absolute w-24 h-6 border-2 flex items-center justify-center text-[8px] font-black rounded shadow-md z-30 ${color}`;
+        p.innerText = text;
+        p.style.top = top;
+        p.style.left = left;
+        plane.appendChild(p);
+        return p;
+      }
+
+      const req = createPkt(
+        isCacheable ? 'WRITE (BUFFERABLE)' : 'WRITE (DEVICE)',
+        isCacheable ? 'border-blue-500 bg-blue-100 text-blue-800' : 'border-slate-500 bg-slate-100 text-slate-800',
+        '70px',
+        '50%'
+      );
+      req.style.transform = 'translateX(-50%)';
+
+      await sleep(100);
+      masterStatus.innerText = 'STALLED (WAITING RESP)';
+      masterStatus.classList.replace('bg-slate-100', 'bg-rose-100');
+      masterStatus.classList.replace('text-slate-400', 'text-rose-600');
+
+      if (isCacheable) {
+        req.style.top = '180px';
+        req.style.left = '25%';
+
+        await sleep(600);
+        req.style.opacity = 0;
+
+        cacheBlock.classList.add('cache-dirty');
+        cacheFill.style.width = '100%';
+        cacheText.innerText = 'Dirty Data';
+        cacheText.classList.replace('text-slate-400', 'text-blue-700');
+
+        const earlyResp = createPkt('BVALID (Early)', 'border-emerald-500 bg-emerald-100 text-emerald-800', '180px', '25%');
+        earlyResp.style.transform = 'translateX(-50%)';
+
+        await sleep(100);
+        earlyResp.style.top = '70px';
+        earlyResp.style.left = '50%';
+
+        showAxiFullControlMsg('cache-msg', 'Early Response (BVALID)!<br>Master is now free.', 2000, '<i data-lucide="zap" class="w-5 h-5 mb-1 text-emerald-300"></i>');
+
+        await sleep(600);
+        earlyResp.style.opacity = 0;
+
+        masterStatus.innerText = 'FREE / NEXT OP';
+        masterStatus.classList.replace('bg-rose-100', 'bg-emerald-100');
+        masterStatus.classList.replace('text-rose-600', 'text-emerald-700');
+
+        await sleep(1000);
+
+        showAxiFullControlMsg('cache-msg', 'Background Eviction<br>Cache Line Flush to DDR', 2500, '<i data-lucide="download" class="w-5 h-5 mb-1 text-blue-300"></i>');
+
+        const evictReq = createPkt('EVICT TO DDR', 'border-slate-400 bg-slate-100 text-slate-600 border-dashed', '220px', '25%');
+        evictReq.style.transform = 'translateX(-50%) scale(0.9)';
+
+        await sleep(100);
+        evictReq.style.top = '300px';
+
+        await sleep(600);
+        evictReq.style.opacity = 0;
+
+        ddrBlock.classList.add('ddr-writing');
+        ddrStatus.innerText = 'WRITING...';
+
+        await sleep(800);
+        ddrBlock.classList.remove('ddr-writing');
+        ddrStatus.innerText = 'IDLE';
+
+        cacheBlock.classList.remove('cache-dirty');
+        cacheFill.style.width = '0%';
+        cacheText.innerText = 'Line Empty';
+        cacheText.classList.replace('text-blue-700', 'text-slate-400');
+      } else {
+        req.style.top = '120px';
+        req.style.left = '75%';
+
+        await sleep(300);
+        req.style.top = '300px';
+
+        await sleep(500);
+        req.style.opacity = 0;
+
+        ddrBlock.classList.add('ddr-writing');
+        ddrStatus.innerText = 'WRITING...';
+        showAxiFullControlMsg('cache-msg', 'Direct Memory Write.<br>Master is blocked.', 2000, '<i data-lucide="clock" class="w-5 h-5 mb-1 text-slate-300"></i>');
+
+        await sleep(1500);
+
+        ddrBlock.classList.remove('ddr-writing');
+        ddrStatus.innerText = 'DONE';
+
+        const lateResp = createPkt('BVALID (Late)', 'border-emerald-500 bg-emerald-100 text-emerald-800', '300px', '75%');
+        lateResp.style.transform = 'translateX(-50%)';
+
+        await sleep(100);
+        lateResp.style.top = '70px';
+        lateResp.style.left = '50%';
+
+        await sleep(600);
+        lateResp.style.opacity = 0;
+
+        masterStatus.innerText = 'FREE / NEXT OP';
+        masterStatus.classList.replace('bg-rose-100', 'bg-emerald-100');
+        masterStatus.classList.replace('text-rose-600', 'text-emerald-700');
+      }
+    }
+
+    async function runQos() {
+      const plane = document.getElementById('plane-qos');
+      const arbiterStatus = document.getElementById('arbiter-status');
+      const arbiterBox = document.getElementById('qos-arbiter');
+      if (!plane || !arbiterStatus || !arbiterBox) return;
+
+      plane.innerHTML = '';
+      arbiterStatus.innerText = 'Waiting...';
+      arbiterStatus.className = 'mt-3 px-3 py-1 bg-slate-100 rounded text-[9px] font-black text-slate-500 uppercase tracking-widest border border-slate-200';
+      arbiterBox.classList.remove('arbiter-active');
+
+      function createQosPacket(id, qos, isHigh, startTop) {
+        const color = isHigh ? 'emerald' : 'slate';
+        const pkt = document.createElement('div');
+        pkt.className = `packet absolute w-[50px] h-9 border-2 border-${color}-500 bg-${color}-50 text-${color}-800 flex flex-col items-center justify-center rounded shadow-sm`;
+        pkt.style.left = '120px';
+        pkt.style.top = `${startTop}px`;
+        pkt.innerHTML = `<span class="text-[9px] font-black leading-tight">QoS:${qos}</span><span class="text-[7px] leading-tight">ID:${id}</span>`;
+        plane.appendChild(pkt);
+        return pkt;
+      }
+
+      const dma1 = createQosPacket('D1', '0', false, 256);
+      const dma2 = createQosPacket('D2', '0', false, 256);
+      const dma3 = createQosPacket('D3', '0', false, 256);
+      const disp = createQosPacket('LCD', 'F', true, 74);
+
+      window.setTimeout(() => {
+        dma1.style.left = 'calc(50% - 25px)';
+        dma1.style.top = '172px';
+      }, 100);
+
+      await sleep(600);
+      arbiterStatus.innerText = 'Routing D1 (0x0)';
+      dma1.style.left = 'calc(100% - 90px)';
+
+      window.setTimeout(() => {
+        dma2.style.left = 'calc(50% - 25px)';
+        dma2.style.top = '172px';
+      }, 100);
+      window.setTimeout(() => {
+        disp.style.left = 'calc(50% - 25px)';
+        disp.style.top = '172px';
+      }, 200);
+
+      await sleep(600);
+      dma1.style.opacity = 0;
+
+      arbiterStatus.innerText = 'Contention! F > 0';
+      arbiterStatus.classList.replace('bg-slate-100', 'bg-emerald-100');
+      arbiterStatus.classList.replace('text-slate-500', 'text-emerald-700');
+      arbiterBox.classList.add('arbiter-active');
+      showAxiFullControlMsg('qos-msg', 'Priority Hint Applied<br>QoS:F selected before QoS:0', 2000, '<i data-lucide="arrow-up-circle" class="w-5 h-5 mb-1 text-emerald-300"></i>');
+
+      await sleep(800);
+      arbiterStatus.innerText = 'Routing LCD (0xF)';
+      disp.style.left = 'calc(100% - 90px)';
+
+      window.setTimeout(() => {
+        dma3.style.left = 'calc(50% - 25px)';
+        dma3.style.top = '172px';
+      }, 100);
+
+      await sleep(600);
+      disp.style.opacity = 0;
+
+      arbiterStatus.innerText = 'Routing D2 (0x0)';
+      arbiterStatus.classList.replace('bg-emerald-100', 'bg-slate-100');
+      arbiterStatus.classList.replace('text-emerald-700', 'text-slate-500');
+      arbiterBox.classList.remove('arbiter-active');
+
+      dma2.style.left = 'calc(100% - 90px)';
+
+      await sleep(600);
+      dma2.style.opacity = 0;
+      arbiterStatus.innerText = 'Routing D3 (0x0)';
+      dma3.style.left = 'calc(100% - 90px)';
+
+      await sleep(600);
+      dma3.style.opacity = 0;
+      arbiterStatus.innerText = 'Waiting...';
+    }
+
+    const axiFullSignalButtonBaseClass = 'axi-full-signal-btn rounded-xl border px-4 py-2.5 text-sm font-bold transition-all whitespace-nowrap';
+    const axiFullSignalButtonActiveClass = `${axiFullSignalButtonBaseClass} bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-200/70`;
+    const axiFullSignalButtonInactiveClass = `${axiFullSignalButtonBaseClass} border-gray-200 bg-white text-gray-500 hover:border-blue-200 hover:text-blue-600`;
+    const axiFullSignalShortDescriptions = {
+      ACLK: 'AXI FULL 동작 기준 클럭입니다.',
+      ARESETn: '인터페이스 reset 신호입니다.',
+      AWID: 'write transaction ID입니다.',
+      AWADDR: '쓰기 burst 시작 주소입니다.',
+      AWLEN: 'burst 길이 - 1 값입니다.',
+      AWSIZE: 'beat당 바이트 수입니다.',
+      AWBURST: '주소 증가 방식을 지정합니다.',
+      AWLOCK: 'exclusive access 여부입니다.',
+      AWCACHE: 'memory attribute bits입니다.',
+      AWPROT: '보호 속성 정보입니다.',
+      AWQOS: 'QoS 우선순위 힌트입니다.',
+      AWREGION: '논리 region 구분용 신호입니다.',
+      AWUSER: '사용자 정의 sideband입니다.',
+      AWVALID: 'AW 채널 유효 신호입니다.',
+      AWREADY: 'slave의 AW 수락 준비 신호입니다.',
+      WDATA: '실제 write 데이터입니다.',
+      WSTRB: '유효한 byte lane 표시입니다.',
+      WLAST: '마지막 write beat 표시입니다.',
+      WUSER: '사용자 정의 write data sideband입니다.',
+      WVALID: 'W 채널 유효 신호입니다.',
+      WREADY: 'slave의 W 수락 준비 신호입니다.',
+      BID: 'write response ID입니다.',
+      BRESP: 'write 결과 상태 코드입니다.',
+      BUSER: '사용자 정의 write response sideband입니다.',
+      BVALID: 'B 채널 응답 유효 신호입니다.',
+      BREADY: 'master의 B 수락 준비 신호입니다.',
+      ARID: 'read transaction ID입니다.',
+      ARADDR: '읽기 burst 시작 주소입니다.',
+      ARLEN: 'burst 길이 - 1 값입니다.',
+      ARSIZE: 'beat당 바이트 수입니다.',
+      ARBURST: '주소 증가 방식을 지정합니다.',
+      ARLOCK: 'exclusive access 여부입니다.',
+      ARCACHE: 'memory attribute bits입니다.',
+      ARPROT: '보호 속성 정보입니다.',
+      ARQOS: 'QoS 우선순위 힌트입니다.',
+      ARREGION: '논리 region 구분용 신호입니다.',
+      ARUSER: '사용자 정의 read address sideband입니다.',
+      ARVALID: 'AR 채널 유효 신호입니다.',
+      ARREADY: 'slave의 AR 수락 준비 신호입니다.',
+      RID: 'read response ID입니다.',
+      RDATA: '반환되는 read 데이터입니다.',
+      RRESP: 'read 결과 상태 코드입니다.',
+      RLAST: '마지막 read beat 표시입니다.',
+      RUSER: '사용자 정의 read data sideband입니다.',
+      RVALID: 'R 채널 데이터 유효 신호입니다.',
+      RREADY: 'master의 R 수락 준비 신호입니다.',
+    };
+
+    const axiFullSignalGroups = {
+      global: {
+        label: 'Global Signals',
+        summary: '모든 AXI FULL 채널이 공유하는 시스템 타이밍/리셋 신호',
+        footnote: '',
+        rows: [
+          {
+            signal: 'ACLK',
+            width: '1 bit',
+            source: 'System',
+            usage: 'Core',
+            description: '모든 AXI FULL 채널의 동작 기준 클럭입니다. 주소, 데이터, 응답, handshake 신호 모두 ACLK 상승 에지에서 유효하게 샘플링됩니다.',
+          },
+          {
+            signal: 'ARESETn',
+            width: '1 bit (active-low)',
+            source: 'System',
+            usage: 'Core',
+            description: 'AXI 인터페이스 reset 신호입니다. 일반적으로 assert 시 VALID를 0으로 초기화하고, deassert 이후부터 정상 transaction을 시작합니다.',
+          },
+        ],
+      },
+      aw: {
+        label: 'Write Address Channel (AW)',
+        summary: '쓰기 burst의 시작 주소와 속성, ID, 순서 정보를 전달하는 채널',
+        footnote: '',
+        rows: [
+          {
+            signal: 'AWID',
+            width: '<code>[ID_W-1:0]</code>',
+            source: 'Master',
+            usage: 'Conditional',
+            description: 'write transaction ID입니다. multi outstanding write나 interconnect reordering이 있을 때 어떤 write request인지 추적하는 기준이 됩니다.',
+          },
+          {
+            signal: 'AWADDR',
+            width: '<code>[ADDR_W-1:0]</code>',
+            source: 'Master',
+            usage: 'Core',
+            description: '쓰기 burst의 시작 주소입니다. slave는 이 주소와 burst 정보를 바탕으로 이후 beat의 target location을 계산합니다.',
+          },
+          {
+            signal: 'AWLEN',
+            width: '8 bits',
+            source: 'Master',
+            usage: 'Core',
+            description: 'burst length minus one 값입니다. 예를 들어 <code>AWLEN=0</code>이면 1-beat, <code>AWLEN=15</code>이면 16-beat burst를 의미합니다.',
+          },
+          {
+            signal: 'AWSIZE',
+            width: '3 bits',
+            source: 'Master',
+            usage: 'Core',
+            description: '한 beat당 전송 바이트 수를 나타냅니다. 예를 들어 <code>010</code>은 4 bytes, <code>011</code>은 8 bytes를 의미합니다.',
+          },
+          {
+            signal: 'AWBURST',
+            width: '2 bits',
+            source: 'Master',
+            usage: 'Core',
+            description: 'burst 주소 진행 방식입니다. 보통 <code>FIXED</code>, <code>INCR</code>, <code>WRAP</code> 중 하나를 지정합니다.',
+          },
+          {
+            signal: 'AWLOCK',
+            width: '1 bit',
+            source: 'Master',
+            usage: 'Conditional',
+            description: 'exclusive access 여부를 나타냅니다. 일반 write에서는 0으로 두고, atomic-like exclusive sequence가 필요할 때 사용합니다.',
+          },
+          {
+            signal: 'AWCACHE',
+            width: '4 bits',
+            source: 'Master',
+            usage: 'Conditional',
+            description: 'bufferable, modifiable, allocate 관련 메모리 속성을 전달합니다. cache coherency를 직접 보장하는 신호는 아니며 interconnect와 memory subsystem의 처리 정책에 영향을 줍니다.',
+          },
+          {
+            signal: 'AWPROT',
+            width: '3 bits',
+            source: 'Master',
+            usage: 'Conditional',
+            description: 'privileged / secure / instruction-data protection 속성을 나타냅니다. 접근 권한과 보안 정책 판단에 사용됩니다.',
+          },
+          {
+            signal: 'AWQOS',
+            width: '4 bits',
+            source: 'Master',
+            usage: 'Optional',
+            description: 'QoS priority hint입니다. interconnect가 혼잡 상황에서 arbitration priority를 조정할 때 참고할 수 있습니다.',
+          },
+          {
+            signal: 'AWREGION',
+            width: '4 bits',
+            source: 'Master',
+            usage: 'Optional',
+            description: '같은 physical address space 안에서 logical region을 구분하는 sideband 신호입니다. 일부 interconnect 구현에서만 사용합니다.',
+          },
+          {
+            signal: 'AWUSER',
+            width: '<code>[AWUSER_W-1:0]</code>',
+            source: 'Master',
+            usage: 'Optional',
+            description: '설계별 custom sideband 정보입니다. trace tag, security context, debug hint 같은 추가 메타데이터를 실을 수 있습니다.',
+          },
+          {
+            signal: 'AWVALID',
+            width: '1 bit',
+            source: 'Master',
+            usage: 'Core',
+            description: 'AW 채널의 payload가 유효함을 나타냅니다. <code>AWREADY</code>와 동시에 HIGH가 되는 클럭 에지에서 address transfer가 성립합니다.',
+          },
+          {
+            signal: 'AWREADY',
+            width: '1 bit',
+            source: 'Slave',
+            usage: 'Core',
+            description: 'slave가 write address를 수락할 준비가 되었음을 나타냅니다. backpressure가 걸리면 LOW로 유지될 수 있습니다.',
+          },
+        ],
+      },
+      w: {
+        label: 'Write Data Channel (W)',
+        summary: 'write burst의 실제 payload 데이터와 byte enable을 전달하는 채널',
+        footnote: '',
+        rows: [
+          {
+            signal: 'WDATA',
+            width: '<code>[DATA_W-1:0]</code>',
+            source: 'Master',
+            usage: 'Core',
+            description: 'slave에 기록될 실제 write 데이터입니다. 시스템에 따라 32/64/128/256-bit 등으로 확장됩니다.',
+          },
+          {
+            signal: 'WSTRB',
+            width: '<code>[DATA_W/8-1:0]</code>',
+            source: 'Master',
+            usage: 'Core',
+            description: '각 byte lane의 유효 여부를 지정하는 write strobe입니다. register update나 partial write에서 특정 바이트만 선택적으로 갱신할 수 있습니다.',
+          },
+          {
+            signal: 'WLAST',
+            width: '1 bit',
+            source: 'Master',
+            usage: 'Core',
+            description: '현재 beat가 write burst의 마지막 데이터임을 나타냅니다. burst completion과 response 발생 타이밍의 기준이 됩니다.',
+          },
+          {
+            signal: 'WUSER',
+            width: '<code>[WUSER_W-1:0]</code>',
+            source: 'Master',
+            usage: 'Optional',
+            description: 'write data beat에 동반되는 custom sideband 정보입니다. error injection, trace marker, stream class 같은 구현별 확장이 가능합니다.',
+          },
+          {
+            signal: 'WVALID',
+            width: '1 bit',
+            source: 'Master',
+            usage: 'Core',
+            description: 'W 채널 데이터가 유효함을 나타냅니다. <code>WREADY</code>와 동시에 HIGH일 때 데이터 beat가 전송됩니다.',
+          },
+          {
+            signal: 'WREADY',
+            width: '1 bit',
+            source: 'Slave',
+            usage: 'Core',
+            description: 'slave가 write data beat를 받을 준비가 되었음을 의미합니다. 메모리 포트 혼잡이나 내부 FIFO 포화 시 LOW로 backpressure를 줄 수 있습니다.',
+          },
+        ],
+      },
+      b: {
+        label: 'Write Response Channel (B)',
+        summary: 'write burst 완료 후 결과 상태와 transaction ID를 반환하는 채널',
+        footnote: '',
+        rows: [
+          {
+            signal: 'BID',
+            width: '<code>[ID_W-1:0]</code>',
+            source: 'Slave',
+            usage: 'Conditional',
+            description: '응답 대상 write transaction의 ID입니다. master는 이를 통해 multi outstanding write 응답을 원래 request와 매칭합니다.',
+          },
+          {
+            signal: 'BRESP',
+            width: '2 bits',
+            source: 'Slave',
+            usage: 'Core',
+            description: 'write 결과 상태 코드입니다. <code>OKAY</code>, <code>EXOKAY</code>, <code>SLVERR</code>, <code>DECERR</code>를 통해 성공/실패를 표현합니다.',
+          },
+          {
+            signal: 'BUSER',
+            width: '<code>[BUSER_W-1:0]</code>',
+            source: 'Slave',
+            usage: 'Optional',
+            description: 'write response와 함께 전달되는 custom sideband 정보입니다. status class, debug context, implementation-specific metadata를 담을 수 있습니다.',
+          },
+          {
+            signal: 'BVALID',
+            width: '1 bit',
+            source: 'Slave',
+            usage: 'Core',
+            description: 'write response가 유효함을 나타냅니다. master가 <code>BREADY</code>를 올릴 때 response transfer가 완료됩니다.',
+          },
+          {
+            signal: 'BREADY',
+            width: '1 bit',
+            source: 'Master',
+            usage: 'Core',
+            description: 'master가 write response를 수락할 준비가 되었음을 나타냅니다. 여러 response를 순차 처리할 때 backpressure를 줄 수 있습니다.',
+          },
+        ],
+      },
+      ar: {
+        label: 'Read Address Channel (AR)',
+        summary: '읽기 burst의 시작 주소와 속성, ID를 전달하는 채널',
+        footnote: '',
+        rows: [
+          {
+            signal: 'ARID',
+            width: '<code>[ID_W-1:0]</code>',
+            source: 'Master',
+            usage: 'Conditional',
+            description: 'read transaction ID입니다. 여러 read가 동시에 진행될 때 response matching과 out-of-order completion 처리를 위한 키가 됩니다.',
+          },
+          {
+            signal: 'ARADDR',
+            width: '<code>[ADDR_W-1:0]</code>',
+            source: 'Master',
+            usage: 'Core',
+            description: '읽기 burst의 시작 주소입니다. slave는 이 주소와 burst 속성을 사용해 각 beat의 데이터를 준비합니다.',
+          },
+          {
+            signal: 'ARLEN',
+            width: '8 bits',
+            source: 'Master',
+            usage: 'Core',
+            description: 'read burst length minus one 값입니다. 예를 들어 <code>ARLEN=3</code>이면 4-beat read burst를 의미합니다.',
+          },
+          {
+            signal: 'ARSIZE',
+            width: '3 bits',
+            source: 'Master',
+            usage: 'Core',
+            description: '한 read beat당 전송 바이트 수를 지정합니다. slave는 이를 기준으로 bus lane alignment를 계산합니다.',
+          },
+          {
+            signal: 'ARBURST',
+            width: '2 bits',
+            source: 'Master',
+            usage: 'Core',
+            description: 'read burst 주소 진행 방식입니다. 일반적으로 <code>INCR</code>가 가장 많이 사용됩니다.',
+          },
+          {
+            signal: 'ARLOCK',
+            width: '1 bit',
+            source: 'Master',
+            usage: 'Conditional',
+            description: 'exclusive read access 여부를 나타냅니다. lock/exclusive sequence를 구성할 때 사용되며, 일반 read에서는 0으로 둡니다.',
+          },
+          {
+            signal: 'ARCACHE',
+            width: '4 bits',
+            source: 'Master',
+            usage: 'Conditional',
+            description: 'read access의 bufferable, modifiable, allocate 속성을 제공합니다. memory hierarchy의 처리 정책에 영향을 주지만, cache coherency 자체는 ACE/CHI나 coherent fabric 정책이 담당합니다.',
+          },
+          {
+            signal: 'ARPROT',
+            width: '3 bits',
+            source: 'Master',
+            usage: 'Conditional',
+            description: '보호 속성 정보입니다. privilege, security, instruction/data 구분에 사용됩니다.',
+          },
+          {
+            signal: 'ARQOS',
+            width: '4 bits',
+            source: 'Master',
+            usage: 'Optional',
+            description: 'read request의 QoS hint입니다. 고우선순위 latency-sensitive traffic과 bulk traffic을 구분할 때 활용됩니다.',
+          },
+          {
+            signal: 'ARREGION',
+            width: '4 bits',
+            source: 'Master',
+            usage: 'Optional',
+            description: '동일 address decode 범위 안에서 logical region 구분이 필요할 때 사용하는 sideband입니다.',
+          },
+          {
+            signal: 'ARUSER',
+            width: '<code>[ARUSER_W-1:0]</code>',
+            source: 'Master',
+            usage: 'Optional',
+            description: 'custom read address sideband 정보입니다. trace, security label, routing hint 등 구현별 확장이 가능합니다.',
+          },
+          {
+            signal: 'ARVALID',
+            width: '1 bit',
+            source: 'Master',
+            usage: 'Core',
+            description: 'read address payload가 유효함을 나타냅니다. <code>ARREADY</code>와 동시에 HIGH가 되는 클럭 에지에서 read request가 accepted됩니다.',
+          },
+          {
+            signal: 'ARREADY',
+            width: '1 bit',
+            source: 'Slave',
+            usage: 'Core',
+            description: 'slave가 read address를 수락할 준비가 되었음을 나타냅니다. 내부 queue depth나 arbitration 상태에 따라 backpressure를 줄 수 있습니다.',
+          },
+        ],
+      },
+      r: {
+        label: 'Read Data Channel (R)',
+        summary: 'read burst의 실제 데이터, 상태, 마지막 beat, ID를 반환하는 채널',
+        footnote: '',
+        rows: [
+          {
+            signal: 'RID',
+            width: '<code>[ID_W-1:0]</code>',
+            source: 'Slave',
+            usage: 'Conditional',
+            description: '현재 read data beat가 어떤 read request에 대한 응답인지 식별하는 ID입니다. multiple outstanding read에서 필수적인 매칭 키입니다.',
+          },
+          {
+            signal: 'RDATA',
+            width: '<code>[DATA_W-1:0]</code>',
+            source: 'Slave',
+            usage: 'Core',
+            description: 'master로 반환되는 실제 read 데이터입니다. burst read에서는 여러 beat에 걸쳐 연속 전달됩니다.',
+          },
+          {
+            signal: 'RRESP',
+            width: '2 bits',
+            source: 'Slave',
+            usage: 'Core',
+            description: 'read data beat의 상태 코드입니다. 정상 데이터인지, slave error인지, decode error인지 나타냅니다.',
+          },
+          {
+            signal: 'RLAST',
+            width: '1 bit',
+            source: 'Slave',
+            usage: 'Core',
+            description: '현재 beat가 read burst의 마지막 데이터임을 의미합니다. master는 이를 기준으로 burst completion을 판단합니다.',
+          },
+          {
+            signal: 'RUSER',
+            width: '<code>[RUSER_W-1:0]</code>',
+            source: 'Slave',
+            usage: 'Optional',
+            description: 'read data와 함께 오는 custom sideband 정보입니다. ECC class, trace tag, source metadata 등 설계 확장이 가능합니다.',
+          },
+          {
+            signal: 'RVALID',
+            width: '1 bit',
+            source: 'Slave',
+            usage: 'Core',
+            description: 'read data beat가 유효함을 나타냅니다. <code>RREADY</code>와 동시에 HIGH일 때 해당 beat transfer가 완료됩니다.',
+          },
+          {
+            signal: 'RREADY',
+            width: '1 bit',
+            source: 'Master',
+            usage: 'Core',
+            description: 'master가 read data beat를 받을 준비가 되었음을 나타냅니다. consumer pipeline이 막히면 LOW로 backpressure를 줄 수 있습니다.',
+          },
+        ],
+      },
+    };
+
+    const axiFullSignalRefs = {
+      buttons: Array.from(document.querySelectorAll('.axi-full-signal-btn')),
+      label: document.getElementById('axi-full-signal-group-label'),
+      summary: document.getElementById('axi-full-signal-group-summary'),
+      stats: document.getElementById('axi-full-signal-stats'),
+      tableBody: document.getElementById('axi-full-signal-table-body'),
+      footnote: document.getElementById('axi-full-signal-footnote'),
+    };
+    let activeAxiFullSignalGroup = 'global';
+
+    function createAxiFullUsageBadge(usage = 'Core') {
+      const usageClasses = {
+        Core: 'bg-slate-900 text-white',
+        Conditional: 'bg-amber-100 text-amber-900',
+        Optional: 'bg-blue-100 text-blue-700',
+      };
+
+      return `<span class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold ${usageClasses[usage] || 'bg-gray-100 text-gray-700'}">${usage}</span>`;
+    }
+
+    function getAxiFullShortDescription(row) {
+      return row.shortDescription || axiFullSignalShortDescriptions[row.signal] || row.description;
+    }
+
+    function renderAxiFullSignalGroup(groupKey = 'global') {
+      if (!axiFullSignalRefs.tableBody) return;
+
+      const group = axiFullSignalGroups[groupKey] || axiFullSignalGroups.global;
+      activeAxiFullSignalGroup = groupKey in axiFullSignalGroups ? groupKey : 'global';
+      const counts = group.rows.reduce((acc, row) => {
+        acc.total += 1;
+        acc[row.usage] = (acc[row.usage] || 0) + 1;
+        return acc;
+      }, { total: 0, Core: 0, Conditional: 0, Optional: 0 });
+
+      if (axiFullSignalRefs.label) axiFullSignalRefs.label.textContent = group.label;
+      if (axiFullSignalRefs.summary) axiFullSignalRefs.summary.textContent = group.summary;
+      if (axiFullSignalRefs.footnote) {
+        const hasFootnote = Boolean((group.footnote || '').trim());
+        axiFullSignalRefs.footnote.innerHTML = group.footnote;
+        axiFullSignalRefs.footnote.classList.toggle('hidden', !hasFootnote);
+      }
+      if (axiFullSignalRefs.stats) {
+        axiFullSignalRefs.stats.innerHTML = [
+          `<span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">${counts.total} signals</span>`,
+          counts.Core ? `<span class="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-xs font-bold text-white">${counts.Core} Core</span>` : '',
+          counts.Conditional ? `<span class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-900">${counts.Conditional} Conditional</span>` : '',
+          counts.Optional ? `<span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">${counts.Optional} Optional</span>` : '',
+        ].filter(Boolean).join('');
+      }
+
+      axiFullSignalRefs.tableBody.innerHTML = group.rows.map((row) => `
+        <tr class="hover:bg-blue-50/30 transition-colors">
+          <td class="py-3 px-4 align-top">
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="font-bold text-gray-900 break-words"><code class="whitespace-normal break-all">${row.signal}</code></div>
+              ${createAxiFullUsageBadge(row.usage)}
+            </div>
+          </td>
+          <td class="py-3 px-4 align-top text-sm text-gray-500 break-all">${row.width}</td>
+          <td class="py-3 px-4 align-top text-sm text-gray-500 break-words">${row.source}</td>
+          <td class="py-3 px-4 align-top text-sm text-gray-600 leading-relaxed break-words">${getAxiFullShortDescription(row)}</td>
+        </tr>
+      `).join('');
+
+      axiFullSignalRefs.buttons.forEach((button) => {
+        const isActive = button.dataset.axiFullGroup === activeAxiFullSignalGroup;
+        button.className = isActive ? axiFullSignalButtonActiveClass : axiFullSignalButtonInactiveClass;
+        button.setAttribute('aria-pressed', String(isActive));
+      });
+
+      window.setTimeout(syncPageHeight, 40);
+    }
+
+    let outstandingRunToken = 0;
+
+    async function runOutstanding() {
+      const runToken = ++outstandingRunToken;
+      const plane = document.getElementById('plane-out');
+      const queue = document.getElementById('out-queue');
+      const utilVal = document.getElementById('util-val');
+      const depthVal = document.getElementById('depth-val');
+      const status = document.getElementById('out-status');
+      const phaseVal = document.getElementById('out-phase-val');
+      const phaseKicker = document.getElementById('out-phase-kicker');
+      const story = document.getElementById('out-story');
+      const pipelinePill = document.getElementById('out-pipeline-pill');
+      const issuedCount = document.getElementById('out-issued-count');
+      const completeCount = document.getElementById('out-complete-count');
+      const depthTrack = document.getElementById('out-depth-track');
+      const addrLane = document.getElementById('out-addr-lane');
+      const respLane = document.getElementById('out-resp-lane');
+      const masterNode = document.getElementById('out-master-node');
+      const slaveNode = document.getElementById('out-slave-node');
+
+      if (
+        !plane || !queue || !utilVal || !depthVal || !status
+        || !phaseVal || !phaseKicker || !story || !pipelinePill
+        || !issuedCount || !completeCount || !depthTrack
+        || !addrLane || !respLane || !masterNode || !slaveNode
+      ) return;
+
+      plane.innerHTML = '';
+      queue.innerHTML = '';
+
+      const count = 4;
+      let currentDepth = 0;
+      let issued = 0;
+      let retired = 0;
+      let queueItemHeight = 34;
+
+      const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+      const isCurrentRun = () => runToken === outstandingRunToken;
+
+      function setLaneState({ address = false, response = false } = {}) {
+        addrLane.classList.toggle('is-address-active', address);
+        respLane.classList.toggle('is-response-active', response);
+      }
+
+      function renderDepthTrack() {
+        depthTrack.innerHTML = Array.from({ length: count }, (_, index) => {
+          const stateClass = index < currentDepth ? 'is-filled' : '';
+          const hotClass = index === currentDepth - 1 ? 'is-hot' : '';
+          return `<span class="outstanding-depth-slot ${stateClass} ${hotClass}"></span>`;
+        }).join('');
+      }
+
+      function calculateQueueItemHeight() {
+        const queueStyles = window.getComputedStyle(queue);
+        const paddingY = parseFloat(queueStyles.paddingTop || '0') + parseFloat(queueStyles.paddingBottom || '0');
+        const gap = parseFloat(queueStyles.rowGap || queueStyles.gap || '0');
+        const availableHeight = Math.max(queue.clientHeight - paddingY, 0);
+        const fittedHeight = Math.floor((availableHeight - gap * (count - 1)) / count);
+        return Math.max(26, fittedHeight);
+      }
+
+      function syncMetrics() {
+        utilVal.innerText = `${Math.round((currentDepth / count) * 100)}%`;
+        depthVal.innerText = `${currentDepth}/${count}`;
+        issuedCount.innerText = String(issued);
+        completeCount.innerText = String(retired);
+        pipelinePill.innerHTML = `<span aria-hidden="true">📦</span><span>주소 선발행 ${currentDepth}개</span>`;
+        renderDepthTrack();
+      }
+
+      function setNarrative({ phase, kicker, message, address = false, response = false }) {
+        phaseVal.innerText = phase;
+        phaseKicker.innerText = kicker;
+        story.innerHTML = message;
+        setLaneState({ address, response });
+      }
+
+      function getOutstandingPacketGeometry() {
+        const planeRect = plane.getBoundingClientRect();
+        const masterRect = masterNode.getBoundingClientRect();
+        const slaveRect = slaveNode.getBoundingClientRect();
+        const packetWidth = 80;
+
+        return {
+          issueX: plane.clientWidth / 3 - packetWidth / 2,
+          responseX: plane.clientWidth * (2 / 3) - packetWidth / 2,
+          masterLaunchY: masterRect.bottom - planeRect.top + 10,
+          queueCaptureY: slaveRect.top - planeRect.top + slaveRect.height / 2 - 16,
+          responseLaunchY: slaveRect.top - planeRect.top + slaveRect.height / 2 - 16,
+          masterReceiveY: masterRect.bottom - planeRect.top - 30,
+        };
+      }
+
+      syncMetrics();
+      status.innerText = 'IDLE';
+      setNarrative({
+        phase: '준비',
+        kicker: '🧩 준비',
+        message: '🧩 준비 상태 · 선발행 대기',
+      });
+
+      await wait(90);
+      if (!isCurrentRun()) return;
+
+      const geometry = getOutstandingPacketGeometry();
+      queueItemHeight = calculateQueueItemHeight();
+
+      setNarrative({
+        phase: '선발행',
+        kicker: '🚀 선발행',
+        message: '🚀 주소 선발행 · Queue 적재',
+        address: true,
+      });
+
+      for (let i = 0; i < count; i += 1) {
+        await wait(400);
+        if (!isCurrentRun()) return;
+
+        const ar = document.createElement('div');
+        ar.className = 'packet absolute w-20 h-8 border-2 border-blue-600 bg-white flex flex-col items-center justify-center shadow-lg rounded';
+        ar.innerHTML = `<span class="text-[7px] font-black text-blue-400">ARID:${i}</span><span class="text-[9px] font-bold">ADDR</span>`;
+        ar.style.left = `${geometry.issueX}px`;
+        ar.style.top = `${geometry.masterLaunchY}px`;
+        plane.appendChild(ar);
+        status.innerText = `ISSUING ARID:${i}`;
+        story.innerHTML = `🚀 <strong>ARID:${i}</strong> 선발행 · Queue 적재 대기`;
+
+        await wait(30);
+        if (!isCurrentRun()) return;
+
+        ar.style.top = `${geometry.queueCaptureY}px`;
+        ar.style.opacity = '0';
+
+        await wait(560);
+        if (!isCurrentRun()) return;
+
+        issued += 1;
+        currentDepth += 1;
+        syncMetrics();
+
+        const qItem = document.createElement('div');
+        qItem.className = 'w-full rounded-xl border border-blue-400 bg-gradient-to-r from-blue-600 to-blue-500 px-3 text-[10px] font-bold text-white mono shadow-inner flex items-center justify-between';
+        qItem.style.height = `${queueItemHeight}px`;
+        qItem.style.minHeight = `${queueItemHeight}px`;
+        qItem.innerHTML = `<span>ID:${i}</span><span>QUEUED</span>`;
+        queue.appendChild(qItem);
+      }
+
+      if (!isCurrentRun()) return;
+
+      status.innerText = 'OUTSTANDING FULL';
+      setNarrative({
+        phase: '포화',
+        kicker: '🧱 포화',
+        message: `🧱 Outstanding <strong>${count}건</strong> · Latency 은닉`,
+        address: true,
+      });
+
+      await wait(1100);
+      if (!isCurrentRun()) return;
+
+      setNarrative({
+        phase: '회수',
+        kicker: '📬 회수',
+        message: '📬 RID 회수 · Depth 축소',
+        response: true,
+      });
+
+      for (let i = 0; i < count; i += 1) {
+        await wait(680);
+        if (!isCurrentRun()) return;
+
+        const retiringItem = queue.firstChild;
+        if (retiringItem) {
+          retiringItem.style.opacity = '0.45';
+          retiringItem.style.transform = 'translateX(6px)';
+          await wait(90);
+          if (!isCurrentRun()) return;
+          if (retiringItem.parentNode === queue) queue.removeChild(retiringItem);
+        }
+
+        currentDepth -= 1;
+        retired += 1;
+        syncMetrics();
+        status.innerText = `RECEIVING RID:${i}`;
+        story.innerHTML = `📬 <strong>RID:${i}</strong> 회수 · 잔여 <strong>${currentDepth}건</strong>`;
+
+        const r = document.createElement('div');
+        r.className = 'packet absolute w-20 h-8 border-2 border-emerald-600 bg-emerald-50 flex flex-col items-center justify-center shadow-lg rounded';
+        r.innerHTML = `<span class="text-[7px] font-black text-emerald-400">RID:${i}</span><span class="text-[9px] font-bold">DATA</span>`;
+        r.style.left = `${geometry.responseX}px`;
+        r.style.top = `${geometry.responseLaunchY}px`;
+        plane.appendChild(r);
+
+        await wait(30);
+        if (!isCurrentRun()) return;
+
+        r.style.top = `${geometry.masterReceiveY}px`;
+        r.style.opacity = '0';
+      }
+
+      if (!isCurrentRun()) return;
+
+      setNarrative({
+        phase: '완료',
+        kicker: '✅ 완료',
+        message: '📦 선발행 · ⏱️ 은닉 · 📬 회수 완료',
+      });
+      status.innerText = 'IDLE';
+    }
+
+    let oooRunToken = 0;
+
+    async function runOoO() {
+      const runToken = ++oooRunToken;
+      const plane = document.getElementById('plane-ooo');
+      const qFast = document.getElementById('q-ooo-fast');
+      const qSlow = document.getElementById('q-ooo-slow');
+      const msg = document.getElementById('ooo-msg');
+      const slowProg = document.getElementById('slow-progress');
+      const status = document.getElementById('ooo-master-status');
+      const runBtn = document.getElementById('ooo-run-btn');
+      const phaseKicker = document.getElementById('ooo-phase-kicker');
+      const story = document.getElementById('ooo-story');
+      const reorderPill = document.getElementById('ooo-reorder-pill');
+      const issueOrderTrack = document.getElementById('ooo-issue-order');
+      const returnOrderTrack = document.getElementById('ooo-return-order');
+      const fastMeta = document.getElementById('ooo-fast-meta');
+      const slowMeta = document.getElementById('ooo-slow-meta');
+      const fastState = document.getElementById('ooo-fast-state');
+      const slowState = document.getElementById('ooo-slow-state');
+      const fastShell = document.getElementById('ooo-fast-shell');
+      const slowShell = document.getElementById('ooo-slow-shell');
+      const masterNode = document.getElementById('ooo-master-node');
+      const slaveNode = document.getElementById('ooo-slave-node');
+
+      if (
+        !plane || !qFast || !qSlow || !msg || !slowProg || !status
+        || !runBtn || !phaseKicker || !story || !reorderPill
+        || !issueOrderTrack || !returnOrderTrack || !fastMeta || !slowMeta
+        || !fastState || !slowState || !fastShell || !slowShell
+        || !masterNode || !slaveNode
+      ) return;
+
+      const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+      const isCurrentRun = () => runToken === oooRunToken;
+      const issueOrder = [0, 1];
+      const returnOrder = [];
+      let issuedCount = 0;
+      let slowProgressTimer = 0;
+
+      plane.innerHTML = '';
+      qFast.innerHTML = '';
+      qSlow.innerHTML = '';
+      slowProg.style.width = '0%';
+
+      function setRunButtonState(disabled) {
+        runBtn.disabled = disabled;
+        runBtn.classList.toggle('opacity-60', disabled);
+        runBtn.classList.toggle('pointer-events-none', disabled);
+      }
+
+      function showMsg(text) {
+        msg.innerText = text;
+        msg.style.opacity = 1;
+        msg.style.transform = 'translate(-50%, -50%) scale(1.08)';
+        window.setTimeout(() => {
+          if (!isCurrentRun()) return;
+          msg.style.opacity = 0;
+          msg.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 1800);
+      }
+
+      function renderIssueOrder(activeId = null) {
+        issueOrderTrack.innerHTML = issueOrder.map((id, index) => {
+          const issuedClass = index < issuedCount ? 'is-issued' : '';
+          const activeClass = id === activeId ? 'is-active' : '';
+          return `<span class="ooo-order-chip ${issuedClass} ${activeClass}">ID:${id}</span>`;
+        }).join('');
+      }
+
+      function renderReturnOrder(activeId = null) {
+        const returnedMarkup = returnOrder.map((id) => {
+          const activeClass = id === activeId ? 'is-active' : '';
+          return `<span class="ooo-order-chip is-returned ${activeClass}">ID:${id}</span>`;
+        }).join('');
+        const pendingMarkup = Array.from({ length: Math.max(issueOrder.length - returnOrder.length, 0) }, () => (
+          `<span class="ooo-order-chip is-pending">...</span>`
+        )).join('');
+        returnOrderTrack.innerHTML = `${returnedMarkup}${pendingMarkup}`;
+      }
+
+      function setPathState({
+        fastHot = false,
+        slowHot = false,
+        fastLabel = 'Idle',
+        slowLabel = 'Idle',
+        fastText = '⚡ 대기',
+        slowText = '⏱️ 대기',
+      } = {}) {
+        fastShell.classList.toggle('is-hot-fast', fastHot);
+        slowShell.classList.toggle('is-hot-slow', slowHot);
+        fastState.textContent = fastLabel;
+        slowState.textContent = slowLabel;
+        fastMeta.textContent = fastText;
+        slowMeta.textContent = slowText;
+      }
+
+      function setPhase({ kicker, message, pill }) {
+        phaseKicker.textContent = kicker;
+        story.innerHTML = message;
+        reorderPill.textContent = pill;
+      }
+
+      function getOoOGeometry() {
+        const planeRect = plane.getBoundingClientRect();
+        const masterRect = masterNode.getBoundingClientRect();
+        const fastRect = fastShell.getBoundingClientRect();
+        const slowRect = slowShell.getBoundingClientRect();
+        const packetWidth = 96;
+
+        return {
+          requestX: plane.clientWidth / 2 - packetWidth / 2,
+          responseX: plane.clientWidth / 2 - packetWidth / 2,
+          masterLaunchY: masterRect.bottom - planeRect.top + 10,
+          masterReceiveY: masterRect.bottom - planeRect.top - 34,
+          fastQueueY: fastRect.top - planeRect.top + fastRect.height / 2 - 20,
+          slowQueueY: slowRect.top - planeRect.top + slowRect.height / 2 - 20,
+        };
+      }
+
+      function startSlowProgress() {
+        window.clearInterval(slowProgressTimer);
+        let progress = 0;
+        slowProg.style.width = '0%';
+        slowProgressTimer = window.setInterval(() => {
+          if (!isCurrentRun()) {
+            window.clearInterval(slowProgressTimer);
+            return;
+          }
+          progress = Math.min(progress + 2, 94);
+          slowProg.style.width = `${progress}%`;
+          if (progress >= 94) window.clearInterval(slowProgressTimer);
+        }, 80);
+      }
+
+      function stopSlowProgress(finalValue = 0) {
+        window.clearInterval(slowProgressTimer);
+        slowProg.style.width = `${finalValue}%`;
+      }
+
+      async function issueTransaction(id, isFast, geometry) {
+        const color = isFast ? 'indigo' : 'slate';
+        const targetY = isFast ? geometry.fastQueueY : geometry.slowQueueY;
+        const qTarget = isFast ? qFast : qSlow;
+        const req = document.createElement('div');
+        req.className = `packet absolute left-1/2 -translate-x-1/2 w-24 h-10 border-2 border-${color}-600 bg-white flex flex-col items-center justify-center shadow-md rounded`;
+        req.innerHTML = `<span class="text-[7px] font-black text-${color}-400 uppercase">ARID:${id}</span><span class="text-[9px] font-bold">REQ (${isFast ? 'SRAM' : 'DRAM'})</span>`;
+        req.style.left = `${geometry.requestX}px`;
+        req.style.top = `${geometry.masterLaunchY}px`;
+        plane.appendChild(req);
+
+        issuedCount += 1;
+        renderIssueOrder(id);
+
+        if (isFast) {
+          status.innerText = 'Issue 0→1 / Fast ready';
+          setPhase({
+            kicker: '🆔 Issue Order',
+            message: '🆔 Issue 0 → 1 · ⚡ SRAM 선완료 준비',
+            pill: 'Issue 0 → 1 고정',
+          });
+          setPathState({
+            fastHot: true,
+            slowHot: true,
+            fastLabel: 'Queued',
+            slowLabel: 'Waiting',
+            fastText: '⚡ SRAM 선완료 준비',
+            slowText: '⏱️ DRAM 대기 유지',
+          });
+          showMsg('⚡ ID:1 enters the fast SRAM path');
+        } else {
+          status.innerText = 'Issue 0→? / Slow wait';
+          setPhase({
+            kicker: '⏱️ Slow Path',
+            message: '🆔 ID:0 발행 · ⏱️ DRAM 대기 시작',
+            pill: 'ID:0 DRAM 대기',
+          });
+          setPathState({
+            slowHot: true,
+            fastLabel: 'Idle',
+            slowLabel: 'Queued',
+            fastText: '⚡ 대기',
+            slowText: '⏱️ DRAM 대기 시작',
+          });
+          startSlowProgress();
+          showMsg('⏱️ ID:0 is routed to the slow DRAM path');
+        }
+
+        await wait(40);
+        if (!isCurrentRun()) return;
+
+        req.style.top = `${targetY}px`;
+        req.style.opacity = '0';
+
+        await wait(680);
+        if (!isCurrentRun()) return;
+
+        const qItem = document.createElement('div');
+        qItem.className = `w-16 h-10 rounded-lg border-2 border-${color}-400 bg-${color}-50 flex items-center justify-center font-black text-xs text-${color}-700 shadow-inner`;
+        qItem.innerText = `ID:${id}`;
+        qTarget.appendChild(qItem);
+
+        await wait(isFast ? 1300 : 5200);
+        if (!isCurrentRun()) return;
+
+        if (qItem.parentNode) qItem.remove();
+
+        if (!isFast) {
+          stopSlowProgress(100);
+          await wait(160);
+          if (!isCurrentRun()) return;
+          stopSlowProgress(0);
+        }
+
+        returnOrder.push(id);
+        renderReturnOrder(id);
+
+        const resp = document.createElement('div');
+        resp.className = 'packet absolute w-24 h-10 border-2 border-emerald-600 bg-emerald-50 flex flex-col items-center justify-center shadow-md rounded';
+        resp.innerHTML = `<span class="text-[7px] font-black text-emerald-400">RID:${id}</span><span class="text-[9px] font-bold">DATA RETURN</span>`;
+        resp.style.left = `${geometry.responseX}px`;
+        resp.style.top = `${targetY}px`;
+        plane.appendChild(resp);
+
+        if (isFast) {
+          status.innerText = 'Return 1→? / OoO';
+          setPhase({
+            kicker: '⚡ OoO Return',
+            message: '⚡ ID:1 선복귀 · 📬 Return 1 → ?',
+            pill: 'ID:1 first return',
+          });
+          setPathState({
+            fastHot: true,
+            slowHot: true,
+            fastLabel: 'Done',
+            slowLabel: 'Waiting',
+            fastText: '⚡ 먼저 복귀',
+            slowText: '⏱️ 아직 대기',
+          });
+          showMsg('🔀 ID:1 returned before ID:0');
+        } else {
+          status.innerText = 'Return 1→0 / Confirmed';
+          setPhase({
+            kicker: '🔀 Reorder Confirmed',
+            message: '🆔 Issue 0 → 1 · 📬 Return 1 → 0',
+            pill: 'Return 1 → 0 확정',
+          });
+          setPathState({
+            fastLabel: 'Done',
+            slowLabel: 'Done',
+            fastText: '⚡ 먼저 복귀',
+            slowText: '⏱️ 늦게 복귀',
+          });
+          showMsg('✅ Return order fixed as 1 → 0');
+        }
+
+        await wait(40);
+        if (!isCurrentRun()) return;
+
+        resp.style.top = `${geometry.masterReceiveY}px`;
+        resp.style.opacity = '0';
+      }
+
+      setRunButtonState(true);
+      renderIssueOrder();
+      renderReturnOrder();
+      setPathState();
+      setPhase({
+        kicker: '🔀 Reorder Ready',
+        message: '🆔 Issue 0 → 1 · 📬 Return 대기',
+        pill: 'Return Order 대기',
+      });
+      status.innerText = 'Issue 0→1 / Return ?';
+
+      try {
+        await wait(120);
+        if (!isCurrentRun()) return;
+
+        const geometry = getOoOGeometry();
+        const slowPromise = issueTransaction(0, false, geometry);
+
+        await wait(900);
+        if (!isCurrentRun()) return;
+
+        const fastPromise = issueTransaction(1, true, geometry);
+        await Promise.all([slowPromise, fastPromise]);
+        if (!isCurrentRun()) return;
+
+        setPhase({
+          kicker: '✅ Reorder Complete',
+          message: '🆔 Issue 0 → 1 · 📬 Return 1 → 0',
+          pill: 'OoO confirmed',
+        });
+        status.innerText = 'OoO confirmed';
+      } finally {
+        window.clearInterval(slowProgressTimer);
+        if (isCurrentRun()) {
+          setRunButtonState(false);
+        }
+      }
+    }
+
+    const timingAnalysisTargets = {
+      apb: document.getElementById('apb-timing-analysis-list'),
+      ahb: document.getElementById('ahb-timing-analysis-list'),
+      ahbArb: document.getElementById('ahb-arb-timing-analysis-list'),
+      axi: document.getElementById('axi-timing-analysis-list'),
+    };
+
+    function renderWaveDromToContainer(sourceJson, containerId, targetIndex) {
+      if (typeof WaveDrom === 'undefined') return;
+      const container = document.getElementById(containerId);
+      const diagramMinWidth = Number(sourceJson?.config?.diagramMinWidth || 0);
+      if (container) {
+        container.innerHTML = '';
+        container.style.minWidth = diagramMinWidth ? `${diagramMinWidth}px` : '0';
+        container.style.width = diagramMinWidth ? `${diagramMinWidth}px` : '100%';
+        container.style.display = 'flex';
+        container.style.justifyContent = 'center';
+      }
+      WaveDrom.RenderWaveForm(targetIndex, sourceJson, 'WaveDrom_Display_');
+      const svg = container?.querySelector('svg');
+      if (svg) {
+        svg.style.width = diagramMinWidth ? `${diagramMinWidth}px` : '100%';
+        svg.style.maxWidth = diagramMinWidth ? 'none' : '100%';
+        svg.style.height = 'auto';
+        svg.style.display = 'block';
+        svg.style.margin = '0 auto';
+        svg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
+      }
+      window.setTimeout(syncPageHeight, 60);
+    }
+
+    function updateTimingAnalysis(section, type) {
+      const target = timingAnalysisTargets[section];
+      const items = timingAnalysisData[section]?.[type];
+      if (!target || !items) return;
+
+      target.innerHTML = items.map((item) => `<li>- ${item}</li>`).join('');
+    }
+
+    function renderWaveDrom(type) {
+      const sourceJson = waveData[type];
+      const isAHB = type.startsWith('ahb_');
+      const isAXI = type.startsWith('axi_');
+      const section = isAHB ? 'ahb' : isAXI ? 'axi' : 'apb';
+      updateTimingAnalysis(section, type);
+      let targetIndex = 0;
+      if (isAHB) targetIndex = 1;
+      if (isAXI) targetIndex = 2;
+      renderWaveDromToContainer(sourceJson, 'WaveDrom_Display_' + targetIndex, targetIndex);
+    }
+
+    function renderAhbArbWaveDrom(type) {
+      const sourceJson = waveData[type];
+      if (!sourceJson) return;
+      updateTimingAnalysis('ahbArb', type);
+      renderWaveDromToContainer(sourceJson, 'WaveDrom_Display_3', 3);
+    }
+
+    function renderSupplementalWaveforms(section) {
+      if (section === 'axi-lite') {
+        const sourceJson = waveData[activeAxiLiteSingleWave];
+        const meta = axiLiteSingleWaveMeta[activeAxiLiteSingleWave];
+        if (sourceJson) {
+          renderWaveDromToContainer(sourceJson, 'WaveDrom_Display_4', 4);
+        }
+        if (meta) {
+          if (axiLiteSingleRefs.kicker) axiLiteSingleRefs.kicker.textContent = meta.kicker;
+          if (axiLiteSingleRefs.title) axiLiteSingleRefs.title.textContent = meta.title;
+          if (axiLiteSingleRefs.description) axiLiteSingleRefs.description.innerHTML = meta.description;
+        }
+        axiLiteSingleRefs.buttons.forEach((button) => {
+          const isActive = button.dataset.wave === activeAxiLiteSingleWave;
+          button.className = isActive
+            ? 'axi-lite-single-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200'
+            : 'axi-lite-single-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+          button.setAttribute('aria-pressed', String(isActive));
+        });
+        return;
+      }
+
+      if (section === 'axi-stream') {
+        const sourceJson = waveData[activeAxiStreamTimingWave];
+        const meta = axiStreamTimingWaveMeta[activeAxiStreamTimingWave];
+        if (sourceJson) {
+          renderWaveDromToContainer(sourceJson, 'WaveDrom_Display_6', 6);
+        }
+        if (meta) {
+          if (axiStreamTimingRefs.kicker) axiStreamTimingRefs.kicker.textContent = meta.kicker;
+          if (axiStreamTimingRefs.title) axiStreamTimingRefs.title.textContent = meta.title;
+          if (axiStreamTimingRefs.description) axiStreamTimingRefs.description.innerHTML = meta.description;
+        }
+        axiStreamTimingRefs.buttons.forEach((button) => {
+          const isActive = button.dataset.wave === activeAxiStreamTimingWave;
+          button.className = isActive
+            ? 'axi-stream-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-cyan-600 shadow-sm border border-gray-200'
+            : 'axi-stream-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+          button.setAttribute('aria-pressed', String(isActive));
+        });
+        return;
+      }
+
+      if (section === 'axi-full') {
+        const sourceJson = waveData[activeAxiFullTimingWave];
+        const meta = axiFullTimingWaveMeta[activeAxiFullTimingWave];
+        if (sourceJson) {
+          renderWaveDromToContainer(sourceJson, 'WaveDrom_Display_7', 7);
+        }
+        if (meta) {
+          if (axiFullTimingRefs.kicker) axiFullTimingRefs.kicker.textContent = meta.kicker;
+          if (axiFullTimingRefs.title) axiFullTimingRefs.title.textContent = meta.title;
+          if (axiFullTimingRefs.description) axiFullTimingRefs.description.innerHTML = meta.description;
+          if (axiFullTimingRefs.points) {
+            axiFullTimingRefs.points.innerHTML = meta.points.map((item) => `<li>- ${item}</li>`).join('');
+          }
+          if (axiFullTimingRefs.footnote) {
+            const footnote = (meta.footnote || '').trim();
+            axiFullTimingRefs.footnote.innerHTML = footnote;
+            axiFullTimingRefs.footnote.classList.toggle('hidden', !footnote);
+            axiFullTimingRefs.footnote.setAttribute('aria-hidden', String(!footnote));
+          }
+        }
+        axiFullTimingRefs.buttons.forEach((button) => {
+          const isActive = button.dataset.wave === activeAxiFullTimingWave;
+          button.className = isActive
+            ? 'axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200'
+            : 'axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+          button.setAttribute('aria-pressed', String(isActive));
+        });
+      }
+    }
+
+    function renderAxiLiteDependencyPanel(panelKey = 'write') {
+      activeAxiLiteDependencyPanel = panelKey === 'read' ? 'read' : 'write';
+
+      axiLiteDependencyRefs.panels.forEach((panel) => {
+        panel.classList.toggle('hidden', panel.dataset.axiLiteDepPanel !== activeAxiLiteDependencyPanel);
+      });
+
+      axiLiteDependencyRefs.buttons.forEach((button) => {
+        const isActive = button.dataset.axiLiteDep === activeAxiLiteDependencyPanel;
+        button.className = isActive
+          ? 'axi-lite-dep-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200'
+          : 'axi-lite-dep-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+        button.setAttribute('aria-pressed', String(isActive));
+      });
+
+      window.setTimeout(syncPageHeight, 40);
+    }
+
+    internalArbiterRefs.stepButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const stepIndex = Number(button.dataset.arbiterStep || 0);
+        initializeInternalArbiterAnimation(true, stepIndex);
+      });
+    });
+
+    const waveBtns = document.querySelectorAll('.wave-btn');
+    waveBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        waveBtns.forEach((b) => {
+          b.className = 'wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+        });
+        btn.className = 'wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200';
+        renderWaveDrom(btn.getAttribute('data-wave'));
+      });
+    });
+
+    const ahbWaveBtns = document.querySelectorAll('.ahb-wave-btn');
+    ahbWaveBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        ahbWaveBtns.forEach((b) => {
+          b.className = 'ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+        });
+        btn.className = 'ahb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-green-600 shadow-sm border border-gray-200';
+        renderWaveDrom(btn.getAttribute('data-wave'));
+      });
+    });
+
+    const ahbArbWaveBtns = document.querySelectorAll('.ahb-arb-wave-btn');
+    ahbArbWaveBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        ahbArbWaveBtns.forEach((b) => {
+          b.className = 'ahb-arb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+        });
+        btn.className = 'ahb-arb-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-green-600 shadow-sm border border-gray-200';
+        renderAhbArbWaveDrom(btn.getAttribute('data-wave'));
+      });
+    });
+
+    const axiWaveBtns = document.querySelectorAll('.axi-wave-btn');
+    axiWaveBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        axiWaveBtns.forEach((b) => {
+          b.className = 'axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900';
+        });
+        btn.className = 'axi-wave-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200';
+        renderWaveDrom(btn.getAttribute('data-wave'));
+      });
+    });
+
+    axiLiteDependencyRefs.buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        renderAxiLiteDependencyPanel(button.dataset.axiLiteDep || 'write');
+      });
+    });
+
+    axiLiteSingleRefs.buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeAxiLiteSingleWave = button.dataset.wave || 'axi_lite_write_single';
+        renderSupplementalWaveforms('axi-lite');
+      });
+    });
+
+    axiStreamTimingRefs.buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeAxiStreamTimingWave = button.dataset.wave || 'axis_basic_transfer';
+        renderSupplementalWaveforms('axi-stream');
+      });
+    });
+
+    axiFullTimingRefs.buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeAxiFullTimingWave = button.dataset.wave || 'axi_full_write_dependency';
+        renderSupplementalWaveforms('axi-full');
+      });
+    });
+
+    axiFullSignalRefs.buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        renderAxiFullSignalGroup(button.dataset.axiFullGroup || 'global');
+      });
+    });
+
+    renderAxiFullSignalGroup(activeAxiFullSignalGroup);
+    renderSupplementalWaveforms('axi-full');
+    renderAxiFullControlMath();
+
+  </script>
+</body>
+</html>

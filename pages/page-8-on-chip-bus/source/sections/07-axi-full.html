@@ -1,0 +1,1372 @@
+<div id="tab-axi-full" class="tab-content space-y-8" data-part8-panel="axi-full" data-guidebook-toc-title="AXI FULL">
+        <div class="bg-[#F7FAFF] rounded-[32px] p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-blue-500 text-white p-2 rounded-xl"><i data-lucide="cpu" class="w-6 h-6"></i></div>
+            <h2 class="text-3xl font-bold text-gray-900">AXI FULL (Advanced eXtensible Interface)</h2>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="layers-3" class="w-5 h-5 text-blue-500"></i>
+              AXI FULL Focus Areas
+            </h3>
+            <div class="grid gap-4 md:grid-cols-3">
+              <div class="rounded-[22px] border border-blue-100 bg-blue-50/60 p-6">
+                <div class="flex items-start gap-4 mb-5">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/90 text-blue-600 border border-blue-100">
+                    <i data-lucide="rows-3" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-xs font-black tracking-[0.22em] uppercase text-blue-500 mb-2">Burst</div>
+                    <div class="text-lg font-bold text-gray-900">연속 Beat 전송</div>
+                  </div>
+                </div>
+                <ul class="space-y-2.5 text-sm leading-6 text-gray-700">
+                  <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>address 1회 + data 다중 beat</span></li>
+                  <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>DDR · DMA · frame buffer 경로</span></li>
+                  <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>고대역폭 전송 효율</span></li>
+                </ul>
+              </div>
+              <div class="rounded-[22px] border border-emerald-100 bg-emerald-50/70 p-6">
+                <div class="flex items-start gap-4 mb-5">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/90 text-emerald-600 border border-emerald-100">
+                    <i data-lucide="shuffle" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-xs font-black tracking-[0.22em] uppercase text-emerald-500 mb-2">Out-of-Order</div>
+                    <div class="text-lg font-bold text-gray-900">응답 순서 재배치</div>
+                  </div>
+                </div>
+                <ul class="space-y-2.5 text-sm leading-6 text-gray-700">
+                  <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-400"></span><span>ID 기반 response matching</span></li>
+                  <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-400"></span><span>completion 우선 반환 구조</span></li>
+                  <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-400"></span><span>slave / interconnect 재정렬</span></li>
+                </ul>
+              </div>
+              <div class="rounded-[22px] border border-violet-100 bg-violet-50/70 p-6">
+                <div class="flex items-start gap-4 mb-5">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/90 text-violet-600 border border-violet-100">
+                    <i data-lucide="workflow" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-xs font-black tracking-[0.22em] uppercase text-violet-500 mb-2">Outstanding</div>
+                    <div class="text-lg font-bold text-gray-900">Multi Outstanding</div>
+                  </div>
+                </div>
+                <ul class="space-y-2.5 text-sm leading-6 text-gray-700">
+                  <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-violet-400"></span><span>응답 대기 중 다음 주소 발행</span></li>
+                  <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-violet-400"></span><span>memory latency hiding</span></li>
+                  <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-violet-400"></span><span>channel utilization 향상</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="axi-full-advanced-showcase mb-8 rounded-[32px] bg-slate-50 p-4 md:p-8">
+            <div class="max-w-[1400px] mx-auto space-y-8">
+              <div aria-hidden="true" class="hidden left-[calc(33.33%-40px)] right-[calc(33.33%-40px)] top-[360px] top-[320px] top-24 top-32 border-indigo-600 bg-indigo-50 text-indigo-400 text-indigo-700 border-indigo-400 border-slate-600 bg-slate-50 text-slate-400 text-slate-700 border-slate-400 border-emerald-600 bg-emerald-50 text-emerald-400"></div>
+
+              <header class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div>
+                  <div class="flex items-center space-x-2 text-blue-600 mb-2">
+                    <i data-lucide="microchip" class="w-5 h-5"></i>
+                    <span class="text-xs font-bold tracking-widest uppercase">Protocol Engineering Unit</span>
+                  </div>
+                  <h1 class="text-3xl font-black text-slate-900 tracking-tight">AXI4 TRANSACTION SCHEMATIC</h1>
+                  <p class="text-slate-500 text-sm mt-1 max-w-2xl leading-relaxed">
+                    AXI는 ACLK에 동기화되지만, 주소/데이터/응답 채널이 서로 독립적으로 handshake됩니다.
+                    주소 채널의 <span class="text-blue-600 font-bold">Pipelining</span>과 ID 기반 <span class="text-indigo-600 font-bold">Response Reordering</span> 원리를 확인하세요.
+                  </p>
+                </div>
+              </header>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                  <section class="space-y-4">
+                    <div class="flex items-center justify-between group">
+                      <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-200">
+                          <i data-lucide="layers" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                          <h2 class="text-xl font-black text-slate-800 uppercase italic">Multiple Outstanding</h2>
+                        </div>
+                      </div>
+                      <button id="out-run-btn" onclick="runOutstanding()" class="bg-slate-900 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-blue-600 transition-all flex items-center space-x-2 shadow-lg active:scale-95">
+                        <i data-lucide="play" class="w-4 h-4"></i>
+                        <span>SEQ START</span>
+                      </button>
+                    </div>
+
+                    <div class="relative h-[900px] schematic-grid bg-slate-50 border-2 border-slate-200 rounded-3xl overflow-hidden flex flex-col items-center pt-10 pb-52 px-6">
+                      <div id="out-master-node" class="hw-block w-40 h-24 flex flex-col items-center justify-center scanning">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-2 py-0.5 text-[8px] font-bold uppercase">AXI Master</div>
+                        <span class="font-black text-slate-800 tracking-tighter text-sm uppercase">Manager Block</span>
+                        <div class="mt-2 text-[10px] font-mono text-blue-500 font-bold" id="out-status">IDLE</div>
+                      </div>
+
+                      <div class="h-[178px] md:h-[194px] w-full relative shrink-0">
+                        <div class="absolute left-1/3 -translate-x-1/2 top-4 rounded-full border border-blue-200 bg-white/90 px-3 py-1 text-[9px] font-black uppercase tracking-[0.22em] text-blue-600 shadow-sm">
+                          Addr Issue
+                        </div>
+                        <div class="absolute right-1/3 translate-x-1/2 top-4 rounded-full border border-emerald-200 bg-white/90 px-3 py-1 text-[9px] font-black uppercase tracking-[0.22em] text-emerald-600 shadow-sm">
+                          Resp Return
+                        </div>
+                        <div id="out-addr-lane" class="outstanding-lane absolute left-1/3 -translate-x-1/2 h-full w-[2px]"></div>
+                        <div id="out-resp-lane" class="outstanding-lane absolute right-1/3 translate-x-1/2 h-full w-[2px]"></div>
+                      </div>
+
+                      <div id="out-slave-node" class="hw-block w-64 h-72 flex flex-col p-6 bg-slate-50">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-2 py-0.5 text-[8px] font-bold uppercase">AXI Slave</div>
+                        <span class="text-center font-bold text-base text-slate-700 mb-4">REQUEST QUEUE</span>
+                        <div id="out-queue" class="flex-1 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col-reverse p-2.5 gap-2 overflow-hidden"></div>
+                      </div>
+
+                      <div class="absolute bottom-6 left-4 right-4 rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm backdrop-blur-md">
+                        <div class="flex flex-col gap-4">
+                          <div class="flex flex-col gap-3 border-b border-slate-200 pb-3 md:flex-row md:items-center md:justify-between">
+                            <div>
+                              <div id="out-phase-kicker" class="text-[10px] font-black uppercase tracking-[0.24em] text-blue-500">🧩 준비</div>
+                              <p id="out-story" class="mt-1 text-xs leading-5 text-slate-600">
+                                🧩 준비 상태 · 선발행 대기
+                              </p>
+                            </div>
+                            <div id="out-pipeline-pill" class="inline-flex shrink-0 items-center gap-2 self-start whitespace-nowrap rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-[11px] font-bold text-blue-700 md:self-auto">
+                              <span aria-hidden="true">📦</span>
+                              <span>주소 선발행 0개</span>
+                            </div>
+                          </div>
+
+                          <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+                            <div class="text-center">
+                              <div class="text-[8px] font-bold text-slate-400">BUS UTILIZATION</div>
+                              <div class="text-lg font-black text-blue-600 mono" id="util-val">0%</div>
+                            </div>
+                            <div class="text-center">
+                              <div class="text-[8px] font-bold text-slate-400">OUTSTANDING DEPTH</div>
+                              <div class="text-lg font-black text-slate-800 mono" id="depth-val">0/4</div>
+                              <div id="out-depth-track" class="mt-2 flex gap-1.5"></div>
+                            </div>
+                            <div class="text-center">
+                              <div class="text-[8px] font-bold text-slate-400">PIPELINE STATE</div>
+                              <div class="text-sm font-black tracking-[0.18em] text-slate-800" id="out-phase-val">준비</div>
+                            </div>
+                            <div class="text-center">
+                              <div class="text-[8px] font-bold text-slate-400">ISSUED / RETIRED</div>
+                              <div class="text-lg font-black text-slate-800 mono"><span id="out-issued-count">0</span>/<span id="out-complete-count">0</span></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="plane-out" class="absolute inset-0 pointer-events-none"></div>
+                    </div>
+                  </section>
+
+                  <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm min-h-[430px] lg:min-h-[450px] space-y-6">
+                    <div class="flex items-center space-x-3 text-blue-600 border-b border-blue-50 pb-4">
+                      <i data-lucide="book-open" class="w-6 h-6"></i>
+                      <h3 class="text-xl font-extrabold uppercase tracking-tight">Definition & Principle</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                      <div>
+                        <h4 class="flex items-center text-slate-900 font-bold mb-2">
+                          <span class="text-lg mr-2">📚</span> 1. 기본 정의
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed pl-7">
+                          이전 트랜잭션의 <strong>데이터 응답(Data Response)이 완료되기 전에 새로운 주소(Address)를 발행</strong>할 수 있는 능력을 의미합니다. '미완결(Outstanding)' 상태의 트랜잭션을 여러 개 유지할 수 있다는 뜻에서 유래되었습니다.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 class="flex items-center text-slate-900 font-bold mb-2">
+                          <span class="text-lg mr-2">⚙️</span> 2. 작동 원리
+                        </h4>
+                        <ul class="text-sm text-slate-600 space-y-2 pl-7 list-disc">
+                          <li>Master는 Slave가 Busy한 상태여도 Address Channel을 통해 다음 명령을 미리 전달합니다.</li>
+                          <li>Slave 내부의 <strong>Request Queue</strong>에 명령이 쌓이게 되며, 이는 파이프라이닝(Pipelining) 효과를 발생시킵니다.</li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 class="flex items-center text-slate-900 font-bold mb-2">
+                          <span class="text-lg mr-2">💡</span> 3. 설계 이점
+                        </h4>
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 text-sm text-blue-800 leading-relaxed font-medium">
+                          Slave의 내부 처리 지연 시간(Memory Latency)을 숨길 수 있습니다. 주소를 미리 전달함으로써 데이터 채널의 <strong>유휴 시간(Idle Time)을 제거하여 대역폭 효율을 극대화</strong>합니다.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-6">
+                  <section class="space-y-4">
+                    <div class="flex items-center justify-between group">
+                      <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-200">
+                          <i data-lucide="shuffle" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                          <h2 class="text-xl font-black text-slate-800 uppercase italic">Out-of-Order</h2>
+                        </div>
+                      </div>
+                      <button id="ooo-run-btn" onclick="runOoO()" class="bg-slate-900 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-indigo-600 transition-all flex items-center space-x-2 shadow-lg active:scale-95">
+                        <i data-lucide="play" class="w-4 h-4"></i>
+                        <span>SEQ START</span>
+                      </button>
+                    </div>
+
+                    <div class="relative h-[900px] schematic-grid bg-slate-50 border-2 border-slate-200 rounded-3xl overflow-hidden flex flex-col items-center pt-10 pb-52 px-6">
+                      <div id="ooo-master-node" class="hw-block w-40 h-24 flex flex-col items-center justify-center">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-2 py-0.5 text-[8px] font-bold uppercase">AXI Master</div>
+                        <span class="font-black text-slate-800 tracking-tighter text-sm uppercase">Reorder Buffer</span>
+                        <div id="ooo-master-status" class="mt-2 text-[8px] font-mono font-bold text-indigo-500 uppercase">Awaiting IDs...</div>
+                      </div>
+
+                      <div class="flex-1 w-[2px] bg-slate-200 relative"></div>
+
+                      <div id="ooo-slave-node" class="hw-block w-full max-w-[500px] h-64 -translate-y-12 md:-translate-y-14 flex flex-col p-5 bg-white">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-2 py-0.5 text-[8px] font-bold uppercase">Complex Slave</div>
+                        <div class="grid grid-cols-2 gap-4 h-full">
+                          <div id="ooo-fast-shell" class="ooo-path-shell border-2 border-indigo-100 rounded-xl bg-indigo-50/30 flex flex-col items-center p-2">
+                            <div class="mb-2 flex w-full items-center justify-between gap-2">
+                              <span class="text-[8px] font-extrabold text-indigo-400 uppercase">Fast Path (SRAM)</span>
+                              <span id="ooo-fast-state" class="rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-black uppercase text-indigo-500">Idle</span>
+                            </div>
+                            <div id="q-ooo-fast" class="flex-1 w-full flex items-center justify-center"></div>
+                          </div>
+                          <div id="ooo-slow-shell" class="ooo-path-shell border-2 border-slate-100 rounded-xl bg-slate-50 flex flex-col items-center p-2 relative overflow-hidden">
+                            <div class="mb-2 flex w-full items-center justify-between gap-2">
+                              <span class="text-[8px] font-extrabold text-slate-400 uppercase">Slow Path (DRAM)</span>
+                              <span id="ooo-slow-state" class="rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-black uppercase text-slate-500">Idle</span>
+                            </div>
+                            <div id="q-ooo-slow" class="flex-1 w-full flex items-center justify-center"></div>
+                            <div class="absolute bottom-1 w-full h-1 bg-slate-200">
+                              <div id="slow-progress" class="h-full bg-indigo-400" style="width: 0%"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="ooo-msg" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold opacity-0 transition-all pointer-events-none z-50 text-center shadow-2xl border border-slate-700"></div>
+                      <div class="absolute bottom-6 left-4 right-4 rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm backdrop-blur-md">
+                        <div class="flex flex-col gap-4">
+                          <div class="flex flex-col gap-3 border-b border-slate-200 pb-3 md:flex-row md:items-center md:justify-between">
+                            <div>
+                              <div id="ooo-phase-kicker" class="text-[10px] font-black uppercase tracking-[0.24em] text-indigo-500">🔀 Reorder Ready</div>
+                              <p id="ooo-story" class="mt-1 text-xs leading-5 text-slate-600">🆔 Issue 0 → 1 · 📬 Return 대기</p>
+                            </div>
+                            <div id="ooo-reorder-pill" class="rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1.5 text-[11px] font-bold text-indigo-700">
+                              Return Order 대기
+                            </div>
+                          </div>
+
+                          <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+                            <div class="text-center">
+                              <div class="text-[8px] font-bold text-slate-400">ISSUE ORDER</div>
+                              <div id="ooo-issue-order" class="mt-2 flex flex-wrap justify-center gap-2"></div>
+                            </div>
+                            <div class="text-center">
+                              <div class="text-[8px] font-bold text-slate-400">RETURN ORDER</div>
+                              <div id="ooo-return-order" class="mt-2 flex flex-wrap justify-center gap-2"></div>
+                            </div>
+                            <div class="text-center">
+                              <div class="text-[8px] font-bold text-slate-400">FAST PATH</div>
+                              <div id="ooo-fast-meta" class="mt-2 text-sm font-black text-indigo-600">⚡ 대기</div>
+                            </div>
+                            <div class="text-center">
+                              <div class="text-[8px] font-bold text-slate-400">SLOW PATH</div>
+                              <div id="ooo-slow-meta" class="mt-2 text-sm font-black text-slate-700">⏱️ 대기</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="plane-ooo" class="absolute inset-0 pointer-events-none"></div>
+                    </div>
+                  </section>
+
+                  <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm min-h-[430px] lg:min-h-[450px] space-y-6">
+                    <div class="flex items-center space-x-3 text-indigo-600 border-b border-indigo-50 pb-4">
+                      <i data-lucide="book-open" class="w-6 h-6"></i>
+                      <h3 class="text-xl font-extrabold uppercase tracking-tight">Definition & Principle</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                      <div>
+                        <h4 class="flex items-center text-slate-900 font-bold mb-2">
+                          <span class="text-lg mr-2">🔀</span> 1. 기본 정의
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed pl-7">
+                          트랜잭션의 <strong>요청 순서와 상관없이, 먼저 준비된 데이터부터 먼저 응답</strong>할 수 있는 기술입니다. AXI 프로토콜의 핵심 신호인 <strong>ID Tag(ARID, RID 등)</strong>를 사용하여 각 응답이 어떤 요청에 대한 것인지 식별합니다.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 class="flex items-center text-slate-900 font-bold mb-2">
+                          <span class="text-lg mr-2">🆔</span> 2. 작동 원리
+                        </h4>
+                        <ul class="text-sm text-slate-600 space-y-2 pl-7 list-disc">
+                          <li>Master는 각 요청에 고유한 ID 번호를 부여하여 보냅니다.</li>
+                          <li>Slave는 처리 속도가 다른 여러 내부 자원(SRAM, DRAM 등) 중 <strong>먼저 처리가 완료된 순서대로 ID를 붙여 데이터를 반환</strong>합니다.</li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 class="flex items-center text-slate-900 font-bold mb-2">
+                          <span class="text-lg mr-2">🚀</span> 3. 설계 이점
+                        </h4>
+                        <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 text-sm text-indigo-800 leading-relaxed font-medium">
+                          느린 주변 장치에 대한 접근이 빠른 장치로의 접근을 방해하는 <strong>Head-of-Line Blocking 현상을 방지</strong>합니다. 시스템의 전체적인 유연성과 실질적인 데이터 처리 속도를 크게 향상시킵니다.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-3xl p-10 border border-slate-200 shadow-sm space-y-12">
+                <div class="flex items-center border-b border-slate-100 pb-6">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-2 h-8 bg-amber-400 rounded-full"></div>
+                    <h3 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Implementation Design Checklist</h3>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-indigo-600">
+                      <i data-lucide="tag" class="w-5 h-5"></i>
+                      <h4 class="font-bold uppercase tracking-tighter">ID Tagging Mechanism</h4>
+                    </div>
+                    <div class="p-6 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-3">
+                      <p class="text-sm text-slate-600 leading-relaxed">
+                        Out-of-Order를 가능하게 하는 핵심은 <span class="font-bold text-slate-900">ID Signals</span>입니다.
+                      </p>
+                      <ul class="text-xs text-slate-500 space-y-2">
+                        <li class="flex items-start"><span class="text-indigo-500 mr-2">●</span> ARID: Read Address ID</li>
+                        <li class="flex items-start"><span class="text-indigo-500 mr-2">●</span> AWID: Write Address ID</li>
+                        <li class="flex items-start"><span class="text-indigo-500 mr-2">●</span> RID / BID: Response ID</li>
+                      </ul>
+                      <div class="text-[11px] text-indigo-800 bg-indigo-50 p-3 rounded-lg font-medium leading-snug italic">
+                        "마스터는 돌아온 응답의 RID를 확인하여 자신이 보낸 어떤 ARID에 대한 데이터인지 판단합니다."
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-amber-600">
+                      <i data-lucide="list-ordered" class="w-5 h-5"></i>
+                      <h4 class="font-bold uppercase tracking-tighter">Ordering Rules</h4>
+                    </div>
+                    <div class="p-6 bg-white rounded-2xl border border-amber-100 shadow-sm shadow-amber-50 space-y-4">
+                      <div class="space-y-3">
+                        <div class="flex items-center space-x-2">
+                          <span class="w-5 h-5 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-[10px] font-bold">1</span>
+                          <span class="text-sm font-bold text-slate-800">Same ID Requirement</span>
+                        </div>
+                        <p class="text-[12px] text-slate-500 leading-relaxed pl-7">
+                          동일한 ID를 가진 트랜잭션은 반드시 <b>발행된 순서(In-Order)</b>대로 완료되어야 합니다.
+                        </p>
+                      </div>
+                      <div class="space-y-3 pt-2 border-t border-amber-50">
+                        <div class="flex items-center space-x-2">
+                          <span class="w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-[10px] font-bold">2</span>
+                          <span class="text-sm font-bold text-slate-800">Different ID Flexibility</span>
+                        </div>
+                        <p class="text-[12px] text-slate-500 leading-relaxed pl-7">
+                          서로 다른 ID 사이에는 순서 보장 의무가 없으므로 <b>Out-of-Order</b>가 적극 허용됩니다.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-rose-600">
+                      <i data-lucide="component" class="w-5 h-5"></i>
+                      <h4 class="font-bold uppercase tracking-tighter">Hardware Overhead</h4>
+                    </div>
+                    <div class="p-6 bg-rose-50/30 rounded-2xl border border-rose-100 space-y-4">
+                      <div class="flex items-center space-x-3">
+                        <i data-lucide="box" class="w-8 h-8 text-rose-200"></i>
+                        <div>
+                          <span class="block text-[10px] font-bold text-rose-600">REORDER BUFFER</span>
+                          <span class="text-xs text-slate-600">마스터는 응답을 정렬하기 위한 로직과 버퍼가 필요합니다.</span>
+                        </div>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <i data-lucide="database" class="w-8 h-8 text-rose-200"></i>
+                        <div>
+                          <span class="block text-[10px] font-bold text-rose-600">QUEUE DEPTH</span>
+                          <span class="text-xs text-slate-600">슬레이브는 Outstanding 요청을 보관할 Queue가 필요합니다.</span>
+                        </div>
+                      </div>
+                      <p class="text-[11px] text-rose-800/80 italic font-medium leading-snug">
+                        * Outstanding Depth가 늘어날수록 성능은 비례하지만 하드웨어 면적(Area) 또한 비례하여 증가합니다.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-10 bg-white rounded-3xl p-8 md:p-10 border border-slate-200 shadow-sm space-y-10">
+                  <div class="flex items-center justify-between border-b border-slate-100 pb-6">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-2 h-8 bg-blue-500 rounded-full"></div>
+                      <div>
+                        <div class="text-[11px] font-black tracking-[0.22em] uppercase text-blue-500">Practical Hardware Implementation</div>
+                        <h4 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Master / Slave Structure</h4>
+                      </div>
+                    </div>
+                    <div class="hidden md:flex text-[10px] font-mono text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest">
+                      RTL Architecture Guide
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div class="space-y-6">
+                      <div class="flex items-center space-x-3 text-blue-600">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                        <h5 class="font-bold uppercase text-sm tracking-widest italic">Master Side: ID Management &amp; ROB</h5>
+                      </div>
+
+                      <div class="p-8 bg-slate-50 rounded-3xl border border-slate-100 space-y-4">
+                        <div class="flex items-center space-x-2 text-xs font-bold text-slate-800">
+                          <span class="px-2 py-1 bg-blue-100 text-blue-600 rounded">Mechanism 01</span>
+                          <span>Transaction ID Tracking Table</span>
+                        </div>
+
+                        <p class="text-[13px] text-slate-600 leading-relaxed">
+                          Master는 발행한 모든 Outstanding 트랜잭션을 추적하기 위한
+                          <strong class="font-extrabold text-slate-900">Internal Scoreboard</strong>가 필요합니다.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200">
+                          <span class="block text-[10px] font-black text-slate-400 mb-2 uppercase italic tracking-widest">Tracking Logic</span>
+                          <ul class="text-xs text-slate-500 space-y-3">
+                            <li class="flex items-start">
+                              <span class="w-4 h-4 bg-blue-50 text-blue-600 flex items-center justify-center rounded mr-2 font-black shrink-0">1</span>
+                              <span>
+                                <b class="text-slate-800">ID Pool:</b>
+                                사용 가능한 ID 비트 수
+                                <span class="mx-1 inline-flex items-center rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] text-blue-600">2<sup>ID_WIDTH</sup></span>
+                                내에서 고유 ID를 할당하여 발행합니다.
+                              </span>
+                            </li>
+                            <li class="flex items-start">
+                              <span class="w-4 h-4 bg-blue-50 text-blue-600 flex items-center justify-center rounded mr-2 font-black shrink-0">2</span>
+                              <span>
+                                <b class="text-slate-800">Response Matching:</b>
+                                <span class="mx-1 inline-flex items-center rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] text-blue-600">RID</span>
+                                가 돌아오면 해당 ID의 상태를 완료로 업데이트하고 리소스를 해제합니다.
+                              </span>
+                            </li>
+                            <li class="flex items-start">
+                              <span class="w-4 h-4 bg-blue-50 text-blue-600 flex items-center justify-center rounded mr-2 font-black shrink-0">3</span>
+                              <span>
+                                <b class="text-slate-800">Reorder Buffer (ROB):</b>
+                                CPU와 같이 순서가 중요한 Master라면, OoO로 돌아온 데이터를 원래 순서대로 정렬하기 위한 대규모 Buffer를 유지해야 합니다.
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="space-y-6">
+                      <div class="flex items-center space-x-3 text-indigo-600">
+                        <i data-lucide="server" class="w-6 h-6"></i>
+                        <h5 class="font-bold uppercase text-sm tracking-widest italic">Slave Side: Multi-threaded Back-end</h5>
+                      </div>
+
+                      <div class="p-8 bg-slate-50 rounded-3xl border border-slate-100 space-y-4">
+                        <div class="flex items-center space-x-2 text-xs font-bold text-slate-800">
+                          <span class="px-2 py-1 bg-indigo-100 text-indigo-600 rounded">Mechanism 02</span>
+                          <span>Request Queueing &amp; Banking</span>
+                        </div>
+
+                        <p class="text-[13px] text-slate-600 leading-relaxed">
+                          Slave는 다수의 요청을 동시에 수용하고, 처리 준비가 된 장치부터 응답을 보낼 수 있는 병렬 구조를 가집니다.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200">
+                          <span class="block text-[10px] font-black text-slate-400 mb-2 uppercase italic tracking-widest">Backend Architecture</span>
+                          <ul class="text-xs text-slate-500 space-y-3">
+                            <li class="flex items-start">
+                              <span class="w-4 h-4 bg-indigo-50 text-indigo-600 flex items-center justify-center rounded mr-2 font-black shrink-0">1</span>
+                              <span>
+                                <b class="text-slate-800">Command FIFO:</b>
+                                Address Phase에서 수신한
+                                <span class="mx-1 inline-flex items-center rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] text-indigo-600">AR</span>
+                                정보를 저장하여 Outstanding 명령을 유지합니다.
+                              </span>
+                            </li>
+                            <li class="flex items-start">
+                              <span class="w-4 h-4 bg-indigo-50 text-indigo-600 flex items-center justify-center rounded mr-2 font-black shrink-0">2</span>
+                              <span>
+                                <b class="text-slate-800">Memory Interleaving:</b>
+                                주소 공간을 여러 Bank로 나누어, 한 Bank가 작업 중일 때 다른 Bank가 응답할 수 있도록 설계합니다.
+                              </span>
+                            </li>
+                            <li class="flex items-start">
+                              <span class="w-4 h-4 bg-indigo-50 text-indigo-600 flex items-center justify-center rounded mr-2 font-black shrink-0">3</span>
+                              <span>
+                                <b class="text-slate-800">Arbiter:</b>
+                                처리된 여러 응답 중 어떤 ID를 먼저 Bus로 실어 보낼지 결정하는 Response Arbiter가 필요합니다.
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="axi-full-control-showcase mb-8 rounded-[32px] p-4 md:p-8">
+            <div class="max-w-[1400px] mx-auto space-y-12">
+              <div aria-hidden="true" class="hidden border-amber-500 bg-amber-50 text-amber-800 border-slate-500 bg-slate-50 text-slate-800 border-slate-400 bg-slate-100 text-slate-600 border-rose-500 bg-rose-50 text-rose-800 border-emerald-500 bg-emerald-50 bg-emerald-100 text-emerald-800 border-blue-500 bg-blue-100 text-blue-800"></div>
+
+              <header class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                  <div class="flex items-center space-x-2 text-indigo-600 mb-2">
+                    <i data-lucide="cpu" class="w-5 h-5"></i>
+                    <span class="text-xs font-bold tracking-widest uppercase">Protocol Engineering Unit</span>
+                  </div>
+                  <h1 class="text-3xl font-black text-slate-900 tracking-tight">AXI ADVANCED CONTROL SIGNALS</h1>
+                  <p class="text-slate-500 text-sm mt-1 max-w-3xl leading-relaxed">
+                    데이터 전송의 순서와 양을 넘어서, 시스템의 <b>보안(TrustZone), 메모리 속성/캐시 정책, 동기화(Semaphore), 우선순위 힌트(QoS)</b>를 전달하는 AXI 사이드밴드 신호들의 하드웨어 메커니즘을 분석합니다.
+                  </p>
+                </div>
+              </header>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="space-y-6 flex flex-col h-full">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-lg shadow-amber-200">
+                        <i data-lucide="lock" class="w-6 h-6"></i>
+                      </div>
+                      <div>
+                        <h2 class="text-xl font-black text-slate-800 uppercase italic tracking-tight">AxLOCK</h2>
+                        <p class="text-[10px] text-amber-600 font-bold uppercase tracking-widest">AXI4 Read Reservation Broken Before Write</p>
+                      </div>
+                    </div>
+                    <button id="lock-run-btn" onclick="runLock()" class="bg-slate-900 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-amber-500 transition-all flex items-center shadow-lg active:scale-95">
+                      <i data-lucide="play" class="w-3 h-3 mr-1.5"></i> RUN SEQ
+                    </button>
+                  </div>
+
+                  <div class="relative h-[420px] schematic-grid bg-slate-50 border-2 border-slate-200 rounded-3xl overflow-hidden flex flex-col items-center justify-between p-6">
+                    <div class="flex justify-between w-full px-4 z-10">
+                      <div class="hw-block w-28 h-16 flex flex-col items-center justify-center bg-white border-amber-400" id="lock-m0">
+                        <span class="text-[8px] text-amber-600 font-bold uppercase tracking-widest">Master 0</span>
+                        <span class="font-black text-xs text-slate-700">CPU Core</span>
+                      </div>
+                      <div class="hw-block w-28 h-16 flex flex-col items-center justify-center bg-white border-slate-300" id="lock-m1">
+                        <span class="text-[8px] text-slate-400 font-bold uppercase tracking-widest">Master 1</span>
+                        <span class="font-black text-xs text-slate-700">DMA (Interloper)</span>
+                      </div>
+                    </div>
+
+                    <div class="flex-1 w-[2px] bg-slate-200 relative"></div>
+
+                    <div class="hw-block w-full max-w-[280px] p-3 flex flex-col items-center bg-white transition-all duration-300 z-10" id="exclusive-monitor">
+                      <span class="text-[8px] text-slate-400 font-bold uppercase tracking-widest mb-1">Shared Memory Node</span>
+                      <span class="font-black text-sm text-slate-700 mb-2">Exclusive Reservation Monitor</span>
+
+                      <table class="w-full text-center border-collapse mt-1 table-fixed">
+                        <thead>
+                          <tr class="bg-slate-100 text-[8px] font-black text-slate-500 uppercase tracking-widest border border-slate-200">
+                            <th class="p-1 border-r border-slate-200 w-1/4">Valid</th>
+                            <th class="p-1 border-r border-slate-200 w-1/2">Target Addr</th>
+                            <th class="p-1 w-1/4">ID</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-[10px] mono font-bold text-slate-400 border border-slate-200 bg-white transition-colors duration-300" id="mon-table">
+                          <tr>
+                            <td class="p-1 border-r border-slate-200 transition-colors" id="mon-valid">0</td>
+                            <td class="p-1 border-r border-slate-200 transition-colors" id="mon-addr">-</td>
+                            <td class="p-1 transition-colors" id="mon-id">-</td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <div class="mt-3 w-full space-y-2">
+                        <div class="flex flex-wrap items-center gap-2">
+                          <span id="lock-monitor-state" class="axlock-monitor-chip is-idle">Idle</span>
+                          <span id="lock-monitor-detail" class="text-[10px] font-semibold tracking-tight text-slate-500">대기 중: exclusive read가 들어오면 여기에 읽기 예약이 생깁니다.</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="lock-msg" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900 text-white px-5 py-3 rounded-xl text-xs font-bold opacity-0 transition-all z-50 text-center shadow-2xl scale-95 border border-slate-700 flex flex-col items-center"></div>
+                    <div id="plane-lock" class="absolute inset-0 pointer-events-none z-20"></div>
+                  </div>
+
+                  <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex-1">
+                    <h4 class="text-sm font-extrabold text-amber-600 uppercase flex items-center mb-2">
+                      <span class="mr-2">💥</span> Contention Failure Scenario
+                    </h4>
+                    <p class="text-[12px] text-slate-600 leading-relaxed mb-3">
+                      멀티 코어 환경에서 세마포어(Semaphore)가 작동하는 핵심 방어 로직을 보여줍니다.
+                    </p>
+                    <ul class="text-[11px] text-slate-500 space-y-1.5 list-disc pl-5">
+                      <li><code class="bg-slate-100 px-1 rounded text-amber-600 font-bold">ARLOCK=1</code> read는 bus를 잠그는 read lock이 아니라, monitor 안에 <b>읽기 예약</b>인 <code class="bg-slate-100 px-1 rounded mono">{ID, Addr}</code>를 남기는 동작입니다.</li>
+                      <li>이후 다른 master가 같은 주소에 일반 write를 commit하면 그 읽기 예약이 사라집니다. 그래서 뒤따르는 <code class="bg-slate-100 px-1 rounded text-amber-600 font-bold">AWLOCK=1</code> write는 <b><code class="text-rose-500 font-bold">BRESP=OKAY</code></b>로 실패를 통보받고, 성공했을 때만 <b><code class="text-emerald-600 font-bold">EXOKAY</code></b>와 함께 메모리를 갱신합니다.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="space-y-6 flex flex-col h-full">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center shadow-lg shadow-rose-200">
+                        <i data-lucide="shield" class="w-6 h-6"></i>
+                      </div>
+                      <div>
+                        <h2 class="text-xl font-black text-slate-800 uppercase italic tracking-tight">AxPROT</h2>
+                        <p class="text-[10px] text-rose-600 font-bold uppercase tracking-widest">TrustZone Space Controller (TZASC)</p>
+                      </div>
+                    </div>
+                    <button onclick="runProt()" class="bg-slate-900 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-rose-600 transition-all flex items-center shadow-lg active:scale-95">
+                      <i data-lucide="play" class="w-3 h-3 mr-1.5"></i> RUN SEQ
+                    </button>
+                  </div>
+
+                  <div class="relative h-[420px] schematic-grid bg-slate-50 border-2 border-slate-200 rounded-3xl overflow-hidden flex items-center justify-between p-4">
+                    <div class="flex flex-col space-y-12 z-10 w-1/4 items-center">
+                      <div class="hw-block w-24 h-16 flex flex-col items-center justify-center bg-white border-emerald-500" id="prot-m0">
+                        <span class="text-[8px] text-emerald-600 font-bold uppercase tracking-widest">Master 0</span>
+                        <span class="font-black text-[10px] text-slate-700 mt-1">CPU (Secure)</span>
+                      </div>
+                      <div class="hw-block w-24 h-16 flex flex-col items-center justify-center bg-white border-rose-500" id="prot-m1">
+                        <span class="text-[8px] text-rose-600 font-bold uppercase tracking-widest">Master 1</span>
+                        <span class="font-black text-[10px] text-slate-700 mt-1">DMA (Normal)</span>
+                      </div>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center z-10 w-[45%]">
+                      <div class="hw-block w-full h-48 p-3 flex flex-col items-center justify-start bg-white transition-all duration-300 border-slate-400" id="tzc-block">
+                        <span class="text-[8px] text-slate-400 font-bold uppercase tracking-widest mb-1">Address Controller</span>
+                        <span class="font-black text-sm text-slate-800 flex items-center"><i data-lucide="shield-check" class="w-4 h-4 mr-1 text-rose-500"></i>TZASC</span>
+
+                        <div class="w-full mt-3">
+                          <table class="w-full text-center border-collapse table-fixed">
+                            <thead>
+                              <tr class="bg-slate-100 text-[7px] font-black text-slate-500 uppercase tracking-widest border border-slate-200">
+                                <th class="p-1 border-r border-slate-200 w-1/2">Address Range</th>
+                                <th class="p-1 w-1/2">Permission</th>
+                              </tr>
+                            </thead>
+                            <tbody class="text-[9px] mono font-bold text-slate-500 border border-slate-200" id="tz-table">
+                              <tr id="tz-row-sec" class="transition-colors">
+                                <td class="p-1 border-r border-slate-200 border-b">0x000~0x0FF</td>
+                                <td class="p-1 border-b text-emerald-600">Secure Only</td>
+                              </tr>
+                              <tr id="tz-row-nsec" class="transition-colors">
+                                <td class="p-1 border-r border-slate-200">0x100~0x1FF</td>
+                                <td class="p-1 text-slate-500">Non-Secure</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div class="mt-3 w-full bg-slate-50 border border-slate-200 rounded p-2 text-[8px] font-mono text-center">
+                          <div class="text-slate-400 mb-1 font-sans font-bold uppercase tracking-widest">Active Evaluation</div>
+                          <div id="tz-eval-box" class="font-bold text-slate-700">Waiting for Req...</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex flex-col space-y-12 z-10 w-1/4 items-center">
+                      <div class="hw-block w-20 h-16 flex flex-col items-center justify-center bg-emerald-50 border-emerald-300">
+                        <span class="text-[8px] text-emerald-600 font-bold uppercase tracking-widest">SRAM</span>
+                        <i data-lucide="lock-keyhole" class="w-4 h-4 mt-1 text-emerald-500"></i>
+                      </div>
+                      <div class="hw-block w-20 h-16 flex flex-col items-center justify-center bg-slate-50 border-slate-300">
+                        <span class="text-[8px] text-slate-500 font-bold uppercase tracking-widest">DRAM</span>
+                        <i data-lucide="unlock" class="w-4 h-4 mt-1 text-slate-400"></i>
+                      </div>
+                    </div>
+
+                    <div id="prot-msg" class="absolute top-1/4 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold opacity-0 transition-all z-50 text-center shadow-xl scale-95 border border-slate-700 flex flex-col items-center"></div>
+                    <div id="plane-prot" class="absolute inset-0 pointer-events-none z-20"></div>
+                  </div>
+
+                  <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex-1">
+                    <h4 class="text-sm font-extrabold text-rose-600 uppercase flex items-center mb-2">
+                      <span class="mr-2">🛡️</span> TZASC Checking Logic
+                    </h4>
+                    <p class="text-[12px] text-slate-600 leading-relaxed mb-3">
+                      실제 SoC에서 TrustZone은 <b>TZASC(TrustZone Address Space Controller)</b>라는 전용 하드웨어 블록을 통해 구현됩니다.
+                    </p>
+                    <ul class="text-[11px] text-slate-500 space-y-1.5 list-disc pl-5">
+                      <li>트랜잭션이 도착하면 TZASC는 <code class="bg-slate-100 px-1 rounded text-rose-600 font-bold">AxADDR</code>를 확인하여 해당 영역의 보안 정책을 확인합니다.</li>
+                      <li>만약 접근하려는 주소가 <b>Secure Only</b> 영역인데, 패킷의 <code class="bg-slate-100 px-1 rounded text-rose-600 font-bold">AxPROT[1] == 1</code> (Non-Secure)라면, 접근 차단 및 Master에게 <code class="text-rose-500 font-bold">DECERR</code> 에러 응답을 반환합니다.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="space-y-6 flex flex-col h-full">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-200">
+                        <i data-lucide="database" class="w-6 h-6"></i>
+                      </div>
+                      <div>
+                        <h2 class="text-xl font-black text-slate-800 uppercase italic tracking-tight">AxCACHE</h2>
+                        <p class="text-[10px] text-blue-600 font-bold uppercase tracking-widest">Bufferable Attribute &amp; Early Response</p>
+                      </div>
+                    </div>
+                    <button onclick="runCache()" class="bg-slate-900 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-blue-600 transition-all flex items-center shadow-lg active:scale-95">
+                      <i data-lucide="play" class="w-3 h-3 mr-1.5"></i> RUN SEQ
+                    </button>
+                  </div>
+
+                  <div class="relative h-[420px] schematic-grid bg-slate-50 border-2 border-slate-200 rounded-3xl overflow-hidden flex flex-col items-center py-6 px-4">
+                    <div class="hw-block w-40 h-14 flex flex-col items-center justify-center bg-white z-10" id="cache-master">
+                      <span class="text-[8px] text-slate-400 font-bold uppercase tracking-widest">Manager</span>
+                      <span class="font-black text-sm text-slate-800">CPU Core</span>
+                      <div class="mt-0.5 text-[8px] font-bold text-slate-400 px-2 py-0.5 bg-slate-100 rounded" id="master-cache-status">WAITING</div>
+                    </div>
+
+                    <div class="flex-1 w-full flex relative mt-6">
+                      <div class="w-1/2 flex flex-col items-center border-r border-slate-200 border-dashed relative">
+                        <div class="absolute -top-4 px-2 py-1 bg-blue-50 border border-blue-200 rounded shadow-sm flex items-center">
+                          <span class="text-[8px] font-black text-blue-600 uppercase tracking-widest">AxCACHE[0]=1 (Bufferable)</span>
+                        </div>
+                        <div class="w-[2px] h-10 bg-slate-200 mt-4"></div>
+
+                        <div class="hw-block w-32 h-24 bg-white border-blue-300 flex flex-col items-center p-2 z-10 transition-colors duration-300" id="cache-block">
+                          <span class="text-[9px] font-black text-blue-800 tracking-tight">L2 Cache Controller</span>
+                          <div class="w-full flex-1 border border-slate-200 bg-slate-50 mt-1 rounded flex items-center justify-center overflow-hidden relative">
+                            <div class="text-[8px] font-bold text-slate-400 uppercase tracking-widest z-10" id="cache-inner-text">Line Empty</div>
+                            <div class="absolute inset-0 bg-blue-100 w-0 transition-all duration-500" id="cache-dirty-fill"></div>
+                          </div>
+                        </div>
+
+                        <div class="w-[2px] flex-1 bg-slate-200 border-l border-dashed border-slate-300" id="cache-to-ddr-line"></div>
+                      </div>
+
+                      <div class="w-1/2 flex flex-col items-center relative">
+                        <div class="absolute -top-4 px-2 py-1 bg-slate-100 border border-slate-200 rounded shadow-sm flex items-center">
+                          <span class="text-[8px] font-black text-slate-500 uppercase tracking-widest">AxCACHE = 0000 (Device)</span>
+                        </div>
+                        <div class="w-[2px] h-full bg-slate-200 mt-4"></div>
+                      </div>
+                    </div>
+
+                    <div class="hw-block w-[80%] max-w-[300px] h-16 flex flex-col items-center justify-center bg-slate-800 text-white z-10 mt-2 transition-all duration-300" id="ddr-block">
+                      <span class="font-black text-sm uppercase tracking-widest">Main Memory (DDR)</span>
+                      <span class="text-[9px] text-slate-400 mt-1 font-mono" id="ddr-status">IDLE</span>
+                    </div>
+
+                    <div id="cache-msg" class="absolute top-[40%] left-1/2 -translate-x-1/2 bg-blue-900 text-white px-5 py-3 rounded-xl text-xs font-bold opacity-0 transition-all z-50 text-center shadow-2xl scale-95 border border-blue-400 flex flex-col items-center"></div>
+                    <div id="plane-cache" class="absolute inset-0 pointer-events-none z-20"></div>
+                  </div>
+
+                  <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex-1">
+                    <h4 class="text-sm font-extrabold text-blue-600 uppercase flex items-center mb-2">
+                      <span class="mr-2">🗂️</span> Bufferable Memory Attribute
+                    </h4>
+                    <p class="text-[12px] text-slate-600 leading-relaxed mb-3">
+                      중간 버퍼 또는 cache hierarchy가 write를 접수하고 나중에 하위 메모리로 밀어 넣는 정책을 시각화했습니다.
+                    </p>
+                    <ul class="text-[11px] text-slate-500 space-y-1.5 list-disc pl-5">
+                      <li><code class="bg-slate-100 px-1 rounded text-slate-600 font-bold">0000</code> (Device / non-bufferable): peripheral 성격의 접근은 부작용 순서가 중요하므로 하위 target의 완료 시점까지 응답을 늦추는 정책이 흔합니다.</li>
+                      <li><code class="bg-blue-50 px-1 rounded text-blue-600 font-bold">0011</code>은 bufferable + modifiable normal access 예시입니다. 이것만으로 write-back을 명령하는 것은 아니며, interconnect/cache 정책이 허용할 때 중간 buffer 수락 후 <b>Early Response(BVALID)</b>를 반환할 수 있습니다.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="space-y-6 flex flex-col h-full">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-200">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
+                      </div>
+                      <div>
+                        <h2 class="text-xl font-black text-slate-800 uppercase italic tracking-tight">AxQOS</h2>
+                        <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Network-on-Chip Arbitration Hint</p>
+                      </div>
+                    </div>
+                    <button onclick="runQos()" class="bg-slate-900 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-emerald-500 transition-all flex items-center shadow-lg active:scale-95">
+                      <i data-lucide="play" class="w-3 h-3 mr-1.5"></i> RUN SEQ
+                    </button>
+                  </div>
+
+                  <div class="relative h-[420px] schematic-grid bg-slate-50 border-2 border-slate-200 rounded-3xl overflow-hidden flex items-center justify-between p-4">
+                    <div class="flex flex-col space-y-10 z-10 w-1/4 items-center">
+                      <div class="hw-block w-20 h-16 flex flex-col items-center justify-center bg-emerald-50 border-emerald-300">
+                        <span class="text-[8px] text-emerald-600 font-bold uppercase tracking-widest">Master 0</span>
+                        <span class="font-black text-xs text-emerald-900 text-center leading-tight mt-1">Display<br>(Urgent)</span>
+                      </div>
+                      <div class="hw-block w-20 h-16 flex flex-col items-center justify-center bg-white border-slate-300">
+                        <span class="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Master 1</span>
+                        <span class="font-black text-xs text-slate-700 mt-1">DMA<br>(Bulk)</span>
+                      </div>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center z-10 w-1/2 px-2">
+                      <div class="hw-block w-full max-w-[140px] h-36 flex flex-col items-center justify-center bg-white transition-all duration-300 border-slate-300" id="qos-arbiter">
+                        <span class="text-[8px] text-slate-400 font-bold uppercase tracking-widest mb-1">NoC Router</span>
+                        <i data-lucide="git-merge" class="w-6 h-6 text-slate-400 mb-2"></i>
+                        <span class="font-black text-sm text-slate-800">QoS Arbiter</span>
+                        <div class="mt-3 px-3 py-1 bg-slate-100 rounded text-[9px] font-black text-slate-500 uppercase tracking-widest border border-slate-200" id="arbiter-status">
+                          Waiting...
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center z-10 w-1/4">
+                      <div class="hw-block w-20 h-32 flex flex-col items-center justify-center bg-slate-800 text-white">
+                        <span class="text-[8px] text-slate-400 font-bold uppercase tracking-widest mb-2">Slave</span>
+                        <span class="font-black text-xs text-center leading-tight">Memory<br>Controller</span>
+                      </div>
+                    </div>
+
+                    <div class="absolute inset-0 pointer-events-none">
+                      <svg width="100%" height="100%">
+                        <path d="M 90 100 L 140 100 L 140 210 L 190 210" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4" />
+                        <path d="M 90 310 L 140 310 L 140 210 L 190 210" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4" />
+                        <path d="M 330 210 L 400 210" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4" />
+                      </svg>
+                    </div>
+
+                    <div id="qos-msg" class="absolute top-1/4 left-1/2 -translate-x-1/2 bg-emerald-900 text-white px-4 py-2 rounded-lg text-xs font-bold opacity-0 transition-all z-50 text-center shadow-xl scale-95 border border-emerald-400"></div>
+                    <div id="plane-qos" class="absolute inset-0 pointer-events-none z-20"></div>
+                  </div>
+
+                  <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex-1">
+                    <h4 class="text-sm font-extrabold text-emerald-600 uppercase flex items-center mb-2">
+                      <span class="mr-2">⚡</span> Arbiter Weighting Logic
+                    </h4>
+                    <p class="text-[12px] text-slate-600 leading-relaxed mb-3">
+                      복잡한 Network-on-Chip(NoC) 환경에서 다수의 마스터가 경합할 때, 트랜잭션의 <b>우선순위(Priority)</b>를 결정합니다.
+                    </p>
+                    <ul class="text-[11px] text-slate-500 space-y-1.5 list-disc pl-5">
+                      <li><code class="bg-slate-100 px-1 rounded text-emerald-600 font-bold">0x0</code>(최하위)부터 <code class="bg-slate-100 px-1 rounded text-emerald-600 font-bold">0xF</code>(최상위)까지의 값을 가집니다.</li>
+                      <li>디스플레이나 실시간 오디오와 같이 <b>지연 시간에 민감한 트랜잭션(<code class="text-emerald-500 font-bold">QoS:F</code>)</b>이 도착하면, NoC 내부 arbiter가 다음 선택 지점에서 우선권을 줄 수 있습니다. 이미 수락된 beat를 반드시 중단한다는 뜻은 아니며, 실제 보장 수준은 fabric 정책에 달려 있습니다.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-3xl p-10 border border-slate-200 shadow-sm space-y-10 mt-8">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-6">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-2 h-8 bg-slate-800 rounded-full"></div>
+                    <h3 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Sideband Signals Encoding Guide</h3>
+                  </div>
+                  <div class="text-[10px] font-mono text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest hidden md:block">AXI4 Spec Reference</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
+                  <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-rose-600 mb-4">
+                      <i data-lucide="code" class="w-5 h-5"></i>
+                      <h4 class="font-bold uppercase tracking-widest text-sm">AxPROT[2:0] Bit Allocation</h4>
+                    </div>
+                    <div class="overflow-hidden rounded-xl border border-slate-200">
+                      <table class="w-full text-left text-xs text-slate-600">
+                        <thead class="bg-slate-50 text-[10px] uppercase font-black text-slate-400">
+                          <tr><th class="p-3 border-b border-slate-200">Bit</th><th class="p-3 border-b border-slate-200">Value = 0</th><th class="p-3 border-b border-slate-200">Value = 1</th></tr>
+                        </thead>
+                        <tbody>
+                          <tr class="border-b border-slate-100"><td class="p-3 font-bold mono bg-slate-50">[0]</td><td class="p-3">Unprivileged</td><td class="p-3 font-bold text-slate-800">Privileged</td></tr>
+                          <tr class="border-b border-slate-100"><td class="p-3 font-bold mono bg-slate-50">[1]</td><td class="p-3 font-bold text-emerald-600 bg-emerald-50/30">Secure</td><td class="p-3 text-rose-600 font-bold bg-rose-50/30">Non-secure</td></tr>
+                          <tr><td class="p-3 font-bold mono bg-slate-50">[2]</td><td class="p-3">Data Access</td><td class="p-3 font-bold text-slate-800">Instruction Access</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-amber-600 mb-4">
+                      <i data-lucide="function-square" class="w-5 h-5"></i>
+                      <h4 class="font-bold uppercase tracking-widest text-sm">Semaphore Validation Logic</h4>
+                    </div>
+                    <div class="p-6 bg-slate-50 rounded-xl border border-slate-200">
+                      <p class="text-[11px] text-slate-500 mb-4 leading-relaxed">
+                        Exclusive Monitor는 다중 마스터의 경합 상태(Race Condition)를 해결하기 위해 하드웨어 레벨에서 상태 머신을 유지합니다.
+                      </p>
+                      <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 overflow-x-auto text-[13px]">
+                        $$Write\ Exclusive\ Resp = \begin{cases}
+                        EXOKAY, & \text{if ReservationValid } \land ID\_Match \land Addr\_Match \\
+                        OKAY, & \text{otherwise (Exclusive Fail)}
+                        \end{cases}$$
+                        <p class="mt-3 text-[10px] leading-relaxed text-slate-500">
+                          다른 write가 같은 주소를 먼저 갱신하면 reservation은 삭제되며, exclusive pair는 동일한 주소와 address-channel 속성을 유지해야 합니다.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="space-y-4">
+                    <div class="flex items-center space-x-2 text-blue-600 mb-4">
+                      <i data-lucide="database" class="w-5 h-5"></i>
+                      <h4 class="font-bold uppercase tracking-widest text-sm">AxCACHE[3:0] Bit Allocation</h4>
+                    </div>
+                    <div class="overflow-hidden rounded-xl border border-slate-200">
+                      <table class="w-full text-left text-xs text-slate-600">
+                        <thead class="bg-slate-50 text-[10px] uppercase font-black text-slate-400">
+                          <tr><th class="p-3 border-b border-slate-200">Bit</th><th class="p-3 border-b border-slate-200">Meaning</th><th class="p-3 border-b border-slate-200">Protocol Note</th></tr>
+                        </thead>
+                        <tbody>
+                          <tr class="border-b border-slate-100"><td class="p-3 font-bold mono bg-slate-50">[0]</td><td class="p-3">Bufferable</td><td class="p-3">중간 buffer가 write response timing을 최적화할 수 있습니다.</td></tr>
+                          <tr class="border-b border-slate-100"><td class="p-3 font-bold mono bg-slate-50">[1]</td><td class="p-3">Modifiable</td><td class="p-3">interconnect가 transaction을 merge/split/transform할 수 있음을 뜻합니다.</td></tr>
+                          <tr class="border-b border-slate-100"><td class="p-3 font-bold mono bg-slate-50">[2]</td><td class="p-3">Read Allocate</td><td class="p-3">cache miss 때 read allocation 정책 힌트로 쓰입니다.</td></tr>
+                          <tr><td class="p-3 font-bold mono bg-slate-50">[3]</td><td class="p-3">Write Allocate</td><td class="p-3">cache miss 때 write allocation 정책 힌트로 쓰입니다.</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p class="text-[11px] leading-relaxed text-slate-500">
+                      AXI4에서는 allocate bit가 set될 때 <code>AxCACHE[1]</code>도 set되어야 합니다. AxCACHE는 coherency 자체를 보장하지 않으므로, 캐시 일관성이 필요한 시스템은 ACE/CHI 또는 coherent interconnect 정책을 함께 봐야 합니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="axi-expert-section mb-8 rounded-[32px] bg-slate-50 p-4 md:p-8">
+            <div class="max-w-[1400px] mx-auto space-y-8">
+              <header class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+                <div>
+                  <div class="flex items-center space-x-2 text-indigo-600 mb-2">
+                    <i data-lucide="cpu" class="w-5 h-5"></i>
+                    <span class="text-xs font-bold tracking-widest uppercase">Protocol Engineering Unit</span>
+                  </div>
+                  <h3 class="text-3xl font-black text-slate-900 tracking-tight">AXI FULL에서 놓치기 쉬운 실무 규칙</h3>
+                  <p class="text-slate-500 text-sm mt-1 max-w-3xl leading-relaxed">
+                    검증 핵심축: <b>handshake 계약성</b>, <b>burst 합법성</b>, <b>write-data 순서성</b>, <b>response 완결성</b>, <b>attribute 해석성</b>, <b>bridge 보존성</b>.
+                  </p>
+                </div>
+                <div class="hidden md:flex text-[10px] font-mono text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest">
+                  AXI4 / AXI5 Spec Lens
+                </div>
+              </header>
+
+              <div class="axi-expert-visual-card rounded-3xl p-4 md:p-6">
+              <div class="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between mb-4">
+                <div>
+                  <div class="text-[10px] font-black uppercase tracking-[0.24em] text-indigo-500 mb-2">Schematic Guardrail Map</div>
+                  <h4 class="text-xl font-black text-slate-900 tracking-tight uppercase italic">Channel Contract Review Plane</h4>
+                  <p class="mt-1 text-sm leading-6 text-slate-600">AW/W/B/AR/R 흐름과 RTL review 포인트를 회로도 톤으로 요약합니다.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="axi-expert-status-pill is-amber">🤝 Contract</span>
+                  <span class="axi-expert-status-pill is-emerald">✅ Completion</span>
+                  <span class="axi-expert-status-pill">⚠️ Boundary</span>
+                </div>
+              </div>
+
+              <div class="relative z-10 w-full overflow-x-auto">
+                <svg class="axi-expert-svg" viewBox="0 0 860 360" role="img" aria-labelledby="axiExpertMapTitle axiExpertMapDesc">
+                  <title id="axiExpertMapTitle">AXI Full protocol guardrail map</title>
+                  <desc id="axiExpertMapDesc">Animated AXI manager, fabric, and target lanes showing address, data, response, and validation guardrails.</desc>
+                  <defs>
+                    <linearGradient id="axiExpertManagerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#eff6ff" />
+                      <stop offset="100%" stop-color="#dbeafe" />
+                    </linearGradient>
+                    <linearGradient id="axiExpertFabricGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#f8fafc" />
+                      <stop offset="100%" stop-color="#eef2ff" />
+                    </linearGradient>
+                    <linearGradient id="axiExpertTargetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#ecfdf5" />
+                      <stop offset="100%" stop-color="#dcfce7" />
+                    </linearGradient>
+                    <marker id="axiExpertArrowBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+                    </marker>
+                    <marker id="axiExpertArrowGreen" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+                    </marker>
+                    <marker id="axiExpertArrowAmber" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+                    </marker>
+                  </defs>
+
+                  <rect x="22" y="24" width="816" height="312" rx="28" fill="rgba(255,255,255,0.78)" stroke="#e2e8f0" />
+
+                  <g>
+                    <rect class="axi-expert-node-shadow" x="48" y="138" width="138" height="96" rx="14" />
+                    <rect class="axi-expert-hw-block-svg is-manager" x="42" y="132" width="138" height="96" rx="14" />
+                    <text x="111" y="160" text-anchor="middle" fill="#b45309" font-size="10" font-weight="900">AXI Manager</text>
+                    <text x="111" y="184" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">VALID SRC</text>
+                    <text x="111" y="205" text-anchor="middle" fill="#64748b" font-size="10" font-weight="800">ADDR / DATA ISSUE</text>
+                  </g>
+
+                  <g>
+                    <rect class="axi-expert-node-shadow" x="346" y="108" width="180" height="156" rx="16" />
+                    <rect class="axi-expert-hw-block-svg is-fabric" x="340" y="102" width="180" height="156" rx="16" />
+                    <text x="430" y="132" text-anchor="middle" fill="#475569" font-size="10" font-weight="900">Interconnect</text>
+                    <text x="430" y="156" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">RULE CHECKER</text>
+                    <rect x="374" y="178" width="112" height="42" rx="8" fill="#f8fafc" stroke="#e2e8f0" />
+                    <circle class="axi-expert-check-dot" cx="397" cy="199" r="7" fill="#f59e0b" opacity="0.9" />
+                    <circle class="axi-expert-check-dot" cx="430" cy="199" r="7" fill="#3b82f6" opacity="0.9" />
+                    <circle class="axi-expert-check-dot" cx="463" cy="199" r="7" fill="#10b981" opacity="0.9" />
+                    <text x="430" y="239" text-anchor="middle" fill="#334155" font-size="10" font-weight="900">ORDER / CDC / RESP</text>
+                  </g>
+
+                  <g>
+                    <rect class="axi-expert-node-shadow" x="686" y="138" width="138" height="96" rx="14" />
+                    <rect class="axi-expert-hw-block-svg is-target" x="680" y="132" width="138" height="96" rx="14" />
+                    <text x="749" y="160" text-anchor="middle" fill="#047857" font-size="10" font-weight="900">AXI Target</text>
+                    <text x="749" y="184" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">READY / RESP</text>
+                    <text x="749" y="205" text-anchor="middle" fill="#64748b" font-size="10" font-weight="800">COMPLETION NODE</text>
+                  </g>
+
+                  <path class="axi-expert-signal-base" d="M 198 84 H 666" />
+                  <path class="axi-expert-signal-base" d="M 198 126 H 666" />
+                  <path class="axi-expert-signal-base" d="M 666 168 H 198" />
+                  <path class="axi-expert-signal-base" d="M 198 252 H 666" />
+                  <path class="axi-expert-signal-base" d="M 666 294 H 198" />
+                  <path class="axi-expert-lane is-aw" d="M 198 84 H 666" marker-end="url(#axiExpertArrowAmber)" />
+                  <path class="axi-expert-lane is-w" d="M 198 126 H 666" marker-end="url(#axiExpertArrowBlue)" />
+                  <path class="axi-expert-lane is-reverse is-b" d="M 666 168 H 198" marker-end="url(#axiExpertArrowGreen)" />
+                  <path class="axi-expert-lane is-ar" d="M 198 252 H 666" marker-end="url(#axiExpertArrowAmber)" />
+                  <path class="axi-expert-lane is-reverse is-r" d="M 666 294 H 198" marker-end="url(#axiExpertArrowGreen)" />
+
+                  <text x="210" y="74" fill="#b45309" font-size="11" font-weight="900">AW</text>
+                  <text x="210" y="116" fill="#2563eb" font-size="11" font-weight="900">W</text>
+                  <text x="632" y="158" fill="#047857" font-size="11" font-weight="900">B</text>
+                  <text x="210" y="242" fill="#b45309" font-size="11" font-weight="900">AR</text>
+                  <text x="632" y="284" fill="#047857" font-size="11" font-weight="900">R</text>
+
+                  <g class="axi-expert-packet axi-expert-packet--fwd axi-expert-packet-aw">
+                    <rect x="218" y="68" width="54" height="30" rx="10" fill="#2563eb" />
+                    <text x="245" y="88" text-anchor="middle" fill="white" font-size="11" font-weight="900">AW</text>
+                  </g>
+                  <g class="axi-expert-packet axi-expert-packet--fwd axi-expert-packet-w">
+                    <rect x="218" y="110" width="54" height="30" rx="10" fill="#4f46e5" />
+                    <text x="245" y="130" text-anchor="middle" fill="white" font-size="11" font-weight="900">W</text>
+                  </g>
+                  <g class="axi-expert-packet axi-expert-packet--rev axi-expert-packet-b">
+                    <rect x="584" y="152" width="54" height="30" rx="10" fill="#059669" />
+                    <text x="611" y="172" text-anchor="middle" fill="white" font-size="11" font-weight="900">B</text>
+                  </g>
+                  <g class="axi-expert-packet axi-expert-packet--fwd axi-expert-packet-ar">
+                    <rect x="218" y="236" width="54" height="30" rx="10" fill="#2563eb" />
+                    <text x="245" y="256" text-anchor="middle" fill="white" font-size="11" font-weight="900">AR</text>
+                  </g>
+                  <g class="axi-expert-packet axi-expert-packet--rev axi-expert-packet-r">
+                    <rect x="584" y="278" width="54" height="30" rx="10" fill="#d97706" />
+                    <text x="611" y="298" text-anchor="middle" fill="white" font-size="11" font-weight="900">R</text>
+                  </g>
+
+                  <g>
+                    <rect x="80" y="276" width="166" height="34" rx="17" fill="#f8fafc" stroke="#e2e8f0" />
+                    <text x="163" y="298" text-anchor="middle" fill="#475569" font-size="11" font-weight="900">VALID independent</text>
+                  </g>
+                  <g>
+                    <rect x="594" y="54" width="184" height="34" rx="17" fill="#fffbeb" stroke="#fed7aa" />
+                    <text x="686" y="76" text-anchor="middle" fill="#b45309" font-size="11" font-weight="900">4KB boundary guard</text>
+                  </g>
+                </svg>
+                <div class="axi-expert-mobile-flow" aria-label="AXI Full compact channel flow">
+                  <div class="axi-expert-mobile-flow-row" style="--axi-mobile-flow:#f59e0b">
+                    <strong>AW</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>주소 계약</span>
+                  </div>
+                  <div class="axi-expert-mobile-flow-row" style="--axi-mobile-flow:#3b82f6">
+                    <strong>W</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>데이터 순서</span>
+                  </div>
+                  <div class="axi-expert-mobile-flow-row is-reverse" style="--axi-mobile-flow:#10b981">
+                    <strong>B</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>Write 응답</span>
+                  </div>
+                  <div class="axi-expert-mobile-flow-row" style="--axi-mobile-flow:#f59e0b">
+                    <strong>AR</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>Read 요청</span>
+                  </div>
+                  <div class="axi-expert-mobile-flow-row is-reverse" style="--axi-mobile-flow:#10b981">
+                    <strong>R</strong>
+                    <div class="axi-expert-mobile-flow-track"></div>
+                    <span>Beat 응답</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col gap-4 border-b border-slate-100 pb-5 md:flex-row md:items-center md:justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-2 h-8 bg-slate-800 rounded-full"></div>
+                    <div>
+                      <div class="text-[11px] font-black tracking-[0.22em] uppercase text-indigo-500">Implementation Review Checklist</div>
+                      <h4 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Protocol Guard Rules</h4>
+                    </div>
+                  </div>
+                  <div class="text-[10px] font-mono text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest self-start md:self-auto">
+                    RTL / Verification Notes
+                  </div>
+                </div>
+
+                <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              <article class="axi-expert-rule-card is-slate rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="handshake" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-slate-500 mb-1">🤝 Handshake</div>
+                    <h4 class="font-black text-slate-900">VALID/READY 계약</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">⚡</span><div><strong>VALID 독립 Assert</strong><small>READY 비대기</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">📌</span><div><strong>Payload 안정성</strong><small>stall 구간 sideband 고정</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🔒</span><div><strong>Loop 차단성</strong><small>deadlock loop 예방</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-blue rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="rows-3" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-blue-500 mb-1">📏 Burst</div>
+                    <h4 class="font-black text-slate-900">Burst 합법성</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🔢</span><div><strong>AxLEN = Beats - 1</strong><small>INCR 최대 256 beats</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧭</span><div><strong>WRAP 경계 정렬</strong><small>2 / 4 / 8 / 16 beats</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🚧</span><div><strong>4KB Boundary</strong><small>cross 금지 / early termination 금지</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-indigo rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="route" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-indigo-500 mb-1">🧩 Write Path</div>
+                    <h4 class="font-black text-slate-900">Write Data 순서</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🏷️</span><div><strong>WID 제거</strong><small>AXI4 W channel 규칙</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">➡️</span><div><strong>Interleaving 금지</strong><small>burst 단위 연속 W beats</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧰</span><div><strong>AW/W Realign</strong><small>decode buffer</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-emerald rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="list-checks" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-emerald-500 mb-1">✅ Response</div>
+                    <h4 class="font-black text-slate-900">Response 완결</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">📬</span><div><strong>BRESP 단일성</strong><small>write burst 전체 결과</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">📦</span><div><strong>RRESP Beat성</strong><small>read beat별 상태</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧯</span><div><strong>Error 완결성</strong><small>SLVERR / DECERR 후 completion</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-amber rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="database" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-amber-500 mb-1">⚙️ Attribute</div>
+                    <h4 class="font-black text-slate-900">Attribute 해석</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🗂️</span><div><strong>AxCACHE 의미성</strong><small>buffer / modify / allocate</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🎚️</span><div><strong>AxQOS 힌트성</strong><small>SLA / preemption 비보장</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🔁</span><div><strong>ACE / CHI 경계성</strong><small>coherency 별도 정책</small></div></div>
+                </div>
+              </article>
+
+              <article class="axi-expert-rule-card is-rose rounded-[20px] p-5">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
+                    <i data-lucide="git-branch" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-rose-500 mb-1">🌉 Boundary</div>
+                    <h4 class="font-black text-slate-900">Bridge/CDC 보존</h4>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">⏱️</span><div><strong>ACLK 도메인성</strong><small>single clock 기준</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧷</span><div><strong>Adapter 보존성</strong><small>ID / order / resp 유지</small></div></div>
+                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧮</span><div><strong>Width 변환성</strong><small>WSTRB / narrow / unalign</small></div></div>
+                </div>
+              </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden">
+            <div class="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-5 mb-6">
+              <div>
+                <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                  <i data-lucide="book-open" class="w-5 h-5 text-blue-500"></i>
+                  AXI FULL Signal Descriptions
+                </h3>
+              </div>
+              <div class="rounded-[20px] border border-blue-100 bg-blue-50/60 px-5 py-4 xl:max-w-sm">
+                <div class="text-[11px] font-black tracking-[0.22em] uppercase text-blue-500 mb-2">Current Channel</div>
+                <div id="axi-full-signal-group-label" class="text-lg font-bold text-gray-900">Global Signals</div>
+                <p id="axi-full-signal-group-summary" class="mt-1 text-sm leading-6 text-gray-600">모든 AXI FULL 채널이 공유하는 시스템 타이밍/리셋 신호</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mb-6" id="axi-full-signal-controls">
+              <button data-axi-full-group="global" class="axi-full-signal-btn rounded-xl border px-4 py-2.5 text-sm font-bold transition-all whitespace-nowrap bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-200/70">Global</button>
+              <button data-axi-full-group="aw" class="axi-full-signal-btn rounded-xl border px-4 py-2.5 text-sm font-bold transition-all whitespace-nowrap border-gray-200 bg-white text-gray-500 hover:border-blue-200 hover:text-blue-600">AW Channel</button>
+              <button data-axi-full-group="w" class="axi-full-signal-btn rounded-xl border px-4 py-2.5 text-sm font-bold transition-all whitespace-nowrap border-gray-200 bg-white text-gray-500 hover:border-blue-200 hover:text-blue-600">W Channel</button>
+              <button data-axi-full-group="b" class="axi-full-signal-btn rounded-xl border px-4 py-2.5 text-sm font-bold transition-all whitespace-nowrap border-gray-200 bg-white text-gray-500 hover:border-blue-200 hover:text-blue-600">B Channel</button>
+              <button data-axi-full-group="ar" class="axi-full-signal-btn rounded-xl border px-4 py-2.5 text-sm font-bold transition-all whitespace-nowrap border-gray-200 bg-white text-gray-500 hover:border-blue-200 hover:text-blue-600">AR Channel</button>
+              <button data-axi-full-group="r" class="axi-full-signal-btn rounded-xl border px-4 py-2.5 text-sm font-bold transition-all whitespace-nowrap border-gray-200 bg-white text-gray-500 hover:border-blue-200 hover:text-blue-600">R Channel</button>
+            </div>
+
+            <div class="mb-6">
+              <div class="rounded-[22px] border border-gray-200 bg-white px-5 py-4">
+                <div class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-500 mb-3">Coverage</div>
+                <div id="axi-full-signal-stats" class="flex flex-wrap gap-2"></div>
+              </div>
+            </div>
+
+            <div class="w-full">
+              <table class="w-full table-fixed text-left border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-4 px-4 font-bold text-gray-700 w-[30%]">Signal</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 w-[18%]">Width</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 w-[16%]">Source</th>
+                    <th class="py-4 px-4 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody id="axi-full-signal-table-body" class="divide-y divide-gray-100"></tbody>
+              </table>
+            </div>
+
+            <div id="axi-full-signal-footnote" class="mt-5 rounded-[20px] border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-900"></div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden mt-8">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+              <div>
+                <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                  <i data-lucide="clock-3" class="w-5 h-5 text-blue-500"></i>
+                  AXI FULL Timing Diagrams
+                </h3>
+                <p class="mt-2 text-sm leading-6 text-gray-600">
+                  AXI4 공식 dependency와 burst ordering 규칙을 기준으로, 실제 구현에서 자주 헷갈리는 채널 관계만 골라서 정리했습니다.
+                </p>
+              </div>
+              <div class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-blue-600">
+                ARM AXI4 Reference Set
+              </div>
+            </div>
+
+            <div class="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.85fr)] items-start">
+              <div class="rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#f4f9ff_100%)] p-5 md:p-6">
+                <div class="flex flex-col gap-4 mb-5">
+                  <div class="axi-full-timing-heading">
+                    <div id="axi-full-timing-kicker" class="text-[11px] font-black tracking-[0.24em] uppercase text-blue-500 mb-2">Write Dependency</div>
+                    <h4 id="axi-full-timing-title" class="text-lg font-bold text-gray-900">AXI4 BRESP after AW + final W</h4>
+                  </div>
+                  <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit max-w-full" id="axi-full-timing-controls">
+                    <button data-wave="axi_full_write_dependency" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-blue-600 shadow-sm border border-gray-200">Write Dep</button>
+                    <button data-wave="axi_full_read_dependency" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read Dep</button>
+                    <button data-wave="axi_full_write_backpressure" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Write Stall</button>
+                    <button data-wave="axi_full_read_backpressure" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read Stall</button>
+                    <button data-wave="axi_full_write_burst" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Write Burst</button>
+                    <button data-wave="axi_full_read_burst" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Read Burst</button>
+                    <button data-wave="axi_full_write_data_first" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Leading W</button>
+                    <button data-wave="axi_full_read_id_order" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">ID Order</button>
+                    <button data-wave="axi_full_reset_release" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Reset</button>
+                    <button data-wave="axi_full_axi3_write_response" class="axi-full-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">AXI3 B</button>
+                  </div>
+                </div>
+
+                <div class="w-full overflow-x-auto pb-2">
+                  <div class="flex justify-center rounded-[20px] border border-gray-200 bg-white py-5 min-h-[290px]">
+                    <div id="WaveDrom_Display_7"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <div class="rounded-[24px] border border-blue-100 bg-blue-50/60 px-5 py-4">
+                  <div class="text-[11px] font-black tracking-[0.22em] uppercase text-blue-500 mb-3">Current Rule</div>
+                  <p id="axi-full-timing-description" class="text-sm leading-6 text-gray-700">
+                    <code>BVALID</code>는 AXI4에서 <code>AW</code>와 마지막 <code>W</code> beat가 모두 수락된 뒤에만 나올 수 있습니다.
+                  </p>
+                </div>
+
+                <div class="rounded-[24px] border border-gray-200 bg-white px-5 py-4">
+                  <div class="text-[11px] font-black tracking-[0.22em] uppercase text-gray-500 mb-3">Checklist</div>
+                  <ul id="axi-full-timing-points" class="space-y-2 text-sm leading-6 text-gray-700"></ul>
+                </div>
+
+                <div id="axi-full-timing-footnote" class="hidden rounded-[20px] border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-900" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+	        <aside class="mt-8 lg:mt-0 lg:sticky lg:top-8" data-page-8-inline-nav>
+          <div class="rounded-[28px] border border-gray-200 bg-white/95 p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)] backdrop-blur">
+            <div class="flex items-center gap-2 text-[#3182F6] font-bold text-xl mb-2">
+              <i data-lucide="cpu" class="w-6 h-6"></i>
+              <span>AMBA Learn</span>
+            </div>
+            <p class="text-sm text-gray-500 font-medium mb-5">Part 8 내부 목차</p>
+
+            <nav class="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0" id="nav-menu">
+              <button data-tab="amba" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base bg-[#3182F6] border-blue-200 text-white shadow-md shadow-blue-200/50">
+                <i data-lucide="book-open" class="w-5 h-5" stroke-width="2.5"></i>
+                <span data-tab-label>8-1. AMBA Protocol</span>
+              </button>
+              <button data-tab="bus" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="git-branch" class="w-5 h-5" stroke-width="2"></i>
+                <span data-tab-label>8-2. BUS</span>
+              </button>
+              <button data-tab="apb" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="activity" class="w-5 h-5" stroke-width="2"></i>
+                <span data-tab-label>8-3. APB</span>
+              </button>
+              <button data-tab="ahb" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="zap" class="w-5 h-5" stroke-width="2"></i>
+                <span data-tab-label>8-4. AHB</span>
+              </button>
+              <button data-tab="axi-lite" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="cpu" class="w-5 h-5" stroke-width="2"></i>
+                <span data-tab-label>8-5. AXI LITE</span>
+              </button>
+              <button data-tab="axi-stream" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="move-right" class="w-5 h-5" stroke-width="2"></i>
+                <span data-tab-label>8-6. AXI STREAM</span>
+              </button>
+              <button data-tab="axi-full" class="tab-btn flex min-w-max items-center gap-3 rounded-[16px] border border-transparent px-4 py-3 text-sm font-semibold transition-all duration-200 whitespace-nowrap text-left lg:w-full lg:min-w-0 lg:px-4 lg:py-3.5 lg:text-base text-gray-500 hover:border-gray-200 hover:bg-gray-50 hover:text-gray-900">
+                <i data-lucide="cpu" class="w-5 h-5" stroke-width="2"></i>
+                <span data-tab-label>8-7. AXI FULL</span>
+              </button>
+            </nav>
+          </div>
+        </aside>
+      </div>

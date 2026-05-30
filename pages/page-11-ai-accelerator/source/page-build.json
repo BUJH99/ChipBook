@@ -1,0 +1,12 @@
+{
+  "output": "../../page-11-ai-accelerator.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-accelerator-stack.html",
+    "20-grid-start.html",
+    "sections/02-dataflow.html",
+    "sections/03-metric-debug.html",
+    "29-grid-end.html",
+    "99-shell-end.html"
+  ]
+}

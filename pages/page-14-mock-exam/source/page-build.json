@@ -1,0 +1,10 @@
+{
+  "output": "../../page-14-mock-exam.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-mock-start.html",
+    "sections/02-mock-exam.html",
+    "sections/03-mock-result.html",
+    "99-shell-end.html"
+  ]
+}

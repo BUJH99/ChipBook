@@ -1,0 +1,14 @@
+{
+  "output": "../../page-8-on-chip-bus.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-amba.html",
+    "sections/02-bus.html",
+    "sections/03-apb.html",
+    "sections/04-ahb.html",
+    "sections/05-axi-lite.html",
+    "sections/06-axi-stream.html",
+    "sections/07-axi-full.html",
+    "99-shell-end.html"
+  ]
+}

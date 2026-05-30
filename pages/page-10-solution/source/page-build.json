@@ -1,0 +1,12 @@
+{
+  "output": "../../page-10-solution.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-integration-stack.html",
+    "20-grid-start.html",
+    "sections/02-solution-thinking.html",
+    "sections/03-interview-memory-hooks.html",
+    "29-grid-end.html",
+    "99-shell-end.html"
+  ]
+}

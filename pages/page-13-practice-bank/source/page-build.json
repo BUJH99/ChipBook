@@ -1,0 +1,10 @@
+{
+  "output": "../../page-13-practice-bank.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/01-practice-overview.html",
+    "sections/02-practice-filters.html",
+    "sections/03-practice-bank.html",
+    "99-shell-end.html"
+  ]
+}

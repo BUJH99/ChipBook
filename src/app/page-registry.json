@@ -1,0 +1,255 @@
+{
+  "site": {
+    "title": "반도체 디지털 회로설계 가이드북",
+    "brandTitleHtml": "반도체 디지털 <span class=\"text-blue-600\">회로설계 가이드북</span>",
+    "subtitle": "핵심 개념부터 설계 흐름, 실전 문제까지 한 번에 정리",
+    "totalPagesLabel": "Page {current} of {total}"
+  },
+  "pages": [
+    {
+      "id": "page-1",
+      "number": 1,
+      "title": "OverView",
+      "src": "./pages/page-1-overview.html",
+      "loadingText": "OverView 페이지를 불러오는 중입니다...",
+      "tocMode": "action",
+      "sectionAttribute": "data-part1-panel",
+      "buildManifest": "pages/page-1-overview/source/page-build.json",
+      "debugDir": "pages/page-1-overview",
+      "sections": [
+        { "key": "landscape", "title": "Product Category", "source": "pages/page-1-overview/source/sections/01-landscape.html" },
+        { "key": "value-chain", "title": "Value Chain", "source": "pages/page-1-overview/source/sections/02-value-chain.html" },
+        { "key": "future-tech", "title": "Future Tech Trends", "source": "pages/page-1-overview/source/sections/03-future-tech.html" }
+      ]
+    },
+    {
+      "id": "page-2",
+      "number": 2,
+      "title": "Design Flow",
+      "src": "./pages/page-2-flow.html",
+      "loadingText": "Design Flow 페이지를 불러오는 중입니다...",
+      "tocMode": "action",
+      "sectionAttribute": "data-part2-panel",
+      "buildManifest": "pages/page-2-flow/source/page-build.json",
+      "debugDir": "pages/page-2-flow",
+      "sections": [
+        { "key": "flow-overview", "title": "Design to Product Flow", "source": "pages/page-2-flow/source/sections/01-flow-overview.html" },
+        { "key": "stage-detail", "title": "Stage Detail", "source": "pages/page-2-flow/source/sections/02-stage-detail.html" },
+        { "key": "keyword-dictionary", "title": "Keyword Dictionary", "source": "pages/page-2-flow/source/sections/03-keyword-dictionary.html" },
+        { "key": "paired-inputs", "title": "Additional Keyword", "source": "pages/page-2-flow/source/sections/04-paired-inputs.html" }
+      ]
+    },
+    {
+      "id": "page-3",
+      "number": 3,
+      "title": "RTL / Frontend",
+      "src": "./pages/page-3-rtl-frontend.html",
+      "loadingText": "RTL / Frontend 페이지를 불러오는 중입니다...",
+      "tocMode": "action",
+      "sectionAttribute": "data-part3-panel",
+      "buildManifest": "pages/page-3-rtl-frontend/source/page-build.json",
+      "debugDir": "pages/page-3-rtl-frontend",
+      "sections": [
+        { "key": "logic-basics", "title": "CL, SL", "source": "pages/page-3-rtl-frontend/source/sections/01-logic-basics.html" },
+        { "key": "hdl-synthesis", "title": "HDL / Logic Synthesis", "source": "pages/page-3-rtl-frontend/source/sections/02-hdl-synthesis.html" },
+        { "key": "hierarchical-design", "title": "Hierarchical Design", "source": "pages/page-3-rtl-frontend/source/sections/03-hierarchical-design.html" },
+        { "key": "soc-concept", "title": "SoC", "source": "pages/page-3-rtl-frontend/source/sections/04-soc-concept.html" },
+        { "key": "sta-concept", "title": "STA", "source": "pages/page-3-rtl-frontend/source/sections/05-sta-concept.html" },
+        { "key": "rtl-patterns", "title": "Methodology for RTL coding", "source": "pages/page-3-rtl-frontend/source/sections/06-rtl-patterns.html" }
+      ]
+    },
+    {
+      "id": "page-4",
+      "number": 4,
+      "title": "Physical Design / Backend",
+      "src": "./pages/page-4-physical-design.html",
+      "loadingText": "Physical Design / Backend 페이지를 불러오는 중입니다...",
+      "tocMode": "action",
+      "sectionAttribute": "data-part4-panel",
+      "buildManifest": "pages/page-4-physical-design/source/page-build.json",
+      "debugDir": "pages/page-4-physical-design",
+      "sections": [
+        { "key": "floorplan", "title": "Floorplan", "source": "pages/page-4-physical-design/source/sections/01-floorplan.html" },
+        { "key": "pnr", "title": "PnR / CTS / Routing", "source": "pages/page-4-physical-design/source/sections/02-pnr.html" },
+        { "key": "signoff", "title": "Signoff", "source": "pages/page-4-physical-design/source/sections/03-signoff.html" },
+        { "key": "tapeout", "title": "Tapeout", "source": "pages/page-4-physical-design/source/sections/04-tapeout.html" },
+        { "key": "design-kit", "title": "Design Kit / PDK", "source": "pages/page-4-physical-design/source/sections/05-design-kit.html" }
+      ]
+    },
+    {
+      "id": "page-5",
+      "number": 5,
+      "title": "Memory / Storage / Materials",
+      "src": "./pages/page-5-memory-device.html",
+      "loadingText": "Memory / Storage / Materials 페이지를 불러오는 중입니다...",
+      "tocMode": "action",
+      "sectionAttribute": "data-part5-panel",
+      "buildManifest": "pages/page-5-memory-device/source/page-build.json",
+      "debugDir": "pages/page-5-memory-device",
+      "sections": [
+        { "key": "memory-basics", "title": "SRAM / DRAM", "source": "pages/page-5-memory-device/source/sections/01-memory-basics.html" },
+        { "key": "flash-ssd", "title": "Flash / SSD", "source": "pages/page-5-memory-device/source/sections/02-flash-ssd.html" },
+        { "key": "mos-basics", "title": "MOS Basic", "source": "pages/page-5-memory-device/source/sections/03-mos-basics.html" },
+        { "key": "finfet-planar", "title": "FinFET / Planar", "source": "pages/page-5-memory-device/source/sections/04-finfet-planar.html" }
+      ]
+    },
+    {
+      "id": "page-6",
+      "number": 6,
+      "title": "Design Flow with Role",
+      "src": "./pages/page-6-role-flow.html",
+      "loadingText": "Design Flow with Role 페이지를 불러오는 중입니다...",
+      "tocMode": "action",
+      "sectionAttribute": "data-part6-panel",
+      "buildManifest": "pages/page-6-role-flow/source/page-build.json",
+      "debugDir": "pages/page-6-role-flow",
+      "sections": [
+        { "key": "role-map", "title": "Role Map", "source": "pages/page-6-role-flow/source/sections/01-role-map.html" },
+        { "key": "foundation-ip", "title": "Foundation IP", "source": "pages/page-6-role-flow/source/sections/02-foundation-ip.html" },
+        { "key": "design-platform", "title": "DP", "source": "pages/page-6-role-flow/source/sections/03-design-platform.html" },
+        { "key": "design-verification", "title": "DV", "source": "pages/page-6-role-flow/source/sections/04-design-verification.html" },
+        { "key": "design-for-test", "title": "DFT", "source": "pages/page-6-role-flow/source/sections/05-design-for-test.html" },
+        { "key": "physical-implementation", "title": "PI", "source": "pages/page-6-role-flow/source/sections/06-physical-implementation.html" },
+        { "key": "physical-design", "title": "PD", "source": "pages/page-6-role-flow/source/sections/07-physical-design.html" },
+        { "key": "application-platform", "title": "AP", "source": "pages/page-6-role-flow/source/sections/08-application-platform.html" },
+        { "key": "related-roles", "title": "연관 직무", "source": "pages/page-6-role-flow/source/sections/09-related-roles.html" },
+        { "key": "advanced-keywords", "title": "심화 키워드", "source": "pages/page-6-role-flow/source/sections/10-advanced-keywords.html" }
+      ]
+    },
+    {
+      "id": "page-7",
+      "number": 7,
+      "title": "UVM / Verification",
+      "src": "./pages/page-7-uvm-verification.html",
+      "loadingText": "UVM / Verification 페이지를 불러오는 중입니다...",
+      "tocMode": "action",
+      "sectionAttribute": "data-page7-panel",
+      "generator": "tools/build_chapter7_single_page.py",
+      "sections": [
+        { "key": "uvm-basics", "title": "UVM 기초", "source": "chapter7change/7-1.html" },
+        { "key": "uvm-overview", "title": "UVM 큰 그림 및 기본 설정", "source": "chapter7change/7-2.html" },
+        { "key": "uvm-core", "title": "UVM 코어 메커니즘", "source": "chapter7change/7-3.html" },
+        { "key": "component-object", "title": "Component vs Object", "source": "chapter7change/7-4.html" },
+        { "key": "stimulus-tlm", "title": "Stimulus & TLM", "source": "chapter7change/7-5.html" },
+        { "key": "register-model", "title": "UVM Register Model (RAL)", "source": "chapter7change/7-6.html" },
+        { "key": "checking-reporting", "title": "Checking & Reporting", "source": "chapter7change/7-7.html" },
+        { "key": "execution-commandline", "title": "Execution & Command-Line", "source": "chapter7change/7-8.html" }
+      ]
+    },
+    {
+      "id": "page-8",
+      "number": 8,
+      "title": "On-Chip Bus",
+      "src": "./pages/page-8-on-chip-bus.html",
+      "loadingText": "On-Chip Bus 페이지를 불러오는 중입니다...",
+      "tocMode": "action",
+      "sectionAttribute": "data-part8-panel",
+      "buildManifest": "pages/page-8-on-chip-bus/source/page-build.json",
+      "debugDir": "pages/page-8-on-chip-bus",
+      "sections": [
+        { "key": "amba", "title": "AMBA Protocol", "source": "pages/page-8-on-chip-bus/source/sections/01-amba.html" },
+        { "key": "bus", "title": "BUS", "source": "pages/page-8-on-chip-bus/source/sections/02-bus.html" },
+        { "key": "apb", "title": "APB", "source": "pages/page-8-on-chip-bus/source/sections/03-apb.html" },
+        { "key": "ahb", "title": "AHB", "source": "pages/page-8-on-chip-bus/source/sections/04-ahb.html" },
+        { "key": "axi-lite", "title": "AXI LITE", "source": "pages/page-8-on-chip-bus/source/sections/05-axi-lite.html" },
+        { "key": "axi-stream", "title": "AXI STREAM", "source": "pages/page-8-on-chip-bus/source/sections/06-axi-stream.html" },
+        { "key": "axi-full", "title": "AXI FULL", "source": "pages/page-8-on-chip-bus/source/sections/07-axi-full.html" }
+      ]
+    },
+    {
+      "id": "page-9",
+      "number": 9,
+      "title": "Off-Chip Interface",
+      "src": "./pages/page-9-off-chip-interface.html",
+      "loadingText": "Off-Chip Interface 페이지를 불러오는 중입니다...",
+      "tocMode": "scroll",
+      "buildManifest": "pages/page-9-off-chip-interface/source/page-build.json",
+      "debugDir": "pages/page-9-off-chip-interface",
+      "sections": [
+        { "key": "interface-stack", "title": "Interface Stack", "source": "pages/page-9-off-chip-interface/source/sections/01-interface-stack.html" },
+        { "key": "common-interfaces", "title": "Common Interfaces", "source": "pages/page-9-off-chip-interface/source/sections/02-common-interfaces.html" },
+        { "key": "debug-checklist", "title": "Debug Checklist", "source": "pages/page-9-off-chip-interface/source/sections/03-debug-checklist.html" }
+      ]
+    },
+    {
+      "id": "page-10",
+      "number": 10,
+      "title": "Solution",
+      "src": "./pages/page-10-solution.html",
+      "loadingText": "Solution 페이지를 불러오는 중입니다...",
+      "tocMode": "scroll",
+      "buildManifest": "pages/page-10-solution/source/page-build.json",
+      "debugDir": "pages/page-10-solution",
+      "sections": [
+        { "key": "integration-stack", "title": "Integration Stack", "source": "pages/page-10-solution/source/sections/01-integration-stack.html" },
+        { "key": "solution-thinking", "title": "Solution Thinking", "source": "pages/page-10-solution/source/sections/02-solution-thinking.html" },
+        { "key": "interview-memory-hooks", "title": "Interview Memory Hooks", "source": "pages/page-10-solution/source/sections/03-interview-memory-hooks.html" }
+      ]
+    },
+    {
+      "id": "page-11",
+      "number": 11,
+      "title": "AI Accelerator",
+      "src": "./pages/page-11-ai-accelerator.html",
+      "loadingText": "AI Accelerator 페이지를 불러오는 중입니다...",
+      "tocMode": "scroll",
+      "buildManifest": "pages/page-11-ai-accelerator/source/page-build.json",
+      "debugDir": "pages/page-11-ai-accelerator",
+      "sections": [
+        { "key": "accelerator-stack", "title": "Accelerator Stack", "source": "pages/page-11-ai-accelerator/source/sections/01-accelerator-stack.html" },
+        { "key": "dataflow", "title": "Dataflow", "source": "pages/page-11-ai-accelerator/source/sections/02-dataflow.html" },
+        { "key": "metric-debug", "title": "Metric & Debug", "source": "pages/page-11-ai-accelerator/source/sections/03-metric-debug.html" }
+      ]
+    },
+    {
+      "id": "page-12",
+      "number": 12,
+      "title": "ADT 기술 & 최종 요약",
+      "frameTitle": "Part 12 | ADT 기술 & 최종 요약",
+      "src": "./pages/page-12-adt-summary.html",
+      "loadingText": "Part 12 | ADT 기술 & 최종 요약 페이지를 불러오는 중입니다...",
+      "tocMode": "scroll",
+      "buildManifest": "pages/page-12-adt-summary/page-build.json",
+      "sections": [
+        { "key": "adt-technology", "title": "ADT 사내기술", "source": "pages/page-12-adt-summary/sections/01-adt-technology.html" },
+        { "key": "final-summary", "title": "최종 요약", "source": "pages/page-12-adt-summary/sections/02-final-summary.html" }
+      ]
+    },
+    {
+      "id": "page-13",
+      "number": 13,
+      "title": "예상 기출문제",
+      "src": "./pages/page-13-practice-bank.html",
+      "loadingText": "예상 기출문제 페이지를 불러오는 중입니다...",
+      "tocMode": "dynamic",
+      "buildManifest": "pages/page-13-practice-bank/source/page-build.json",
+      "debugDir": "pages/page-13-practice-bank",
+      "navGroup": "practice",
+      "navIcon": "📝",
+      "navAccent": "blue",
+      "sections": [
+        { "key": "practice-overview", "title": "문제은행 개요", "source": "pages/page-13-practice-bank/source/sections/01-practice-overview.html" },
+        { "key": "practice-filters", "title": "검색 및 필터", "source": "pages/page-13-practice-bank/source/sections/02-practice-filters.html" },
+        { "key": "practice-bank", "title": "문제 은행", "source": "pages/page-13-practice-bank/source/sections/03-practice-bank.html" }
+      ]
+    },
+    {
+      "id": "page-14",
+      "number": 14,
+      "title": "실전 모의 20문항",
+      "src": "./pages/page-14-mock-exam.html",
+      "loadingText": "실전 모의 20문항 페이지를 불러오는 중입니다...",
+      "tocMode": "scroll",
+      "buildManifest": "pages/page-14-mock-exam/source/page-build.json",
+      "debugDir": "pages/page-14-mock-exam",
+      "navGroup": "practice",
+      "navIcon": "⏱️",
+      "navAccent": "red",
+      "sections": [
+        { "key": "mock-start", "title": "시험 안내", "source": "pages/page-14-mock-exam/source/sections/01-mock-start.html" },
+        { "key": "mock-exam", "title": "문항 풀이", "source": "pages/page-14-mock-exam/source/sections/02-mock-exam.html" },
+        { "key": "mock-result", "title": "채점 결과", "source": "pages/page-14-mock-exam/source/sections/03-mock-result.html" }
+      ]
+    }
+  ]
+}

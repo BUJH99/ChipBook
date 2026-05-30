@@ -5844,6 +5844,23 @@ function escapeHtml(value) {
 
 (function () {
     const embedded = () => window.self !== window.top;
+    const isObservableNode = (target) => Boolean(
+        target &&
+        typeof target.nodeType === 'number' &&
+        typeof target.nodeName === 'string'
+    );
+    const observeTarget = (observer, target, options) => {
+        if (!observer || !isObservableNode(target)) return;
+        try {
+            if (options) {
+                observer.observe(target, options);
+            } else {
+                observer.observe(target);
+            }
+        } catch (error) {
+            // Some embedded browser surfaces expose DOM handles that observers reject.
+        }
+    };
     const getPageId = () => document.body.dataset.pageId || document.documentElement.dataset.pageId || 'unknown';
     const normalizeText = (value) => (value || '').replace(/\s+/g, ' ').trim();
     const slugify = (value) => normalizeText(value)
@@ -6293,8 +6310,8 @@ function escapeHtml(value) {
 
         if (typeof ResizeObserver !== 'undefined') {
             const observer = new ResizeObserver(scheduleBridgeSync);
-            if (document.documentElement) observer.observe(document.documentElement);
-            if (document.body) observer.observe(document.body);
+            observeTarget(observer, document.documentElement);
+            observeTarget(observer, document.body);
         } else {
             window.setInterval(() => {
                 notifyHeight();
@@ -6302,9 +6319,9 @@ function escapeHtml(value) {
             }, 1000);
         }
 
-        if (typeof MutationObserver !== 'undefined' && document.body) {
+        if (typeof MutationObserver !== 'undefined') {
             const mutationObserver = new MutationObserver(scheduleBridgeSync);
-            mutationObserver.observe(document.body, {
+            observeTarget(mutationObserver, document.body, {
                 subtree: true,
                 childList: true,
                 attributes: true,

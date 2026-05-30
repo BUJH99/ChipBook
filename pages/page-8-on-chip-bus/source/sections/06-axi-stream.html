@@ -1,0 +1,504 @@
+<div id="tab-axi-stream" class="tab-content space-y-8" data-part8-panel="axi-stream" data-guidebook-toc-title="AXI STREAM">
+        <div class="bg-[linear-gradient(180deg,_#F5FCFF_0%,_#F4F9FF_100%)] rounded-[32px] p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-cyan-500 text-white p-2 rounded-xl"><i data-lucide="move-right" class="w-6 h-6"></i></div>
+            <h2 class="text-3xl font-bold text-gray-900">AXI STREAM (Advanced eXtensible Interface Stream)</h2>
+          </div>
+
+          <div class="grid gap-4 md:grid-cols-3 mb-8">
+            <div class="rounded-[24px] border border-cyan-100 bg-white p-6 shadow-sm">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-600 border border-cyan-100">
+                  <i data-lucide="move-right" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-black tracking-[0.24em] uppercase text-cyan-500 mb-2">Stream</div>
+                  <div class="text-xl font-bold text-gray-900">Addressless Data Path</div>
+                </div>
+              </div>
+              <ul class="space-y-2.5 text-sm leading-6 text-gray-600">
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-cyan-400"></span><span>주소 없는 payload 전달</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-cyan-400"></span><span>sample / pixel / packet 연속 흐름</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-cyan-400"></span><span>영상 · 오디오 · DSP pipeline 적합</span></li>
+              </ul>
+            </div>
+            <div class="rounded-[24px] border border-sky-100 bg-white p-6 shadow-sm">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600 border border-sky-100">
+                  <i data-lucide="gauge" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-black tracking-[0.24em] uppercase text-sky-500 mb-2">Flow Control</div>
+                  <div class="text-xl font-bold text-gray-900">VALID / READY</div>
+                </div>
+              </div>
+              <ul class="space-y-2.5 text-sm leading-6 text-gray-600">
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-sky-400"></span><span><code>TVALID</code> / <code>TREADY</code> handshake</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-sky-400"></span><span><code>TREADY</code> 기반 backpressure</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-sky-400"></span><span>stall 구간의 현재 beat 유지</span></li>
+              </ul>
+            </div>
+            <div class="rounded-[24px] border border-blue-100 bg-white p-6 shadow-sm">
+              <div class="flex items-start gap-4 mb-5">
+                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 border border-blue-100">
+                  <i data-lucide="flag" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-black tracking-[0.24em] uppercase text-blue-500 mb-2">Packet</div>
+                  <div class="text-xl font-bold text-gray-900">Frame Boundary</div>
+                </div>
+              </div>
+              <ul class="space-y-2.5 text-sm leading-6 text-gray-600">
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span><code>TLAST</code> 기반 packet / frame 경계</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span><code>TKEEP</code> / <code>TSTRB</code> 기반 byte 유효 범위</span></li>
+                <li class="flex items-start gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-blue-400"></span><span>마지막 beat 정렬 정보</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="git-merge" class="w-5 h-5 text-cyan-500"></i>
+              AXI Stream Architecture Diagram
+            </h3>
+            <div class="w-full flex justify-center">
+              <div class="border border-gray-400 bg-white p-6 md:p-8 px-4 md:px-12 pb-4 inline-block w-full max-w-3xl">
+                <svg width="100%" viewBox="0 0 800 448" class="max-w-full">
+                  <defs>
+                    <marker id="arrowBlackAxiStream" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111827" />
+                    </marker>
+                  </defs>
+
+                  <rect x="50" y="34" width="150" height="316" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <g transform="translate(125 192)">
+                    <text x="0" y="-14" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle" dominant-baseline="middle">Source</text>
+                    <text x="0" y="14" fill="#111827" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" dominant-baseline="middle">(DMA, ADC, Video)</text>
+                  </g>
+
+                  <rect x="600" y="34" width="150" height="316" rx="0" fill="white" stroke="#111827" stroke-width="1.5" />
+                  <g transform="translate(675 192)">
+                    <text x="0" y="-14" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="20" text-anchor="middle" dominant-baseline="middle">Sink</text>
+                    <text x="0" y="14" fill="#111827" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" dominant-baseline="middle">(FIFO, DSP, Display)</text>
+                  </g>
+
+                  <path d="M 200 94 L 590 94" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBlackAxiStream)" />
+                  <text x="400" y="84" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">TVALID</text>
+
+                  <path d="M 600 124 L 210 124" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBlackAxiStream)" />
+                  <text x="400" y="114" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">TREADY</text>
+
+                  <path d="M 200 154 L 590 154" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBlackAxiStream)" />
+                  <text x="400" y="144" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">TDATA</text>
+
+                  <path d="M 200 184 L 590 184" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBlackAxiStream)" />
+                  <text x="400" y="174" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">TKEEP</text>
+
+                  <path d="M 200 214 L 590 214" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBlackAxiStream)" />
+                  <text x="400" y="204" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">TSTRB</text>
+
+                  <path d="M 200 244 L 590 244" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBlackAxiStream)" />
+                  <text x="400" y="234" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">TLAST</text>
+
+                  <path d="M 200 274 L 590 274" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBlackAxiStream)" />
+                  <text x="400" y="264" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">TID</text>
+
+                  <path d="M 200 304 L 590 304" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBlackAxiStream)" />
+                  <text x="400" y="294" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">TDEST</text>
+
+                  <path d="M 200 334 L 590 334" stroke="#111827" stroke-width="1.8" fill="none" marker-end="url(#arrowBlackAxiStream)" />
+                  <text x="400" y="324" fill="#111827" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">TUSER</text>
+
+                  <text x="400" y="380" fill="#111827" font-family="Arial, sans-serif" font-size="13" text-anchor="middle">TVALID and TREADY sit at the top, then payload and optional sideband signals follow</text>
+                  <text x="400" y="398" fill="#64748B" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">No address phase, no separate write/read response channel</text>
+                </svg>
+                <div class="mt-4 pt-4 border-t border-gray-300 text-center text-gray-800 font-serif text-sm w-full">
+                  <strong style="font-family: Arial, sans-serif;">Figure 1-1</strong> Architecture of AXI Stream
+                </div>
+              </div>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-6 px-4">
+              AXI Stream은 memory-mapped 주소 채널 대신, payload와 sideband가 한 방향으로 흐르고 <code>TREADY</code>가 반대 방향 backpressure를 담당합니다.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8 overflow-hidden">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="git-merge" class="w-5 h-5 text-cyan-500"></i>
+              AXI STREAM Channel View
+            </h3>
+            <div id="axis-stream-channel-lab" class="axis-channel-lab">
+              <div class="axis-channel-lab__layout">
+                <div class="axis-channel-lab__canvas-panel axis-channel-lab__glass">
+                  <div id="axis-stream-lab-sim-area" class="axis-channel-lab__canvas">
+                    <div class="axis-channel-lab__clock">
+                      <span class="axis-channel-lab__clock-label">Matrix Clock</span>
+                      <div id="axis-stream-lab-clk-cycle" class="axis-channel-lab__clock-value mono">0.0ns</div>
+                    </div>
+
+                    <div class="axis-channel-lab__pause-overlay">
+                      <span class="axis-channel-lab__pause-pill">Simulation Paused</span>
+                    </div>
+
+                    <svg class="axis-channel-lab__path-svg" viewBox="0 0 1000 760" preserveAspectRatio="none" aria-hidden="true">
+                      <line x1="174" y1="380" x2="744" y2="380" stroke="#94a3b8" stroke-width="3" stroke-dasharray="8 4"></line>
+                      <path d="M 750 380 Q 750 130 680 130 L 600 130" stroke="#64748b" stroke-width="2" fill="none"></path>
+                      <path d="M 750 380 Q 750 130 820 130 L 900 130" stroke="#64748b" stroke-width="2" fill="none"></path>
+                      <path d="M 750 380 Q 750 630 680 630 L 600 630" stroke="#64748b" stroke-width="2" fill="none"></path>
+                      <path d="M 750 380 Q 750 630 820 630 L 900 630" stroke="#64748b" stroke-width="2" fill="none"></path>
+                    </svg>
+
+                    <div id="axis-stream-lab-beam-line" class="axis-routing-beam"></div>
+                    <div id="axis-stream-lab-packet-lane" class="axis-channel-lab__packet-lane"></div>
+
+                    <div id="axis-stream-lab-master-node" class="axis-master-node is-idle is-link-ready">
+                      <div class="axis-master-node__ambient"></div>
+                      <div class="axis-master-node__scanline"></div>
+                      <div class="axis-master-node__head">
+                        <span class="axis-master-node__head-title">Master Node</span>
+                        <span class="axis-master-node__head-chip">TX</span>
+                      </div>
+                      <div class="axis-master-node__body">
+                        <div class="axis-master-node__icon-shell">
+                          <div class="axis-master-node__ring axis-master-node__ring--outer"></div>
+                          <div class="axis-master-node__ring axis-master-node__ring--inner"></div>
+                          <div class="axis-master-node__icon">
+                            <div id="axis-stream-lab-tx-pulse" class="axis-master-node__pulse"></div>
+                            <div class="axis-master-node__icon-glint"></div>
+                            <span aria-hidden="true" class="axis-master-node__glyph">⚡</span>
+                          </div>
+                        </div>
+                        <div class="axis-master-node__stack">
+                          <span class="axis-master-node__label mono">TX Status</span>
+                          <div id="axis-stream-lab-tx-status-label" class="axis-master-node__state mono">IDLE</div>
+                          <div class="axis-master-node__meta mono">TDATA / TKEEP / TUSER</div>
+                        </div>
+                        <div class="axis-master-node__charge">
+                          <div class="axis-master-node__charge-head">
+                            <span>TX Energy</span>
+                            <span class="axis-master-node__charge-value mono">LIVE</span>
+                          </div>
+                          <div class="axis-master-node__charge-track">
+                            <div class="axis-master-node__charge-bar"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="axis-stream-lab-master-tready-led" class="axis-master-node__footer">
+                        <span class="axis-master-node__footer-dot"></span>
+                        <span id="axis-stream-lab-master-tready-text">Interconnect Ready</span>
+                      </div>
+                    </div>
+
+                    <div id="axis-stream-lab-switch-node" class="axis-switch-node">
+                      <div class="axis-switch-node__glow"></div>
+                      <div class="axis-switch-node__ring"></div>
+                      <div class="axis-switch-node__orbit"></div>
+                      <div class="axis-switch-node__pulse"></div>
+                      <div class="axis-switch-node__label">Interconnect</div>
+                      <div class="axis-switch-node__core">
+                        <div class="axis-switch-node__scan"></div>
+                        <div class="axis-switch-node__energy"></div>
+                        <div class="axis-switch-node__leds">
+                          <div id="axis-stream-lab-sw-led-0" class="axis-switch-led"></div>
+                          <div id="axis-stream-lab-sw-led-1" class="axis-switch-led"></div>
+                          <div id="axis-stream-lab-sw-led-2" class="axis-switch-led"></div>
+                          <div id="axis-stream-lab-sw-led-3" class="axis-switch-led"></div>
+                        </div>
+                      </div>
+                      <div id="axis-stream-lab-fifo-viz" class="axis-switch-node__fifo">
+                        <div class="axis-fifo-slot"></div>
+                        <div class="axis-fifo-slot"></div>
+                        <div class="axis-fifo-slot"></div>
+                        <div class="axis-fifo-slot"></div>
+                      </div>
+                      <div id="axis-stream-lab-hub-status-text" class="axis-switch-node__meta mono">FIFO: 0/4</div>
+                    </div>
+
+                    <div id="axis-stream-lab-slave-node-0" class="axis-slave-node" style="left: 60%; top: 15%;">
+                      <div class="axis-slave-node__head">Port_00 <span class="axis-slave-node__dot"></span></div>
+                      <div class="axis-slave-node__body">
+                        <div class="axis-slave-node__title mono">L1_CACHE</div>
+                        <div class="axis-slave-node__latch"><div class="axis-slave-node__bar"></div></div>
+                      </div>
+                    </div>
+
+                    <div id="axis-stream-lab-slave-node-1" class="axis-slave-node" style="left: 90%; top: 15%;">
+                      <div class="axis-slave-node__head">Port_01 <span class="axis-slave-node__dot"></span></div>
+                      <div class="axis-slave-node__body">
+                        <div class="axis-slave-node__title mono">GPU_CORE</div>
+                        <div class="axis-slave-node__latch"><div class="axis-slave-node__bar"></div></div>
+                      </div>
+                    </div>
+
+                    <div id="axis-stream-lab-slave-node-2" class="axis-slave-node" style="left: 60%; top: 85%;">
+                      <div class="axis-slave-node__head">Port_02 <span class="axis-slave-node__dot"></span></div>
+                      <div class="axis-slave-node__body">
+                        <div class="axis-slave-node__title mono">DDR_CTRL</div>
+                        <div class="axis-slave-node__latch"><div class="axis-slave-node__bar"></div></div>
+                      </div>
+                    </div>
+
+                    <div id="axis-stream-lab-slave-node-3" class="axis-slave-node" style="left: 90%; top: 85%;">
+                      <div class="axis-slave-node__head">Port_03 <span class="axis-slave-node__dot"></span></div>
+                      <div class="axis-slave-node__body">
+                        <div class="axis-slave-node__title mono">EXT_BUS</div>
+                        <div class="axis-slave-node__latch"><div class="axis-slave-node__bar"></div></div>
+                      </div>
+                    </div>
+
+                    <div class="axis-status-strip">
+                      <div class="axis-status-pill">
+                        <span id="axis-stream-lab-status-led" class="axis-status-pill__led"></span>
+                        <span id="axis-stream-lab-status-label">Back-pressure Monitor Active</span>
+                      </div>
+                      <div id="axis-stream-lab-bp-warning" class="axis-backpressure-badge">Back-pressure Asserted</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="axis-channel-lab__controls axis-channel-lab__glass">
+                  <div class="axis-channel-lab__controls-head">
+                    <div class="axis-channel-lab__controls-title">Matrix Control</div>
+                    <div class="axis-channel-lab__controls-kicker">Physical Driver Configuration</div>
+                  </div>
+
+                  <section class="axis-channel-lab__section">
+                    <div class="axis-channel-lab__section-label is-blue">Master Core Interface</div>
+                    <div class="axis-sig-grid">
+                      <button type="button" class="axis-sig-btn" data-axis-sig="tvalid" data-tone="blue">
+                        <span class="axis-sig-btn__led"></span>
+                        <span class="axis-sig-btn__text">TVALID (Force TX)</span>
+                        <span id="axis-stream-lab-val-tvalid" class="axis-sig-btn__value mono">LOW</span>
+                      </button>
+                    </div>
+                  </section>
+
+                  <section class="axis-channel-lab__section">
+                    <div class="axis-channel-lab__section-label is-emerald">Target Availability</div>
+                    <div class="axis-sig-grid">
+                      <button type="button" class="axis-sig-btn" data-axis-sig="tready" data-tone="emerald">
+                        <span class="axis-sig-btn__led"></span>
+                        <span class="axis-sig-btn__text">TREADY (Dest Ready)</span>
+                        <span id="axis-stream-lab-val-tready" class="axis-sig-btn__value mono">LOW</span>
+                      </button>
+                    </div>
+                  </section>
+
+                  <section class="axis-channel-lab__section">
+                    <div class="axis-channel-lab__section-label is-amber">Routing &amp; Qualifiers</div>
+                    <div class="space-y-3">
+                      <div class="grid grid-cols-2 gap-3">
+                        <div class="axis-bit-pane">
+                          <span class="axis-bit-pane__label" style="color:#4f46e5;">TID (Shape)</span>
+                          <div class="axis-bit-row">
+                            <button type="button" class="axis-bit-box is-active" data-axis-id="tid" data-axis-value="0" data-variant="id">0</button>
+                            <button type="button" class="axis-bit-box" data-axis-id="tid" data-axis-value="1" data-variant="id">1</button>
+                            <button type="button" class="axis-bit-box" data-axis-id="tid" data-axis-value="2" data-variant="id">2</button>
+                            <button type="button" class="axis-bit-box" data-axis-id="tid" data-axis-value="3" data-variant="id">3</button>
+                          </div>
+                        </div>
+                        <div class="axis-bit-pane">
+                          <span class="axis-bit-pane__label" style="color:#059669;">TDEST (Target)</span>
+                          <div class="axis-bit-row">
+                            <button type="button" class="axis-bit-box is-active" data-axis-id="tdest" data-axis-value="0" data-variant="id">0</button>
+                            <button type="button" class="axis-bit-box" data-axis-id="tdest" data-axis-value="1" data-variant="id">1</button>
+                            <button type="button" class="axis-bit-box" data-axis-id="tdest" data-axis-value="2" data-variant="id">2</button>
+                            <button type="button" class="axis-bit-box" data-axis-id="tdest" data-axis-value="3" data-variant="id">3</button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="axis-sig-grid two-col">
+                        <button type="button" class="axis-sig-btn" data-axis-sig="tlast" data-tone="amber">
+                          <span class="axis-sig-btn__led"></span>
+                          <span class="axis-sig-btn__text">TLAST</span>
+                        </button>
+                        <button type="button" class="axis-sig-btn" data-axis-sig="tuser" data-tone="amber">
+                          <span class="axis-sig-btn__led"></span>
+                          <span class="axis-sig-btn__text">TUSER</span>
+                        </button>
+                      </div>
+
+                      <div class="grid grid-cols-2 gap-3">
+                        <div class="axis-bit-pane">
+                          <span class="axis-bit-pane__label">TKEEP Mask</span>
+                          <div class="axis-bit-row">
+                            <button type="button" class="axis-bit-box is-active" data-axis-mask="tkeep" data-axis-index="3" data-variant="keep">3</button>
+                            <button type="button" class="axis-bit-box is-active" data-axis-mask="tkeep" data-axis-index="2" data-variant="keep">2</button>
+                            <button type="button" class="axis-bit-box is-active" data-axis-mask="tkeep" data-axis-index="1" data-variant="keep">1</button>
+                            <button type="button" class="axis-bit-box is-active" data-axis-mask="tkeep" data-axis-index="0" data-variant="keep">0</button>
+                          </div>
+                        </div>
+                        <div class="axis-bit-pane">
+                          <span class="axis-bit-pane__label" style="color:#d97706;">TSTRB Mask</span>
+                          <div class="axis-bit-row">
+                            <button type="button" class="axis-bit-box is-active" data-axis-mask="tstrb" data-axis-index="3" data-variant="strobe">3</button>
+                            <button type="button" class="axis-bit-box is-active" data-axis-mask="tstrb" data-axis-index="2" data-variant="strobe">2</button>
+                            <button type="button" class="axis-bit-box is-active" data-axis-mask="tstrb" data-axis-index="1" data-variant="strobe">1</button>
+                            <button type="button" class="axis-bit-box is-active" data-axis-mask="tstrb" data-axis-index="0" data-variant="strobe">0</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <div class="axis-channel-lab__divider">
+                    <button id="axis-stream-lab-reset-sim" type="button" class="axis-btn-secondary" aria-label="Reset Matrix State" title="Reset Matrix State">
+                      <span class="axis-btn__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" class="axis-btn__icon-svg">
+                          <path d="M3 2v6h6"></path>
+                          <path d="M3.6 13a9 9 0 1 0 2.2-6.4L3 8"></path>
+                        </svg>
+                      </span>
+                      <span class="axis-btn__sr">Reset Matrix State</span>
+                    </button>
+                    <button id="axis-stream-lab-toggle-pause" type="button" class="axis-btn-primary" aria-label="Pause Engine" title="Pause Engine">
+                      <span class="axis-btn__icon axis-btn__icon--pause" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" class="axis-btn__icon-svg">
+                          <path d="M9 4h2.5v16H9z" fill="currentColor" stroke="none"></path>
+                          <path d="M12.5 4H15v16h-2.5z" fill="currentColor" stroke="none"></path>
+                        </svg>
+                      </span>
+                      <span class="axis-btn__icon axis-btn__icon--play" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" class="axis-btn__icon-svg">
+                          <path d="M8 5.5v13l10-6.5z" fill="currentColor" stroke="none"></path>
+                        </svg>
+                      </span>
+                      <span id="axis-stream-lab-pause-text" class="axis-btn__sr">Pause Engine</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden">
+            <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <i data-lucide="book-open" class="w-5 h-5 text-cyan-500"></i>
+              AXI STREAM Signal Descriptions
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[940px]">
+                <thead>
+                  <tr class="bg-gray-50 border-b-2 border-gray-200">
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap w-44">Signal</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap w-36">Width</th>
+                    <th class="py-4 px-4 font-bold text-gray-700 whitespace-nowrap w-36">Source</th>
+                    <th class="py-4 px-4 font-bold text-gray-700">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Global Signals</td></tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">ACLK</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">System</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">AXI Stream 전송 기준 클럭입니다. 모든 beat는 ACLK 상승 에지에서 샘플링됩니다.</td>
+                  </tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">ARESETn</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">System</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">Active LOW reset입니다. stream channel 상태와 내부 packet counter를 초기화합니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Core Handshake</td></tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">TDATA</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[DATA_W-1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Source</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">실제 payload 데이터입니다. sample, pixel, packet body가 이 버스로 전달됩니다.</td>
+                  </tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">TVALID</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Source</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">현재 beat의 데이터와 sideband가 유효함을 알립니다.</td>
+                  </tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">TREADY</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Sink</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">sink가 다음 beat를 받을 준비가 되었음을 알리는 backpressure 신호입니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Byte Qualifiers</td></tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">TKEEP</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[DATA_W/8-1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Source</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">각 byte lane의 유효 여부를 표시합니다. 마지막 beat에서 부분 유효 바이트를 설명할 때 자주 사용됩니다.</td>
+                  </tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">TSTRB</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[DATA_W/8-1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Source</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">데이터 바이트와 위치 바이트를 구분하는 strobe입니다. 구현에 따라 생략되는 경우도 많습니다.</td>
+                  </tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">TLAST</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">1bit</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Source</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">현재 beat가 packet 또는 frame의 마지막 beat임을 표시합니다.</td>
+                  </tr>
+
+                  <tr class="bg-gray-50/50"><td colspan="4" class="py-2 px-4 font-bold text-gray-500 text-xs uppercase tracking-wider">Routing / Metadata</td></tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">TID</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[ID_W-1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Source</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">stream ID를 나타내는 optional 신호입니다. 다중 flow를 구분할 때 사용합니다.</td>
+                  </tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">TDEST</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[DEST_W-1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Source</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">packet의 목적지나 routing hint를 담는 optional 신호입니다.</td>
+                  </tr>
+                  <tr class="hover:bg-cyan-50/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-gray-900 whitespace-nowrap">TUSER</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">[USER_W-1:0]</td>
+                    <td class="py-3 px-4 text-sm text-gray-500 whitespace-nowrap">Source</td>
+                    <td class="py-3 px-4 text-sm text-gray-600 leading-relaxed">application-specific metadata를 담는 사용자 정의 sideband입니다. SOF, error flag, color info 등을 실을 수 있습니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 mb-8 overflow-hidden">
+            <h3 class="font-bold text-gray-800 flex items-center gap-2 mb-6">
+              <i data-lucide="activity" class="w-5 h-5 text-cyan-500"></i>
+              AXI STREAM Timing Diagrams
+            </h3>
+
+            <div class="rounded-[28px] border border-cyan-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#f4fbff_100%)] p-5 md:p-6">
+              <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-5">
+                <div>
+                  <div id="axi-stream-timing-kicker" class="text-[11px] font-black tracking-[0.24em] uppercase text-cyan-500 mb-2">Transfer</div>
+                  <h4 id="axi-stream-timing-title" class="text-lg font-bold text-gray-900">Basic TVALID / TREADY transfer</h4>
+                </div>
+                <div class="flex flex-wrap gap-1 bg-gray-100 p-1 rounded-xl w-fit" id="axi-stream-timing-controls">
+                  <button data-wave="axis_basic_transfer" class="axi-stream-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap bg-white text-cyan-600 shadow-sm border border-gray-200">Transfer</button>
+                  <button data-wave="axis_backpressure_stall" class="axi-stream-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Backpressure</button>
+                  <button data-wave="axis_tlast_packet" class="axi-stream-timing-btn px-3 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap text-gray-500 hover:text-gray-900">Packet End</button>
+                </div>
+              </div>
+
+              <div class="w-full overflow-x-auto pb-2">
+                <div class="flex justify-center rounded-[20px] border border-gray-200 bg-white py-5 min-h-[250px]">
+                  <div id="WaveDrom_Display_6"></div>
+                </div>
+              </div>
+
+              <div class="mt-5 rounded-[20px] border border-cyan-100 bg-white/90 px-5 py-4">
+                <p id="axi-stream-timing-description" class="text-sm leading-6 text-gray-700">
+                  source와 sink가 모두 준비되면 매 cycle마다 1 beat씩 수락되며, 주소 채널 없이 payload가 바로 진행됩니다.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
