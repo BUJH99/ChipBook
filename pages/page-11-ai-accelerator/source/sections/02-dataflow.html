@@ -1,20 +1,190 @@
-<div class="card">
-                        <div class="text-xs font-extrabold text-violet-600 uppercase tracking-[0.2em] mb-2">11-2. Dataflow</div>
-                        <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-5">자주 나오는 dataflow 키워드</h3>
-                        <div class="space-y-3">
-                            <div class="rounded-2xl border border-violet-100 bg-violet-50/60 p-4">
-                                <div class="font-black text-violet-700 mb-1">Weight Stationary</div>
-                                <p class="text-sm leading-7 text-slate-600">weight를 local에 오래 두고 activation을 흘려보냅니다. weight 재사용이 큰 모델에 유리합니다.</p>
+<div class="card border border-violet-100 bg-[radial-gradient(circle_at_top_right,_rgba(139,92,246,0.08),_transparent_28%),linear-gradient(180deg,_#ffffff_0%,_#fbfaff_100%)]">
+                        <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-6">
+                            <div>
+                                <div class="text-xs font-extrabold text-violet-600 uppercase tracking-[0.2em] mb-2">11-2. Dataflow Atlas</div>
+                                <h3 class="text-[24px] leading-tight font-black text-slate-900">dataflow는 “어느 데이터를 움직이지 않을 것인가”를 정하는 설계 선택입니다</h3>
                             </div>
-                            <div class="rounded-2xl border border-blue-100 bg-blue-50/60 p-4">
-                                <div class="font-black text-blue-700 mb-1">Output Stationary</div>
-                                <p class="text-sm leading-7 text-slate-600">partial sum을 local에서 오래 유지해 accumulation write-back을 줄입니다.</p>
+                            <div class="text-sm font-bold text-slate-500">Weight / Activation / Partial Sum traffic 비교</div>
+                        </div>
+
+                        <div class="grid grid-cols-1 2xl:grid-cols-[minmax(0,1fr)_360px] gap-5 items-stretch">
+                            <div class="overflow-x-auto overflow-y-hidden rounded-[28px] border border-violet-100 bg-gradient-to-br from-white via-[#fcfbff] to-[#f5f3ff]">
+                                <svg viewBox="0 0 1000 560" class="block w-full min-w-[860px] md:min-w-0 h-auto" role="img" aria-labelledby="aiDataflowTitle aiDataflowDesc">
+                                    <title id="aiDataflowTitle">AI accelerator dataflow comparison</title>
+                                    <desc id="aiDataflowDesc">Three panels compare weight stationary, output stationary, and row stationary dataflows. Each panel highlights the fixed local value, moving streams, reuse path, and primary traffic saved.</desc>
+                                    <defs>
+                                        <filter id="dataflowShadow" x="-12%" y="-18%" width="124%" height="150%">
+                                            <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12"/>
+                                        </filter>
+                                        <marker id="dataArrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                            <path d="M0 0L10 5L0 10Z" fill="#0284c7"/>
+                                        </marker>
+                                        <marker id="dataArrowViolet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                            <path d="M0 0L10 5L0 10Z" fill="#7c3aed"/>
+                                        </marker>
+                                        <marker id="dataArrowEmerald" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                            <path d="M0 0L10 5L0 10Z" fill="#059669"/>
+                                        </marker>
+                                        <pattern id="dataflowDots" width="18" height="18" patternUnits="userSpaceOnUse">
+                                            <circle cx="3" cy="3" r="1.2" fill="#c4b5fd" opacity="0.45"/>
+                                        </pattern>
+                                    </defs>
+                                    <rect width="1000" height="560" fill="#fbfaff"/>
+                                    <rect x="28" y="28" width="944" height="504" rx="30" fill="#ffffff" stroke="#ddd6fe" stroke-width="2"/>
+                                    <rect x="28" y="28" width="944" height="504" rx="30" fill="url(#dataflowDots)" opacity="0.65"/>
+
+                                    <g font-family="Pretendard, Arial, sans-serif">
+                                        <text x="500" y="70" text-anchor="middle" fill="#0f172a" font-size="24" font-weight="900">세 dataflow는 같은 연산을 다른 traffic 모양으로 바꿉니다</text>
+                                        <text x="500" y="98" text-anchor="middle" fill="#64748b" font-size="13" font-weight="800">고정되는 값이 local reuse가 되고, 움직이는 값이 bandwidth 비용이 됩니다</text>
+
+                                        <g transform="translate(64 132)" filter="url(#dataflowShadow)">
+                                            <rect x="0" y="0" width="272" height="350" rx="26" fill="#ffffff" stroke="#c4b5fd" stroke-width="2"/>
+                                            <rect x="20" y="20" width="232" height="46" rx="18" fill="#f5f3ff" stroke="#ddd6fe"/>
+                                            <text x="136" y="49" text-anchor="middle" fill="#7c3aed" font-size="18" font-weight="900">Weight Stationary</text>
+                                            <text x="136" y="84" text-anchor="middle" fill="#64748b" font-size="11" font-weight="800">weight를 PE 안에 오래 보관</text>
+
+                                            <g transform="translate(58 112)">
+                                                <rect x="0" y="0" width="156" height="156" rx="18" fill="#f8fbff" stroke="#dbeafe" stroke-width="2"/>
+                                                <g stroke="#94a3b8" stroke-width="1">
+                                                    <rect x="20" y="20" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="54" y="20" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="88" y="20" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="122" y="20" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="20" y="54" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="54" y="54" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="88" y="54" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="122" y="54" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="20" y="88" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="54" y="88" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="88" y="88" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="122" y="88" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="20" y="122" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="54" y="122" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="88" y="122" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                    <rect x="122" y="122" width="24" height="24" rx="5" fill="#ede9fe"/>
+                                                </g>
+                                                <path d="M-34 36H14" stroke="#0284c7" stroke-width="5" marker-end="url(#dataArrowBlue)" stroke-linecap="round"/>
+                                                <path d="M-34 76H14" stroke="#0284c7" stroke-width="5" marker-end="url(#dataArrowBlue)" stroke-linecap="round"/>
+                                                <path d="M-34 116H14" stroke="#0284c7" stroke-width="5" marker-end="url(#dataArrowBlue)" stroke-linecap="round"/>
+                                                <path d="M78 168V210" stroke="#059669" stroke-width="5" marker-end="url(#dataArrowEmerald)" stroke-linecap="round"/>
+                                                <text x="-18" y="24" fill="#0284c7" font-size="10" font-weight="900">A stream</text>
+                                                <text x="90" y="200" fill="#059669" font-size="10" font-weight="900">psum out</text>
+                                            </g>
+
+                                            <g transform="translate(28 292)">
+                                                <rect x="0" y="0" width="216" height="34" rx="17" fill="#f5f3ff" stroke="#ddd6fe"/>
+                                                <text x="108" y="22" text-anchor="middle" fill="#6d28d9" font-size="12" font-weight="900">saved traffic: weight reload</text>
+                                            </g>
+                                        </g>
+
+                                        <g transform="translate(364 132)" filter="url(#dataflowShadow)">
+                                            <rect x="0" y="0" width="272" height="350" rx="26" fill="#ffffff" stroke="#93c5fd" stroke-width="2"/>
+                                            <rect x="20" y="20" width="232" height="46" rx="18" fill="#eff6ff" stroke="#bfdbfe"/>
+                                            <text x="136" y="49" text-anchor="middle" fill="#2563eb" font-size="18" font-weight="900">Output Stationary</text>
+                                            <text x="136" y="84" text-anchor="middle" fill="#64748b" font-size="11" font-weight="800">psum을 PE 안에서 누적</text>
+
+                                            <g transform="translate(58 112)">
+                                                <rect x="0" y="0" width="156" height="156" rx="18" fill="#f8fbff" stroke="#dbeafe" stroke-width="2"/>
+                                                <g stroke="#60a5fa" stroke-width="1.1">
+                                                    <rect x="20" y="20" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="54" y="20" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="88" y="20" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="122" y="20" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="20" y="54" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="54" y="54" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="88" y="54" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="122" y="54" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="20" y="88" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="54" y="88" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="88" y="88" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="122" y="88" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="20" y="122" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="54" y="122" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="88" y="122" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                    <rect x="122" y="122" width="24" height="24" rx="5" fill="#ecfdf5"/>
+                                                </g>
+                                                <path d="M-34 48H12" stroke="#0284c7" stroke-width="5" marker-end="url(#dataArrowBlue)" stroke-linecap="round"/>
+                                                <path d="M78 -44V12" stroke="#7c3aed" stroke-width="5" marker-end="url(#dataArrowViolet)" stroke-linecap="round"/>
+                                                <path d="M166 78H212" stroke="#059669" stroke-width="5" marker-end="url(#dataArrowEmerald)" stroke-linecap="round"/>
+                                                <circle cx="78" cy="78" r="32" fill="none" stroke="#10b981" stroke-width="4" stroke-dasharray="7 7"/>
+                                                <text x="-18" y="36" fill="#0284c7" font-size="10" font-weight="900">A</text>
+                                                <text x="88" y="-18" fill="#7c3aed" font-size="10" font-weight="900">W</text>
+                                                <text x="174" y="66" fill="#059669" font-size="10" font-weight="900">final O</text>
+                                            </g>
+
+                                            <g transform="translate(28 292)">
+                                                <rect x="0" y="0" width="216" height="34" rx="17" fill="#eff6ff" stroke="#bfdbfe"/>
+                                                <text x="108" y="22" text-anchor="middle" fill="#1d4ed8" font-size="12" font-weight="900">saved traffic: psum writeback</text>
+                                            </g>
+                                        </g>
+
+                                        <g transform="translate(664 132)" filter="url(#dataflowShadow)">
+                                            <rect x="0" y="0" width="272" height="350" rx="26" fill="#ffffff" stroke="#a7f3d0" stroke-width="2"/>
+                                            <rect x="20" y="20" width="232" height="46" rx="18" fill="#ecfdf5" stroke="#bbf7d0"/>
+                                            <text x="136" y="49" text-anchor="middle" fill="#059669" font-size="18" font-weight="900">Row Stationary</text>
+                                            <text x="136" y="84" text-anchor="middle" fill="#64748b" font-size="11" font-weight="800">세 reuse를 균형 있게 절충</text>
+
+                                            <g transform="translate(58 112)">
+                                                <rect x="0" y="0" width="156" height="156" rx="18" fill="#f8fbff" stroke="#dbeafe" stroke-width="2"/>
+                                                <g stroke="#34d399" stroke-width="1.1">
+                                                    <rect x="20" y="20" width="24" height="24" rx="5" fill="#f0fdf4"/>
+                                                    <rect x="54" y="20" width="24" height="24" rx="5" fill="#f5f3ff"/>
+                                                    <rect x="88" y="20" width="24" height="24" rx="5" fill="#e0f2fe"/>
+                                                    <rect x="122" y="20" width="24" height="24" rx="5" fill="#f0fdf4"/>
+                                                    <rect x="20" y="54" width="24" height="24" rx="5" fill="#f5f3ff"/>
+                                                    <rect x="54" y="54" width="24" height="24" rx="5" fill="#e0f2fe"/>
+                                                    <rect x="88" y="54" width="24" height="24" rx="5" fill="#f0fdf4"/>
+                                                    <rect x="122" y="54" width="24" height="24" rx="5" fill="#f5f3ff"/>
+                                                    <rect x="20" y="88" width="24" height="24" rx="5" fill="#e0f2fe"/>
+                                                    <rect x="54" y="88" width="24" height="24" rx="5" fill="#f0fdf4"/>
+                                                    <rect x="88" y="88" width="24" height="24" rx="5" fill="#f5f3ff"/>
+                                                    <rect x="122" y="88" width="24" height="24" rx="5" fill="#e0f2fe"/>
+                                                    <rect x="20" y="122" width="24" height="24" rx="5" fill="#f0fdf4"/>
+                                                    <rect x="54" y="122" width="24" height="24" rx="5" fill="#f5f3ff"/>
+                                                    <rect x="88" y="122" width="24" height="24" rx="5" fill="#e0f2fe"/>
+                                                    <rect x="122" y="122" width="24" height="24" rx="5" fill="#f0fdf4"/>
+                                                </g>
+                                                <path d="M-34 44H12" stroke="#0284c7" stroke-width="5" marker-end="url(#dataArrowBlue)" stroke-linecap="round"/>
+                                                <path d="M44 -38V14" stroke="#7c3aed" stroke-width="5" marker-end="url(#dataArrowViolet)" stroke-linecap="round"/>
+                                                <path d="M24 132C70 164 116 164 160 132" stroke="#059669" stroke-width="5" fill="none" marker-end="url(#dataArrowEmerald)" stroke-linecap="round"/>
+                                                <path d="M18 22L138 142" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" opacity="0.75"/>
+                                                <text x="-18" y="32" fill="#0284c7" font-size="10" font-weight="900">row A</text>
+                                                <text x="54" y="-15" fill="#7c3aed" font-size="10" font-weight="900">row W</text>
+                                                <text x="74" y="184" fill="#059669" font-size="10" font-weight="900">balanced psum</text>
+                                            </g>
+
+                                            <g transform="translate(28 292)">
+                                                <rect x="0" y="0" width="216" height="34" rx="17" fill="#ecfdf5" stroke="#bbf7d0"/>
+                                                <text x="108" y="22" text-anchor="middle" fill="#047857" font-size="12" font-weight="900">saved traffic: balanced reuse</text>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
                             </div>
-                            <div class="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4">
-                                <div class="font-black text-emerald-700 mb-1">Row Stationary</div>
-                                <p class="text-sm leading-7 text-slate-600">input, weight, partial sum 재사용을 균형 있게 맞추는 방향입니다.</p>
+
+                            <div class="rounded-[28px] border border-slate-200 bg-white p-6 flex flex-col justify-between">
+                                <div>
+                                    <div class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-3">How to Read</div>
+                                    <h4 class="text-[20px] leading-tight font-black text-slate-900 mb-4">dataflow를 설명하는 순서</h4>
+                                    <div class="space-y-3">
+                                        <div class="rounded-[20px] border border-violet-100 bg-violet-50/60 p-4">
+                                            <div class="font-black text-violet-700 mb-1">1. 고정되는 값</div>
+                                            <p class="text-sm leading-6 text-slate-600">PE 또는 local SRAM 안에서 오래 유지되는 값이 reuse의 주인공입니다.</p>
+                                        </div>
+                                        <div class="rounded-[20px] border border-sky-100 bg-sky-50/70 p-4">
+                                            <div class="font-black text-sky-700 mb-1">2. 흐르는 값</div>
+                                            <p class="text-sm leading-6 text-slate-600">계속 이동하는 activation, weight, psum이 bandwidth와 energy 비용입니다.</p>
+                                        </div>
+                                        <div class="rounded-[20px] border border-emerald-100 bg-emerald-50/70 p-4">
+                                            <div class="font-black text-emerald-700 mb-1">3. 줄어드는 traffic</div>
+                                            <p class="text-sm leading-6 text-slate-600">DRAM 접근, psum write-back, SRAM bank conflict 중 무엇이 완화되는지 말하면 됩니다.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-5 rounded-[20px] border border-amber-100 bg-amber-50/70 p-4">
+                                    <div class="text-xs font-extrabold uppercase tracking-[0.18em] text-amber-600 mb-2">Interview Hook</div>
+                                    <p class="text-sm leading-7 text-slate-700">“dataflow는 연산 방식 이름이 아니라 memory traffic 모양을 정하는 정책”이라고 잡으면, TOPS/W와 utilization까지 자연스럽게 연결됩니다.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    

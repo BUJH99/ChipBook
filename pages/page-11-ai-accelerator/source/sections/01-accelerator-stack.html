@@ -2,35 +2,35 @@
                     <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-5 mb-6">
                         <div>
                             <div class="text-xs font-extrabold text-sky-600 uppercase tracking-[0.2em] mb-2">Compute Architecture</div>
-                            <h3 class="text-[28px] leading-tight font-black text-slate-900 mb-3">AI Accelerator는 행렬 연산을 빠르고 효율적으로 처리하도록 특화된 연산 블록입니다</h3>
-                            <p class="text-base leading-8 text-slate-600 max-w-[980px]">CPU가 범용 제어에 강하고 GPU가 대량 병렬 처리에 강하다면, AI accelerator는 <strong class="text-slate-900">MAC array, local SRAM, dataflow, quantization</strong>을 통해 딥러닝 추론 workload를 전력 효율 좋게 밀어내는 데 집중합니다. 면접에서는 연산량보다 <strong class="text-slate-900">memory movement가 더 큰 병목</strong>이라는 관점을 같이 설명하면 좋습니다.</p>
+                            <h3 class="text-[28px] leading-tight font-black text-slate-900 mb-3">AI Accelerator는 연산기가 아니라, data reuse를 유지하는 작은 메모리 시스템입니다</h3>
+                            <p class="text-base leading-8 text-slate-600 max-w-[1040px]">AI accelerator를 설명할 때 핵심은 MAC 개수보다 <strong class="text-slate-900">weight, activation, partial sum이 어디에 머무르고 얼마나 다시 쓰이는가</strong>입니다. 좋은 NPU는 command queue, DMA, local SRAM, systolic array, quantization path가 맞물려 DRAM 왕복을 줄이고 MAC array utilization을 끌어올립니다.</p>
                         </div>
-                        <div class="inline-flex items-center gap-2 self-start rounded-full border border-sky-100 bg-sky-50 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.14em] text-sky-700">
-                            <span>MAC</span>
+                        <div class="inline-flex flex-wrap items-center gap-2 self-start rounded-full border border-sky-100 bg-sky-50 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.14em] text-sky-700">
+                            <span>Reuse</span>
                             <span class="text-sky-300">/</span>
-                            <span>SRAM</span>
+                            <span>Bandwidth</span>
                             <span class="text-sky-300">/</span>
-                            <span>NPU</span>
+                            <span>Utilization</span>
                             <span class="text-sky-300">/</span>
-                            <span>TOPS/W</span>
+                            <span>Precision</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="rounded-[24px] border border-sky-100 bg-white/90 p-5">
-                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-sky-600 mb-2">Core Job</div>
-                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">Matrix Multiply</div>
-                            <p class="text-sm leading-7 text-slate-600">conv, GEMM, attention 같은 반복 연산을 배열형 연산기로 빠르게 실행합니다.</p>
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-sky-600 mb-2">Core Architecture</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">MAC array는 소비자</div>
+                            <p class="text-sm leading-7 text-slate-600">연산기는 데이터를 먹는 쪽입니다. 충분히 먹이지 못하면 TOPS 숫자가 커도 실제 throughput은 낮습니다.</p>
                         </div>
                         <div class="rounded-[24px] border border-emerald-100 bg-white/90 p-5">
-                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-600 mb-2">Real Bottleneck</div>
-                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">Memory Traffic</div>
-                            <p class="text-sm leading-7 text-slate-600">연산기 자체보다 weight, activation, partial sum을 어떻게 재사용하느냐가 성능과 전력을 좌우합니다.</p>
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-600 mb-2">Memory Hierarchy</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">Local SRAM이 재사용을 만든다</div>
+                            <p class="text-sm leading-7 text-slate-600">activation, weight, psum buffer가 DRAM 접근을 흡수해야 전력과 latency가 줄어듭니다.</p>
                         </div>
                         <div class="rounded-[24px] border border-violet-100 bg-white/90 p-5">
-                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-600 mb-2">Design Angle</div>
-                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">Dataflow Choice</div>
-                            <p class="text-sm leading-7 text-slate-600">weight stationary, output stationary, row stationary 같은 선택이 아키텍처 색깔을 만듭니다.</p>
+                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-600 mb-2">Dataflow Strategy</div>
+                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">무엇을 고정할 것인가</div>
+                            <p class="text-sm leading-7 text-slate-600">weight stationary, output stationary, row stationary는 모두 트래픽을 어디서 줄일지에 대한 답입니다.</p>
                         </div>
                     </div>
                 </div>
@@ -38,59 +38,728 @@
                 <div class="card border border-sky-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#f7fcff_100%)]">
                     <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-6">
                         <div>
-                            <div class="text-xs font-extrabold text-sky-600 uppercase tracking-[0.2em] mb-2">11-1. Accelerator Stack</div>
-                            <h3 class="text-[24px] leading-tight font-black text-slate-900">AI Accelerator를 블록 단위로 보면 이렇게 나뉩니다</h3>
+                            <div class="text-xs font-extrabold text-sky-600 uppercase tracking-[0.2em] mb-2">11-1. Accelerator Data Path</div>
+                            <h3 class="text-[24px] leading-tight font-black text-slate-900">Systolic Array Dataflow Architecture</h3>
                         </div>
-                        <div class="text-sm font-bold text-slate-500">Host / Scheduler / Compute Array / Local Memory / DRAM</div>
                     </div>
-
-                    <div class="overflow-hidden rounded-[28px] border border-sky-100 bg-gradient-to-br from-white via-[#f8fdff] to-[#eef9ff]">
-                        <svg viewBox="0 0 1180 470" class="block w-full h-auto" aria-hidden="true">
+                    <div class="overflow-x-auto overflow-y-hidden rounded-[28px] border border-sky-100 bg-white p-6">
+                        <svg viewBox="0 0 1350 900" class="block w-full min-w-[1100px] md:min-w-0 h-auto" role="img" aria-labelledby="aiDataflowTitle aiDataflowDesc">
+                            <title id="aiDataflowTitle">AI Accelerator Systolic Dataflow Blueprint</title>
+                            <desc id="aiDataflowDesc">High-fidelity microarchitectural blueprint of a compact 2x2 weight-stationary systolic array compute die with massively expanded surrounding memory buffers and post-processing pipelines.</desc>
+                            
                             <defs>
-                                <marker id="aiAccelArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-                                    <path d="M0 0L10 5L0 10Z" fill="#64748b"/>
+                                <!-- Gradients -->
+                                <linearGradient id="blueprintBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffffff"/>
+                                    <stop offset="100%" stop-color="#f8fafc"/>
+                                </linearGradient>
+                                <linearGradient id="panelBg" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffffff"/>
+                                    <stop offset="100%" stop-color="#f8fafc"/>
+                                </linearGradient>
+                                <linearGradient id="peBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffffff"/>
+                                    <stop offset="100%" stop-color="#f1f5f9"/>
+                                </linearGradient>
+                                <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#f1f5f9"/>
+                                    <stop offset="100%" stop-color="#e2e8f0"/>
+                                </linearGradient>
+                                <linearGradient id="geluGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ea580c" stop-opacity="0.15"/>
+                                    <stop offset="100%" stop-color="#ea580c" stop-opacity="0.01"/>
+                                </linearGradient>
+                                <linearGradient id="staircaseGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                                    <stop offset="0%" stop-color="#ea580c" stop-opacity="0.15"/>
+                                    <stop offset="100%" stop-color="#ea580c" stop-opacity="0.01"/>
+                                </linearGradient>
+                                
+                                <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+                                    <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.06"/>
+                                </filter>
+
+                                <!-- Grid Pattern (Light) -->
+                                <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+                                    <path d="M 10 0 L 10 40 M 20 0 L 20 40 M 30 0 L 30 40 M 0 10 L 40 10 M 0 20 L 40 20 M 0 30 L 40 30" fill="none" stroke="#f1f5f9" stroke-width="0.4"/>
+                                </pattern>
+                                
+                                <!-- High-tech Arrow Markers -->
+                                <marker id="mGreen" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 1.5 L 8 5 L 0 8.5 Z" fill="#059669"/>
+                                </marker>
+                                <marker id="mBlue" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 1.5 L 8 5 L 0 8.5 Z" fill="#2563eb"/>
+                                </marker>
+                                <marker id="mPurple" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 1.5 L 8 5 L 0 8.5 Z" fill="#7c3aed"/>
+                                </marker>
+                                <marker id="mOrange" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 1.5 L 8 5 L 0 8.5 Z" fill="#ea580c"/>
                                 </marker>
                             </defs>
-                            <rect x="42" y="42" width="1096" height="386" rx="32" fill="#f7fcff" stroke="#bae6fd" stroke-width="2"/>
 
-                            <rect x="88" y="92" width="156" height="84" rx="24" fill="#ffffff" stroke="#93c5fd" stroke-width="2.4"/>
-                            <text x="166" y="126" text-anchor="middle" fill="#2563eb" font-size="18" font-weight="900">CPU / Host</text>
-                            <text x="166" y="149" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">Driver / Runtime</text>
+                            <!-- Blueprint Background -->
+                            <rect width="1350" height="900" fill="url(#gridPattern)"/>
 
-                            <rect x="296" y="92" width="172" height="84" rx="24" fill="#ffffff" stroke="#38bdf8" stroke-width="2.4"/>
-                            <text x="382" y="126" text-anchor="middle" fill="#0284c7" font-size="18" font-weight="900">Command Queue</text>
-                            <text x="382" y="149" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">Scheduler / DMA</text>
+                            <!-- Blueprint CAD Style Frame -->
+                            <rect x="15" y="15" width="1320" height="870" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+                            <rect x="19" y="19" width="1312" height="862" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+                            
+                            <!-- CAD Corner Marks -->
+                            <path d="M 10 15 H 25 M 15 10 V 25" stroke="#94a3b8" stroke-width="1"/>
+                            <path d="M 1325 15 H 1340 M 1335 10 V 25" stroke="#94a3b8" stroke-width="1"/>
+                            <path d="M 10 885 H 25 M 15 875 V 890" stroke="#94a3b8" stroke-width="1"/>
+                            <path d="M 1325 885 H 1340 M 1335 875 V 890" stroke="#94a3b8" stroke-width="1"/>
 
-                            <rect x="520" y="78" width="308" height="198" rx="30" fill="#ffffff" stroke="#0ea5e9" stroke-width="2.8"/>
-                            <text x="674" y="118" text-anchor="middle" fill="#0284c7" font-size="24" font-weight="900">MAC Array</text>
-                            <text x="674" y="144" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">Systolic / SIMD / Tensor Core Style</text>
-                            <rect x="568" y="176" width="212" height="46" rx="20" fill="#f0f9ff" stroke="#7dd3fc"/>
-                            <text x="674" y="205" text-anchor="middle" fill="#0284c7" font-size="13" font-weight="900">INT8 / BF16 / FP16</text>
-                            <rect x="586" y="234" width="176" height="28" rx="14" fill="#ecfeff" stroke="#67e8f9"/>
-                            <text x="674" y="252" text-anchor="middle" fill="#0891b2" font-size="11" font-weight="900">TOPS only is not enough</text>
+                            <!-- Technical Annotation / CAD Title Block -->
+                            <g transform="translate(1030, 815)" filter="url(#cardShadow)">
+                                <rect width="290" height="55" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                                <line x1="180" y1="0" x2="180" y2="55" stroke="#cbd5e1" stroke-width="1"/>
+                                <line x1="0" y1="28" x2="180" y2="28" stroke="#cbd5e1" stroke-width="1"/>
+                                
+                                <text x="10" y="18" fill="#0284c7" font-family="Pretendard, Arial, sans-serif" font-size="8" font-weight="900" letter-spacing="1">SYSTEM DRAWING</text>
+                                <text x="10" y="24" fill="#0f172a" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">NPU SYSTOLIC DATAFLOW BLUEPRINT</text>
+                                <text x="10" y="44" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8" font-weight="800">DOC NO: NPU-WSDF-V4.2</text>
+                                
+                                <text x="190" y="20" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="7.5" font-weight="800">SCALE: N/A</text>
+                                <text x="190" y="34" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="7.5" font-weight="800">REV: 2.0</text>
+                                <text x="190" y="47" fill="#059669" font-family="Pretendard, Arial, sans-serif" font-size="8" font-weight="900">VERIFIED [OK]</text>
+                            </g>
 
-                            <rect x="520" y="304" width="146" height="70" rx="22" fill="#ffffff" stroke="#6ee7b7" stroke-width="2.4"/>
-                            <text x="593" y="333" text-anchor="middle" fill="#059669" font-size="16" font-weight="900">Activation SRAM</text>
-                            <text x="593" y="354" text-anchor="middle" fill="#64748b" font-size="11" font-weight="700">Feature Map Buffer</text>
+                            <!-- Widescreen Header Banner -->
+                            <g transform="translate(40, 30)">
+                                <!-- Core Spec Badge -->
+                                <rect width="240" height="24" rx="12" fill="#f8fafc" stroke="#10b981" stroke-width="1.2"/>
+                                <circle cx="12" cy="12" r="5" fill="#10b981"/>
+                                <text x="26" y="15" fill="#047857" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="900" letter-spacing="1.5">CORE SPECIFICATION: WS FLOW</text>
+                            </g>
 
-                            <rect x="682" y="304" width="146" height="70" rx="22" fill="#ffffff" stroke="#c4b5fd" stroke-width="2.4"/>
-                            <text x="755" y="333" text-anchor="middle" fill="#7c3aed" font-size="16" font-weight="900">Weight SRAM</text>
-                            <text x="755" y="354" text-anchor="middle" fill="#64748b" font-size="11" font-weight="700">Reuse-Oriented Storage</text>
+                            <!-- Math Formula Banner -->
+                            <g transform="translate(420, 25)">
+                                <rect width="500" height="34" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+                                <text x="250" y="21" text-anchor="middle" fill="#6d28d9" font-family="Pretendard, Arial, sans-serif" font-size="11" font-weight="900" letter-spacing="1">
+                                    PE[r,c] Pipeline Cell: <tspan fill="#059669">P_out</tspan> = <tspan fill="#7c3aed">P_in</tspan> + (<tspan fill="#059669">A_in</tspan> × <tspan fill="#2563eb">W_stationary</tspan>)
+                                </text>
+                            </g>
 
-                            <rect x="912" y="154" width="164" height="92" rx="26" fill="#ffffff" stroke="#f9a8d4" stroke-width="2.4"/>
-                            <text x="994" y="192" text-anchor="middle" fill="#db2777" font-size="18" font-weight="900">DDR / HBM</text>
-                            <text x="994" y="218" text-anchor="middle" fill="#64748b" font-size="12" font-weight="700">Off-chip bandwidth wall</text>
+                            <!-- Wavefront Header Badge -->
+                            <g transform="translate(1040, 30)">
+                                <rect width="210" height="24" rx="12" fill="#f8fafc" stroke="#d97706" stroke-width="1.2"/>
+                                <circle cx="12" cy="12" r="5" fill="#f59e0b"/>
+                                <text x="26" y="15" fill="#b45309" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="900" letter-spacing="1.5">TIMING WAVEFRONT: T = r+c+1</text>
+                            </g>
 
-                            <path d="M244 134H294" fill="none" stroke="#64748b" stroke-width="4" marker-end="url(#aiAccelArrow)"/>
-                            <path d="M468 134H518" fill="none" stroke="#64748b" stroke-width="4" marker-end="url(#aiAccelArrow)"/>
-                            <path d="M828 198H910" fill="none" stroke="#64748b" stroke-width="4" marker-end="url(#aiAccelArrow)"/>
-                            <path d="M594 304V278" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#aiAccelArrow)"/>
-                            <path d="M754 304V278" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#aiAccelArrow)"/>
+                            <!-- ========================================================== -->
+                            <!-- SECTION I: MASSIVELY EXPANDED DATA SUPPLY CORE (Left, W:360)-->
+                            <!-- ========================================================== -->
+                            <g id="data-supply" transform="translate(0, 0)">
+                                <!-- Section Header -->
+                                <g transform="translate(40, 75)">
+                                    <rect width="360" height="22" rx="4" fill="#f8fafc" stroke="#10b981" stroke-width="1"/>
+                                    <text x="10" y="14" fill="#047857" font-family="Pretendard, Arial, sans-serif" font-size="10" font-weight="900" letter-spacing="0.5">I. HIGH-CAPACITY DATA SUPPLY MODULES</text>
+                                </g>
 
-                            <rect x="314" y="388" width="552" height="26" rx="13" fill="#ffffff" stroke="#bae6fd"/>
-                            <text x="590" y="405" text-anchor="middle" fill="#0284c7" font-size="11" font-weight="900">핵심 질문: 연산기 utilization을 유지할 만큼 on-chip memory와 bandwidth가 충분한가</text>
+                                <!-- Host PCIe Command Queue Block (Widened to 360) -->
+                                <g transform="translate(40, 110)" filter="url(#cardShadow)">
+                                    <rect width="360" height="120" rx="8" fill="url(#panelBg)" stroke="#cbd5e1" stroke-width="1.5"/>
+                                    <!-- Header -->
+                                    <rect width="360" height="24" rx="4" fill="url(#headerGrad)"/>
+                                    <text x="12" y="16" fill="#334155" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">CMD DECODER &amp; SEQUENCER</text>
+                                    
+                                    <!-- Internals (FIFO Queue) -->
+                                    <text x="12" y="42" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="800">COMMAND QUEUE (FIFO)</text>
+                                    <rect x="12" y="48" width="55" height="16" rx="2" fill="#7c3aed" opacity="0.95"/>
+                                    <text x="39.5" y="59" text-anchor="middle" fill="#ffffff" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="900">RUN</text>
+                                    <rect x="72" y="48" width="55" height="16" rx="2" fill="#7c3aed" opacity="0.75"/>
+                                    <text x="99.5" y="59" text-anchor="middle" fill="#ffffff" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="900">WLD</text>
+                                    <rect x="132" y="48" width="55" height="16" rx="2" fill="#7c3aed" opacity="0.55"/>
+                                    <text x="159.5" y="59" text-anchor="middle" fill="#ffffff" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="900">ALD</text>
+                                    <rect x="192" y="48" width="55" height="16" rx="2" fill="#e2e8f0"/>
+                                    <text x="219.5" y="59" text-anchor="middle" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="900">NOP</text>
+
+                                    <!-- Registers -->
+                                    <text x="12" y="82" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="800">CONTROL REGISTERS</text>
+                                    <rect x="12" y="88" width="160" height="22" rx="3" fill="#f8fafc" stroke="#cbd5e1"/>
+                                    <text x="18" y="102" fill="#0284c7" font-family="monospace" font-size="9" font-weight="800">ADDR: 0x80C00</text>
+                                    <rect x="188" y="88" width="160" height="22" rx="3" fill="#f8fafc" stroke="#cbd5e1"/>
+                                    <text x="194" y="102" fill="#059669" font-family="monospace" font-size="9" font-weight="800">LOOP_CNT: 1024</text>
+                                </g>
+
+                                <!-- DMA Controller Block (Widened to 360) -->
+                                <g transform="translate(40, 250)" filter="url(#cardShadow)">
+                                    <rect width="360" height="100" rx="8" fill="url(#panelBg)" stroke="#cbd5e1" stroke-width="1.5"/>
+                                    <rect width="360" height="24" rx="4" fill="url(#headerGrad)"/>
+                                    <text x="12" y="16" fill="#334155" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">MULTI-CHANNEL DMA CONTROLLER</text>
+                                    
+                                    <!-- Channels -->
+                                    <rect x="12" y="38" width="160" height="22" rx="3" fill="#f1f5f9"/>
+                                    <circle cx="24" cy="49" r="5" fill="#10b981"/>
+                                    <text x="36" y="52" fill="#0f172a" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">CH0: ACT_RD</text>
+                                    
+                                    <rect x="188" y="38" width="160" height="22" rx="3" fill="#f1f5f9"/>
+                                    <circle cx="200" cy="49" r="5" fill="#3b82f6"/>
+                                    <text x="212" y="52" fill="#0f172a" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">CH1: WGT_RD</text>
+                                    
+                                    <rect x="12" y="68" width="160" height="22" rx="3" fill="#f1f5f9"/>
+                                    <circle cx="24" cy="79" r="5" fill="#ea580c"/>
+                                    <text x="36" y="82" fill="#0f172a" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">CH2: OUT_WR</text>
+                                    
+                                    <rect x="188" y="68" width="160" height="22" rx="3" fill="#f1f5f9"/>
+                                    <circle cx="200" cy="79" r="5" fill="#94a3b8"/>
+                                    <text x="212" y="82" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="800">CH3: IDLE</text>
+                                </g>
+
+                                <!-- Activation SRAM Buffer (Widened to 360, Cells Expanded) -->
+                                <g transform="translate(40, 370)" filter="url(#cardShadow)">
+                                    <rect width="360" height="215" rx="8" fill="url(#panelBg)" stroke="#10b981" stroke-width="1.2"/>
+                                    <rect width="360" height="24" rx="4" fill="#d1fae5"/>
+                                    <text x="12" y="15" fill="#065f46" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">ACTIVATION SRAM (A-BUFFER) [PING-PONG]</text>
+                                    
+                                    <!-- Bank 0 (Active / Read) - Widened -->
+                                    <g transform="translate(15, 38)">
+                                        <rect width="155" height="135" rx="4" fill="#f0fdf4" stroke="#a7f3d0" stroke-width="1"/>
+                                        <text x="77.5" y="16" text-anchor="middle" fill="#047857" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">BANK A [ACTIVE]</text>
+                                        
+                                        <!-- Memory Cells - Expanded -->
+                                        <g transform="translate(10, 24)">
+                                            <rect x="0" y="0" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            <rect x="44" y="0" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            <rect x="88" y="0" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            
+                                            <rect x="0" y="12" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            <rect x="44" y="12" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            <rect x="88" y="12" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            
+                                            <rect x="0" y="24" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            <rect x="44" y="24" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            <rect x="88" y="24" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+
+                                            <rect x="0" y="36" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            <rect x="44" y="36" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+                                            <rect x="88" y="36" width="38" height="8" rx="1" fill="#10b981" opacity="0.95"/>
+
+                                            <rect x="0" y="48" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+                                            <rect x="44" y="48" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+                                            <rect x="88" y="48" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+
+                                            <rect x="0" y="60" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+                                            <rect x="44" y="60" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+                                            <rect x="88" y="60" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+
+                                            <rect x="0" y="72" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+                                            <rect x="44" y="72" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+                                            <rect x="88" y="72" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+
+                                            <rect x="0" y="84" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+                                            <rect x="44" y="84" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+                                            <rect x="88" y="84" width="38" height="8" rx="1" fill="#a7f3d0" opacity="0.9"/>
+                                        </g>
+                                        
+                                        <!-- Read Pointer -->
+                                        <path d="M -5,35 H 8" stroke="#059669" stroke-width="1.5" marker-end="url(#mGreen)"/>
+                                        <text x="-12" y="38" fill="#059669" font-family="Pretendard, Arial, sans-serif" font-size="8" font-weight="900">RD</text>
+                                    </g>
+                                    
+                                    <!-- Bank 1 (Staging / Write DMA) -->
+                                    <g transform="translate(185, 38)">
+                                        <rect width="165" height="135" rx="4" fill="#fafafa" stroke="#e2e8f0" stroke-width="1"/>
+                                        <text x="82.5" y="16" text-anchor="middle" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">BANK B [LOADING]</text>
+                                        
+                                        <!-- Dim memory cells showing staging -->
+                                        <g transform="translate(10, 24)">
+                                            <rect x="0" y="0" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="0" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="0" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            
+                                            <rect x="0" y="12" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="12" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="12" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="24" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="24" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="24" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="36" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="36" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="36" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="48" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="48" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="48" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="60" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="60" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="60" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="72" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="72" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="72" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="84" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="84" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="84" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                        </g>
+                                    </g>
+                                    
+                                    <!-- SRAM status metrics -->
+                                    <text x="15" y="194" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">BW: 512 GB/s</text>
+                                    <text x="185" y="194" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">CAPACITY: 512 KB</text>
+                                </g>
+
+                                <!-- Weight SRAM Buffer (Widened to 360, Cells Expanded) -->
+                                <g transform="translate(40, 605)" filter="url(#cardShadow)">
+                                    <rect width="360" height="215" rx="8" fill="url(#panelBg)" stroke="#3b82f6" stroke-width="1.2"/>
+                                    <rect width="360" height="24" rx="4" fill="#dbeafe"/>
+                                    <text x="12" y="15" fill="#1e3a8a" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">WEIGHT SRAM (W-BUFFER) [PING-PONG]</text>
+                                    
+                                    <!-- Bank 0 (Active / Read) -->
+                                    <g transform="translate(15, 38)">
+                                        <rect width="155" height="135" rx="4" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+                                        <text x="77.5" y="16" text-anchor="middle" fill="#1e4ed8" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">BANK A [ACTIVE]</text>
+                                        
+                                        <!-- Memory Cells Blue -->
+                                        <g transform="translate(10, 24)">
+                                            <rect x="0" y="0" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            <rect x="44" y="0" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            <rect x="88" y="0" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            
+                                            <rect x="0" y="12" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            <rect x="44" y="12" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            <rect x="88" y="12" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            
+                                            <rect x="0" y="24" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            <rect x="44" y="24" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            <rect x="88" y="24" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+
+                                            <rect x="0" y="36" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            <rect x="44" y="36" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+                                            <rect x="88" y="36" width="38" height="8" rx="1" fill="#3b82f6" opacity="0.95"/>
+
+                                            <rect x="0" y="48" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+                                            <rect x="44" y="48" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+                                            <rect x="88" y="48" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+
+                                            <rect x="0" y="60" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+                                            <rect x="44" y="60" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+                                            <rect x="88" y="60" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+
+                                            <rect x="0" y="72" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+                                            <rect x="44" y="72" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+                                            <rect x="88" y="72" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+
+                                            <rect x="0" y="84" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+                                            <rect x="44" y="84" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+                                            <rect x="88" y="84" width="38" height="8" rx="1" fill="#bfdbfe" opacity="0.9"/>
+                                        </g>
+                                    </g>
+                                    
+                                    <!-- Bank 1 (Staging) -->
+                                    <g transform="translate(185, 38)">
+                                        <rect width="165" height="135" rx="4" fill="#fafafa" stroke="#e2e8f0" stroke-width="1"/>
+                                        <text x="82.5" y="16" text-anchor="middle" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">BANK B [LOADING]</text>
+                                        
+                                        <!-- Dim memory cells showing staging -->
+                                        <g transform="translate(10, 24)">
+                                            <rect x="0" y="0" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="0" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="0" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            
+                                            <rect x="0" y="12" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="12" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="12" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="24" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="24" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="24" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="36" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="36" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="36" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="48" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="48" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="48" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="60" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="60" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="60" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="72" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="72" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="72" width="38" height="8" rx="1" fill="#e2e8f0"/>
+
+                                            <rect x="0" y="84" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="44" y="84" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                            <rect x="88" y="84" width="38" height="8" rx="1" fill="#e2e8f0"/>
+                                        </g>
+                                    </g>
+                                    
+                                    <!-- SRAM status metrics -->
+                                    <text x="15" y="194" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">BW: 512 GB/s</text>
+                                    <text x="185" y="194" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">CAPACITY: 512 KB</text>
+                                </g>
+                            </g>
+
+                            <!-- ========================================================== -->
+                            <!-- SECTION II: SYSTOLIC PE CORE (Center Column, Compact 2x2 Layout)-->
+                            <!-- ========================================================== -->
+                            <g id="systolic-matrix" transform="translate(0, 0)">
+                                <!-- Silicon Die Base Substrate Shape (Completely contracted: W: 460, H: 430, X: 445, Y: 180) -->
+                                <rect x="445" y="180" width="460" height="430" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" filter="url(#cardShadow)"/>
+                                <rect x="450" y="185" width="450" height="420" rx="12" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                                
+                                <!-- Silicon Die Outer Title -->
+                                <text x="465" y="202" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8" font-weight="900" letter-spacing="1">SILICON COMPUTE DIE (20nm TENSOR ASIC)</text>
+                                
+                                <!-- Section Header Area -->
+                                <g transform="translate(550, 75)">
+                                    <rect width="250" height="22" rx="4" fill="#f1f5f9" stroke="#3b82f6" stroke-width="1"/>
+                                    <text x="10" y="14" fill="#1d4ed8" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900" letter-spacing="0.5">II. 2x2 SYSTOLIC MAC ENGINE ARRAY</text>
+                                </g>
+
+                                <!-- WAVEFRONT TIMING DIAGONALS (Re-aligned to compact grid) -->
+                                <line x1="620" y1="205" x2="495" y2="390" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4 4"/>
+                                <text x="625" y="210" fill="#b45309" font-family="monospace" font-size="8.5" font-weight="900">T0 (Cycle 1)</text>
+
+                                <line x1="830" y1="205" x2="495" y2="590" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4 4"/>
+                                <text x="835" y="210" fill="#b45309" font-family="monospace" font-size="8.5" font-weight="900">T1 (Cycle 2)</text>
+
+                                <line x1="885" y1="365" x2="710" y2="595" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4 4"/>
+                                <text x="890" y="360" fill="#b45309" font-family="monospace" font-size="8.5" font-weight="900">T2 (Cycle 3)</text>
+
+                                <!-- Compacted 2x2 PE Matrix (PE size: W:120, H:105, Spacious internal elements) -->
+                                <!-- Row 0 -->
+                                <g id="pe_0_0" transform="translate(485, 245)">
+                                    <rect width="120" height="105" rx="8" fill="url(#peBg)" stroke="#94a3b8" stroke-width="1.2"/>
+                                    <text x="10" y="18" fill="#475569" font-family="monospace" font-size="9" font-weight="900">PE [0,0]</text>
+                                    <rect x="12" y="26" width="45" height="20" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="0.8"/>
+                                    <text x="34.5" y="40" text-anchor="middle" fill="#065f46" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">A_reg</text>
+                                    <rect x="63" y="26" width="45" height="20" rx="3" fill="#eff6ff" stroke="#3b82f6" stroke-width="0.8"/>
+                                    <text x="85.5" y="40" text-anchor="middle" fill="#1e3a8a" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">W_reg</text>
+                                    <circle cx="32" cy="72" r="13" fill="#ea580c"/>
+                                    <text x="32" y="77" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="13" font-weight="900">×</text>
+                                    <circle cx="88" cy="72" r="13" fill="#7c3aed"/>
+                                    <text x="88" y="77" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="13" font-weight="900">+</text>
+                                </g>
+                                <g id="pe_0_1" transform="translate(695, 245)">
+                                    <rect width="120" height="105" rx="8" fill="url(#peBg)" stroke="#94a3b8" stroke-width="1.2"/>
+                                    <text x="10" y="18" fill="#475569" font-family="monospace" font-size="9" font-weight="900">PE [0,1]</text>
+                                    <rect x="12" y="26" width="45" height="20" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="0.8"/>
+                                    <text x="34.5" y="40" text-anchor="middle" fill="#065f46" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">A_reg</text>
+                                    <rect x="63" y="26" width="45" height="20" rx="3" fill="#eff6ff" stroke="#3b82f6" stroke-width="0.8"/>
+                                    <text x="85.5" y="40" text-anchor="middle" fill="#1e3a8a" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">W_reg</text>
+                                    <circle cx="32" cy="72" r="13" fill="#ea580c"/>
+                                    <text x="32" y="77" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="13" font-weight="900">×</text>
+                                    <circle cx="88" cy="72" r="13" fill="#7c3aed"/>
+                                    <text x="88" y="77" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="13" font-weight="900">+</text>
+                                </g>
+
+                                <!-- Row 1 -->
+                                <g id="pe_1_0" transform="translate(485, 425)">
+                                    <rect width="120" height="105" rx="8" fill="url(#peBg)" stroke="#94a3b8" stroke-width="1.2"/>
+                                    <text x="10" y="18" fill="#475569" font-family="monospace" font-size="9" font-weight="900">PE [1,0]</text>
+                                    <rect x="12" y="26" width="45" height="20" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="0.8"/>
+                                    <text x="34.5" y="40" text-anchor="middle" fill="#065f46" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">A_reg</text>
+                                    <rect x="63" y="26" width="45" height="20" rx="3" fill="#eff6ff" stroke="#3b82f6" stroke-width="0.8"/>
+                                    <text x="85.5" y="40" text-anchor="middle" fill="#1e3a8a" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">W_reg</text>
+                                    <circle cx="32" cy="72" r="13" fill="#ea580c"/>
+                                    <text x="32" y="77" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="13" font-weight="900">×</text>
+                                    <circle cx="88" cy="72" r="13" fill="#7c3aed"/>
+                                    <text x="88" y="77" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="13" font-weight="900">+</text>
+                                </g>
+                                <g id="pe_1_1" transform="translate(695, 425)">
+                                    <rect width="120" height="105" rx="8" fill="url(#peBg)" stroke="#94a3b8" stroke-width="1.2"/>
+                                    <text x="10" y="18" fill="#475569" font-family="monospace" font-size="9" font-weight="900">PE [1,1]</text>
+                                    <rect x="12" y="26" width="45" height="20" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="0.8"/>
+                                    <text x="34.5" y="40" text-anchor="middle" fill="#065f46" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">A_reg</text>
+                                    <rect x="63" y="26" width="45" height="20" rx="3" fill="#eff6ff" stroke="#3b82f6" stroke-width="0.8"/>
+                                    <text x="85.5" y="40" text-anchor="middle" fill="#1e3a8a" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">W_reg</text>
+                                    <circle cx="32" cy="72" r="13" fill="#ea580c"/>
+                                    <text x="32" y="77" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="13" font-weight="900">×</text>
+                                    <circle cx="88" cy="72" r="13" fill="#7c3aed"/>
+                                    <text x="88" y="77" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="13" font-weight="900">+</text>
+                                </g>
+                            </g>
+
+                            <!-- ========================================== -->
+                            <!-- CONNECTIONS & COMPACT HIGH-CONTRAST LINKS  -->
+                            <!-- ========================================== -->
+                            
+                            <!-- 1. ACTIVATION FLOW PATHS (Green) -->
+                            <!-- Starts at A-SRAM X:400, Y:475. Row 0 direct, Row 1 delayed by 1 cycle -->
+                            
+                            <!-- Row 0: Center Y is 297. Direct connection -->
+                            <path d="M 400,475 H 415 V 297 H 485" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#mGreen)"/>
+                            <text x="440" y="290" fill="#047857" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">A_STREAM [0]</text>
+
+                            <!-- Row 1: Center Y is 477. 1 Delay Register (z^-1) -->
+                            <path d="M 400,477 H 425" fill="none" stroke="#059669" stroke-width="3"/>
+                            <!-- Spacious Delay Block Row 1 -->
+                            <g transform="translate(425, 466)">
+                                <rect width="30" height="22" rx="4" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+                                <text x="15" y="15" text-anchor="middle" fill="#065f46" font-family="monospace" font-size="9.5" font-weight="900">z⁻¹</text>
+                            </g>
+                            <path d="M 455,477 H 485" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#mGreen)"/>
+                            <text x="350" y="500" fill="#047857" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">A_STREAM [1]</text>
+
+                            <!-- Horizontal Inter-PE Activation Routing Links -->
+                            <path d="M 605,297 H 695" stroke="#059669" stroke-width="3" marker-end="url(#mGreen)"/>
+                            <path d="M 815,297 H 895" stroke="#059669" stroke-width="2" stroke-dasharray="3 3"/>
+                            
+                            <path d="M 605,477 H 695" stroke="#059669" stroke-width="3" marker-end="url(#mGreen)"/>
+                            <path d="M 815,477 H 895" stroke="#059669" stroke-width="2" stroke-dasharray="3 3"/>
+
+
+                            <!-- 2. PARTIAL SUM FLOW PATHS (Purple) -->
+                            <!-- Zero input boundary badges at top of columns -->
+                            <!-- Column 0 Center X: 485 + 60 = 545 -->
+                            <g transform="translate(536, 195)">
+                                <circle cx="9" cy="9" r="9" fill="#f1f5f9" stroke="#7c3aed" stroke-width="1.5"/>
+                                <text x="9" y="12" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10" font-weight="900">0</text>
+                            </g>
+                            <!-- Column 1 Center X: 695 + 60 = 755 -->
+                            <g transform="translate(746, 195)">
+                                <circle cx="9" cy="9" r="9" fill="#f1f5f9" stroke="#7c3aed" stroke-width="1.5"/>
+                                <text x="9" y="12" text-anchor="middle" fill="#7c3aed" font-family="monospace" font-size="10" font-weight="900">0</text>
+                            </g>
+
+                            <!-- Vertical propagation lines entering top rows -->
+                            <path d="M 545,213 V 245" stroke="#7c3aed" stroke-width="3" marker-end="url(#mPurple)"/>
+                            <path d="M 755,213 V 245" stroke="#7c3aed" stroke-width="3" marker-end="url(#mPurple)"/>
+
+                            <!-- Inter-PE Vertical Sum Links -->
+                            <!-- Col 0 -->
+                            <path d="M 545,350 V 425" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#mPurple)"/>
+                            <!-- Col 1 -->
+                            <path d="M 755,350 V 425" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#mPurple)"/>
+
+                            <!-- Output Collection Bus at bottom of columns -->
+                            <path d="M 545,530 V 580" stroke="#7c3aed" stroke-width="3" marker-end="url(#mPurple)"/>
+                            <path d="M 755,530 V 580" stroke="#7c3aed" stroke-width="3" marker-end="url(#mPurple)"/>
+                            
+                            <!-- Bus Trunk Routing to P-SRAM (Enters at X: 950) -->
+                            <path d="M 545,580 H 880 V 170 H 950" fill="none" stroke="#7c3aed" stroke-width="3.5" marker-end="url(#mPurple)"/>
+                            <text x="865" y="570" text-anchor="end" fill="#6d28d9" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">PSUM COMPUTE BUS (INT32)</text>
+
+
+                            <!-- 3. WEIGHT PRE-LOAD PATHS (Blue Dotted) -->
+                            <!-- From Weight SRAM X:400, Y:710 -->
+                            <path d="M 400,710 H 425 V 560 H 545" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="3 4"/>
+                            <path d="M 425,560 H 755" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="3 4"/>
+
+                            <!-- Dotted segments going up into columns -->
+                            <path d="M 545,560 V 545" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="2 3" marker-end="url(#mBlue)"/>
+                            <path d="M 755,560 V 545" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="2 3" marker-end="url(#mBlue)"/>
+                            
+                            <text x="440" y="552" fill="#1e4ed8" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">WEIGHT LOAD (STATIC)</text>
+
+
+                            <!-- ============================================================ -->
+                            <!-- SECTION III: MASSIVELY EXPANDED POST-PROCESSING (Right Col, W:360)-->
+                            <!-- ============================================================ -->
+                            <g id="post-processing" transform="translate(0, 0)">
+                                <!-- Section Header -->
+                                <g transform="translate(950, 75)">
+                                    <rect width="360" height="22" rx="4" fill="#f1f5f9" stroke="#8b5cf6" stroke-width="1"/>
+                                    <text x="10" y="14" fill="#6d28d9" font-family="Pretendard, Arial, sans-serif" font-size="10" font-weight="900" letter-spacing="0.5">III. ADVANCED COMPUTE ACCUMULATION &amp; POST-PROCESSING</text>
+                                </g>
+
+                                <!-- Partial Sum SRAM Buffer (Widened to 360) -->
+                                <g transform="translate(950, 110)" filter="url(#cardShadow)">
+                                    <rect width="360" height="120" rx="8" fill="url(#panelBg)" stroke="#8b5cf6" stroke-width="1.5"/>
+                                    <rect width="360" height="24" rx="4" fill="#f3e8ff"/>
+                                    <text x="12" y="15" fill="#581c87" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">PARTIAL-SUM SRAM ACCUMULATOR</text>
+                                    
+                                    <!-- Slots - Widened to 320 -->
+                                    <rect x="15" y="36" width="320" height="15" rx="2" fill="#fdfdfd" stroke="#d8b4fe"/>
+                                    <text x="25" y="47" fill="#6b21a8" font-family="monospace" font-size="9" font-weight="800">ACC_BUF[0]: +340.23597  (FP32)</text>
+                                    
+                                    <rect x="15" y="55" width="320" height="15" rx="2" fill="#fdfdfd" stroke="#d8b4fe"/>
+                                    <text x="25" y="66" fill="#6b21a8" font-family="monospace" font-size="9" font-weight="800">ACC_BUF[1]: -12.44102   (FP32)</text>
+                                    
+                                    <rect x="15" y="74" width="320" height="15" rx="2" fill="#fdfdfd" stroke="#d8b4fe"/>
+                                    <text x="25" y="85" fill="#6b21a8" font-family="monospace" font-size="9" font-weight="800">ACC_BUF[2]: +89.70244   (FP32)</text>
+                                    
+                                    <rect x="15" y="93" width="320" height="15" rx="2" fill="#fdfdfd" stroke="#d8b4fe"/>
+                                    <text x="25" y="104" fill="#6b21a8" font-family="monospace" font-size="9" font-weight="800">ACC_BUF[3]: +0.00000    (FP32)</text>
+
+                                    <!-- Feedback Accumulation Loop -->
+                                    <path d="M 330,43.5 H 340 V 104 H 330" fill="none" stroke="#a855f7" stroke-width="1.2" stroke-dasharray="2 2"/>
+                                </g>
+
+                                <!-- Bias Addition Engine (Widened to 360) -->
+                                <g transform="translate(950, 260)" filter="url(#cardShadow)">
+                                    <rect width="360" height="90" rx="8" fill="url(#panelBg)" stroke="#cbd5e1" stroke-width="1.5"/>
+                                    <rect width="360" height="24" rx="4" fill="url(#headerGrad)"/>
+                                    <text x="12" y="15" fill="#334155" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">BIAS INJECTION VECTOR UNIT</text>
+                                    
+                                    <rect x="15" y="38" width="160" height="40" rx="3" fill="#f8fafc" stroke="#cbd5e1"/>
+                                    <text x="95" y="54" text-anchor="middle" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="800">BIAS_SRAM</text>
+                                    <text x="95" y="68" text-anchor="middle" fill="#0f172a" font-family="monospace" font-size="9" font-weight="800">1x4 BIAS VECTOR (FP32)</text>
+
+                                    <!-- Adder Symbol -->
+                                    <circle cx="230" cy="58" r="16" fill="#7c3aed"/>
+                                    <text x="230" y="63" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="16" font-weight="900">+</text>
+                                    <text x="260" y="63" fill="#581c87" font-family="Pretendard, Arial, sans-serif" font-size="10.5" font-weight="900">FP32 ADDER</text>
+
+                                    <!-- Inter-unit flow tube -->
+                                    <path d="M 1130,230 V 260" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#mPurple)"/>
+                                </g>
+
+                                <!-- Non-linear Activation (GELU) Engine (Massively Expanded) -->
+                                <g transform="translate(950, 380)" filter="url(#cardShadow)">
+                                    <rect width="360" height="140" rx="8" fill="url(#panelBg)" stroke="#fbbf24" stroke-width="1.2"/>
+                                    <rect width="360" height="24" rx="4" fill="#fef3c7"/>
+                                    <text x="12" y="15" fill="#78350f" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">NON-LINEAR ACTIVATION (GELU)</text>
+                                    
+                                    <!-- Mini GELU function graph - Widened to 320 -->
+                                    <rect x="15" y="34" width="320" height="85" rx="3" fill="#ffffff" stroke="#fef3c7"/>
+                                    
+                                    <!-- Axes -->
+                                    <line x1="25" y1="95" x2="325" y2="95" stroke="#cbd5e1" stroke-width="1"/>
+                                    <line x1="175" y1="40" x2="175" y2="110" stroke="#cbd5e1" stroke-width="1"/>
+                                    
+                                    <!-- Grid lines inside graph -->
+                                    <line x1="25" y1="65" x2="325" y2="65" stroke="#f1f5f9" stroke-dasharray="2 2"/>
+                                    <line x1="240" y1="40" x2="240" y2="110" stroke="#f1f5f9" stroke-dasharray="2 2"/>
+                                    
+                                    <!-- GELU Shaded area under curve -->
+                                    <path d="M 25,95 Q 140,95 175,87 Q 210,60 280,45 L 280,95 Z" fill="url(#geluGrad)"/>
+                                    
+                                    <!-- Curve path -->
+                                    <path d="M 25,95 Q 140,95 175,87 Q 210,60 280,45" fill="none" stroke="#ea580c" stroke-width="2.2"/>
+                                    
+                                    <text x="190" y="49" fill="#b45309" font-family="monospace" font-size="10" font-weight="900">GELU(x)</text>
+                                    <text x="25" y="44" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="800">GELU = x · Φ(x) [HIGH-PRECISION APPROX]</text>
+                                    
+                                    <!-- Unit status indicators -->
+                                    <text x="15" y="132" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">LATENCY: 1 CYCLE</text>
+                                    <text x="150" y="132" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">ENGINE: PIECEWISE-POLYNOMIAL PIPE</text>
+
+                                    <!-- Inter-unit flow tube -->
+                                    <path d="M 1130,350 V 380" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#mPurple)"/>
+                                </g>
+
+                                <!-- Quantization converter (Massively Expanded) -->
+                                <g transform="translate(950, 550)" filter="url(#cardShadow)">
+                                    <rect width="360" height="125" rx="8" fill="url(#panelBg)" stroke="#cbd5e1" stroke-width="1.5"/>
+                                    <rect width="360" height="24" rx="4" fill="url(#headerGrad)"/>
+                                    <text x="12" y="15" fill="#334155" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">FORMAT PACKING &amp; INT8 QUANT</text>
+                                    
+                                    <!-- Staircase steps - Widened to 175 -->
+                                    <rect x="15" y="34" width="175" height="75" rx="3" fill="#ffffff" stroke="#cbd5e1"/>
+                                    
+                                    <!-- staircase grid fill -->
+                                    <path d="M 20,100 H 45 V 82 H 80 V 64 H 115 V 46 H 145 V 38 H 180 V 100 Z" fill="url(#staircaseGrad)"/>
+                                    <!-- staircase lines -->
+                                    <path d="M 20,100 H 45 V 82 H 80 V 64 H 115 V 46 H 145 V 38 H 180" fill="none" stroke="#ea580c" stroke-width="2"/>
+                                    <text x="25" y="48" fill="#ea580c" font-family="monospace" font-size="9" font-weight="900">INT8 STEPS</text>
+                                    
+                                    <!-- Scaling engine block details -->
+                                    <rect x="200" y="34" width="145" height="50" rx="3" fill="#f8fafc" stroke="#cbd5e1"/>
+                                    <text x="272.5" y="47" text-anchor="middle" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="800">SCALING REG</text>
+                                    <text x="272.5" y="60" text-anchor="middle" fill="#ea580c" font-family="monospace" font-size="9" font-weight="900">Scale: 0.043592</text>
+                                    <text x="272.5" y="72" text-anchor="middle" fill="#ea580c" font-family="monospace" font-size="9" font-weight="900">Zero_Pt: -12 (INT)</text>
+                                    
+                                    <text x="15" y="119" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">FP32 TO INT8 FORMAT変換 (SCALING &amp; SATURATION CLIPPING)</text>
+                                    
+                                    <!-- Inter-unit flow tube -->
+                                    <path d="M 1130,520 V 550" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#mPurple)"/>
+                                </g>
+
+                                <!-- DRAM Write Controller (Widened to 360) -->
+                                <g transform="translate(950, 700)" filter="url(#cardShadow)">
+                                    <rect width="360" height="100" rx="8" fill="url(#panelBg)" stroke="#ea580c" stroke-width="1.2"/>
+                                    <rect width="360" height="24" rx="4" fill="#ffedd5"/>
+                                    <text x="12" y="15" fill="#7c2d12" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">DRAM WRITE ENGINE / HBM INTERFACE</text>
+                                    
+                                    <!-- Status / Queues -->
+                                    <rect x="15" y="38" width="320" height="22" rx="3" fill="#ffffff" stroke="#ffedd5"/>
+                                    <text x="25" y="52" fill="#7c2d12" font-family="monospace" font-size="9.5" font-weight="800">HBM_BURST_QUEUE: [||||||||||||||||||||      ]</text>
+                                    
+                                    <rect x="15" y="68" width="320" height="22" rx="3" fill="#ffffff" stroke="#ffedd5"/>
+                                    <text x="25" y="82" fill="#047857" font-family="monospace" font-size="9.5" font-weight="800">WRITE_STATUS: HBM_BURST_TRANSACTION_ACTIVE</text>
+
+                                    <!-- Inter-unit flow tube -->
+                                    <path d="M 1130,670 V 700" stroke="#ea580c" stroke-width="2.5" marker-end="url(#mOrange)"/>
+                                </g>
+                            </g>
+
+                            <!-- 4. OFF-CHIP DRAM OUTFLOW (Orange Line) -->
+                            <!-- From DRAM Write controller X:1130 (950+180), Y:800 -->
+                            <path d="M 1130,800 V 835 H 1220 V 850" fill="none" stroke="#ea580c" stroke-width="2.5" marker-end="url(#mOrange)"/>
+                            <text x="1230" y="842" fill="#ea580c" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">DRAM OUTFLOW</text>
+
+                            <!-- ========================================== -->
+                            <!-- SECTION IV: TIMING & TIMELINE PANEL (Bottom)-->
+                            <!-- ========================================== -->
+                            <g id="timing-timeline" transform="translate(440, 700)" filter="url(#cardShadow)">
+                                <rect width="470" height="100" rx="8" fill="url(#panelBg)" stroke="#cbd5e1" stroke-width="1.5"/>
+                                <rect width="470" height="22" rx="4" fill="url(#headerGrad)"/>
+                                <text x="12" y="14" fill="#334155" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900" letter-spacing="0.5">IV. MATRIX EXECUTION TIMELINE &amp; WAVEFRONT PIPELINE</text>
+                                
+                                <!-- Timesteps CLK 0..3 (Perfect fit inside 470 width) -->
+                                <g transform="translate(45, 36)">
+                                    <!-- Timelines -->
+                                    <line x1="0" y1="20" x2="380" y2="20" stroke="#cbd5e1" stroke-width="2"/>
+                                    
+                                    <!-- CLK 0 -->
+                                    <g transform="translate(0, 0)">
+                                        <circle cx="0" cy="20" r="7" fill="#f59e0b"/>
+                                        <text x="0" y="6" text-anchor="middle" fill="#0f172a" font-family="monospace" font-size="9.5" font-weight="900">CLK0</text>
+                                        <text x="0" y="40" text-anchor="middle" fill="#b45309" font-family="monospace" font-size="9.5" font-weight="900">PE(0,0)</text>
+                                    </g>
+                                    
+                                    <!-- CLK 1 -->
+                                    <g transform="translate(125, 0)">
+                                        <circle cx="0" cy="20" r="6" fill="#f59e0b" opacity="0.8"/>
+                                        <text x="0" y="6" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="9.5" font-weight="900">CLK1</text>
+                                        <text x="0" y="40" text-anchor="middle" fill="#b45309" font-family="monospace" font-size="9.5" font-weight="900">PE(0,1)+(1,0)</text>
+                                    </g>
+                                    
+                                    <!-- CLK 2 -->
+                                    <g transform="translate(250, 0)">
+                                        <circle cx="0" cy="20" r="6" fill="#f59e0b" opacity="0.8"/>
+                                        <text x="0" y="6" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="9.5" font-weight="900">CLK2</text>
+                                        <text x="0" y="40" text-anchor="middle" fill="#b45309" font-family="monospace" font-size="9.5" font-weight="900">PE(1,1)</text>
+                                    </g>
+
+                                    <!-- CLK 3 -->
+                                    <g transform="translate(380, 0)">
+                                        <circle cx="0" cy="20" r="6" fill="#94a3b8"/>
+                                        <text x="0" y="6" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="9.5" font-weight="900">CLK3</text>
+                                        <text x="0" y="40" text-anchor="middle" fill="#047857" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">ACC_WRITE</text>
+                                    </g>
+                                </g>
+                            </g>
+
+
+                            <!-- ========================================== -->
+                            <!-- SECTION V: FLOW COLOR LEGENDS (Bottom wide) -->
+                            <!-- ========================================== -->
+                            <g transform="translate(40, 825)" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">
+                                <rect width="980" height="34" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" filter="url(#cardShadow)"/>
+                                
+                                <!-- Activation -->
+                                <circle cx="20" cy="17" r="5" fill="#10b981"/>
+                                <text x="30" y="20" fill="#047857">ACTIVATION (INT8) - STAGGERED HORIZONTAL DELAYS</text>
+                                
+                                <!-- Weight -->
+                                <circle cx="340" cy="17" r="5" fill="#3b82f6"/>
+                                <text x="350" y="20" fill="#1e4ed8">STATIONARY WEIGHT (INT8) - STATIC LOCAL STORAGE</text>
+                                
+                                <!-- Partial-Sum -->
+                                <circle cx="650" cy="17" r="5" fill="#8b5cf6"/>
+                                <text x="660" y="20" fill="#581c87">PARTIAL-SUM (INT32) - VERTICAL SYSTOLIC ACCUMULATION</text>
+                            </g>
+                            
+                            <!-- Detailed footnotes -->
+                            <g transform="translate(40, 880)">
+                                <text x="0" y="0" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="800">
+                                    ※ Systolic Dataflow Architecture: 2x2 Array 구현은 입력 Activations를 매 행마다 1클록씩 지연(z⁻¹ delay) 공급하여 하단 방향으로 누적되는 Partial-Sum 클록 wavefront와 완벽히 동기화시킵니다.
+                                </text>
+                            </g>
                         </svg>
                     </div>
                 </div>
-
-                
