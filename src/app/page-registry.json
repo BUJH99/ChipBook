@@ -170,7 +170,8 @@
       "title": "Off-Chip Interface",
       "src": "./pages/page-9-off-chip-interface.html",
       "loadingText": "Off-Chip Interface 페이지를 불러오는 중입니다...",
-      "tocMode": "scroll",
+      "tocMode": "action",
+      "sectionAttribute": "data-part9-panel",
       "buildManifest": "pages/page-9-off-chip-interface/source/page-build.json",
       "debugDir": "pages/page-9-off-chip-interface",
       "sections": [
@@ -185,7 +186,8 @@
       "title": "Solution",
       "src": "./pages/page-10-solution.html",
       "loadingText": "Solution 페이지를 불러오는 중입니다...",
-      "tocMode": "scroll",
+      "tocMode": "action",
+      "sectionAttribute": "data-part10-panel",
       "buildManifest": "pages/page-10-solution/source/page-build.json",
       "debugDir": "pages/page-10-solution",
       "sections": [
@@ -200,27 +202,14 @@
       "title": "AI Accelerator",
       "src": "./pages/page-11-ai-accelerator.html",
       "loadingText": "AI Accelerator 페이지를 불러오는 중입니다...",
-      "tocMode": "scroll",
+      "tocMode": "action",
+      "sectionAttribute": "data-part11-panel",
       "buildManifest": "pages/page-11-ai-accelerator/source/page-build.json",
       "debugDir": "pages/page-11-ai-accelerator",
       "sections": [
         { "key": "accelerator-stack", "title": "Accelerator Stack", "source": "pages/page-11-ai-accelerator/source/sections/01-accelerator-stack.html" },
         { "key": "dataflow", "title": "Dataflow", "source": "pages/page-11-ai-accelerator/source/sections/02-dataflow.html" },
         { "key": "metric-debug", "title": "Metric & Debug", "source": "pages/page-11-ai-accelerator/source/sections/03-metric-debug.html" }
-      ]
-    },
-    {
-      "id": "page-12",
-      "number": 12,
-      "title": "ADT 기술 & 최종 요약",
-      "frameTitle": "Part 12 | ADT 기술 & 최종 요약",
-      "src": "./pages/page-12-adt-summary.html",
-      "loadingText": "Part 12 | ADT 기술 & 최종 요약 페이지를 불러오는 중입니다...",
-      "tocMode": "scroll",
-      "buildManifest": "pages/page-12-adt-summary/page-build.json",
-      "sections": [
-        { "key": "adt-technology", "title": "ADT 사내기술", "source": "pages/page-12-adt-summary/sections/01-adt-technology.html" },
-        { "key": "final-summary", "title": "최종 요약", "source": "pages/page-12-adt-summary/sections/02-final-summary.html" }
       ]
     },
     {

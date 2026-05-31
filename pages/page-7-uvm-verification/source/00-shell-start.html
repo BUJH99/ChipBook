@@ -79,11 +79,11 @@
     .page7-source-shell {
       position: relative;
       min-height: 720px;
-      border: 1px solid #dbe4f0;
-      border-radius: 18px;
-      overflow: hidden;
+      border: 0;
+      border-radius: 0;
+      overflow: visible;
       background: #ffffff;
-      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
+      box-shadow: none;
     }
 
     .page7-source-frame {
@@ -238,6 +238,23 @@
     (function () {
       const frameObservers = new WeakMap();
       const resizeTimers = new WeakMap();
+      const frameHeightHints = {
+        'sequence-diagram': 900,
+        'uvm-definition': 3200,
+        'uvm-basic': 7200,
+        'uvm-library': 9800,
+        'sequence-item': 6000,
+        'sequence': 5600,
+        'driver': 5700,
+        'sequencer': 2900,
+        'scoreboard': 4700,
+        'coverage': 6100,
+        'agent': 6700,
+        'env': 7200,
+        'sva': 8000,
+        'test': 7100,
+        'vcs-verdi': 7200,
+      };
 
       const notifyParentHeight = () => {
         if (window.GuidebookPage && typeof window.GuidebookPage.notifyHeight === 'function') {
@@ -299,15 +316,29 @@
 
         const body = doc.body;
         const html = doc.documentElement;
+        if (!body || doc.location.href === 'about:blank' || !body.children.length) {
+          return 0;
+        }
+
         const win = doc.defaultView || window;
         const descendants = body ? Array.from(body.querySelectorAll('*')) : [];
         const maxBottom = descendants.reduce((max, element) => {
           const rect = element.getBoundingClientRect();
           return Math.max(max, Math.ceil(rect.bottom + win.scrollY));
         }, 0);
-        const maxScrollable = descendants.reduce((max, element) => {
+        const isPreviewFitSection = body?.dataset?.page7HeightMode === 'preview-fit';
+        const maxScrollable = isPreviewFitSection ? 0 : descendants.reduce((max, element) => {
           return Math.max(max, Number(element.scrollHeight) || 0);
         }, 0);
+
+        if (isPreviewFitSection) {
+          return Math.max(
+            body ? body.scrollHeight : 0,
+            body ? body.offsetHeight : 0,
+            maxBottom,
+            720
+          );
+        }
 
         return Math.max(
           body ? body.scrollHeight : 0,
@@ -324,13 +355,36 @@
         if (!frame || !frame.contentDocument) return;
         applySectionFrameLayout(frame);
         const height = measureDocumentHeight(frame.contentDocument);
+        if (!height) return;
         frame.style.height = `${Math.ceil(height)}px`;
         const shell = frame.closest('.page7-source-shell');
         shell?.classList.add('is-ready');
         notifyParentHeight();
       };
 
+      const applyFrameHeightHint = (key, frame) => {
+        const hintedHeight = frameHeightHints[key] || 1600;
+        const currentHeight = Number.parseFloat(frame.style.height) || frame.clientHeight || 0;
+        if (currentHeight < hintedHeight) {
+          frame.style.height = `${hintedHeight}px`;
+          notifyParentHeight();
+        }
+      };
+
       const scheduleMeasure = (frame, delay = 0) => {
+        window.setTimeout(() => {
+          try {
+            measureFrame(frame);
+          } catch (error) {
+            frame.style.height = '1280px';
+            const shell = frame.closest('.page7-source-shell');
+            shell?.classList.add('is-ready');
+            notifyParentHeight();
+          }
+        }, delay);
+      };
+
+      const debounceMeasure = (frame, delay = 40) => {
         const previous = resizeTimers.get(frame);
         if (previous) window.clearTimeout(previous);
         const timer = window.setTimeout(() => {
@@ -363,7 +417,7 @@
             const doc = frame.contentDocument;
             if (doc && typeof ResizeObserver !== 'undefined') {
               frameObservers.get(frame)?.disconnect();
-              const observer = new ResizeObserver(() => scheduleMeasure(frame, 40));
+              const observer = new ResizeObserver(() => debounceMeasure(frame, 40));
               if (doc.documentElement) observer.observe(doc.documentElement);
               if (doc.body) observer.observe(doc.body);
               frameObservers.set(frame, observer);
@@ -379,6 +433,7 @@
         const frame = panel?.querySelector('[data-page7-source-frame]');
         if (!frame) return;
         bindFrameResize(frame);
+        applyFrameHeightHint(key, frame);
         if (!frame.src) {
           frame.src = frame.dataset.src;
           return;
@@ -397,6 +452,8 @@
           const frame = frames[index];
           index += 1;
           bindFrameResize(frame);
+          const key = frame.closest('[data-page7-panel]')?.getAttribute('data-page7-panel') || '';
+          applyFrameHeightHint(key, frame);
           frame.src = frame.dataset.src;
           window.setTimeout(loadNext, 800);
         };
@@ -440,7 +497,7 @@
 
       window.addEventListener('resize', () => {
         const activeFrame = document.querySelector('.page7-panel.active [data-page7-source-frame]');
-        if (activeFrame) scheduleMeasure(activeFrame, 80);
+        if (activeFrame) debounceMeasure(activeFrame, 80);
       });
     })();
   </script>

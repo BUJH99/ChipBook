@@ -132,8 +132,14 @@ def validate_registry(registry: dict[str, object]) -> list[str]:
         if isinstance(page, dict):
             validate_page(page, index, seen_ids, seen_numbers, errors)
 
-    expected_numbers = list(range(1, len(pages) + 1))
-    require(sorted(seen_numbers) == expected_numbers, f"page numbers should be contiguous {expected_numbers}, got {sorted(seen_numbers)}", errors)
+    page_numbers = [page.get("number") for page in pages if isinstance(page, dict)]
+    integer_page_numbers = [number for number in page_numbers if isinstance(number, int)]
+    if len(integer_page_numbers) == len(page_numbers):
+        require(
+            integer_page_numbers == sorted(integer_page_numbers),
+            f"page numbers should be in ascending order, got {integer_page_numbers}",
+            errors,
+        )
     return errors
 
 

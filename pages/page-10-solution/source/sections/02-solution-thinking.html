@@ -1,20 +1,232 @@
-<div class="card">
-                        <div class="text-xs font-extrabold text-blue-600 uppercase tracking-[0.2em] mb-2">10-2. Solution Thinking</div>
-                        <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-5">solution 관점에서 자주 묻는 질문</h3>
-                        <div class="space-y-3">
-                            <div class="rounded-2xl border border-blue-100 bg-blue-50/60 p-4">
-                                <div class="font-black text-blue-700 mb-1">이 제품의 병목은 어디인가?</div>
-                                <p class="text-sm leading-7 text-slate-600">compute가 느린지, memory bandwidth가 모자란지, bus contention이 심한지 먼저 분리해서 봅니다.</p>
-                            </div>
-                            <div class="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4">
-                                <div class="font-black text-emerald-700 mb-1">HW와 SW 경계는 어디서 맞물리나?</div>
-                                <p class="text-sm leading-7 text-slate-600">register map, interrupt, DMA descriptor, driver API가 실제 제품 완성도를 좌우합니다.</p>
-                            </div>
-                            <div class="rounded-2xl border border-violet-100 bg-violet-50/60 p-4">
-                                <div class="font-black text-violet-700 mb-1">확장성이 있는가?</div>
-                                <p class="text-sm leading-7 text-slate-600">1개의 accelerator에서 4개로 커졌을 때 bus와 memory 구조가 버틸 수 있는지까지 봐야 합니다.</p>
-                            </div>
-                        </div>
-                    </div>
+<div class="tab-content card !rounded-[32px] border border-blue-100 bg-white p-6 md:p-8" id="sol-part-2" data-part10-panel="solution-thinking" data-guidebook-toc-title="Solution Thinking">
+    <div class="mb-6 border-b border-slate-100 pb-4">
+        <div class="text-xs font-black uppercase tracking-[0.2em] text-blue-600">10-2. System Bottleneck &amp; HW/SW Co-Design</div>
+        <h3 class="mt-2 text-2xl font-black leading-tight text-slate-900">시스템 병목 해결과 HW/SW 설계 경계</h3>
+        <p class="mt-2 text-sm md:text-base text-slate-500 leading-relaxed">
+            반도체 칩이 진정한 솔루션이 되려면 개별 IP의 우수성을 넘어 전체 시스템 레벨의 병목을 해결하고, <br class="hidden sm:inline" />
+            하드웨어와 소프트웨어가 밀결합되는 제어 인터페이스(Control Interface)가 극도로 정밀하게 정의되어야 합니다.
+        </p>
+    </div>
 
+    <!-- Two-column Technical Visualizations -->
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        
+        <!-- COLUMN 1: Roofline Model (Compute vs Memory Bound) -->
+        <div class="flex flex-col rounded-3xl border border-slate-100 bg-slate-50/50 p-5 md:p-6">
+            <div class="mb-4">
+                <span class="inline-block bg-blue-100 text-blue-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider mb-2">Performance Boundary</span>
+                <h4 class="text-lg font-black text-slate-900">1) Roofline Model을 통한 시스템 제약 분석</h4>
+                <p class="mt-1 text-xs md:text-sm text-slate-500 leading-relaxed">
+                    시스템 성능은 <strong>산술 연산 밀도(Arithmetic Intensity)</strong>에 따라 메모리 대역폭(Memory Bandwidth)에 지배받는 <strong>Memory-Bound</strong> 구간과 하드웨어 최고 연산 능력에 지배받는 <strong>Compute-Bound</strong> 구간으로 나뉩니다.
+                </p>
+            </div>
+
+            <!-- Roofline Model SVG Graph -->
+            <div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                <svg viewBox="0 0 540 330" class="block h-auto w-full" fill="none">
+                    <!-- Grid background -->
+                    <rect width="540" height="330" rx="12" fill="#ffffff" />
+                    <g stroke="rgba(148,163,184,0.08)" stroke-width="1.2">
+                        <line x1="60" y1="50" x2="480" y2="50" />
+                        <line x1="60" y1="110" x2="480" y2="110" />
+                        <line x1="60" y1="170" x2="480" y2="170" />
+                        <line x1="60" y1="230" x2="480" y2="230" />
+                        <line x1="60" y1="290" x2="480" y2="290" />
+                        <line x1="60" y1="290" x2="60" y2="50" />
+                        <line x1="200" y1="290" x2="200" y2="50" />
+                        <line x1="340" y1="290" x2="340" y2="50" />
+                        <line x1="480" y1="290" x2="480" y2="50" />
+                    </g>
+
+                    <!-- Shaded Bounds Zones -->
+                    <!-- Memory Bound Zone -->
+                    <path d="M 60 290 L 260 90 L 60 90 Z" fill="rgba(244,63,94,0.04)" />
+                    <!-- Compute Bound Zone -->
+                    <path d="M 260 90 L 480 90 L 480 290 L 260 290 Z" fill="rgba(59,130,246,0.04)" />
+
+                    <!-- Axis Labels -->
+                    <text x="270" y="320" font-family="'Pretendard', sans-serif" font-size="11" font-weight="800" fill="#64748b" text-anchor="middle">Arithmetic Intensity (FLOPs / Byte - 연산 밀도)</text>
+                    <text x="20" y="170" font-family="'Pretendard', sans-serif" font-size="11" font-weight="800" fill="#64748b" text-anchor="middle" transform="rotate(-90 20 170)">Attainable Performance (GFLOPS - 달성 성능)</text>
+
+                    <!-- Axis ticks -->
+                    <text x="55" y="294" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">0</text>
+                    <text x="55" y="234" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">10</text>
+                    <text x="55" y="174" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">100</text>
+                    <text x="55" y="114" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">1000</text>
+                    <text x="55" y="54" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">Peak</text>
+
+                    <text x="60" y="306" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="middle">0.1</text>
+                    <text x="200" y="306" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="middle">1.0</text>
+                    <text x="340" y="306" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="middle">10.0 (Inflection)</text>
+                    <text x="480" y="306" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="middle">100.0</text>
+
+                    <!-- Roofline boundary path -->
+                    <path d="M 60 290 L 260 90 H 480" stroke="#0f172a" stroke-width="3" stroke-linecap="round" fill="none" />
+                    <!-- Slanted memory slope label -->
+                    <text x="130" y="180" font-family="'Pretendard', sans-serif" font-size="11" font-weight="900" fill="#e11d48" transform="rotate(-45 130 180)">Memory Bandwidth Limit (Memory Wall)</text>
+                    <!-- Horizontal compute ceiling label -->
+                    <text x="370" y="80" font-family="'Pretendard', sans-serif" font-size="11" font-weight="900" fill="#2563eb" text-anchor="middle">Peak Compute Limit (NPU Peak)</text>
+
+                    <!-- Operating Points / Target Icons -->
+                    <!-- Memory-Bound point (Legacy/Inefficient code) -->
+                    <g transform="translate(140, 210)" class="sol-anim-pulse">
+                        <circle cx="0" cy="0" r="7" fill="#f43f5e" />
+                        <circle cx="0" cy="0" r="14" stroke="#f43f5e" stroke-width="1.5" fill="none" opacity="0.6" />
+                        <text x="18" y="4" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="800" fill="#e11d48">A: Memory Bound</text>
+                    </g>
+
+                    <!-- Optimized Point (Using Tiling / SRAM reuse) -->
+                    <g transform="translate(360, 90)" class="sol-anim-pulse">
+                        <circle cx="0" cy="0" r="7" fill="#10b981" />
+                        <circle cx="0" cy="0" r="14" stroke="#10b981" stroke-width="1.5" fill="none" opacity="0.6" />
+                        <text x="-15" y="-18" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="800" fill="#047857" text-anchor="middle">B: Optimized (Compute Bound)</text>
+                    </g>
                     
+                    <!-- Arrow transition tiling -->
+                    <path d="M 160 200 Q 240 130 330 102" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="4 4" stroke-linecap="round" />
+                    <!-- Arrowhead -->
+                    <polygon points="332,98 327,105 321,99" fill="#6366f1" />
+                    <text x="248" y="132" font-family="'Pretendard', sans-serif" font-size="10" font-weight="800" fill="#4f46e5" text-anchor="middle">Data Tiling &amp; Reuse</text>
+                </svg>
+            </div>
+            
+            <div class="mt-4 rounded-2xl border border-slate-100 bg-white p-4">
+                <div class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Key Strategy</div>
+                <p class="text-xs md:text-sm leading-6 text-slate-600">
+                    연산 강도가 낮은 설계(A)는 아무리 CPU/NPU 코어 클럭을 높여도 DRAM 속도 한계(Memory Wall)에 갇힙니다. <strong>로컬 SRAM 캐시 최적화, 데이터 타일링(Data Tiling) 기법</strong>을 통해 연산당 메모리 접근률을 최대한 줄여 곡선의 꺾임점 우측(B)으로 시스템 동작 지점을 이동시키는 것이 솔루션 설계의 핵심입니다.
+                </p>
+            </div>
+        </div>
+
+        <!-- COLUMN 2: HW/SW Co-Design Interface Loop -->
+        <div class="flex flex-col rounded-3xl border border-slate-100 bg-slate-50/50 p-5 md:p-6">
+            <div class="mb-4">
+                <span class="inline-block bg-violet-100 text-violet-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider mb-2">Interface Pipeline</span>
+                <h4 class="text-lg font-black text-slate-900">2) 하드웨어와 소프트웨어의 제어 및 통신 루프</h4>
+                <p class="mt-1 text-xs md:text-sm text-slate-500 leading-relaxed">
+                    드라이버 소프트웨어와 하드웨어 연산 가속기가 <strong>레지스터 맵(MMIO)</strong>, <strong>DMA 전송</strong>, 그리고 완료 보고용 <strong>인터럽트(Interrupt)</strong> 구조를 통해 어떻게 고속 데이터 제어 주기를 완수하는지 보여줍니다.
+                </p>
+            </div>
+
+            <!-- HW/SW Interface Loop SVG -->
+            <div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                <svg viewBox="0 0 540 330" class="block h-auto w-full" fill="none">
+                    <rect width="540" height="330" rx="12" fill="#ffffff" />
+                    
+                    <!-- Nodes -->
+                    <!-- CPU Node -->
+                    <g transform="translate(60, 50)" filter="url(#solShadow)">
+                        <rect x="0" y="0" width="130" height="54" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8" />
+                        <text x="65" y="27" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="13" font-weight="900" fill="#1d4ed8">CPU Core (SW)</text>
+                        <text x="65" y="42" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#64748b">Device Driver / OS</text>
+                    </g>
+
+                    <!-- MMIO Reg Map Node -->
+                    <g transform="translate(350, 50)" filter="url(#solShadow)">
+                        <rect x="0" y="0" width="130" height="54" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.8" />
+                        <text x="65" y="27" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="13" font-weight="900" fill="#7c3aed">MMIO Register</text>
+                        <text x="65" y="42" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#64748b">Base: 0x4000_1000</text>
+                    </g>
+
+                    <!-- DMA Engine Node -->
+                    <g transform="translate(350, 220)" filter="url(#solShadow)">
+                        <rect x="0" y="0" width="130" height="54" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="1.8" />
+                        <text x="65" y="27" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="13" font-weight="900" fill="#047857">DMA Engine</text>
+                        <text x="65" y="42" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#64748b">Direct Memory Access</text>
+                    </g>
+
+                    <!-- GIC/VIC Node -->
+                    <g transform="translate(60, 220)" filter="url(#solShadow)">
+                        <rect x="0" y="0" width="130" height="54" rx="14" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.8" />
+                        <text x="65" y="27" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="13" font-weight="900" fill="#b45309">Interrupt Ctrl</text>
+                        <text x="65" y="42" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#64748b">NVIC / GIC Core</text>
+                    </g>
+
+                    <!-- Connection Paths and Labels -->
+                    <!-- Path 1: CPU to MMIO -->
+                    <path d="M 190 77 H 340" stroke="#3b82f6" stroke-width="2.5" stroke-dasharray="4 4" fill="none" class="sol-anim-dash-flow" />
+                    <text x="265" y="66" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#1d4ed8">1. MMIO Write Start</text>
+
+                    <!-- Path 2: MMIO to DMA -->
+                    <path d="M 415 104 V 210" stroke="#8b5cf6" stroke-width="2.5" stroke-dasharray="4 4" fill="none" class="sol-anim-dash-flow" />
+                    <text x="424" y="162" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#7c3aed">2. Trigger DMA</text>
+
+                    <!-- Path 3: DMA to GIC -->
+                    <path d="M 350 247 H 199" stroke="#10b981" stroke-width="2.5" stroke-dasharray="4 4" fill="none" class="sol-anim-dash-flow-reverse" />
+                    <text x="270" y="238" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#047857">3. Done &amp; Assert IRQ</text>
+
+                    <!-- Path 4: GIC to CPU -->
+                    <path d="M 125 220 V 114" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4 4" fill="none" class="sol-anim-dash-flow-reverse" />
+                    <text x="116" y="162" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#b45309" text-anchor="end">4. CPU ISR Exec</text>
+
+                    <!-- Center System RAM Cloud representation -->
+                    <g transform="translate(265, 148)" opacity="0.8">
+                        <ellipse cx="0" cy="0" rx="36" ry="20" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                        <text x="0" y="4" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10" font-weight="800" fill="#475569">System RAM</text>
+                        
+                        <!-- Connecting arrows RAM <-> DMA -->
+                        <line x1="26" y1="12" x2="90" y2="76" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="2 2" />
+                    </g>
+                </svg>
+            </div>
+
+            <div class="mt-4 rounded-2xl border border-slate-100 bg-white p-4">
+                <div class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Key Strategy</div>
+                <p class="text-xs md:text-sm leading-6 text-slate-600">
+                    CPU가 가속기에 고성능 연산을 요청할 때 매번 메모리를 읽는 것은 극도로 비효율적입니다. 따라서 CPU는 레지스터에 가속기가 처리할 주소와 길이만 기록하고(1), 가속기 내부의 <strong>고속 DMA 엔진(2)</strong>이 시스템 버스를 장악해 메모리에서 연산기로 데이터를 전달한 뒤, 연산이 끝나면 <strong>인터럽트(3)</strong>를 발생시켜 CPU가 인터럽트 핸들러(ISR)로 빠져나오게(4) 설계합니다.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bare-Metal C Device Driver Code Block -->
+    <div class="mt-8">
+        <div class="mb-3 flex items-center justify-between">
+            <h4 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-white font-mono text-xs">C</span>
+                실제 하드웨어 레지스터 맵 제어 C 드라이버 예시
+            </h4>
+            <span class="text-xs text-slate-400 font-mono">accel_driver.c</span>
+        </div>
+        <div class="sol-code-shell select-all">
+            <div><span class="sol-code-comment">// 1. NPU 하드웨어 가속기 메모리 맵 레지스터 정의</span></div>
+            <div><span class="sol-code-keyword">typedef struct</span> {</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">CTRL</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x00: 제어 레지스터 (Bit 0: Start, Bit 1: Int Enable)</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">DMA_SRC</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x04: DMA 소스 주소 (DRAM 메모리 위치)</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">DMA_DST</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x08: DMA 목적지 주소 (SRAM 로컬 캐시 위치)</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">DMA_LEN</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x0C: DMA 전송 데이터 바이트 크기</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">STATUS</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x10: 상태 레지스터 (Bit 0: Busy, Bit 1: Int Triggered)</span></div>
+            <div>} <span class="sol-code-type">NpuAccelRegs</span>;</div>
+            <br />
+            <div><span class="sol-code-macro">#define</span> <span class="sol-code-var">NPU_BASE_ADDR</span> (<span class="sol-code-num">0x40001000</span>)</div>
+            <div><span class="sol-code-type">NpuAccelRegs</span>* <span class="sol-code-keyword">const</span> <span class="sol-code-var">npu</span> = (<span class="sol-code-type">NpuAccelRegs</span>*)<span class="sol-code-var">NPU_BASE_ADDR</span>;</div>
+            <br />
+            <div><span class="sol-code-comment">// 2. 드라이버 API: 가속기 구동 함수</span></div>
+            <div><span class="sol-code-type">void</span> <span class="sol-code-func">npu_start_transfer</span>(<span class="sol-code-type">uint32_t</span> <span class="sol-code-var">src_addr</span>, <span class="sol-code-type">uint32_t</span> <span class="sol-code-var">dst_addr</span>, <span class="sol-code-type">uint32_t</span> <span class="sol-code-var">len</span>) {</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (A) 가속기가 이전 연산을 완전히 마치고 유휴 상태(Idle)가 될 때까지 폴링</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-keyword">while</span> (<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">STATUS</span> &amp; <span class="sol-code-num">0x1</span>);</div>
+            <br />
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (B) DMA 주소 및 길이 설정 (하드웨어 제어 경계)</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">DMA_SRC</span> = <span class="sol-code-var">src_addr</span>;</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">DMA_DST</span> = <span class="sol-code-var">dst_addr</span>;</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">DMA_LEN</span> = <span class="sol-code-var">len</span>;</div>
+            <br />
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (C) 인터럽트를 허용하고 가속기 및 DMA 구동 트리거!</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">CTRL</span> = (<span class="sol-code-num">0x1</span> | <span class="sol-code-num">0x2</span>); <span class="sol-code-comment">// Bit 0 = Start, Bit 1 = Interrupt Enable</span></div>
+            <div>}</div>
+            <br />
+            <div><span class="sol-code-comment">// 3. 인터럽트 서비스 루틴 (ISR) - 가속기 연산 완료 시 자동 호출</span></div>
+            <div><span class="sol-code-type">void</span> <span class="sol-code-func">npu_interrupt_service_handler</span>(<span class="sol-code-type">void</span>) {</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (A) 인터럽트 유발 소스 확인</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-keyword">if</span> (<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">STATUS</span> &amp; <span class="sol-code-num">0x2</span>) {</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (B) 다음 전송 차단을 피하기 위해 인터럽트 클리어 플래그 기록</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">STATUS</span> = <span class="sol-code-num">0x2</span>;&nbsp;&nbsp;<span class="sol-code-comment">// W1C (Write 1 to Clear)</span></div>
+            <br />
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (C) 드라이버 상위 계층 혹은 세마포어를 잠금 해제하여 프로세스 작업 복귀</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-func">release_system_semaphore</span>();</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+            <div>}</div>
+        </div>
+    </div>
+</div>

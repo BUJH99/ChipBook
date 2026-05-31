@@ -7,7 +7,141 @@
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/guidebook-common.css">
+    <style>
+        /* Custom HSL tokens and colors matching high-fidelity tone */
+        :root {
+            --sol-primary: #1d4ed8;
+            --sol-primary-soft: rgba(29, 78, 216, 0.05);
+            --sol-accent-blue: #3b82f6;
+            --sol-accent-purple: #8b5cf6;
+            --sol-accent-emerald: #10b981;
+            --sol-accent-amber: #f59e0b;
+            --sol-dark: #0f172a;
+        }
+
+        .sol-gradient-bg {
+            background: linear-gradient(180deg, #ffffff 0%, #f4f7fe 50%, #ffffff 100%);
+            box-shadow: 0 20px 50px rgba(29, 78, 216, 0.05);
+        }
+
+        /* Premium C code highlighting styles */
+        .sol-code-shell {
+            background-color: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5), 0 12px 24px rgba(15, 23, 42, 0.16);
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            color: #e2e8f0;
+            border-radius: 20px;
+            padding: 1.25rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .sol-code-keyword { color: #f43f5e; font-weight: 700; }
+        .sol-code-type { color: #38bdf8; font-weight: 600; }
+        .sol-code-var { color: #f1f5f9; }
+        .sol-code-num { color: #fb923c; }
+        .sol-code-comment { color: #64748b; font-style: italic; }
+        .sol-code-func { color: #a855f7; font-weight: 600; }
+        .sol-code-macro { color: #a7f3d0; font-weight: 600; }
+
+        /* SVG text fonts */
+        .sol-svg-text {
+            font-family: 'Pretendard', sans-serif;
+            letter-spacing: -0.025em;
+        }
+
+        /* SVG animation classes */
+        .sol-anim-pulse {
+            transform-origin: center;
+            animation: sol-pulse 3s ease-in-out infinite;
+        }
+
+        .sol-anim-float {
+            transform-origin: center;
+            animation: sol-float 4s ease-in-out infinite;
+        }
+
+        .sol-anim-dash-flow {
+            stroke-dasharray: 6 12;
+            animation: sol-dash-flow 1.5s linear infinite;
+        }
+
+        .sol-anim-dash-flow-reverse {
+            stroke-dasharray: 6 12;
+            animation: sol-dash-flow-reverse 1.5s linear infinite;
+        }
+
+        .sol-node-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .sol-node-hover:hover {
+            transform: translateY(-2px);
+            filter: drop-shadow(0 12px 20px rgba(59, 130, 246, 0.15));
+        }
+
+        .sol-node-hover:hover rect {
+            stroke: var(--sol-accent-blue);
+            stroke-width: 2.5px;
+        }
+
+        @keyframes sol-pulse {
+            0%, 100% {
+                transform: scale(0.97);
+                opacity: 0.85;
+            }
+            50% {
+                transform: scale(1.03);
+                opacity: 1;
+            }
+        }
+
+        @keyframes sol-float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes sol-dash-flow {
+            from {
+                stroke-dashoffset: 18;
+            }
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes sol-dash-flow-reverse {
+            from {
+                stroke-dashoffset: 0;
+            }
+            to {
+                stroke-dashoffset: 18;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .sol-anim-pulse, .sol-anim-float, .sol-anim-dash-flow, .sol-anim-dash-flow-reverse {
+                animation: none !important;
+            }
+        }
+
+        /* Glassmorphism card utility */
+        .sol-glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04);
+        }
+    </style>
 </head>
 <body class="page-standalone" data-page-id="page-10">
     <main class="page-shell">
@@ -15,5 +149,9 @@
             <div class="mb-4"><span class="badge">Part 10</span></div>
             <h2 class="section-title">Solution</h2>
 
-            <div class="space-y-8">
-                
+            <div class="page-10-layout">
+                <div id="part10-current-shell" class="guidebook-section-head">
+                    <div class="guidebook-section-shell">
+                        <div id="part10-current-label" class="guidebook-section-kicker">10-1. Integration Stack</div>
+                    </div>
+                </div>

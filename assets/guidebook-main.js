@@ -15,7 +15,10 @@
     let currentPage = 1;
     let tocRenderRaf = 0;
     const toIndex = (pageNum) => pageNum - 1;
-    const currentPageId = () => `page-${currentPage}`;
+    const currentPageId = () => {
+        const frame = frames[toIndex(currentPage)] || null;
+        return frame?.dataset.pageId || `page-${currentPage}`;
+    };
 
     const isFormTarget = (target) => {
         if (!(target instanceof Element)) return false;

@@ -78,13 +78,38 @@
       50% { transform: scale(1.02); filter: drop-shadow(0 0 10px rgba(147, 51, 234, 0.4)); }
       100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(147, 51, 234, 0)); }
     }
+
+    .diagram-preview-shell {
+      min-height: 520px;
+      height: min(72vh, 720px);
+    }
+
+    @media (max-width: 768px) {
+      .diagram-preview-shell {
+        min-height: 460px;
+        height: 66vh;
+      }
+    }
   </style>
 </head>
-<body class="bg-slate-50 min-h-screen text-slate-800 antialiased font-sans">
+<body class="bg-white text-slate-800 antialiased font-sans" data-page7-height-mode="preview-fit">
   <div id="root"></div>
 
   <script type="text/babel">
     const App = () => {
+      const [isZoomOpen, setIsZoomOpen] = React.useState(false);
+      const isZoomMode = new URLSearchParams(window.location.search).get('zoom') === '1';
+      const zoomSrc = `${window.location.pathname}?zoom=1`;
+
+      React.useEffect(() => {
+        if (!isZoomOpen) return undefined;
+        const handleKeyDown = (event) => {
+          if (event.key === 'Escape') setIsZoomOpen(false);
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+      }, [isZoomOpen]);
+
       // 1. Participant (UVM Components)
       const participants = [
         { id: 'test', name: 'Test (Env)', x: 320, color: '#4f46e5', boxFill: '#4f46e5', boxStroke: '#4338ca', actFill: '#c7d2fe', actStroke: '#818cf8' },
@@ -316,29 +341,29 @@
       }
 
       return (
-        <div className="w-full h-screen flex flex-col box-border bg-slate-50">
-          
-          <header className="bg-white border-b border-slate-200 shrink-0 z-10 relative shadow-sm">
-            <div className="max-w-[2400px] mx-auto px-6 py-5 flex items-center justify-between">
-                <div>
-                    <p className="text-sm font-bold text-blue-600 mb-1 tracking-wider uppercase">Digital Circuit Verification</p>
-                    <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Full Scale UVM Component Interaction & Phases</h1>
+        <div className={isZoomMode ? "w-[2400px] min-h-[2800px] bg-slate-50 text-slate-800" : "w-full h-screen flex flex-col box-border bg-white"}>
+          <main className={isZoomMode ? "h-[2800px] w-[2400px] overflow-visible bg-slate-50" : "flex-1 overflow-hidden p-0 max-w-[100vw] mx-auto w-full"}>
+            <div
+              role={isZoomMode ? undefined : "button"}
+              tabIndex={isZoomMode ? undefined : 0}
+              aria-label={isZoomMode ? undefined : "Full UVM sequence diagram enlarged view"}
+              onClick={isZoomMode ? undefined : () => setIsZoomOpen(true)}
+              onKeyDown={(event) => {
+                if (isZoomMode) return;
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setIsZoomOpen(true);
+                }
+              }}
+              className={isZoomMode ? "h-[2800px] w-[2400px] overflow-visible diagram-grid" : "diagram-preview-shell group relative w-full overflow-hidden rounded-lg shadow-sm border border-slate-200 diagram-grid cursor-zoom-in bg-slate-50"}
+            >
+              {!isZoomMode && (
+                <div className="pointer-events-none absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-xl font-black leading-none text-blue-600 shadow-sm transition-transform group-hover:scale-105">
+                  +
                 </div>
-                <div className="hidden md:flex items-center space-x-2 text-sm font-medium text-slate-500">
-                    <span className="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-bold border border-slate-300">Agent Boundary</span>
-                    <span className="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs font-bold border border-amber-200">Objection Control</span>
-                    <span className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-xs font-bold border border-indigo-200">UVM Callbacks</span>
-                    <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold border border-emerald-200">config_db & TLM</span>
-                    <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold border border-orange-200">SVA</span>
-                    <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold border border-blue-200">UVM Factory</span>
-                </div>
-            </div>
-          </header>
-
-          <main className="flex-1 overflow-hidden p-6 max-w-[100vw] mx-auto w-full">
-            <div className="w-full h-full overflow-auto scroll-container rounded-2xl shadow-sm border border-slate-200 relative diagram-grid">
-              <div className="p-8 inline-block min-w-max">
-                <svg width="2400" height="2800" xmlns="http://www.w3.org/2000/svg" className="font-sans">
+              )}
+              <div className={isZoomMode ? "h-[2800px] w-[2400px]" : "h-full w-full p-3 md:p-4"}>
+                <svg viewBox="0 0 2400 2800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" className={isZoomMode ? "block h-[2800px] w-[2400px] max-w-none font-sans" : "block h-full w-full font-sans"}>
                   <defs>
                     {msgColors.map(color => {
                       const c = color.replace('#', '');
@@ -451,6 +476,32 @@
               </div>
             </div>
           </main>
+
+          {!isZoomMode && isZoomOpen && (
+            <div className="fixed inset-0 z-50 bg-slate-950/70 p-3 backdrop-blur-sm md:p-6" role="dialog" aria-modal="true" aria-label="Full UVM sequence diagram enlarged modal">
+              <div className="flex h-full w-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-2xl">
+                <div className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 py-3">
+                  <div>
+                    <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-blue-600">Full Scale View</p>
+                    <h2 className="text-base font-black text-slate-900">Full Scale UVM Component Interaction & Phases</h2>
+                  </div>
+                  <button
+                    type="button"
+                    aria-label="Close enlarged diagram"
+                    onClick={() => setIsZoomOpen(false)}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-xl font-black leading-none text-slate-700 hover:border-blue-300 hover:text-blue-600"
+                  >
+                    ×
+                  </button>
+                </div>
+                <iframe
+                  title="Full Scale UVM Component Interaction & Phases enlarged view"
+                  src={zoomSrc}
+                  className="min-h-0 flex-1 border-0 bg-slate-50"
+                />
+              </div>
+            </div>
+          )}
         </div>
       );
     };

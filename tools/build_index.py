@@ -41,7 +41,7 @@ def nav_class(page: dict[str, object], is_active: bool) -> str:
     return "nav-item active" if is_active else "nav-item"
 
 
-def render_nav_button(page: dict[str, object], is_active: bool) -> str:
+def render_nav_button(page: dict[str, object], is_active: bool, sequence_number: int) -> str:
     number = int(page["number"])
     title = page.get("navTitle") or page["title"]
     classes = nav_class(page, is_active)
@@ -50,12 +50,12 @@ def render_nav_button(page: dict[str, object], is_active: bool) -> str:
         icon = page.get("navIcon")
         icon_html = f'<span class="mr-3 text-lg">{escape(icon)}</span>' if icon else ""
         return (
-            f'                    <button type="button" class="{classes}" data-go-page="{number}">'
+            f'                    <button type="button" class="{classes}" data-go-page="{sequence_number}">'
             f"{icon_html} {number} {escape(title)}</button>"
         )
 
     return (
-        f'                <button type="button" class="{classes}" data-go-page="{number}">'
+        f'                <button type="button" class="{classes}" data-go-page="{sequence_number}">'
         f'<span class="text-gray-400 font-mono text-xs w-6 mr-1">{render_page_number(number)}</span> '
         f"{escape(title)}</button>"
     )
@@ -74,7 +74,7 @@ def render_nav(pages: list[dict[str, object]]) -> str:
             lines.append("                </div>")
             practice_group_open = False
 
-        lines.append(render_nav_button(page, is_active=index == 0))
+        lines.append(render_nav_button(page, is_active=index == 0, sequence_number=index + 1))
 
     if practice_group_open:
         lines.append("                </div>")

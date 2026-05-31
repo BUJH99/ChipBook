@@ -1,30 +1,228 @@
-<div class="card border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#fbfcfe_100%)]">
-                        <div class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-2">9-3. Debug Checklist</div>
-                        <h3 class="text-[22px] leading-tight font-black text-slate-900 mb-5">문제가 났을 때 어디를 의심하나</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
-                                <div class="text-sm font-black text-slate-900 mb-1">Protocol Violation</div>
-                                <p class="text-sm text-slate-600">packet format, state transition 오류</p>
-                            </div>
-                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
-                                <div class="text-sm font-black text-slate-900 mb-1">Training Fail</div>
-                                <p class="text-sm text-slate-600">link up 실패, calibration 실패</p>
-                            </div>
-                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
-                                <div class="text-sm font-black text-slate-900 mb-1">Clock / Reset Sequence</div>
-                                <p class="text-sm text-slate-600">bring-up 순서 이상</p>
-                            </div>
-                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
-                                <div class="text-sm font-black text-slate-900 mb-1">Signal Integrity</div>
-                                <p class="text-sm text-slate-600">jitter, skew, eye margin 부족</p>
-                            </div>
-                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
-                                <div class="text-sm font-black text-slate-900 mb-1">Power / Termination</div>
-                                <p class="text-sm text-slate-600">I/O 전압, impedance, termination 설정</p>
-                            </div>
-                            <div class="rounded-2xl bg-white border border-slate-200 p-4">
-                                <div class="text-sm font-black text-slate-900 mb-1">Package / Board Path</div>
-                                <p class="text-sm text-slate-600">chip 밖 채널 손실과 routing 영향</p>
-                            </div>
-                        </div>
-                    </div>
+<div id="tab-debug-checklist" class="tab-content space-y-8" data-part9-panel="debug-checklist" data-guidebook-toc-title="Debug Checklist">
+    <!-- 9-3. Debug Checklist Section -->
+    <section class="bg-white rounded-[32px] p-8 md:p-10 border border-slate-100 shadow-[0_20px_50px_rgba(15,23,42,0.04)]">
+        <div class="mb-8 flex flex-col gap-4 border-b border-slate-100 pb-6 md:flex-row md:items-end md:justify-between">
+            <div>
+                <div class="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.2em] text-emerald-600">
+                    <span class="inline-block h-2 w-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                    9-3. Debug &amp; Diagnostics Checklist
+                </div>
+                <h3 class="mt-3 text-3xl font-black leading-tight text-slate-900 tracking-[-0.03em]">고속 Off-Chip 실전 디버그 및 계측 진단 가이드</h3>
+            </div>
+            <div class="text-sm font-bold text-slate-400 bg-slate-50 px-4 py-2 rounded-2xl border border-slate-100 flex items-center gap-2 self-start md:self-auto">
+                <i data-lucide="wrench" class="w-4 h-4 text-emerald-500"></i>
+                Diagnostics
+            </div>
+        </div>
+
+        <p class="text-slate-600 text-[17px] leading-8 mb-8 font-medium">
+            실리콘 브링업(Silicon Bring-up) 단계나 양산 테스트 도중 오프칩 인터페이스가 전혀 동작하지 않거나(Link-up Fail), 간헐적인 에러가 터지거나, 스펙 이하로 동작하는(Gen-down, Lane-down) 문제가 발생하면 물리 계층부터 로직 프로토콜까지 다차원적인 디버깅 접근이 요구됩니다.
+        </p>
+
+        <!-- Troubleshooting Scenarios Grid -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3 mb-8">
+            <div class="rounded-2xl border border-rose-100 bg-rose-50/20 p-5">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-500 text-white text-xs font-bold">1</span>
+                    <h4 class="font-black text-slate-900 text-[15px]">DDR Calibration &amp; Training 실패</h4>
+                </div>
+                <p class="text-xs text-slate-500 leading-5 mb-4">DRAM의 Read/Write 레벨링이나 DQS-DQ 게이팅 학습이 완료되지 않아 시스템 부팅이 멈추는 불량입니다.</p>
+                <div class="bg-white p-3 rounded-xl border border-rose-50 text-xs text-slate-600 leading-relaxed font-semibold">
+                    <span class="text-rose-600 block mb-1">💡 점검 가이드</span>
+                    - ODT 설정값($40\Omega$ &harr; $60\Omega$) 동적 변경 매칭 검증<br>
+                    - 보드 상의 DQS/DQ 클럭 라인 스큐(Trimming) 확인<br>
+                    - PHY 내부 PLL/DLL 고정(Locking) 전원 전압 마진 테스트
+                </div>
+            </div>
+
+            <div class="rounded-2xl border border-amber-100 bg-amber-50/20 p-5">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500 text-white text-xs font-bold">2</span>
+                    <h4 class="font-black text-slate-900 text-[15px]">PCIe 링크 다운그레이드 (Gen/Lane)</h4>
+                </div>
+                <p class="text-xs text-slate-500 leading-5 mb-4">원래 규격인 Gen4 x8가 아니라 Gen3 x1 등 비정상적으로 좁고 느린 링크로 겨우 붙는 성능 저하 불량입니다.</p>
+                <div class="bg-white p-3 rounded-xl border border-amber-50 text-xs text-slate-600 leading-relaxed font-semibold">
+                    <span class="text-amber-600 block mb-1">💡 점검 가이드</span>
+                    - 보드 커넥터 핀 갭 오염 및 물리적 접촉 저항 검사<br>
+                    - 송수신 Preset 등화 핸드셰이크 프로토콜 타임아웃 분석<br>
+                    - TDR 계측기로 비아홀 및 굽어진 패턴의 임피던스 불연속 검사
+                </div>
+            </div>
+
+            <div class="rounded-2xl border border-emerald-100 bg-emerald-50/20 p-5">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500 text-white text-xs font-bold">3</span>
+                    <h4 class="font-black text-slate-900 text-[15px]">간헐적 패킷 CRC / 패리티 에러</h4>
+                </div>
+                <p class="text-xs text-slate-500 leading-5 mb-4">대량의 데이터를 송수신할 때 가끔 패킷 데이터가 깨져 재전송이 무한 루프에 빠지는 일시적 에러입니다.</p>
+                <div class="bg-white p-3 rounded-xl border border-emerald-50 text-xs text-slate-600 leading-relaxed font-semibold">
+                    <span class="text-emerald-600 block mb-1">💡 점검 가이드</span>
+                    - 동시 스위칭 출력(SSN) 시 전원 전압 출렁임(IR Drop) 체크<br>
+                    - 온도 센서 변화에 따른 DLL 지연 보정 루프 주기 최적화<br>
+                    - 인접 패스트 신호 배선으로부터의 크로스토크(Crosstalk) 유입 차단
+                </div>
+            </div>
+        </div>
+
+        <!-- Master Troubleshooting Cheat Sheet Table -->
+        <div class="mb-8 overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-200">
+                <h4 class="font-extrabold text-slate-800 flex items-center gap-2 text-[16px]">
+                    <span>📋</span> High-Speed I/O 디버깅 치트 시트 (Troubleshooting Guide)
+                </h4>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs md:text-sm">
+                    <thead>
+                        <tr class="bg-slate-100/80 border-b border-slate-200 text-slate-700 font-bold">
+                            <th class="py-3.5 px-4 font-black">장애 증상 (Error)</th>
+                            <th class="py-3.5 px-4 font-black">예상 근본 원인 (Root Cause)</th>
+                            <th class="py-3.5 px-4 font-black">진단 계측 방법 (Diagnostics)</th>
+                            <th class="py-3.5 px-4 font-black">해결 및 회로 보완 전략 (Mitigation)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-600">
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-4 px-4 font-black text-slate-900 flex items-center gap-2">
+                                ❌ DDR Leveling 실패
+                            </td>
+                            <td class="py-4 px-4 leading-relaxed">보드 배선 스큐 초과 또는 On-Die Termination(ODT) 임피던스 부정합</td>
+                            <td class="py-4 px-4 font-medium text-slate-800">오실로스코프로 DQ/DQS 타이밍 스큐 계측 및 아이 다이어그램 분석</td>
+                            <td class="py-4 px-4 leading-relaxed">PHY DLL 지연 파라미터 트림 조정, 동적 ODT 저항값 변경 세팅 ($40\Omega \leftrightarrow 60\Omega$)</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-4 px-4 font-black text-slate-900 flex items-center gap-2">
+                                📉 PCIe 레인 강하 (Gen-down)
+                            </td>
+                            <td class="py-4 px-4 leading-relaxed">커넥터 오염, PCB Via 임피던스 불일치로 고주파 신호 심각한 감쇠 유발</td>
+                            <td class="py-4 px-4 font-medium text-slate-800">Time-Domain Reflectometry (TDR) 반사파 거동 측정을 통해 결함 위치 특정</td>
+                            <td class="py-4 px-4 leading-relaxed">슬롯 골드핑거 세척 및 접촉 검사, Via 기생 성분 감소를 위한 Back-drilling 설계 적용</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-4 px-4 font-black text-slate-900 flex items-center gap-2">
+                                🔁 LTSSM Recovery 루프
+                            </td>
+                            <td class="py-4 px-4 leading-relaxed">송수신측 Preset 이퀄라이저 조율(Tx EQ Handshake) 타임아웃 오류</td>
+                            <td class="py-4 px-4 font-medium text-slate-800">PCIe 프로토콜 분석기를 물려 TS1/TS2 ordered sets 수신 단계 패킷 트랙킹</td>
+                            <td class="py-4 px-4 leading-relaxed">TX EQ 등화 계수 하드웨어 고정 조율, 타임아웃 레지스터 마진 값 확장</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-4 px-4 font-black text-slate-900 flex items-center gap-2">
+                                💥 간헐적 데이터 깨짐
+                            </td>
+                            <td class="py-4 px-4 leading-relaxed">동시 스위칭 노이즈(SSN) 유입 또는 고부하 시 순간 전원 강하(IR Drop)</td>
+                            <td class="py-4 px-4 font-medium text-slate-800">칩 근접 패드 전원 레일의 리플(Ripple) 및 지터 상관관계 계측</td>
+                            <td class="py-4 px-4 leading-relaxed">디커플링 커패시터 보강, Power/Ground 배선 패턴 확장, 배선 간격 확보로 크로스토크 억제</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- High-Fidelity Diagnostics SVG (Eye + TDR Profile) -->
+        <div class="rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] p-5 md:p-8 lg:px-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),_0_24px_50px_rgba(15,23,42,0.06)] overflow-hidden">
+            <h4 class="font-extrabold text-slate-800 mb-4 flex items-center gap-2 text-[17px]">
+                <i data-lucide="activity" class="w-5 h-5 text-emerald-500"></i>
+                계측 장비 진단 모델: Eye Diagram 분석 및 TDR 임피던스 불연속 탐지
+            </h4>
+            <div class="w-full flex justify-center">
+                <svg viewBox="0 0 1000 400" class="block h-auto w-full max-w-3xl" role="img" aria-label="Eye diagram measurement and Time-Domain Reflectometry (TDR) trace graph">
+                    <defs>
+                        <!-- Grid pattern for oscilloscope look -->
+                        <pattern id="scopeGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+
+                    <!-- Background Base -->
+                    <rect x="10" y="10" width="980" height="380" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" />
+
+                    <!-- ================= EYE DIAGRAM CHART (LEFT) ================= -->
+                    <g transform="translate(30, 30)">
+                        <!-- Oscilloscope screen border -->
+                        <rect x="0" y="0" width="440" height="280" rx="8" fill="#fafafa" stroke="#cbd5e1" stroke-width="1.5" />
+                        <rect x="0" y="0" width="440" height="280" rx="8" fill="url(#scopeGrid)" />
+
+                        <!-- Center Cross Lines -->
+                        <line x1="220" y1="0" x2="220" y2="280" stroke="#94a3b8" stroke-dasharray="2 2"/>
+                        <line x1="0" y1="140" x2="440" y2="140" stroke="#94a3b8" stroke-dasharray="2 2"/>
+
+                        <!-- Eye Waveforms (Opened Eye with gradient simulation) -->
+                        <path d="M 60 140 C 120 40, 160 40, 220 140 C 280 240, 320 240, 380 140" fill="none" stroke="#10b981" stroke-width="3" opacity="0.8"/>
+                        <path d="M 60 140 C 120 240, 160 240, 220 140 C 280 40, 320 40, 380 140" fill="none" stroke="#10b981" stroke-width="3" opacity="0.8"/>
+                        
+                        <!-- Innermost Eye (Margins) -->
+                        <path d="M 100 140 C 130 70, 150 70, 220 140 C 290 210, 310 210, 340 140" fill="none" stroke="#059669" stroke-width="2"/>
+                        <path d="M 100 140 C 130 210, 150 210, 220 140 C 290 70, 310 70, 340 140" fill="none" stroke="#059669" stroke-width="2"/>
+
+                        <!-- Jitter tails on edges -->
+                        <path d="M 50 140 H 70 M 370 140 H 390" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
+                        <text x="60" y="155" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="900">Jitter (Rj/Dj)</text>
+                        <text x="380" y="155" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="900">Jitter (Rj/Dj)</text>
+
+                        <!-- Measurement indicators -->
+                        <!-- Eye Height (Vertical Margin) -->
+                        <path d="M 220 70 V 210" stroke="#f59e0b" stroke-width="2" marker-start="url(#eqArrow)" marker-end="url(#eqArrow)" />
+                        <text x="230" y="144" fill="#d97706" font-size="11" font-weight="900">Eye Height (전압 마진)</text>
+
+                        <!-- Eye Width (Horizontal Margin) -->
+                        <path d="M 140 100 H 300" stroke="#3b82f6" stroke-width="2" marker-start="url(#eqArrow)" marker-end="url(#eqArrow)" />
+                        <text x="220" y="90" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="900">Eye Width (타이밍 마진)</text>
+
+                        <!-- Title -->
+                        <rect x="10" y="10" width="130" height="24" rx="4" fill="#1e293b" />
+                        <text x="75" y="26" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="800">Eye Diagram 스크린</text>
+                    </g>
+
+                    <!-- ================= TDR CHART (RIGHT) ================= -->
+                    <g transform="translate(510, 30)">
+                        <!-- Grid screen border -->
+                        <rect x="0" y="0" width="450" height="280" rx="8" fill="#fafafa" stroke="#cbd5e1" stroke-width="1.5" />
+                        <rect x="0" y="0" width="450" height="280" rx="8" fill="url(#scopeGrid)" />
+
+                        <!-- Impedance base reference line (50 ohm) -->
+                        <line x1="0" y1="140" x2="450" y2="140" stroke="#3b4f6b" stroke-width="2" stroke-dasharray="6 3"/>
+                        <text x="10" y="132" fill="#3b4f6b" font-size="10" font-weight="900">Target Z0 = 50 Ω</text>
+
+                        <!-- TDR Trace Waveform (Reflections and mismatch) -->
+                        <!-- Start: 50 -> Bump: capacitive dip -> Line: 50 -> Via: capacitive dip -> Connector: inductive spike -> End: Terminated -->
+                        <path d="M 0 140 H 60 L 90 200 L 110 200 L 140 140 H 220 L 250 210 L 270 210 L 300 140 H 340 L 360 80 L 380 80 L 400 140 H 450" fill="none" stroke="#2563eb" stroke-width="3" stroke-linejoin="round" />
+
+                        <!-- Callouts on TDR graph -->
+                        <!-- Capacitive dip (Bump) -->
+                        <circle cx="100" cy="200" r="5" fill="#ef4444" />
+                        <text x="100" y="222" text-anchor="middle" fill="#dc2626" font-size="9" font-weight="800">C4 Bump</text>
+                        <text x="100" y="235" text-anchor="middle" fill="#64748b" font-size="8">Capacitive Dip (40Ω)</text>
+
+                        <!-- Capacitive dip (Via) -->
+                        <circle cx="260" cy="210" r="5" fill="#ef4444" />
+                        <text x="260" y="232" text-anchor="middle" fill="#dc2626" font-size="9" font-weight="800">PCB Via</text>
+                        <text x="260" y="245" text-anchor="middle" fill="#64748b" font-size="8">Stub 효과 (35Ω)</text>
+
+                        <!-- Inductive spike (Connector) -->
+                        <circle cx="370" cy="80" r="5" fill="#ef4444" />
+                        <text x="370" y="65" text-anchor="middle" fill="#c2410c" font-size="9" font-weight="800">Connector</text>
+                        <text x="370" y="52" text-anchor="middle" fill="#64748b" font-size="8">Inductive Spike (70Ω)</text>
+
+                        <!-- Title -->
+                        <rect x="10" y="10" width="160" height="24" rx="4" fill="#1e293b" />
+                        <text x="90" y="26" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="800">TDR 임피던스 프로파일</text>
+                        
+                        <text x="440" y="270" text-anchor="end" fill="#64748b" font-size="9" font-weight="800">배선 거리 (Distance) &rarr;</text>
+                    </g>
+
+                    <!-- Central Separator -->
+                    <line x1="490" y1="20" x2="490" y2="360" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4" />
+
+                    <!-- General Footer info inside SVG -->
+                    <text x="500" y="360" text-anchor="middle" fill="#475569" font-size="11" font-weight="800">임피던스 불연속 매칭과 충분한 Eye 마진(높이/너비)이 결합되어 고속 링업 신뢰도를 결정합니다.</text>
+                </svg>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 text-center text-slate-500 text-sm font-medium">
+                <strong>Figure 9-3</strong>: 고속 신호 품질의 두 가지 절대적 지표. 신호 전압/타이밍 마진을 검증하는 Eye 다이어그램(좌) 및 물리 채널 임피던스 장애를 미크론 단위로 찾아내는 TDR 분석 플롯(우)
+            </div>
+        </div>
+    </section>
+</div>
+
+</div>

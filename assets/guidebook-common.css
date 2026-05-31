@@ -1660,6 +1660,7 @@
     display: none;
 }
 body.page-standalone {
+    --bg-body: #ffffff;
     min-height: auto;
     margin: 0;
 }

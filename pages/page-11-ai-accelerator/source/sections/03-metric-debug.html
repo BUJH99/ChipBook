@@ -1,147 +1,368 @@
-<div class="card border border-slate-200 bg-[radial-gradient(circle_at_top_right,_rgba(15,23,42,0.05),_transparent_30%),linear-gradient(180deg,_#ffffff_0%,_#fbfcfe_100%)]">
-                        <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-6">
-                            <div>
-                                <div class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-2">11-3. Metric & Debug Map</div>
-                                <h3 class="text-[24px] leading-tight font-black text-slate-900">성능 지표는 roofline 위에서 병목 원인을 찾는 도구입니다</h3>
+<div class="tab-content card border border-slate-300 bg-[radial-gradient(circle_at_top_right,_rgba(6,182,212,0.06),_transparent_32%),linear-gradient(180deg,_#ffffff_0%,_#fbfdff_100%)] !rounded-none" data-part11-panel="metric-debug" data-guidebook-toc-title="Metric &amp; Debug">
+                        <!-- Monospace Telemetry Monitoring Console -->
+                        <div class="border-b border-slate-200 bg-slate-900 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] text-slate-400 select-none !rounded-none">
+                            <div class="flex items-center gap-2.5">
+                                <span class="relative flex h-2.5 w-2.5">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+                                </span>
+                                <span class="font-black text-cyan-400 tracking-wider">TELESCOPE DIAGNOSTIC CORE // ACTIVE v2.4</span>
                             </div>
-                            <div class="text-sm font-bold text-slate-500">TOPS/W = compute ceiling + memory ceiling + utilization loss</div>
+                            <div class="flex gap-x-6 gap-y-1 flex-wrap text-slate-300">
+                                <span>[WORKLOAD: <span class="text-emerald-400 font-bold">LLM_GEN_DECODE</span>]</span>
+                                <span>[MEM_WALL: <span class="text-amber-400 font-bold">BOUND_89.4%</span>]</span>
+                                <span>[PE_UTIL: <span class="text-rose-400 font-bold">18.2%</span>]</span>
+                                <span>[ECC_ERR_RATE: <span class="text-slate-400 font-bold">10^-12 (OK)</span>]</span>
+                                <span class="text-cyan-400 font-bold animate-pulse">[PORT_CONFLICT_STALL: ACTIVE]</span>
+                            </div>
                         </div>
 
-                        <div class="grid grid-cols-1 2xl:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)] gap-5">
-                            <div class="overflow-x-auto overflow-y-hidden rounded-[28px] border border-slate-200 bg-gradient-to-br from-white via-[#fbfdff] to-[#f8fafc]">
-                                <svg viewBox="0 0 820 560" class="block w-full min-w-[760px] md:min-w-0 h-auto" role="img" aria-labelledby="aiRooflineTitle aiRooflineDesc">
-                                    <title id="aiRooflineTitle">AI accelerator roofline debug map</title>
-                                    <desc id="aiRooflineDesc">A roofline chart maps arithmetic intensity to achieved throughput. The diagonal memory bandwidth ceiling and horizontal compute ceiling explain whether a workload is bandwidth-bound, compute-bound, or under-utilized.</desc>
-                                    <defs>
-                                        <filter id="rooflineShadow" x="-20%" y="-20%" width="140%" height="150%">
-                                            <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#0f172a" flood-opacity="0.11"/>
-                                        </filter>
-                                        <linearGradient id="rooflineBlue" x1="0" y1="0" x2="1" y2="0">
-                                            <stop offset="0%" stop-color="#38bdf8"/>
-                                            <stop offset="100%" stop-color="#2563eb"/>
-                                        </linearGradient>
-                                        <linearGradient id="rooflineAmber" x1="0" y1="0" x2="1" y2="0">
-                                            <stop offset="0%" stop-color="#fbbf24"/>
-                                            <stop offset="100%" stop-color="#f97316"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <rect width="820" height="560" fill="#fbfdff"/>
-                                    <rect x="28" y="28" width="764" height="504" rx="30" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
-
-                                    <g font-family="Pretendard, Arial, sans-serif">
-                                        <text x="410" y="70" text-anchor="middle" fill="#0f172a" font-size="23" font-weight="900">Roofline으로 보는 AI accelerator 병목</text>
-                                        <text x="410" y="98" text-anchor="middle" fill="#64748b" font-size="13" font-weight="800">x축은 데이터 재사용 정도, y축은 실제 처리량입니다</text>
-
-                                        <g transform="translate(92 126)">
-                                            <rect x="0" y="0" width="620" height="330" rx="20" fill="#f8fafc" stroke="#e2e8f0"/>
-                                            <g stroke="#e2e8f0" stroke-width="1">
-                                                <path d="M88 22V300"/>
-                                                <path d="M176 22V300"/>
-                                                <path d="M264 22V300"/>
-                                                <path d="M352 22V300"/>
-                                                <path d="M440 22V300"/>
-                                                <path d="M528 22V300"/>
-                                                <path d="M38 70H590"/>
-                                                <path d="M38 128H590"/>
-                                                <path d="M38 186H590"/>
-                                                <path d="M38 244H590"/>
-                                            </g>
-                                            <path d="M42 300H590" stroke="#0f172a" stroke-width="2.4"/>
-                                            <path d="M42 300V24" stroke="#0f172a" stroke-width="2.4"/>
-                                            <path d="M48 286L224 168L378 68L590 68" fill="none" stroke="url(#rooflineBlue)" stroke-width="6" stroke-linecap="round"/>
-                                            <path d="M48 286L224 168L378 68" fill="none" stroke="#bae6fd" stroke-width="16" stroke-linecap="round" opacity="0.42"/>
-                                            <path d="M378 68H590" fill="none" stroke="#bfdbfe" stroke-width="16" stroke-linecap="round" opacity="0.42"/>
-
-                                            <path d="M86 260C145 244 167 234 214 204" fill="none" stroke="#f97316" stroke-width="3.5" stroke-dasharray="8 7"/>
-                                            <path d="M286 164C332 124 360 104 412 94" fill="none" stroke="#7c3aed" stroke-width="3.5" stroke-dasharray="8 7"/>
-
-                                            <g filter="url(#rooflineShadow)">
-                                                <circle cx="104" cy="250" r="10" fill="#f97316" stroke="#ffffff" stroke-width="3"/>
-                                                <circle cx="208" cy="202" r="10" fill="#0284c7" stroke="#ffffff" stroke-width="3"/>
-                                                <circle cx="338" cy="122" r="10" fill="#7c3aed" stroke="#ffffff" stroke-width="3"/>
-                                                <circle cx="486" cy="86" r="10" fill="#059669" stroke="#ffffff" stroke-width="3"/>
-                                                <circle cx="444" cy="154" r="10" fill="#ef4444" stroke="#ffffff" stroke-width="3"/>
-                                            </g>
-
-                                            <g font-size="11" font-weight="900">
-                                                <rect x="60" y="214" width="116" height="28" rx="14" fill="#fff7ed" stroke="#fed7aa"/>
-                                                <text x="118" y="233" text-anchor="middle" fill="#c2410c">Depthwise conv</text>
-                                                <rect x="164" y="168" width="106" height="28" rx="14" fill="#e0f2fe" stroke="#bae6fd"/>
-                                                <text x="217" y="187" text-anchor="middle" fill="#0369a1">Attention KV</text>
-                                                <rect x="296" y="88" width="92" height="28" rx="14" fill="#f5f3ff" stroke="#ddd6fe"/>
-                                                <text x="342" y="107" text-anchor="middle" fill="#6d28d9">GEMM tile</text>
-                                                <rect x="458" y="48" width="86" height="28" rx="14" fill="#ecfdf5" stroke="#bbf7d0"/>
-                                                <text x="501" y="67" text-anchor="middle" fill="#047857">INT8 conv</text>
-                                                <rect x="462" y="168" width="124" height="28" rx="14" fill="#fef2f2" stroke="#fecaca"/>
-                                                <text x="524" y="187" text-anchor="middle" fill="#dc2626">under-utilized</text>
-                                            </g>
-
-                                            <text x="318" y="42" fill="#2563eb" font-size="12" font-weight="900">compute ceiling: MAC array peak</text>
-                                            <text x="118" y="144" fill="#0284c7" font-size="12" font-weight="900" transform="rotate(-33 118 144)">memory bandwidth ceiling</text>
-                                            <text x="320" y="330" text-anchor="middle" fill="#475569" font-size="12" font-weight="900">Arithmetic Intensity: operations per byte moved</text>
-                                            <text x="-158" y="-24" text-anchor="middle" fill="#475569" font-size="12" font-weight="900" transform="rotate(-90)">Achieved Throughput / TOPS</text>
-                                        </g>
-
-                                        <g transform="translate(92 480)">
-                                            <rect x="0" y="0" width="620" height="38" rx="19" fill="#ffffff" stroke="#e2e8f0"/>
-                                            <circle cx="26" cy="19" r="7" fill="#f97316"/><text x="42" y="24" fill="#475569" font-size="12" font-weight="900">bandwidth-bound</text>
-                                            <circle cx="188" cy="19" r="7" fill="#7c3aed"/><text x="204" y="24" fill="#475569" font-size="12" font-weight="900">compute-bound</text>
-                                            <circle cx="344" cy="19" r="7" fill="#ef4444"/><text x="360" y="24" fill="#475569" font-size="12" font-weight="900">scheduler/feed issue</text>
-                                            <circle cx="510" cy="19" r="7" fill="#059669"/><text x="526" y="24" fill="#475569" font-size="12" font-weight="900">near peak</text>
-                                        </g>
-                                    </g>
-                                </svg>
+                        <div class="p-6">
+                            <!-- Section Title & Core Formula -->
+                            <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-8 border-b-2 border-slate-950 pb-6">
+                                <div>
+                                    <div class="text-xs font-black text-cyan-600 uppercase tracking-[0.2em] font-mono">🛠️ 11-3. AI ACCELERATOR DIAGNOSTIC MODEL</div>
+                                    <h3 class="mt-2 text-[26px] font-black leading-tight text-slate-900">가속기 디버깅은 감이 아닌, Roofline 모델 위에서 연산 병목과 메모리 한계를 도식화하는 과학입니다</h3>
+                                </div>
+                                <div class="text-xs font-bold text-slate-700 font-mono bg-cyan-50/80 px-4 py-2.5 border border-cyan-200 shadow-sm !rounded-none">
+                                    <span class="text-cyan-700">Achieved TOPS</span> = Min( Peak Compute, Bandwidth × Arithmetic Intensity ) × Utilization Efficiency
+                                </div>
                             </div>
 
-                            <div class="space-y-5">
-                                <div class="rounded-[28px] border border-slate-200 bg-white p-6">
-                                    <div class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-3">Debug Causality</div>
-                                    <h4 class="text-[20px] leading-tight font-black text-slate-900 mb-4">수치가 낮을 때 보는 원인 체인</h4>
-                                    <div class="space-y-3">
-                                        <div class="grid grid-cols-[90px_minmax(0,1fr)] gap-3 items-center">
-                                            <div class="rounded-2xl border border-sky-100 bg-sky-50 py-3 text-center text-sm font-black text-sky-700">Util</div>
-                                            <p class="text-sm leading-6 text-slate-600">MAC idle cycle이 많으면 DMA overlap, tiling, bank conflict부터 의심합니다.</p>
-                                        </div>
-                                        <div class="grid grid-cols-[90px_minmax(0,1fr)] gap-3 items-center">
-                                            <div class="rounded-2xl border border-violet-100 bg-violet-50 py-3 text-center text-sm font-black text-violet-700">BW</div>
-                                            <p class="text-sm leading-6 text-slate-600">DRAM bandwidth가 천장이라면 dataflow나 compression, batching을 바꿔야 합니다.</p>
-                                        </div>
-                                        <div class="grid grid-cols-[90px_minmax(0,1fr)] gap-3 items-center">
-                                            <div class="rounded-2xl border border-emerald-100 bg-emerald-50 py-3 text-center text-sm font-black text-emerald-700">Reuse</div>
-                                            <p class="text-sm leading-6 text-slate-600">SRAM hit가 낮으면 tile 크기, loop order, weight layout이 맞지 않는 신호입니다.</p>
-                                        </div>
-                                        <div class="grid grid-cols-[90px_minmax(0,1fr)] gap-3 items-center">
-                                            <div class="rounded-2xl border border-amber-100 bg-amber-50 py-3 text-center text-sm font-black text-amber-700">Prec</div>
-                                            <p class="text-sm leading-6 text-slate-600">INT8, BF16, mixed precision은 overflow와 golden mismatch까지 함께 검증합니다.</p>
-                                        </div>
-                                    </div>
+                            <!-- Primary Content Grid -->
+                            <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1.22fr)_minmax(380px,0.78fr)] gap-6 items-stretch">
+                                <!-- High-Fidelity Roofline SVG Graph Panel -->
+                                <div class="overflow-x-auto overflow-y-hidden !rounded-none border border-slate-300 bg-gradient-to-br from-white via-[#fcfdff] to-[#f8fafc] shadow-sm">
+                                    <svg viewBox="0 0 1000 640" class="block w-full min-w-[880px] xl:min-w-0 h-auto" role="img" aria-labelledby="aiRooflineTitle aiRooflineDesc">
+                                        <title id="aiRooflineTitle">AI accelerator roofline debug map</title>
+                                        <desc id="aiRooflineDesc">A high-fidelity logarithmic scale roofline chart mapping arithmetic intensity to achieved throughput with real-world AI workloads and performance loss vectors.</desc>
+                                        
+                                        <defs>
+                                            <!-- Advanced Filters & Glows -->
+                                            <filter id="neonGlowRoofline" x="-10%" y="-10%" width="120%" height="120%">
+                                                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                                                <feComponentTransfer in="blur" result="glow">
+                                                    <feFuncA type="linear" slope="0.8"/>
+                                                </feComponentTransfer>
+                                                <feMerge>
+                                                    <feMergeNode in="glow" />
+                                                    <feMergeNode in="SourceGraphic" />
+                                                </feMerge>
+                                            </filter>
+                                            
+                                            <filter id="nodeShadow" x="-30%" y="-30%" width="160%" height="160%">
+                                                <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.15"/>
+                                            </filter>
+                                            
+                                            <!-- Sophisticated Gradients -->
+                                            <linearGradient id="rooflineGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#06b6d4" />
+                                                <stop offset="40%" stop-color="#2563eb" />
+                                                <stop offset="100%" stop-color="#7c3aed" />
+                                            </linearGradient>
+
+                                            <linearGradient id="memoryZoneGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#ecfeff" stop-opacity="0.75" />
+                                                <stop offset="100%" stop-color="#e0f2fe" stop-opacity="0.2" />
+                                            </linearGradient>
+
+                                            <linearGradient id="computeZoneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.3" />
+                                                <stop offset="100%" stop-color="#faf5ff" stop-opacity="0.75" />
+                                            </linearGradient>
+
+                                            <!-- Technical Hatch Patterns -->
+                                            <pattern id="diagonalHatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45 0 0)">
+                                                <line x1="0" y1="0" x2="0" y2="10" stroke="#e2e8f0" stroke-width="0.8" />
+                                            </pattern>
+                                            
+                                            <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                                                <line x1="0" y1="0" x2="40" y2="0" stroke="#f1f5f9" stroke-width="1" />
+                                                <line x1="0" y1="0" x2="0" y2="40" stroke="#f1f5f9" stroke-width="1" />
+                                            </pattern>
+
+                                            <marker id="arrowHead" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                                <path d="M 0 1.5 L 8 5 L 0 8.5 Z" fill="#64748b" />
+                                            </marker>
+                                            <marker id="redArrowHead" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                                <path d="M 0 1.5 L 8 5 L 0 8.5 Z" fill="#ef4444" />
+                                            </marker>
+                                        </defs>
+
+                                        <!-- Base Grid and Blueprint Frame -->
+                                        <rect width="1000" height="640" fill="#f8fafc" />
+                                        <rect width="1000" height="640" fill="url(#gridPattern)" />
+                                        <rect x="2" y="2" width="996" height="636" fill="none" stroke="#cbd5e1" stroke-width="1" />
+                                        
+                                        <!-- Corner Blueprint Decals (+) -->
+                                        <g stroke="#94a3b8" stroke-width="1" opacity="0.6" fill="none">
+                                            <!-- Top Left -->
+                                            <path d="M12 25 H28 M20 17 V33" />
+                                            <!-- Top Right -->
+                                            <path d="M972 25 H988 M980 17 V33" />
+                                            <!-- Bottom Left -->
+                                            <path d="M12 615 H28 M20 607 V623" />
+                                            <!-- Bottom Right -->
+                                            <path d="M972 615 H988 M980 607 V623" />
+                                        </g>
+                                        <text x="35" y="27" fill="#94a3b8" font-family="monospace" font-size="9" font-weight="900" letter-spacing="0.1em">CHIPBOOK_ENGINEERING_TOOL // REF_11_3_ROOFLINE_MODEL</text>
+                                        <text x="965" y="27" text-anchor="end" fill="#94a3b8" font-family="monospace" font-size="9" font-weight="900">SYSTEM_SCALE: LOG2_2D_PROJECTED</text>
+
+                                        <g font-family="Pretendard, Arial, sans-serif" class="select-none">
+                                            <!-- Inner Graph Plate -->
+                                            <g transform="translate(100, 100)">
+                                                <rect width="820" height="440" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
+                                                
+                                                <!-- Shaded Bound Zones -->
+                                                <!-- Memory Bound Shading -->
+                                                <path d="M 60 380 V 310 L 480 100 V 380 Z" fill="url(#memoryZoneGrad)" />
+                                                <!-- Compute Bound Shading -->
+                                                <path d="M 480 380 V 100 H 760 V 380 Z" fill="url(#computeZoneGrad)" />
+
+                                                <!-- Grid Lines (log2 scale) -->
+                                                <g stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="3 3" fill="none">
+                                                    <!-- X-Axis vertical lines -->
+                                                    <line x1="60" y1="40" x2="60" y2="380" />
+                                                    <line x1="200" y1="40" x2="200" y2="380" />
+                                                    <line x1="340" y1="40" x2="340" y2="380" />
+                                                    <line x1="480" y1="40" x2="480" y2="380" />
+                                                    <line x1="620" y1="40" x2="620" y2="380" />
+                                                    <line x1="760" y1="40" x2="760" y2="380" />
+                                                    
+                                                    <!-- Y-Axis horizontal lines -->
+                                                    <line x1="60" y1="380" x2="760" y2="380" />
+                                                    <line x1="60" y1="310" x2="760" y2="310" />
+                                                    <line x1="60" y1="240" x2="760" y2="240" />
+                                                    <line x1="60" y1="170" x2="760" y2="170" />
+                                                    <line x1="60" y1="100" x2="760" y2="100" />
+                                                </g>
+
+                                                <!-- Axis Titles and Lines -->
+                                                <!-- X-Axis -->
+                                                <line x1="60" y1="380" x2="780" y2="380" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" />
+                                                <path d="M 777 377 L 785 380 L 777 383 Z" fill="#0f172a" />
+                                                <text x="410" y="420" text-anchor="middle" fill="#475569" font-size="12" font-weight="900" letter-spacing="0.05em">Arithmetic Intensity (산술 강도 : FLOPs / Byte) [log₂ scale]</text>
+                                                
+                                                <!-- Y-Axis -->
+                                                <line x1="60" y1="380" x2="60" y2="30" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" />
+                                                <path d="M 57 33 L 60 25 L 63 33 Z" fill="#0f172a" />
+                                                <text x="-210" y="24" text-anchor="middle" fill="#475569" font-size="12" font-weight="900" letter-spacing="0.05em" transform="rotate(-90)">Sustained Throughput (실측 처리량 : TOPS) [log₂ scale]</text>
+
+                                                <!-- Grid Scale Tick Numbers -->
+                                                <g font-size="9.5" font-weight="900" fill="#64748b" font-family="monospace">
+                                                    <!-- X Ticks -->
+                                                    <text x="60" y="394" text-anchor="middle">0.03 (1/32)</text>
+                                                    <text x="200" y="394" text-anchor="middle">0.12 (1/8)</text>
+                                                    <text x="340" y="394" text-anchor="middle">0.5 (1/2)</text>
+                                                    <text x="480" y="394" text-anchor="middle" fill="#4f46e5">2.0 (Knee)</text>
+                                                    <text x="620" y="394" text-anchor="middle">8.0</text>
+                                                    <text x="760" y="394" text-anchor="middle">32.0</text>
+
+                                                    <!-- Y Ticks -->
+                                                    <text x="52" y="383" text-anchor="end">1 TOPS</text>
+                                                    <text x="52" y="313" text-anchor="end">4 TOPS</text>
+                                                    <text x="52" y="243" text-anchor="end">16 TOPS</text>
+                                                    <text x="52" y="173" text-anchor="end">64 TOPS</text>
+                                                    <text x="52" y="103" text-anchor="end" fill="#0f172a">256 Peak</text>
+                                                </g>
+
+                                                <!-- The Glowing Roofline Curve Boundary -->
+                                                <!-- Path: Memory ceiling slope (60, 310) to (480, 100), then Compute Ceiling flat (480, 100) to (760, 100) -->
+                                                <path d="M 60 310 L 480 100 H 760" fill="none" stroke="url(#rooflineGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.2" />
+                                                <path d="M 60 310 L 480 100 H 760" fill="none" stroke="url(#rooflineGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlowRoofline)" />
+
+                                                <!-- Ceiling Technical Text Labels -->
+                                                <text x="750" y="86" text-anchor="end" fill="#7c3aed" font-size="10" font-weight="900" font-family="monospace" letter-spacing="0.05em">COMPUTE CEILING: Hardware PE Array Peak (256 TOPS)</text>
+                                                <text x="140" y="240" fill="#06b6d4" font-size="10" font-weight="900" font-family="monospace" letter-spacing="0.05em" transform="rotate(-26.5 140 240)">MEMORY CEILING: 128 GB/s DRAM Bandwidth Wall</text>
+
+                                                <!-- Knee-Point Balance Target Crosshair -->
+                                                <g>
+                                                    <circle cx="480" cy="100" r="14" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3 3" />
+                                                    <line x1="480" y1="78" x2="480" y2="122" stroke="#6366f1" stroke-width="1.2" />
+                                                    <line x1="458" y1="100" x2="502" y2="100" stroke="#6366f1" stroke-width="1.2" />
+                                                    
+                                                    <rect x="495" y="112" width="138" height="24" fill="#ffffff" stroke="#6366f1" stroke-width="0.8" opacity="0.9" />
+                                                    <text x="502" y="128" fill="#4f46e5" font-size="9" font-weight="900" font-family="monospace">KNEE-POINT: 2.0 FLOPs/B</text>
+                                                </g>
+
+                                                <!-- Shading boundaries labels -->
+                                                <text x="180" y="350" fill="#0891b2" opacity="0.6" font-size="16" font-weight="900" text-anchor="middle" letter-spacing="0.05em">MEMORY-BOUND ZONE</text>
+                                                <text x="640" y="350" fill="#6d28d9" opacity="0.6" font-size="16" font-weight="900" text-anchor="middle" letter-spacing="0.05em">COMPUTE-BOUND ZONE</text>
+
+                                                <!-- Active Hardware Workload Nodes & Annotations -->
+                                                
+                                                <!-- Node 1: LLM Generative Phase (Token Decode) -->
+                                                <g filter="url(#nodeShadow)">
+                                                    <circle cx="88" cy="298" r="9" fill="#ef4444" stroke="#ffffff" stroke-width="2.5" />
+                                                    <!-- Blinking Warning Halo -->
+                                                    <circle cx="88" cy="298" r="15" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.6" />
+                                                    
+                                                    <text x="102" y="293" fill="#ef4444" font-size="11" font-weight="900">LLM Gen (Decode)</text>
+                                                    <text x="102" y="305" fill="#64748b" font-size="8.5" font-weight="800" font-family="monospace">AI=0.04 FLOP/B | Peak: 5.1%</text>
+                                                </g>
+
+                                                <!-- Node 2: Depthwise Separable Conv -->
+                                                <g filter="url(#nodeShadow)">
+                                                    <circle cx="270" cy="235" r="9" fill="#f97316" stroke="#ffffff" stroke-width="2.5" />
+                                                    
+                                                    <text x="284" y="231" fill="#c2410c" font-size="11" font-weight="900">Depthwise Conv</text>
+                                                    <text x="284" y="243" fill="#64748b" font-size="8.5" font-weight="800" font-family="monospace">AI=0.25 FLOP/B | Peak: 14%</text>
+                                                </g>
+
+                                                <!-- Node 3: GEMM Tile with High Latency Loss -->
+                                                <g>
+                                                    <!-- Loss vector (vertical red arrow from ceiling to actual) -->
+                                                    <line x1="480" y1="112" x2="480" y2="225" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#redArrowHead)" />
+                                                    
+                                                    <!-- Highlighting the utilization drop area -->
+                                                    <rect x="364" y="135" width="110" height="42" rx="4" fill="#fef2f2" stroke="#fecaca" stroke-width="0.8" />
+                                                    <text x="419" y="151" text-anchor="middle" fill="#dc2626" font-size="8" font-weight="900">UTILIZATION LOSS</text>
+                                                    <text x="419" y="161" text-anchor="middle" fill="#7f1d1d" font-size="7.5" font-weight="800" font-family="monospace">PE Idle / Port Stall</text>
+                                                    <path d="M 474 153 L 480 153" stroke="#dc2626" stroke-width="0.8" />
+
+                                                    <circle cx="480" cy="240" r="9" fill="#ef4444" stroke="#ffffff" stroke-width="2.5" filter="url(#nodeShadow)" />
+                                                    <text x="494" y="236" fill="#b91c1c" font-size="11" font-weight="900">GEMM Tile (Stalled)</text>
+                                                    <text x="494" y="248" fill="#64748b" font-size="8.5" font-weight="800" font-family="monospace">AI=2.0 FLOP/B | Peak: 6.2%</text>
+                                                </g>
+
+                                                <!-- Node 4: LLM Prefill Phase (Prompt) -->
+                                                <g filter="url(#nodeShadow)">
+                                                    <circle cx="585" cy="115" r="9" fill="#3b82f6" stroke="#ffffff" stroke-width="2.5" />
+                                                    
+                                                    <text x="599" y="111" fill="#1d4ed8" font-size="11" font-weight="900">LLM Prefill (Prompt)</text>
+                                                    <text x="599" y="123" fill="#64748b" font-size="8.5" font-weight="800" font-family="monospace">AI=5.6 FLOP/B | Peak: 78%</text>
+                                                </g>
+
+                                                <!-- Node 5: Standard INT8 CNN Convolution -->
+                                                <g filter="url(#nodeShadow)">
+                                                    <circle cx="710" cy="103" r="9" fill="#10b981" stroke="#ffffff" stroke-width="2.5" />
+                                                    
+                                                    <text x="724" y="99" fill="#047857" font-size="11" font-weight="900">INT8 Conv (Optimal)</text>
+                                                    <text x="724" y="111" fill="#64748b" font-size="8.5" font-weight="800" font-family="monospace">AI=32.0 FLOP/B | Peak: 96%</text>
+                                                </g>
+                                            </g>
+
+                                            <!-- Interactive Legend Plate -->
+                                            <g transform="translate(160, 565)">
+                                                <!-- Glassmorphic panel background -->
+                                                <rect x="0" y="0" width="700" height="42" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" !rounded-none />
+                                                
+                                                <!-- Items -->
+                                                <g transform="translate(20, 21)">
+                                                    <circle cx="10" cy="0" r="6" fill="#ef4444" />
+                                                    <text x="22" y="4" fill="#334155" font-size="10.5" font-weight="900">DRAM Bandwidth Bound (Memory Wall)</text>
+                                                </g>
+                                                <g transform="translate(280, 21)">
+                                                    <circle cx="10" cy="0" r="6" fill="#3b82f6" />
+                                                    <text x="22" y="4" fill="#334155" font-size="10.5" font-weight="900">MAC Compute Bound (PE Array Limit)</text>
+                                                </g>
+                                                <g transform="translate(530, 21)">
+                                                    <circle cx="10" cy="0" r="6" fill="#f97316" />
+                                                    <text x="22" y="4" fill="#334155" font-size="10.5" font-weight="900">Cache / Port Stall (PE Idle)</text>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
                                 </div>
 
-                                <div class="rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#f8fafc_100%)] p-6">
-                                    <div class="text-xs font-extrabold text-slate-500 uppercase tracking-[0.2em] mb-4">Metric Checklist</div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        <div class="rounded-[20px] border border-slate-200 bg-white p-4">
-                                            <div class="text-sm font-black text-slate-900 mb-1">TOPS / TOPS/W</div>
-                                            <p class="text-sm leading-6 text-slate-600">peak와 sustained를 구분하고 batch, precision 조건을 같이 말합니다.</p>
+                                <!-- Diagnostic Right Panel -->
+                                <div class="space-y-6 flex flex-col justify-between">
+                                    <!-- Debug Causality Chain Console -->
+                                    <div class="border border-slate-300 bg-white p-6 !rounded-none shadow-sm">
+                                        <div class="flex items-center gap-2 mb-4">
+                                            <span class="inline-block w-2 h-4 bg-cyan-500"></span>
+                                            <span class="text-xs font-black text-slate-500 uppercase tracking-[0.2em] font-mono">DEBUG CAUSALITY MATRIX</span>
                                         </div>
-                                        <div class="rounded-[20px] border border-slate-200 bg-white p-4">
-                                            <div class="text-sm font-black text-slate-900 mb-1">Array Utilization</div>
-                                            <p class="text-sm leading-6 text-slate-600">연산기가 놀면 memory, scheduler, sparsity 조건을 분리합니다.</p>
-                                        </div>
-                                        <div class="rounded-[20px] border border-slate-200 bg-white p-4">
-                                            <div class="text-sm font-black text-slate-900 mb-1">SRAM Banking</div>
-                                            <p class="text-sm leading-6 text-slate-600">bank conflict와 read/write port 수가 dataflow 한계를 만듭니다.</p>
-                                        </div>
-                                        <div class="rounded-[20px] border border-slate-200 bg-white p-4">
-                                            <div class="text-sm font-black text-slate-900 mb-1">Verification</div>
-                                            <p class="text-sm leading-6 text-slate-600">golden model, overflow, rounding mode, saturation을 같이 확인합니다.</p>
+                                        <h4 class="text-[18px] leading-tight font-black text-slate-900 mb-5">실리콘 성능 미달 시 엔지니어가 추적하는 4대 원인 체인</h4>
+                                        
+                                        <div class="space-y-4">
+                                            <!-- Diagnostic Card 1: Util -->
+                                            <div class="border-l-4 border-cyan-500 bg-slate-50 p-4 !rounded-none">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <span class="text-xs font-bold font-mono text-cyan-600">[METRIC: ARRAY_UTILIZATION]</span>
+                                                    <span class="px-2 py-0.5 text-[9px] font-black font-mono bg-cyan-100 text-cyan-800 uppercase">Util Loss</span>
+                                                </div>
+                                                <div class="space-y-1.5 font-mono text-[11px] text-slate-700">
+                                                    <div><span class="font-bold text-slate-900">SYMPTOM ➔</span> MAC Array 가동률 저하 및 실측 TOPS 급감</div>
+                                                    <div><span class="font-bold text-slate-900">CAUSE   ➔</span> DMA 데이터 피딩 병목, Ping-Pong 버퍼 미적용, 소형 GEMM 타일링</div>
+                                                    <div><span class="font-bold text-slate-900">TUNING  ➔</span> Double Buffering 스케줄러 튜닝, Loop Unrolling 최적화</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Diagnostic Card 2: BW -->
+                                            <div class="border-l-4 border-indigo-500 bg-slate-50 p-4 !rounded-none">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <span class="text-xs font-bold font-mono text-indigo-600">[METRIC: DRAM_BANDWIDTH]</span>
+                                                    <span class="px-2 py-0.5 text-[9px] font-black font-mono bg-indigo-100 text-indigo-800 uppercase">Memory Wall</span>
+                                                </div>
+                                                <div class="space-y-1.5 font-mono text-[11px] text-slate-700">
+                                                    <div><span class="font-bold text-slate-900">SYMPTOM ➔</span> Roofline 그래프의 좌측 메모리 Ceiling 한계에 직면</div>
+                                                    <div><span class="font-bold text-slate-900">CAUSE   ➔</span> 과도한 오프칩 메모리 로드 (KV 캐시 재탐색, 가중치 지속 스트리밍)</div>
+                                                    <div><span class="font-bold text-slate-900">TUNING  ➔</span> Activation-Weight 압축(Sparsity), Batch 크기 조절, Kernel Fusion</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Diagnostic Card 3: Reuse -->
+                                            <div class="border-l-4 border-emerald-500 bg-slate-50 p-4 !rounded-none">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <span class="text-xs font-bold font-mono text-emerald-600">[METRIC: SRAM_CACHE_EFFICIENCY]</span>
+                                                    <span class="px-2 py-0.5 text-[9px] font-black font-mono bg-emerald-100 text-emerald-800 uppercase">Port Conflict</span>
+                                                </div>
+                                                <div class="space-y-1.5 font-mono text-[11px] text-slate-700">
+                                                    <div><span class="font-bold text-slate-900">SYMPTOM ➔</span> SRAM 대역폭 포화에도 불구하고 MAC 연산 대기 시간 발생</div>
+                                                    <div><span class="font-bold text-slate-900">CAUSE   ➔</span> SRAM Bank Conflict 발생, PE 간 데이터 분산 브로드캐스트 포트 충돌</div>
+                                                    <div><span class="font-bold text-slate-900">TUNING  ➔</span> 가중치 레이아웃 전치(Transpose), PE 크기에 맞춘 행렬 분할 정렬</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Diagnostic Card 4: Prec -->
+                                            <div class="border-l-4 border-amber-500 bg-slate-50 p-4 !rounded-none">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <span class="text-xs font-bold font-mono text-amber-600">[METRIC: NUMERICAL_STABILITY]</span>
+                                                    <span class="px-2 py-0.5 text-[9px] font-black font-mono bg-amber-100 text-amber-800 uppercase">Golden Mismatch</span>
+                                                </div>
+                                                <div class="space-y-1.5 font-mono text-[11px] text-slate-700">
+                                                    <div><span class="font-bold text-slate-900">SYMPTOM ➔</span> 실리콘 출력 연산값과 소프트웨어 Golden 모델 출력값의 불일치</div>
+                                                    <div><span class="font-bold text-slate-900">CAUSE   ➔</span> 누산기(Accumulator) 비트수 오버플로우, Rounding Mode 처리 오차</div>
+                                                    <div><span class="font-bold text-slate-900">TUNING  ➔</span> 동적 스케일 팩터 적용, BF16/FP16 혼합 정밀도 가드 밴드 보강</div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="rounded-[24px] border border-sky-100 bg-sky-50/70 px-5 py-4">
-                                    <div class="text-xs font-extrabold uppercase tracking-[0.18em] text-sky-600 mb-2">One-line Summary</div>
-                                    <p class="text-sm leading-7 text-slate-700">AI accelerator debugging은 “연산기를 더 세게”가 아니라, roofline에서 workload가 어디에 걸렸는지 보고 memory movement, scheduling, precision을 차례로 좁히는 과정입니다.</p>
+                                    <!-- Silicon Verification Checklist -->
+                                    <div class="border border-slate-300 bg-slate-950 p-6 !rounded-none text-slate-300">
+                                        <div class="flex items-center gap-2 mb-4">
+                                            <span class="inline-block w-2.5 h-2.5 bg-cyan-400"></span>
+                                            <span class="text-xs font-black text-cyan-400 uppercase tracking-[0.2em] font-mono">SILICON SIGN-OFF CHECKLIST</span>
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div class="border border-slate-800 bg-slate-900/60 p-4 !rounded-none">
+                                                <div class="text-xs font-bold font-mono text-slate-400 mb-1">01. TOPS vs TOPS/W</div>
+                                                <p class="text-[11px] leading-relaxed text-slate-400">단순 Peak TOPS가 아닌 주파수, 동작 전압, Sustained TOPS 효율을 워크로드별로 실측 분리해야 합니다.</p>
+                                            </div>
+                                            <div class="border border-slate-800 bg-slate-900/60 p-4 !rounded-none">
+                                                <div class="text-xs font-bold font-mono text-slate-400 mb-1">02. Array Bank Layout</div>
+                                                <p class="text-[11px] leading-relaxed text-slate-400">SRAM 뱅크 분할이 Dataflow의 멀티캐스트 로직과 일치하는지 포트 충돌 가능성을 검증해야 합니다.</p>
+                                            </div>
+                                            <div class="border border-slate-800 bg-slate-900/60 p-4 !rounded-none">
+                                                <div class="text-xs font-bold font-mono text-slate-400 mb-1">03. Pipeline Stalling Map</div>
+                                                <p class="text-[11px] leading-relaxed text-slate-400">명령 제어 패스의 지연(Control Stall)하고 데이터 전송 지연(Memory Stall)의 주 요인을 정량화하여 제거합니다.</p>
+                                            </div>
+                                            <div class="border border-slate-800 bg-slate-900/60 p-4 !rounded-none">
+                                                <div class="text-xs font-bold font-mono text-slate-400 mb-1">04. Sparsity Bypass Logic</div>
+                                                <p class="text-[11px] leading-relaxed text-slate-400">제로 데이터 스키핑 메타데이터 디코더가 추가 레이턴시 병목을 일으키지 않는지 확인해야 합니다.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Pro Tip banner -->
+                                    <div class="border border-cyan-200 bg-cyan-50/50 p-5 !rounded-none">
+                                        <div class="text-xs font-extrabold uppercase tracking-[0.18em] text-cyan-800 mb-2 font-mono">💡 EXPERT PERFORMANCE TUNING RULE</div>
+                                        <p class="text-xs leading-relaxed text-slate-700">
+                                            가속기 최적화의 3대 철칙: <strong>"연산기를 늘리는 것은 마지막 단계입니다."</strong> 가장 먼저 <u>Arithmetic Intensity를 높여</u> 연산들을 Knee Point 우측 영역으로 밀어내고, 그 다음 <u>SRAM 내의 dataflow 최적화로 메모리 이동을 압축</u>해야 하며, 최종적으로 <u>PE 가동을 멈추게 하는 제어계/스케줄러의 미세 버블(Stall)을 제거</u>하는 것이 핵심입니다.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -9113,10 +9113,6 @@
 
               <header class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <div>
-                  <div class="flex items-center space-x-2 text-blue-600 mb-2">
-                    <i data-lucide="microchip" class="w-5 h-5"></i>
-                    <span class="text-xs font-bold tracking-widest uppercase">Protocol Engineering Unit</span>
-                  </div>
                   <h1 class="text-3xl font-black text-slate-900 tracking-tight">AXI4 TRANSACTION SCHEMATIC</h1>
                   <p class="text-slate-500 text-sm mt-1 max-w-2xl leading-relaxed">
                     AXI는 ACLK에 동기화되지만, 주소/데이터/응답 채널이 서로 독립적으로 handshake됩니다.
@@ -9574,10 +9570,6 @@
 
               <header class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                  <div class="flex items-center space-x-2 text-indigo-600 mb-2">
-                    <i data-lucide="cpu" class="w-5 h-5"></i>
-                    <span class="text-xs font-bold tracking-widest uppercase">Protocol Engineering Unit</span>
-                  </div>
                   <h1 class="text-3xl font-black text-slate-900 tracking-tight">AXI ADVANCED CONTROL SIGNALS</h1>
                   <p class="text-slate-500 text-sm mt-1 max-w-3xl leading-relaxed">
                     데이터 전송의 순서와 양을 넘어서, 시스템의 <b>보안(TrustZone), 메모리 속성/캐시 정책, 동기화(Semaphore), 우선순위 힌트(QoS)</b>를 전달하는 AXI 사이드밴드 신호들의 하드웨어 메커니즘을 분석합니다.
@@ -9977,22 +9969,6 @@
 
           <div class="axi-expert-section mb-8 rounded-[32px] bg-slate-50 p-4 md:p-8">
             <div class="max-w-[1400px] mx-auto space-y-8">
-              <header class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-                <div>
-                  <div class="flex items-center space-x-2 text-indigo-600 mb-2">
-                    <i data-lucide="cpu" class="w-5 h-5"></i>
-                    <span class="text-xs font-bold tracking-widest uppercase">Protocol Engineering Unit</span>
-                  </div>
-                  <h3 class="text-3xl font-black text-slate-900 tracking-tight">AXI FULL에서 놓치기 쉬운 실무 규칙</h3>
-                  <p class="text-slate-500 text-sm mt-1 max-w-3xl leading-relaxed">
-                    검증 핵심축: <b>handshake 계약성</b>, <b>burst 합법성</b>, <b>write-data 순서성</b>, <b>response 완결성</b>, <b>attribute 해석성</b>, <b>bridge 보존성</b>.
-                  </p>
-                </div>
-                <div class="hidden md:flex text-[10px] font-mono text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest">
-                  AXI4 / AXI5 Spec Lens
-                </div>
-              </header>
-
               <div class="axi-expert-visual-card rounded-3xl p-4 md:p-6">
               <div class="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between mb-4">
                 <div>
@@ -10143,19 +10119,6 @@
             </div>
 
               <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
-                <div class="flex flex-col gap-4 border-b border-slate-100 pb-5 md:flex-row md:items-center md:justify-between">
-                  <div class="flex items-center space-x-3">
-                    <div class="w-2 h-8 bg-slate-800 rounded-full"></div>
-                    <div>
-                      <div class="text-[11px] font-black tracking-[0.22em] uppercase text-indigo-500">Implementation Review Checklist</div>
-                      <h4 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Protocol Guard Rules</h4>
-                    </div>
-                  </div>
-                  <div class="text-[10px] font-mono text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-widest self-start md:self-auto">
-                    RTL / Verification Notes
-                  </div>
-                </div>
-
                 <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               <article class="axi-expert-rule-card is-slate rounded-[20px] p-5">
                 <div class="flex items-start gap-3 mb-4">
@@ -10415,6 +10378,7 @@
           </div>
         </aside>
       </div>
+
     </section>
   </main>
   <script src="../assets/guidebook-page-common.js"></script>

@@ -1,36 +1,73 @@
-<div class="card bg-[radial-gradient(circle_at_top_right,_rgba(14,165,233,0.10),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(34,197,94,0.08),_transparent_24%),linear-gradient(180deg,_#ffffff_0%,_#f5fbff_100%)]">
-                    <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-5 mb-6">
+<div class="tab-content active space-y-8" data-part11-panel="accelerator-stack" data-guidebook-toc-title="Accelerator Stack">
+                <div class="card !rounded-lg border border-blue-100 bg-white">
+                    <div class="mb-5 flex flex-col gap-3 border-b-2 border-blue-600 pb-4 xl:flex-row xl:items-end xl:justify-between">
                         <div>
-                            <div class="text-xs font-extrabold text-sky-600 uppercase tracking-[0.2em] mb-2">Compute Architecture</div>
-                            <h3 class="text-[28px] leading-tight font-black text-slate-900 mb-3">AI Accelerator는 연산기가 아니라, data reuse를 유지하는 작은 메모리 시스템입니다</h3>
-                            <p class="text-base leading-8 text-slate-600 max-w-[1040px]">AI accelerator를 설명할 때 핵심은 MAC 개수보다 <strong class="text-slate-900">weight, activation, partial sum이 어디에 머무르고 얼마나 다시 쓰이는가</strong>입니다. 좋은 NPU는 command queue, DMA, local SRAM, systolic array, quantization path가 맞물려 DRAM 왕복을 줄이고 MAC array utilization을 끌어올립니다.</p>
+                            <div class="text-xs font-extrabold uppercase tracking-[0.18em] text-blue-600">11-1. Compute Architecture</div>
+                            <h3 class="mt-2 text-[26px] font-black leading-tight text-slate-900">MAC 개수보다 data reuse 경로가 먼저입니다</h3>
                         </div>
-                        <div class="inline-flex flex-wrap items-center gap-2 self-start rounded-full border border-sky-100 bg-sky-50 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.14em] text-sky-700">
-                            <span>Reuse</span>
-                            <span class="text-sky-300">/</span>
-                            <span>Bandwidth</span>
-                            <span class="text-sky-300">/</span>
-                            <span>Utilization</span>
-                            <span class="text-sky-300">/</span>
-                            <span>Precision</span>
+                        <div class="text-sm font-bold text-slate-500">Command / DMA / Local SRAM / MAC / Quant</div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                        <div class="grid grid-cols-1 gap-3 xl:grid-cols-[1fr_auto_1fr_auto_1.25fr_auto_1fr] xl:items-stretch">
+                            <div class="rounded-lg border border-slate-200 bg-white p-4">
+                                <div class="text-xs font-extrabold uppercase tracking-[0.14em] text-slate-500">Control Plane</div>
+                                <div class="mt-2 text-lg font-black text-slate-900">Command Queue</div>
+                                <div class="mt-1 text-sm font-semibold leading-6 text-slate-600">tile shape, stride, precision을 묶어 실행 순서를 만듭니다.</div>
+                            </div>
+                            <div class="hidden text-3xl font-black text-blue-300 xl:flex xl:items-center">→</div>
+                            <div class="rounded-lg border border-blue-100 bg-blue-50/70 p-4">
+                                <div class="text-xs font-extrabold uppercase tracking-[0.14em] text-blue-600">Traffic Shaper</div>
+                                <div class="mt-2 text-lg font-black text-slate-900">DMA Scheduler</div>
+                                <div class="mt-1 text-sm font-semibold leading-6 text-slate-600">DRAM burst와 double buffer로 연산 대기를 숨깁니다.</div>
+                            </div>
+                            <div class="hidden text-3xl font-black text-blue-300 xl:flex xl:items-center">→</div>
+                            <div class="rounded-lg border border-emerald-100 bg-white p-4">
+                                <div class="text-xs font-extrabold uppercase tracking-[0.14em] text-emerald-700">Reuse Window</div>
+                                <div class="mt-3 grid grid-cols-3 gap-2">
+                                    <div class="rounded-lg border border-cyan-100 bg-cyan-50 px-3 py-3 text-center">
+                                        <div class="text-sm font-black text-cyan-800">Activation</div>
+                                        <div class="mt-1 text-[11px] font-bold text-slate-500">input tile</div>
+                                    </div>
+                                    <div class="rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-3 text-center">
+                                        <div class="text-sm font-black text-indigo-800">Weight</div>
+                                        <div class="mt-1 text-[11px] font-bold text-slate-500">kernel tile</div>
+                                    </div>
+                                    <div class="rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-3 text-center">
+                                        <div class="text-sm font-black text-emerald-800">Psum</div>
+                                        <div class="mt-1 text-[11px] font-bold text-slate-500">accumulate</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 rounded-lg border border-emerald-100 bg-emerald-50/70 px-3 py-2 text-center text-xs font-extrabold text-emerald-700">Local SRAM 안에 오래 머무는 값이 전력과 latency를 줄입니다</div>
+                            </div>
+                            <div class="hidden text-3xl font-black text-blue-300 xl:flex xl:items-center">→</div>
+                            <div class="rounded-lg border border-violet-100 bg-violet-50/70 p-4">
+                                <div class="text-xs font-extrabold uppercase tracking-[0.14em] text-violet-700">Compute Plane</div>
+                                <div class="mt-2 text-lg font-black text-slate-900">Systolic MAC Array</div>
+                                <div class="mt-3 grid grid-cols-3 gap-2">
+                                    <div class="rounded-md border border-violet-200 bg-white py-2 text-center text-xs font-black text-violet-700">MAC</div>
+                                    <div class="rounded-md border border-violet-200 bg-white py-2 text-center text-xs font-black text-violet-700">MAC</div>
+                                    <div class="rounded-md border border-violet-200 bg-white py-2 text-center text-xs font-black text-violet-700">MAC</div>
+                                    <div class="rounded-md border border-violet-200 bg-white py-2 text-center text-xs font-black text-violet-700">ACC</div>
+                                    <div class="rounded-md border border-orange-200 bg-white py-2 text-center text-xs font-black text-orange-700">Quant</div>
+                                    <div class="rounded-md border border-emerald-200 bg-white py-2 text-center text-xs font-black text-emerald-700">Out</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="rounded-[24px] border border-sky-100 bg-white/90 p-5">
-                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-sky-600 mb-2">Core Architecture</div>
-                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">MAC array는 소비자</div>
-                            <p class="text-sm leading-7 text-slate-600">연산기는 데이터를 먹는 쪽입니다. 충분히 먹이지 못하면 TOPS 숫자가 커도 실제 throughput은 낮습니다.</p>
+                    <div class="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+                        <div class="rounded-lg border border-blue-100 bg-blue-50/60 p-4">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.14em] text-blue-600">Data Reuse</div>
+                            <p class="mt-2 text-sm font-semibold leading-6 text-slate-700">weight, activation, psum을 local SRAM에 오래 머물게 하는 구조가 핵심입니다.</p>
                         </div>
-                        <div class="rounded-[24px] border border-emerald-100 bg-white/90 p-5">
-                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-600 mb-2">Memory Hierarchy</div>
-                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">Local SRAM이 재사용을 만든다</div>
-                            <p class="text-sm leading-7 text-slate-600">activation, weight, psum buffer가 DRAM 접근을 흡수해야 전력과 latency가 줄어듭니다.</p>
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.14em] text-slate-600">Bandwidth</div>
+                            <p class="mt-2 text-sm font-semibold leading-6 text-slate-700">DRAM 왕복이 줄어야 전력과 latency가 같이 내려갑니다.</p>
                         </div>
-                        <div class="rounded-[24px] border border-violet-100 bg-white/90 p-5">
-                            <div class="text-xs font-extrabold uppercase tracking-[0.16em] text-violet-600 mb-2">Dataflow Strategy</div>
-                            <div class="text-[20px] leading-tight font-black text-slate-900 mb-2">무엇을 고정할 것인가</div>
-                            <p class="text-sm leading-7 text-slate-600">weight stationary, output stationary, row stationary는 모두 트래픽을 어디서 줄일지에 대한 답입니다.</p>
+                        <div class="rounded-lg border border-emerald-100 bg-emerald-50/60 p-4">
+                            <div class="text-xs font-extrabold uppercase tracking-[0.14em] text-emerald-700">Utilization</div>
+                            <p class="mt-2 text-sm font-semibold leading-6 text-slate-700">MAC array는 데이터 공급이 끊기면 TOPS 숫자만큼 동작하지 못합니다.</p>
                         </div>
                     </div>
                 </div>
@@ -1019,3 +1056,4 @@
                         </svg>
                     </div>
                 </div>
+</div>

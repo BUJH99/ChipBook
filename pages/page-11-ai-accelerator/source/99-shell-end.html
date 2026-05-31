@@ -1,11 +1,11 @@
-
+            </div>
         </section>
     </main>
     <script src="../assets/guidebook-page-common.js"></script>
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            window.GuidebookPage.initStandalonePage();
+        let part11SectionEngine = null;
 
+        const initPart11ActivationControls = () => {
             const activationPresets = {
                 gelu: {
                     color: '#ea580c',
@@ -134,6 +134,23 @@
                 });
             });
             setActivationFunction('gelu');
+        };
+
+        part11SectionEngine = window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'accelerator-stack',
+            panelSelector: '[data-part11-panel]',
+            panelKeyDataset: 'part11Panel',
+            titleAttribute: 'data-guidebook-toc-title',
+            currentHeader: {
+                shellId: 'part11-current-shell',
+                labelId: 'part11-current-label',
+            },
+            beforeInit: () => {
+                if (window.parent && window.parent !== window) {
+                    document.body.classList.add('is-embedded');
+                }
+            },
+            afterInit: initPart11ActivationControls,
         });
     </script>
 </body>

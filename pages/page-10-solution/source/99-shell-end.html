@@ -1,10 +1,24 @@
-
+            </div>
         </section>
     </main>
     <script src="../assets/guidebook-page-common.js"></script>
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            window.GuidebookPage.initStandalonePage();
+        let part10SectionEngine = null;
+
+        part10SectionEngine = window.GuidebookPage.initActionSectionPage({
+            defaultKey: 'integration-stack',
+            panelSelector: '[data-part10-panel]',
+            panelKeyDataset: 'part10Panel',
+            titleAttribute: 'data-guidebook-toc-title',
+            currentHeader: {
+                shellId: 'part10-current-shell',
+                labelId: 'part10-current-label',
+            },
+            beforeInit: () => {
+                if (window.parent && window.parent !== window) {
+                    document.body.classList.add('is-embedded');
+                }
+            }
         });
     </script>
 </body>

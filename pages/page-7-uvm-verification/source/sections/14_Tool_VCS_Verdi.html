@@ -120,42 +120,9 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="font-sans antialiased text-slate-600 bg-slate-50 selection:bg-blue-100 selection:text-blue-900">
+<body class="font-sans antialiased text-slate-600 bg-white selection:bg-blue-100 selection:text-blue-900">
 
-    <!-- Header / Hero Section -->
-    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <svg width="28" height="28" viewBox="0 0 24 24" class="fill-blue-600">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight">반도체 디지털 회로설계 가이드북</h1>
-            </div>
-            <nav class="hidden md:flex gap-6 text-sm font-medium">
-                <a href="#flow" class="hover:text-blue-600 transition-colors">Overall Flow</a>
-                <a href="#compile" class="hover:text-blue-600 transition-colors">VCS Compile</a>
-                <a href="#execution" class="hover:text-blue-600 transition-colors">Simulation</a>
-                <a href="#debug" class="hover:text-blue-600 transition-colors">Verdi Debug</a>
-                <a href="#advanced" class="hover:text-blue-600 transition-colors">Advanced</a>
-                <a href="#ecosystem" class="hover:text-blue-600 transition-colors">Ecosystem</a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-6 py-12 space-y-20">
-        
-        <!-- Hero Title -->
-        <div class="text-center max-w-3xl mx-auto space-y-4">
-            <div class="inline-block px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm font-semibold mb-2 border border-blue-100">
-                [21] 전체 Flow Summary
-            </div>
-            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-                VCS & Verdi : <br/><span class="text-blue-600">Simulation + Debug Flow</span>
-            </h2>
-            <p class="text-lg text-slate-500 mt-4 leading-relaxed">
-                RTL 설계부터 UVM 검증, Coverage 분석 및 파형 디버깅까지. Synopsys 툴체인을 활용한 검증 파이프라인의 완벽한 시각적 가이드입니다.
-            </p>
-        </div>
+    <main class="max-w-7xl mx-auto px-6 py-0 space-y-20">
 
         <!-- ==========================================
              Phase 1: Overall Flow (전체 개념 및 흐름)
@@ -1158,13 +1125,6 @@
         </section>
 
     </main>
-
-    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-12">
-        <div class="max-w-7xl mx-auto px-6 text-center text-sm">
-            <p>&copy; 2026 Semiconductor Digital Circuit Design Guidebook.</p>
-            <p class="mt-2 text-xs">Designed with Tailwind CSS & Inline SVG. (No external image assets used)</p>
-        </div>
-    </footer>
 
 </body>
 </html>

@@ -91,22 +91,7 @@
         .svg-text-mono { font-family: '"IBM Plex Sans"', monospace; font-weight: 600; fill: #1e293b; }
     </style>
 </head>
-<body class="antialiased min-h-screen p-6 md:p-12 selection:bg-brand-100 selection:text-brand-700">
-
-    <!-- Header Section -->
-    <header class="max-w-7xl mx-auto mb-10">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 text-brand-600 text-sm font-bold mb-4 border border-brand-100">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-            UVM Architecture Guide
-        </div>
-        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
-            Env : <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">Integrate Verification Components</span>
-        </h1>
-        <p class="text-lg text-slate-600 max-w-3xl leading-relaxed">
-            <code class="text-sm bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded font-mono">uvm_env</code>는 검증 환경의 최상위 컨테이너입니다.
-            Agent, Scoreboard, Reference Model 등 하위 컴포넌트들을 인스턴스화하고(Build), 이들 간의 통신 채널을 연결(Connect)하는 중추적인 역할을 시각적으로 파악해보세요.
-        </p>
-    </header>
+<body class="bg-white antialiased selection:bg-brand-100 selection:text-brand-700">
 
     <!-- Main Content Grid -->
     <main class="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-3 gap-8">
@@ -1199,18 +1184,6 @@
         </section>
 
     </main>
-
-    <!-- Footer Summary -->
-    <footer class="max-w-7xl mx-auto mt-12 mb-12 p-6 bg-slate-800 rounded-2xl text-slate-300 text-sm">
-        <h4 class="text-white font-bold mb-3 font-mono">Summary Checkpoints</h4>
-        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> Env는 UVM Verification Topology의 컨테이너입니다. (Not a stimulus generator)</li>
-            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> <code class="font-mono text-teal-300">build_phase</code>에서 모든 서브 컴포넌트를 생성합니다.</li>
-            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> <code class="font-mono text-orange-300">connect_phase</code>에서 TLM 포트 연결을 수행하여 데이터 패스를 완성합니다.</li>
-            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> Active Agent는 Stimulus를, Passive Agent는 Monitoring만 수행합니다.</li>
-            <li class="flex items-start gap-2"><span class="text-brand-400">✓</span> Virtual Sequencer는 환경 내 여러 Agent의 Sequencer들을 제어합니다.</li>
-        </ul>
-    </footer>
 
 </body>
 </html>

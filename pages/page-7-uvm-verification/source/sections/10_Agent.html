@@ -63,27 +63,7 @@
         }
     </style>
 </head>
-<body class="text-slate-600 antialiased min-h-screen p-6 md:p-12">
-
-    <!-- Header Section -->
-    <header class="max-w-6xl mx-auto mb-12">
-        <div class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-bold tracking-wide mb-4 shadow-sm border border-blue-200">
-            UVM Architecture Guide
-        </div>
-        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">Agent : Integrated Verification Component</h1>
-        <p class="text-lg text-slate-600 max-w-3xl leading-relaxed">
-            에이전트(Agent)는 DUT와의 통신을 전담하는 핵심 컨테이너입니다. <strong class="text-slate-800">Sequencer, Driver, Monitor</strong>를 캡슐화하여 
-            모듈화된 검증 환경을 구성하며, Active/Passive 모드 전환을 통해 재사용성을 극대화합니다.
-        </p>
-        <div class="mt-4 p-4 border-l-4 border-blue-500 bg-white rounded-r-lg shadow-sm">
-            <p class="text-sm text-slate-700 leading-relaxed font-medium">
-                <span class="text-blue-600 font-bold mr-2">💡 UVM Expert's Note:</span> 
-                초보 검증 엔지니어는 종종 "왜 Env에 바로 Driver와 Monitor를 선언하지 않고 굳이 Agent로 한 번 더 감싸는가?"라는 의문을 갖습니다. 
-                Agent는 단순한 묶음이 아닌 <strong>'재사용의 최소 단위'</strong>입니다. IP 레벨 검증 환경을 칩 레벨(SoC)로 통합할 때, 
-                Agent 인터페이스 규격만 맞추면 기존 검증 컴포넌트를 단 한 줄의 코드 수정 없이 그대로 가져다 쓸 수 있도록 보장하는 가장 중요한 설계 패턴입니다.
-            </p>
-        </div>
-    </header>
+<body class="bg-white text-slate-600 antialiased">
 
     <!-- Main Content Grid -->
     <main class="max-w-6xl mx-auto grid grid-cols-1 gap-12">
@@ -801,11 +781,6 @@
         </section>
 
     </main>
-
-    <!-- Footer -->
-    <footer class="max-w-6xl mx-auto mt-16 pt-8 border-t border-slate-200 text-center pb-8">
-        <p class="text-sm text-slate-400">Semiconductor Digital Circuit Design Guidebook - Verification Methodology Chapter</p>
-    </footer>
 
 </body>
 </html>
