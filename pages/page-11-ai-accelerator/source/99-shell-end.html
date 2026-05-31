@@ -5,6 +5,135 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             window.GuidebookPage.initStandalonePage();
+
+            const activationPresets = {
+                gelu: {
+                    color: '#ea580c',
+                    fill: 'url(#geluGrad)',
+                    fillOpacity: '1',
+                    curveTitle: 'GELU CURVE',
+                    pipeTitle: 'GELU APPROX PIPE',
+                    stage1: 'CLIP',
+                    stage1Detail: '[-8,+8]',
+                    stage2: 'PWL',
+                    stage2Detail: 'Phi(x)',
+                    finalOp: 'x',
+                    pipeNote: '512-seg PWL / per-lane',
+                    method: 'PWL APPROX',
+                    formula: 'y=x*Phi(x)',
+                    fillPath: 'M 10,50 Q 33,51 49,45 Q 63,29 89,21 L 89,50 Z',
+                    curvePath: 'M 10,50 Q 33,51 49,45 Q 63,29 89,21'
+                },
+                relu: {
+                    color: '#16a34a',
+                    fill: '#dcfce7',
+                    fillOpacity: '0.88',
+                    curveTitle: 'RELU CURVE',
+                    pipeTitle: 'RELU CLAMP PIPE',
+                    stage1: 'CMP',
+                    stage1Detail: 'x > 0',
+                    stage2: 'MUX',
+                    stage2Detail: '0 / x',
+                    finalOp: 'max',
+                    pipeNote: 'zero clamp / no table',
+                    method: 'CLAMP',
+                    formula: 'y=max(0,x)',
+                    fillPath: 'M 10,50 L 49,50 L 89,22 L 89,50 Z',
+                    curvePath: 'M 10,50 L 49,50 L 89,22'
+                },
+                sigmoid: {
+                    color: '#0284c7',
+                    fill: '#e0f2fe',
+                    fillOpacity: '0.9',
+                    curveTitle: 'SIGMOID CURVE',
+                    pipeTitle: 'SIGMOID LUT PIPE',
+                    stage1: 'RANGE',
+                    stage1Detail: '[-8,+8]',
+                    stage2: 'LUT',
+                    stage2Detail: '1/(1+e)',
+                    finalOp: 's',
+                    pipeNote: 'LUT + interpolation',
+                    method: 'LUT',
+                    formula: 'y=1/(1+e^-x)',
+                    fillPath: 'M 10,56 C 26,56 38,52 49,42 C 60,32 73,26 89,25 L 89,62 L 10,62 Z',
+                    curvePath: 'M 10,56 C 26,56 38,52 49,42 C 60,32 73,26 89,25'
+                },
+                tanh: {
+                    color: '#7c3aed',
+                    fill: '#f3e8ff',
+                    fillOpacity: '0.88',
+                    curveTitle: 'TANH CURVE',
+                    pipeTitle: 'TANH APPROX PIPE',
+                    stage1: 'RANGE',
+                    stage1Detail: '[-4,+4]',
+                    stage2: 'PWL',
+                    stage2Detail: 'tanh(x)',
+                    finalOp: 'sat',
+                    pipeNote: 'odd symmetry / saturation',
+                    method: 'PWL TANH',
+                    formula: 'y=tanh(x)',
+                    fillPath: 'M 10,58 C 27,58 39,54 49,42 C 59,30 71,26 89,25 L 89,50 L 10,50 Z',
+                    curvePath: 'M 10,58 C 27,58 39,54 49,42 C 59,30 71,26 89,25'
+                }
+            };
+
+            const setText = (id, value) => {
+                const node = document.getElementById(id);
+                if (node) node.textContent = value;
+            };
+
+            const setActivationFunction = (name) => {
+                const preset = activationPresets[name] || activationPresets.gelu;
+                const curvePath = document.getElementById('activationCurvePath');
+                const curveFill = document.getElementById('activationCurveFill');
+
+                if (curvePath) {
+                    curvePath.setAttribute('d', preset.curvePath);
+                    curvePath.setAttribute('stroke', preset.color);
+                }
+                if (curveFill) {
+                    curveFill.setAttribute('d', preset.fillPath);
+                    curveFill.setAttribute('fill', preset.fill);
+                    curveFill.setAttribute('fill-opacity', preset.fillOpacity);
+                }
+
+                setText('activationCurveTitle', preset.curveTitle);
+                setText('activationPipeTitle', preset.pipeTitle);
+                setText('activationStage1', preset.stage1);
+                setText('activationStage1Detail', preset.stage1Detail);
+                setText('activationStage2', preset.stage2);
+                setText('activationStage2Detail', preset.stage2Detail);
+                setText('activationFinalOp', preset.finalOp);
+                setText('activationPipeNote', preset.pipeNote);
+                setText('activationMethodChip', preset.method);
+                setText('activationCurveFormula', preset.formula);
+                setText('activationBottomFormula', preset.formula);
+
+                document.querySelectorAll('.activation-function-option').forEach((button) => {
+                    const active = button.dataset.activation === name;
+                    const bg = button.querySelector('.activation-button-bg');
+                    const text = button.querySelector('.activation-button-text');
+                    button.setAttribute('aria-pressed', active ? 'true' : 'false');
+                    if (bg) {
+                        bg.setAttribute('fill', active ? preset.color : '#fff7ed');
+                        bg.setAttribute('stroke', active ? preset.color : '#fdba74');
+                    }
+                    if (text) {
+                        text.setAttribute('fill', active ? '#ffffff' : '#c2410c');
+                    }
+                });
+            };
+
+            document.querySelectorAll('.activation-function-option').forEach((button) => {
+                button.addEventListener('click', () => setActivationFunction(button.dataset.activation));
+                button.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        setActivationFunction(button.dataset.activation);
+                    }
+                });
+            });
+            setActivationFunction('gelu');
         });
     </script>
 </body>

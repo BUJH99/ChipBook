@@ -124,16 +124,24 @@
       "loadingText": "UVM / Verification 페이지를 불러오는 중입니다...",
       "tocMode": "action",
       "sectionAttribute": "data-page7-panel",
-      "generator": "tools/build_chapter7_single_page.py",
+      "buildManifest": "pages/page-7-uvm-verification/source/page-build.json",
+      "debugDir": "pages/page-7-uvm-verification",
       "sections": [
-        { "key": "uvm-basics", "title": "UVM 기초", "source": "chapter7change/7-1.html" },
-        { "key": "uvm-overview", "title": "UVM 큰 그림 및 기본 설정", "source": "chapter7change/7-2.html" },
-        { "key": "uvm-core", "title": "UVM 코어 메커니즘", "source": "chapter7change/7-3.html" },
-        { "key": "component-object", "title": "Component vs Object", "source": "chapter7change/7-4.html" },
-        { "key": "stimulus-tlm", "title": "Stimulus & TLM", "source": "chapter7change/7-5.html" },
-        { "key": "register-model", "title": "UVM Register Model (RAL)", "source": "chapter7change/7-6.html" },
-        { "key": "checking-reporting", "title": "Checking & Reporting", "source": "chapter7change/7-7.html" },
-        { "key": "execution-commandline", "title": "Execution & Command-Line", "source": "chapter7change/7-8.html" }
+        { "key": "sequence-diagram", "title": "Full Scale UVM Component Interaction & Phases", "source": "pages/page-7-uvm-verification/source/sections/00_UVM_Sequence_diagram.html" },
+        { "key": "uvm-definition", "title": "UVM Universal Verification Methodology", "source": "pages/page-7-uvm-verification/source/sections/01_UVM_Definition.html" },
+        { "key": "uvm-basic", "title": "SV/OOP/UVM 기초", "source": "pages/page-7-uvm-verification/source/sections/02_UVM_Basic.html" },
+        { "key": "uvm-library", "title": "UVM 기초 라이브러리", "source": "pages/page-7-uvm-verification/source/sections/03_uvm_library.html" },
+        { "key": "sequence-item", "title": "Modeling a Bus Using a Class", "source": "pages/page-7-uvm-verification/source/sections/04_Item.html" },
+        { "key": "sequence", "title": "Sequence : Generate Transaction Scenario", "source": "pages/page-7-uvm-verification/source/sections/05_sequence.html" },
+        { "key": "driver", "title": "Driver : Transfer Transaction to DUT Signals", "source": "pages/page-7-uvm-verification/source/sections/06_driver.html" },
+        { "key": "sequencer", "title": "Sequencer : The Middle Route", "source": "pages/page-7-uvm-verification/source/sections/07_sequence.html" },
+        { "key": "scoreboard", "title": "Scoreboard : Compare DUT Result with Golden Model", "source": "pages/page-7-uvm-verification/source/sections/08_scoreboard.html" },
+        { "key": "coverage", "title": "Coverage : Check Verification Completeness", "source": "pages/page-7-uvm-verification/source/sections/09_coverage.html" },
+        { "key": "agent", "title": "Agent : Integrated Verification Component", "source": "pages/page-7-uvm-verification/source/sections/10_Agent.html" },
+        { "key": "env", "title": "Env : Integrate Verification Components", "source": "pages/page-7-uvm-verification/source/sections/11_Env.html" },
+        { "key": "sva", "title": "SVA : Protocol Rule & Timing Behavior", "source": "pages/page-7-uvm-verification/source/sections/12_Sva.html" },
+        { "key": "test", "title": "UVM Test : Control Verification Scenario", "source": "pages/page-7-uvm-verification/source/sections/13_Test.html" },
+        { "key": "vcs-verdi", "title": "VCS & Verdi : Simulation + Debug Flow", "source": "pages/page-7-uvm-verification/source/sections/14_Tool_VCS_Verdi.html" }
       ]
     },
     {

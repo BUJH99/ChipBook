@@ -152,8 +152,8 @@ def render_index(registry: dict[str, object]) -> str:
         </div>
     </header>
 
-    <div class="max-w-[2000px] mx-auto flex flex-col lg:flex-row gap-10 mt-8 px-4 sm:px-6 lg:px-8 flex-1 w-full xl:items-start">
-        <aside class="w-full lg:w-72 shrink-0 lg:sticky sidebar overflow-y-auto hidden lg:block pr-6 bg-transparent border-none">
+    <div class="max-w-[2000px] mx-auto flex flex-col lg:flex-row gap-5 mt-8 px-4 sm:px-6 lg:px-6 flex-1 w-full xl:items-start">
+        <aside class="w-full lg:w-60 shrink-0 lg:sticky sidebar overflow-y-auto hidden lg:block pr-4 bg-transparent border-none">
             <h3 class="font-extrabold text-gray-400 mb-6 text-xs uppercase tracking-widest px-2">Table of Contents</h3>
             <nav class="space-y-1" id="toc-nav">
 {render_nav(pages)}
@@ -174,7 +174,7 @@ def render_index(registry: dict[str, object]) -> str:
             </div>
         </main>
 
-        <aside class="page-side-toc-shell hidden xl:block xl:w-72 2xl:w-80 shrink-0 xl:sticky xl:top-[6.5rem] self-start" data-page-toc-shell>
+        <aside class="page-side-toc-shell hidden xl:block xl:w-52 shrink-0 xl:sticky xl:top-[6.5rem] self-start" data-page-toc-shell>
             <div class="page-side-toc-panel">
                 <div class="page-side-toc-header">
                     <div class="page-side-toc-eyebrow">This Page</div>
