@@ -169,10 +169,58 @@
                 </div>
             </article>
 
-            <!-- [2] class vs module -->
-            <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 card-hover lg:col-span-2">
+            <!-- [2] package / import / include -->
+            <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 card-hover">
                 <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                     <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">2</span>
+                    package / import / include
+                </h2>
+                
+                <div class="diagram-grid rounded-xl border border-slate-200 h-56 relative overflow-hidden flex items-center justify-center">
+                    <svg viewBox="0 0 400 200" class="w-full h-full">
+                        <!-- Package -->
+                        <g transform="translate(30, 20)">
+                            <path d="M0 10 L10 0 L140 0 L140 140 L0 140 Z" class="fill-indigo-50 stroke-indigo-400 stroke-2" />
+                            <text x="70" y="20" text-anchor="middle" class="fill-indigo-800 font-bold text-sm">package (A_pkg)</text>
+                            
+                            <rect x="20" y="40" width="100" height="20" rx="2" class="fill-white stroke-indigo-200" />
+                            <text x="70" y="54" text-anchor="middle" class="fill-slate-600 text-[10px] font-mono">class base_seq</text>
+                            
+                            <rect x="20" y="70" width="100" height="20" rx="2" class="fill-white stroke-indigo-200" />
+                            <text x="70" y="84" text-anchor="middle" class="fill-slate-600 text-[10px] font-mono">class base_env</text>
+                        </g>
+
+                        <!-- Module/Scope using import -->
+                        <g transform="translate(230, 20)">
+                            <rect x="0" y="0" width="140" height="140" rx="4" class="fill-white stroke-slate-400 stroke-2" />
+                            <text x="70" y="20" text-anchor="middle" class="fill-slate-800 font-bold text-sm">tb_top</text>
+                            
+                            <!-- Import Bridge -->
+                            <path d="M -50 70 L -10 70" fill="none" stroke="#6366f1" stroke-width="3" marker-end="url(#arrow-indigo)" class="animate-flow" />
+                            <text x="-30" y="60" text-anchor="middle" class="fill-indigo-600 text-xs font-bold bg-white px-1">import A_pkg::*</text>
+
+                            <!-- Include conceptually (Text insertion) -->
+                            <rect x="20" y="100" width="100" height="20" rx="2" class="fill-slate-100 stroke-slate-300 stroke-dasharray" stroke-dasharray="2 2"/>
+                            <text x="70" y="114" text-anchor="middle" class="fill-slate-500 text-[10px] font-mono">`include "macro.sv"</text>
+                        </g>
+
+                        <defs>
+                            <marker id="arrow-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#6366f1" />
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+                <ul class="mt-4 text-xs text-slate-600 kr-text list-disc pl-4 space-y-1">
+                    <li><strong class="text-slate-800">package/import:</strong> 네임스페이스를 생성하여 이름 충돌을 방지하고 깔끔하게 컴포넌트를 가져옴 (권장).</li>
+                    <li><strong class="text-slate-800">`include:</strong> C언어처럼 파일의 텍스트를 물리적으로 복사해 붙여넣음. (매크로 정의 등에 주로 사용)</li>
+                </ul>
+            </article>
+
+            <!-- [3] class vs module -->
+            <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 card-hover lg:col-span-2">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">3</span>
                     class vs module
                 </h2>
                 
@@ -332,11 +380,11 @@
                 </svg>
             </article>
 
-            <!-- [3] new, super, this -->
+            <!-- [4] new, super, this -->
             <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 card-hover lg:col-span-2">
                 <div class="flex flex-col mb-4">
                     <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">3</span>
+                        <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">4</span>
                         new, super, this
                     </h2>
                     <p class="text-sm text-slate-500 kr-text mt-2">객체의 라이프사이클(생성)과 클래스 계층 간의 멤버 접근 및 자기 참조를 관리하는 필수 키워드</p>
@@ -479,11 +527,11 @@
                 </svg>
             </article>
 
-            <!-- [4, 5] virtual, inheritance, polymorphism -->
+            <!-- [5] virtual, inheritance, polymorphism -->
             <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 card-hover lg:col-span-2">
                 <div class="flex flex-col mb-4">
                     <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">4, 5</span>
+                        <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">5</span>
                         virtual, inheritance, polymorphism
                     </h2>
                     <p class="text-sm text-slate-500 kr-text mt-2">객체 지향 프로그래밍(OOP)의 핵심: 클래스 확장과 동적 바인딩을 통한 유연한 검증 환경 구축</p>
@@ -752,59 +800,11 @@
                 </div>
             </article>
 
-            <!-- [7] package / import / include -->
-            <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 card-hover">
-                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">7</span>
-                    package / import / include
-                </h2>
-                
-                <div class="diagram-grid rounded-xl border border-slate-200 h-56 relative overflow-hidden flex items-center justify-center">
-                    <svg viewBox="0 0 400 200" class="w-full h-full">
-                        <!-- Package -->
-                        <g transform="translate(30, 20)">
-                            <path d="M0 10 L10 0 L140 0 L140 140 L0 140 Z" class="fill-indigo-50 stroke-indigo-400 stroke-2" />
-                            <text x="70" y="20" text-anchor="middle" class="fill-indigo-800 font-bold text-sm">package (A_pkg)</text>
-                            
-                            <rect x="20" y="40" width="100" height="20" rx="2" class="fill-white stroke-indigo-200" />
-                            <text x="70" y="54" text-anchor="middle" class="fill-slate-600 text-[10px] font-mono">class base_seq</text>
-                            
-                            <rect x="20" y="70" width="100" height="20" rx="2" class="fill-white stroke-indigo-200" />
-                            <text x="70" y="84" text-anchor="middle" class="fill-slate-600 text-[10px] font-mono">class base_env</text>
-                        </g>
-
-                        <!-- Module/Scope using import -->
-                        <g transform="translate(230, 20)">
-                            <rect x="0" y="0" width="140" height="140" rx="4" class="fill-white stroke-slate-400 stroke-2" />
-                            <text x="70" y="20" text-anchor="middle" class="fill-slate-800 font-bold text-sm">tb_top</text>
-                            
-                            <!-- Import Bridge -->
-                            <path d="M -50 70 L -10 70" fill="none" stroke="#6366f1" stroke-width="3" marker-end="url(#arrow-indigo)" class="animate-flow" />
-                            <text x="-30" y="60" text-anchor="middle" class="fill-indigo-600 text-xs font-bold bg-white px-1">import A_pkg::*</text>
-
-                            <!-- Include conceptually (Text insertion) -->
-                            <rect x="20" y="100" width="100" height="20" rx="2" class="fill-slate-100 stroke-slate-300 stroke-dasharray" stroke-dasharray="2 2"/>
-                            <text x="70" y="114" text-anchor="middle" class="fill-slate-500 text-[10px] font-mono">`include "macro.sv"</text>
-                        </g>
-
-                        <defs>
-                            <marker id="arrow-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#6366f1" />
-                            </marker>
-                        </defs>
-                    </svg>
-                </div>
-                <ul class="mt-4 text-xs text-slate-600 kr-text list-disc pl-4 space-y-1">
-                    <li><strong class="text-slate-800">package/import:</strong> 네임스페이스를 생성하여 이름 충돌을 방지하고 깔끔하게 컴포넌트를 가져옴 (권장).</li>
-                    <li><strong class="text-slate-800">`include:</strong> C언어처럼 파일의 텍스트를 물리적으로 복사해 붙여넣음. (매크로 정의 등에 주로 사용)</li>
-                </ul>
-            </article>
-
-            <!-- [8] Makefile / compile flow -->
+            <!-- [7] Makefile / compile flow -->
             <article class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 card-hover lg:col-span-2">
                 <div class="flex flex-col mb-6">
                     <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">8</span>
+                        <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">7</span>
                         Makefile / Compile Flow
                     </h2>
                     <p class="text-sm text-slate-500 kr-text mt-2">반복적인 컴파일과 시뮬레이션 과정을 자동화하는 Makefile 의존성 구조와 실전 UVM 스크립트 작성법</p>

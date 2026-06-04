@@ -1,0 +1,389 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: "1"
+        - heading "Item의 역할" [level=2] [ref=e7]
+      - paragraph [ref=e8]:
+        - strong [ref=e9]: Sequence Item
+        - text: 은 검증 환경 내에서 데이터를 운반하는 기본 단위입니다. 마치 택배 상자처럼 주소(Address), 데이터(Data), 제어 신호(Control) 등을 캡슐화하여 생성기(Sequence)에서 구동기(Driver)로 전달합니다.
+      - img [ref=e11]:
+        - generic [ref=e14]: Pin-Level
+        - generic [ref=e15]: 추상화
+        - generic [ref=e16]:
+          - generic [ref=e19]: Sequence Item
+          - generic [ref=e22]: rand Addr
+          - generic [ref=e25]: rand Data
+          - generic [ref=e28]: rand Ctrl
+        - generic [ref=e31]: Driver
+      - list [ref=e32]:
+        - listitem [ref=e33]:
+          - img [ref=e34]
+          - generic [ref=e36]:
+            - strong [ref=e37]: "데이터 추상화:"
+            - text: 복잡한 핀 레벨 신호를 논리적인 객체로 변환
+        - listitem [ref=e38]:
+          - img [ref=e39]
+          - generic [ref=e41]:
+            - strong [ref=e42]: "무작위화(Randomization):"
+            - text: 다양한 테스트 시나리오를 위한 랜덤 데이터 생성 보장
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]: "2"
+        - heading "상속 구조 (Inheritance)" [level=2] [ref=e46]
+      - img [ref=e48]:
+        - generic [ref=e49]: 상속으로 기능이 누적됨
+        - generic [ref=e50]: 부모 클래스의 관리 기능 위에 사용자 payload가 얹혀 최종 Item이 됩니다.
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e55]: uvm_object
+            - generic [ref=e56]: name, factory, print/copy/compare
+          - generic [ref=e57]:
+            - generic [ref=e60]: uvm_transaction
+            - generic [ref=e61]: recording, begin/end time
+          - generic [ref=e62]:
+            - generic [ref=e65]: uvm_sequence_item
+            - generic [ref=e66]: sequence_id, transaction_id
+        - generic [ref=e68]: extends
+        - generic [ref=e69]:
+          - generic [ref=e72]: my_bus_item
+          - generic [ref=e73]: 상속받은 관리 기능
+          - generic [ref=e74]:
+            - generic [ref=e76]: "routing:"
+            - generic [ref=e77]: seq/rsp 추적
+          - generic [ref=e78]:
+            - generic [ref=e80]: "payload:"
+            - generic [ref=e81]: rand addr
+            - generic [ref=e82]: rand data / ctrl
+  - generic [ref=e83]:
+    - generic [ref=e84]:
+      - img [ref=e86]
+      - heading "uvm_sequence_item 심층 해부 (Anatomy)" [level=2] [ref=e88]
+    - paragraph [ref=e89]:
+      - code [ref=e90]: uvm_sequence_item
+      - text: 은 단순한 데이터 컨테이너가 아닙니다. 네트워크 통신의 OSI 7계층 모델처럼,
+      - strong [ref=e91]: UVM 상속 계층을 거치며 각 부모 클래스로부터 강력한 메타데이터(Header)를 누적하여 상속
+      - text: 받습니다. 사용자가 정의한 데이터(Payload)는 이 거대한 관리 정보들로 둘러싸여 안전하게 추적 및 라우팅됩니다.
+    - generic [ref=e92]:
+      - img [ref=e95]:
+        - generic [ref=e96]:
+          - generic [ref=e98]: "L1: uvm_object (기본 객체 속성)"
+          - generic [ref=e101]: m_inst_id
+          - generic [ref=e104]: m_name
+          - generic [ref=e107]: m_inst_count
+        - generic [ref=e108]:
+          - generic [ref=e110]: "L2: uvm_transaction (시간/이벤트 추적)"
+          - generic [ref=e113]: transaction_id
+          - generic [ref=e116]: begin_time
+          - generic [ref=e119]: end_time
+        - generic [ref=e120]:
+          - generic [ref=e122]: "L3: uvm_sequence_item (라우팅 및 시퀀스 제어)"
+          - generic [ref=e125]: sequence_id
+          - generic [ref=e128]: sequencer_ptr
+          - generic [ref=e131]: parent_sequence
+        - generic [ref=e132]:
+          - generic [ref=e134]: "L4: my_bus_item (User Payload)"
+          - generic [ref=e137]: rand addr
+          - generic [ref=e140]: rand data
+          - generic [ref=e143]: rand ctrl
+      - generic [ref=e144]:
+        - generic [ref=e145]:
+          - 'heading "L1: uvm_object (식별 속성)" [level=3] [ref=e147]'
+          - paragraph [ref=e148]:
+            - text: 모든 UVM 객체의 최상위 부모입니다. Factory에서 객체를 생성하고 관리하기 위한
+            - strong [ref=e149]:
+              - text: 고유 인스턴스 ID(
+              - code [ref=e150]: m_inst_id
+              - text: )
+            - text: 와 문자열 이름(
+            - code [ref=e151]: m_name
+            - text: )을 제공하여 시뮬레이션 전체에서 객체를 식별 가능하게 합니다.
+        - generic [ref=e152]:
+          - 'heading "L2: uvm_transaction (시간/이벤트)" [level=3] [ref=e154]'
+          - paragraph [ref=e155]:
+            - text: 트랜잭션 레벨 모델링(TLM)을 위한 계층입니다. 파형(Waveform) 뷰어에 트랜잭션을 박스 형태로 시각화하기 위해 트랜잭션의
+            - strong [ref=e156]:
+              - text: 생성/종료 시간(
+              - code [ref=e157]: begin_time
+              - text: ","
+              - code [ref=e158]: end_time
+              - text: )
+            - text: 과 고유 트랜잭션 ID를 관리합니다.
+        - generic [ref=e159]:
+          - 'heading "L3: uvm_sequence_item (라우팅)" [level=3] [ref=e161]'
+          - list [ref=e162]:
+            - listitem [ref=e163]:
+              - strong [ref=e164]: "sequence_id:"
+              - text: 여러 시퀀스가 동시 동작할 때, Driver가 응답(Response)을 정확히 원래 요청자에게 반환하도록 돕는 라우팅 키입니다.
+            - listitem [ref=e165]:
+              - strong [ref=e166]: "sequencer_ptr:"
+              - text: 이 아이템을 처리하고 있는 대상 Sequencer의 포인터(핸들)를 저장하여 상태 제어에 사용됩니다.
+        - generic [ref=e167]:
+          - 'heading "L4: my_bus_item (사용자 페이로드)" [level=3] [ref=e169]'
+          - paragraph [ref=e170]:
+            - text: 설계자가 직접 정의하는 영역입니다. 하드웨어 핀으로 구동될
+            - code [ref=e171]: addr
+            - text: ","
+            - code [ref=e172]: data
+            - text: 값들이 담겨 있으며,
+            - strong [ref=e173]: 위의 3개 레이어(L1~L3)가 제공하는 메타데이터의 보호와 안내를 받아 Driver까지 안전하게 전달
+            - text: 됩니다.
+  - generic [ref=e174]:
+    - generic [ref=e175]:
+      - heading "Item 클래스 내부 구조 설계" [level=2] [ref=e176]
+      - paragraph [ref=e177]: 성공적인 Bus Modeling을 위해 필수적으로 포함되어야 하는 요소들입니다.
+    - generic [ref=e178]:
+      - img [ref=e180]:
+        - generic [ref=e182]: class my_bus_item extends uvm_sequence_item;
+        - generic [ref=e183]:
+          - generic [ref=e186]: "[3] Field Modeling"
+          - generic [ref=e187]: rand bit [31:0] addr; // 무작위화 변수
+        - generic [ref=e188]:
+          - generic [ref=e191]: "[5] Factory & [6] Automation Macros"
+          - generic [ref=e192]: "`uvm_object_utils_begin(my_bus_item)"
+          - generic [ref=e193]: "`uvm_field_int(addr, UVM_ALL_ON)"
+          - generic [ref=e194]: "`uvm_object_utils_end"
+        - generic [ref=e195]:
+          - generic [ref=e198]: "[4] Constructor"
+          - generic [ref=e199]: function new(string name = "my_bus_item");
+          - generic [ref=e200]: super.new(name);
+        - generic [ref=e201]:
+          - generic [ref=e204]: "[7] Constraint"
+          - generic [ref=e205]: "constraint addr_c { addr < 32'h1000; }"
+        - generic [ref=e206]: endclass
+      - generic [ref=e207]:
+        - generic [ref=e208]:
+          - heading "[3] Field Modeling" [level=3] [ref=e209]: "[3] Field Modeling"
+          - paragraph [ref=e211]:
+            - text: 버스 프로토콜에 필요한 신호(Address, Data, Command 등)를 클래스의 변수로 정의합니다. 시퀀스에서 자동 생성을 위해
+            - code [ref=e212]: rand
+            - text: 키워드를 사용합니다.
+        - generic [ref=e213]:
+          - heading "[5] Factory & [6] Automation" [level=3] [ref=e214]: "[5] Factory & [6] Automation"
+          - paragraph [ref=e216]:
+            - code [ref=e217]: "`uvm_object_utils"
+            - text: 매크로를 통해 UVM Factory에 객체를 등록합니다.
+            - code [ref=e218]: "`uvm_field_*"
+            - text: 매크로는 print, copy, compare 등의 기본 함수를 자동화합니다.
+        - generic [ref=e219]:
+          - heading "[4] Constructor (new)" [level=3] [ref=e220]: "[4] Constructor (new)"
+          - paragraph [ref=e222]:
+            - text: UVM Object의 생성자는 보통 하나의 인자(name)만을 받습니다. 내부에서 부모 클래스의 생성자인
+            - code [ref=e223]: super.new(name)
+            - text: 을 반드시 호출해야 합니다.
+  - generic [ref=e224]:
+    - generic [ref=e225]:
+      - img [ref=e227]
+      - 'heading "Field Automation: `uvm_field_* 매크로의 마법" [level=2] [ref=e229]':
+        - text: "Field Automation:"
+        - code [ref=e230]: "`uvm_field_*"
+        - text: 매크로의 마법
+    - paragraph [ref=e231]:
+      - text: 객체 지향 프로그래밍에서 클래스 내부에 선언된 변수들을 제대로 활용하려면 깊은 복사(Deep Copy), 문자열 출력(Print), 두 객체 간의 값 비교(Compare) 등의 코드를 일일이 작성해야 합니다. UVM에서는
+      - code [ref=e232]: "`uvm_field_*"
+      - text: 매크로를 통해 이러한
+      - strong [ref=e233]: 지루하고 반복적인 수백 줄의 코드를 단 한 줄로 자동화(Automation)
+      - text: 합니다.
+    - img [ref=e235]:
+      - generic [ref=e236]:
+        - generic [ref=e238]: Raw Variable
+        - generic [ref=e239]: rand bit[31:0]
+        - generic [ref=e240]: addr;
+      - generic [ref=e241]:
+        - generic [ref=e253]: "`uvm_field_int"
+        - generic [ref=e254]: (addr, UVM_ALL_ON)
+      - generic [ref=e257]:
+        - generic [ref=e260]: P
+        - generic [ref=e261]: print()
+      - generic [ref=e262]:
+        - generic [ref=e265]: C
+        - generic [ref=e266]: copy() & clone()
+      - generic [ref=e267]:
+        - generic [ref=e270]: =
+        - generic [ref=e271]: compare()
+    - generic [ref=e272]:
+      - generic [ref=e273]:
+        - heading "print()" [level=4] [ref=e275]
+        - paragraph [ref=e276]: 시뮬레이션 로그 파일에 객체 내부의 모든 변수 이름, 타입, 크기, 현재 할당된 값을 표 형태(Table format)로 깔끔하게 정렬하여 출력합니다.
+      - generic [ref=e277]:
+        - heading "copy()" [level=4] [ref=e279]
+        - paragraph [ref=e280]: 원본 객체와 동일한 데이터를 가지는 새로운 객체를 생성합니다. 포인터 주소만 넘기는 얕은 복사(Shallow copy)가 아닌 완벽한 깊은 복사(Deep copy)를 지원합니다.
+      - generic [ref=e281]:
+        - heading "compare()" [level=4] [ref=e283]
+        - paragraph [ref=e284]: Scoreboard 등에서 DUT의 출력 결과와 참조 모델(Reference Model)의 결과가 일치하는지 변수 단위로 자동 비교하고, 불일치 시 에러 로그를 띄워줍니다.
+  - generic [ref=e285]:
+    - generic [ref=e286]:
+      - img [ref=e288]
+      - 'heading "Automation Flags: 세밀한 동작 제어" [level=2] [ref=e290]'
+    - paragraph [ref=e291]:
+      - code [ref=e292]: "`uvm_field_*"
+      - text: 매크로의 두 번째 인자로 들어가는
+      - strong [ref=e293]: 플래그(Flag)
+      - text: 들은 비트 논리합 연산자(
+      - code [ref=e294]: "|"
+      - text: )를 사용하여 조합됩니다. 기본 묶음(Preset)을 바탕으로, 특정 변수의 출력 형식을 바꾸거나 비교/복사 대상에서 제외하는 등 동작을 커스터마이징할 수 있습니다.
+    - img [ref=e296]:
+      - generic [ref=e297]:
+        - generic [ref=e299]: UVM_DEFAULT
+        - generic [ref=e300]: 기본 설정
+      - generic [ref=e302]:
+        - generic [ref=e304]: UVM_HEX
+        - generic [ref=e305]: 16진수 출력
+      - generic [ref=e306]:
+        - generic [ref=e308]: UVM_NOCOMPARE
+        - generic [ref=e309]: 비교 제외
+      - generic [ref=e310]:
+        - generic [ref=e312]: "|"
+        - generic [ref=e313]: Bitwise OR
+      - generic [ref=e314]:
+        - generic [ref=e316]: "`uvm_field_int(addr,"
+        - generic [ref=e317]: UVM_DEFAULT | UVM_HEX | UVM_NOCOMPARE
+        - generic [ref=e318]: )
+    - generic [ref=e319]:
+      - generic [ref=e320]:
+        - heading "1. 동작 제어 (Action Control)" [level=3] [ref=e321]: 1. 동작 제어 (Action Control)
+        - paragraph [ref=e323]: 각 자동화 기능의 활성화/비활성화 여부를 명시적으로 지정합니다. (ON vs OFF)
+        - list [ref=e324]:
+          - listitem [ref=e325]:
+            - code [ref=e326]: UVM_COPY
+            - generic [ref=e327]: copy() 수행
+            - code [ref=e328]: UVM_NOCOPY
+          - listitem [ref=e329]:
+            - code [ref=e330]: UVM_COMPARE
+            - generic [ref=e331]: compare() 수행
+            - code [ref=e332]: UVM_NOCOMPARE
+          - listitem [ref=e333]:
+            - code [ref=e334]: UVM_PRINT
+            - generic [ref=e335]: print() 수행
+            - code [ref=e336]: UVM_NOPRINT
+          - listitem [ref=e337]:
+            - code [ref=e338]: UVM_RECORD
+            - generic [ref=e339]: Waveform 기록
+            - code [ref=e340]: UVM_NORECORD
+          - listitem [ref=e341]:
+            - code [ref=e342]: UVM_PACK
+            - generic [ref=e343]: Bit-stream 변환
+            - code [ref=e344]: UVM_NOPACK
+          - listitem [ref=e345]:
+            - code [ref=e346]: UVM_UNPACK
+            - generic [ref=e347]: Bit-stream 복원
+            - code [ref=e348]: UVM_NOUNPACK
+          - listitem [ref=e349]:
+            - code [ref=e350]: UVM_SET
+            - generic [ref=e351]: Config DB 설정
+            - generic [ref=e352]:
+              - code [ref=e353]: UVM_NOSET
+              - code [ref=e354]: UVM_READONLY
+      - generic [ref=e355]:
+        - generic [ref=e356]:
+          - heading "2. 묶음 (Presets / Bundles)" [level=3] [ref=e357]: 2. 묶음 (Presets / Bundles)
+          - generic [ref=e359]:
+            - code [ref=e360]: UVM_ALL_ON
+            - code [ref=e361]: UVM_DEFAULT
+            - code [ref=e362]: UVM_FLAGS_ON
+            - code [ref=e363]: UVM_FLAGS_OFF
+          - paragraph [ref=e364]:
+            - code [ref=e365]: UVM_ALL_ON
+            - text: 또는
+            - code [ref=e366]: UVM_DEFAULT
+            - text: 는 모든 기능을 활성화하는 가장 일반적인 베이스 플래그입니다.
+        - generic [ref=e367]:
+          - heading "3. Object 복사 정책 (Copy Policy)" [level=3] [ref=e368]: 3. Object 복사 정책 (Copy Policy)
+          - paragraph [ref=e370]: 클래스 내부의 객체(Object 핸들)를 복사할 때의 정책입니다.
+          - generic [ref=e371]:
+            - code [ref=e372]: UVM_DEFAULT_POLICY
+            - code [ref=e373]: UVM_DEEP
+            - code [ref=e374]: UVM_SHALLOW
+            - code [ref=e375]: UVM_REFERENCE
+      - generic [ref=e376]:
+        - heading "4. 출력 형식 (Radix / Format)" [level=3] [ref=e377]: 4. 출력 형식 (Radix / Format)
+        - paragraph [ref=e379]:
+          - code [ref=e380]: print()
+          - text: 함수가 호출될 때 시뮬레이션 로그에 값이 표시되는 진수나 데이터 포맷을 결정합니다.
+        - generic [ref=e381]:
+          - code [ref=e382]: UVM_BIN (2진수)
+          - code [ref=e383]: UVM_OCT (8진수)
+          - code [ref=e384]: UVM_DEC (10진수)
+          - code [ref=e385]: UVM_HEX (16진수)
+          - code [ref=e386]: UVM_UNSIGNED
+          - code [ref=e387]: UVM_TIME
+          - code [ref=e388]: UVM_REAL
+          - code [ref=e389]: UVM_REAL_DEC
+          - code [ref=e390]: UVM_REAL_EXP
+          - code [ref=e391]: UVM_STRING
+          - code [ref=e392]: UVM_ENUM
+          - code [ref=e393]: UVM_UNFORMAT2
+          - code [ref=e394]: UVM_UNFORMAT4
+          - code [ref=e395]: UVM_NORADIX
+      - generic [ref=e396]:
+        - heading "5. 호환 / 특수 (Special / Advanced)" [level=3] [ref=e397]: 5. 호환 / 특수 (Special / Advanced)
+        - generic [ref=e399]:
+          - generic [ref=e400]:
+            - code [ref=e401]: UVM_PHYSICAL
+            - generic [ref=e402]: 실제 하드웨어 연결용 필드 표시
+          - generic [ref=e403]:
+            - code [ref=e404]: UVM_ABSTRACT
+            - generic [ref=e405]: 추상화된 가상 필드 표시
+          - generic [ref=e406]:
+            - code [ref=e407]: UVM_NODEFPRINT
+            - generic [ref=e408]: Default Print에서 제외
+  - generic [ref=e409]:
+    - generic [ref=e410]:
+      - generic [ref=e411]:
+        - generic [ref=e412]: "7"
+        - heading "Constraint (제약조건)" [level=2] [ref=e413]
+      - paragraph [ref=e414]:
+        - code [ref=e415]: rand
+        - text: 변수가 가질 수 있는 유효한 값의 범위를 지정합니다. 유효하지 않은 주소 접근을 막거나, 특정 데이터 패턴을 집중적으로 테스트하기 위해 필수적입니다.
+      - generic [ref=e416]:
+        - text: "constraint addr_align_c {"
+        - text: addr[1:0] == 2'b00; // 4-byte align
+        - text: "}"
+    - generic [ref=e417]:
+      - generic [ref=e418]:
+        - generic [ref=e419]: "8"
+        - heading "Optional Hooks" [level=2] [ref=e420]
+      - img [ref=e422]:
+        - generic [ref=e423]:
+          - generic [ref=e425]: pre_randomize()
+          - generic [ref=e426]: 값 초기화
+        - generic [ref=e427]:
+          - generic [ref=e429]: randomize()
+          - generic [ref=e430]: Constraint 적용
+        - generic [ref=e431]:
+          - generic [ref=e433]: post_randomize()
+          - generic [ref=e434]: 패리티/CRC 계산
+      - paragraph [ref=e435]: "무작위화 전후에 자동으로 실행되는 콜백 함수입니다. 무작위화 불가능한 필드(예: Parity bit)를 생성된 데이터를 바탕으로 계산할 때 유용합니다."
+  - generic [ref=e436]:
+    - heading "[9] 실제 코드 구성 흐름 & [10] 실행 흐름" [level=2] [ref=e437]
+    - generic [ref=e438]:
+      - generic [ref=e439]:
+        - 'heading "Execution Flow: Sequence → Driver → DUT" [level=3] [ref=e440]'
+        - img [ref=e441]:
+          - generic [ref=e445]: req
+          - generic [ref=e449]:
+            - generic [ref=e451]: uvm_sequence
+            - generic [ref=e452]: Item 생성 & 무작위화
+            - generic [ref=e453]: "`uvm_do(req)"
+          - generic [ref=e454]:
+            - generic [ref=e456]: uvm_driver
+            - generic [ref=e457]: Pin-Level 변환
+            - generic [ref=e458]: seq_item_port
+          - generic [ref=e462]: DUT
+      - generic [ref=e463]:
+        - generic [ref=e464]:
+          - heading "1. Sequence (생성)" [level=4] [ref=e465]
+          - paragraph [ref=e466]:
+            - code [ref=e467]: my_bus_item
+            - text: 객체를 생성(create)하고, 제약조건에 맞춰 무작위화(randomize)한 뒤 Driver로 전송합니다.
+        - generic [ref=e468]:
+          - heading "2. Driver (변환)" [level=4] [ref=e469]
+          - paragraph [ref=e470]:
+            - text: 포트를 통해 Item을 수신합니다. 클래스 내의
+            - code [ref=e471]: addr
+            - text: ","
+            - code [ref=e472]: data
+            - text: 값을 실제 하드웨어 Interface 핀 신호로 구동(Driving)합니다.
+        - generic [ref=e473]:
+          - heading "3. DUT (동작)" [level=4] [ref=e474]
+          - paragraph [ref=e475]: Driver가 구동한 전기적 신호(0과 1)를 입력받아 설계된 RTL 로직에 따라 동작을 수행합니다.

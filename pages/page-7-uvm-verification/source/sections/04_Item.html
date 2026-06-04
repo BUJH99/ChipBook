@@ -125,9 +125,7 @@
             <!-- [1] Item의 역할 -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 flex flex-col justify-center">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-200">
-                        <span class="text-blue-600 font-bold text-lg">1</span>
-                    </div>
+                    <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">1</span>
                     <h2 class="text-2xl font-bold text-slate-900">Item의 역할</h2>
                 </div>
                 <p class="text-slate-600 leading-relaxed mb-6">
@@ -207,50 +205,79 @@
             </div>
 
             <!-- [2] 상속 구조 -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 flex flex-col">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-200">
-                        <span class="text-blue-600 font-bold text-lg">2</span>
-                    </div>
+                    <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">2</span>
                     <h2 class="text-2xl font-bold text-slate-900">상속 구조 (Inheritance)</h2>
                 </div>
                 
                 <!-- SVG Diagram: Inheritance -->
-                <div class="w-full h-48 diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
-                    <svg viewBox="0 0 600 200" class="w-full h-full max-w-lg">
+                <div class="w-full flex-1 min-h-[420px] diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden p-4">
+                    <svg viewBox="0 0 620 390" class="w-full h-full max-w-none drop-shadow-sm">
                         <defs>
-                            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+                            <marker id="inherit-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"/>
                             </marker>
+                            <linearGradient id="inherit-stack" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#eff6ff"/>
+                                <stop offset="100%" stop-color="#ffffff"/>
+                            </linearGradient>
+                            <filter id="inherit-glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#2563eb" flood-opacity="0.12"/>
+                            </filter>
                         </defs>
-                        
-                        <!-- Base Classes -->
-                        <g class="svg-node" transform="translate(20, 80)">
-                            <rect width="100" height="40" rx="6" class="fill-white stroke-slate-300 stroke-2" />
-                            <text x="50" y="25" text-anchor="middle" class="font-mono text-sm fill-slate-500">uvm_object</text>
+
+                        <text x="34" y="42" class="font-sans text-[16px] font-bold fill-slate-500 uppercase tracking-wide">상속으로 기능이 누적됨</text>
+                        <text x="34" y="66" class="font-sans text-[13.5px] fill-slate-500">부모 클래스의 관리 기능 위에 사용자 payload가 얹혀 최종 Item이 됩니다.</text>
+
+                        <!-- Capability stack -->
+                        <g transform="translate(34, 102)">
+                            <path d="M 22 0 L 22 216" class="stroke-blue-200 stroke-[4]" stroke-dasharray="7 7" />
+
+                            <g transform="translate(0, 0)">
+                                <circle cx="22" cy="25" r="13" class="fill-white stroke-slate-300 stroke-[2.5]" />
+                                <rect x="52" y="0" width="268" height="58" rx="10" class="fill-white stroke-slate-300 stroke-[2]" />
+                                <text x="70" y="24" class="font-mono text-[16px] font-bold fill-slate-700">uvm_object</text>
+                                <text x="70" y="43" class="font-sans text-[12.5px] fill-slate-500">name, factory, print/copy/compare</text>
+                            </g>
+
+                            <g transform="translate(0, 82)">
+                                <circle cx="22" cy="25" r="13" class="fill-blue-50 stroke-blue-300 stroke-[2.5]" />
+                                <rect x="52" y="0" width="268" height="58" rx="10" class="fill-blue-50 stroke-blue-200 stroke-[2]" />
+                                <text x="70" y="24" class="font-mono text-[16px] font-bold fill-blue-700">uvm_transaction</text>
+                                <text x="70" y="43" class="font-sans text-[12.5px] fill-blue-600">recording, begin/end time</text>
+                            </g>
+
+                            <g transform="translate(0, 164)">
+                                <circle cx="22" cy="25" r="13" class="fill-blue-500 stroke-white stroke-[3]" />
+                                <rect x="52" y="0" width="268" height="62" rx="10" class="fill-white stroke-blue-400 stroke-[2.5]" filter="url(#inherit-glow)" />
+                                <text x="70" y="25" class="font-mono text-[16px] font-bold fill-blue-700">uvm_sequence_item</text>
+                                <text x="70" y="45" class="font-sans text-[12.5px] fill-slate-600">sequence_id, transaction_id</text>
+                            </g>
                         </g>
 
-                        <line x1="120" y1="100" x2="160" y2="100" class="stroke-slate-300 stroke-2" marker-end="url(#arrow)" />
+                        <!-- Flow into custom item -->
+                        <path d="M 350 292 C 368 292, 370 218, 386 218" fill="none" class="stroke-blue-500 stroke-[4] animate-flow" marker-end="url(#inherit-arrow)" />
+                        <text x="366" y="258" text-anchor="middle" class="font-sans text-[12px] font-bold fill-blue-600">extends</text>
 
-                        <g class="svg-node" transform="translate(170, 80)">
-                            <rect width="120" height="40" rx="6" class="fill-white stroke-slate-400 stroke-2" />
-                            <text x="60" y="25" text-anchor="middle" class="font-mono text-sm fill-slate-600">uvm_transaction</text>
-                        </g>
+                        <!-- Final custom item -->
+                        <g transform="translate(400, 132)">
+                            <rect width="216" height="220" rx="16" fill="url(#inherit-stack)" class="stroke-blue-600 stroke-[3]" filter="url(#inherit-glow)" />
+                            <path d="M 0 16 Q 0 0 16 0 L 200 0 Q 216 0 216 16 L 216 56 L 0 56 Z" class="fill-blue-600" />
+                            <text x="108" y="34" text-anchor="middle" class="font-mono text-[17px] font-bold fill-white">my_bus_item</text>
+                            <text x="108" y="80" text-anchor="middle" class="font-sans text-[12px] font-bold fill-blue-700 uppercase tracking-wide">상속받은 관리 기능</text>
 
-                        <line x1="290" y1="100" x2="330" y2="100" class="stroke-slate-400 stroke-2" marker-end="url(#arrow)" />
-
-                        <!-- Core UVM Item -->
-                        <g class="svg-node" transform="translate(340, 80)">
-                            <rect width="140" height="40" rx="6" class="fill-blue-50 stroke-blue-400 stroke-2" />
-                            <text x="70" y="25" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-700">uvm_sequence_item</text>
-                        </g>
-
-                        <!-- Inherited Custom Class -->
-                        <path d="M 410 120 L 410 150 L 410 160" class="stroke-blue-500 stroke-2" marker-end="url(#arrow)" />
-
-                        <g class="svg-node" transform="translate(340, 160)">
-                            <rect width="140" height="40" rx="8" class="fill-white stroke-blue-600 stroke-[3]" />
-                            <text x="70" y="25" text-anchor="middle" class="font-mono text-sm font-bold fill-slate-900">my_bus_item</text>
+                            <g transform="translate(18, 96)">
+                                <rect width="180" height="42" rx="8" class="fill-white stroke-blue-200 stroke-[2]" />
+                                <text x="16" y="26" class="font-sans text-[12px] font-extrabold fill-blue-700">routing:</text>
+                                <text x="82" y="26" class="font-sans text-[12px] fill-slate-600">seq/rsp 추적</text>
+                            </g>
+                            <g transform="translate(18, 150)">
+                                <rect width="180" height="54" rx="8" class="fill-white stroke-slate-200 stroke-[2]" />
+                                <text x="16" y="22" class="font-sans text-[12px] font-extrabold fill-slate-700">payload:</text>
+                                <text x="82" y="22" class="font-sans text-[12px] fill-slate-600">rand addr</text>
+                                <text x="82" y="38" class="font-sans text-[12px] fill-slate-600">rand data / ctrl</text>
+                            </g>
                         </g>
                     </svg>
                 </div>
@@ -818,9 +845,7 @@
         <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center border border-amber-200">
-                        <span class="text-amber-600 font-bold text-lg">7</span>
-                    </div>
+                    <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">7</span>
                     <h2 class="text-2xl font-bold text-slate-900">Constraint (제약조건)</h2>
                 </div>
                 <p class="text-slate-600 leading-relaxed mb-4">
@@ -836,9 +861,7 @@
 
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center border border-purple-200">
-                        <span class="text-purple-600 font-bold text-lg">8</span>
-                    </div>
+                    <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">8</span>
                     <h2 class="text-2xl font-bold text-slate-900">Optional Hooks</h2>
                 </div>
                 <!-- Interactive Timeline SVG -->
