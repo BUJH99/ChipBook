@@ -72,6 +72,21 @@ def collect_labels(text: str, dataset_key: str) -> dict[str, str]:
     return labels
 
 
+def collect_debug_filenames(text: str, dataset_key: str) -> dict[str, str]:
+    attr_name = camel_to_kebab(dataset_key)
+    pattern = re.compile(rf"<[a-zA-Z0-9:-]+\b[^>]*\bdata-{re.escape(attr_name)}=\"([^\"]+)\"[^>]*>")
+
+    filenames: dict[str, str] = {}
+    for match in pattern.finditer(text):
+        key = match.group(1)
+        tag_text = match.group(0)
+        filename_match = re.search(r'\bdata-guidebook-debug-file="([^"]+)"', tag_text)
+        filename = (filename_match.group(1) if filename_match else "").strip()
+        if key not in filenames and filename:
+            filenames[key] = filename
+    return filenames
+
+
 def rebase_urls(text: str, source_dir: Path, output_dir: Path) -> str:
     def replace(match: re.Match[str]) -> str:
         raw_url = match.group("url")
@@ -120,7 +135,9 @@ def render_page_variants(source: Path, dataset_key: str) -> Path:
 
     keys = collect_panel_keys(text, dataset_key)
     labels = collect_labels(text, dataset_key)
+    debug_filenames = collect_debug_filenames(text, dataset_key)
     output_names = choose_output_names(page_dir, keys)
+    output_names = [debug_filenames.get(key, filename) for key, filename in zip(keys, output_names)]
 
     generated: list[tuple[str, str]] = []
     for key, filename in zip(keys, output_names):

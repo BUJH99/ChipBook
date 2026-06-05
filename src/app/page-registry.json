@@ -71,9 +71,8 @@
       "sections": [
         { "key": "floorplan", "title": "Floorplan", "source": "pages/page-4-physical-design/source/sections/01-floorplan.html" },
         { "key": "pnr", "title": "PnR / CTS / Routing", "source": "pages/page-4-physical-design/source/sections/02-pnr.html" },
-        { "key": "signoff", "title": "Signoff", "source": "pages/page-4-physical-design/source/sections/03-signoff.html" },
-        { "key": "tapeout", "title": "Tapeout", "source": "pages/page-4-physical-design/source/sections/04-tapeout.html" },
-        { "key": "design-kit", "title": "Design Kit / PDK", "source": "pages/page-4-physical-design/source/sections/05-design-kit.html" }
+        { "key": "signoff", "title": "Signoff / Tapeout", "source": "pages/page-4-physical-design/source/sections/03-Signoff_Tapeout.html" },
+        { "key": "design-kit", "title": "Design Kit / PDK", "source": "pages/page-4-physical-design/source/sections/04-design-kit.html" }
       ]
     },
     {

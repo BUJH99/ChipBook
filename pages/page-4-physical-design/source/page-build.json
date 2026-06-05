@@ -4,9 +4,8 @@
     "00-shell-start.html",
     "sections/01-floorplan.html",
     "sections/02-pnr.html",
-    "sections/03-signoff.html",
-    "sections/04-tapeout.html",
-    "sections/05-design-kit.html",
+    "sections/03-Signoff_Tapeout.html",
+    "sections/04-design-kit.html",
     "99-shell-end.html"
   ]
 }

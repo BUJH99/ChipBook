@@ -6,12 +6,12 @@
         function syncPart4Groups(activeKey) {
             const coreGroupEl = document.getElementById('part4-core-group');
             if (coreGroupEl) {
-                coreGroupEl.hidden = !['floorplan', 'pnr', 'signoff'].includes(activeKey);
+                coreGroupEl.hidden = !['floorplan', 'pnr'].includes(activeKey);
             }
 
             const tailGroupEl = document.getElementById('part4-tail-group');
             if (tailGroupEl) {
-                tailGroupEl.hidden = !['tapeout', 'design-kit'].includes(activeKey);
+                tailGroupEl.hidden = !['signoff', 'design-kit'].includes(activeKey);
             }
         }
 

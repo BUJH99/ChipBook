@@ -1,4 +1,8 @@
-<div class="space-y-8" data-part4-panel="tapeout" data-guidebook-toc-title="Tapeout" hidden>
+                            </div>
+                        </div>
+
+                        <div class="space-y-8" id="part4-tail-group">
+<div class="space-y-8" data-part4-panel="signoff" data-guidebook-toc-title="Signoff / Tapeout" data-guidebook-debug-file="Signoff_Tapeout.html" hidden>
                                 <div class="card border border-slate-200 bg-white overflow-hidden">
                                 <div class="flex flex-col gap-3 mb-6">
                                     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3">
@@ -184,6 +188,15 @@
                                             <text x="471" y="268" text-anchor="middle" fill="#c2410c" font-size="10.5" font-weight="900">Mask Prep / Fab Queue</text>
 
                                         </svg>
+                                        <div class="border-t border-blue-100 bg-white/90 px-5 py-4">
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                                                <div class="rounded-2xl border border-slate-100 bg-slate-50/90 p-4"><strong class="text-blue-600 block mb-1">Timing</strong>STA로 Setup/Hold, corner/mode, 경로 closure를 확인합니다.</div>
+                                                <div class="rounded-2xl border border-slate-100 bg-slate-50/90 p-4"><strong class="text-blue-600 block mb-1">DRC / LVS</strong>제조 가능 룰과 회로 연결 일치 여부를 검사합니다.</div>
+                                                <div class="rounded-2xl border border-slate-100 bg-slate-50/90 p-4"><strong class="text-blue-600 block mb-1">IR / EM</strong>전원 무결성과 금속 신뢰성을 봅니다.</div>
+                                                <div class="rounded-2xl border border-slate-100 bg-slate-50/90 p-4"><strong class="text-blue-600 block mb-1">Noise / LEC 등</strong>신호 무결성, 동등성, 기타 물리적 안정성을 교차 점검합니다.</div>
+                                            </div>
+                                            <p class="mt-4 text-sm leading-6 text-slate-600">즉 Signoff는 단순 보고서가 아니라 <strong class="text-slate-900">“이 설계를 제조로 넘겨도 된다”</strong>고 최종 승인하는 단계입니다.</p>
+                                        </div>
                                         <div class="border-t border-blue-100 bg-white/85 px-5 py-4">
                                             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                                                 <span class="inline-flex items-center justify-center rounded-full bg-blue-50 px-3 py-2 text-[11px] font-extrabold text-blue-600">Signoff Pass</span>
@@ -198,4 +211,3 @@
 
                             </div>
 
-                            
