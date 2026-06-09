@@ -1,125 +1,1255 @@
-<div class="card" data-part4-panel="design-kit" data-guidebook-toc-title="Design Kit / PDK" hidden>
-                                <div class="mb-6 rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.05)]">
-                                    <div class="px-5 pt-5 pb-3 flex items-center justify-between gap-4">
-                                        <div>
-                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">PDK Flow Map</div>
-                                            <div class="mt-1 text-lg font-black text-slate-900">Foundry Rule Set to EDA Tools</div>
+<div class="card pdk44-card" data-part4-panel="design-kit" data-guidebook-toc-title="Design Kit / PDK" data-guidebook-debug-file="04-design-kit.html" hidden>
+                                <style>
+                                    .pdk44-card {
+                                        padding: 0 !important;
+                                        border: 0 !important;
+                                        background: transparent !important;
+                                        box-shadow: none !important;
+                                    }
+
+                                    .pdk44-poster {
+                                        --ink: #071733;
+                                        --muted: #687592;
+                                        --line: #cbd7e8;
+                                        --soft-line: #dfe7f2;
+                                        --blue: #1157ff;
+                                        --green: #0aa66a;
+                                        --violet: #6933ff;
+                                        --cyan: #0c99bc;
+                                        --orange: #ff7900;
+                                        --pink: #d3217a;
+                                        --navy: #273f73;
+                                        position: relative;
+                                        overflow: hidden;
+                                        min-height: 780px;
+                                        padding: 1.25rem 1.25rem 0.95rem;
+                                        border: 1px solid #d9e3f0;
+                                        border-radius: 16px;
+                                        background:
+                                            radial-gradient(circle at 44% 44%, rgba(17, 87, 255, 0.045), transparent 31%),
+                                            radial-gradient(circle at 64% 54%, rgba(10, 166, 106, 0.035), transparent 26%),
+                                            #ffffff;
+                                        box-shadow: 0 24px 58px rgba(15, 31, 55, 0.09);
+                                        color: var(--ink);
+                                        font-family: 'IBM Plex Sans', 'Pretendard', system-ui, sans-serif;
+                                        container-type: inline-size;
+                                    }
+
+                                    .pdk44-poster * {
+                                        box-sizing: border-box;
+                                    }
+
+                                    .pdk44-head {
+                                        position: relative;
+                                        z-index: 3;
+                                        margin-bottom: 0.82rem;
+                                    }
+
+                                    .pdk44-head h3 {
+                                        margin: 0;
+                                        color: var(--ink);
+                                        font-size: 3.34rem;
+                                        font-weight: 900;
+                                        line-height: 0.95;
+                                        letter-spacing: 0;
+                                    }
+
+                                    .pdk44-head p {
+                                        margin: 0.1rem 0 0;
+                                        color: var(--muted);
+                                        font-size: 1.5rem;
+                                        font-weight: 500;
+                                        line-height: 1;
+                                        letter-spacing: 0;
+                                    }
+
+                                    .pdk44-stage {
+                                        position: relative;
+                                        z-index: 2;
+                                        display: grid;
+                                        grid-template-columns: 305px minmax(500px, 1fr) 405px;
+                                        column-gap: 0.35rem;
+                                        align-items: start;
+                                    }
+
+                                    .pdk44-left-list {
+                                        display: grid;
+                                        gap: 0.34rem;
+                                        padding-top: 0.8rem;
+                                    }
+
+                                    .pdk44-item {
+                                        --c: var(--blue);
+                                        display: grid;
+                                        grid-template-columns: 49px 24px 153px 1fr;
+                                        gap: 0.18rem;
+                                        align-items: center;
+                                        min-height: 61px;
+                                    }
+
+                                    .pdk44-item-icon {
+                                        display: grid;
+                                        place-items: center;
+                                        width: 42px;
+                                        height: 42px;
+                                        color: var(--c);
+                                    }
+
+                                    .pdk44-item-icon svg {
+                                        width: 100%;
+                                        height: 100%;
+                                    }
+
+                                    .pdk44-num {
+                                        display: grid;
+                                        place-items: center;
+                                        width: 20px;
+                                        height: 20px;
+                                        border-radius: 999px;
+                                        background: var(--c);
+                                        color: #fff;
+                                        font-size: 0.68rem;
+                                        font-weight: 900;
+                                        line-height: 1;
+                                    }
+
+                                    .pdk44-item-copy {
+                                        min-width: 0;
+                                    }
+
+                                    .pdk44-item-title {
+                                        display: block;
+                                        color: var(--c);
+                                        font-size: 0.8rem;
+                                        font-weight: 900;
+                                        line-height: 1.08;
+                                        text-transform: uppercase;
+                                    }
+
+                                    .pdk44-item-desc {
+                                        display: block;
+                                        margin-top: 0.25rem;
+                                        color: #15223d;
+                                        font-size: 0.66rem;
+                                        font-weight: 500;
+                                        line-height: 1.28;
+                                    }
+
+                                    .pdk44-lead-line {
+                                        position: relative;
+                                        height: 2px;
+                                        min-width: 50px;
+                                        background: var(--c);
+                                        opacity: 0.72;
+                                    }
+
+                                    .pdk44-lead-line::after {
+                                        content: "";
+                                        position: absolute;
+                                        right: -3px;
+                                        top: 50%;
+                                        width: 7px;
+                                        height: 7px;
+                                        transform: translateY(-50%);
+                                        border-radius: 999px;
+                                        background: var(--c);
+                                    }
+
+                                    .pdk44-visual {
+                                        position: relative;
+                                        min-height: 640px;
+                                        margin-left: -0.45rem;
+                                    }
+
+                                    .pdk44-three {
+                                        position: absolute;
+                                        left: -0.1rem;
+                                        top: 0.25rem;
+                                        width: 100%;
+                                        height: 640px;
+                                        overflow: visible;
+                                        isolation: isolate;
+                                    }
+
+                                    .pdk44-three canvas {
+                                        position: absolute;
+                                        inset: 0;
+                                        display: block;
+                                        width: 100%;
+                                        height: 100%;
+                                        filter: drop-shadow(0 18px 28px rgba(20, 43, 76, 0.1));
+                                    }
+
+                                    .pdk44-fallback {
+                                        position: absolute;
+                                        inset: 0;
+                                        display: grid;
+                                        place-items: center;
+                                        color: #64748b;
+                                        font-size: 0.78rem;
+                                        font-weight: 800;
+                                    }
+
+                                    .pdk44-three.is-ready .pdk44-fallback {
+                                        display: none;
+                                    }
+
+                                    .pdk44-label {
+                                        position: absolute;
+                                        z-index: 3;
+                                        color: var(--blue);
+                                        font-size: 0.88rem;
+                                        font-weight: 900;
+                                        line-height: 1.1;
+                                        text-align: center;
+                                        text-transform: uppercase;
+                                        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.96);
+                                        pointer-events: none;
+                                    }
+
+                                    .pdk44-label::before {
+                                        content: "";
+                                        position: absolute;
+                                        left: 50%;
+                                        width: 2px;
+                                        transform: translateX(-50%);
+                                        border-radius: 999px;
+                                        background: var(--blue);
+                                        opacity: 0.9;
+                                    }
+
+                                    .pdk44-chip-label {
+                                        top: 29.6%;
+                                        left: 63.2%;
+                                    }
+
+                                    .pdk44-chip-label::before {
+                                        top: 1.4rem;
+                                        height: 48px;
+                                    }
+
+                                    .pdk44-language-label {
+                                        left: 57.8%;
+                                        bottom: 8.4%;
+                                        width: 220px;
+                                    }
+
+                                    .pdk44-language-label::before {
+                                        bottom: 100%;
+                                        height: 54px;
+                                    }
+
+                                    .pdk44-label small {
+                                        display: block;
+                                        margin-top: 0.36rem;
+                                        color: #17243d;
+                                        font-size: 0.7rem;
+                                        font-weight: 600;
+                                        line-height: 1.25;
+                                        text-transform: none;
+                                    }
+
+                                    .pdk44-right {
+                                        position: relative;
+                                        display: grid;
+                                        grid-template-columns: 190px 175px;
+                                        gap: 0.95rem;
+                                        align-items: start;
+                                        padding-top: 1rem;
+                                    }
+
+                                    .pdk44-flow-arrow,
+                                    .pdk44-flow-arrow-next {
+                                        position: absolute;
+                                        z-index: 0;
+                                        top: 17.2rem;
+                                        width: 38px;
+                                        height: 92px;
+                                        background: linear-gradient(90deg, rgba(148, 197, 255, 0), rgba(17, 87, 255, 0.6), rgba(148, 197, 255, 0));
+                                        clip-path: polygon(0 0, 74% 50%, 0 100%, 38% 50%);
+                                        opacity: 0.62;
+                                        filter: blur(0.2px);
+                                    }
+
+                                    .pdk44-flow-arrow {
+                                        left: -2rem;
+                                    }
+
+                                    .pdk44-flow-arrow-next {
+                                        left: 12rem;
+                                    }
+
+                                    .pdk44-contents {
+                                        position: relative;
+                                        z-index: 1;
+                                        min-height: 545px;
+                                        padding: 1.05rem 0.72rem 0.78rem;
+                                        border: 1px solid #c8d4e6;
+                                        border-radius: 17px;
+                                        background: rgba(255, 255, 255, 0.96);
+                                        box-shadow: 0 18px 38px rgba(22, 43, 73, 0.08);
+                                    }
+
+                                    .pdk44-contents h4,
+                                    .pdk44-tools h4,
+                                    .pdk44-ready-title {
+                                        margin: 0;
+                                        color: var(--blue);
+                                        font-size: 0.9rem;
+                                        font-weight: 900;
+                                        line-height: 1;
+                                        text-align: center;
+                                        text-transform: uppercase;
+                                    }
+
+                                    .pdk44-content-list {
+                                        display: grid;
+                                        margin-top: 0.86rem;
+                                    }
+
+                                    .pdk44-content-row {
+                                        --c: var(--blue);
+                                        display: grid;
+                                        grid-template-columns: 34px minmax(0, 1fr);
+                                        gap: 0.55rem;
+                                        align-items: center;
+                                        min-height: 58px;
+                                        border-bottom: 1px solid #d9e1ed;
+                                    }
+
+                                    .pdk44-content-row:last-child {
+                                        border-bottom: 0;
+                                    }
+
+                                    .pdk44-content-row svg {
+                                        width: 28px;
+                                        height: 28px;
+                                        color: var(--c);
+                                    }
+
+                                    .pdk44-content-row span {
+                                        color: #18233d;
+                                        font-size: 0.73rem;
+                                        font-weight: 600;
+                                        line-height: 1.15;
+                                    }
+
+                                    .pdk44-tools {
+                                        position: relative;
+                                        z-index: 1;
+                                        display: grid;
+                                        justify-items: center;
+                                        padding-top: 0.1rem;
+                                    }
+
+                                    .pdk44-tool-stack {
+                                        position: relative;
+                                        display: grid;
+                                        justify-items: center;
+                                        gap: 0.27rem;
+                                        margin-top: 0.62rem;
+                                        padding-left: 0.75rem;
+                                    }
+
+                                    .pdk44-tool-stack::before {
+                                        content: "";
+                                        position: absolute;
+                                        left: 0.34rem;
+                                        top: 1.9rem;
+                                        bottom: 1.9rem;
+                                        width: 3px;
+                                        border-radius: 999px;
+                                        background: linear-gradient(180deg, var(--blue) 0%, var(--blue) 72%, var(--orange) 72%, var(--orange) 84%, var(--blue) 84%);
+                                    }
+
+                                    .pdk44-tool-card {
+                                        --c: var(--blue);
+                                        position: relative;
+                                        display: grid;
+                                        grid-template-columns: 32px 1fr;
+                                        gap: 0.48rem;
+                                        align-items: center;
+                                        width: 154px;
+                                        min-height: 50px;
+                                        padding: 0.44rem 0.58rem;
+                                        border: 1px solid #c9d5e6;
+                                        border-radius: 12px;
+                                        background: #fff;
+                                        box-shadow: 0 10px 26px rgba(23, 44, 72, 0.06);
+                                    }
+
+                                    .pdk44-tool-card::before {
+                                        content: "";
+                                        position: absolute;
+                                        left: -0.95rem;
+                                        top: 50%;
+                                        width: 0.95rem;
+                                        height: 2px;
+                                        transform: translateY(-50%);
+                                        background: var(--blue);
+                                    }
+
+                                    .pdk44-tool-card svg {
+                                        width: 28px;
+                                        height: 28px;
+                                        color: var(--c);
+                                    }
+
+                                    .pdk44-tool-card strong {
+                                        color: #111a2f;
+                                        font-size: 0.73rem;
+                                        font-weight: 900;
+                                        line-height: 1.05;
+                                        text-transform: uppercase;
+                                    }
+
+                                    .pdk44-down {
+                                        display: grid;
+                                        place-items: center;
+                                        height: 17px;
+                                        color: var(--blue);
+                                    }
+
+                                    .pdk44-down svg {
+                                        width: 22px;
+                                        height: 18px;
+                                    }
+
+                                    .pdk44-ready {
+                                        display: grid;
+                                        justify-items: center;
+                                        gap: 0.28rem;
+                                        margin-top: 0.18rem;
+                                    }
+
+                                    .pdk44-ready .pdk44-down {
+                                        height: 20px;
+                                    }
+
+                                    .pdk44-ready-card {
+                                        display: grid;
+                                        grid-template-columns: 38px 1fr;
+                                        gap: 0.5rem;
+                                        align-items: center;
+                                        width: 160px;
+                                        min-height: 58px;
+                                        padding: 0.38rem 0.58rem;
+                                        border: 1px solid #c9d5e6;
+                                        border-radius: 12px;
+                                        background: #ffffff;
+                                        box-shadow: 0 10px 26px rgba(23, 44, 72, 0.06);
+                                    }
+
+                                    .pdk44-ready-card svg {
+                                        width: 32px;
+                                        height: 32px;
+                                        color: var(--blue);
+                                    }
+
+                                    .pdk44-ready-card span {
+                                        color: #17243d;
+                                        font-size: 0.67rem;
+                                        font-weight: 600;
+                                        line-height: 1.5;
+                                    }
+
+                                    .pdk44-why {
+                                        position: relative;
+                                        z-index: 4;
+                                        display: grid;
+                                        grid-template-columns: 180px repeat(5, minmax(0, 1fr));
+                                        align-items: center;
+                                        gap: 0;
+                                        min-height: 80px;
+                                        margin: 0.58rem 0.2rem 0;
+                                        padding: 0.5rem 0.7rem;
+                                        border: 1px solid #c8d4e6;
+                                        border-radius: 13px;
+                                        background: rgba(255, 255, 255, 0.97);
+                                        box-shadow: 0 12px 28px rgba(23, 44, 72, 0.05);
+                                    }
+
+                                    .pdk44-why-title {
+                                        color: var(--blue);
+                                        font-size: 0.86rem;
+                                        font-weight: 900;
+                                        text-transform: uppercase;
+                                    }
+
+                                    .pdk44-why-item {
+                                        --c: var(--blue);
+                                        display: grid;
+                                        grid-template-columns: 44px minmax(0, 1fr);
+                                        gap: 0.48rem;
+                                        align-items: center;
+                                        min-height: 58px;
+                                        padding: 0 0.72rem;
+                                        border-left: 1px dashed #c8d5e5;
+                                    }
+
+                                    .pdk44-why-item svg {
+                                        width: 38px;
+                                        height: 38px;
+                                        color: var(--c);
+                                    }
+
+                                    .pdk44-why-item span {
+                                        color: #17243d;
+                                        font-size: 0.74rem;
+                                        font-weight: 600;
+                                        line-height: 1.25;
+                                    }
+
+                                    @container (max-width: 1280px) {
+                                        .pdk44-head h3 {
+                                            font-size: 3.05rem;
+                                        }
+
+                                        .pdk44-head p {
+                                            font-size: 1.42rem;
+                                        }
+
+                                        .pdk44-stage {
+                                            grid-template-columns: 278px minmax(0, 1fr) 315px;
+                                            column-gap: 0.35rem;
+                                        }
+
+                                        .pdk44-item {
+                                            grid-template-columns: 46px 23px 138px 1fr;
+                                        }
+
+                                        .pdk44-lead-line {
+                                            min-width: 58px;
+                                        }
+
+                                        .pdk44-item-title {
+                                            font-size: 0.76rem;
+                                        }
+
+                                        .pdk44-item-desc {
+                                            font-size: 0.64rem;
+                                        }
+
+                                        .pdk44-visual,
+                                        .pdk44-three {
+                                            min-height: 616px;
+                                            height: 616px;
+                                        }
+
+                                        .pdk44-right {
+                                            grid-template-columns: 156px 146px;
+                                            gap: 0.55rem;
+                                            padding-top: 0.72rem;
+                                        }
+
+                                        .pdk44-flow-arrow {
+                                            left: -1.65rem;
+                                            width: 36px;
+                                        }
+
+                                        .pdk44-flow-arrow-next {
+                                            left: 9.45rem;
+                                            width: 34px;
+                                        }
+
+                                        .pdk44-contents {
+                                            min-height: 560px;
+                                            padding: 0.92rem 0.62rem 0.72rem;
+                                        }
+
+                                        .pdk44-content-row {
+                                            min-height: 54px;
+                                            grid-template-columns: 27px minmax(0, 1fr);
+                                            gap: 0.42rem;
+                                        }
+
+                                        .pdk44-content-row svg {
+                                            width: 23px;
+                                            height: 23px;
+                                        }
+
+                                        .pdk44-content-row span,
+                                        .pdk44-tool-card strong,
+                                        .pdk44-ready-card span {
+                                            font-size: 0.65rem;
+                                        }
+
+                                        .pdk44-contents h4,
+                                        .pdk44-tools h4,
+                                        .pdk44-ready-title {
+                                            font-size: 0.82rem;
+                                        }
+
+                                        .pdk44-tool-stack {
+                                            gap: 0.2rem;
+                                            padding-left: 0.6rem;
+                                            margin-top: 0.5rem;
+                                        }
+
+                                        .pdk44-tool-stack::before {
+                                            left: 0.25rem;
+                                            top: 1.55rem;
+                                            bottom: 1.72rem;
+                                        }
+
+                                        .pdk44-tool-card {
+                                            width: 130px;
+                                            min-height: 40px;
+                                            grid-template-columns: 24px 1fr;
+                                            gap: 0.36rem;
+                                            padding: 0.34rem 0.48rem;
+                                            border-radius: 9px;
+                                        }
+
+                                        .pdk44-tool-card::before {
+                                            left: -0.72rem;
+                                            width: 0.72rem;
+                                        }
+
+                                        .pdk44-tool-card svg {
+                                            width: 22px;
+                                            height: 22px;
+                                        }
+
+                                        .pdk44-down {
+                                            height: 15px;
+                                        }
+
+                                        .pdk44-down svg {
+                                            width: 20px;
+                                            height: 16px;
+                                        }
+
+                                        .pdk44-ready {
+                                            gap: 0.22rem;
+                                            margin-top: 0.18rem;
+                                        }
+
+                                        .pdk44-ready-card {
+                                            width: 134px;
+                                            min-height: 52px;
+                                            grid-template-columns: 30px 1fr;
+                                            gap: 0.4rem;
+                                            padding: 0.35rem 0.46rem;
+                                            border-radius: 9px;
+                                        }
+
+                                        .pdk44-ready-card svg {
+                                            width: 28px;
+                                            height: 28px;
+                                        }
+                                    }
+
+                                    @media (min-width: 1200px) and (max-height: 1240px) {
+                                        body.is-embedded[data-page-id="page-4"] .page-shell {
+                                            padding-top: 1.2rem;
+                                            padding-bottom: 2rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .section-title {
+                                            margin-bottom: 1rem;
+                                            font-size: 1.82rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .guidebook-section-head,
+                                        body.is-embedded[data-page-id="page-4"] .part4-tab-shell {
+                                            margin-bottom: 1.05rem;
+                                            padding-bottom: 0.78rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-poster {
+                                            min-height: 720px;
+                                            padding: 1rem 1.12rem 0.72rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-head {
+                                            margin-bottom: 0.68rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-head h3 {
+                                            font-size: 3rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-head p {
+                                            font-size: 1.28rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-left-list {
+                                            gap: 0.22rem;
+                                            padding-top: 0.78rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-item {
+                                            min-height: 56px;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-visual,
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-three {
+                                            min-height: 620px;
+                                            height: 620px;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-three {
+                                            top: 0.25rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-right {
+                                            padding-top: 0.72rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-contents {
+                                            min-height: 505px;
+                                            padding-top: 0.9rem;
+                                            padding-bottom: 0.6rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-content-list {
+                                            margin-top: 0.68rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-content-row {
+                                            min-height: 52px;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-tool-stack {
+                                            gap: 0.18rem;
+                                            margin-top: 0.45rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-tool-stack::before {
+                                            top: 1.58rem;
+                                            bottom: 1.62rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-tool-card {
+                                            min-height: 44px;
+                                            padding-top: 0.34rem;
+                                            padding-bottom: 0.34rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-down {
+                                            height: 13px;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-ready-card {
+                                            min-height: 52px;
+                                            padding-top: 0.32rem;
+                                            padding-bottom: 0.32rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-why {
+                                            min-height: 70px;
+                                            margin-top: 0.42rem;
+                                            padding-top: 0.38rem;
+                                            padding-bottom: 0.38rem;
+                                        }
+
+                                        body.is-embedded[data-page-id="page-4"] .pdk44-why-item {
+                                            min-height: 50px;
+                                        }
+                                    }
+
+                                    @container (max-width: 860px) {
+                                        .pdk44-poster {
+                                            min-height: 0;
+                                            padding: 1.25rem 1rem;
+                                        }
+
+                                        .pdk44-head h3 {
+                                            font-size: 2.35rem;
+                                        }
+
+                                        .pdk44-head p {
+                                            font-size: 1.08rem;
+                                        }
+
+                                        .pdk44-stage {
+                                            grid-template-columns: 1fr;
+                                            gap: 1rem;
+                                        }
+
+                                        .pdk44-left-list {
+                                            gap: 0.35rem;
+                                        }
+
+                                        .pdk44-item {
+                                            grid-template-columns: 42px 24px minmax(0, 1fr);
+                                            min-height: 58px;
+                                        }
+
+                                        .pdk44-lead-line {
+                                            display: none;
+                                        }
+
+                                        .pdk44-visual {
+                                            min-height: 560px;
+                                            margin-left: 0;
+                                        }
+
+                                        .pdk44-three {
+                                            height: 560px;
+                                        }
+
+                                        .pdk44-chip-label {
+                                            left: 63%;
+                                        }
+
+                                        .pdk44-language-label {
+                                            left: 58%;
+                                            width: 190px;
+                                        }
+
+                                        .pdk44-right {
+                                            grid-template-columns: 1fr;
+                                            padding-top: 0;
+                                        }
+
+                                        .pdk44-flow-arrow,
+                                        .pdk44-flow-arrow-next {
+                                            display: none;
+                                        }
+
+                                        .pdk44-contents {
+                                            min-height: 0;
+                                        }
+
+                                        .pdk44-tool-stack::before,
+                                        .pdk44-tool-card::before {
+                                            display: none;
+                                        }
+
+                                        .pdk44-why {
+                                            grid-template-columns: 1fr;
+                                        }
+
+                                        .pdk44-why-item {
+                                            border-left: 0;
+                                            border-top: 1px dashed #c8d5e5;
+                                            padding: 0.65rem 0;
+                                        }
+                                    }
+                                </style>
+
+                                <div class="pdk44-poster" aria-label="Design Kit PDK anatomy and EDA tool flow">
+                                    <div class="pdk44-head">
+                                        <h3>Design Kit / PDK</h3>
+                                        <p>Anatomy and Flow</p>
+                                    </div>
+
+                                    <div class="pdk44-stage">
+                                        <div class="pdk44-left-list" aria-label="PDK source layers">
+                                            <div class="pdk44-item" style="--c: var(--blue)">
+                                                <span class="pdk44-item-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="9" width="38" height="50" rx="4"/><path d="M24 9V5h16v4M23 22l4 4 8-10M23 34l4 4 8-10M23 46l4 4 8-10M40 22h6M40 34h6M40 46h6"/></svg></span>
+                                                <span class="pdk44-num">1</span>
+                                                <span class="pdk44-item-copy"><strong class="pdk44-item-title">Process Rules</strong><span class="pdk44-item-desc">Design rules, restrictions,<br>layer definitions</span></span>
+                                                <span class="pdk44-lead-line"></span>
+                                            </div>
+                                            <div class="pdk44-item" style="--c: var(--green)">
+                                                <span class="pdk44-item-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 38h12M10 26h12M22 14v40M22 20h14M36 20v12M36 44v10M36 32h16M52 22v20M46 22h12M46 42h12"/><circle cx="52" cy="20" r="4"/><circle cx="36" cy="44" r="3"/></svg></span>
+                                                <span class="pdk44-num">2</span>
+                                                <span class="pdk44-item-copy"><strong class="pdk44-item-title">SPICE Models</strong><span class="pdk44-item-desc">Transistor models,<br>RC models, variation</span></span>
+                                                <span class="pdk44-lead-line"></span>
+                                            </div>
+                                            <div class="pdk44-item" style="--c: var(--violet)">
+                                                <span class="pdk44-item-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h18c12 0 20 10 20 12s-8 12-20 12H12z"/><path d="M12 26H6M12 32H6M12 38H6M50 32h8M22 20V12M30 20V12M22 44v8M30 44v8"/></svg></span>
+                                                <span class="pdk44-num">3</span>
+                                                <span class="pdk44-item-copy"><strong class="pdk44-item-title">Standard-Cell Library</strong><span class="pdk44-item-desc">Cells, timing, power,<br>physical views</span></span>
+                                                <span class="pdk44-lead-line"></span>
+                                            </div>
+                                            <div class="pdk44-item" style="--c: var(--cyan)">
+                                                <span class="pdk44-item-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M32 8 56 20 32 32 8 20z"/><path d="M8 32 32 44 56 32M8 44l24 12 24-12"/></svg></span>
+                                                <span class="pdk44-num">4</span>
+                                                <span class="pdk44-item-copy"><strong class="pdk44-item-title">Physical Abstracts</strong><span class="pdk44-item-desc">LEF abstracts, site, track,<br>vias, layer maps</span></span>
+                                                <span class="pdk44-lead-line"></span>
+                                            </div>
+                                            <div class="pdk44-item" style="--c: var(--orange)">
+                                                <span class="pdk44-item-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M32 7 56 18 32 29 8 18z"/><path d="m8 28 24 11 24-11M8 38l24 11 24-11M8 48l24 11 24-11"/></svg></span>
+                                                <span class="pdk44-num">5</span>
+                                                <span class="pdk44-item-copy"><strong class="pdk44-item-title">Routing Layers</strong><span class="pdk44-item-desc">Metal stack, vias,<br>material stack</span></span>
+                                                <span class="pdk44-lead-line"></span>
+                                            </div>
+                                            <div class="pdk44-item" style="--c: var(--blue)">
+                                                <span class="pdk44-item-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 34h13v14M25 18v16h16M41 14v22h12M10 48h16M41 36h14M25 18h11M36 18V8M36 54V40M52 36v11"/><circle cx="36" cy="18" r="3"/><circle cx="25" cy="48" r="3"/><circle cx="52" cy="36" r="3"/></svg></span>
+                                                <span class="pdk44-num">6</span>
+                                                <span class="pdk44-item-copy"><strong class="pdk44-item-title">Extraction Rules</strong><span class="pdk44-item-desc">RC extraction decks,<br>parasitic models</span></span>
+                                                <span class="pdk44-lead-line"></span>
+                                            </div>
+                                            <div class="pdk44-item" style="--c: var(--pink)">
+                                                <span class="pdk44-item-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="24"/><path d="M32 16v17l11 8"/></svg></span>
+                                                <span class="pdk44-num">7</span>
+                                                <span class="pdk44-item-copy"><strong class="pdk44-item-title">Timing Corners</strong><span class="pdk44-item-desc">PVT corners, OCV/AOCV,<br>derates</span></span>
+                                                <span class="pdk44-lead-line"></span>
+                                            </div>
+                                            <div class="pdk44-item" style="--c: var(--navy)">
+                                                <span class="pdk44-item-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M32 7 52 15v15c0 12-7.7 20.5-20 26C19.7 50.5 12 42 12 30V15z"/><path d="m23 31 7 7 13-17" stroke-linecap="round"/></svg></span>
+                                                <span class="pdk44-num">8</span>
+                                                <span class="pdk44-item-copy"><strong class="pdk44-item-title">Signoff Checks</strong><span class="pdk44-item-desc">DRC, LVS, ERC, antenna,<br>DFM rules</span></span>
+                                                <span class="pdk44-lead-line"></span>
+                                            </div>
                                         </div>
-                                        <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Common Reference</span>
+
+                                        <div class="pdk44-visual">
+                                            <div class="pdk44-three" data-pdk44-three role="img" aria-label="Three dimensional PDK layers, chip design package, and wafer handoff">
+                                                <div class="pdk44-fallback">Loading 3D PDK stack...</div>
+                                                <div class="pdk44-label pdk44-chip-label">Chip Design</div>
+                                                <div class="pdk44-label pdk44-language-label">PDK = Common Language<small>Consistent data, rules and models<br>across all EDA stages</small></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="pdk44-right">
+                                            <div class="pdk44-flow-arrow" aria-hidden="true"></div>
+                                            <div class="pdk44-flow-arrow-next" aria-hidden="true"></div>
+
+                                            <div class="pdk44-contents">
+                                                <h4>PDK Contents</h4>
+                                                <div class="pdk44-content-list">
+                                                    <div class="pdk44-content-row" style="--c: var(--blue)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="10" width="38" height="48" rx="4"/><path d="M24 10V6h16v4M23 24l4 4 8-10M23 36l4 4 8-10M23 48l4 4 8-10"/></svg><span>Rules &amp; Constraints</span></div>
+                                                    <div class="pdk44-content-row" style="--c: var(--green)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 38h14M12 26h14M26 14v40M26 20h14M40 20v12M40 44v10M40 32h16M56 22v20M50 22h12M50 42h12"/></svg><span>Device Models</span></div>
+                                                    <div class="pdk44-content-row" style="--c: var(--violet)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 20h18c12 0 20 10 20 12s-8 12-20 12H12z"/><path d="M12 26H6M12 32H6M12 38H6M50 32h8"/></svg><span>Standard-Cell Library</span></div>
+                                                    <div class="pdk44-content-row" style="--c: var(--cyan)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M32 8 56 20 32 32 8 20z"/><path d="M8 32 32 44 56 32M8 44l24 12 24-12"/></svg><span>Physical Abstracts</span></div>
+                                                    <div class="pdk44-content-row" style="--c: var(--orange)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M32 7 56 18 32 29 8 18z"/><path d="m8 28 24 11 24-11M8 38l24 11 24-11M8 48l24 11 24-11"/></svg><span>Routing Stack</span></div>
+                                                    <div class="pdk44-content-row" style="--c: var(--blue)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 34h13v14M25 18v16h16M41 14v22h12M10 48h16M41 36h14M25 18h11M36 18V8M36 54V40"/></svg><span>Extraction Decks</span></div>
+                                                    <div class="pdk44-content-row" style="--c: var(--pink)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="24"/><path d="M32 16v17l11 8"/></svg><span>Timing Corners</span></div>
+                                                    <div class="pdk44-content-row" style="--c: var(--navy)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M32 7 52 15v15c0 12-7.7 20.5-20 26C19.7 50.5 12 42 12 30V15z"/><path d="m23 31 7 7 13-17" stroke-linecap="round"/></svg><span>Signoff Decks</span></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="pdk44-tools" aria-label="EDA tool flow">
+                                                <h4>To EDA Tools</h4>
+                                                <div class="pdk44-tool-stack">
+                                                    <div class="pdk44-tool-card" style="--c: var(--blue)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="17" width="25" height="18" rx="2"/><rect x="30" y="28" width="25" height="18" rx="2"/><path d="M21 17v-7h22v18M21 35v12h22M14 26h42"/></svg><strong>Synthesis</strong></div>
+                                                    <div class="pdk44-down"><svg viewBox="0 0 54 34" aria-hidden="true"><path d="M27 2v23M15 16l12 12 12-12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                                    <div class="pdk44-tool-card" style="--c: var(--green)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="22"/><path d="M32 16v18l12 7"/></svg><strong>STA</strong></div>
+                                                    <div class="pdk44-down"><svg viewBox="0 0 54 34" aria-hidden="true"><path d="M27 2v23M15 16l12 12 12-12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                                    <div class="pdk44-tool-card" style="--c: var(--violet)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="14" width="36" height="36" rx="5"/><rect x="24" y="24" width="16" height="16"/><path d="M8 22h6M8 32h6M8 42h6M50 22h6M50 32h6M50 42h6M22 8v6M32 8v6M42 8v6M22 50v6M32 50v6M42 50v6"/></svg><strong>Place &amp; Route</strong></div>
+                                                    <div class="pdk44-down"><svg viewBox="0 0 54 34" aria-hidden="true"><path d="M27 2v23M15 16l12 12 12-12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                                    <div class="pdk44-tool-card" style="--c: var(--blue)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 34h10l8-20 14 40 8-20h8"/></svg><strong>Extraction</strong></div>
+                                                    <div class="pdk44-down"><svg viewBox="0 0 54 34" aria-hidden="true"><path d="M27 2v23M15 16l12 12 12-12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                                    <div class="pdk44-tool-card" style="--c: var(--orange)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="10" width="32" height="48" rx="4"/><path d="M25 10V6h14v4M24 24l4 4 8-10M24 36l4 4 8-10M24 48l4 4 8-10"/></svg><strong>DRC / LVS</strong></div>
+                                                    <div class="pdk44-down"><svg viewBox="0 0 54 34" aria-hidden="true"><path d="M27 2v23M15 16l12 12 12-12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                                    <div class="pdk44-tool-card" style="--c: var(--pink)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M32 8 51 16v15c0 12-7.4 20-19 25-11.6-5-19-13-19-25V16z"/><path d="m24 32 7 7 13-17" stroke-linecap="round"/></svg><strong>Signoff</strong></div>
+                                                </div>
+                                                <div class="pdk44-ready">
+                                                    <div class="pdk44-down"><svg viewBox="0 0 54 34" aria-hidden="true"><defs><linearGradient id="pdk44ReadyGrad" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#b8d7ff"/><stop offset="1" stop-color="#1157ff"/></linearGradient></defs><path d="M27 2v21H8l19 13 19-13H27z" fill="url(#pdk44ReadyGrad)"/></svg></div>
+                                                    <div class="pdk44-ready-title">Manufacturing Ready</div>
+                                                    <div class="pdk44-ready-card">
+                                                        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="32" cy="32" r="24"/><path d="M8 32h48M14 22h44M14 44h44M23 9v46M34 8v48M45 12v40"/></svg>
+                                                        <span>Tapeout Data<br>DFM Clean<br>Yield Ready</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <svg viewBox="0 0 520 250" class="w-full h-[280px] block" aria-hidden="true">
-                                        <defs>
-                                            <pattern id="pdkFlowGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                                                <path d="M20 0H0V20" fill="none" stroke="#eef6ff" stroke-width="1"/>
-                                            </pattern>
-                                            <linearGradient id="pdkBundleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#eff6ff"/>
-                                                <stop offset="100%" stop-color="#f8fbff"/>
-                                            </linearGradient>
-                                            <linearGradient id="pdkRuleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#dbeafe"/>
-                                                <stop offset="100%" stop-color="#bfdbfe"/>
-                                            </linearGradient>
-                                            <linearGradient id="pdkModelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#dcfce7"/>
-                                                <stop offset="100%" stop-color="#bbf7d0"/>
-                                            </linearGradient>
-                                            <linearGradient id="pdkLibGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#ede9fe"/>
-                                                <stop offset="100%" stop-color="#ddd6fe"/>
-                                            </linearGradient>
-                                            <linearGradient id="pdkDeckGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#ffe4e6"/>
-                                                <stop offset="100%" stop-color="#fecdd3"/>
-                                            </linearGradient>
-                                        </defs>
-                                        <rect width="520" height="250" fill="url(#pdkFlowGrid)"/>
 
-                                        <rect x="28" y="90" width="86" height="60" rx="18" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
-                                        <rect x="42" y="104" width="18" height="18" rx="5" fill="#60a5fa"/>
-                                        <rect x="64" y="104" width="18" height="18" rx="5" fill="#34d399"/>
-                                        <rect x="53" y="126" width="18" height="18" rx="5" fill="#f59e0b"/>
-                                        <text x="71" y="168" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">Foundry</text>
-
-                                        <path d="M114 120H150" fill="none" stroke="#60a5fa" stroke-width="4.2" stroke-linecap="round"/>
-                                        <circle r="5" fill="#2563eb">
-                                            <animateMotion dur="1.8s" repeatCount="indefinite" path="M114 120H150"/>
-                                        </circle>
-
-                                        <rect x="150" y="42" width="168" height="156" rx="28" fill="url(#pdkBundleGrad)" stroke="#bfdbfe" stroke-width="2.2"/>
-                                        <text x="234" y="64" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">PDK / Design Kit</text>
-                                        <text x="234" y="79" text-anchor="middle" fill="#64748b" font-size="9.8" font-weight="900">공정 규칙과 모델의 공통 기준 세트</text>
-
-                                        <rect x="170" y="96" width="64" height="28" rx="11" fill="url(#pdkRuleGrad)" stroke="#60a5fa" stroke-width="1.6"/>
-                                        <rect x="244" y="96" width="64" height="28" rx="11" fill="url(#pdkModelGrad)" stroke="#22c55e" stroke-width="1.6"/>
-                                        <rect x="170" y="136" width="64" height="28" rx="11" fill="url(#pdkLibGrad)" stroke="#8b5cf6" stroke-width="1.6"/>
-                                        <rect x="244" y="136" width="64" height="28" rx="11" fill="url(#pdkDeckGrad)" stroke="#fb7185" stroke-width="1.6"/>
-                                        <text x="202" y="113" text-anchor="middle" fill="#2563eb" font-size="9.6" font-weight="900">Design Rule</text>
-                                        <text x="276" y="113" text-anchor="middle" fill="#16a34a" font-size="9.6" font-weight="900">Device Model</text>
-                                        <text x="202" y="153" text-anchor="middle" fill="#7c3aed" font-size="9.6" font-weight="900">Std Cell Lib</text>
-                                        <text x="276" y="153" text-anchor="middle" fill="#e11d48" font-size="9.6" font-weight="900">Signoff Deck</text>
-
-                                        <path d="M318 120H352" fill="none" stroke="#60a5fa" stroke-width="4.2" stroke-linecap="round"/>
-                                        <circle r="5" fill="#2563eb">
-                                            <animateMotion dur="1.8s" begin="0.2s" repeatCount="indefinite" path="M318 120H352"/>
-                                        </circle>
-
-                                        <g>
-                                            <rect x="352" y="40" width="138" height="34" rx="15" fill="#ffffff" stroke="#dbeafe" stroke-width="1.8"/>
-                                            <rect x="352" y="84" width="138" height="34" rx="15" fill="#ffffff" stroke="#d1fae5" stroke-width="1.8"/>
-                                            <rect x="352" y="128" width="138" height="34" rx="15" fill="#ffffff" stroke="#e9d5ff" stroke-width="1.8"/>
-                                            <rect x="352" y="172" width="138" height="34" rx="15" fill="#ffffff" stroke="#fecdd3" stroke-width="1.8"/>
-                                            <text x="421" y="61" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="900">Synthesis</text>
-                                            <text x="421" y="105" text-anchor="middle" fill="#16a34a" font-size="11" font-weight="900">STA</text>
-                                            <text x="421" y="149" text-anchor="middle" fill="#7c3aed" font-size="11" font-weight="900">PnR</text>
-                                            <text x="421" y="193" text-anchor="middle" fill="#e11d48" font-size="11" font-weight="900">DRC / LVS / Signoff</text>
-                                        </g>
-
-                                        <path d="M300 110C328 110, 332 57, 352 57" fill="none" stroke="#60a5fa" stroke-width="2.8" stroke-linecap="round"/>
-                                        <path d="M314 118C336 118, 336 101, 352 101" fill="none" stroke="#22c55e" stroke-width="2.8" stroke-linecap="round"/>
-                                        <path d="M300 150C328 150, 332 145, 352 145" fill="none" stroke="#8b5cf6" stroke-width="2.8" stroke-linecap="round"/>
-                                        <path d="M314 158C336 158, 336 189, 352 189" fill="none" stroke="#fb7185" stroke-width="2.8" stroke-linecap="round"/>
-
-                                        <circle r="4.6" fill="#60a5fa">
-                                            <animateMotion dur="2.2s" repeatCount="indefinite" path="M300 110C328 110, 332 57, 352 57"/>
-                                        </circle>
-                                        <circle r="4.6" fill="#22c55e">
-                                            <animateMotion dur="2.2s" begin="0.55s" repeatCount="indefinite" path="M314 118C336 118, 336 101, 352 101"/>
-                                        </circle>
-                                        <circle r="4.6" fill="#8b5cf6">
-                                            <animateMotion dur="2.2s" begin="1.1s" repeatCount="indefinite" path="M300 150C328 150, 332 145, 352 145"/>
-                                        </circle>
-                                        <circle r="4.6" fill="#fb7185">
-                                            <animateMotion dur="2.2s" begin="1.65s" repeatCount="indefinite" path="M314 158C336 158, 336 189, 352 189"/>
-                                        </circle>
-
-                                        <text x="421" y="226" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900">하나의 PDK 기준이 여러 EDA 단계에서 공통으로 쓰임</text>
-                                    </svg>
-                                    <div class="px-5 py-4 border-t border-blue-100 bg-white/80 flex flex-wrap gap-2">
-                                        <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Rule</span>
-                                        <span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1.5 text-[11px] font-extrabold text-emerald-600">Model</span>
-                                        <span class="inline-flex items-center rounded-full bg-violet-50 px-3 py-1.5 text-[11px] font-extrabold text-violet-600">Library</span>
-                                        <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-extrabold text-rose-600">Deck</span>
-                                        <span class="inline-flex items-center rounded-full bg-slate-50 px-3 py-1.5 text-[11px] font-extrabold text-slate-600">EDA Common Basis</span>
+                                    <div class="pdk44-why" aria-label="Why a PDK matters">
+                                        <div class="pdk44-why-title">Why a PDK Matters</div>
+                                        <div class="pdk44-why-item" style="--c: var(--blue)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="34" r="21"/><circle cx="32" cy="34" r="10"/><path d="M32 34 52 14M44 14h8v8"/></svg><span>One Source<br>of Truth</span></div>
+                                        <div class="pdk44-why-item" style="--c: var(--green)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M32 7 52 15v15c0 12-7.7 20.5-20 26C19.7 50.5 12 42 12 30V15z"/><path d="m23 31 7 7 13-17" stroke-linecap="round"/></svg><span>Consistency<br>Across Tools</span></div>
+                                        <div class="pdk44-why-item" style="--c: var(--violet)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 47a24 24 0 1 1 36 0"/><path d="M21 43h-8M32 18v-8M50 43h-8M32 43l14-18"/><circle cx="32" cy="43" r="4"/></svg><span>Faster Closure<br>Lower Risk</span></div>
+                                        <div class="pdk44-why-item" style="--c: var(--orange)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 52h44M16 52V39h8v13M30 52V30h8v22M44 52V20h8v32M14 30l15-15 11 8 14-17M49 6h5v9"/></svg><span>Better Quality<br>&amp; Reliability</span></div>
+                                        <div class="pdk44-why-item" style="--c: var(--cyan)"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 52h44M16 52V32h9v20M30 52V23h9v29M44 52V16h8v36M14 32h10M32 23h8M46 16h10"/></svg><span>Manufacturing<br>Confidence</span></div>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-                                    <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4">
-                                        <div class="font-bold text-gray-900 mb-2 text-sm">포함 정보</div>
-                                        <p class="text-sm text-gray-600">디자인 룰, 소자 모델, 라이브러리, 추출/검증 deck 등이 포함됩니다.</p>
-                                    </div>
-                                    <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4">
-                                        <div class="font-bold text-gray-900 mb-2 text-sm">사용 단계</div>
-                                        <p class="text-sm text-gray-600">합성, STA, PnR, DRC/LVS까지 거의 모든 물리 구현 단계에서 사용됩니다.</p>
-                                    </div>
-                                    <div class="rounded-2xl bg-gray-50 border border-gray-100 p-4">
-                                        <div class="font-bold text-gray-900 mb-2 text-sm">핵심 문장</div>
-                                        <p class="text-sm text-gray-600">“Design Kit는 설계 데이터를 파운드리 공정 규칙과 연결하는 공통 언어다.”</p>
-                                    </div>
-                                </div>
-                                <div class="rounded-2xl bg-blue-50 border border-blue-100 p-5 text-sm text-gray-700">
-                                    <strong class="text-blue-600 block mb-1">Flow 연결</strong>
-                                    RTL만으로는 칩을 만들 수 없고, Design Kit가 있어야 synthesis/STA/PnR/Signoff 툴이 공정 기준으로 판단할 수 있습니다.
-                                </div>
+
+                                <script>
+                                    (function () {
+                                        function bootPdk44Scenes() {
+                                            if (!window.THREE) return;
+                                            document.querySelectorAll('[data-pdk44-three]').forEach(initPdk44Scene);
+                                        }
+
+                                        function initPdk44Scene(root) {
+                                            if (root.__pdk44Scene) {
+                                                root.__pdk44Scene.resize();
+                                                return;
+                                            }
+
+                                            var THREE = window.THREE;
+                                            var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
+                                            renderer.setClearColor(0xffffff, 0);
+                                            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                                            renderer.shadowMap.enabled = true;
+                                            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                                            if ('SRGBColorSpace' in THREE) renderer.outputColorSpace = THREE.SRGBColorSpace;
+                                            root.appendChild(renderer.domElement);
+                                            root.classList.add('is-ready');
+
+                                            var scene = new THREE.Scene();
+                                            var camera = new THREE.OrthographicCamera(-4, 4, 3.6, -3.6, 0.1, 100);
+                                            camera.position.set(5.4, 5.0, 7.2);
+                                            camera.lookAt(0.05, 0.38, 0);
+
+                                            var key = new THREE.DirectionalLight(0xffffff, 2.7);
+                                            key.position.set(2.8, 6, 4.5);
+                                            key.castShadow = true;
+                                            key.shadow.mapSize.set(1024, 1024);
+                                            scene.add(key);
+                                            scene.add(new THREE.HemisphereLight(0xf4f8ff, 0xe4ebf5, 1.9));
+                                            var fill = new THREE.PointLight(0x93c4ff, 1.35, 10);
+                                            fill.position.set(-3.4, 2.4, 4.2);
+                                            scene.add(fill);
+
+                                            var world = new THREE.Group();
+                                            world.position.set(-0.12, 0.1, 0);
+                                            world.rotation.y = -0.02;
+                                            scene.add(world);
+
+                                            function textureCanvas(width, height, draw) {
+                                                var canvas = document.createElement('canvas');
+                                                canvas.width = width;
+                                                canvas.height = height;
+                                                var ctx = canvas.getContext('2d');
+                                                draw(ctx, width, height);
+                                                var texture = new THREE.CanvasTexture(canvas);
+                                                texture.anisotropy = 4;
+                                                texture.needsUpdate = true;
+                                                return texture;
+                                            }
+
+                                            function layerTexture(color, type) {
+                                                return textureCanvas(640, 260, function (ctx, w, h) {
+                                                    ctx.clearRect(0, 0, w, h);
+                                                    ctx.strokeStyle = color;
+                                                    ctx.lineWidth = 5;
+                                                    ctx.globalAlpha = 0.72;
+                                                    if (type === 'rules') {
+                                                        for (var x = 30; x < w; x += 56) { ctx.beginPath(); ctx.moveTo(x, 10); ctx.lineTo(x + 250, h - 10); ctx.stroke(); }
+                                                        for (var y = 28; y < h; y += 36) { ctx.beginPath(); ctx.moveTo(16, y); ctx.lineTo(w - 28, y + 8); ctx.stroke(); }
+                                                        [[410, 98, 56, 18], [492, 126, 70, 18], [352, 160, 84, 18]].forEach(function (r) { ctx.strokeRect(r[0], r[1], r[2], r[3]); });
+                                                    } else if (type === 'models') {
+                                                        [[68, 122, 162, 122], [170, 122, 170, 64], [170, 64, 275, 64], [278, 158, 420, 158], [420, 90, 420, 198], [462, 116, 572, 116]].forEach(function (p) { ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(p[2], p[3]); ctx.stroke(); });
+                                                        [160, 290, 430, 555].forEach(function (x) { ctx.beginPath(); ctx.arc(x, 116 + (x % 3) * 14, 8, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill(); });
+                                                    } else if (type === 'cells' || type === 'abstracts') {
+                                                        for (var i = 0; i < 12; i++) ctx.strokeRect(78 + (i % 6) * 82, 62 + Math.floor(i / 6) * 68, 50 + (i % 3) * 12, 20);
+                                                    } else if (type === 'routing') {
+                                                        [[44, 118, 205, 118, 205, 58, 318, 58, 318, 166, 530, 166], [128, 184, 260, 184, 260, 116, 390, 116, 390, 186, 548, 186]].forEach(function (p) {
+                                                            ctx.beginPath(); ctx.moveTo(p[0], p[1]); for (var j = 2; j < p.length; j += 2) ctx.lineTo(p[j], p[j + 1]); ctx.stroke();
+                                                        });
+                                                        [205, 318, 390, 492].forEach(function (x) { ctx.fillStyle = '#fff7ed'; ctx.strokeRect(x - 8, 52 + (x % 2) * 60, 16, 16); });
+                                                    } else if (type === 'timing') {
+                                                        ctx.beginPath(); ctx.moveTo(74, 194); ctx.bezierCurveTo(176, 70, 242, 35, 276, 98); ctx.bezierCurveTo(298, 138, 240, 176, 286, 218); ctx.stroke();
+                                                        ctx.fillStyle = color; ctx.font = 'bold 34px IBM Plex Sans, sans-serif'; ctx.fillText('PVT', 410, 190);
+                                                        ctx.beginPath(); ctx.moveTo(316, 136); ctx.lineTo(450, 136); ctx.lineTo(502, 170); ctx.lineTo(590, 170); ctx.stroke();
+                                                    } else {
+                                                        ctx.strokeRect(90, 84, 58, 30); ctx.strokeRect(200, 106, 50, 28); ctx.strokeRect(328, 72, 54, 28);
+                                                        ctx.strokeRect(438, 118, 94, 58);
+                                                        ctx.beginPath(); ctx.moveTo(462, 132); ctx.lineTo(510, 132); ctx.moveTo(462, 150); ctx.lineTo(510, 150); ctx.stroke();
+                                                    }
+                                                });
+                                            }
+
+                                            function waferTexture() {
+                                                return textureCanvas(820, 820, function (ctx, w, h) {
+                                                    var grad = ctx.createLinearGradient(0, 0, w, h);
+                                                    grad.addColorStop(0, '#fff0bc');
+                                                    grad.addColorStop(0.32, '#c9f3df');
+                                                    grad.addColorStop(0.62, '#9fd5ff');
+                                                    grad.addColorStop(1, '#f1c5f8');
+                                                    ctx.fillStyle = grad;
+                                                    ctx.fillRect(0, 0, w, h);
+                                                    ctx.globalAlpha = 0.72;
+                                                    ctx.strokeStyle = '#2e78ff';
+                                                    ctx.lineWidth = 5;
+                                                    for (var x = -120; x < w + 120; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+                                                    for (var y = -120; y < h + 120; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+                                                    ctx.strokeStyle = '#bd7cff';
+                                                    ctx.lineWidth = 4;
+                                                    for (var d = -w; d < w * 2; d += 155) { ctx.beginPath(); ctx.moveTo(d, h); ctx.lineTo(d + w, 0); ctx.stroke(); }
+                                                });
+                                            }
+
+                                            function dieTexture() {
+                                                return textureCanvas(540, 430, function (ctx, w, h) {
+                                                    var grad = ctx.createLinearGradient(0, 0, w, h);
+                                                    grad.addColorStop(0, '#2fd8ff');
+                                                    grad.addColorStop(0.44, '#6468ff');
+                                                    grad.addColorStop(1, '#ff5ce4');
+                                                    ctx.fillStyle = grad;
+                                                    ctx.fillRect(0, 0, w, h);
+                                                    ctx.strokeStyle = 'rgba(7,23,51,0.78)';
+                                                    ctx.lineWidth = 7;
+                                                    for (var x = 0; x < w; x += 58) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+                                                    for (var y = 0; y < h; y += 52) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+                                                    ctx.fillStyle = 'rgba(142,232,255,0.5)';
+                                                    [[72, 58, 135, 70], [218, 82, 168, 84], [104, 224, 158, 86], [310, 234, 148, 82]].forEach(function (r) { ctx.fillRect(r[0], r[1], r[2], r[3]); });
+                                                });
+                                            }
+
+                                            function addPlate(group, cfg) {
+                                                var body = new THREE.Mesh(
+                                                    new THREE.BoxGeometry(3.3, 0.08, 1.32),
+                                                    new THREE.MeshPhysicalMaterial({ color: cfg.fill, transparent: true, opacity: 0.67, roughness: 0.42, metalness: 0.03, clearcoat: 0.36, clearcoatRoughness: 0.36 })
+                                                );
+                                                body.castShadow = true;
+                                                body.receiveShadow = true;
+                                                body.position.set(cfg.x, cfg.y, -0.08);
+                                                group.add(body);
+
+                                                var top = new THREE.Mesh(
+                                                    new THREE.PlaneGeometry(3.28, 1.3),
+                                                    new THREE.MeshBasicMaterial({ map: layerTexture(cfg.stroke, cfg.kind), transparent: true, opacity: 0.92, depthWrite: false })
+                                                );
+                                                top.rotation.x = -Math.PI / 2;
+                                                top.position.set(cfg.x, cfg.y + 0.047, -0.08);
+                                                group.add(top);
+
+                                                var edge = new THREE.LineSegments(
+                                                    new THREE.EdgesGeometry(body.geometry),
+                                                    new THREE.LineBasicMaterial({ color: cfg.stroke, transparent: true, opacity: 0.94 })
+                                                );
+                                                edge.position.copy(body.position);
+                                                group.add(edge);
+                                                return body;
+                                            }
+
+                                            var layerGroup = new THREE.Group();
+                                            layerGroup.position.set(-1.32, 0.14, 0);
+                                            world.add(layerGroup);
+                                            var layerTopY = 2.62;
+                                            var layerGapY = 0.72;
+                                            var defs = [
+                                                ['#dbeaff', '#1157ff', 'rules'],
+                                                ['#c9f4df', '#0aa66a', 'models'],
+                                                ['#dacaff', '#6933ff', 'cells'],
+                                                ['#c8f0fa', '#0c99bc', 'abstracts'],
+                                                ['#ffd9af', '#ff7900', 'routing'],
+                                                ['#dbeaff', '#1157ff', 'extraction'],
+                                                ['#fbd0e5', '#d3217a', 'timing'],
+                                                ['#dfe7f1', '#263d70', 'signoff']
+                                            ];
+                                            var layers = [];
+                                            defs.forEach(function (def, i) {
+                                                layers.push(addPlate(layerGroup, { fill: def[0], stroke: def[1], kind: def[2], x: 0, y: layerTopY - i * layerGapY }));
+                                            });
+
+                                            [-1.25, 0, 1.25].forEach(function (x) {
+                                                var line = new THREE.Line(
+                                                    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x, layerTopY + 0.36, -0.72), new THREE.Vector3(x, layerTopY - (defs.length - 1) * layerGapY - 0.32, -0.72)]),
+                                                    new THREE.LineDashedMaterial({ color: 0xb8c7d9, dashSize: 0.08, gapSize: 0.08, transparent: true, opacity: 0.75 })
+                                                );
+                                                line.computeLineDistances();
+                                                layerGroup.add(line);
+                                            });
+
+                                            var waferGroup = new THREE.Group();
+                                            waferGroup.position.set(1.9, -0.58, 0.12);
+                                            world.add(waferGroup);
+
+                                            var wafer = new THREE.Mesh(
+                                                new THREE.CylinderGeometry(1.64, 1.64, 0.22, 128, 1, false),
+                                                [
+                                                    new THREE.MeshPhysicalMaterial({ color: '#14243a', roughness: 0.5, metalness: 0.18 }),
+                                                    new THREE.MeshPhysicalMaterial({ map: waferTexture(), roughness: 0.38, metalness: 0.04, clearcoat: 0.45 }),
+                                                    new THREE.MeshPhysicalMaterial({ color: '#263d70', roughness: 0.5 })
+                                                ]
+                                            );
+                                            wafer.scale.z = 0.58;
+                                            wafer.castShadow = true;
+                                            wafer.receiveShadow = true;
+                                            waferGroup.add(wafer);
+
+                                            var notch = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.18, 0.18), new THREE.MeshPhysicalMaterial({ color: '#102238', roughness: 0.5 }));
+                                            notch.position.set(1.39, 0.05, 0.52);
+                                            notch.rotation.y = -0.72;
+                                            waferGroup.add(notch);
+
+                                            var chipGroup = new THREE.Group();
+                                            chipGroup.position.set(1.94, 0.54, 0.02);
+                                            world.add(chipGroup);
+
+                                            var baseMat = new THREE.MeshPhysicalMaterial({ color: '#172a43', roughness: 0.42, metalness: 0.25, clearcoat: 0.12 });
+                                            var substrate = new THREE.Mesh(new THREE.BoxGeometry(1.48, 0.25, 1.2), baseMat);
+                                            substrate.castShadow = true;
+                                            substrate.receiveShadow = true;
+                                            chipGroup.add(substrate);
+
+                                            var packageTop = new THREE.Mesh(new THREE.BoxGeometry(1.66, 0.08, 1.36), new THREE.MeshPhysicalMaterial({ color: '#263e5f', roughness: 0.4, metalness: 0.12 }));
+                                            packageTop.position.y = 0.18;
+                                            packageTop.castShadow = true;
+                                            chipGroup.add(packageTop);
+
+                                            var die = new THREE.Mesh(new THREE.BoxGeometry(1.08, 0.08, 0.86), new THREE.MeshPhysicalMaterial({ map: dieTexture(), roughness: 0.3, clearcoat: 0.5 }));
+                                            die.position.y = 0.28;
+                                            chipGroup.add(die);
+                                            var dieEdge = new THREE.LineSegments(new THREE.EdgesGeometry(die.geometry), new THREE.LineBasicMaterial({ color: 0x97c9ff, transparent: true, opacity: 0.9 }));
+                                            dieEdge.position.copy(die.position);
+                                            chipGroup.add(dieEdge);
+
+                                            var bumpMat = new THREE.MeshPhysicalMaterial({ color: '#f4cf77', roughness: 0.28, metalness: 0.55 });
+                                            var bumpGeo = new THREE.SphereGeometry(0.035, 16, 10);
+                                            for (var side = 0; side < 4; side++) {
+                                                for (var b = 0; b < 9; b++) {
+                                                    var u = -0.69 + b * 0.17;
+                                                    var bump = new THREE.Mesh(bumpGeo, bumpMat);
+                                                    if (side < 2) bump.position.set(u, 0.28, side === 0 ? -0.64 : 0.64);
+                                                    else bump.position.set(side === 2 ? -0.78 : 0.78, 0.28, u);
+                                                    chipGroup.add(bump);
+                                                }
+                                            }
+
+                                            var shadowGlass = new THREE.Mesh(
+                                                new THREE.CylinderGeometry(1.22, 1.64, 0.95, 4, 1, true),
+                                                new THREE.MeshBasicMaterial({ color: 0x8fd8ff, transparent: true, opacity: 0.08, side: THREE.DoubleSide, depthWrite: false })
+                                            );
+                                            shadowGlass.position.set(1.9, 0.02, 0.02);
+                                            shadowGlass.rotation.y = Math.PI / 4;
+                                            world.add(shadowGlass);
+
+                                            var blueMat = new THREE.LineBasicMaterial({ color: 0x1157ff, transparent: true, opacity: 0.9 });
+                                            world.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(1.94, 1.12, 0.02), new THREE.Vector3(1.94, 1.8, 0.02)]), blueMat));
+                                            world.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(1.9, -1.2, 0.15), new THREE.Vector3(1.9, -1.95, 0.15)]), blueMat));
+
+                                            var targetRot = { x: 0, y: -0.02 };
+                                            root.addEventListener('pointermove', function (event) {
+                                                var rect = root.getBoundingClientRect();
+                                                targetRot.y = -0.02 + ((event.clientX - rect.left) / rect.width - 0.5) * 0.07;
+                                                targetRot.x = ((event.clientY - rect.top) / rect.height - 0.5) * -0.035;
+                                            });
+                                            root.addEventListener('pointerleave', function () {
+                                                targetRot.x = 0;
+                                                targetRot.y = -0.02;
+                                            });
+
+                                            function resize() {
+                                                var width = Math.max(1, root.clientWidth);
+                                                var height = Math.max(1, root.clientHeight);
+                                                renderer.setSize(width, height, false);
+                                                var aspect = width / height;
+                                                var view = aspect > 1 ? 7.45 : 8.65;
+                                                camera.left = -view * aspect / 2;
+                                                camera.right = view * aspect / 2;
+                                                camera.top = view / 2;
+                                                camera.bottom = -view / 2;
+                                                camera.updateProjectionMatrix();
+                                            }
+                                            resize();
+                                            var resizeObserver = new ResizeObserver(resize);
+                                            resizeObserver.observe(root);
+
+                                            var clock = new THREE.Clock();
+                                            function render() {
+                                                var t = clock.getElapsedTime();
+                                                world.rotation.y += (targetRot.y - world.rotation.y) * 0.055;
+                                                world.rotation.x += (targetRot.x - world.rotation.x) * 0.055;
+                                                layers.forEach(function (layer, i) {
+                                                    layer.position.y = layerTopY - i * layerGapY + Math.sin(t * 0.72 + i * 0.58) * 0.01;
+                                                });
+                                                chipGroup.rotation.y = Math.sin(t * 0.42) * 0.02;
+                                                renderer.render(scene, camera);
+                                                root.__pdk44Scene.frame = requestAnimationFrame(render);
+                                            }
+
+                                            root.__pdk44Scene = { renderer: renderer, scene: scene, camera: camera, frame: 0, resize: resize, resizeObserver: resizeObserver };
+                                            render();
+                                        }
+
+                                        if (document.readyState === 'loading') {
+                                            document.addEventListener('DOMContentLoaded', bootPdk44Scenes);
+                                        } else {
+                                            bootPdk44Scenes();
+                                        }
+                                        window.addEventListener('load', bootPdk44Scenes);
+                                        setTimeout(bootPdk44Scenes, 250);
+                                    }());
+                                </script>
                             </div>
-                        </div>

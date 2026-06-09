@@ -19,6 +19,7 @@
         const frame = frames[toIndex(currentPage)] || null;
         return frame?.dataset.pageId || `page-${currentPage}`;
     };
+    const frameHeightOverscan = 40;
 
     const isFormTarget = (target) => {
         if (!(target instanceof Element)) return false;
@@ -40,7 +41,7 @@
     const resizeFrame = (pageId, height) => {
         const frame = document.querySelector(`[data-page-id="${pageId}"]`);
         if (!frame) return;
-        const safeHeight = Math.max(480, Math.ceil(Number(height) || 0));
+        const safeHeight = Math.max(480, Math.ceil(Number(height) || 0) + frameHeightOverscan);
         const currentHeight = Number.parseFloat(frame.style.height) || Math.round(frame.getBoundingClientRect().height) || 0;
         if (Math.abs(currentHeight - safeHeight) <= 1) {
             markFrameReady(frame);

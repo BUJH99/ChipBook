@@ -9967,265 +9967,6 @@
             </div>
           </div>
 
-          <div class="axi-expert-section mb-8 rounded-[32px] bg-slate-50 p-4 md:p-8">
-            <div class="max-w-[1400px] mx-auto space-y-8">
-              <div class="axi-expert-visual-card rounded-3xl p-4 md:p-6">
-              <div class="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between mb-4">
-                <div>
-                  <div class="text-[10px] font-black uppercase tracking-[0.24em] text-indigo-500 mb-2">Schematic Guardrail Map</div>
-                  <h4 class="text-xl font-black text-slate-900 tracking-tight uppercase italic">Channel Contract Review Plane</h4>
-                  <p class="mt-1 text-sm leading-6 text-slate-600">AW/W/B/AR/R 흐름과 RTL review 포인트를 회로도 톤으로 요약합니다.</p>
-                </div>
-                <div class="flex flex-wrap gap-2">
-                  <span class="axi-expert-status-pill is-amber">🤝 Contract</span>
-                  <span class="axi-expert-status-pill is-emerald">✅ Completion</span>
-                  <span class="axi-expert-status-pill">⚠️ Boundary</span>
-                </div>
-              </div>
-
-              <div class="relative z-10 w-full overflow-x-auto">
-                <svg class="axi-expert-svg" viewBox="0 0 860 360" role="img" aria-labelledby="axiExpertMapTitle axiExpertMapDesc">
-                  <title id="axiExpertMapTitle">AXI Full protocol guardrail map</title>
-                  <desc id="axiExpertMapDesc">Animated AXI manager, fabric, and target lanes showing address, data, response, and validation guardrails.</desc>
-                  <defs>
-                    <linearGradient id="axiExpertManagerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#eff6ff" />
-                      <stop offset="100%" stop-color="#dbeafe" />
-                    </linearGradient>
-                    <linearGradient id="axiExpertFabricGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#f8fafc" />
-                      <stop offset="100%" stop-color="#eef2ff" />
-                    </linearGradient>
-                    <linearGradient id="axiExpertTargetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#ecfdf5" />
-                      <stop offset="100%" stop-color="#dcfce7" />
-                    </linearGradient>
-                    <marker id="axiExpertArrowBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
-                    </marker>
-                    <marker id="axiExpertArrowGreen" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
-                    </marker>
-                    <marker id="axiExpertArrowAmber" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
-                    </marker>
-                  </defs>
-
-                  <rect x="22" y="24" width="816" height="312" rx="28" fill="rgba(255,255,255,0.78)" stroke="#e2e8f0" />
-
-                  <g>
-                    <rect class="axi-expert-node-shadow" x="48" y="138" width="138" height="96" rx="14" />
-                    <rect class="axi-expert-hw-block-svg is-manager" x="42" y="132" width="138" height="96" rx="14" />
-                    <text x="111" y="160" text-anchor="middle" fill="#b45309" font-size="10" font-weight="900">AXI Manager</text>
-                    <text x="111" y="184" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">VALID SRC</text>
-                    <text x="111" y="205" text-anchor="middle" fill="#64748b" font-size="10" font-weight="800">ADDR / DATA ISSUE</text>
-                  </g>
-
-                  <g>
-                    <rect class="axi-expert-node-shadow" x="346" y="108" width="180" height="156" rx="16" />
-                    <rect class="axi-expert-hw-block-svg is-fabric" x="340" y="102" width="180" height="156" rx="16" />
-                    <text x="430" y="132" text-anchor="middle" fill="#475569" font-size="10" font-weight="900">Interconnect</text>
-                    <text x="430" y="156" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">RULE CHECKER</text>
-                    <rect x="374" y="178" width="112" height="42" rx="8" fill="#f8fafc" stroke="#e2e8f0" />
-                    <circle class="axi-expert-check-dot" cx="397" cy="199" r="7" fill="#f59e0b" opacity="0.9" />
-                    <circle class="axi-expert-check-dot" cx="430" cy="199" r="7" fill="#3b82f6" opacity="0.9" />
-                    <circle class="axi-expert-check-dot" cx="463" cy="199" r="7" fill="#10b981" opacity="0.9" />
-                    <text x="430" y="239" text-anchor="middle" fill="#334155" font-size="10" font-weight="900">ORDER / CDC / RESP</text>
-                  </g>
-
-                  <g>
-                    <rect class="axi-expert-node-shadow" x="686" y="138" width="138" height="96" rx="14" />
-                    <rect class="axi-expert-hw-block-svg is-target" x="680" y="132" width="138" height="96" rx="14" />
-                    <text x="749" y="160" text-anchor="middle" fill="#047857" font-size="10" font-weight="900">AXI Target</text>
-                    <text x="749" y="184" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="900">READY / RESP</text>
-                    <text x="749" y="205" text-anchor="middle" fill="#64748b" font-size="10" font-weight="800">COMPLETION NODE</text>
-                  </g>
-
-                  <path class="axi-expert-signal-base" d="M 198 84 H 666" />
-                  <path class="axi-expert-signal-base" d="M 198 126 H 666" />
-                  <path class="axi-expert-signal-base" d="M 666 168 H 198" />
-                  <path class="axi-expert-signal-base" d="M 198 252 H 666" />
-                  <path class="axi-expert-signal-base" d="M 666 294 H 198" />
-                  <path class="axi-expert-lane is-aw" d="M 198 84 H 666" marker-end="url(#axiExpertArrowAmber)" />
-                  <path class="axi-expert-lane is-w" d="M 198 126 H 666" marker-end="url(#axiExpertArrowBlue)" />
-                  <path class="axi-expert-lane is-reverse is-b" d="M 666 168 H 198" marker-end="url(#axiExpertArrowGreen)" />
-                  <path class="axi-expert-lane is-ar" d="M 198 252 H 666" marker-end="url(#axiExpertArrowAmber)" />
-                  <path class="axi-expert-lane is-reverse is-r" d="M 666 294 H 198" marker-end="url(#axiExpertArrowGreen)" />
-
-                  <text x="210" y="74" fill="#b45309" font-size="11" font-weight="900">AW</text>
-                  <text x="210" y="116" fill="#2563eb" font-size="11" font-weight="900">W</text>
-                  <text x="632" y="158" fill="#047857" font-size="11" font-weight="900">B</text>
-                  <text x="210" y="242" fill="#b45309" font-size="11" font-weight="900">AR</text>
-                  <text x="632" y="284" fill="#047857" font-size="11" font-weight="900">R</text>
-
-                  <g class="axi-expert-packet axi-expert-packet--fwd axi-expert-packet-aw">
-                    <rect x="218" y="68" width="54" height="30" rx="10" fill="#2563eb" />
-                    <text x="245" y="88" text-anchor="middle" fill="white" font-size="11" font-weight="900">AW</text>
-                  </g>
-                  <g class="axi-expert-packet axi-expert-packet--fwd axi-expert-packet-w">
-                    <rect x="218" y="110" width="54" height="30" rx="10" fill="#4f46e5" />
-                    <text x="245" y="130" text-anchor="middle" fill="white" font-size="11" font-weight="900">W</text>
-                  </g>
-                  <g class="axi-expert-packet axi-expert-packet--rev axi-expert-packet-b">
-                    <rect x="584" y="152" width="54" height="30" rx="10" fill="#059669" />
-                    <text x="611" y="172" text-anchor="middle" fill="white" font-size="11" font-weight="900">B</text>
-                  </g>
-                  <g class="axi-expert-packet axi-expert-packet--fwd axi-expert-packet-ar">
-                    <rect x="218" y="236" width="54" height="30" rx="10" fill="#2563eb" />
-                    <text x="245" y="256" text-anchor="middle" fill="white" font-size="11" font-weight="900">AR</text>
-                  </g>
-                  <g class="axi-expert-packet axi-expert-packet--rev axi-expert-packet-r">
-                    <rect x="584" y="278" width="54" height="30" rx="10" fill="#d97706" />
-                    <text x="611" y="298" text-anchor="middle" fill="white" font-size="11" font-weight="900">R</text>
-                  </g>
-
-                  <g>
-                    <rect x="80" y="276" width="166" height="34" rx="17" fill="#f8fafc" stroke="#e2e8f0" />
-                    <text x="163" y="298" text-anchor="middle" fill="#475569" font-size="11" font-weight="900">VALID independent</text>
-                  </g>
-                  <g>
-                    <rect x="594" y="54" width="184" height="34" rx="17" fill="#fffbeb" stroke="#fed7aa" />
-                    <text x="686" y="76" text-anchor="middle" fill="#b45309" font-size="11" font-weight="900">4KB boundary guard</text>
-                  </g>
-                </svg>
-                <div class="axi-expert-mobile-flow" aria-label="AXI Full compact channel flow">
-                  <div class="axi-expert-mobile-flow-row" style="--axi-mobile-flow:#f59e0b">
-                    <strong>AW</strong>
-                    <div class="axi-expert-mobile-flow-track"></div>
-                    <span>주소 계약</span>
-                  </div>
-                  <div class="axi-expert-mobile-flow-row" style="--axi-mobile-flow:#3b82f6">
-                    <strong>W</strong>
-                    <div class="axi-expert-mobile-flow-track"></div>
-                    <span>데이터 순서</span>
-                  </div>
-                  <div class="axi-expert-mobile-flow-row is-reverse" style="--axi-mobile-flow:#10b981">
-                    <strong>B</strong>
-                    <div class="axi-expert-mobile-flow-track"></div>
-                    <span>Write 응답</span>
-                  </div>
-                  <div class="axi-expert-mobile-flow-row" style="--axi-mobile-flow:#f59e0b">
-                    <strong>AR</strong>
-                    <div class="axi-expert-mobile-flow-track"></div>
-                    <span>Read 요청</span>
-                  </div>
-                  <div class="axi-expert-mobile-flow-row is-reverse" style="--axi-mobile-flow:#10b981">
-                    <strong>R</strong>
-                    <div class="axi-expert-mobile-flow-track"></div>
-                    <span>Beat 응답</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-              <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
-                <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              <article class="axi-expert-rule-card is-slate rounded-[20px] p-5">
-                <div class="flex items-start gap-3 mb-4">
-                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
-                    <i data-lucide="handshake" class="w-5 h-5"></i>
-                  </div>
-                  <div>
-                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-slate-500 mb-1">🤝 Handshake</div>
-                    <h4 class="font-black text-slate-900">VALID/READY 계약</h4>
-                  </div>
-                </div>
-                <div class="space-y-2.5">
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">⚡</span><div><strong>VALID 독립 Assert</strong><small>READY 비대기</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">📌</span><div><strong>Payload 안정성</strong><small>stall 구간 sideband 고정</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🔒</span><div><strong>Loop 차단성</strong><small>deadlock loop 예방</small></div></div>
-                </div>
-              </article>
-
-              <article class="axi-expert-rule-card is-blue rounded-[20px] p-5">
-                <div class="flex items-start gap-3 mb-4">
-                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
-                    <i data-lucide="rows-3" class="w-5 h-5"></i>
-                  </div>
-                  <div>
-                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-blue-500 mb-1">📏 Burst</div>
-                    <h4 class="font-black text-slate-900">Burst 합법성</h4>
-                  </div>
-                </div>
-                <div class="space-y-2.5">
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🔢</span><div><strong>AxLEN = Beats - 1</strong><small>INCR 최대 256 beats</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧭</span><div><strong>WRAP 경계 정렬</strong><small>2 / 4 / 8 / 16 beats</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🚧</span><div><strong>4KB Boundary</strong><small>cross 금지 / early termination 금지</small></div></div>
-                </div>
-              </article>
-
-              <article class="axi-expert-rule-card is-indigo rounded-[20px] p-5">
-                <div class="flex items-start gap-3 mb-4">
-                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
-                    <i data-lucide="route" class="w-5 h-5"></i>
-                  </div>
-                  <div>
-                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-indigo-500 mb-1">🧩 Write Path</div>
-                    <h4 class="font-black text-slate-900">Write Data 순서</h4>
-                  </div>
-                </div>
-                <div class="space-y-2.5">
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🏷️</span><div><strong>WID 제거</strong><small>AXI4 W channel 규칙</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">➡️</span><div><strong>Interleaving 금지</strong><small>burst 단위 연속 W beats</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧰</span><div><strong>AW/W Realign</strong><small>decode buffer</small></div></div>
-                </div>
-              </article>
-
-              <article class="axi-expert-rule-card is-emerald rounded-[20px] p-5">
-                <div class="flex items-start gap-3 mb-4">
-                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
-                    <i data-lucide="list-checks" class="w-5 h-5"></i>
-                  </div>
-                  <div>
-                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-emerald-500 mb-1">✅ Response</div>
-                    <h4 class="font-black text-slate-900">Response 완결</h4>
-                  </div>
-                </div>
-                <div class="space-y-2.5">
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">📬</span><div><strong>BRESP 단일성</strong><small>write burst 전체 결과</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">📦</span><div><strong>RRESP Beat성</strong><small>read beat별 상태</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧯</span><div><strong>Error 완결성</strong><small>SLVERR / DECERR 후 completion</small></div></div>
-                </div>
-              </article>
-
-              <article class="axi-expert-rule-card is-amber rounded-[20px] p-5">
-                <div class="flex items-start gap-3 mb-4">
-                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
-                    <i data-lucide="database" class="w-5 h-5"></i>
-                  </div>
-                  <div>
-                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-amber-500 mb-1">⚙️ Attribute</div>
-                    <h4 class="font-black text-slate-900">Attribute 해석</h4>
-                  </div>
-                </div>
-                <div class="space-y-2.5">
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🗂️</span><div><strong>AxCACHE 의미성</strong><small>buffer / modify / allocate</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🎚️</span><div><strong>AxQOS 힌트성</strong><small>SLA / preemption 비보장</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🔁</span><div><strong>ACE / CHI 경계성</strong><small>coherency 별도 정책</small></div></div>
-                </div>
-              </article>
-
-              <article class="axi-expert-rule-card is-rose rounded-[20px] p-5">
-                <div class="flex items-start gap-3 mb-4">
-                  <div class="axi-expert-card-icon flex h-12 w-12 items-center justify-center rounded-2xl border">
-                    <i data-lucide="git-branch" class="w-5 h-5"></i>
-                  </div>
-                  <div>
-                    <div class="text-[10px] font-black uppercase tracking-[0.22em] text-rose-500 mb-1">🌉 Boundary</div>
-                    <h4 class="font-black text-slate-900">Bridge/CDC 보존</h4>
-                  </div>
-                </div>
-                <div class="space-y-2.5">
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">⏱️</span><div><strong>ACLK 도메인성</strong><small>single clock 기준</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧷</span><div><strong>Adapter 보존성</strong><small>ID / order / resp 유지</small></div></div>
-                  <div class="axi-expert-rule-item"><span class="axi-expert-emoji">🧮</span><div><strong>Width 변환성</strong><small>WSTRB / narrow / unalign</small></div></div>
-                </div>
-              </article>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div class="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100 overflow-hidden">
             <div class="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-5 mb-6">
               <div>
@@ -10281,16 +10022,13 @@
                   <i data-lucide="clock-3" class="w-5 h-5 text-blue-500"></i>
                   AXI FULL Timing Diagrams
                 </h3>
-                <p class="mt-2 text-sm leading-6 text-gray-600">
-                  AXI4 공식 dependency와 burst ordering 규칙을 기준으로, 실제 구현에서 자주 헷갈리는 채널 관계만 골라서 정리했습니다.
-                </p>
               </div>
               <div class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-blue-600">
                 ARM AXI4 Reference Set
               </div>
             </div>
 
-            <div class="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.85fr)] items-start">
+            <div class="space-y-6">
               <div class="rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,_#ffffff_0%,_#f4f9ff_100%)] p-5 md:p-6">
                 <div class="flex flex-col gap-4 mb-5">
                   <div class="axi-full-timing-heading">
@@ -10318,7 +10056,7 @@
                 </div>
               </div>
 
-              <div class="space-y-4">
+              <div class="grid gap-4 lg:grid-cols-2">
                 <div class="rounded-[24px] border border-blue-100 bg-blue-50/60 px-5 py-4">
                   <div class="text-[11px] font-black tracking-[0.22em] uppercase text-blue-500 mb-3">Current Rule</div>
                   <p id="axi-full-timing-description" class="text-sm leading-6 text-gray-700">
@@ -10331,7 +10069,7 @@
                   <ul id="axi-full-timing-points" class="space-y-2 text-sm leading-6 text-gray-700"></ul>
                 </div>
 
-                <div id="axi-full-timing-footnote" class="hidden rounded-[20px] border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-900" aria-hidden="true"></div>
+                <div id="axi-full-timing-footnote" class="hidden rounded-[20px] border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-900 lg:col-span-2" aria-hidden="true"></div>
               </div>
             </div>
           </div>

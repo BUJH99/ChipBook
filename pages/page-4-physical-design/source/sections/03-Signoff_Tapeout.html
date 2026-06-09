@@ -3,211 +3,1579 @@
 
                         <div class="space-y-8" id="part4-tail-group">
 <div class="space-y-8" data-part4-panel="signoff" data-guidebook-toc-title="Signoff / Tapeout" data-guidebook-debug-file="Signoff_Tapeout.html" hidden>
-                                <div class="card border border-slate-200 bg-white overflow-hidden">
-                                <div class="flex flex-col gap-3 mb-6">
-                                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3">
-                                        <div class="inline-flex items-center self-start rounded-full border border-blue-100 bg-white/90 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-blue-600 shadow-[0_10px_24px_rgba(59,130,246,0.08)]">
-                                            Signoff Approval
-                                            <span class="mx-2 text-blue-200">→</span>
-                                            Tapeout Release
+                                <style>
+                                    .st-board {
+                                        --st-ink: #142033;
+                                        --st-muted: #51637a;
+                                        --st-soft: #eef3f8;
+                                        --st-line: #d8e0ea;
+                                        --st-navy: #162438;
+                                        --st-blue: #2563eb;
+                                        --st-green: #20a557;
+                                        --st-violet: #5b4bd8;
+                                        --st-amber: #b5651d;
+                                        position: relative;
+                                        overflow: hidden;
+                                        border: 1px solid #d7e0ea;
+                                        border-radius: 16px;
+                                        background:
+                                            linear-gradient(90deg, rgba(219, 226, 236, 0.46) 1px, transparent 1px) 0 0 / 34px 34px,
+                                            linear-gradient(0deg, rgba(219, 226, 236, 0.42) 1px, transparent 1px) 0 0 / 34px 34px,
+                                            linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+                                        box-shadow: 0 22px 58px rgba(20, 32, 51, 0.09);
+                                        color: var(--st-ink);
+                                        container-type: inline-size;
+                                    }
+
+                                    .st-board * {
+                                        box-sizing: border-box;
+                                    }
+
+                                    .st-watermark {
+                                        position: absolute;
+                                        right: 0;
+                                        top: -62px;
+                                        width: min(22vw, 250px);
+                                        min-width: 150px;
+                                        opacity: 0.22;
+                                        pointer-events: none;
+                                    }
+
+                                    .st-hero {
+                                        position: relative;
+                                        z-index: 1;
+                                        display: grid;
+                                        grid-template-columns: minmax(0, 1fr) auto;
+                                        gap: clamp(0.9rem, 1.6vw, 1.5rem);
+                                        align-items: center;
+                                        padding: clamp(1rem, 1.8vw, 1.55rem) clamp(0.9rem, 1.7vw, 1.45rem) 0.55rem;
+                                    }
+
+                                    .st-title-block {
+                                        display: grid;
+                                        grid-template-columns: 1fr;
+                                        gap: 0;
+                                        align-items: center;
+                                        min-width: 0;
+                                    }
+
+                                    .st-title-copy h3 {
+                                        margin: 0;
+                                        color: #142033;
+                                        font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+                                        font-size: clamp(1.8rem, 3vw, 3.1rem);
+                                        font-weight: 900;
+                                        line-height: 0.96;
+                                        letter-spacing: -0.035em;
+                                    }
+
+                                    .st-title-copy p {
+                                        margin: 0.55rem 0 0;
+                                        color: #26364a;
+                                        font-size: clamp(0.98rem, 1.35vw, 1.22rem);
+                                        font-weight: 700;
+                                        line-height: 1.35;
+                                    }
+
+                                    .st-divider {
+                                        width: 1px;
+                                        height: 68px;
+                                        background: #9aa8ba;
+                                    }
+
+                                    .st-hero-note {
+                                        margin: 0;
+                                        padding-top: 0.15rem;
+                                        color: #26364a;
+                                        font-size: clamp(0.9rem, 1vw, 1rem);
+                                        font-weight: 600;
+                                        line-height: 1.55;
+                                    }
+
+                                    .st-legend {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 0.9rem;
+                                        padding: 0.8rem 1rem;
+                                        border: 1px solid #ccd6e4;
+                                        border-radius: 12px;
+                                        background: rgba(255, 255, 255, 0.86);
+                                        box-shadow: 0 10px 24px rgba(20, 32, 51, 0.05);
+                                        white-space: nowrap;
+                                    }
+
+                                    .st-legend-item {
+                                        display: inline-flex;
+                                        align-items: center;
+                                        gap: 0.45rem;
+                                        color: #243247;
+                                        font-size: 0.84rem;
+                                        font-weight: 700;
+                                    }
+
+                                    .st-legend-icon {
+                                        display: inline-flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        width: 24px;
+                                        height: 24px;
+                                        border-radius: 999px;
+                                        color: #ffffff;
+                                    }
+
+                                    .st-legend-icon svg {
+                                        width: 15px;
+                                        height: 15px;
+                                    }
+
+                                    .st-flow-strip {
+                                        position: relative;
+                                        z-index: 1;
+                                        display: grid;
+                                        grid-template-columns: repeat(5, minmax(0, 1fr));
+                                        gap: clamp(0.45rem, 0.8vw, 0.8rem);
+                                        align-items: stretch;
+                                        padding: 0.65rem clamp(0.75rem, 1.5vw, 1.2rem) 0;
+                                    }
+
+                                    .st-stage-card {
+                                        overflow: hidden;
+                                        min-height: 390px;
+                                        height: 100%;
+                                        border: 1px solid #ccd6e3;
+                                        border-radius: 11px;
+                                        background: rgba(255, 255, 255, 0.94);
+                                        box-shadow: 0 18px 36px rgba(20, 32, 51, 0.13);
+                                    }
+
+                                    .st-card-head {
+                                        display: grid;
+                                        grid-template-columns: 29px minmax(0, 1fr) 34px;
+                                        gap: 0.55rem;
+                                        align-items: start;
+                                        min-height: 66px;
+                                        padding: 0.68rem 0.7rem;
+                                        background: linear-gradient(180deg, #1a2b42 0%, #132136 100%);
+                                        color: #ffffff;
+                                    }
+
+                                    .st-card-head > div {
+                                        min-width: 0;
+                                        padding-top: 0.03rem;
+                                    }
+
+                                    .st-card-number {
+                                        display: inline-flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        width: 28px;
+                                        height: 28px;
+                                        border: 1px solid rgba(255, 255, 255, 0.64);
+                                        border-radius: 7px;
+                                        color: #ffffff;
+                                        font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+                                        font-size: 1rem;
+                                        font-weight: 800;
+                                        line-height: 1;
+                                        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+                                        align-self: start;
+                                        margin-top: 0.02rem;
+                                    }
+
+                                    .st-card-head h4 {
+                                        margin: 0;
+                                        color: #ffffff;
+                                        font-size: clamp(0.82rem, 0.95vw, 1.04rem);
+                                        font-weight: 900;
+                                        line-height: 1.06;
+                                        letter-spacing: 0;
+                                        text-transform: uppercase;
+                                        white-space: nowrap;
+                                    }
+
+                                    .st-card-head > div > span {
+                                        display: block;
+                                        margin-top: 0.2rem;
+                                        color: rgba(255, 255, 255, 0.84);
+                                        font-size: 0.68rem;
+                                        font-weight: 600;
+                                        white-space: nowrap;
+                                    }
+
+                                    .st-head-mark {
+                                        display: inline-flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        width: 34px;
+                                        height: 34px;
+                                        border-radius: 999px;
+                                        background: #22a957;
+                                        color: #ffffff;
+                                        box-shadow: 0 8px 18px rgba(34, 169, 87, 0.22);
+                                        align-self: start;
+                                        margin-top: 0;
+                                    }
+
+                                    .st-head-mark svg {
+                                        width: 72%;
+                                        height: 72%;
+                                    }
+
+                                    .st-head-mark.st-lock {
+                                        border-radius: 9px;
+                                        background: linear-gradient(135deg, #317bff, #1b5edc);
+                                    }
+
+                                    .st-head-mark.st-line {
+                                        border-radius: 0;
+                                        background: transparent;
+                                        box-shadow: none;
+                                        color: rgba(255,255,255,0.82);
+                                    }
+
+                                    .st-card-body {
+                                        display: grid;
+                                        gap: 0.48rem;
+                                        padding: 0.62rem;
+                                    }
+
+                                    .st-check-item,
+                                    .st-release-item,
+                                    .st-transfer-item,
+                                    .st-mask-step {
+                                        display: grid;
+                                        gap: 0.7rem;
+                                        align-items: center;
+                                        border: 1px solid #d6dee9;
+                                        border-radius: 8px;
+                                        background: rgba(255,255,255,0.95);
+                                        box-shadow: 0 8px 18px rgba(20, 32, 51, 0.05);
+                                    }
+
+                                    .st-check-item {
+                                        grid-template-columns: 30px minmax(0, 1fr) 82px;
+                                        min-height: 64px;
+                                        padding: 0.5rem 0.55rem;
+                                    }
+
+                                    .st-check-icon {
+                                        display: inline-flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        width: 26px;
+                                        height: 26px;
+                                        border-radius: 999px;
+                                        background: #20a557;
+                                        color: #ffffff;
+                                    }
+
+                                    .st-item-title {
+                                        display: block;
+                                        color: #172338;
+                                        font-size: 0.74rem;
+                                        font-weight: 900;
+                                        line-height: 1.12;
+                                        text-transform: uppercase;
+                                        white-space: nowrap;
+                                    }
+
+                                    .st-item-copy {
+                                        display: block;
+                                        margin-top: 0.2rem;
+                                        color: #314258;
+                                        font-size: 0.66rem;
+                                        font-weight: 600;
+                                        line-height: 1.28;
+                                    }
+
+                                    .st-mini-svg {
+                                        display: block;
+                                        width: 100%;
+                                        height: 40px;
+                                    }
+
+                                    .st-clean-banner,
+                                    .st-ready-banner,
+                                    .st-complete-banner,
+                                    .st-manufacturing-banner {
+                                        display: grid;
+                                        grid-template-columns: auto minmax(0, 1fr);
+                                        gap: 0.5rem;
+                                        align-items: center;
+                                        margin-top: 0.12rem;
+                                        padding: 0.56rem 0.62rem;
+                                        border-radius: 8px;
+                                    }
+
+                                    .st-clean-banner,
+                                    .st-ready-banner {
+                                        border: 1px solid #a8dabb;
+                                        background: linear-gradient(180deg, #f0fff5 0%, #e7f8ec 100%);
+                                        color: #14763d;
+                                    }
+
+                                    .st-complete-banner {
+                                        border: 1px solid #c8d0dc;
+                                        background: #f4f7fa;
+                                        color: #233247;
+                                    }
+
+                                    .st-manufacturing-banner {
+                                        border: 1px solid #c9bdf6;
+                                        background: linear-gradient(180deg, #f4efff 0%, #e9e3ff 100%);
+                                        color: #5141c7;
+                                    }
+
+                                    .st-banner-title {
+                                        display: block;
+                                        font-size: 0.78rem;
+                                        font-weight: 900;
+                                        text-transform: uppercase;
+                                        line-height: 1.1;
+                                        white-space: nowrap;
+                                    }
+
+                                    .st-banner-copy {
+                                        display: block;
+                                        margin-top: 0.2rem;
+                                        color: #2d465b;
+                                        font-size: 0.68rem;
+                                        font-weight: 600;
+                                        line-height: 1.25;
+                                        text-transform: none;
+                                    }
+
+                                    .st-freeze-panel {
+                                        display: grid;
+                                        gap: 0.82rem;
+                                        min-height: 0;
+                                        padding: 1rem 0.86rem;
+                                        border: 1px solid #d7e0ea;
+                                        border-radius: 9px;
+                                        background: linear-gradient(180deg, #ffffff 0%, #f5f8fb 100%);
+                                        align-content: center;
+                                        text-align: center;
+                                    }
+
+                                    .st-freeze-card {
+                                        display: grid;
+                                        grid-template-rows: auto 1fr;
+                                    }
+
+                                    .st-freeze-card .st-card-body {
+                                        min-height: 0;
+                                    }
+
+                                    .st-freeze-card .st-freeze-panel {
+                                        height: 100%;
+                                    }
+
+                                    .st-freeze-panel > svg {
+                                        display: block;
+                                        width: 68px;
+                                        height: 68px;
+                                        margin: 0 auto;
+                                    }
+
+                                    .st-freeze-title {
+                                        color: #152136;
+                                        font-size: 0.88rem;
+                                        font-weight: 900;
+                                        line-height: 1.25;
+                                        text-transform: uppercase;
+                                        white-space: nowrap;
+                                    }
+
+                                    .st-freeze-copy {
+                                        color: #314258;
+                                        font-size: 0.76rem;
+                                        font-weight: 600;
+                                        line-height: 1.28;
+                                    }
+
+                                    .st-freeze-list {
+                                        display: grid;
+                                        gap: 0.76rem;
+                                        margin-top: 0.08rem;
+                                        padding-top: 0.95rem;
+                                        border-top: 1px dashed #bac7d6;
+                                        text-align: left;
+                                    }
+
+                                    .st-freeze-row {
+                                        display: grid;
+                                        grid-template-columns: 20px minmax(0, 1fr) 18px;
+                                        gap: 0.5rem;
+                                        align-items: center;
+                                        color: #19314f;
+                                        font-size: 0.82rem;
+                                        font-weight: 800;
+                                        line-height: 1;
+                                        white-space: nowrap;
+                                    }
+
+                                    .st-freeze-row svg {
+                                        width: 20px;
+                                        height: 20px;
+                                        margin: 0;
+                                        justify-self: center;
+                                    }
+
+                                    .st-freeze-row svg:last-child {
+                                        width: 18px;
+                                        height: 18px;
+                                    }
+
+                                    .st-freeze-row span {
+                                        min-width: 0;
+                                    }
+
+                                    .st-release-card,
+                                    .st-mask-card {
+                                        display: grid;
+                                        grid-template-rows: auto 1fr;
+                                    }
+
+                                    .st-release-card .st-card-body {
+                                        grid-template-rows: minmax(0, 1fr) minmax(64px, 0.24fr);
+                                        min-height: 0;
+                                        padding: 0.62rem 0.54rem 0.28rem;
+                                    }
+
+                                    .st-release-list {
+                                        display: grid;
+                                        grid-template-rows: repeat(4, minmax(0, 1fr));
+                                        height: 100%;
+                                        overflow: hidden;
+                                        border: 1px solid #b8dec8;
+                                        border-radius: 9px;
+                                        background: #f9fffb;
+                                    }
+
+                                    .st-release-item {
+                                        grid-template-columns: 34px minmax(0, 1fr);
+                                        min-height: 0;
+                                        padding: 0.55rem 0.62rem;
+                                        border: 0;
+                                        border-radius: 0;
+                                        border-bottom: 1px solid #cfe8d8;
+                                        box-shadow: none;
+                                        background: transparent;
+                                    }
+
+                                    .st-release-item:last-child {
+                                        border-bottom: 0;
+                                    }
+
+                                    .st-release-icon {
+                                        color: #20934b;
+                                    }
+
+                                    .st-release-item .st-item-copy {
+                                        font-size: 0.66rem;
+                                    }
+
+                                    .st-transfer-panel {
+                                        display: grid;
+                                        gap: 0.82rem;
+                                        padding: 0.95rem 0.78rem;
+                                        border: 1px solid #d7e0ea;
+                                        border-radius: 9px;
+                                        background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+                                        align-content: center;
+                                        text-align: center;
+                                    }
+
+                                    .st-handoff-card {
+                                        display: grid;
+                                        grid-template-rows: auto 1fr;
+                                    }
+
+                                    .st-handoff-card .st-card-body {
+                                        grid-template-rows: minmax(0, 1fr) auto;
+                                        min-height: 0;
+                                    }
+
+                                    .st-handoff-card .st-transfer-panel {
+                                        height: 100%;
+                                    }
+
+                                    .st-transfer-main {
+                                        display: grid;
+                                        justify-items: center;
+                                        gap: 0.62rem;
+                                        padding: 0.1rem 0 0.78rem;
+                                        border-bottom: 1px dashed #b6c3d2;
+                                    }
+
+                                    .st-transfer-main svg {
+                                        width: 62px;
+                                        height: 62px;
+                                        color: #26364a;
+                                    }
+
+                                    .st-transfer-title {
+                                        color: #142033;
+                                        font-size: 0.86rem;
+                                        font-weight: 900;
+                                        line-height: 1.22;
+                                    }
+
+                                    .st-transfer-list {
+                                        display: grid;
+                                        gap: 0.78rem;
+                                        text-align: left;
+                                    }
+
+                                    .st-transfer-row {
+                                        display: grid;
+                                        grid-template-columns: 28px minmax(0, 1fr);
+                                        gap: 0.55rem;
+                                        align-items: center;
+                                        color: #22314a;
+                                        font-size: 0.82rem;
+                                        font-weight: 800;
+                                        line-height: 1.28;
+                                        white-space: nowrap;
+                                    }
+
+                                    .st-transfer-row svg {
+                                        width: 25px;
+                                        height: 25px;
+                                    }
+
+                                    .st-handoff-card .st-complete-banner {
+                                        min-height: 78px;
+                                        padding: 0.82rem 0.9rem;
+                                    }
+
+                                    .st-handoff-card .st-complete-banner > svg {
+                                        width: 43px;
+                                        height: 43px;
+                                    }
+
+                                    .st-handoff-card .st-banner-title {
+                                        font-size: 0.86rem;
+                                    }
+
+                                    .st-handoff-card .st-banner-copy {
+                                        font-size: 0.74rem;
+                                    }
+
+                                    .st-mask-body {
+                                        display: grid;
+                                        gap: 0.42rem;
+                                        grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) minmax(64px, 0.78fr);
+                                        min-height: 0;
+                                        padding: 0.62rem 0.54rem 0.28rem;
+                                    }
+
+                                    .st-mask-step {
+                                        grid-template-columns: minmax(0, 1fr) 56px;
+                                        min-height: 0;
+                                        padding: 0.5rem 0.54rem;
+                                        border-color: #d7cff5;
+                                        background: #fbfaff;
+                                    }
+
+                                    .st-mask-step .st-item-title {
+                                        color: #263464;
+                                    }
+
+                                    .st-mask-arrow {
+                                        display: flex;
+                                        justify-content: center;
+                                        color: #34435a;
+                                    }
+
+                                    .st-flow-arrow {
+                                        display: none;
+                                        width: 34px;
+                                        height: 34px;
+                                        color: #162438;
+                                        align-self: center;
+                                    }
+
+                                    .st-milestones {
+                                        position: relative;
+                                        z-index: 1;
+                                        display: grid;
+                                        grid-template-columns: 144px minmax(0, 1fr);
+                                        gap: 1rem;
+                                        align-items: center;
+                                        padding: 1rem clamp(1rem, 2.2vw, 2rem) 0.65rem;
+                                    }
+
+                                    .st-milestones-label {
+                                        color: #223b61;
+                                        font-size: 0.78rem;
+                                        font-weight: 900;
+                                        letter-spacing: 0.02em;
+                                        text-transform: uppercase;
+                                    }
+
+                                    .st-line-rail {
+                                        position: relative;
+                                        height: 34px;
+                                    }
+
+                                    .st-line-rail::before {
+                                        content: "";
+                                        position: absolute;
+                                        left: 0;
+                                        right: 0;
+                                        top: 50%;
+                                        height: 3px;
+                                        border-radius: 999px;
+                                        background: linear-gradient(90deg, #24a85a 0%, #2563eb 31%, #26a75a 54%, #36475d 78%, #5a46d6 100%);
+                                        transform: translateY(-50%);
+                                    }
+
+                                    .st-rail-dot {
+                                        position: absolute;
+                                        top: 50%;
+                                        width: 19px;
+                                        height: 19px;
+                                        border: 5px solid currentColor;
+                                        border-radius: 999px;
+                                        background: #ffffff;
+                                        transform: translate(-50%, -50%);
+                                        box-shadow: 0 0 0 4px rgba(255,255,255,0.8);
+                                    }
+
+                                    .st-info-grid {
+                                        position: relative;
+                                        z-index: 1;
+                                        display: grid;
+                                        grid-template-columns: minmax(150px, 0.92fr) minmax(230px, 1.36fr) minmax(220px, 1.22fr) minmax(178px, 0.96fr) minmax(178px, 1fr) minmax(150px, 0.84fr);
+                                        gap: clamp(0.45rem, 0.8vw, 0.85rem);
+                                        align-items: stretch;
+                                        padding: 0.4rem clamp(0.65rem, 1.25vw, 1.15rem) clamp(0.85rem, 1.5vw, 1.35rem);
+                                    }
+
+                                    .st-info-card {
+                                        min-height: 164px;
+                                        border: 1px solid #d7e0ea;
+                                        border-radius: 10px;
+                                        background: rgba(255,255,255,0.91);
+                                        box-shadow: 0 10px 22px rgba(20, 32, 51, 0.052);
+                                        padding: 0.72rem;
+                                        min-width: 0;
+                                    }
+
+                                    .st-info-title {
+                                        margin: 0 0 0.58rem;
+                                        color: #21436e;
+                                        font-size: 0.68rem;
+                                        font-weight: 900;
+                                        letter-spacing: 0;
+                                        text-transform: uppercase;
+                                        white-space: nowrap;
+                                    }
+
+                                    .st-info-list {
+                                        display: grid;
+                                        gap: 0.48rem;
+                                        margin: 0;
+                                        padding: 0;
+                                        list-style: none;
+                                        color: #334861;
+                                        font-size: 0.6rem;
+                                        font-weight: 600;
+                                        line-height: 1.34;
+                                    }
+
+                                    .st-info-list li::before {
+                                        content: "•";
+                                        margin-right: 0.35rem;
+                                        color: #2563eb;
+                                        font-weight: 900;
+                                    }
+
+                                    .st-chip-overview {
+                                        display: grid;
+                                        grid-template-columns: minmax(122px, 1fr) minmax(78px, 0.46fr);
+                                        gap: 0.55rem;
+                                        align-items: center;
+                                    }
+
+                                    .st-chip-svg {
+                                        width: 100%;
+                                        min-height: 96px;
+                                        display: block;
+                                        border-radius: 7px;
+                                        background: #10213b;
+                                    }
+
+                                    .st-stat-list,
+                                    .st-mini-table {
+                                        width: 100%;
+                                        border-collapse: collapse;
+                                        color: #243850;
+                                        font-size: 0.58rem;
+                                        font-weight: 700;
+                                    }
+
+                                    .st-stat-list,
+                                    .st-stat-list tbody {
+                                        display: grid;
+                                        gap: 0.42rem;
+                                    }
+
+                                    .st-stat-list tr {
+                                        display: block;
+                                        padding-bottom: 0.42rem;
+                                        border-bottom: 1px solid #e5ebf2;
+                                    }
+
+                                    .st-stat-list tr:last-child {
+                                        padding-bottom: 0;
+                                        border-bottom: 0;
+                                    }
+
+                                    .st-stat-list td {
+                                        display: block;
+                                        padding: 0;
+                                        border-bottom: 0;
+                                        line-height: 1.18;
+                                        text-align: left;
+                                    }
+
+                                    .st-stat-list td:first-child {
+                                        color: #41546d;
+                                        font-size: 0.56rem;
+                                        font-weight: 800;
+                                    }
+
+                                    .st-stat-list td:last-child {
+                                        margin-top: 0.14rem;
+                                        color: #0f1f34;
+                                        font-size: 0.72rem;
+                                        font-weight: 900;
+                                    }
+
+                                    .st-stat-list td,
+                                    .st-mini-table td,
+                                    .st-mini-table th {
+                                        padding: 0.25rem 0.1rem;
+                                        border-bottom: 1px solid #e5ebf2;
+                                        vertical-align: top;
+                                    }
+
+                                    .st-stat-list td {
+                                        padding: 0;
+                                        border-bottom: 0;
+                                    }
+
+                                    .st-mini-table th {
+                                        color: #213a5e;
+                                        font-size: 0.55rem;
+                                        font-weight: 900;
+                                        text-align: left;
+                                    }
+
+                                    .st-status-ok {
+                                        color: #22a957;
+                                        font-weight: 900;
+                                    }
+
+                                    .st-reticle-svg {
+                                        width: 100%;
+                                        height: 188px;
+                                        display: block;
+                                    }
+
+                                    .st-reticle-card {
+                                        display: grid;
+                                        place-items: center;
+                                        padding: 0.52rem;
+                                        overflow: hidden;
+                                    }
+
+                                    @media (max-width: 1500px) {
+                                        .st-flow-strip {
+                                            grid-template-columns: repeat(5, minmax(0, 1fr));
+                                            gap: 0.45rem;
+                                            padding-left: 0.55rem;
+                                            padding-right: 0.55rem;
+                                        }
+
+                                        .st-flow-arrow {
+                                            display: none;
+                                        }
+
+                                        .st-stage-card {
+                                            min-height: 326px;
+                                        }
+
+                                        .st-info-grid {
+                                            grid-template-columns: minmax(135px, 0.9fr) minmax(210px, 1.34fr) minmax(205px, 1.2fr) minmax(164px, 0.96fr) minmax(164px, 1fr) minmax(138px, 0.82fr);
+                                            gap: 0.48rem;
+                                            padding-left: 0.55rem;
+                                            padding-right: 0.55rem;
+                                        }
+
+                                        .st-info-card {
+                                            min-height: 154px;
+                                            padding: 0.58rem;
+                                        }
+
+                                        .st-info-title {
+                                            margin-bottom: 0.48rem;
+                                            font-size: 0.62rem;
+                                        }
+
+                                        .st-info-list {
+                                            gap: 0.36rem;
+                                            font-size: 0.54rem;
+                                        }
+
+                                        .st-chip-overview {
+                                            grid-template-columns: minmax(108px, 1fr) minmax(74px, 0.52fr);
+                                            gap: 0.44rem;
+                                        }
+
+                                        .st-chip-svg {
+                                            min-height: 86px;
+                                        }
+
+                                        .st-stat-list,
+                                        .st-stat-list tbody {
+                                            gap: 0.28rem;
+                                        }
+
+                                        .st-stat-list tr {
+                                            padding-bottom: 0.28rem;
+                                        }
+
+                                        .st-stat-list td:first-child {
+                                            font-size: 0.5rem;
+                                        }
+
+                                        .st-stat-list td:last-child {
+                                            font-size: 0.64rem;
+                                        }
+
+                                        .st-mini-table {
+                                            font-size: 0.5rem;
+                                        }
+
+                                        .st-mini-table td,
+                                        .st-mini-table th {
+                                            padding: 0.16rem 0.05rem;
+                                        }
+
+                                        .st-reticle-svg {
+                                            height: 168px;
+                                        }
+                                    }
+
+                                    @media (max-width: 1024px) {
+                                        .st-hero {
+                                            grid-template-columns: 1fr;
+                                        }
+
+                                        .st-title-block {
+                                            grid-template-columns: 1fr;
+                                        }
+
+                                        .st-divider {
+                                            display: none;
+                                        }
+
+                                        .st-legend {
+                                            justify-content: flex-start;
+                                            flex-wrap: wrap;
+                                            white-space: normal;
+                                        }
+
+                                        .st-stage-card {
+                                            min-height: auto;
+                                        }
+
+                                        .st-info-grid {
+                                            grid-template-columns: repeat(2, minmax(0, 1fr));
+                                        }
+                                    }
+
+                                    @container (max-width: 1120px) {
+                                        .st-hero {
+                                            grid-template-columns: minmax(0, 1fr) auto;
+                                            padding: 0.85rem 0.6rem 0.45rem;
+                                        }
+
+                                        .st-title-copy h3 {
+                                            font-size: 1.72rem;
+                                        }
+
+                                        .st-legend {
+                                            gap: 0.45rem;
+                                            padding: 0.48rem 0.55rem;
+                                            border-radius: 9px;
+                                        }
+
+                                        .st-legend-item {
+                                            gap: 0.28rem;
+                                            font-size: 0.62rem;
+                                        }
+
+                                        .st-legend-icon {
+                                            width: 18px;
+                                            height: 18px;
+                                        }
+
+                                        .st-flow-strip {
+                                            grid-template-columns: repeat(5, minmax(0, 1fr));
+                                            gap: 0.38rem;
+                                            padding: 0.45rem 0.45rem 0;
+                                        }
+
+                                        .st-stage-card {
+                                            min-height: 278px;
+                                            border-radius: 9px;
+                                        }
+
+                                        .st-card-head {
+                                            grid-template-columns: 22px minmax(0, 1fr);
+                                            gap: 0.32rem;
+                                            min-height: 52px;
+                                            padding: 0.48rem 0.45rem;
+                                        }
+
+                                        .st-card-number {
+                                            width: 22px;
+                                            height: 22px;
+                                            border-radius: 5px;
+                                            font-size: 0.78rem;
+                                        }
+
+                                        .st-card-head h4 {
+                                            font-size: 0.63rem;
+                                            line-height: 1.05;
+                                        }
+
+                                        .st-card-head > div > span {
+                                            margin-top: 0.16rem;
+                                            font-size: 0.54rem;
+                                        }
+
+                                        .st-head-mark {
+                                            display: none;
+                                        }
+
+                                        .st-card-body,
+                                        .st-release-card .st-card-body,
+                                        .st-mask-body {
+                                            gap: 0.32rem;
+                                            padding: 0.42rem;
+                                        }
+
+                                        .st-check-item {
+                                            grid-template-columns: 20px minmax(0, 1fr);
+                                            gap: 0.28rem;
+                                            min-height: 34px;
+                                            padding: 0.32rem 0.34rem;
+                                        }
+
+                                        .st-check-icon {
+                                            width: 20px;
+                                            height: 20px;
+                                        }
+
+                                        .st-check-icon svg {
+                                            width: 13px;
+                                            height: 13px;
+                                        }
+
+                                        .st-mini-svg,
+                                        .st-item-copy,
+                                        .st-banner-copy {
+                                            display: none;
+                                        }
+
+                                        .st-item-title {
+                                            font-size: 0.59rem;
+                                            line-height: 1;
+                                        }
+
+                                        .st-clean-banner,
+                                        .st-ready-banner,
+                                        .st-complete-banner,
+                                        .st-manufacturing-banner {
+                                            grid-template-columns: minmax(0, 1fr);
+                                            padding: 0.38rem 0.42rem;
+                                        }
+
+                                        .st-clean-banner > svg,
+                                        .st-ready-banner > svg,
+                                        .st-complete-banner > svg,
+                                        .st-manufacturing-banner > svg {
+                                            display: none;
+                                        }
+
+                                        .st-banner-title {
+                                            font-size: 0.58rem;
+                                        }
+
+                                        .st-freeze-panel {
+                                            gap: 0.48rem;
+                                            padding: 0.56rem;
+                                        }
+
+                                        .st-freeze-panel > svg {
+                                            width: 40px;
+                                            height: 40px;
+                                        }
+
+                                        .st-freeze-title {
+                                            font-size: 0.64rem;
+                                        }
+
+                                        .st-freeze-copy {
+                                            display: none;
+                                        }
+
+                                        .st-freeze-list {
+                                            gap: 0.38rem;
+                                            padding-top: 0.5rem;
+                                        }
+
+                                        .st-freeze-row {
+                                            grid-template-columns: 16px minmax(0, 1fr) 14px;
+                                            gap: 0.26rem;
+                                            font-size: 0.61rem;
+                                        }
+
+                                        .st-freeze-row svg {
+                                            width: 15px;
+                                            height: 15px;
+                                        }
+
+                                        .st-freeze-row svg:last-child {
+                                            width: 13px;
+                                            height: 13px;
+                                        }
+
+                                        .st-release-item {
+                                            grid-template-columns: 24px minmax(0, 1fr);
+                                            gap: 0.32rem;
+                                            min-height: 35px;
+                                            padding: 0.34rem 0.38rem;
+                                        }
+
+                                        .st-release-item svg {
+                                            width: 22px;
+                                            height: 22px;
+                                        }
+
+                                        .st-transfer-panel {
+                                            gap: 0.46rem;
+                                            padding: 0.54rem;
+                                        }
+
+                                        .st-transfer-main {
+                                            gap: 0.34rem;
+                                            padding: 0.05rem 0 0.44rem;
+                                        }
+
+                                        .st-transfer-main svg {
+                                            width: 40px;
+                                            height: 40px;
+                                        }
+
+                                        .st-transfer-title {
+                                            font-size: 0.62rem;
+                                            line-height: 1.12;
+                                        }
+
+                                        .st-transfer-list {
+                                            gap: 0.38rem;
+                                        }
+
+                                        .st-transfer-row {
+                                            grid-template-columns: 17px minmax(0, 1fr);
+                                            gap: 0.3rem;
+                                            font-size: 0.58rem;
+                                        }
+
+                                        .st-transfer-row svg {
+                                            width: 16px;
+                                            height: 16px;
+                                        }
+
+                                        .st-mask-step {
+                                            grid-template-columns: minmax(0, 1fr);
+                                            min-height: 34px;
+                                            padding: 0.34rem 0.38rem;
+                                        }
+
+                                        .st-mask-step > svg,
+                                        .st-mask-arrow {
+                                            display: none;
+                                        }
+                                    }
+
+                                    @media (max-width: 720px) {
+                                        .st-board {
+                                            border-radius: 12px;
+                                        }
+
+                                        .st-flow-strip,
+                                        .st-info-grid,
+                                        .st-milestones {
+                                            grid-template-columns: 1fr;
+                                        }
+
+                                        .st-check-item {
+                                            grid-template-columns: 34px minmax(0, 1fr);
+                                        }
+
+                                        .st-check-item .st-mini-svg {
+                                            grid-column: 1 / -1;
+                                            height: 54px;
+                                        }
+
+                                        .st-milestones {
+                                            gap: 0.25rem;
+                                        }
+
+                                        .st-line-rail {
+                                            min-width: 0;
+                                        }
+
+                                        .st-chip-overview {
+                                            grid-template-columns: 1fr;
+                                        }
+                                    }
+                                </style>
+
+                                <div class="st-board" aria-label="Signoff and Tapeout manufacturing handoff explainer">
+                                    <svg class="st-watermark" viewBox="0 0 220 220" aria-hidden="true">
+                                        <defs>
+                                            <clipPath id="stWaferClip"><circle cx="110" cy="110" r="101"/></clipPath>
+                                        </defs>
+                                        <circle cx="110" cy="110" r="102" fill="#f8fafc" stroke="#b7c3d2" stroke-width="2"/>
+                                        <g clip-path="url(#stWaferClip)" stroke="#b5c0cf" stroke-width="5" opacity="0.9">
+                                            <path d="M-5 30H225M-5 62H225M-5 94H225M-5 126H225M-5 158H225M-5 190H225"/>
+                                            <path d="M30 -5V225M62 -5V225M94 -5V225M126 -5V225M158 -5V225M190 -5V225"/>
+                                        </g>
+                                    </svg>
+
+                                    <div class="st-hero">
+                                        <div class="st-title-block">
+                                            <div class="st-title-copy">
+                                                <h3>SIGNOFF &amp; TAPEOUT</h3>
+                                            </div>
                                         </div>
-                                        <p class="max-w-2xl text-sm leading-6 text-slate-600">Tapeout은 Signoff를 통과한 최종 layout을 제조용 release package로 묶어 foundry에 넘기는 실행 단계입니다.</p>
+                                        <div class="st-legend" aria-label="Release status legend">
+                                            <span class="st-legend-item"><span class="st-legend-icon" style="background:#21a557"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>Completed</span>
+                                            <span class="st-legend-item"><span class="st-legend-icon" style="background:#2563eb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>Controlled</span>
+                                            <span class="st-legend-item"><span class="st-legend-icon" style="background:#273449"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></span>External</span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="grid grid-cols-1 xl:grid-cols-[0.86fr,1.14fr] gap-6 items-start">
-                                    <div class="space-y-4">
-                                        <div class="rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] p-5 shadow-[0_14px_32px_rgba(59,130,246,0.06)]">
-                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500 mb-3">Core Summary</div>
-                                            <div class="text-[26px] leading-[1.25] font-black text-slate-900">승인 이후의 Release 단계</div>
-                                            <p class="mt-3 text-sm leading-7 text-slate-600">Signoff가 “제조로 넘겨도 되는가”를 판단하는 승인 gate라면, Tapeout은 최종 데이터를 동결하고 handoff package를 완성해 실제로 전달하는 단계입니다.</p>
-                                            <div class="mt-4 rounded-2xl border border-blue-100 bg-white/85 px-4 py-3 text-sm leading-6 text-slate-700">
-                                                <strong class="text-blue-600">핵심 구분</strong>
-                                                Signoff는 판단과 승인, Tapeout은 release와 handoff입니다.
+                                    <div class="st-flow-strip">
+                                        <article class="st-stage-card">
+                                            <div class="st-card-head">
+                                                <span class="st-card-number">1</span>
+                                                <div>
+                                                    <h4>Signoff Pass</h4>
+                                                    <span>Verification Gate</span>
+                                                </div>
+                                                <span class="st-head-mark"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
                                             </div>
-                                        </div>
+                                            <div class="st-card-body">
+                                                <div class="st-check-item">
+                                                    <span class="st-check-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+                                                    <div><strong class="st-item-title">Timing</strong><span class="st-item-copy">Setup/Hold, STA<br>All paths meet</span></div>
+                                                    <svg class="st-mini-svg" viewBox="0 0 100 46" aria-hidden="true">
+                                                        <path d="M5 25H35V12H58V30H82V18H95" fill="none" stroke="#c5cfda" stroke-width="2.2"/>
+                                                        <g stroke="#24a85a" stroke-width="2">
+                                                            <path d="M28 8V38M57 8V38"/>
+                                                            <path d="M21 23H64"/>
+                                                        </g>
+                                                        <circle cx="28" cy="23" r="3.2" fill="#24a85a"/><circle cx="57" cy="23" r="3.2" fill="#24a85a"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="st-check-item">
+                                                    <span class="st-check-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+                                                    <div><strong class="st-item-title">DRC / LVS</strong><span class="st-item-copy">Design rule check<br>Layout vs. Schematic</span></div>
+                                                    <svg class="st-mini-svg" viewBox="0 0 100 46" aria-hidden="true">
+                                                        <g fill="#edf5ff" stroke="#7890ac" stroke-width="1.6">
+                                                            <rect x="12" y="8" width="20" height="20"/><rect x="39" y="10" width="20" height="20"/><rect x="28" y="26" width="20" height="16"/><rect x="65" y="18" width="20" height="18"/>
+                                                        </g>
+                                                        <g stroke="#4f8df7" stroke-width="2" fill="none">
+                                                            <path d="M22 18H49V30H75"/><path d="M39 34H65"/>
+                                                        </g>
+                                                        <circle cx="75" cy="30" r="5" fill="#75a7ff" opacity="0.55"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="st-check-item">
+                                                    <span class="st-check-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+                                                    <div><strong class="st-item-title">IR / EM</strong><span class="st-item-copy">IR drop, EM/Current<br>Reliability OK</span></div>
+                                                    <svg class="st-mini-svg" viewBox="0 0 100 46" aria-hidden="true">
+                                                        <defs>
+                                                            <linearGradient id="stHeat" x1="0%" y1="100%" x2="100%" y2="0%">
+                                                                <stop offset="0%" stop-color="#f97316"/><stop offset="48%" stop-color="#facc15"/><stop offset="100%" stop-color="#22c55e"/>
+                                                            </linearGradient>
+                                                        </defs>
+                                                        <rect x="10" y="8" width="80" height="30" fill="url(#stHeat)" opacity="0.78"/>
+                                                        <g stroke="#ffffff" stroke-width="1" opacity="0.75"><path d="M20 8V38M30 8V38M40 8V38M50 8V38M60 8V38M70 8V38M80 8V38"/><path d="M10 16H90M10 24H90M10 32H90"/></g>
+                                                        <path d="M10 24H4M90 24h6" stroke="#e28d2e" stroke-width="2"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="st-check-item">
+                                                    <span class="st-check-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+                                                    <div><strong class="st-item-title">LEC</strong><span class="st-item-copy">Logic equivalence<br>Netlist vs. Gate-level</span></div>
+                                                    <svg class="st-mini-svg" viewBox="0 0 100 46" aria-hidden="true">
+                                                        <path d="M12 17H34M12 29H34" stroke="#b7c2d0" stroke-width="2.4"/>
+                                                        <path d="M34 12h18c12 0 20 10 20 11s-8 11-20 11H34Z" fill="#f8fafc" stroke="#b7c2d0" stroke-width="2"/>
+                                                        <path d="M72 23h16" stroke="#b7c2d0" stroke-width="2.4"/>
+                                                        <circle cx="90" cy="34" r="7.5" fill="#22a957"/><path d="M86 34l3 3 6-7" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="st-clean-banner">
+                                                    <svg viewBox="0 0 32 32" width="35" height="35" fill="none" aria-hidden="true"><path d="M16 3l10 4v8c0 7-4.2 11.5-10 14-5.8-2.5-10-7-10-14V7z" fill="#22a957"/><path d="M10 16l4 4 8-9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                                    <span><strong class="st-banner-title">Signoff Clean</strong><span class="st-banner-copy">All checks passed</span></span>
+                                                </div>
+                                            </div>
+                                        </article>
 
-                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                            <div class="rounded-[24px] border border-blue-100 bg-blue-50/70 p-4">
-                                                <div class="flex items-start gap-3">
-                                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-blue-600 shadow-[0_8px_18px_rgba(59,130,246,0.10)]">
-                                                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                                            <rect x="5" y="11" width="14" height="9" rx="2"></rect>
-                                                            <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
-                                                        </svg>
-                                                    </span>
+                                        <svg class="st-flow-arrow" viewBox="0 0 34 34" aria-hidden="true"><path d="M2 17h25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M19 7l10 10-10 10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+                                        <article class="st-stage-card st-freeze-card">
+                                            <div class="st-card-head">
+                                                <span class="st-card-number">2</span>
+                                                <div>
+                                                    <h4>Data Freeze</h4>
+                                                    <span>Control Point</span>
+                                                </div>
+                                                <span class="st-head-mark st-lock"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+                                            </div>
+                                            <div class="st-card-body">
+                                                <div class="st-freeze-panel">
+                                                    <svg viewBox="0 0 80 80" aria-hidden="true">
+                                                        <g fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round">
+                                                            <path d="M40 9v62M14 24l52 32M66 24L14 56"/>
+                                                            <path d="M28 16l12 9 12-9M28 64l12-9 12 9M18 37l14-2 5-13M62 37l-14-2-5-13M18 43l14 2 5 13M62 43l-14 2-5 13"/>
+                                                        </g>
+                                                    </svg>
                                                     <div>
-                                                        <div class="text-sm font-black text-slate-900 mb-1">Data Freeze</div>
-                                                        <p class="text-sm leading-6 text-slate-600">최종 layout, release DB, revision 고정</p>
+                                                        <div class="st-freeze-title">Design &amp; Data Frozen</div>
+                                                        <div class="st-freeze-copy">Critical ECO only</div>
+                                                    </div>
+                                                    <div class="st-freeze-list">
+                                                        <div class="st-freeze-row"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#243b5a" stroke-width="2"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v10c0 1.7 3.1 3 7 3s7-1.3 7-3V5"/><path d="M5 10c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg><span>Source DB</span><svg viewBox="0 0 24 24" width="18" height="18" fill="#2563eb"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8H4v-8a2 2 0 0 1 2-2h1Zm2 0h6V7a3 3 0 0 0-6 0v3Z"/></svg></div>
+                                                        <div class="st-freeze-row"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#243b5a" stroke-width="2"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 11h6M9 15h6"/></svg><span>Netlist</span><svg viewBox="0 0 24 24" width="18" height="18" fill="#2563eb"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8H4v-8a2 2 0 0 1 2-2h1Zm2 0h6V7a3 3 0 0 0-6 0v3Z"/></svg></div>
+                                                        <div class="st-freeze-row"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#243b5a" stroke-width="2"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg><span>Constraints</span><svg viewBox="0 0 24 24" width="18" height="18" fill="#2563eb"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8H4v-8a2 2 0 0 1 2-2h1Zm2 0h6V7a3 3 0 0 0-6 0v3Z"/></svg></div>
+                                                        <div class="st-freeze-row"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#243b5a" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 1v5M15 1v5M9 18v5M15 18v5M1 9h5M1 15h5M18 9h5M18 15h5"/></svg><span>IP / Memory</span><svg viewBox="0 0 24 24" width="18" height="18" fill="#2563eb"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8H4v-8a2 2 0 0 1 2-2h1Zm2 0h6V7a3 3 0 0 0-6 0v3Z"/></svg></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="rounded-[24px] border border-emerald-100 bg-emerald-50/70 p-4">
-                                                <div class="flex items-start gap-3">
-                                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-emerald-600 shadow-[0_8px_18px_rgba(16,185,129,0.10)]">
-                                                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                                            <path d="M8 4h8l4 4v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
-                                                            <path d="M16 4v4h4"></path>
-                                                            <path d="M9 13h6"></path>
-                                                            <path d="M9 17h4"></path>
-                                                        </svg>
-                                                    </span>
-                                                    <div>
-                                                        <div class="text-sm font-black text-slate-900 mb-1">Release Package</div>
-                                                        <p class="text-sm leading-6 text-slate-600">GDSII/OASIS와 release DB 중심의 제조용 데이터 묶음</p>
+                                        </article>
+
+                                        <svg class="st-flow-arrow" viewBox="0 0 34 34" aria-hidden="true"><path d="M2 17h25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M19 7l10 10-10 10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+                                        <article class="st-stage-card st-release-card">
+                                            <div class="st-card-head">
+                                                <span class="st-card-number">3</span>
+                                                <div>
+                                                    <h4>Release Package</h4>
+                                                    <span>Deliverables</span>
+                                                </div>
+                                                <span class="st-head-mark"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>
+                                            </div>
+                                            <div class="st-card-body">
+                                                <div class="st-release-list">
+                                                    <div class="st-release-item">
+                                                        <svg class="st-release-icon" viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M20 5 35 13 20 21 5 13z"/><path d="m5 21 15 8 15-8M5 29l15 8 15-8"/></svg>
+                                                        <div><strong class="st-item-title">GDSII / OASIS</strong><span class="st-item-copy">Final signoff layout</span></div>
+                                                    </div>
+                                                    <div class="st-release-item">
+                                                        <svg class="st-release-icon" viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M10 4h14l6 6v26H10z"/><path d="M24 4v8h7"/><rect x="15" y="22" width="5" height="8"/><path d="M23 30v-12h5v12M14 30h17"/></svg>
+                                                        <div><strong class="st-item-title">Reports</strong><span class="st-item-copy">Timing, DRC, LVS,<br>IR/EM, LEC, QoR</span></div>
+                                                    </div>
+                                                    <div class="st-release-item">
+                                                        <svg class="st-release-icon" viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="5" width="24" height="30" rx="2"/><path d="m14 14 3 3 6-7M14 23l3 3 6-7M26 15h3M26 24h3"/></svg>
+                                                        <div><strong class="st-item-title">Checklist</strong><span class="st-item-copy">Signoff checklist<br>(All green)</span></div>
+                                                    </div>
+                                                    <div class="st-release-item">
+                                                        <svg class="st-release-icon" viewBox="0 0 40 40" width="38" height="38" fill="none" stroke="#263241" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="18" width="22" height="17" rx="2"/><path d="M14 18v-5a6 6 0 0 1 12 0v5"/></svg>
+                                                        <div><strong class="st-item-title">Revision Lock</strong><span class="st-item-copy">Version freeze<br>Revision ID assigned</span></div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="rounded-[24px] border border-violet-100 bg-violet-50/70 p-4">
-                                                <div class="flex items-start gap-3">
-                                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-violet-600 shadow-[0_8px_18px_rgba(139,92,246,0.10)]">
-                                                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                                            <path d="M9 5.5h6"></path>
-                                                            <path d="M7 3.5h10a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z"></path>
-                                                            <path d="M8.5 10.5l2 2 5-5"></path>
-                                                            <path d="M8 16h8"></path>
-                                                        </svg>
-                                                    </span>
-                                                    <div>
-                                                        <div class="text-sm font-black text-slate-900 mb-1">Signoff Evidence</div>
-                                                        <p class="text-sm leading-6 text-slate-600">STA, DRC/LVS, IR/EM pass 근거와 checklist</p>
-                                                    </div>
+                                                <div class="st-ready-banner">
+                                                    <svg viewBox="0 0 38 38" width="39" height="39" fill="none" stroke="#1e934b" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M19 4 32 11v16L19 34 6 27V11z"/><path d="m6 11 13 7 13-7M19 18v16"/></svg>
+                                                    <span><strong class="st-banner-title">Package Ready</strong><span class="st-banner-copy">Release candidate</span></span>
                                                 </div>
                                             </div>
-                                            <div class="rounded-[24px] border border-amber-100 bg-amber-50/80 p-4">
-                                                <div class="flex items-start gap-3">
-                                                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-amber-700 shadow-[0_8px_18px_rgba(245,158,11,0.12)]">
-                                                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                                            <path d="M14 4h6v6"></path>
-                                                            <path d="M10 14L20 4"></path>
-                                                            <path d="M20 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4"></path>
-                                                        </svg>
-                                                    </span>
-                                                    <div>
-                                                        <div class="text-sm font-black text-slate-900 mb-1">Foundry Handoff</div>
-                                                        <p class="text-sm leading-6 text-slate-600">공식 handoff 후 mask prep과 fab queue 연결</p>
+                                        </article>
+
+                                        <svg class="st-flow-arrow" viewBox="0 0 34 34" aria-hidden="true"><path d="M2 17h25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M19 7l10 10-10 10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+                                        <article class="st-stage-card st-handoff-card">
+                                            <div class="st-card-head">
+                                                <span class="st-card-number">4</span>
+                                                <div>
+                                                    <h4>Foundry Handoff</h4>
+                                                    <span>Secure Transfer</span>
+                                                </div>
+                                                <span class="st-head-mark st-line"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 25 9 17l9-9 7 7"/><path d="m31 23 8 8-9 9-7-7"/><path d="M15 23l10-10 11 11c2 2 2 5 0 7s-5 2-7 0l-3-3"/><path d="M12 20l9 9c2 2 5 2 7 0"/></svg></span>
+                                            </div>
+                                            <div class="st-card-body">
+                                                <div class="st-transfer-panel">
+                                                    <div class="st-transfer-main">
+                                                        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><circle cx="32" cy="32" r="24"/><path d="M8 32h48M32 8c8 7 12 15 12 24s-4 17-12 24M32 8C24 15 20 23 20 32s4 17 12 24"/></svg>
+                                                        <div class="st-transfer-title">Secure Delivery to Trusted Foundry</div>
+                                                    </div>
+                                                    <div class="st-transfer-list">
+                                                        <div class="st-transfer-row"><svg viewBox="0 0 26 26" width="25" height="25" fill="none" stroke="#26364a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 16h2a5 5 0 0 0 0-10 7 7 0 0 0-13 2A4 4 0 0 0 7 16h2"/><path d="M13 11v11M9 15l4-4 4 4"/></svg><span>Secure Upload</span></div>
+                                                        <div class="st-transfer-row"><svg viewBox="0 0 26 26" width="25" height="25" fill="none" stroke="#26364a" stroke-width="2.2" stroke-linejoin="round"><path d="M13 3 22 7v7c0 5-3.6 8.2-9 10-5.4-1.8-9-5-9-10V7z"/><path d="m9 13 3 3 6-7" stroke-linecap="round"/></svg><span>Data Integrity Check</span></div>
+                                                        <div class="st-transfer-row"><svg viewBox="0 0 26 26" width="25" height="25" fill="none" stroke="#26364a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h9l4 4v16H7z"/><path d="M16 3v5h5M10 13h7M10 17h7"/></svg><span>Acknowledgment<br>(Foundry)</span></div>
                                                     </div>
                                                 </div>
+                                                <div class="st-complete-banner">
+                                                    <svg viewBox="0 0 38 38" width="37" height="37" fill="none" stroke="#28384f" stroke-width="2.3" stroke-linejoin="round" aria-hidden="true"><path d="M19 4 31 9v9c0 7-4.7 12-12 16C11.7 30 7 25 7 18V9z"/><path d="m13 19 4 4 8-10" stroke-linecap="round"/></svg>
+                                                    <span><strong class="st-banner-title">Handoff Complete</strong><span class="st-banner-copy">Foundry Acknowledged</span></span>
+                                                </div>
                                             </div>
+                                        </article>
+
+                                        <svg class="st-flow-arrow" viewBox="0 0 34 34" aria-hidden="true"><path d="M2 17h25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M19 7l10 10-10 10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+                                        <article class="st-stage-card st-mask-card">
+                                            <div class="st-card-head">
+                                                <span class="st-card-number">5</span>
+                                                <div>
+                                                    <h4>Mask Prep / Fab Queue</h4>
+                                                    <span>Manufacturing</span>
+                                                </div>
+                                                <span class="st-head-mark st-line"><svg viewBox="0 0 42 42" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 35V12h6v23M17 35V21h6v14M27 35V16h6v19"/><path d="M5 35h32M8 8h7M28 8h7M15 8v8M28 8v8"/></svg></span>
+                                            </div>
+                                            <div class="st-mask-body">
+                                                <div class="st-mask-step">
+                                                    <div><strong class="st-item-title">Mask Preparation</strong><span class="st-item-copy">OPC, Fracture, Write</span></div>
+                                                    <svg viewBox="0 0 70 54" width="70" height="54" aria-hidden="true"><circle cx="35" cy="27" r="22" fill="#edf1f7" stroke="#748095" stroke-width="2"/><g stroke="#748095" stroke-width="1"><path d="M15 21h40M15 27h40M15 33h40M24 8v38M33 6v42M42 8v38M51 14v26"/></g></svg>
+                                                </div>
+                                                <div class="st-mask-arrow"><svg viewBox="0 0 24 24" width="22" height="22" fill="#34435a" aria-hidden="true"><path d="M11 4h2v11h5l-6 6-6-6h5z"/></svg></div>
+                                                <div class="st-mask-step">
+                                                    <div><strong class="st-item-title">Mask Fabrication</strong><span class="st-item-copy">Inspection &amp; Approval</span></div>
+                                                    <svg viewBox="0 0 70 54" width="70" height="54" aria-hidden="true"><g fill="#dfe5ee" stroke="#7b8798" stroke-width="1.7"><path d="M15 20 35 10l20 10-20 10z"/><path d="M15 28 35 18l20 10-20 10z"/><path d="M15 36 35 26l20 10-20 10z"/></g></svg>
+                                                </div>
+                                                <div class="st-mask-arrow"><svg viewBox="0 0 24 24" width="22" height="22" fill="#34435a" aria-hidden="true"><path d="M11 4h2v11h5l-6 6-6-6h5z"/></svg></div>
+                                                <div class="st-mask-step">
+                                                    <div><strong class="st-item-title">Fab Queue</strong><span class="st-item-copy">Production Slot<br>Wafer Fabrication</span></div>
+                                                    <svg viewBox="0 0 70 54" width="70" height="54" aria-hidden="true"><g fill="#e5e9f0" stroke="#7b8798" stroke-width="1.6"><ellipse cx="35" cy="17" rx="22" ry="9"/><path d="M13 17v18c0 5 10 9 22 9s22-4 22-9V17"/><path d="M13 26c0 5 10 9 22 9s22-4 22-9"/></g><g stroke="#8b95a5" stroke-width="0.8"><path d="M18 17h34M22 13v23M31 9v29M40 9v29M49 13v23"/></g></svg>
+                                                </div>
+                                                <div class="st-manufacturing-banner">
+                                                    <svg viewBox="0 0 36 36" width="36" height="36" fill="none" stroke="#5544d6" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="20" height="20" rx="2"/><rect x="13" y="13" width="10" height="10"/><path d="M4 12h4M4 18h4M4 24h4M28 12h4M28 18h4M28 24h4M12 4v4M18 4v4M24 4v4M12 28v4M18 28v4M24 28v4"/></svg>
+                                                    <span><strong class="st-banner-title">In Manufacturing</strong><span class="st-banner-copy">Silicon coming soon</span></span>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+
+                                    <div class="st-milestones">
+                                        <div class="st-milestones-label">Tapeout Milestones</div>
+                                        <div class="st-line-rail" aria-hidden="true">
+                                            <span class="st-rail-dot" style="left:0%; color:#23a758"></span>
+                                            <span class="st-rail-dot" style="left:31%; color:#2563eb"></span>
+                                            <span class="st-rail-dot" style="left:54%; color:#23a758"></span>
+                                            <span class="st-rail-dot" style="left:78%; color:#34435a"></span>
+                                            <span class="st-rail-dot" style="left:100%; color:#5a46d6"></span>
                                         </div>
                                     </div>
 
-                                    <div class="rounded-[30px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] overflow-hidden shadow-[0_18px_40px_rgba(59,130,246,0.08)]">
-                                        <div class="px-5 pt-5 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                                            <div>
-                                                <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">Tapeout Flow Diagram</div>
-                                                <div class="mt-1 text-lg font-black text-slate-900">Approved Design to Foundry Handoff</div>
+                                    <div class="st-info-grid">
+                                        <section class="st-info-card">
+                                            <h5 class="st-info-title">Design Context</h5>
+                                            <ul class="st-info-list">
+                                                <li><strong>Process Node</strong><br>5nm FinFET</li>
+                                                <li><strong>VDD / Freq / Temp</strong><br>0.7-1.0V / 500MHz / 125°C</li>
+                                                <li><strong>Tools</strong><br>Innovus, PrimeTime, Calibre, Voltus</li>
+                                            </ul>
+                                        </section>
+
+                                        <section class="st-info-card">
+                                            <h5 class="st-info-title">Chip Overview</h5>
+                                            <div class="st-chip-overview">
+                                                <svg class="st-chip-svg" viewBox="0 0 180 120" aria-hidden="true">
+                                                    <defs>
+                                                        <linearGradient id="stChipGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                            <stop offset="0%" stop-color="#1d4f5d"/><stop offset="48%" stop-color="#15365a"/><stop offset="100%" stop-color="#13213a"/>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <rect x="8" y="8" width="164" height="104" rx="5" fill="url(#stChipGlow)" stroke="#36526f"/>
+                                                    <g opacity="0.76" stroke-width="1">
+                                                        <path d="M18 24H160M18 40H160M18 56H160M18 72H160M18 88H160" stroke="#2dd4bf" opacity="0.25"/>
+                                                        <path d="M30 16V105M48 16V105M66 16V105M84 16V105M102 16V105M120 16V105M138 16V105M156 16V105" stroke="#facc15" opacity="0.18"/>
+                                                    </g>
+                                                    <g fill="#a3e635" opacity="0.66">
+                                                        <rect x="22" y="20" width="32" height="18"/><rect x="60" y="26" width="20" height="30"/><rect x="91" y="18" width="36" height="20"/><rect x="130" y="48" width="26" height="20"/><rect x="28" y="70" width="46" height="22"/><rect x="92" y="74" width="58" height="18"/>
+                                                    </g>
+                                                    <g stroke="#38bdf8" stroke-width="1.8" fill="none" opacity="0.78">
+                                                        <path d="M38 30H72V86H116V32H148"/><path d="M52 82H138M72 44H126"/>
+                                                    </g>
+                                                </svg>
+                                                <table class="st-stat-list" aria-label="Chip overview metrics">
+                                                    <tr><td>Core Area</td><td>10.25 mm²</td></tr>
+                                                    <tr><td>Cell Count</td><td>12.4 M</td></tr>
+                                                    <tr><td>Metal Layers</td><td>M0 - M9</td></tr>
+                                                    <tr><td>Top Metal</td><td>M9 (AP)</td></tr>
+                                                </table>
                                             </div>
-                                            <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Data Freeze + Handoff</span>
-                                        </div>
-                                        <svg viewBox="0 0 560 310" class="block h-[340px] w-full xl:h-[360px]" aria-hidden="true">
-                                            <defs>
-                                                <pattern id="tapeoutGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                                                    <path d="M20 0H0V20" fill="none" stroke="#edf4ff" stroke-width="1"/>
-                                                </pattern>
-                                                <linearGradient id="tapeoutApprovedGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                    <stop offset="0%" stop-color="#eff6ff"/>
-                                                    <stop offset="100%" stop-color="#dbeafe"/>
-                                                </linearGradient>
-                                                <linearGradient id="tapeoutPackageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                    <stop offset="0%" stop-color="#eefdf5"/>
-                                                    <stop offset="100%" stop-color="#d1fae5"/>
-                                                </linearGradient>
-                                                <linearGradient id="tapeoutHandoffGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                    <stop offset="0%" stop-color="#f5f3ff"/>
-                                                    <stop offset="100%" stop-color="#ede9fe"/>
-                                                </linearGradient>
-                                                <linearGradient id="tapeoutFabGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                    <stop offset="0%" stop-color="#fff7ed"/>
-                                                    <stop offset="100%" stop-color="#fed7aa"/>
-                                                </linearGradient>
-                                            </defs>
-                                            <rect width="560" height="310" fill="url(#tapeoutGrid)"/>
+                                        </section>
 
-                                            <rect x="32" y="70" width="118" height="156" rx="28" fill="url(#tapeoutApprovedGrad)" stroke="#93c5fd" stroke-width="2.2"/>
-                                            <text x="91" y="94" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">Signoff Pass</text>
-                                            <rect x="52" y="112" width="78" height="20" rx="10" fill="#ffffff" stroke="#bfdbfe"/>
-                                            <rect x="52" y="140" width="78" height="20" rx="10" fill="#ffffff" stroke="#bbf7d0"/>
-                                            <rect x="52" y="168" width="78" height="20" rx="10" fill="#ffffff" stroke="#ddd6fe"/>
-                                            <text x="91" y="126" text-anchor="middle" fill="#2563eb" font-size="9.6" font-weight="900">Timing Pass</text>
-                                            <text x="91" y="154" text-anchor="middle" fill="#16a34a" font-size="9.6" font-weight="900">DRC / LVS Clean</text>
-                                            <text x="91" y="182" text-anchor="middle" fill="#7c3aed" font-size="9.6" font-weight="900">IR / EM Checked</text>
-                                            <circle cx="91" cy="206" r="9" fill="#22c55e">
-                                                <animate attributeName="opacity" values="0.7;1;0.7" dur="1.8s" repeatCount="indefinite"/>
-                                            </circle>
-                                            <path d="M86 206L90 210L98 201" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <section class="st-info-card">
+                                            <h5 class="st-info-title">Key Check Summary</h5>
+                                            <table class="st-mini-table" aria-label="Signoff check summary">
+                                                <thead><tr><th>Check</th><th>Status</th><th>Worst / Margin</th></tr></thead>
+                                                <tbody>
+                                                    <tr><td>Setup (WNS)</td><td class="st-status-ok">✓</td><td>+0.045 ns</td></tr>
+                                                    <tr><td>Hold (WHS)</td><td class="st-status-ok">✓</td><td>+0.032 ns</td></tr>
+                                                    <tr><td>DRC</td><td class="st-status-ok">✓</td><td>0 errors</td></tr>
+                                                    <tr><td>LVS</td><td class="st-status-ok">✓</td><td>Match</td></tr>
+                                                    <tr><td>IR Drop</td><td class="st-status-ok">✓</td><td>3.2% max</td></tr>
+                                                    <tr><td>EM</td><td class="st-status-ok">✓</td><td>0 hotspots</td></tr>
+                                                    <tr><td>LEC</td><td class="st-status-ok">✓</td><td>Match</td></tr>
+                                                </tbody>
+                                            </table>
+                                        </section>
 
-                                            <path d="M150 148H206" fill="none" stroke="#60a5fa" stroke-width="5" stroke-linecap="round"/>
-                                            <circle r="5.4" fill="#2563eb">
-                                                <animateMotion dur="2s" repeatCount="indefinite" path="M150 148H206"/>
-                                            </circle>
+                                        <section class="st-info-card">
+                                            <h5 class="st-info-title">Release Info</h5>
+                                            <table class="st-mini-table" aria-label="Release package metadata">
+                                                <tbody>
+                                                    <tr><td>Release ID</td><td>REL_2025.06.05_v1.0</td></tr>
+                                                    <tr><td>Date</td><td>2025-06-05</td></tr>
+                                                    <tr><td>Revision</td><td>REV_LOCK</td></tr>
+                                                    <tr><td>Data Format</td><td>GDSII (R2020.1)</td></tr>
+                                                    <tr><td>Encryption</td><td>AES-256</td></tr>
+                                                    <tr><td>Package Size</td><td>4.8 GB</td></tr>
+                                                </tbody>
+                                            </table>
+                                        </section>
 
-                                            <rect x="206" y="52" width="154" height="192" rx="30" fill="url(#tapeoutPackageGrad)" stroke="#86efac" stroke-width="2.2"/>
-                                            <text x="283" y="78" text-anchor="middle" fill="#15803d" font-size="12" font-weight="900">Release Package</text>
+                                        <section class="st-info-card">
+                                            <h5 class="st-info-title">Handoff Details</h5>
+                                            <table class="st-mini-table" aria-label="Foundry handoff details">
+                                                <tbody>
+                                                    <tr><td>Foundry</td><td>Example Foundry</td></tr>
+                                                    <tr><td>Contact</td><td>AE Team</td></tr>
+                                                    <tr><td>Delivery Method</td><td>Secure FTP (SFTP)</td></tr>
+                                                    <tr><td>Checksum</td><td>SHA256</td></tr>
+                                                    <tr><td>Acknowledged</td><td>2026-06-05 14:32 KST</td></tr>
+                                                </tbody>
+                                            </table>
+                                        </section>
 
-                                            <rect x="228" y="96" width="110" height="28" rx="12" fill="#ffffff" stroke="#86efac" stroke-width="1.6"/>
-                                            <rect x="228" y="134" width="110" height="28" rx="12" fill="#ffffff" stroke="#86efac" stroke-width="1.6"/>
-                                            <rect x="228" y="172" width="110" height="28" rx="12" fill="#ffffff" stroke="#86efac" stroke-width="1.6"/>
-                                            <rect x="224" y="168" width="118" height="36" rx="16" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-dasharray="6 5">
-                                                <animate attributeName="opacity" values="0.28;0.88;0.28" dur="1.6s" repeatCount="indefinite"/>
-                                            </rect>
-                                            <circle cx="238" cy="186" r="8.5" fill="#ffffff" stroke="#22c55e" stroke-width="1.6">
-                                                <animate attributeName="r" values="8.5;10;8.5" dur="1.6s" repeatCount="indefinite"/>
-                                            </circle>
-                                            <path d="M234 186V182.5A4 4 0 0 1 242 182.5V186" fill="none" stroke="#16a34a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <rect x="233.5" y="186" width="9" height="6.5" rx="2" fill="none" stroke="#16a34a" stroke-width="1.7"/>
-                                            <text x="283" y="114" text-anchor="middle" fill="#15803d" font-size="10" font-weight="900">GDSII / OASIS</text>
-                                            <text x="283" y="152" text-anchor="middle" fill="#15803d" font-size="10" font-weight="900">Reports + Checklist</text>
-                                            <text x="289" y="190" text-anchor="middle" fill="#15803d" font-size="10" font-weight="900">Version Freeze</text>
+                                        <section class="st-info-card st-reticle-card" aria-label="Reticle mask wafer diagram">
+                                            <svg class="st-reticle-svg" viewBox="0 0 190 178" aria-hidden="true">
+                                                <defs>
+                                                    <filter id="stIsoSoftShadow" x="-20%" y="-20%" width="140%" height="150%">
+                                                        <feDropShadow dx="0" dy="7" stdDeviation="5" flood-color="#172338" flood-opacity="0.16"/>
+                                                    </filter>
+                                                    <linearGradient id="stIsoReticleTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#f9fcff"/>
+                                                        <stop offset="48%" stop-color="#e7eef7"/>
+                                                        <stop offset="100%" stop-color="#cdd8e5"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="stIsoMaskTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#ffffff"/>
+                                                        <stop offset="55%" stop-color="#e5edf6"/>
+                                                        <stop offset="100%" stop-color="#bfccdb"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="stIsoWaferTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%" stop-color="#f8fbff"/>
+                                                        <stop offset="55%" stop-color="#dbe5f0"/>
+                                                        <stop offset="100%" stop-color="#b9c7d8"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="stIsoWaferSide" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                        <stop offset="0%" stop-color="#d9e2ec"/>
+                                                        <stop offset="100%" stop-color="#aebdce"/>
+                                                    </linearGradient>
+                                                    <radialGradient id="stIsoBlueGlow" cx="50%" cy="50%" r="65%">
+                                                        <stop offset="0%" stop-color="#6aa3ff" stop-opacity="0.55"/>
+                                                        <stop offset="100%" stop-color="#2f6fed" stop-opacity="0"/>
+                                                    </radialGradient>
+                                                    <clipPath id="stIsoWaferClip">
+                                                        <ellipse cx="88" cy="135" rx="54" ry="22"/>
+                                                    </clipPath>
+                                                    <clipPath id="stIsoReticleClip">
+                                                        <path d="M31 50 88 25l68 25-57 25z"/>
+                                                    </clipPath>
+                                                    <clipPath id="stIsoMaskClip">
+                                                        <path d="M43 89 88 68l55 21-45 21z"/>
+                                                    </clipPath>
+                                                </defs>
 
-                                            <path d="M248 220H318" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-dasharray="7 6"/>
-                                            <circle r="4.8" fill="#16a34a">
-                                                <animateMotion dur="1.45s" repeatCount="indefinite" path="M248 220H318"/>
-                                            </circle>
-                                            <text x="283" y="237" text-anchor="middle" fill="#15803d" font-size="10" font-weight="900">release control + data freeze</text>
+                                                <ellipse cx="88" cy="163" rx="68" ry="11" fill="#9eacbd" opacity="0.18"/>
+                                                <g stroke="#9eadbd" stroke-width="1" stroke-dasharray="3 3" opacity="0.72">
+                                                    <path d="M45 57v72"/>
+                                                    <path d="M88 75v55"/>
+                                                    <path d="M143 57v75"/>
+                                                </g>
 
-                                            <path d="M360 148H414" fill="none" stroke="#8b5cf6" stroke-width="5" stroke-linecap="round"/>
-                                            <circle r="5.4" fill="#7c3aed">
-                                                <animateMotion dur="2s" begin="0.35s" repeatCount="indefinite" path="M360 148H414"/>
-                                            </circle>
+                                                <g filter="url(#stIsoSoftShadow)">
+                                                    <path d="M37 134v13c0 13 23 24 51 24s51-11 51-24v-13z" fill="url(#stIsoWaferSide)" stroke="#8fa0b3" stroke-width="1.4"/>
+                                                    <ellipse cx="88" cy="134" rx="54" ry="22" fill="url(#stIsoWaferTop)" stroke="#7e90a5" stroke-width="1.7"/>
+                                                    <ellipse cx="88" cy="134" rx="45" ry="17" fill="#eef3f8" stroke="#b3c0ce" stroke-width="1"/>
+                                                    <g clip-path="url(#stIsoWaferClip)" stroke="#7f8fa2" stroke-width="0.9" opacity="0.82">
+                                                        <path d="M36 127h104M36 135h104M36 143h104"/>
+                                                        <path d="M48 113v44M62 113v44M76 113v44M90 113v44M104 113v44M118 113v44M132 113v44"/>
+                                                    </g>
+                                                    <g fill="#29384b" opacity="0.28" clip-path="url(#stIsoWaferClip)">
+                                                        <rect x="55" y="127" width="11" height="7" rx="1"/>
+                                                        <rect x="71" y="119" width="12" height="7" rx="1"/>
+                                                        <rect x="88" y="130" width="11" height="7" rx="1"/>
+                                                        <rect x="105" y="122" width="12" height="7" rx="1"/>
+                                                        <rect x="116" y="140" width="11" height="7" rx="1"/>
+                                                    </g>
+                                                </g>
 
-                                            <rect x="414" y="84" width="114" height="126" rx="28" fill="url(#tapeoutHandoffGrad)" stroke="#c4b5fd" stroke-width="2.2"/>
-                                            <text x="471" y="108" text-anchor="middle" fill="#7c3aed" font-size="12" font-weight="900">Foundry Handoff</text>
-                                            <rect x="436" y="126" width="70" height="46" rx="12" fill="#ffffff" stroke="#ddd6fe" stroke-width="1.7"/>
-                                            <path d="M486 126V142H502" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linejoin="round"/>
-                                            <path d="M450 146H492" fill="none" stroke="#a78bfa" stroke-width="2.2" stroke-linecap="round"/>
-                                            <path d="M450 156H492" fill="none" stroke="#a78bfa" stroke-width="2.2" stroke-linecap="round"/>
-                                            <text x="471" y="192" text-anchor="middle" fill="#7c3aed" font-size="9.8" font-weight="900">official manufacturing release</text>
+                                                <ellipse cx="88" cy="112" rx="48" ry="18" fill="#e7eef6" opacity="0.42" stroke="#aebdcd" stroke-width="1.2"/>
+                                                <ellipse cx="88" cy="112" rx="32" ry="12" fill="url(#stIsoBlueGlow)" opacity="0.78"/>
 
-                                            <path d="M471 210V244" fill="none" stroke="#f59e0b" stroke-width="4.5" stroke-linecap="round"/>
-                                            <circle r="5" fill="#f59e0b">
-                                                <animateMotion dur="1.8s" begin="0.7s" repeatCount="indefinite" path="M471 210V244"/>
-                                            </circle>
+                                                <g filter="url(#stIsoSoftShadow)">
+                                                    <path d="M43 89 88 68l55 21v7l-45 21-55-21z" fill="#bdcad8" opacity="0.8"/>
+                                                    <path d="M43 89 88 68l55 21-45 21z" fill="url(#stIsoMaskTop)" stroke="#8395a9" stroke-width="1.6"/>
+                                                    <g clip-path="url(#stIsoMaskClip)">
+                                                        <path d="M51 89h83M62 80h51M62 99h51" stroke="#aab7c6" stroke-width="1"/>
+                                                        <path d="M88 72v34" stroke="#8ea0b3" stroke-width="1"/>
+                                                        <g fill="#6c7d8f" opacity="0.62">
+                                                            <rect x="61" y="86" width="12" height="7" rx="1"/>
+                                                            <rect x="80" y="78" width="12" height="22" rx="1"/>
+                                                            <rect x="101" y="88" width="16" height="7" rx="1"/>
+                                                        </g>
+                                                    </g>
+                                                </g>
 
-                                            <rect x="414" y="244" width="114" height="40" rx="18" fill="url(#tapeoutFabGrad)" stroke="#fdba74" stroke-width="2"/>
-                                            <text x="471" y="268" text-anchor="middle" fill="#c2410c" font-size="10.5" font-weight="900">Mask Prep / Fab Queue</text>
+                                                <g filter="url(#stIsoSoftShadow)">
+                                                    <path d="M31 50 88 25l68 25v7L99 82 31 57z" fill="#b9c8d8" opacity="0.72"/>
+                                                    <path d="M31 50 88 25l68 25-57 25z" fill="url(#stIsoReticleTop)" stroke="#8395a9" stroke-width="1.7"/>
+                                                    <g clip-path="url(#stIsoReticleClip)">
+                                                        <path d="M44 50h96M55 42h66M57 59h72" stroke="#9caabc" stroke-width="1"/>
+                                                        <path d="M61 37v29M76 31v39M92 28v42M109 34v31M127 41v17" stroke="#8fa0b3" stroke-width="1"/>
+                                                        <g fill="#2f6fed" opacity="0.78">
+                                                            <rect x="61" y="45" width="15" height="7" rx="1"/>
+                                                            <rect x="82" y="38" width="22" height="7" rx="1"/>
+                                                            <rect x="108" y="52" width="18" height="6" rx="1"/>
+                                                        </g>
+                                                    </g>
+                                                </g>
 
-                                        </svg>
-                                        <div class="border-t border-blue-100 bg-white/90 px-5 py-4">
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                                                <div class="rounded-2xl border border-slate-100 bg-slate-50/90 p-4"><strong class="text-blue-600 block mb-1">Timing</strong>STA로 Setup/Hold, corner/mode, 경로 closure를 확인합니다.</div>
-                                                <div class="rounded-2xl border border-slate-100 bg-slate-50/90 p-4"><strong class="text-blue-600 block mb-1">DRC / LVS</strong>제조 가능 룰과 회로 연결 일치 여부를 검사합니다.</div>
-                                                <div class="rounded-2xl border border-slate-100 bg-slate-50/90 p-4"><strong class="text-blue-600 block mb-1">IR / EM</strong>전원 무결성과 금속 신뢰성을 봅니다.</div>
-                                                <div class="rounded-2xl border border-slate-100 bg-slate-50/90 p-4"><strong class="text-blue-600 block mb-1">Noise / LEC 등</strong>신호 무결성, 동등성, 기타 물리적 안정성을 교차 점검합니다.</div>
-                                            </div>
-                                            <p class="mt-4 text-sm leading-6 text-slate-600">즉 Signoff는 단순 보고서가 아니라 <strong class="text-slate-900">“이 설계를 제조로 넘겨도 된다”</strong>고 최종 승인하는 단계입니다.</p>
-                                        </div>
-                                        <div class="border-t border-blue-100 bg-white/85 px-5 py-4">
-                                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                                <span class="inline-flex items-center justify-center rounded-full bg-blue-50 px-3 py-2 text-[11px] font-extrabold text-blue-600">Signoff Pass</span>
-                                                <span class="inline-flex items-center justify-center rounded-full bg-emerald-50 px-3 py-2 text-[11px] font-extrabold text-emerald-600">Release Package</span>
-                                                <span class="inline-flex items-center justify-center rounded-full bg-violet-50 px-3 py-2 text-[11px] font-extrabold text-violet-600">Foundry Handoff</span>
-                                                <span class="inline-flex items-center justify-center rounded-full bg-amber-50 px-3 py-2 text-[11px] font-extrabold text-amber-700">Mask Prep</span>
-                                            </div>
-                                        </div>
+                                                <g fill="none" stroke="#7e90a5" stroke-width="1" stroke-linecap="round">
+                                                    <path d="M142 49h12"/>
+                                                    <path d="M134 91h20"/>
+                                                    <path d="M136 134h18"/>
+                                                </g>
+                                                <g font-family="Pretendard, sans-serif" fill="#20324a">
+                                                    <text x="156" y="51" font-size="6.8" font-weight="900">RETICLE</text>
+                                                    <text x="156" y="93" font-size="6.8" font-weight="900">MASK</text>
+                                                    <text x="156" y="136" font-size="6.8" font-weight="900">WAFER</text>
+                                                </g>
+                                            </svg>
+                                        </section>
                                     </div>
                                 </div>
                             </div>
-
-                            </div>
-
