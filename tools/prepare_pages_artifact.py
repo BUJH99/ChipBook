@@ -32,7 +32,13 @@ def ensure_safe_output_dir(output_dir: Path) -> None:
 
 
 def ignore_artifact_noise(_directory: str, names: list[str]) -> set[str]:
-    return {name for name in names if name in IGNORED_NAMES or name.endswith(".pyc")}
+    return {
+        name
+        for name in names
+        if name in IGNORED_NAMES
+        or name.endswith(".pyc")
+        or name.lower().endswith(".png")
+    }
 
 
 def copy_entry(name: str, output_dir: Path) -> None:

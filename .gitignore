@@ -3,4 +3,4 @@ _site/
 .playwright-mcp/
 __pycache__/
 *.pyc
-image-creator-*.png
+*.png
