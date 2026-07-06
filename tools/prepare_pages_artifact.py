@@ -53,6 +53,18 @@ def copy_entry(name: str, output_dir: Path) -> None:
         shutil.copy2(source, target)
 
 
+def prune_empty_dirs(output_dir: Path) -> None:
+    for directory in sorted(
+        (path for path in output_dir.rglob("*") if path.is_dir()),
+        key=lambda path: len(path.parts),
+        reverse=True,
+    ):
+        try:
+            directory.rmdir()
+        except OSError:
+            pass
+
+
 def build_artifact_dir(output_dir: Path) -> None:
     ensure_safe_output_dir(output_dir)
 
@@ -63,6 +75,7 @@ def build_artifact_dir(output_dir: Path) -> None:
     for entry in SITE_ENTRIES:
         copy_entry(entry, output_dir)
 
+    prune_empty_dirs(output_dir)
     (output_dir / ".nojekyll").write_text("", encoding="utf-8")
 
 
