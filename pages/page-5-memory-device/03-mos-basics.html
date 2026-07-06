@@ -231,6 +231,25 @@
             border-color: #ffd0d8;
         }
 
+        .memory-basics-toss .memory-hierarchy-figure {
+            margin: 0 0 1.5rem;
+        }
+
+        .memory-basics-toss .memory-hierarchy-scroll {
+            width: 100%;
+            overflow-x: auto;
+            padding: 0.25rem 0 0.75rem;
+            scrollbar-gutter: stable;
+        }
+
+        .memory-basics-toss .memory-hierarchy-svg {
+            display: block;
+            width: 100%;
+            min-width: 1120px;
+            height: auto;
+            font-family: 'IBM Plex Sans', 'Pretendard', sans-serif;
+        }
+
         .memory-basics-toss [data-memory-tone="blue"] .memory-stage-chip.is-active,
         .memory-basics-toss [data-memory-tone="blue"] .memory-stage-chip.is-done,
         .memory-basics-toss [data-memory-tone="blue"] .memory-stage-chip:hover {
@@ -1106,6 +1125,10 @@
                 font-size: 1.15rem;
             }
 
+            .nand-hierarchy-replica .hierarchy-flow-node {
+                min-width: 8.1rem;
+            }
+
             .nand-hierarchy-replica .hierarchy-ladder-row {
                 grid-template-columns: 2.25rem 4.2rem 1fr;
                 gap: 0.75rem;
@@ -1118,6 +1141,39 @@
                 grid-template-rows: none;
                 grid-template-columns: 1fr;
                 column-gap: 0;
+            }
+
+            .nand-hierarchy-replica .hierarchy-flow {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.45rem;
+            }
+
+            .nand-hierarchy-replica .hierarchy-flow-node {
+                min-width: 0;
+                grid-template-columns: 2.15rem 1fr;
+            }
+
+            .nand-hierarchy-replica .hierarchy-flow-node::after {
+                top: auto;
+                right: auto;
+                bottom: -0.48rem;
+                left: 1.72rem;
+                width: 1px;
+                height: 0.48rem;
+                transform: none;
+            }
+
+            .nand-hierarchy-replica .hierarchy-flow-node::before {
+                top: auto;
+                right: auto;
+                bottom: -0.62rem;
+                left: 1.54rem;
+                border-left: 0.22rem solid transparent;
+                border-right: 0.22rem solid transparent;
+                border-top: 0.3rem solid #aeb8c6;
+                border-bottom: 0;
+                transform: none;
             }
 
             .nand-hierarchy-replica .hierarchy-ladder-row:nth-child(4) {
@@ -1303,6 +1359,320 @@
                                                 <span class="memory-feature-chip memory-feature-rose">Destructive Read + Restore</span>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="px-4 sm:px-6">
+                                        <figure class="memory-hierarchy-figure" aria-label="SRAM과 DRAM 2D 내부 계층 비교">
+                                            <div class="memory-hierarchy-scroll">
+                                                <svg class="memory-hierarchy-svg" viewBox="0 0 1560 760" role="img" aria-labelledby="memory-hierarchy-title memory-hierarchy-desc">
+                                                    <title id="memory-hierarchy-title">SRAM and DRAM 2D hierarchy visualization</title>
+                                                    <desc id="memory-hierarchy-desc">Side-by-side hierarchy diagrams showing SRAM and DRAM in two rows of three stages each.</desc>
+                                                    <defs>
+                                                        <marker id="memory-hierarchy-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                                                            <path d="M0 0L10 5L0 10Z" fill="#0b64d8"/>
+                                                        </marker>
+                                                        <linearGradient id="memory-hierarchy-blue" x1="0" x2="0" y1="0" y2="1">
+                                                            <stop offset="0%" stop-color="#2a7be8"/>
+                                                            <stop offset="100%" stop-color="#004fc5"/>
+                                                        </linearGradient>
+                                                        <linearGradient id="memory-hierarchy-chip" x1="0" x2="0" y1="0" y2="1">
+                                                            <stop offset="0%" stop-color="#f9fbff"/>
+                                                            <stop offset="100%" stop-color="#ffffff"/>
+                                                        </linearGradient>
+                                                        <linearGradient id="memory-hierarchy-dimm" x1="0" x2="0" y1="0" y2="1">
+                                                            <stop offset="0%" stop-color="#2fa24a"/>
+                                                            <stop offset="100%" stop-color="#14702b"/>
+                                                        </linearGradient>
+                                                    </defs>
+
+                                                    <rect x="0" y="0" width="1560" height="760" rx="16" fill="#ffffff"/>
+
+                                                    <g transform="translate(8 8)">
+                                                        <rect x="0" y="0" width="760" height="724" rx="12" fill="#ffffff" stroke="#d9dee7" stroke-width="1.4"/>
+                                                        <text x="30" y="64" fill="#0857c8" font-size="44" font-weight="800">SRAM:</text>
+                                                        <rect x="16" y="88" width="728" height="614" rx="12" fill="#ffffff" stroke="#d9dee7" stroke-width="1.2"/>
+
+                                                        <g stroke="#0b64d8" stroke-width="3.2" fill="none" marker-end="url(#memory-hierarchy-arrow)">
+                                                            <path d="M236 231H258"/>
+                                                            <path d="M472 231H494"/>
+                                                            <path d="M603 352V376H131V402"/>
+                                                            <path d="M236 525H258"/>
+                                                            <path d="M472 525H494"/>
+                                                        </g>
+
+                                                        <g transform="translate(26 116)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">6T Cell</text>
+                                                            <g stroke="#101827" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                                                                <path d="M64 76V178M146 76V178"/>
+                                                                <path d="M56 76H72M138 76H154M56 178H72M138 178H154"/>
+                                                                <path d="M64 102H84V152H64"/>
+                                                                <path d="M146 102H126V152H146"/>
+                                                                <path d="M84 116H126M84 140H126"/>
+                                                            </g>
+                                                            <g stroke="#1269dc" stroke-width="3" stroke-linecap="round" fill="none">
+                                                                <path d="M44 120V144M166 120V144"/>
+                                                                <path d="M94 152V194M116 152V194"/>
+                                                                <path d="M86 194H102M108 194H124"/>
+                                                                <path d="M105 140V164"/>
+                                                            </g>
+                                                        </g>
+
+                                                        <g transform="translate(262 116)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">Array</text>
+                                                            <g stroke="#b8c1cf" stroke-width="1" fill="none">
+                                                                <path d="M54 72V184M86 72V184M118 72V184M150 72V184"/>
+                                                                <path d="M42 72H166M42 110H166M42 148H166M42 184H166"/>
+                                                            </g>
+                                                            <g fill="#8bbdff" stroke="#1269dc" stroke-width="1.5">
+                                                                <rect x="50" y="78" width="18" height="32" rx="2"/>
+                                                                <rect x="82" y="78" width="18" height="32" rx="2"/>
+                                                                <rect x="114" y="78" width="18" height="32" rx="2"/>
+                                                                <rect x="146" y="78" width="18" height="32" rx="2"/>
+                                                                <rect x="50" y="118" width="18" height="32" rx="2"/>
+                                                                <rect x="82" y="118" width="18" height="32" rx="2"/>
+                                                                <rect x="114" y="118" width="18" height="32" rx="2"/>
+                                                                <rect x="146" y="118" width="18" height="32" rx="2"/>
+                                                                <rect x="50" y="158" width="18" height="32" rx="2"/>
+                                                                <rect x="82" y="158" width="18" height="32" rx="2"/>
+                                                                <rect x="114" y="158" width="18" height="32" rx="2"/>
+                                                                <rect x="146" y="158" width="18" height="32" rx="2"/>
+                                                            </g>
+                                                            <text x="174" y="150" fill="#101827" font-size="16" font-weight="800">...</text>
+                                                        </g>
+
+                                                        <g transform="translate(498 116)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">Subarray/Mat</text>
+                                                            <rect x="22" y="62" width="166" height="140" rx="7" fill="#ffffff" stroke="#9aa8ba" stroke-dasharray="4 3"/>
+                                                            <rect x="34" y="76" width="34" height="100" rx="5" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <text x="56" y="134" text-anchor="middle" transform="rotate(-90 56 134)" fill="#101827" font-size="11" font-weight="800">Row Decoder</text>
+                                                            <g fill="#8bbdff" stroke="#1269dc" stroke-width="1.2">
+                                                                <rect x="86" y="86" width="13" height="26" rx="1"/>
+                                                                <rect x="106" y="86" width="13" height="26" rx="1"/>
+                                                                <rect x="126" y="86" width="13" height="26" rx="1"/>
+                                                                <rect x="146" y="86" width="13" height="26" rx="1"/>
+                                                                <rect x="86" y="122" width="13" height="26" rx="1"/>
+                                                                <rect x="106" y="122" width="13" height="26" rx="1"/>
+                                                                <rect x="126" y="122" width="13" height="26" rx="1"/>
+                                                                <rect x="146" y="122" width="13" height="26" rx="1"/>
+                                                            </g>
+                                                            <text x="166" y="104" fill="#101827" font-size="13" font-weight="800">...</text>
+                                                            <text x="166" y="140" fill="#101827" font-size="13" font-weight="800">...</text>
+                                                            <rect x="54" y="178" width="112" height="24" rx="4" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <text x="110" y="195" text-anchor="middle" fill="#101827" font-size="12" font-weight="800">Column Mux</text>
+                                                        </g>
+
+                                                        <g transform="translate(26 410)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">Bank</text>
+                                                            <rect x="42" y="64" width="74" height="42" rx="5" fill="#f8fafc" stroke="#9aa8ba"/>
+                                                            <rect x="42" y="118" width="74" height="42" rx="5" fill="#f8fafc" stroke="#9aa8ba"/>
+                                                            <rect x="42" y="172" width="74" height="42" rx="5" fill="#f8fafc" stroke="#9aa8ba"/>
+                                                            <text x="79" y="91" text-anchor="middle" fill="#101827" font-size="14" font-weight="800">Mat</text>
+                                                            <text x="79" y="145" text-anchor="middle" fill="#101827" font-size="14" font-weight="800">Mat</text>
+                                                            <text x="79" y="199" text-anchor="middle" fill="#101827" font-size="14" font-weight="800">Mat</text>
+                                                            <text x="90" y="166" fill="#101827" font-size="16" font-weight="800">.</text>
+                                                            <text x="90" y="180" fill="#101827" font-size="16" font-weight="800">.</text>
+                                                            <rect x="136" y="64" width="32" height="150" rx="4" fill="#9fc7fb" stroke="#1269dc"/>
+                                                            <text x="157" y="142" text-anchor="middle" transform="rotate(-90 157 142)" fill="#101827" font-size="12" font-weight="800">Bank Control</text>
+                                                        </g>
+
+                                                        <g transform="translate(262 410)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">SRAM Macro</text>
+                                                            <rect x="34" y="58" width="142" height="142" rx="4" fill="url(#memory-hierarchy-chip)" stroke="#101827" stroke-width="1.4"/>
+                                                            <path d="M44 58V42M56 58V42M68 58V42M80 58V42M92 58V42M104 58V42M116 58V42M128 58V42M140 58V42M152 58V42M164 58V42" stroke="#101827" stroke-width="1.2" fill="none"/>
+                                                            <path d="M44 200V216M56 200V216M68 200V216M80 200V216M92 200V216M104 200V216M116 200V216M128 200V216M140 200V216M152 200V216M164 200V216" stroke="#101827" stroke-width="1.2" fill="none"/>
+                                                            <rect x="46" y="68" width="118" height="26" rx="3" fill="#f8fafc" stroke="#9aa8ba"/>
+                                                            <rect x="46" y="172" width="118" height="20" rx="3" fill="#f8fafc" stroke="#9aa8ba"/>
+                                                            <rect x="50" y="102" width="20" height="62" rx="3" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <rect x="140" y="102" width="20" height="62" rx="3" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <rect x="76" y="102" width="58" height="62" rx="2" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <path d="M80 108H130M80 120H130M80 132H130M80 144H130M80 156H130M80 108V160M90 108V160M100 108V160M110 108V160M120 108V160M130 108V160" stroke="#8bbdff" stroke-width="0.9" fill="none"/>
+                                                            <text x="105" y="84" text-anchor="middle" fill="#101827" font-size="9" font-weight="800">I/O Drivers</text>
+                                                            <text x="105" y="142" text-anchor="middle" fill="#101827" font-size="12" font-weight="800">Memory Array</text>
+                                                            <text x="105" y="158" text-anchor="middle" fill="#101827" font-size="11" font-weight="800">(6T Cells)</text>
+                                                            <text x="105" y="187" text-anchor="middle" fill="#101827" font-size="9" font-weight="800">Sense Amplifiers</text>
+                                                            <text x="62" y="137" text-anchor="middle" transform="rotate(-90 62 137)" fill="#101827" font-size="9" font-weight="800">Row Decoders</text>
+                                                            <text x="150" y="137" text-anchor="middle" transform="rotate(-90 150 137)" fill="#101827" font-size="9" font-weight="800">Column Muxes</text>
+                                                        </g>
+
+                                                        <g transform="translate(498 410)">
+                                                            <rect width="210" height="230" rx="6" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">Cache</text>
+                                                            <rect x="42" y="58" width="126" height="156" rx="3" fill="#f8fafc" stroke="#9aa8ba"/>
+                                                            <path d="M58 76V198M58 90H74M58 138H74M58 186H74" stroke="#64748b" stroke-width="2" stroke-linecap="square" fill="none"/>
+                                                            <g fill="#e8f3ff" stroke="#7da8e8" stroke-width="1">
+                                                                <rect x="84" y="82" width="58" height="16"/>
+                                                                <rect x="84" y="130" width="58" height="16"/>
+                                                                <rect x="84" y="178" width="58" height="16"/>
+                                                            </g>
+                                                            <g fill="url(#memory-hierarchy-blue)" stroke="#004fc5" stroke-width="1.4">
+                                                                <rect x="74" y="70" width="78" height="40" rx="2"/>
+                                                                <rect x="74" y="118" width="78" height="40" rx="2"/>
+                                                                <rect x="74" y="166" width="78" height="40" rx="2"/>
+                                                            </g>
+                                                            <g stroke="#60a5fa" stroke-width="0.8" opacity="0.8">
+                                                                <path d="M82 80H144M82 91H144M82 102H144"/>
+                                                                <path d="M82 128H144M82 139H144M82 150H144"/>
+                                                                <path d="M82 176H144M82 187H144M82 198H144"/>
+                                                            </g>
+                                                            <text x="113" y="94" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="800">L1 Cache</text>
+                                                            <text x="113" y="142" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="800">L2 Cache</text>
+                                                            <text x="113" y="190" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="800">L3 Cache</text>
+                                                        </g>
+                                                    </g>
+
+                                                    <g transform="translate(792 8)">
+                                                        <rect x="0" y="0" width="760" height="724" rx="12" fill="#ffffff" stroke="#d9dee7" stroke-width="1.4"/>
+                                                        <text x="30" y="64" fill="#0857c8" font-size="44" font-weight="800">DRAM:</text>
+                                                        <rect x="16" y="88" width="728" height="614" rx="12" fill="#ffffff" stroke="#d9dee7" stroke-width="1.2"/>
+
+                                                        <g stroke="#0b64d8" stroke-width="3.2" fill="none" marker-end="url(#memory-hierarchy-arrow)">
+                                                            <path d="M236 231H258"/>
+                                                            <path d="M472 231H494"/>
+                                                            <path d="M603 352V376H131V402"/>
+                                                            <path d="M236 525H258"/>
+                                                            <path d="M472 525H494"/>
+                                                        </g>
+
+                                                        <g transform="translate(26 116)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">1T1C Cell</text>
+                                                            <text x="78" y="62" text-anchor="middle" fill="#64748b" font-size="10.5" font-weight="900">BL</text>
+                                                            <text x="48" y="111" fill="#7c3aed" font-size="10.5" font-weight="900">WL</text>
+                                                            <g stroke="#101827" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                                                                <path d="M78 68V114"/>
+                                                                <circle cx="78" cy="74" r="4" fill="#101827"/>
+                                                                <path d="M78 114H122"/>
+                                                                <path d="M100 92V136"/>
+                                                                <path d="M122 114H150"/>
+                                                                <circle cx="150" cy="114" r="3.4" fill="#101827"/>
+                                                                <path d="M150 114V152"/>
+                                                            </g>
+                                                            <path d="M52 114H98" stroke="#7c3aed" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                                                            <g stroke="#1269dc" stroke-width="3" stroke-linecap="round" fill="none">
+                                                                <path d="M128 152H172"/>
+                                                                <path d="M128 170H172"/>
+                                                                <path d="M150 170V196"/>
+                                                                <path d="M136 200H164"/>
+                                                                <path d="M142 208H158"/>
+                                                            </g>
+                                                            <text x="150" y="224" text-anchor="middle" fill="#2563eb" font-size="10.5" font-weight="900">Storage C</text>
+                                                        </g>
+
+                                                        <g transform="translate(262 116)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">Array</text>
+                                                            <g fill="#8bbdff" stroke="#1269dc" stroke-width="1.5">
+                                                                <rect x="50" y="78" width="18" height="32" rx="2"/>
+                                                                <rect x="82" y="78" width="18" height="32" rx="2"/>
+                                                                <rect x="114" y="78" width="18" height="32" rx="2"/>
+                                                                <rect x="146" y="78" width="18" height="32" rx="2"/>
+                                                                <rect x="50" y="118" width="18" height="32" rx="2"/>
+                                                                <rect x="82" y="118" width="18" height="32" rx="2"/>
+                                                                <rect x="114" y="118" width="18" height="32" rx="2"/>
+                                                                <rect x="146" y="118" width="18" height="32" rx="2"/>
+                                                                <rect x="50" y="158" width="18" height="32" rx="2"/>
+                                                                <rect x="82" y="158" width="18" height="32" rx="2"/>
+                                                                <rect x="114" y="158" width="18" height="32" rx="2"/>
+                                                                <rect x="146" y="158" width="18" height="32" rx="2"/>
+                                                            </g>
+                                                            <text x="174" y="150" fill="#101827" font-size="16" font-weight="800">...</text>
+                                                        </g>
+
+                                                        <g transform="translate(498 116)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">Subarray</text>
+                                                            <rect x="22" y="62" width="166" height="140" rx="7" fill="#ffffff" stroke="#9aa8ba" stroke-dasharray="4 3"/>
+                                                            <rect x="34" y="76" width="34" height="100" rx="5" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <text x="56" y="134" text-anchor="middle" transform="rotate(-90 56 134)" fill="#101827" font-size="11" font-weight="800">Row Decoder</text>
+                                                            <g fill="#8bbdff" stroke="#1269dc" stroke-width="1.2">
+                                                                <rect x="86" y="86" width="13" height="26" rx="1"/>
+                                                                <rect x="106" y="86" width="13" height="26" rx="1"/>
+                                                                <rect x="126" y="86" width="13" height="26" rx="1"/>
+                                                                <rect x="86" y="122" width="13" height="26" rx="1"/>
+                                                                <rect x="106" y="122" width="13" height="26" rx="1"/>
+                                                                <rect x="126" y="122" width="13" height="26" rx="1"/>
+                                                                <rect x="86" y="158" width="13" height="26" rx="1"/>
+                                                                <rect x="106" y="158" width="13" height="26" rx="1"/>
+                                                                <rect x="126" y="158" width="13" height="26" rx="1"/>
+                                                            </g>
+                                                            <text x="146" y="104" fill="#101827" font-size="13" font-weight="800">...</text>
+                                                            <text x="146" y="140" fill="#101827" font-size="13" font-weight="800">...</text>
+                                                            <rect x="54" y="178" width="112" height="24" rx="4" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <text x="110" y="195" text-anchor="middle" fill="#101827" font-size="11" font-weight="800">I/O Circuits</text>
+                                                        </g>
+
+                                                        <g transform="translate(26 410)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">Bank</text>
+                                                            <rect x="40" y="60" width="76" height="154" rx="7" fill="#ffffff" stroke="#9aa8ba" stroke-dasharray="4 3"/>
+                                                            <rect x="50" y="74" width="52" height="38" rx="5" fill="#f8fafc" stroke="#9aa8ba"/>
+                                                            <rect x="50" y="126" width="52" height="38" rx="5" fill="#f8fafc" stroke="#9aa8ba"/>
+                                                            <rect x="50" y="178" width="52" height="38" rx="5" fill="#f8fafc" stroke="#9aa8ba"/>
+                                                            <text x="76" y="99" text-anchor="middle" fill="#101827" font-size="10" font-weight="800">Subarray</text>
+                                                            <text x="76" y="151" text-anchor="middle" fill="#101827" font-size="10" font-weight="800">Subarray</text>
+                                                            <text x="76" y="203" text-anchor="middle" fill="#101827" font-size="10" font-weight="800">Subarray</text>
+                                                            <text x="76" y="171" fill="#101827" font-size="16" font-weight="800">.</text>
+                                                            <text x="76" y="185" fill="#101827" font-size="16" font-weight="800">.</text>
+                                                            <rect x="134" y="68" width="32" height="148" rx="4" fill="#9fc7fb" stroke="#1269dc"/>
+                                                            <text x="154" y="146" text-anchor="middle" transform="rotate(-90 154 146)" fill="#101827" font-size="11" font-weight="800">Bank Control</text>
+                                                        </g>
+
+                                                        <g transform="translate(262 410)">
+                                                            <rect width="210" height="230" rx="8" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">Chip</text>
+                                                            <rect x="26" y="58" width="158" height="150" rx="4" fill="url(#memory-hierarchy-chip)" stroke="#101827" stroke-width="1.4"/>
+                                                            <path d="M38 58V42M50 58V42M62 58V42M74 58V42M86 58V42M98 58V42M110 58V42M122 58V42M134 58V42M146 58V42M158 58V42M170 58V42" stroke="#101827" stroke-width="1.2" fill="none"/>
+                                                            <path d="M38 208V224M50 208V224M62 208V224M74 208V224M86 208V224M98 208V224M110 208V224M122 208V224M134 208V224M146 208V224M158 208V224M170 208V224" stroke="#101827" stroke-width="1.2" fill="none"/>
+                                                            <rect x="38" y="68" width="134" height="26" rx="3" fill="#dcecff" stroke="#9aa8ba"/>
+                                                            <rect x="38" y="100" width="134" height="22" rx="3" fill="#dcecff" stroke="#9aa8ba"/>
+                                                            <rect x="38" y="176" width="134" height="22" rx="3" fill="#dcecff" stroke="#9aa8ba"/>
+                                                            <rect x="44" y="128" width="22" height="44" rx="3" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <rect x="144" y="128" width="22" height="44" rx="3" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <rect x="70" y="128" width="70" height="44" rx="2" fill="#ffffff" stroke="#9aa8ba"/>
+                                                            <path d="M76 132H136M76 144H136M76 156H136M76 168H136M76 132V170M86 132V170M96 132V170M106 132V170M116 132V170M126 132V170M136 132V170" stroke="#8bbdff" stroke-width="0.9" fill="none"/>
+                                                            <text x="105" y="85" text-anchor="middle" fill="#101827" font-size="9" font-weight="800">Column Decoder</text>
+                                                            <text x="105" y="116" text-anchor="middle" fill="#101827" font-size="8.5" font-weight="800">Sense Amplifiers / I/O Buffers</text>
+                                                            <text x="105" y="151" text-anchor="middle" fill="#101827" font-size="13" font-weight="800">DRAM Array</text>
+                                                            <text x="105" y="166" text-anchor="middle" fill="#101827" font-size="11" font-weight="800">(1T1C Cells)</text>
+                                                            <text x="55" y="154" text-anchor="middle" transform="rotate(-90 55 154)" fill="#101827" font-size="8.5" font-weight="800">Row Decoder</text>
+                                                            <text x="155" y="154" text-anchor="middle" transform="rotate(90 155 154)" fill="#101827" font-size="8.5" font-weight="800">Bank Logic</text>
+                                                            <text x="105" y="191" text-anchor="middle" fill="#101827" font-size="9" font-weight="800">Data I/O</text>
+                                                        </g>
+
+                                                        <g transform="translate(498 410)">
+                                                            <rect width="210" height="230" rx="6" fill="#ffffff" stroke="#9aa8ba" stroke-width="1.2"/>
+                                                            <text x="105" y="34" text-anchor="middle" fill="#101827" font-size="18" font-weight="800">Rank/DIMM</text>
+                                                            <rect x="64" y="54" width="92" height="158" rx="3" fill="url(#memory-hierarchy-dimm)" stroke="#0f6b28" stroke-width="1.6"/>
+                                                            <rect x="70" y="72" width="80" height="118" rx="1" fill="none" stroke="#1d8a39" stroke-width="1" opacity="0.75"/>
+                                                            <path d="M86 60V72M110 60V72M134 60V72M86 190V204M110 190V204M134 190V204" stroke="#9ae6b4" stroke-width="1.4" fill="none"/>
+                                                            <g fill="#24303a" stroke="#0f172a" stroke-width="1.2">
+                                                                <rect x="80" y="72" width="44" height="26" rx="1"/>
+                                                                <rect x="80" y="108" width="44" height="26" rx="1"/>
+                                                                <rect x="80" y="144" width="44" height="26" rx="1"/>
+                                                                <rect x="80" y="180" width="44" height="24" rx="1"/>
+                                                            </g>
+                                                            <path d="M126 85H142V91H148M126 121H142V127H148M126 157H142V163H148M126 192H142V198H148" stroke="#6ee7b7" stroke-width="1.3" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+                                                            <g fill="#facc15">
+                                                                <rect x="148" y="82" width="8" height="8" rx="0.8"/>
+                                                                <rect x="148" y="96" width="8" height="8" rx="0.8"/>
+                                                                <rect x="148" y="110" width="8" height="8" rx="0.8"/>
+                                                                <rect x="148" y="124" width="8" height="8" rx="0.8"/>
+                                                                <rect x="148" y="138" width="8" height="8" rx="0.8"/>
+                                                                <rect x="148" y="152" width="8" height="8" rx="0.8"/>
+                                                                <rect x="148" y="166" width="8" height="8" rx="0.8"/>
+                                                            </g>
+                                                            <rect x="64" y="202" width="32" height="8" fill="#d9a928"/>
+                                                            <rect x="100" y="202" width="32" height="8" fill="#d9a928"/>
+                                                            <rect x="136" y="202" width="20" height="8" fill="#d9a928"/>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        </figure>
                                     </div>
                                 </div>
                                 <div class="overflow-x-auto flex-1 bg-white">
