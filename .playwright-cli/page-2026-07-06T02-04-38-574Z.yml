@@ -1,0 +1,285 @@
+- generic [active] [ref=f29e1]:
+  - banner [ref=f29e2]:
+    - generic [ref=f29e3]:
+      - generic [ref=f29e4]:
+        - generic [ref=f29e5]: A
+        - generic [ref=f29e6]:
+          - generic [ref=f29e7]: 반도체 디지털 회로설계 가이드북
+          - text: 핵심 개념부터 설계 흐름, 실전 문제까지 한 번에 정리
+      - generic [ref=f29e8]:
+        - generic [ref=f29e9]: ←
+        - generic [ref=f29e10]: 방향키로 이동
+        - generic [ref=f29e11]: →
+  - generic [ref=f29e12]:
+    - complementary [ref=f29e13]:
+      - heading "Table of Contents" [level=3] [ref=f29e14]
+      - navigation [ref=f29e15]:
+        - button "01 OverView" [ref=f29e16] [cursor=pointer]:
+          - generic [ref=f29e17]: "01"
+          - text: OverView
+        - button "02 Design Flow" [ref=f29e18] [cursor=pointer]:
+          - generic [ref=f29e19]: "02"
+          - text: Design Flow
+        - button "03 RTL / Frontend" [ref=f29e20] [cursor=pointer]:
+          - generic [ref=f29e21]: "03"
+          - text: RTL / Frontend
+        - button "04 Physical Design / Backend" [ref=f29e22] [cursor=pointer]:
+          - generic [ref=f29e23]: "04"
+          - text: Physical Design / Backend
+        - button "05 Memory / Storage / Materials" [ref=f29e24] [cursor=pointer]:
+          - generic [ref=f29e25]: "05"
+          - text: Memory / Storage / Materials
+        - button "06 Design Flow with Role" [ref=f29e26] [cursor=pointer]:
+          - generic [ref=f29e27]: "06"
+          - text: Design Flow with Role
+        - button "07 UVM / Verification" [ref=f29e28] [cursor=pointer]:
+          - generic [ref=f29e29]: "07"
+          - text: UVM / Verification
+        - button "08 On-Chip Bus" [ref=f29e30] [cursor=pointer]:
+          - generic [ref=f29e31]: "08"
+          - text: On-Chip Bus
+        - button "09 Off-Chip Interface" [ref=f29e32] [cursor=pointer]:
+          - generic [ref=f29e33]: "09"
+          - text: Off-Chip Interface
+        - button "10 Solution" [ref=f29e34] [cursor=pointer]:
+          - generic [ref=f29e35]: "10"
+          - text: Solution
+        - button "11 AI Accelerator" [ref=f29e36] [cursor=pointer]:
+          - generic [ref=f29e37]: "11"
+          - text: AI Accelerator
+        - generic [ref=f29e38]:
+          - button "📝 13 예상 기출문제" [ref=f29e39] [cursor=pointer]:
+            - generic [ref=f29e40]: 📝
+            - text: 13 예상 기출문제
+          - button "⏱️ 14 실전 모의 20문항" [ref=f29e41] [cursor=pointer]:
+            - generic [ref=f29e42]: ⏱️
+            - text: 14 실전 모의 20문항
+    - main [ref=f29e43]:
+      - iframe [ref=f29e46]:
+        - main [ref=f30e2]:
+          - generic [ref=f30e3]:
+            - generic [ref=f30e5]: Part 1
+            - heading "OverView" [level=2] [ref=f30e6]
+            - generic [ref=f30e7]:
+              - generic [ref=f30e11]: 1-1. Product Category
+              - generic [ref=f30e13]:
+                - generic [ref=f30e15]:
+                  - generic [ref=f30e16]: 🗂️
+                  - generic [ref=f30e17]: Product Category
+                - article [ref=f30e18]:
+                  - generic [ref=f30e19]:
+                    - generic [ref=f30e20]: Discrete
+                    - generic [ref=f30e21]: Memory
+                    - generic [ref=f30e22]: System IC
+                    - generic [ref=f30e23]: Micro
+                  - img "Semiconductor product category tree" [ref=f30e25]:
+                    - generic [ref=f30e92]: Semiconductor
+                    - generic [ref=f30e93]: POWER / SENSOR
+                    - generic [ref=f30e94]: Discrete
+                    - generic [ref=f30e95]: Diode · Transistor
+                    - generic [ref=f30e96]: COMPUTE / MEMORY
+                    - generic [ref=f30e97]: IC
+                    - generic [ref=f30e98]: Integrated Circuit
+                    - generic [ref=f30e99]: DISCRETE CLASS
+                    - generic [ref=f30e100]: Diode
+                    - generic [ref=f30e101]: DISCRETE CLASS
+                    - generic [ref=f30e102]: Transistor
+                    - generic [ref=f30e103]: STORAGE LAYER
+                    - generic [ref=f30e104]: Memory
+                    - generic [ref=f30e105]: RAM · ROM
+                    - generic [ref=f30e106]: VOLATILE
+                    - generic [ref=f30e107]: RAM
+                    - generic [ref=f30e108]: NON-VOLATILE
+                    - generic [ref=f30e109]: ROM
+                    - generic [ref=f30e110]: FUNCTIONAL IC
+                    - generic [ref=f30e111]: System IC
+                    - generic [ref=f30e112]: Analog · Logic · Micro
+                    - generic [ref=f30e113]: MIXED SIGNAL
+                    - generic [ref=f30e114]: Analog
+                    - generic [ref=f30e115]: DIGITAL
+                    - generic [ref=f30e116]: Logic
+                    - generic [ref=f30e117]: CONTROLLER
+                    - generic [ref=f30e118]: Micro
+                    - generic [ref=f30e135]: DRAM
+                    - generic [ref=f30e136]: SRAM
+                    - generic [ref=f30e137]: Flash
+                    - generic [ref=f30e138]: PMIC
+                    - generic [ref=f30e139]: Image Sensor
+                    - generic [ref=f30e140]: Touch Controller
+                    - generic [ref=f30e141]: T-CON
+                    - generic [ref=f30e142]: DDI
+                    - generic [ref=f30e143]: Media IC
+                    - generic [ref=f30e144]: FPLDs
+                    - generic [ref=f30e145]: MCU
+                    - generic [ref=f30e146]: DSP
+                  - generic [ref=f30e147]:
+                    - generic [ref=f30e148]:
+                      - generic [ref=f30e150]: Application IC Keywords
+                      - generic [ref=f30e151]:
+                        - generic [ref=f30e152]: Panel
+                        - generic [ref=f30e153]: Logic
+                        - generic [ref=f30e154]: Timing
+                        - generic [ref=f30e155]: Power
+                    - generic [ref=f30e156]:
+                      - generic [ref=f30e157]:
+                        - generic [ref=f30e158]:
+                          - generic [ref=f30e159]:
+                            - generic [ref=f30e160]: DDI
+                            - generic [ref=f30e161]: Display Driver IC
+                          - generic [ref=f30e162]: Pixel drive
+                        - img "DDI converts image data into pixel drive signals" [ref=f30e164]:
+                          - generic [ref=f30e168]: DDI
+                        - generic [ref=f30e175]:
+                          - generic [ref=f30e176]: image data
+                          - generic [ref=f30e177]: source signal
+                          - generic [ref=f30e178]: panel drive
+                        - paragraph [ref=f30e179]:
+                          - strong [ref=f30e180]: Display Driver IC
+                          - text: ": image data를 실제 pixel drive signal로 바꿔 smartphone·TV panel을 구동합니다."
+                      - generic [ref=f30e181]:
+                        - generic [ref=f30e182]:
+                          - generic [ref=f30e183]:
+                            - generic [ref=f30e184]: FPLDs
+                            - generic [ref=f30e185]: Field-Programmable Logic
+                          - generic [ref=f30e186]: Reconfig
+                        - img "FPLDs reconfigure logic cells in the field" [ref=f30e188]:
+                          - generic [ref=f30e199]: FIELD
+                          - generic [ref=f30e200]: LOGIC
+                        - generic [ref=f30e201]:
+                          - generic [ref=f30e202]: prototype
+                          - generic [ref=f30e203]: low-volume
+                          - generic [ref=f30e204]: custom logic
+                        - paragraph [ref=f30e205]:
+                          - strong [ref=f30e206]: Field-Programmable Logic Devices
+                          - text: ": logic을 현장에서 다시 구성해 prototyping과 customization에 씁니다."
+                      - generic [ref=f30e207]:
+                        - generic [ref=f30e208]:
+                          - generic [ref=f30e209]:
+                            - generic [ref=f30e210]: T-CON
+                            - generic [ref=f30e211]: Timing Controller
+                          - generic [ref=f30e212]: Sync
+                        - img "T-CON aligns frame timing and source gate synchronization" [ref=f30e214]:
+                          - generic [ref=f30e220]: T-CON
+                        - generic [ref=f30e228]:
+                          - generic [ref=f30e229]: frame timing
+                          - generic [ref=f30e230]: source sync
+                          - generic [ref=f30e231]: gate sync
+                        - paragraph [ref=f30e232]:
+                          - strong [ref=f30e233]: Timing Controller
+                          - text: ": frame timing과 source/gate synchronization을 맞춰 display 흐름을 안정화합니다."
+                      - generic [ref=f30e234]:
+                        - generic [ref=f30e235]:
+                          - generic [ref=f30e236]:
+                            - generic [ref=f30e237]: PMIC
+                            - generic [ref=f30e238]: Power Management IC
+                          - generic [ref=f30e239]: Rails
+                        - img "PMIC distributes voltage rails and handles charging sequencing protection" [ref=f30e241]:
+                          - generic [ref=f30e243]: PMIC
+                          - generic [ref=f30e249]: AP
+                          - generic [ref=f30e250]: MEM
+                          - generic [ref=f30e251]: SENSOR
+                        - generic [ref=f30e253]:
+                          - generic [ref=f30e254]: voltage rail
+                          - generic [ref=f30e255]: charging
+                          - generic [ref=f30e256]: protection
+                        - paragraph [ref=f30e257]:
+                          - strong [ref=f30e258]: Power Management IC
+                          - text: ": AP·memory·sensor 전원을 분배하고 charging, sequencing, protection을 담당합니다."
+              - generic [ref=f30e259]:
+                - generic [ref=f30e261]:
+                  - generic [ref=f30e262]: 🏭
+                  - generic [ref=f30e263]: Industry Domains
+                - generic [ref=f30e264]:
+                  - article [ref=f30e265]:
+                    - heading "Memory Semiconductors" [level=5] [ref=f30e266]
+                    - img [ref=f30e268]:
+                      - generic [ref=f30e269]:
+                        - generic [ref=f30e272]: Array View
+                        - generic [ref=f30e274]: Memory Type Map
+                      - generic [ref=f30e275]: Cell Array & Bank Density
+                      - generic [ref=f30e292]: DRAM bank
+                      - generic [ref=f30e297]: RAM
+                      - generic [ref=f30e298]: Volatile
+                      - generic [ref=f30e300]: ROM / NVM
+                      - generic [ref=f30e301]: Non-Volatile
+                      - generic [ref=f30e303]: DRAM
+                      - generic [ref=f30e305]: SRAM
+                      - generic [ref=f30e307]: Flash
+                      - generic [ref=f30e308]: NAND / NOR
+                      - generic [ref=f30e309]: RAM + NVM Hierarchy
+                    - paragraph [ref=f30e310]: DRAM·SRAM 같은 휘발성 메모리와 Flash(NAND/NOR) 중심의 비휘발성 메모리가 함께 시장을 구성합니다. 반복되는 Array 집적도와 함께 메모리 계층 구조, 인터페이스, 전력 관리가 핵심 설계 포인트입니다.
+                    - generic [ref=f30e311]:
+                      - generic [ref=f30e312]: RAM / NVM
+                      - generic [ref=f30e313]: DRAM / NAND
+                      - generic [ref=f30e314]: HBM
+                      - generic [ref=f30e315]: Density
+                  - article [ref=f30e316]:
+                    - heading "System Semiconductors (Logic/SoC)" [level=5] [ref=f30e317]
+                    - img [ref=f30e319]:
+                      - generic [ref=f30e321]: 다양한 IP 블록들의 Bus interconnect 통합
+                      - generic [ref=f30e323]: CPU
+                      - generic [ref=f30e325]: GPU
+                      - generic [ref=f30e327]: NPU
+                      - generic [ref=f30e329]: I/O
+                      - generic [ref=f30e331]: Mem Ctrl
+                      - generic [ref=f30e336]: System Bus
+                    - paragraph [ref=f30e338]: 연산과 제어를 담당하는 디지털 회로설계의 중심 축입니다. RTL 아키텍처, 기능 검증(DV), 합성, 저전력 통합 기술이 가장 활발하게 적용됩니다.
+                    - generic [ref=f30e339]:
+                      - generic [ref=f30e340]: RTL Architecture
+                      - generic [ref=f30e341]: DV / IP Subsystem
+                      - generic [ref=f30e342]: AI Accelerator
+                  - article [ref=f30e343]:
+                    - heading "Analog / Power / RF" [level=5] [ref=f30e344]
+                    - img [ref=f30e346]:
+                      - generic [ref=f30e348]: Continuous Signal
+                      - generic [ref=f30e350]: ADC
+                      - generic [ref=f30e352]: Discrete Signal
+                      - generic [ref=f30e355]: Mixed-Signal
+                    - paragraph [ref=f30e356]: 디지털 시스템이 실제 물리 환경과 소통하도록 돕는 혼합신호 영역입니다. 고전압/전류 제어(PMIC)와 고속 통신(SerDes), 노이즈 제어가 중요합니다.
+                    - generic [ref=f30e357]:
+                      - generic [ref=f30e358]: PMIC
+                      - generic [ref=f30e359]: ADC/DAC
+                      - generic [ref=f30e360]: SerDes / PLL
+                  - article [ref=f30e361]:
+                    - heading "Sensors / Discretes" [level=5] [ref=f30e362]
+                    - img [ref=f30e364]:
+                      - generic [ref=f30e368]: Physical Stimulus (Light, Motion)
+                      - generic [ref=f30e375]: RAW Data
+                      - generic [ref=f30e378]: CMOS / MEMS
+                    - paragraph [ref=f30e379]: 빛, 온도, 모션 등 물리적 세상의 정보를 감지하여 전기 신호로 변환합니다. 이미지 센서(CIS)의 화질 개선 및 내장형 ISP 논리 회로 설계가 포함됩니다.
+                    - generic [ref=f30e380]:
+                      - generic [ref=f30e381]: CMOS Image Sensor
+                      - generic [ref=f30e382]: MEMS
+                      - generic [ref=f30e383]: ISP
+                  - article [ref=f30e384]:
+                    - heading "Advanced Packaging / Chiplet" [level=5] [ref=f30e385]
+                    - generic [ref=f30e386]:
+                      - img [ref=f30e388]:
+                        - generic [ref=f30e390]: 성능 한계 극복을 위한 이종 다이(Heterogeneous Die) 집적
+                        - generic [ref=f30e403]: I/O
+                        - generic [ref=f30e405]: Core ASIC
+                        - generic [ref=f30e409]: HBM
+                        - generic [ref=f30e413]: Thermal
+                      - generic [ref=f30e414]:
+                        - paragraph [ref=f30e415]: 무어의 법칙 한계를 넘기 위해 여러 다이와 고대역폭 메모리(HBM)를 하나의 기판 위에 시스템처럼 묶는 차세대 핵심 기술입니다. Die-to-die 인터페이스, 열 분산, 신호 무결성 확보가 디지털 및 물리적 설계의 성패를 가릅니다.
+                        - generic [ref=f30e416]:
+                          - generic [ref=f30e417]: 2.5D / 3D IC
+                          - generic [ref=f30e418]: UCIe / Die-to-Die
+                          - generic [ref=f30e419]: CoWoS
+      - generic [ref=f29e47]:
+        - button "← 이전 페이지" [disabled] [ref=f29e48]:
+          - generic [ref=f29e49]: ←
+          - text: 이전 페이지
+        - generic [ref=f29e50]: Page 1 of 13
+        - button "다음 페이지 →" [ref=f29e51] [cursor=pointer]:
+          - text: 다음 페이지
+          - generic [ref=f29e52]: →
+  - complementary [ref=f29e53]:
+    - generic [ref=f29e54]:
+      - generic [ref=f29e55]:
+        - generic [ref=f29e56]: This Page
+        - generic [ref=f29e57]: OverView
+      - navigation [ref=f29e58]:
+        - button "1-1. Product Category" [ref=f29e59] [cursor=pointer]
+        - button "1-2. Value Chain" [ref=f29e60] [cursor=pointer]
+        - button "1-3. Future Tech Trends" [ref=f29e61] [cursor=pointer]

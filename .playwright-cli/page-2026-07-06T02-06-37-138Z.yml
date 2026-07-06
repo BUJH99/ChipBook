@@ -1,0 +1,170 @@
+- generic [ref=f29e1]:
+  - banner [ref=f29e2]:
+    - generic [ref=f29e3]:
+      - generic [ref=f29e4]:
+        - generic [ref=f29e5]: A
+        - generic [ref=f29e6]:
+          - generic [ref=f29e7]: 반도체 디지털 회로설계 가이드북
+          - text: 핵심 개념부터 설계 흐름, 실전 문제까지 한 번에 정리
+      - generic [ref=f29e8]:
+        - generic [ref=f29e9]: ←
+        - generic [ref=f29e10]: 방향키로 이동
+        - generic [ref=f29e11]: →
+  - generic [ref=f29e12]:
+    - complementary [ref=f29e13]:
+      - heading "Table of Contents" [level=3] [ref=f29e14]
+      - navigation [ref=f29e15]:
+        - button "01 OverView" [ref=f29e16] [cursor=pointer]:
+          - generic [ref=f29e17]: "01"
+          - text: OverView
+        - button "02 Design Flow" [ref=f29e18] [cursor=pointer]:
+          - generic [ref=f29e19]: "02"
+          - text: Design Flow
+        - button "03 RTL / Frontend" [ref=f29e20] [cursor=pointer]:
+          - generic [ref=f29e21]: "03"
+          - text: RTL / Frontend
+        - button "04 Physical Design / Backend" [ref=f29e22] [cursor=pointer]:
+          - generic [ref=f29e23]: "04"
+          - text: Physical Design / Backend
+        - button "05 Memory / Storage / Materials" [ref=f29e24] [cursor=pointer]:
+          - generic [ref=f29e25]: "05"
+          - text: Memory / Storage / Materials
+        - button "06 Design Flow with Role" [ref=f29e26] [cursor=pointer]:
+          - generic [ref=f29e27]: "06"
+          - text: Design Flow with Role
+        - button "07 UVM / Verification" [ref=f29e28] [cursor=pointer]:
+          - generic [ref=f29e29]: "07"
+          - text: UVM / Verification
+        - button "08 On-Chip Bus" [ref=f29e30] [cursor=pointer]:
+          - generic [ref=f29e31]: "08"
+          - text: On-Chip Bus
+        - button "09 Off-Chip Interface" [ref=f29e32] [cursor=pointer]:
+          - generic [ref=f29e33]: "09"
+          - text: Off-Chip Interface
+        - button "10 Solution" [ref=f29e34] [cursor=pointer]:
+          - generic [ref=f29e35]: "10"
+          - text: Solution
+        - button "11 AI Accelerator" [ref=f29e36] [cursor=pointer]:
+          - generic [ref=f29e37]: "11"
+          - text: AI Accelerator
+        - generic [ref=f29e38]:
+          - button "📝 13 예상 기출문제" [ref=f29e39] [cursor=pointer]:
+            - generic [ref=f29e40]: 📝
+            - text: 13 예상 기출문제
+          - button "⏱️ 14 실전 모의 20문항" [ref=f29e41] [cursor=pointer]:
+            - generic [ref=f29e42]: ⏱️
+            - text: 14 실전 모의 20문항
+    - main [ref=f29e43]:
+      - iframe [ref=f29e64]:
+        - main [ref=f34e2]:
+          - generic [ref=f34e3]:
+            - generic [ref=f34e5]: Part 5
+            - heading "Memory / Storage / Materials" [level=2] [ref=f34e6]
+            - generic [ref=f34e9]: 5-4. FinFET / Planar
+            - generic [ref=f34e10]:
+              - text: ✓
+              - generic [ref=f34e1017]:
+                - paragraph [ref=f34e1018]: 미세화가 심해질수록 Planar 구조는 채널 통제력이 떨어져 누설 전류가 커집니다. 이를 개선하려고 게이트가 채널을 더 많이 감싸는 3차원 구조인 FinFET이 등장했습니다.
+                - generic [ref=f34e1019]:
+                  - generic [ref=f34e1020]:
+                    - generic [ref=f34e1021]:
+                      - generic [ref=f34e1022]: Planar MOSFET
+                      - generic [ref=f34e1023]: Top Gate Only
+                      - paragraph [ref=f34e1024]: 평면 채널 위쪽 한 면만 gate가 제어하므로 미세화가 심해질수록 short-channel effect와 leakage에 더 민감합니다.
+                    - generic [ref=f34e1026]:
+                      - generic [ref=f34e1027]: Scaling Shift
+                      - generic [ref=f34e1028]: Planar → FinFET
+                    - generic [ref=f34e1029]:
+                      - generic [ref=f34e1030]: FinFET
+                      - generic [ref=f34e1031]: 3-Side Gate Wrap
+                      - paragraph [ref=f34e1032]: Fin의 윗면과 양옆을 gate가 감싸 electrostatic control이 강해지고, 같은 세대에서 leakage와 전력 손실을 더 잘 줄입니다.
+                  - generic [ref=f34e1033]:
+                    - generic [ref=f34e1034]:
+                      - generic [ref=f34e1035]:
+                        - generic [ref=f34e1036]:
+                          - generic [ref=f34e1037]: 3D Structure Viewer
+                          - generic [ref=f34e1038]: Planar MOSFET
+                          - paragraph [ref=f34e1039]: 평면 채널 위로 gate가 얹히는 구조입니다. 위에서 누르는 방식이라 미세화될수록 채널 제어력이 상대적으로 약해집니다.
+                        - generic [ref=f34e1040]: Top Gate
+                      - generic "Planar MOSFET 3D viewer" [ref=f34e1041]:
+                        - generic: 클릭 후 WASD · 드래그 회전
+                      - generic [ref=f34e1043]:
+                        - generic [ref=f34e1044]: Gate on Top
+                        - generic [ref=f34e1045]: Flat Channel
+                        - generic [ref=f34e1046]: Leakage Sensitive
+                    - generic [ref=f34e1047]:
+                      - generic [ref=f34e1048]:
+                        - generic [ref=f34e1049]:
+                          - generic [ref=f34e1050]: 3D Structure Viewer
+                          - generic [ref=f34e1051]: FinFET
+                          - paragraph [ref=f34e1052]: 솟아오른 fin을 gate가 위와 양옆에서 감싸는 구조입니다. 같은 채널 길이에서도 electrostatic control이 더 강하게 걸립니다.
+                        - generic [ref=f34e1053]: 3-Side Wrap
+                      - generic "FinFET 3D viewer" [ref=f34e1054]:
+                        - generic: 클릭 후 WASD · 드래그 회전
+                      - generic [ref=f34e1056]:
+                        - generic [ref=f34e1057]: Fin Body
+                        - generic [ref=f34e1058]: Gate Wrap
+                        - generic [ref=f34e1059]: Better Channel Control
+                  - generic [ref=f34e1060]:
+                    - generic [ref=f34e1061]:
+                      - generic [ref=f34e1062]:
+                        - generic [ref=f34e1063]: Cross-section Comparison
+                        - generic [ref=f34e1064]: 2D 단면 비교 View
+                      - generic [ref=f34e1065]: Section View
+                    - img "Planar and FinFET cross-section comparison" [ref=f34e1066]:
+                      - generic [ref=f34e1070]: Planar
+                      - generic [ref=f34e1071]: FLAT CHANNEL • TOP-SIDE CONTROL
+                      - generic [ref=f34e1072]: FinFET
+                      - generic [ref=f34e1073]: 3D FIN • GATE WRAP AROUND
+                      - generic [ref=f34e1075]: silicon substrate
+                      - generic [ref=f34e1076]: surface
+                      - generic [ref=f34e1078]: gate oxide
+                      - generic [ref=f34e1080]: Gate
+                      - generic [ref=f34e1082]: channel forms only under the top gate
+                      - generic [ref=f34e1085]: weaker control as channel shortens • leakage increases
+                      - generic [ref=f34e1087]: silicon substrate
+                      - generic [ref=f34e1089]: fin body
+                      - generic [ref=f34e1092]: wrap gate
+                      - generic [ref=f34e1096]: top + sidewall control • stronger electrostatics • lower leakage
+                      - generic [ref=f34e1098]: scaling pressure
+                  - generic [ref=f34e1099]:
+                    - generic [ref=f34e1100]:
+                      - generic [ref=f34e1101]: Gate Coverage
+                      - generic [ref=f34e1102]: Planar = 상부 1면
+                    - generic [ref=f34e1103]:
+                      - generic [ref=f34e1104]: Electrostatic Control
+                      - generic [ref=f34e1105]: FinFET = 상부 + 양옆 3면 제어
+                    - generic [ref=f34e1106]:
+                      - generic [ref=f34e1107]: Leakage Trend
+                      - generic [ref=f34e1108]: Planar ↑ / FinFET ↓
+                - generic [ref=f34e1109]:
+                  - generic [ref=f34e1110]:
+                    - strong [ref=f34e1111]: 등장 배경
+                    - paragraph [ref=f34e1112]: 채널 길이가 짧아질수록 planar는 short-channel effect, DIBL, subthreshold leakage가 커져 제어 한계가 드러났습니다.
+                  - generic [ref=f34e1113]:
+                    - strong [ref=f34e1114]: 구조 핵심
+                    - paragraph [ref=f34e1115]: Planar는 평면 채널 위를 gate가 누르고, FinFET은 솟아오른 fin의 윗면과 양옆을 gate가 감싸며 전계를 더 강하게 걸어줍니다.
+                  - generic [ref=f34e1116]:
+                    - strong [ref=f34e1117]: 장점
+                    - paragraph [ref=f34e1118]: 게이트 제어력 향상, leakage 감소, 낮은 전압에서도 더 좋은 스위칭 특성으로 성능·전력 효율을 함께 개선합니다.
+                  - generic [ref=f34e1119]:
+                    - strong [ref=f34e1120]: 단점
+                    - paragraph [ref=f34e1121]: Fin 형성 공정, 패턴 정렬, layout 제약이 늘어 설계 규칙과 제조 난도가 더 높아집니다.
+      - generic [ref=f29e47]:
+        - button "← 이전 페이지" [ref=f29e48] [cursor=pointer]:
+          - generic [ref=f29e49]: ←
+          - text: 이전 페이지
+        - generic [ref=f29e50]: Page 5 of 13
+        - button "다음 페이지 →" [ref=f29e51] [cursor=pointer]:
+          - text: 다음 페이지
+          - generic [ref=f29e52]: →
+  - complementary [ref=f29e53]:
+    - generic [ref=f29e54]:
+      - generic [ref=f29e55]:
+        - generic [ref=f29e56]: This Page
+        - generic [ref=f29e57]: Memory / Storage / Materials
+      - navigation [ref=f29e58]:
+        - button "5-1. SRAM / DRAM" [ref=f29e65] [cursor=pointer]
+        - button "5-2. Flash / SSD" [ref=f29e66] [cursor=pointer]
+        - button "5-3. MOS Basic" [ref=f29e67] [cursor=pointer]
+        - button "5-4. FinFET / Planar" [active] [ref=f29e68] [cursor=pointer]

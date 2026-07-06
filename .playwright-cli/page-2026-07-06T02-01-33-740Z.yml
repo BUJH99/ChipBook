@@ -1,0 +1,697 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: A
+        - generic [ref=e6]:
+          - generic [ref=e7]: 반도체 디지털 회로설계 가이드북
+          - text: 핵심 개념부터 설계 흐름, 실전 문제까지 한 번에 정리
+      - generic [ref=e8]:
+        - generic [ref=e9]: ←
+        - generic [ref=e10]: 방향키로 이동
+        - generic [ref=e11]: →
+  - generic [ref=e12]:
+    - complementary [ref=e13]:
+      - heading "Table of Contents" [level=3] [ref=e14]
+      - navigation [ref=e15]:
+        - button "01 OverView" [ref=e16] [cursor=pointer]:
+          - generic [ref=e17]: "01"
+          - text: OverView
+        - button "02 Design Flow" [ref=e18] [cursor=pointer]:
+          - generic [ref=e19]: "02"
+          - text: Design Flow
+        - button "03 RTL / Frontend" [ref=e20] [cursor=pointer]:
+          - generic [ref=e21]: "03"
+          - text: RTL / Frontend
+        - button "04 Physical Design / Backend" [ref=e22] [cursor=pointer]:
+          - generic [ref=e23]: "04"
+          - text: Physical Design / Backend
+        - button "05 Memory / Storage / Materials" [active] [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: "05"
+          - text: Memory / Storage / Materials
+        - button "06 Design Flow with Role" [ref=e26] [cursor=pointer]:
+          - generic [ref=e27]: "06"
+          - text: Design Flow with Role
+        - button "07 UVM / Verification" [ref=e28] [cursor=pointer]:
+          - generic [ref=e29]: "07"
+          - text: UVM / Verification
+        - button "08 On-Chip Bus" [ref=e30] [cursor=pointer]:
+          - generic [ref=e31]: "08"
+          - text: On-Chip Bus
+        - button "09 Off-Chip Interface" [ref=e32] [cursor=pointer]:
+          - generic [ref=e33]: "09"
+          - text: Off-Chip Interface
+        - button "10 Solution" [ref=e34] [cursor=pointer]:
+          - generic [ref=e35]: "10"
+          - text: Solution
+        - button "11 AI Accelerator" [ref=e36] [cursor=pointer]:
+          - generic [ref=e37]: "11"
+          - text: AI Accelerator
+        - generic [ref=e38]:
+          - button "📝 13 예상 기출문제" [ref=e39] [cursor=pointer]:
+            - generic [ref=e40]: 📝
+            - text: 13 예상 기출문제
+          - button "⏱️ 14 실전 모의 20문항" [ref=e41] [cursor=pointer]:
+            - generic [ref=e42]: ⏱️
+            - text: 14 실전 모의 20문항
+    - main [ref=e43]:
+      - iframe [ref=e68]:
+        - main [ref=f5e2]:
+          - generic [ref=f5e3]:
+            - generic [ref=f5e5]: Part 5
+            - heading "Memory / Storage / Materials" [level=2] [ref=f5e6]
+            - generic [ref=f5e9]: 5-2. Flash / SSD
+            - generic [ref=f5e895]:
+              - generic [ref=f5e896]:
+                - generic [ref=f5e897]:
+                  - generic [ref=f5e898]:
+                    - img [ref=f5e900]
+                    - generic [ref=f5e902]: NAND Operation Lab
+                  - generic [ref=f5e903]:
+                    - img [ref=f5e904]
+                    - text: SLC Example
+                - generic [ref=f5e907]:
+                  - heading "NAND - Program / Read / Erase" [level=5] [ref=f5e908]
+                  - paragraph [ref=f5e909]: NAND는 전하를 가두면 문턱전압(Vth)이 올라가고, 읽을 때는 전류가 흐르는지 여부로 데이터를 판별합니다.
+                  - tablist "NAND operation mode" [ref=f5e910]:
+                    - button "Program" [ref=f5e911] [cursor=pointer]
+                    - button "Read" [pressed] [ref=f5e912] [cursor=pointer]
+                    - button "Erase" [ref=f5e913] [cursor=pointer]
+                  - generic "NAND read status summary" [ref=f5e914]:
+                    - generic [ref=f5e915]:
+                      - generic [ref=f5e916]: Stored State
+                      - strong [ref=f5e917]: Erased 1
+                    - generic [ref=f5e918]:
+                      - generic [ref=f5e919]: Threshold
+                      - strong [ref=f5e920]: Low Vth
+                    - generic [ref=f5e921]:
+                      - generic [ref=f5e922]: Read Current
+                      - strong [ref=f5e923]: Flows
+                    - generic [ref=f5e924]:
+                      - generic [ref=f5e925]: Flows
+                      - strong [ref=f5e926]: Current flows (1)
+                  - img [ref=f5e928]:
+                    - generic [ref=f5e930]: Vth
+                    - generic [ref=f5e933]: High
+                    - generic [ref=f5e934]: Low
+                    - generic [ref=f5e935]: Low Vth
+                    - generic [ref=f5e936]: Erase state keeps threshold low
+                    - generic [ref=f5e938]: Control Gate
+                    - generic [ref=f5e940]: Inter-Poly Oxide
+                    - generic [ref=f5e949]: Charge Trap Empty
+                    - generic [ref=f5e951]: Tunnel Oxide
+                    - generic [ref=f5e954]: Source
+                    - generic [ref=f5e955]: Drain
+                    - generic [ref=f5e959]: Read current flows through the channel
+                    - generic [ref=f5e972]: Sense Amp
+                    - generic [ref=f5e974]: "1"
+                    - generic [ref=f5e975]: Current flows
+                    - generic [ref=f5e976]: Erase state reads as 1
+                  - generic [ref=f5e977]:
+                    - generic [ref=f5e978]: ✓ Ready
+                    - paragraph [ref=f5e979]: 초기 상태는 erase 예시입니다. trapped charge가 거의 없어 문턱전압이 낮고, read 전압에서 채널 전류가 흘러 1로 감지됩니다.
+                  - generic [ref=f5e980]:
+                    - button "Start" [ref=f5e981] [cursor=pointer]
+                    - button "Apply Vread" [ref=f5e982] [cursor=pointer]
+                    - button "Compare Vth" [ref=f5e983] [cursor=pointer]
+                    - button "Sense" [ref=f5e984] [cursor=pointer]
+                    - button "Bit Out" [pressed] [ref=f5e985] [cursor=pointer]
+                  - generic [ref=f5e986]:
+                    - text: "Example SLC convention:"
+                    - strong [ref=f5e987]: Erase = low Vth = current flows = 1
+                    - text: ","
+                    - strong [ref=f5e988]: Program = trapped charge = high Vth = blocked current = 0
+                    - text: .
+                  - generic [ref=f5e989]:
+                    - generic [ref=f5e990]: Program = Vth Up
+                    - generic [ref=f5e991]: Read by Current Sense
+                    - generic [ref=f5e992]: Erase = Charge Removal
+                    - generic [ref=f5e993]: Non-Volatile Storage
+              - img "I-D V-G Transfer Characteristics Transfer characteristic chart comparing erased and programmed NAND cell current across gate voltage, including Vread, Isense, erase, read, and program references." [ref=f5e995]:
+                - generic [ref=f5e1004]: ID-VG Transfer Characteristics
+                - generic [ref=f5e1005]: Erase / Read / Program Voltage Reference
+                - generic [ref=f5e1006]:
+                  - generic [ref=f5e1007]: Cell Current (ID)
+                  - generic [ref=f5e1008]: "[A]"
+                  - generic [ref=f5e1009]: Vread (Read Reference)
+                  - generic [ref=f5e1010]: Gate Voltage (VG) [V]
+                - generic [ref=f5e1011]:
+                  - generic [ref=f5e1012]: "ON"
+                  - generic [ref=f5e1013]: (High)
+                  - generic [ref=f5e1016]: "OFF"
+                  - generic [ref=f5e1017]: (Low)
+                - generic [ref=f5e1018]:
+                  - generic [ref=f5e1021]:
+                    - generic [ref=f5e1022]: 10-3
+                    - generic [ref=f5e1023]: 10-5
+                    - generic [ref=f5e1024]: 10-7
+                    - generic [ref=f5e1025]: 10-9
+                    - generic [ref=f5e1026]: 10-11
+                    - generic [ref=f5e1027]: 10-13
+                    - generic [ref=f5e1028]: 10-15
+                    - generic [ref=f5e1029]: "-2"
+                    - generic [ref=f5e1030]: "-1"
+                    - generic [ref=f5e1031]: "0"
+                    - generic [ref=f5e1032]: "1"
+                    - generic [ref=f5e1033]: "2"
+                    - generic [ref=f5e1034]: "3"
+                    - generic [ref=f5e1035]: "4"
+                    - generic [ref=f5e1036]: "5"
+                    - generic [ref=f5e1037]: "6"
+                    - generic [ref=f5e1038]: "7"
+                    - generic [ref=f5e1039]: "8"
+                  - generic [ref=f5e1041]: Erased State (Low Vth)
+                  - generic [ref=f5e1042]: Programmed State (High Vth)
+                  - generic [ref=f5e1046]: Isense (typ.)
+                  - generic [ref=f5e1047]: ~ 1e-11 A
+                  - generic [ref=f5e1052]:
+                    - generic [ref=f5e1053]: Read
+                    - generic [ref=f5e1054]: Sense
+                    - generic [ref=f5e1055]: Margin
+                    - generic [ref=f5e1056]: Vth (Erase)
+                    - generic [ref=f5e1057]: Low
+                    - generic [ref=f5e1058]: Vth (Program)
+                    - generic [ref=f5e1059]: High
+                - generic [ref=f5e1060]:
+                  - generic [ref=f5e1063]: Erased State (Low Vth)
+                  - generic [ref=f5e1064]:
+                    - generic [ref=f5e1065]: • Lower threshold voltage
+                    - generic [ref=f5e1066]: • Turns ON at lower VG
+                    - generic [ref=f5e1067]: • Higher ID at Vread → Read '1'
+                    - generic [ref=f5e1068]: • Erase makes Vth lower
+                  - generic [ref=f5e1070]: Programmed State (High Vth)
+                  - generic [ref=f5e1071]:
+                    - generic [ref=f5e1072]: • Higher threshold voltage
+                    - generic [ref=f5e1073]: • Stays OFF at Vread
+                    - generic [ref=f5e1074]: • Lower ID at Vread → Read '0'
+                    - generic [ref=f5e1075]: • Program makes Vth higher
+                  - generic [ref=f5e1077]: Read Operation
+                  - generic [ref=f5e1078]:
+                    - generic [ref=f5e1079]: • Apply Vread to the gate
+                    - generic [ref=f5e1080]: • Compare ID with Isense
+                    - generic [ref=f5e1081]: • Above Isense → Erased (1)
+                    - generic [ref=f5e1082]: • Below Isense → Programmed (0)
+              - generic [ref=f5e1084]:
+                - generic [ref=f5e1085]:
+                  - generic [ref=f5e1086]:
+                    - generic [ref=f5e1087]: Storage Stack
+                    - heading "Flash Material to SSD Product" [level=3] [ref=f5e1088]
+                  - generic [ref=f5e1089]: Flash = Memory / SSD = System
+                - generic [ref=f5e1090]:
+                  - generic [ref=f5e1091]:
+                    - generic [ref=f5e1093]:
+                      - generic [ref=f5e1094]: "01"
+                      - generic [ref=f5e1095]: NAND Flash Cell
+                    - img "NAND flash cell floating gate storage diagram" [ref=f5e1096]:
+                      - generic [ref=f5e1099]: Control Gate
+                      - generic [ref=f5e1102]: Tunnel Oxide
+                      - generic [ref=f5e1105]: Floating Gate
+                      - generic [ref=f5e1113]: p-Si Substrate
+                    - generic [ref=f5e1114]: floating-gate charge storage
+                    - generic [ref=f5e1115]: 전하를 저장하는 기본 단위 (Cell)
+                  - generic [ref=f5e1116]:
+                    - generic [ref=f5e1117]:
+                      - generic [ref=f5e1118]: "02"
+                      - generic [ref=f5e1119]: Flash Package / Die
+                    - generic [ref=f5e1120]:
+                      - generic [ref=f5e1121]: Page
+                      - generic [ref=f5e1128]: ...
+                    - generic [ref=f5e1132]:
+                      - generic [ref=f5e1133]: Block
+                      - generic [ref=f5e1159]:
+                        - generic [ref=f5e1160]: data
+                        - generic [ref=f5e1162]: spare (OOB)
+                    - generic [ref=f5e1164]: page write / block erase
+                    - generic [ref=f5e1165]: 페이지 단위 쓰기 / 블록 단위 삭제
+                  - generic [ref=f5e1166]:
+                    - generic [ref=f5e1168]:
+                      - generic [ref=f5e1169]: "03"
+                      - generic [ref=f5e1170]: Controller + Firmware
+                    - generic [ref=f5e1171]:
+                      - generic [ref=f5e1172]: Controller Engine
+                      - generic [ref=f5e1173]:
+                        - generic [ref=f5e1174]:
+                          - text: FTL
+                          - text: Mapping
+                        - generic [ref=f5e1175]:
+                          - text: ECC
+                          - text: Correction
+                        - generic [ref=f5e1176]:
+                          - text: Wear
+                          - text: Leveling
+                      - generic [ref=f5e1177]: Logical to Physical Mapping
+                      - generic [ref=f5e1178]:
+                        - generic [ref=f5e1179]: Firmware Functions
+                        - list [ref=f5e1180]:
+                          - listitem [ref=f5e1181]: GC (Garbage Collection)
+                          - listitem [ref=f5e1182]: Bad Block Management
+                          - listitem [ref=f5e1183]: TRIM / Over-Provisioning
+                          - listitem [ref=f5e1184]: Power Loss Protection
+                  - generic [ref=f5e1185]:
+                    - generic [ref=f5e1186]:
+                      - generic [ref=f5e1187]: "04"
+                      - generic [ref=f5e1188]: SSD (System)
+                    - generic "Three.js rendered SSD device" [ref=f5e1190]
+                    - generic [ref=f5e1191]:
+                      - generic [ref=f5e1192]:
+                        - generic [ref=f5e1193]: ↗
+                        - generic [ref=f5e1194]: Performance
+                      - generic [ref=f5e1195]:
+                        - generic [ref=f5e1196]: ◇
+                        - generic [ref=f5e1197]: Reliability
+                      - generic [ref=f5e1198]:
+                        - generic [ref=f5e1199]: ▦
+                        - generic [ref=f5e1200]: Usable Capacity
+                    - generic [ref=f5e1201]: usable storage device
+                    - generic [ref=f5e1202]: 호스트에서 사용하는 최종 저장장치
+                - generic [ref=f5e1203]:
+                  - generic [ref=f5e1204]: Data Flow
+                  - generic [ref=f5e1205]:
+                    - generic [ref=f5e1206]:
+                      - img [ref=f5e1208]
+                      - generic [ref=f5e1211]: Host Data
+                    - generic: →
+                    - generic [ref=f5e1212]:
+                      - img [ref=f5e1214]
+                      - generic [ref=f5e1217]: Controller (FTL)
+                    - generic: →
+                    - generic [ref=f5e1218]:
+                      - img [ref=f5e1220]
+                      - generic [ref=f5e1223]: NAND I/O
+                    - generic: →
+                    - generic [ref=f5e1224]:
+                      - img [ref=f5e1226]
+                      - generic [ref=f5e1228]: NAND Array
+                    - generic: →
+                    - generic [ref=f5e1229]:
+                      - img [ref=f5e1231]
+                      - generic [ref=f5e1234]: Program / Read / Erase
+                    - generic: →
+                    - generic [ref=f5e1235]:
+                      - img [ref=f5e1237]
+                      - generic [ref=f5e1240]: Data Integrity (ECC)
+                    - generic: →
+                    - generic [ref=f5e1241]:
+                      - img [ref=f5e1243]
+                      - generic [ref=f5e1245]: Data Return
+                - generic [ref=f5e1246]:
+                  - generic [ref=f5e1247]: Legend
+                  - generic [ref=f5e1248]:
+                    - generic [ref=f5e1249]:
+                      - generic [ref=f5e1250]: Material / Cell Layer
+                      - generic [ref=f5e1252]: Package / Die Layer
+                      - generic [ref=f5e1254]: Controller / Firmware Layer
+                      - generic [ref=f5e1256]: System / Product Layer
+                    - generic [ref=f5e1258]:
+                      - generic [ref=f5e1259]: Key Protocols
+                      - generic [ref=f5e1260]:
+                        - generic [ref=f5e1261]:
+                          - strong [ref=f5e1262]: ONFI
+                          - text: ": Open NAND Flash Interface"
+                        - generic [ref=f5e1263]:
+                          - strong [ref=f5e1264]: PCIe / SATA
+                          - text: ": Host Interface"
+                - generic [ref=f5e1265]:
+                  - generic [ref=f5e1266]:
+                    - img [ref=f5e1268]
+                    - generic [ref=f5e1273]:
+                      - generic [ref=f5e1274]: 01 NAND Flash Cell
+                      - list [ref=f5e1275]:
+                        - listitem [ref=f5e1276]: Floating gate에 전하를 저장하여 0/1을 표현
+                        - listitem [ref=f5e1277]: 수십 ~ 수백 개의 cell이 모여 page 구성
+                        - listitem [ref=f5e1278]: p-Si substrate 위에 적층 구조 형성
+                  - generic [ref=f5e1279]:
+                    - img [ref=f5e1281]
+                    - generic [ref=f5e1284]:
+                      - generic [ref=f5e1285]: 02 Flash Package / Die
+                      - list [ref=f5e1286]:
+                        - listitem [ref=f5e1287]: "Page: 읽기/쓰기의 최소 단위"
+                        - listitem [ref=f5e1288]: "Block: 삭제(erase)의 최소 단위"
+                        - listitem [ref=f5e1289]: Spare(OOB) 영역으로 신뢰성 확보
+                  - generic [ref=f5e1290]:
+                    - img [ref=f5e1292]
+                    - generic [ref=f5e1296]:
+                      - generic [ref=f5e1297]: 03 Controller + Firmware
+                      - list [ref=f5e1298]:
+                        - listitem [ref=f5e1299]: FTL이 Logical ↔ Physical 주소 변환
+                        - listitem [ref=f5e1300]: ECC로 데이터 오류 검출 및 정정
+                        - listitem [ref=f5e1301]: Wear Leveling으로 수명 균일화
+                  - generic [ref=f5e1302]:
+                    - img [ref=f5e1304]:
+                      - generic [ref=f5e1306]: SSD
+                    - generic [ref=f5e1307]:
+                      - generic [ref=f5e1308]: 04 SSD (System)
+                      - list [ref=f5e1309]:
+                        - listitem [ref=f5e1310]: 고성능, 고신뢰성, 대용량 저장장치 제공
+                        - listitem [ref=f5e1311]: 호스트 인터페이스로 시스템과 연결
+                        - listitem [ref=f5e1312]: 사용 가능한 용량(Usable Capacity) 제공
+                - generic [ref=f5e1313]:
+                  - generic [ref=f5e1314]: i
+                  - text: 계층이 올라갈수록 추상화와 부가 기능이 더해져, 원시 NAND 소재가 신뢰성 있고 사용 가능한 SSD 제품으로 완성됩니다.
+              - generic [ref=f5e1315]:
+                - generic [ref=f5e1316]: NAND HIERARCHY
+                - generic [ref=f5e1317]:
+                  - generic [ref=f5e1318]:
+                    - generic [ref=f5e1319]:
+                      - generic [ref=f5e1320]:
+                        - generic [ref=f5e1321]: HIERARCHY MAP
+                        - generic [ref=f5e1322]: Nested View
+                        - 'generic "Nested NAND hierarchy: Page, Block, Plane, Die, Package" [ref=f5e1323]':
+                          - generic [ref=f5e1324]:
+                            - img [ref=f5e1326]
+                            - generic [ref=f5e1328]:
+                              - strong [ref=f5e1329]: Page
+                              - generic [ref=f5e1330]: read / program row
+                          - generic [ref=f5e1331]:
+                            - img [ref=f5e1333]
+                            - generic [ref=f5e1335]:
+                              - strong [ref=f5e1336]: Block
+                              - generic [ref=f5e1337]: erase range
+                          - generic [ref=f5e1338]:
+                            - img [ref=f5e1340]
+                            - generic [ref=f5e1342]:
+                              - strong [ref=f5e1343]: Plane
+                              - generic [ref=f5e1344]: parallel array
+                          - generic [ref=f5e1345]:
+                            - img [ref=f5e1347]
+                            - generic [ref=f5e1350]:
+                              - strong [ref=f5e1351]: Die
+                              - generic [ref=f5e1352]: silicon unit
+                          - generic [ref=f5e1353]:
+                            - img [ref=f5e1355]
+                            - generic [ref=f5e1358]:
+                              - strong [ref=f5e1359]: Package
+                              - generic [ref=f5e1360]: external unit
+                      - generic [ref=f5e1361]: read / program / erase / parallel
+                    - img "NAND hierarchy map from page to package" [ref=f5e1363]:
+                      - generic [ref=f5e1365]: Package
+                      - generic [ref=f5e1366]: Board-mounted external unit
+                      - generic [ref=f5e1368]: Die
+                      - generic [ref=f5e1369]: Silicon die containing the storage array
+                      - generic [ref=f5e1370]:
+                        - generic [ref=f5e1372]: Plane A
+                        - generic [ref=f5e1374]: Page rows
+                        - generic [ref=f5e1380]: Selected block
+                      - generic [ref=f5e1381]:
+                        - generic [ref=f5e1383]: Plane B
+                        - generic [ref=f5e1389]: Plane-level parallelism
+                      - generic [ref=f5e1396]: Multiple dies per package
+                      - generic [ref=f5e1397]: Page = read/program, Block = erase
+                  - generic [ref=f5e1398]:
+                    - generic [ref=f5e1399]:
+                      - img [ref=f5e1401]
+                      - text: Page Access
+                    - generic [ref=f5e1403]:
+                      - img [ref=f5e1405]
+                      - text: Block Erase
+                    - generic [ref=f5e1407]:
+                      - img [ref=f5e1409]
+                      - text: Plane Parallelism
+                    - generic [ref=f5e1411]:
+                      - img [ref=f5e1413]
+                      - text: Die Scale-Up
+                    - generic [ref=f5e1416]:
+                      - img [ref=f5e1418]
+                      - text: Package Integration
+                - generic [ref=f5e1421]:
+                  - generic [ref=f5e1422]: HIERARCHY LADDER
+                  - generic [ref=f5e1423]:
+                    - generic [ref=f5e1424]:
+                      - img [ref=f5e1426]
+                      - generic [ref=f5e1428]: Page
+                      - generic [ref=f5e1429]: Row-based access unit
+                    - generic [ref=f5e1430]:
+                      - img [ref=f5e1432]
+                      - generic [ref=f5e1434]: Block
+                      - generic [ref=f5e1435]: Erase range made of multiple pages
+                    - generic [ref=f5e1436]:
+                      - img [ref=f5e1438]
+                      - generic [ref=f5e1440]: Plane
+                      - generic [ref=f5e1441]: Block array and parallelism unit
+                    - generic [ref=f5e1442]:
+                      - img [ref=f5e1444]
+                      - generic [ref=f5e1447]: Die
+                      - generic [ref=f5e1448]: Physical NAND silicon storage chip
+                    - generic [ref=f5e1449]:
+                      - img [ref=f5e1451]
+                      - generic [ref=f5e1454]: Package
+                      - generic [ref=f5e1455]: Physical assembly with external interface
+              - generic [ref=f5e1456]:
+                - generic [ref=f5e1457]:
+                  - generic [ref=f5e1458]:
+                    - generic [ref=f5e1459]:
+                      - generic [ref=f5e1460]: NAND Flash Cell
+                      - generic [ref=f5e1461]: 전하 저장으로 데이터 유지
+                    - generic [ref=f5e1462]: Non-Volatile
+                  - img [ref=f5e1463]:
+                    - generic [ref=f5e1469]: control gate
+                    - generic [ref=f5e1470]: floating gate
+                    - generic [ref=f5e1471]: channel
+                    - generic [ref=f5e1472]: S
+                    - generic [ref=f5e1473]: D
+                    - generic [ref=f5e1477]: program / erase
+                    - generic [ref=f5e1478]: stored charge shifts threshold
+                  - generic [ref=f5e1479]:
+                    - paragraph [ref=f5e1480]:
+                      - strong [ref=f5e1481]: "구조:"
+                      - text: floating gate 또는 charge-trap에 전하를 가둬서 상태를 보존
+                    - paragraph [ref=f5e1482]:
+                      - strong [ref=f5e1483]: "동작:"
+                      - text: 전원이 꺼져도 trapped charge가 남아 비휘발성 특성 유지
+                  - generic [ref=f5e1484]:
+                    - generic [ref=f5e1485]: Charge Storage
+                    - generic [ref=f5e1486]: Threshold Shift
+                - generic [ref=f5e1487]:
+                  - generic [ref=f5e1488]:
+                    - generic [ref=f5e1489]:
+                      - generic [ref=f5e1490]: Flash Package
+                      - generic [ref=f5e1491]: 페이지 쓰기와 블록 소거
+                    - generic [ref=f5e1492]: Page / Block
+                  - img [ref=f5e1493]:
+                    - generic [ref=f5e1497]: one block = many pages
+                    - generic [ref=f5e1506]: selected page
+                    - generic [ref=f5e1512]: page write programs one selected row
+                    - generic [ref=f5e1513]: block erase clears every page together
+                  - generic [ref=f5e1514]:
+                    - paragraph [ref=f5e1515]:
+                      - strong [ref=f5e1516]: "구조:"
+                      - text: 셀은 page로 묶이고, 여러 page가 block을 이룸
+                    - paragraph [ref=f5e1517]:
+                      - strong [ref=f5e1518]: "동작:"
+                      - text: page write는 선택된 한 줄만 채워지지만, erase는 block 전체가 한 번에 지워져 덮어쓰기 전에 관리가 필요
+                  - generic [ref=f5e1519]:
+                    - generic [ref=f5e1520]: Page Program
+                    - generic [ref=f5e1521]: Block Erase
+                - generic [ref=f5e1522]:
+                  - generic [ref=f5e1523]:
+                    - generic [ref=f5e1524]:
+                      - generic [ref=f5e1525]: Controller + Firmware
+                      - generic [ref=f5e1526]: FTL · ECC · Wear Leveling
+                    - generic [ref=f5e1527]: Management Layer
+                  - img [ref=f5e1528]:
+                    - generic [ref=f5e1532]: Host
+                    - generic [ref=f5e1533]: LBA
+                    - generic [ref=f5e1535]: Controller / FW
+                    - generic [ref=f5e1537]: FTL
+                    - generic [ref=f5e1538]: LBA -> PBA
+                    - generic [ref=f5e1540]: ECC
+                    - generic [ref=f5e1541]: detect / correct
+                    - generic [ref=f5e1543]: Wear Leveling
+                    - generic [ref=f5e1544]: write spread
+                    - generic [ref=f5e1546]: Flash Blocks
+                    - generic [ref=f5e1550]: A
+                    - generic [ref=f5e1551]: B
+                    - generic [ref=f5e1552]: C
+                    - generic [ref=f5e1563]: address mapping + error correction + write distribution
+                  - generic [ref=f5e1564]:
+                    - paragraph [ref=f5e1565]:
+                      - strong [ref=f5e1566]: "FTL:"
+                      - text: host의 논리 주소를 실제 flash 물리 주소로 바꿔주는 계층
+                    - paragraph [ref=f5e1567]:
+                      - strong [ref=f5e1568]: "ECC:"
+                      - text: 저장 중 생기는 bit error를 검출하고 정정하는 회로/코드
+                    - paragraph [ref=f5e1569]:
+                      - strong [ref=f5e1570]: "Wear Leveling:"
+                      - text: 특정 block만 빨리 닳지 않게 erase/write를 분산하는 기법
+                  - generic [ref=f5e1571]:
+                    - generic [ref=f5e1572]: FTL
+                    - generic [ref=f5e1573]: ECC
+                    - generic [ref=f5e1574]: Wear Leveling
+                - generic [ref=f5e1575]:
+                  - generic [ref=f5e1576]:
+                    - generic [ref=f5e1577]:
+                      - generic [ref=f5e1578]: SSD
+                      - generic [ref=f5e1579]: Interface + Controller + NAND
+                    - generic [ref=f5e1580]: Finished Product
+                  - img [ref=f5e1581]:
+                    - generic [ref=f5e1585]: SSD Module
+                    - generic [ref=f5e1588]: Host
+                    - generic [ref=f5e1589]: Interface
+                    - generic [ref=f5e1590]: PCIe / SATA
+                    - generic [ref=f5e1592]: SSD Controller
+                    - generic [ref=f5e1596]: FTL
+                    - generic [ref=f5e1597]: ECC
+                    - generic [ref=f5e1598]: Q
+                    - generic [ref=f5e1599]: buffer / channel control
+                    - generic [ref=f5e1600]: NAND Packages
+                    - generic [ref=f5e1605]: NAND
+                    - generic [ref=f5e1606]: NAND
+                    - generic [ref=f5e1607]: NAND
+                    - generic [ref=f5e1608]: NAND
+                    - generic [ref=f5e1609]: host req
+                    - generic [ref=f5e1620]: data / status back
+                    - generic [ref=f5e1622]: controller schedules access across NAND packages
+                  - generic [ref=f5e1623]:
+                    - paragraph [ref=f5e1624]:
+                      - strong [ref=f5e1625]: "구성:"
+                      - text: Host Interface, SSD Controller, 여러 NAND Package가 한 모듈 안에 결합된 저장장치 시스템
+                    - paragraph [ref=f5e1626]:
+                      - strong [ref=f5e1627]: "동작:"
+                      - text: host 요청이 인터페이스로 들어오면 controller가 이를 처리하고 여러 NAND package로 읽기/쓰기를 분배합니다.
+                  - generic [ref=f5e1628]:
+                    - generic [ref=f5e1629]: Host Interface
+                    - generic [ref=f5e1630]: Controller
+                    - generic [ref=f5e1631]: NAND Packages
+              - generic [ref=f5e1632]:
+                - generic [ref=f5e1633]:
+                  - generic [ref=f5e1634]:
+                    - generic [ref=f5e1635]: Bits Per Cell Spectrum
+                    - generic [ref=f5e1636]: SLC · MLC · TLC · QLC
+                    - generic [ref=f5e1637]:
+                      - generic [ref=f5e1639]:
+                        - img [ref=f5e1641]
+                        - generic [ref=f5e1645]:
+                          - generic [ref=f5e1646]: Bits / Cell
+                          - generic [ref=f5e1647]: 비트 집적 증가
+                      - generic [ref=f5e1649]:
+                        - img [ref=f5e1651]
+                        - generic [ref=f5e1656]:
+                          - generic [ref=f5e1657]: Vth Window
+                          - generic [ref=f5e1658]: 문턱전압 세분화
+                      - generic [ref=f5e1660]:
+                        - img [ref=f5e1662]
+                        - generic [ref=f5e1666]:
+                          - generic [ref=f5e1667]: Read Reference
+                          - generic [ref=f5e1668]: 읽기 기준 정밀화
+                  - generic [ref=f5e1669]:
+                    - generic [ref=f5e1670]: Same Cell, More States
+                    - generic [ref=f5e1671]: Narrower Vth Margin
+                    - generic [ref=f5e1672]: Higher Density / More ECC
+                - generic [ref=f5e1673]:
+                  - article [ref=f5e1674]:
+                    - generic [ref=f5e1675]:
+                      - generic [ref=f5e1676]:
+                        - generic [ref=f5e1677]: SLC
+                        - generic [ref=f5e1678]: 1 bit / cell
+                      - generic [ref=f5e1679]: 2 states
+                    - paragraph [ref=f5e1680]: 가장 넓은 sensing margin을 확보하는 기본 형태입니다. charge 차이가 커서 속도와 endurance 쪽이 유리합니다.
+                    - img [ref=f5e1681]:
+                      - generic [ref=f5e1684]: Charge
+                      - generic [ref=f5e1685]: Vth Window
+                      - generic [ref=f5e1690]: large step
+                      - generic [ref=f5e1696]: Erase 1
+                      - generic [ref=f5e1697]: Prog 0
+                      - generic [ref=f5e1698]: widest sensing margin
+                    - generic [ref=f5e1699]:
+                      - generic [ref=f5e1700]: Fast Read / Program
+                      - generic [ref=f5e1701]: High Endurance
+                  - article [ref=f5e1702]:
+                    - generic [ref=f5e1703]:
+                      - generic [ref=f5e1704]:
+                        - generic [ref=f5e1705]: MLC
+                        - generic [ref=f5e1706]: 2 bit / cell
+                      - generic [ref=f5e1707]: 4 states
+                    - paragraph [ref=f5e1708]: 한 셀을 4개 영역으로 나눠 density를 높입니다. read reference가 늘어나고 SLC보다 더 세밀한 Vth 구분이 필요합니다.
+                    - img [ref=f5e1709]:
+                      - generic [ref=f5e1712]: Charge
+                      - generic [ref=f5e1713]: Vth Window
+                      - generic [ref=f5e1719]: 4 levels
+                      - generic [ref=f5e1727]: more reference lines
+                    - generic [ref=f5e1728]:
+                      - generic [ref=f5e1729]: Balanced Density
+                      - generic [ref=f5e1730]: Tighter Read Margin
+                  - article [ref=f5e1731]:
+                    - generic [ref=f5e1732]:
+                      - generic [ref=f5e1733]:
+                        - generic [ref=f5e1734]: TLC
+                        - generic [ref=f5e1735]: 3 bit / cell
+                      - generic [ref=f5e1736]: 8 states
+                    - paragraph [ref=f5e1737]: 8개 상태를 구분해야 하므로 program step과 read calibration이 더 정교해집니다. consumer SSD에서 널리 쓰이는 절충형입니다.
+                    - img [ref=f5e1738]:
+                      - generic [ref=f5e1741]: Charge
+                      - generic [ref=f5e1742]: Vth Window
+                      - generic [ref=f5e1748]: 8 levels
+                      - generic [ref=f5e1761]: 8 narrow windows
+                    - generic [ref=f5e1762]:
+                      - generic [ref=f5e1763]: Mainstream SSD
+                      - generic [ref=f5e1764]: More Calibration
+                  - article [ref=f5e1765]:
+                    - generic [ref=f5e1766]:
+                      - generic [ref=f5e1767]:
+                        - generic [ref=f5e1768]: QLC
+                        - generic [ref=f5e1769]: 4 bit / cell
+                      - generic [ref=f5e1770]: 16 states
+                    - paragraph [ref=f5e1771]: 16개 상태를 잘라 써야 해서 density는 가장 높지만, sensing window는 가장 촘촘합니다. ECC와 read retry의 부담이 커지는 영역입니다.
+                    - img [ref=f5e1772]:
+                      - generic [ref=f5e1775]: Charge
+                      - generic [ref=f5e1776]: Vth Window
+                      - generic [ref=f5e1782]: 16 levels
+                      - generic [ref=f5e1804]: densest, finest slicing
+                    - generic [ref=f5e1805]:
+                      - generic [ref=f5e1806]: High Capacity
+                      - generic [ref=f5e1807]: Heavy ECC / Retry
+                - generic [ref=f5e1808]:
+                  - generic [ref=f5e1809]:
+                    - generic [ref=f5e1810]: Capacity Scaling
+                    - generic [ref=f5e1811]:
+                      - generic [ref=f5e1812]: Capacity_die = N_cell × bits/cell
+                      - generic [ref=f5e1813]: 같은 die에서 cell 수가 같다면, 용량 증가는 bits/cell에 비례
+                      - generic [ref=f5e1814]:
+                        - generic [ref=f5e1815]:
+                          - generic [ref=f5e1816]: SLC
+                          - generic [ref=f5e1817]: 1 bit
+                        - generic [ref=f5e1818]:
+                          - generic [ref=f5e1819]: MLC
+                          - generic [ref=f5e1820]: 2 bit
+                        - generic [ref=f5e1821]:
+                          - generic [ref=f5e1822]: TLC
+                          - generic [ref=f5e1823]: 3 bit
+                        - generic [ref=f5e1824]:
+                          - generic [ref=f5e1825]: QLC
+                          - generic [ref=f5e1826]: 4 bit
+                    - paragraph [ref=f5e1827]:
+                      - strong [ref=f5e1828]: 1 → 2 → 3 → 4 bit/cell
+                      - text: 로 올라갈수록, 같은 면적의 NAND array에서도
+                      - strong [ref=f5e1829]: die당 저장 용량
+                      - text: 은 더 크게 확보됩니다.
+                  - generic [ref=f5e1830]:
+                    - generic [ref=f5e1831]: Window Margin
+                    - generic [ref=f5e1833]:
+                      - generic [ref=f5e1834]: Wide
+                      - generic [ref=f5e1835]: Tight
+                    - paragraph [ref=f5e1836]: state 수가 늘수록 각 window가 얇아져, 분포 이동과 noise에 대한 여유가 줄어듭니다.
+                  - generic [ref=f5e1837]:
+                    - generic [ref=f5e1838]: Controller Burden
+                    - generic [ref=f5e1839]: ECC · Read Retry · Calibration
+                    - paragraph [ref=f5e1840]:
+                      - text: 특히 TLC/QLC로 갈수록 controller와 firmware가
+                      - strong [ref=f5e1841]: 정확한 read reference 관리
+                      - text: 와 error correction을 더 적극적으로 담당해야 합니다.
+      - generic [ref=e48]:
+        - button "← 이전 페이지" [ref=e49] [cursor=pointer]:
+          - generic [ref=e50]: ←
+          - text: 이전 페이지
+        - generic [ref=e51]: Page 5 of 13
+        - button "다음 페이지 →" [ref=e52] [cursor=pointer]:
+          - text: 다음 페이지
+          - generic [ref=e53]: →
+  - complementary [ref=e54]:
+    - generic [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]: This Page
+        - generic [ref=e58]: Memory / Storage / Materials
+      - navigation [ref=e59]:
+        - button "5-1. SRAM / DRAM" [ref=e143] [cursor=pointer]
+        - button "5-2. Flash / SSD" [ref=e144] [cursor=pointer]
+        - button "5-3. MOS Basic" [ref=e145] [cursor=pointer]
+        - button "5-4. FinFET / Planar" [ref=e146] [cursor=pointer]

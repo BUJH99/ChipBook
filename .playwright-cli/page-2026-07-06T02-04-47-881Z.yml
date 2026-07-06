@@ -1,0 +1,722 @@
+- generic [ref=f29e1]:
+  - banner [ref=f29e2]:
+    - generic [ref=f29e3]:
+      - generic [ref=f29e4]:
+        - generic [ref=f29e5]: A
+        - generic [ref=f29e6]:
+          - generic [ref=f29e7]: 반도체 디지털 회로설계 가이드북
+          - text: 핵심 개념부터 설계 흐름, 실전 문제까지 한 번에 정리
+      - generic [ref=f29e8]:
+        - generic [ref=f29e9]: ←
+        - generic [ref=f29e10]: 방향키로 이동
+        - generic [ref=f29e11]: →
+  - generic [ref=f29e12]:
+    - complementary [ref=f29e13]:
+      - heading "Table of Contents" [level=3] [ref=f29e14]
+      - navigation [ref=f29e15]:
+        - button "01 OverView" [ref=f29e16] [cursor=pointer]:
+          - generic [ref=f29e17]: "01"
+          - text: OverView
+        - button "02 Design Flow" [ref=f29e18] [cursor=pointer]:
+          - generic [ref=f29e19]: "02"
+          - text: Design Flow
+        - button "03 RTL / Frontend" [ref=f29e20] [cursor=pointer]:
+          - generic [ref=f29e21]: "03"
+          - text: RTL / Frontend
+        - button "04 Physical Design / Backend" [ref=f29e22] [cursor=pointer]:
+          - generic [ref=f29e23]: "04"
+          - text: Physical Design / Backend
+        - button "05 Memory / Storage / Materials" [active] [ref=f29e24] [cursor=pointer]:
+          - generic [ref=f29e25]: "05"
+          - text: Memory / Storage / Materials
+        - button "06 Design Flow with Role" [ref=f29e26] [cursor=pointer]:
+          - generic [ref=f29e27]: "06"
+          - text: Design Flow with Role
+        - button "07 UVM / Verification" [ref=f29e28] [cursor=pointer]:
+          - generic [ref=f29e29]: "07"
+          - text: UVM / Verification
+        - button "08 On-Chip Bus" [ref=f29e30] [cursor=pointer]:
+          - generic [ref=f29e31]: "08"
+          - text: On-Chip Bus
+        - button "09 Off-Chip Interface" [ref=f29e32] [cursor=pointer]:
+          - generic [ref=f29e33]: "09"
+          - text: Off-Chip Interface
+        - button "10 Solution" [ref=f29e34] [cursor=pointer]:
+          - generic [ref=f29e35]: "10"
+          - text: Solution
+        - button "11 AI Accelerator" [ref=f29e36] [cursor=pointer]:
+          - generic [ref=f29e37]: "11"
+          - text: AI Accelerator
+        - generic [ref=f29e38]:
+          - button "📝 13 예상 기출문제" [ref=f29e39] [cursor=pointer]:
+            - generic [ref=f29e40]: 📝
+            - text: 13 예상 기출문제
+          - button "⏱️ 14 실전 모의 20문항" [ref=f29e41] [cursor=pointer]:
+            - generic [ref=f29e42]: ⏱️
+            - text: 14 실전 모의 20문항
+    - main [ref=f29e43]:
+      - iframe [ref=f29e64]:
+        - main [ref=f34e2]:
+          - generic [ref=f34e3]:
+            - generic [ref=f34e5]: Part 5
+            - heading "Memory / Storage / Materials" [level=2] [ref=f34e6]
+            - generic [ref=f34e9]: 5-1. SRAM / DRAM
+            - generic [ref=f34e10]:
+              - generic [ref=f34e11]:
+                - generic [ref=f34e13]:
+                  - generic [ref=f34e14]:
+                    - generic [ref=f34e15]:
+                      - generic [ref=f34e16]:
+                        - generic [ref=f34e17]: SRAM
+                        - heading "Standard 6T SRAM Cell" [level=5] [ref=f34e18]
+                        - paragraph [ref=f34e19]:
+                          - text: Stores state stably with two
+                          - strong [ref=f34e20]: cross-coupled inverters
+                          - text: and two
+                          - strong [ref=f34e21]: access transistors
+                          - text: .
+                      - generic [ref=f34e22]: No Refresh
+                    - generic [ref=f34e24]:
+                      - button "Read" [ref=f34e25] [cursor=pointer]
+                      - button "Write 1" [ref=f34e26] [cursor=pointer]
+                      - button "Write 0" [ref=f34e27] [cursor=pointer]
+                    - generic [ref=f34e29]:
+                      - generic [ref=f34e30]:
+                        - generic [ref=f34e31]:
+                          - generic [ref=f34e32]: Stored Bit
+                          - strong [ref=f34e33]: None
+                        - generic [ref=f34e34]:
+                          - generic [ref=f34e35]: Bitline
+                          - strong [ref=f34e36]: Floating (Z)
+                        - generic [ref=f34e37]:
+                          - generic [ref=f34e38]: Latch State
+                          - strong [ref=f34e39]: Q=? / QB=?
+                        - generic [ref=f34e40]:
+                          - generic [ref=f34e41]: Cell State
+                          - strong [ref=f34e42]: Stable
+                      - img [ref=f34e43]:
+                        - generic [ref=f34e46]: BL
+                        - generic [ref=f34e47]: BLB
+                        - generic [ref=f34e48]: WL
+                        - generic [ref=f34e49]: Z
+                        - generic [ref=f34e50]: Z
+                        - generic [ref=f34e54]: Tr
+                        - generic [ref=f34e56]: Tr
+                        - generic [ref=f34e58]: Q
+                        - generic [ref=f34e60]: QB
+                        - generic [ref=f34e69]: "Stored: none"
+                    - generic [ref=f34e71]:
+                      - generic [ref=f34e72]: Idle
+                      - paragraph [ref=f34e73]: Idle. SRAM holds a written value stably through its internal feedback loop.
+                    - generic [ref=f34e75]:
+                      - button "Idle" [pressed] [ref=f34e76] [cursor=pointer]
+                      - button "Bitline Setup" [ref=f34e77] [cursor=pointer]
+                      - button "Wordline Enable" [ref=f34e78] [cursor=pointer]
+                      - button "State Hold" [ref=f34e79] [cursor=pointer]
+                      - button "Done" [ref=f34e80] [cursor=pointer]
+                    - generic [ref=f34e81]:
+                      - generic [ref=f34e82]: 6T Cell
+                      - generic [ref=f34e83]: Cross-Coupled Inverters
+                      - generic [ref=f34e84]: Non-Destructive Read
+                  - generic [ref=f34e85]:
+                    - generic [ref=f34e86]:
+                      - generic [ref=f34e87]:
+                        - generic [ref=f34e88]: DRAM
+                        - heading "Standard 1T1C DRAM Cell" [level=5] [ref=f34e89]
+                        - paragraph [ref=f34e90]:
+                          - text: Stores data as charge in one
+                          - strong [ref=f34e91]: access transistor
+                          - text: and one
+                          - strong [ref=f34e92]: storage capacitor
+                          - text: .
+                      - generic [ref=f34e93]: Refresh Required
+                    - generic [ref=f34e95]:
+                      - button "Read" [ref=f34e96] [cursor=pointer]
+                      - button "Write 1" [ref=f34e97] [cursor=pointer]
+                      - button "Write 0" [ref=f34e98] [cursor=pointer]
+                      - button "Refresh" [ref=f34e99] [cursor=pointer]
+                    - generic [ref=f34e101]:
+                      - generic [ref=f34e102]:
+                        - generic [ref=f34e103]:
+                          - generic [ref=f34e104]: Stored Charge
+                          - strong [ref=f34e105]: 0%
+                        - generic [ref=f34e106]:
+                          - generic [ref=f34e107]: Bitline
+                          - strong [ref=f34e108]: Floating (Z)
+                        - generic [ref=f34e109]:
+                          - generic [ref=f34e110]: Cell State
+                          - strong [ref=f34e111]: Charge decay
+                      - img [ref=f34e112]:
+                        - generic [ref=f34e115]: BL
+                        - generic [ref=f34e116]: WL
+                        - generic [ref=f34e117]: Z
+                        - generic [ref=f34e118]: RESTORE
+                        - generic [ref=f34e121]: Tr
+                        - generic [ref=f34e122]: Capacitor (1C)
+                        - generic [ref=f34e123]: 0%
+                        - generic [ref=f34e124]: Charge 0%
+                    - generic [ref=f34e126]:
+                      - generic [ref=f34e127]: Idle
+                      - paragraph [ref=f34e128]: Idle. DRAM gradually leaks charge over time, so the stored state weakens unless it is refreshed.
+                    - generic [ref=f34e130]:
+                      - button "Idle" [pressed] [ref=f34e131] [cursor=pointer]
+                      - button "Precharge" [ref=f34e132] [cursor=pointer]
+                      - button "Charge Sharing" [ref=f34e133] [cursor=pointer]
+                      - button "Sense & Restore" [ref=f34e134] [cursor=pointer]
+                      - button "Done" [ref=f34e135] [cursor=pointer]
+                    - generic [ref=f34e136]:
+                      - generic [ref=f34e137]: 1T1C
+                      - generic [ref=f34e138]: Charge Sharing
+                      - generic [ref=f34e139]: Destructive Read + Restore
+                - table [ref=f34e141]:
+                  - rowgroup [ref=f34e142]:
+                    - row "구분 SRAM DRAM" [ref=f34e143]:
+                      - columnheader "구분" [ref=f34e144]
+                      - columnheader "SRAM" [ref=f34e145]
+                      - columnheader "DRAM" [ref=f34e146]
+                  - rowgroup [ref=f34e147]:
+                    - row "구조 6T 중심의 플립플롭 성격 셀 1T1C 구조" [ref=f34e148]:
+                      - cell "구조" [ref=f34e149]
+                      - cell "6T 중심의 플립플롭 성격 셀" [ref=f34e150]
+                      - cell "1T1C 구조" [ref=f34e151]
+                    - row "속도 매우 빠름 상대적으로 느림" [ref=f34e152]:
+                      - cell "속도" [ref=f34e153]
+                      - cell "매우 빠름" [ref=f34e154]
+                      - cell "상대적으로 느림" [ref=f34e155]
+                    - row "집적도 / 면적 면적 큼, 집적도 낮음 면적 작음, 집적도 높음" [ref=f34e156]:
+                      - cell "집적도 / 면적" [ref=f34e157]
+                      - cell "면적 큼, 집적도 낮음" [ref=f34e158]
+                      - cell "면적 작음, 집적도 높음" [ref=f34e159]
+                    - row "Refresh 불필요 필수" [ref=f34e160]:
+                      - cell "Refresh" [ref=f34e161]
+                      - cell "불필요" [ref=f34e162]
+                      - cell "필수" [ref=f34e163]
+                    - row "가격 비쌈 상대적으로 저렴" [ref=f34e164]:
+                      - cell "가격" [ref=f34e165]
+                      - cell "비쌈" [ref=f34e166]
+                      - cell "상대적으로 저렴" [ref=f34e167]
+                    - row "사용처 CPU Cache, Register File 메인 메모리" [ref=f34e168]:
+                      - cell "사용처" [ref=f34e169]
+                      - cell "CPU Cache, Register File" [ref=f34e170]
+                      - cell "메인 메모리" [ref=f34e171]
+                - generic [ref=f34e172]:
+                  - generic [ref=f34e173]:
+                    - generic [ref=f34e174]: Deep Dive Analysis
+                    - heading "DRAM & SRAM Fail Mechanisms Deep Analysis" [level=3] [ref=f34e175]
+                    - list [ref=f34e176]:
+                      - listitem [ref=f34e177]: 나노미터(nm) 단위 미세 공정으로 인해 메모리 칩은 물리적·전기적 오류에 더 민감해집니다.
+                      - listitem [ref=f34e178]:
+                        - text: 분석 대상은 메모리 반도체의 핵심 구조인
+                        - strong [ref=f34e179]: DRAM
+                        - text: 과
+                        - strong [ref=f34e180]: SRAM
+                        - text: 입니다.
+                      - listitem [ref=f34e181]: 주요 불량 메커니즘을 엔지니어링 관점과 아키텍처 관점에서 나누어 살펴봅니다.
+                  - generic [ref=f34e182]:
+                    - generic [ref=f34e183]:
+                      - generic [ref=f34e184]: D
+                      - heading "DRAM Fail Mechanisms" [level=4] [ref=f34e185]
+                    - list [ref=f34e186]:
+                      - listitem [ref=f34e187]: DRAM은 커패시터(Capacitor)에 전하(Charge)를 축적해 데이터를 저장합니다.
+                      - listitem [ref=f34e188]: 셀 집적도가 높아질수록 주변 회로 간섭과 미세한 공정 산포에 더 민감해집니다.
+                      - listitem [ref=f34e189]: 타이밍 마진이 부족하면 저장된 데이터가 유실될 수 있습니다.
+                    - generic [ref=f34e190]:
+                      - generic [ref=f34e191]:
+                        - generic [ref=f34e193]:
+                          - generic [ref=f34e194]: Static/Dynamic
+                          - heading "① 리텐션 불량 (Retention Fail)" [level=5] [ref=f34e195]
+                        - img "DRAM retention fail animation" [ref=f34e197]:
+                          - generic [ref=f34e198]: BL
+                          - generic [ref=f34e203]: Leakage (GIDL)
+                        - generic [ref=f34e204]:
+                          - paragraph [ref=f34e205]:
+                            - strong [ref=f34e206]: "원인:"
+                            - text: 커패시터나 셀 트랜지스터의 누설 전류(GIDL, Junction Leakage). 온도가 높을수록 급증합니다.
+                          - paragraph [ref=f34e207]:
+                            - strong [ref=f34e208]: "결과:"
+                            - text: 리프레시 주기가 오기 전에 전하가 소실되어 데이터 에러 발생.
+                          - paragraph [ref=f34e209]:
+                            - strong [ref=f34e210]: "개선:"
+                            - text: High-k 절연막 도입, 온도 센서 연동 가변 리프레시(ATCSR).
+                      - generic [ref=f34e211]:
+                        - generic [ref=f34e213]:
+                          - generic [ref=f34e214]: Destructive Read
+                          - heading "② 리스토어 페일 (Restore Fail)" [level=5] [ref=f34e215]
+                        - img "DRAM restore fail animation" [ref=f34e217]:
+                          - generic [ref=f34e220]: 저장
+                          - generic [ref=f34e221]: 파괴적 읽기
+                          - generic [ref=f34e222]: 불완전 복원
+                          - generic [ref=f34e223]: 셀에 1 전하가 가득 저장됨
+                          - generic [ref=f34e224]: 읽는 순간 BL로 퍼져 셀이 거의 비워짐
+                          - generic [ref=f34e225]: 복원이 약해 45%까지만 재충전됨
+                          - generic [ref=f34e226]: WL
+                          - generic [ref=f34e227]: BL
+                          - generic [ref=f34e234]: 목표 100%
+                          - generic [ref=f34e237]: 실제 45%
+                          - generic [ref=f34e243]: Sense Amp
+                          - generic [ref=f34e244]: 1 판정
+                          - generic [ref=f34e245]:
+                            - generic [ref=f34e246]: 복원 약함
+                            - generic [ref=f34e248]: tRAS 부족
+                        - generic [ref=f34e249]:
+                          - paragraph [ref=f34e250]:
+                            - strong [ref=f34e251]: "원인:"
+                            - text: 읽기 후 셀 복원이 부족함. 센스 앰프 구동력 저하 또는 tRAS 부족이 주요 원인.
+                          - paragraph [ref=f34e252]:
+                            - strong [ref=f34e253]: "결과:"
+                            - text: 셀이 약한 전하 상태로 남아 다음 접근 전 데이터 유실 위험이 커짐.
+                          - paragraph [ref=f34e254]:
+                            - strong [ref=f34e255]: "개선:"
+                            - text: 센스 앰프 구동력 강화. tRAS 타이밍 마진 확보.
+                      - generic [ref=f34e256]:
+                        - generic [ref=f34e258]:
+                          - generic [ref=f34e259]: Offset / Mismatch
+                          - heading "③ 센스 앰프 마진 불량" [level=5] [ref=f34e260]
+                        - img "DRAM sense amp margin fail animation" [ref=f34e262]:
+                          - generic [ref=f34e264]: BL
+                          - generic [ref=f34e265]: BLB
+                          - generic [ref=f34e271]: tiny ΔV
+                          - generic [ref=f34e272]: BL +ΔV
+                          - generic [ref=f34e273]: BLB -ΔV
+                          - generic [ref=f34e275]: Sense Amp
+                          - generic [ref=f34e276]: offset / mismatch
+                          - generic [ref=f34e278]: offset
+                          - generic [ref=f34e281]: ΔV보다
+                          - generic [ref=f34e282]: offset이 큼
+                          - generic [ref=f34e287]: 정상 BL
+                          - generic [ref=f34e289]: 오판 BLB
+                          - generic [ref=f34e291]: BL이 더 높아도 BLB 선택
+                        - generic [ref=f34e292]:
+                          - paragraph [ref=f34e293]:
+                            - strong [ref=f34e294]: "원인:"
+                            - text: 공정 산포로 인한 센스 앰프 TR 간 미스매치 또는 커플링 노이즈 유입.
+                          - paragraph [ref=f34e295]:
+                            - strong [ref=f34e296]: "결과:"
+                            - text: 미세한 ΔV를 반대로 증폭하여 1을 0으로 오판독(Read Fail).
+                          - paragraph [ref=f34e297]:
+                            - strong [ref=f34e298]: "개선:"
+                            - text: 레이아웃 대칭성 확보, Twisted Bitline 적용.
+                      - generic [ref=f34e299]:
+                        - generic [ref=f34e301]:
+                          - generic [ref=f34e302]: Coupling Effect
+                          - heading "④ 로우 해머링 (Row Hammer)" [level=5] [ref=f34e303]
+                        - img "DRAM row hammer animation" [ref=f34e305]:
+                          - generic [ref=f34e307]: 인접 Aggressor Row 반복 ACT
+                          - generic [ref=f34e308]: Victim 전하가 계속 빠짐
+                          - generic [ref=f34e309]: 전하 마진 붕괴 → Bit Flip
+                          - generic [ref=f34e310]: Aggressor
+                          - generic [ref=f34e311]: Victim
+                          - generic [ref=f34e312]: Aggressor
+                          - generic [ref=f34e314]: ACT
+                          - generic [ref=f34e316]: ACT
+                          - generic [ref=f34e326]: "1"
+                          - generic [ref=f34e327]: "0"
+                          - generic [ref=f34e329]: Victim Charge
+                          - generic [ref=f34e330]: Margin
+                          - generic [ref=f34e332]: 100%
+                          - generic [ref=f34e333]: 20%
+                          - generic [ref=f34e336]: Stored 1 → 0 Bit Flip
+                        - generic [ref=f34e337]:
+                          - paragraph [ref=f34e338]:
+                            - strong [ref=f34e339]: "원인:"
+                            - text: 인접 Aggressor Row(WL)를 짧은 시간에 반복 활성화할 때 발생하는 전자기적 간섭.
+                          - paragraph [ref=f34e340]:
+                            - strong [ref=f34e341]: "결과:"
+                            - text: 인접 행(Victim) 셀의 전하 유실 및 Bit Flip.
+                          - paragraph [ref=f34e342]:
+                            - strong [ref=f34e343]: "개선:"
+                            - text: 타겟 행 인접부를 선제적 리프레시하는 TRR(Target Row Refresh) 도입.
+                      - generic [ref=f34e344]:
+                        - generic [ref=f34e346]:
+                          - generic [ref=f34e347]: Timer / tRFC
+                          - heading "⑤ 리프레시 페일" [level=5] [ref=f34e348]
+                        - img "DRAM refresh fail animation" [ref=f34e350]:
+                          - generic [ref=f34e352]: Refresh 시작, 셀을 다시 채움
+                          - generic [ref=f34e353]: tRFC 창이 먼저 닫힘
+                          - generic [ref=f34e354]: 목표 미달 충전으로 Weak Cell 조기 불량
+                          - generic [ref=f34e355]: Timer / tRFC
+                          - generic [ref=f34e358]: Refresh Window
+                          - generic [ref=f34e359]: 정상 진행
+                          - generic [ref=f34e360]: 조기 종료
+                          - generic [ref=f34e362]: Cell Charge
+                          - generic [ref=f34e364]: 목표 100%
+                          - generic [ref=f34e368]: 실제 65%
+                          - generic [ref=f34e370]: Weak Cell
+                          - generic [ref=f34e374]: 조기 리텐션 불량
+                        - generic [ref=f34e375]:
+                          - paragraph [ref=f34e376]:
+                            - strong [ref=f34e377]: "원인:"
+                            - text: 리프레시 타이머 정밀도 저하 또는 할당된 시간(tRFC) 내 100% 충전 실패.
+                          - paragraph [ref=f34e378]:
+                            - strong [ref=f34e379]: "결과:"
+                            - text: 전하량이 부족한 셀(Weak Cell)부터 리텐션 불량이 조기 발생합니다.
+                          - paragraph [ref=f34e380]:
+                            - strong [ref=f34e381]: "대책:"
+                            - text: 타이머 보정 회로 강화, 불량 셀을 예비 셀로 교체(Spare Cell Repair).
+                      - generic [ref=f34e382]:
+                        - generic [ref=f34e384]:
+                          - generic [ref=f34e385]: Write Timing
+                          - heading "⑥ 라이트 리커버리 페일" [level=5] [ref=f34e386]
+                        - img "DRAM write recovery fail animation" [ref=f34e388]:
+                          - generic [ref=f34e390]: Write 1이 BL로 주입됨
+                          - generic [ref=f34e391]: tWR 전에 WL이 먼저 닫힘
+                          - generic [ref=f34e392]: 셀 전압 안정화 실패 → 쓰기 실패
+                          - generic [ref=f34e393]: Write Driver / BL
+                          - generic [ref=f34e396]: Write 1
+                          - generic [ref=f34e399]: tWR / WL Hold
+                          - generic [ref=f34e402]: 유지 중
+                          - generic [ref=f34e403]: 조기 차단
+                          - generic [ref=f34e405]: WL
+                          - generic [ref=f34e411]: 셀 전하
+                          - generic [ref=f34e413]: 목표 100%
+                          - generic [ref=f34e417]: 실제 70%
+                          - generic [ref=f34e419]: 차단
+                          - generic [ref=f34e422]: 안정화 전 WL 차단
+                        - generic [ref=f34e423]:
+                          - paragraph [ref=f34e424]:
+                            - strong [ref=f34e425]: "원인:"
+                            - text: 신규 데이터 기입 후 전압이 안정화될 대기 시간(tWR)이 부족할 때 발생합니다.
+                          - paragraph [ref=f34e426]:
+                            - strong [ref=f34e427]: "결과:"
+                            - text: 새로운 데이터가 완전히 충전되기 전에 워드라인이 닫혀 Write Fail이 납니다.
+                          - paragraph [ref=f34e428]:
+                            - strong [ref=f34e429]: "대책:"
+                            - text: Write Driver 구동력 강화, tWR 타이밍 엄격 보장.
+                      - generic [ref=f34e430]:
+                        - generic [ref=f34e432]:
+                          - generic [ref=f34e433]: Intermittent Fail
+                          - heading "⑦ 가변 보존 시간 (VRT)" [level=5] [ref=f34e434]
+                        - img "DRAM variable retention time animation" [ref=f34e436]:
+                          - generic [ref=f34e438]: Trap이 전자를 포획
+                          - generic [ref=f34e439]: Trap이 전자를 방출하며 누설 속도 변화
+                          - generic [ref=f34e440]: 같은 셀도 보존 시간이 길었다 짧았다
+                          - generic [ref=f34e441]: Oxide Trap
+                          - generic [ref=f34e450]: 포획 상태
+                          - generic [ref=f34e451]: 방출 상태
+                          - generic [ref=f34e452]: 누설 / 셀
+                          - generic [ref=f34e454]: 초기 전하
+                          - generic [ref=f34e456]: 누설 느림
+                          - generic [ref=f34e457]: 누설 빠름
+                          - generic [ref=f34e458]: 보존 시간 변화
+                          - generic [ref=f34e460]: Fail
+                          - generic [ref=f34e465]: 긴 보존
+                          - generic [ref=f34e466]: 짧은 보존
+                          - generic [ref=f34e468]: 같은 셀, 보존시간 변화
+                        - generic [ref=f34e469]:
+                          - paragraph [ref=f34e470]:
+                            - strong [ref=f34e471]: "원인:"
+                            - text: TR 산화막 내부 결함(Trap)으로 인해 전자가 불규칙하게 포획 및 방출됩니다.
+                          - paragraph [ref=f34e472]:
+                            - strong [ref=f34e473]: "결과:"
+                            - text: 같은 셀도 테스트 시점마다 누설 전류와 보존 시간이 달라져 간헐적으로 리텐션 불량이 발생합니다.
+                          - paragraph [ref=f34e474]:
+                            - strong [ref=f34e475]: "대책:"
+                            - text: 스트레스 조건(고온/고전압)의 Burn-in Test를 통해 사전 스크리닝.
+                      - generic [ref=f34e476]:
+                        - generic [ref=f34e478]:
+                          - generic [ref=f34e479]: Physical / Radiation
+                          - heading "⑧ 하드 디펙트 & 소프트 에러" [level=5] [ref=f34e480]
+                        - img "DRAM hard defect and soft error animation" [ref=f34e482]:
+                          - generic [ref=f34e484]: Soft Error
+                          - generic [ref=f34e485]: Hard Defect
+                          - generic [ref=f34e487]: 알파 입자 충돌
+                          - generic [ref=f34e489]: Cell
+                          - generic [ref=f34e491]: "1"
+                          - generic [ref=f34e492]: "0"
+                          - generic [ref=f34e497]: 순간 Bit Flip
+                          - generic [ref=f34e499]: 회로는 정상, 데이터만 일시 반전
+                          - generic [ref=f34e501]: 금속 Short / Open
+                          - generic [ref=f34e508]: 영구 불량, 회로 동작 불능
+                          - generic [ref=f34e510]: SHORT
+                        - generic [ref=f34e513]:
+                          - paragraph [ref=f34e514]:
+                            - strong [ref=f34e515]: "원인:"
+                            - text: 파티클에 의한 금속 단락/단선(Hard), 우주 방사선 충돌(Soft).
+                          - paragraph [ref=f34e516]:
+                            - strong [ref=f34e517]: "결과:"
+                            - text: Hard는 회로가 영구적으로 망가지고, Soft는 회로는 정상인데 데이터만 순간 반전(SEU)됩니다.
+                          - paragraph [ref=f34e518]:
+                            - strong [ref=f34e519]: "대책:"
+                            - text: 예비 회로 Laser Repair 적용(Hard), On-Die ECC 탑재(Soft).
+                  - generic [ref=f34e520]:
+                    - generic [ref=f34e521]:
+                      - generic [ref=f34e522]: S
+                      - heading "SRAM Fail Mechanisms" [level=4] [ref=f34e523]
+                    - list [ref=f34e524]:
+                      - listitem [ref=f34e525]: SRAM은 6개의 트랜지스터(6T)가 상호 대칭 래치(Latch) 구조를 이루어 데이터를 유지합니다.
+                      - listitem [ref=f34e526]: 초고속 동작이 필요한 구조라 읽기·쓰기 순간의 타이밍 마진이 중요합니다.
+                      - listitem [ref=f34e527]: 내부 노드 간 미세한 전압 균형이 무너지면 셀 안정성과 데이터 유지 특성이 약해질 수 있습니다.
+                    - generic [ref=f34e528]:
+                      - generic [ref=f34e529]:
+                        - generic [ref=f34e531]:
+                          - generic [ref=f34e532]: Read Destructive
+                          - heading "① 읽기 오류 (Read Upset)" [level=5] [ref=f34e533]
+                        - img "SRAM read upset animation" [ref=f34e535]:
+                          - generic [ref=f34e537]: "초기값: Q=0 / QB=1"
+                          - generic [ref=f34e538]: BL/BLB precharge=1, WL On
+                          - generic [ref=f34e539]: BL이 Q(0)를 위로 끌어올림
+                          - generic [ref=f34e540]: Q > trip -> 파괴적 반전
+                          - generic [ref=f34e541]: BL
+                          - generic [ref=f34e542]: BLB
+                          - generic [ref=f34e543]: "1"
+                          - generic [ref=f34e544]: "1"
+                          - generic [ref=f34e547]: WL pulse
+                          - generic [ref=f34e550]: Tr
+                          - generic [ref=f34e551]: Tr
+                          - generic [ref=f34e555]: "0"
+                          - generic [ref=f34e556]: "1"
+                          - generic [ref=f34e557]: Q
+                          - generic [ref=f34e560]: "1"
+                          - generic [ref=f34e561]: "0"
+                          - generic [ref=f34e562]: QB
+                          - generic [ref=f34e575]: Q 끌어올림
+                          - generic [ref=f34e576]: Q 전압
+                          - generic [ref=f34e578]: 임계
+                          - generic [ref=f34e583]: 0/1 -> 1/0 반전
+                        - generic [ref=f34e584]:
+                          - paragraph [ref=f34e585]:
+                            - strong [ref=f34e586]: "원인:"
+                            - text: 읽기 직전 BL/BLB는 모두 precharge되어 있고, WL이 켜지면 저장된 0 노드(Q)가 BL에 연결되어 위로 끌려 올라갑니다.
+                          - paragraph [ref=f34e587]:
+                            - strong [ref=f34e588]: "결과:"
+                            - text: SNM이 부족해 Q가 inverter trip point를 넘으면 읽기 동작이 파괴적으로 변해 셀 데이터가 0/1에서 1/0으로 반전됩니다.
+                          - paragraph [ref=f34e589]:
+                            - strong [ref=f34e590]: "개선:"
+                            - text: WL Underdrive, Read Buffer 분리형 8T SRAM, 셀 비율(Cell Ratio) 강화.
+                      - generic [ref=f34e591]:
+                        - generic [ref=f34e593]:
+                          - generic [ref=f34e594]: Write Margin
+                          - heading "② 쓰기 실패 (Write Fail)" [level=5] [ref=f34e595]
+                        - img "SRAM write fail animation" [ref=f34e597]:
+                          - generic [ref=f34e599]: "초기값: Q=0 / QB=1"
+                          - generic [ref=f34e600]: BL=1, BLB=0, WL On
+                          - generic [ref=f34e601]: Q 상승, trip point 미도달
+                          - generic [ref=f34e602]: WL Off -> 원래 0/1 복원
+                          - generic [ref=f34e603]: BL
+                          - generic [ref=f34e604]: BLB
+                          - generic [ref=f34e605]: "1"
+                          - generic [ref=f34e606]: "0"
+                          - generic [ref=f34e609]: WL pulse
+                          - generic [ref=f34e612]: Tr
+                          - generic [ref=f34e613]: Tr
+                          - generic [ref=f34e617]: "0"
+                          - generic [ref=f34e618]: Q
+                          - generic [ref=f34e621]: "1"
+                          - generic [ref=f34e622]: QB
+                          - generic [ref=f34e633]: Q voltage
+                          - generic [ref=f34e635]: trip
+                          - generic [ref=f34e640]: trip point 미도달
+                          - generic [ref=f34e642]: 0로 복원
+                        - generic [ref=f34e643]:
+                          - paragraph [ref=f34e644]:
+                            - strong [ref=f34e645]: "원인:"
+                            - text: BL/BLB가 새 값을 밀어 넣어도 cross-coupled inverter의 복원력이 더 커서 내부 노드가 trip point를 넘지 못합니다.
+                          - paragraph [ref=f34e646]:
+                            - strong [ref=f34e647]: "결과:"
+                            - text: WL이 꺼지는 순간 셀이 다시 기존 0/1 상태로 돌아가므로, 쓰기 동작을 했어도 최종 저장은 실패합니다.
+                          - paragraph [ref=f34e648]:
+                            - strong [ref=f34e649]: "개선:"
+                            - text: Write Assist (셀 VDD 일시 강하, Boosted WL, Negative BL)로 래치 우위를 잠시 약화시킵니다.
+                      - generic [ref=f34e650]:
+                        - generic [ref=f34e652]:
+                          - generic [ref=f34e653]: Array Level
+                          - heading "③ 하프 셀렉트 디스터브" [level=5] [ref=f34e654]
+                        - img "SRAM half select disturb concept diagram" [ref=f34e656]:
+                          - generic [ref=f34e658]: 공유 WL 때문에 옆 열도 완전한 비선택 상태가 아니다
+                          - generic [ref=f34e660]: 공유 WL ON
+                          - generic [ref=f34e662]: 선택 열
+                          - generic [ref=f34e663]: BL / BLB = 1 / 0
+                          - generic [ref=f34e667]: "1"
+                          - generic [ref=f34e668]: "0"
+                          - generic [ref=f34e670]: 의도된 write가 들어가는 열
+                          - generic [ref=f34e673]: 하프 셀렉트 열
+                          - generic [ref=f34e674]: BL / BLB = 1 / 1 precharge
+                          - generic [ref=f34e675]: trip
+                          - generic [ref=f34e680]: "0"
+                          - generic [ref=f34e681]: "1"
+                          - generic [ref=f34e683]: 0 노드 상승
+                          - generic [ref=f34e684]: SNM 감소
+                          - generic [ref=f34e688]: 반복되면 취약 셀만 upset 위험
+                        - generic [ref=f34e689]:
+                          - paragraph [ref=f34e690]:
+                            - strong [ref=f34e691]: "원인:"
+                            - text: 타겟 열만 write를 걸어도 같은 행의 WL이 켜지는 동안 옆 열 셀의 access path도 함께 열립니다. 이때 옆 열 bitline이 1/1 precharge 상태면 읽기와 비슷한 전하 교환이 생겨 half-select stress가 걸립니다.
+                          - paragraph [ref=f34e692]:
+                            - strong [ref=f34e693]: "결과:"
+                            - text: 저장된 0 노드가 조금씩 들리며 SNM이 줄고, 반복 write나 저전압 조건에서는 취약 셀만 disturb upset으로 이어질 수 있습니다.
+                          - paragraph [ref=f34e694]:
+                            - strong [ref=f34e695]: "개선:"
+                            - text: 8T처럼 read path를 분리한 셀, column interleaving, write assist tuning, array 배치 최적화로 half-select stress를 줄입니다.
+                      - generic [ref=f34e696]:
+                        - generic [ref=f34e698]:
+                          - generic [ref=f34e699]: Vmin Limit
+                          - heading "④ 대기 전력 불량 (Hold Fail)" [level=5] [ref=f34e700]
+                        - img "SRAM hold fail concept diagram" [ref=f34e702]:
+                          - generic [ref=f34e704]: 대기 전압을 너무 낮추면 복원력보다 누설이 먼저 이긴다
+                          - generic [ref=f34e706]: 정상 보존
+                          - generic [ref=f34e707]: 복원력 여유 충분
+                          - generic [ref=f34e712]: "0"
+                          - generic [ref=f34e713]: "1"
+                          - generic [ref=f34e715]: idle 중에도 상태 유지
+                          - generic [ref=f34e717]: 대기 VDD 감소
+                          - generic [ref=f34e718]: retention margin 감소
+                          - generic [ref=f34e721]: Hold Fail
+                          - generic [ref=f34e722]: 유지 여유가 붕괴
+                          - generic [ref=f34e725]: trip
+                          - generic [ref=f34e730]: "0"
+                          - generic [ref=f34e731]: "1"
+                          - generic [ref=f34e733]: 접근 없이도 idle 데이터 소실
+                        - generic [ref=f34e734]:
+                          - paragraph [ref=f34e735]:
+                            - strong [ref=f34e736]: "원인:"
+                            - text: 대기 전력을 줄이려고 standby VDD를 너무 낮추면 cross-coupled inverter의 복원력이 약해져, 내부 누설과 오프셋을 더 이상 이기지 못합니다.
+                          - paragraph [ref=f34e737]:
+                            - strong [ref=f34e738]: "결과:"
+                            - text: 읽기나 쓰기를 하지 않아도 저장된 0/1 차이가 서서히 무너지며, 취약 셀은 idle 상태에서 데이터가 소실됩니다.
+                          - paragraph [ref=f34e739]:
+                            - strong [ref=f34e740]: "개선:"
+                            - text: Data Retention Voltage(DRV) 하한을 PVT별로 측정하고, retention guardband와 hold assist, 스크리닝으로 안전 여유를 확보합니다.
+                      - generic [ref=f34e741]:
+                        - generic [ref=f34e743]:
+                          - generic [ref=f34e744]: Timing Violation
+                          - heading "⑤ 접근 시간 지연 (Slow Bit)" [level=5] [ref=f34e745]
+                        - img "SRAM slow bit animation" [ref=f34e747]:
+                          - generic [ref=f34e748]: CLK
+                          - generic [ref=f34e750]: Normal
+                          - generic [ref=f34e752]: Slow Bit
+                          - generic [ref=f34e754]: Setup Time 부족 (데이터 지연)
+                        - generic [ref=f34e755]:
+                          - paragraph [ref=f34e756]:
+                            - strong [ref=f34e757]: "원인:"
+                            - text: 국부적인 공정 산포나 배선 저항(RC) 증가로 인한 트랜지스터 스위칭 속도 저하.
+                          - paragraph [ref=f34e758]:
+                            - strong [ref=f34e759]: "결과:"
+                            - text: 정해진 클럭 내에 응답하지 못해 시스템 타이밍 위반 및 오작동 발생.
+                          - paragraph [ref=f34e760]:
+                            - strong [ref=f34e761]: "대책:"
+                            - text: Speed Binning 테스트 적용, 제품 동작 클럭 다운그레이드.
+                      - generic [ref=f34e762]:
+                        - generic [ref=f34e764]:
+                          - generic [ref=f34e765]: Mismatch & Noise
+                          - heading "⑥ 공정 산포와 노이즈 (RTN)" [level=5] [ref=f34e766]
+                        - img "SRAM mismatch and RTN animation showing process variation tilting latch balance and shrinking SNM margin" [ref=f34e768]:
+                          - generic [ref=f34e774]: 균형
+                          - generic [ref=f34e775]: 산포
+                          - generic [ref=f34e776]: RTN
+                          - generic [ref=f34e777]: "초기: Q / QB 래치 구동력이 거의 동일"
+                          - generic [ref=f34e778]: "공정 산포: 한쪽이 더 강해지며 래치가 미세하게 기운다"
+                          - generic [ref=f34e779]: "RTN: 약한 쪽 Vth가 랜덤하게 흔들려 마진을 더 깎는다"
+                          - generic [ref=f34e782]: Q측 구동력
+                          - generic [ref=f34e783]: QB측 구동력
+                          - generic [ref=f34e786]: 강
+                          - generic [ref=f34e789]: 약
+                          - generic [ref=f34e792]: SNM
+                          - generic [ref=f34e797]: trap / de-trap
+                          - generic [ref=f34e798]: Read / Hold SNM
+                          - generic [ref=f34e801]: 높음
+                          - generic [ref=f34e802]: 축소
+                          - generic [ref=f34e803]: 출렁임
+                          - generic [ref=f34e804]: 정적 산포 + 동적 RTN → 래치 대칭성 붕괴, SNM 감소
+                        - generic [ref=f34e805]:
+                          - paragraph [ref=f34e806]:
+                            - strong [ref=f34e807]: "원인:"
+                            - text: TR 간 문턱전압 미스매치 및 전자의 무작위 포획/방출(Random Telegraph Noise).
+                          - paragraph [ref=f34e808]:
+                            - strong [ref=f34e809]: "결과:"
+                            - text: 정적인 미스매치로 이미 기운 래치가 RTN에 의해 순간적으로 더 흔들리면서 read / hold SNM이 크게 줄어듭니다.
+                          - paragraph [ref=f34e810]:
+                            - strong [ref=f34e811]: "대책:"
+                            - text: 채널 통제력이 뛰어난 3D FinFET 및 GAA 구조 전면 도입.
+                      - generic [ref=f34e812]:
+                        - generic [ref=f34e814]:
+                          - generic [ref=f34e815]: HCI / NBTI / EM
+                          - heading "⑦ 소자 열화 (Aging)" [level=5] [ref=f34e816]
+                        - img "SRAM aging degradation animation" [ref=f34e818]:
+                          - generic [ref=f34e819]: Id
+                          - generic [ref=f34e820]: Vgs
+                          - generic [ref=f34e822]: Fresh
+                          - generic [ref=f34e824]: Aged
+                          - generic [ref=f34e825]: ΔVth 상승 (전류 감소)
+                        - generic [ref=f34e826]:
+                          - paragraph [ref=f34e827]:
+                            - strong [ref=f34e828]: "원인:"
+                            - text: 장기간 구동 스트레스(HCI, NBTI)로 인한 문턱전압 상승 및 금속 배선 단선(EM).
+                          - paragraph [ref=f34e829]:
+                            - strong [ref=f34e830]: "결과:"
+                            - text: 제품 사용 시간이 길어짐에 따라 점진적 성능 저하 및 프리징 현상 발생.
+                          - paragraph [ref=f34e831]:
+                            - strong [ref=f34e832]: "대책:"
+                            - text: 수명 연한 모델링(Aging Simulation), 설계 시 충분한 Guard Band 확보.
+                      - generic [ref=f34e833]:
+                        - generic [ref=f34e835]:
+                          - generic [ref=f34e836]: Radiation Effect
+                          - heading "⑧ 소프트 에러 (SER)" [level=5] [ref=f34e837]
+                        - img "SRAM soft error animation" [ref=f34e839]:
+                          - generic [ref=f34e844]: 우주 방사선 타격
+                          - generic [ref=f34e845]: "1"
+                          - generic [ref=f34e846]: "0"
+                          - generic [ref=f34e847]: "0"
+                          - generic [ref=f34e848]: "1"
+                          - generic [ref=f34e849]: 치명적 데이터 반전 유발
+                        - generic [ref=f34e850]:
+                          - paragraph [ref=f34e851]:
+                            - strong [ref=f34e852]: "원인:"
+                            - text: 알파 입자 등 고에너지 입자가 셀 내부 래치를 타격하여 전자쌍이 생성됨.
+                          - paragraph [ref=f34e853]:
+                            - strong [ref=f34e854]: "결과:"
+                            - text: 물리적 파괴는 없으나 데이터가 반전되어 시스템 크래시(Kernel Panic 등) 직결.
+                          - paragraph [ref=f34e855]:
+                            - strong [ref=f34e856]: "대책:"
+                            - text: 아키텍처 레벨의 물리적 Interleaving 및 강력한 시스템 레벨 ECC 적용.
+                  - generic [ref=f34e857]:
+                    - heading "핵심 요약 (Summary Matrix)" [level=4] [ref=f34e859]
+                    - table [ref=f34e861]:
+                      - rowgroup [ref=f34e862]:
+                        - row "분류 DRAM (전하 기반 아키텍처 한계) SRAM (대칭/균형 구조의 한계)" [ref=f34e863]:
+                          - columnheader "분류" [ref=f34e864]
+                          - columnheader "DRAM (전하 기반 아키텍처 한계)" [ref=f34e865]
+                          - columnheader "SRAM (대칭/균형 구조의 한계)" [ref=f34e866]
+                      - rowgroup [ref=f34e867]:
+                        - row "데이터 유지 (Retention) 리텐션 누설, 리프레시 페일 (tREF 마진 부족) Hold Fail (저전압 대기 모드 시 데이터 소실)" [ref=f34e868]:
+                          - cell "데이터 유지 (Retention)" [ref=f34e869]
+                          - cell "리텐션 누설, 리프레시 페일 (tREF 마진 부족)" [ref=f34e870]
+                          - cell "Hold Fail (저전압 대기 모드 시 데이터 소실)" [ref=f34e871]
+                        - row "동작 마진 (Operation Margin) 센스 앰프(S/A) 마진 부족, 리스토어 페일 Read Upset, Write Fail, Half-Select 간섭" [ref=f34e872]:
+                          - cell "동작 마진 (Operation Margin)" [ref=f34e873]
+                          - cell "센스 앰프(S/A) 마진 부족, 리스토어 페일" [ref=f34e874]
+                          - cell "Read Upset, Write Fail, Half-Select 간섭" [ref=f34e875]
+                        - row "타이밍 및 속도 (Timing/Speed) VRT (간헐적 불량), Write Recovery 페일 (tWR 부족) Access Time 지연 (Slow Bit에 의한 타이밍 위반)" [ref=f34e876]:
+                          - cell "타이밍 및 속도 (Timing/Speed)" [ref=f34e877]
+                          - cell "VRT (간헐적 불량), Write Recovery 페일 (tWR 부족)" [ref=f34e878]
+                          - cell "Access Time 지연 (Slow Bit에 의한 타이밍 위반)" [ref=f34e879]
+                        - row "외부 요인 / 하드웨어 결함 로우 해머링, Open/Short, 방사선 (Soft Error) Open/Short, 공정 산포/노이즈, 방사선 (SER)" [ref=f34e880]:
+                          - cell "외부 요인 / 하드웨어 결함" [ref=f34e881]
+                          - cell "로우 해머링, Open/Short, 방사선 (Soft Error)" [ref=f34e882]
+                          - cell "Open/Short, 공정 산포/노이즈, 방사선 (SER)" [ref=f34e883]
+                        - row "소자 열화 (Aging) HCI, EM (주변부 제어 회로 열화 위주) NBTI/PBTI, EM (셀 내부 래치 균형 붕괴)" [ref=f34e884]:
+                          - cell "소자 열화 (Aging)" [ref=f34e885]
+                          - cell "HCI, EM (주변부 제어 회로 열화 위주)" [ref=f34e886]
+                          - cell "NBTI/PBTI, EM (셀 내부 래치 균형 붕괴)" [ref=f34e887]
+                        - row "핵심 솔루션 & 신뢰성 보완 TRR, Redundancy Repair, On-Die ECC Assist 회로, 8T/Interleaving, 시스템 ECC" [ref=f34e888]:
+                          - cell "핵심 솔루션 & 신뢰성 보완" [ref=f34e889]
+                          - cell "TRR, Redundancy Repair, On-Die ECC" [ref=f34e890]
+                          - cell "Assist 회로, 8T/Interleaving, 시스템 ECC" [ref=f34e891]
+              - text: ✓
+      - generic [ref=f29e47]:
+        - button "← 이전 페이지" [ref=f29e48] [cursor=pointer]:
+          - generic [ref=f29e49]: ←
+          - text: 이전 페이지
+        - generic [ref=f29e50]: Page 5 of 13
+        - button "다음 페이지 →" [ref=f29e51] [cursor=pointer]:
+          - text: 다음 페이지
+          - generic [ref=f29e52]: →
+  - complementary [ref=f29e53]:
+    - generic [ref=f29e54]:
+      - generic [ref=f29e55]:
+        - generic [ref=f29e56]: This Page
+        - generic [ref=f29e57]: Memory / Storage / Materials
+      - navigation [ref=f29e58]:
+        - button "5-1. SRAM / DRAM" [ref=f29e65] [cursor=pointer]
+        - button "5-2. Flash / SSD" [ref=f29e66] [cursor=pointer]
+        - button "5-3. MOS Basic" [ref=f29e67] [cursor=pointer]
+        - button "5-4. FinFET / Planar" [ref=f29e68] [cursor=pointer]

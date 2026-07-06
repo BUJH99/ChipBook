@@ -1,0 +1,173 @@
+- generic [ref=f29e1]:
+  - banner [ref=f29e2]:
+    - generic [ref=f29e3]:
+      - generic [ref=f29e4]:
+        - generic [ref=f29e5]: A
+        - generic [ref=f29e6]:
+          - generic [ref=f29e7]: 반도체 디지털 회로설계 가이드북
+          - text: 핵심 개념부터 설계 흐름, 실전 문제까지 한 번에 정리
+      - generic [ref=f29e8]:
+        - generic [ref=f29e9]: ←
+        - generic [ref=f29e10]: 방향키로 이동
+        - generic [ref=f29e11]: →
+  - generic [ref=f29e12]:
+    - complementary [ref=f29e13]:
+      - heading "Table of Contents" [level=3] [ref=f29e14]
+      - navigation [ref=f29e15]:
+        - button "01 OverView" [ref=f29e16] [cursor=pointer]:
+          - generic [ref=f29e17]: "01"
+          - text: OverView
+        - button "02 Design Flow" [ref=f29e18] [cursor=pointer]:
+          - generic [ref=f29e19]: "02"
+          - text: Design Flow
+        - button "03 RTL / Frontend" [ref=f29e20] [cursor=pointer]:
+          - generic [ref=f29e21]: "03"
+          - text: RTL / Frontend
+        - button "04 Physical Design / Backend" [ref=f29e22] [cursor=pointer]:
+          - generic [ref=f29e23]: "04"
+          - text: Physical Design / Backend
+        - button "05 Memory / Storage / Materials" [ref=f29e24] [cursor=pointer]:
+          - generic [ref=f29e25]: "05"
+          - text: Memory / Storage / Materials
+        - button "06 Design Flow with Role" [ref=f29e26] [cursor=pointer]:
+          - generic [ref=f29e27]: "06"
+          - text: Design Flow with Role
+        - button "07 UVM / Verification" [ref=f29e28] [cursor=pointer]:
+          - generic [ref=f29e29]: "07"
+          - text: UVM / Verification
+        - button "08 On-Chip Bus" [ref=f29e30] [cursor=pointer]:
+          - generic [ref=f29e31]: "08"
+          - text: On-Chip Bus
+        - button "09 Off-Chip Interface" [ref=f29e32] [cursor=pointer]:
+          - generic [ref=f29e33]: "09"
+          - text: Off-Chip Interface
+        - button "10 Solution" [ref=f29e34] [cursor=pointer]:
+          - generic [ref=f29e35]: "10"
+          - text: Solution
+        - button "11 AI Accelerator" [ref=f29e36] [cursor=pointer]:
+          - generic [ref=f29e37]: "11"
+          - text: AI Accelerator
+        - generic [ref=f29e38]:
+          - button "📝 13 예상 기출문제" [ref=f29e39] [cursor=pointer]:
+            - generic [ref=f29e40]: 📝
+            - text: 13 예상 기출문제
+          - button "⏱️ 14 실전 모의 20문항" [ref=f29e41] [cursor=pointer]:
+            - generic [ref=f29e42]: ⏱️
+            - text: 14 실전 모의 20문항
+    - main [ref=f29e43]:
+      - iframe [ref=f29e64]:
+        - main [ref=f34e2]:
+          - generic [ref=f34e3]:
+            - generic [ref=f34e5]: Part 5
+            - heading "Memory / Storage / Materials" [level=2] [ref=f34e6]
+            - generic [ref=f34e9]: 5-3. MOS Basic
+            - generic [ref=f34e10]:
+              - text: ✓
+              - generic [ref=f34e894]:
+                - generic [ref=f34e895]:
+                  - generic [ref=f34e896]:
+                    - generic [ref=f34e897]:
+                      - generic [ref=f34e898]: NMOS Cross Section
+                      - generic [ref=f34e899]: Metal-Oxide-Semiconductor Structure
+                    - generic [ref=f34e900]:
+                      - generic [ref=f34e901]: Gate-Oxide-Controlled
+                      - generic [ref=f34e902]: Inversion Channel
+                  - img [ref=f34e903]:
+                    - generic [ref=f34e907]: p-type Substrate / Semiconductor Body
+                    - generic [ref=f34e908]: surface
+                    - generic [ref=f34e911]: Source
+                    - generic [ref=f34e912]: Drain
+                    - generic [ref=f34e915]: n+
+                    - generic [ref=f34e916]: n+
+                    - generic [ref=f34e918]: Gate Electrode
+                    - generic [ref=f34e920]: Vg
+                    - generic [ref=f34e922]: Gate Oxide (SiO₂)
+                    - generic [ref=f34e924]: Inversion Channel
+                    - generic [ref=f34e929]: "OFF : no channel"
+                    - generic [ref=f34e931]: "ON : current flows"
+                    - generic [ref=f34e932]: Metal
+                    - generic [ref=f34e933]: Oxide
+                    - generic [ref=f34e934]: Source / Drain diffusion
+                    - generic [ref=f34e935]: Semiconductor
+                - generic [ref=f34e936]:
+                  - generic [ref=f34e937]:
+                    - generic [ref=f34e938]:
+                      - generic [ref=f34e939]: Electrical Characteristics
+                      - generic [ref=f34e940]: Id · Vgs · Vds · Vth 관계
+                    - generic [ref=f34e941]:
+                      - generic [ref=f34e942]: Transfer Curve
+                      - generic [ref=f34e943]: Output Curve
+                      - generic [ref=f34e944]: Threshold Marker
+                  - generic [ref=f34e945]:
+                    - generic [ref=f34e946]:
+                      - generic [ref=f34e947]:
+                        - generic [ref=f34e948]: Transfer Characteristic
+                        - generic [ref=f34e949]: Id - Vgs with Vth
+                      - img "Id versus Vgs graph with threshold voltage" [ref=f34e950]:
+                        - generic [ref=f34e953]: Id
+                        - generic [ref=f34e954]: Vgs
+                        - generic [ref=f34e956]: cutoff
+                        - generic [ref=f34e957]: Id ≈ 0
+                        - generic [ref=f34e959]: Vth
+                        - generic [ref=f34e963]: Vgs > Vth → channel 형성
+                        - generic [ref=f34e964]: Vgs 증가에 따라 Id 증가
+                        - generic [ref=f34e965]: strong inversion
+                    - generic [ref=f34e966]:
+                      - generic [ref=f34e967]:
+                        - generic [ref=f34e968]: Output Characteristic
+                        - generic [ref=f34e969]: Id - Vds at multiple Vgs
+                      - img "Id versus Vds graph with multiple Vgs curves" [ref=f34e970]:
+                        - generic [ref=f34e973]: Id
+                        - generic [ref=f34e974]: Vds
+                        - generic [ref=f34e976]: saturation region
+                        - generic [ref=f34e983]: Vgs3
+                        - generic [ref=f34e984]: Vgs2
+                        - generic [ref=f34e985]: Vgs1
+                        - generic [ref=f34e987]: Vgs 증가 → Id 증가
+                  - generic [ref=f34e988]:
+                    - generic [ref=f34e990]:
+                      - generic [ref=f34e991]: VGS
+                      - generic [ref=f34e992]: Gate-Source Control Voltage
+                    - generic [ref=f34e994]:
+                      - generic [ref=f34e995]: VTH
+                      - generic [ref=f34e996]: Channel Threshold Voltage
+                    - generic [ref=f34e998]:
+                      - generic [ref=f34e999]: VDS
+                      - generic [ref=f34e1000]: Drain-Source Bias Voltage
+                    - generic [ref=f34e1002]:
+                      - generic [ref=f34e1003]: ID
+                      - generic [ref=f34e1004]: Drain Current · Final Output Response
+                - generic [ref=f34e1005]:
+                  - generic [ref=f34e1006]:
+                    - generic [ref=f34e1007]: 핵심 개념
+                    - paragraph [ref=f34e1008]:
+                      - text: Gate 전압이 표면 전위를 바꿔
+                      - strong [ref=f34e1009]: inversion channel
+                      - text: 을 만들고, 그때만 Source-Drain 사이 전류가 흐릅니다.
+                  - generic [ref=f34e1010]:
+                    - generic [ref=f34e1011]: 구조 포인트
+                    - paragraph [ref=f34e1012]: Gate Electrode, Gate Oxide, n+ Source/Drain, p-type Substrate, 그리고 oxide 아래의 channel 형성을 함께 봅니다.
+                  - generic [ref=f34e1013]:
+                    - generic [ref=f34e1014]: 시험 포인트
+                    - paragraph [ref=f34e1015]:
+                      - text: MOS는
+                      - strong [ref=f34e1016]: Metal-Oxide-Semiconductor
+                      - text: 의 약자이고, gate가 oxide로 절연된 채 채널을 전기장으로 제어한다는 점이 핵심입니다.
+      - generic [ref=f29e47]:
+        - button "← 이전 페이지" [ref=f29e48] [cursor=pointer]:
+          - generic [ref=f29e49]: ←
+          - text: 이전 페이지
+        - generic [ref=f29e50]: Page 5 of 13
+        - button "다음 페이지 →" [ref=f29e51] [cursor=pointer]:
+          - text: 다음 페이지
+          - generic [ref=f29e52]: →
+  - complementary [ref=f29e53]:
+    - generic [ref=f29e54]:
+      - generic [ref=f29e55]:
+        - generic [ref=f29e56]: This Page
+        - generic [ref=f29e57]: Memory / Storage / Materials
+      - navigation [ref=f29e58]:
+        - button "5-1. SRAM / DRAM" [ref=f29e65] [cursor=pointer]
+        - button "5-2. Flash / SSD" [ref=f29e66] [cursor=pointer]
+        - button "5-3. MOS Basic" [active] [ref=f29e67] [cursor=pointer]
+        - button "5-4. FinFET / Planar" [ref=f29e68] [cursor=pointer]

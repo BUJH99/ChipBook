@@ -5844,11 +5844,21 @@ function escapeHtml(value) {
 
 (function () {
     const embedded = () => window.self !== window.top;
-    const isObservableNode = (target) => Boolean(
-        target &&
-        typeof target.nodeType === 'number' &&
-        typeof target.nodeName === 'string'
-    );
+    const isObservableNode = (target) => {
+        try {
+            if (typeof Node === 'function') {
+                return target instanceof Node;
+            }
+        } catch (error) {
+            return false;
+        }
+
+        return Boolean(
+            target &&
+            typeof target.nodeType === 'number' &&
+            typeof target.nodeName === 'string'
+        );
+    };
     const observeTarget = (observer, target, options) => {
         if (!observer || !isObservableNode(target)) return;
         try {

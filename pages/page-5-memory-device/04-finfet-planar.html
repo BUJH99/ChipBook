@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finfet Planar | Memory / Storage / Materials | 반도체 디지털 회로설계 가이드북</title>
+    <title>FinFET / Planar | Memory / Storage / Materials | 반도체 디지털 회로설계 가이드북</title>
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
@@ -35,6 +35,1096 @@
             transition: all 0.35s ease;
         }
 
+        .memory-basics-toss {
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            background: #ffffff;
+        }
+
+        .memory-basics-toss .memory-compare-panel {
+            border: 1px solid #d9dee7;
+            border-radius: 4px;
+            background: #ffffff;
+            box-shadow: none;
+        }
+
+        .memory-basics-toss .memory-status-tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid currentColor;
+            border-radius: 4px;
+            background: #ffffff;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+        }
+
+        .memory-basics-toss .memory-status-blue {
+            color: #2563eb;
+            border-color: #bcd0ff;
+        }
+
+        .memory-basics-toss .memory-status-rose {
+            color: #e11d48;
+            border-color: #ffb3c0;
+        }
+
+        .memory-basics-toss .memory-op-segment {
+            display: inline-flex;
+            align-items: stretch;
+            flex-wrap: wrap;
+            gap: 0;
+        }
+
+        .memory-basics-toss .memory-op-btn {
+            min-width: 7.6rem;
+            min-height: 2.55rem;
+            margin-left: -1px;
+            border: 1px solid #d9dee7;
+            border-radius: 0;
+            background: #ffffff;
+            color: #4e5968;
+            box-shadow: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .memory-basics-toss .memory-op-btn:first-child {
+            margin-left: 0;
+        }
+
+        .memory-basics-toss [data-memory-tone="blue"] .memory-op-btn.is-active,
+        .memory-basics-toss [data-memory-tone="blue"] .memory-op-btn:hover {
+            border-color: #2563eb;
+            background: #ffffff;
+            color: #2563eb;
+            box-shadow: inset 0 0 0 1px #2563eb;
+        }
+
+        .memory-basics-toss [data-memory-tone="rose"] .memory-op-btn.is-active,
+        .memory-basics-toss [data-memory-tone="rose"] .memory-op-btn:hover {
+            border-color: #e11d48;
+            background: #ffffff;
+            color: #e11d48;
+            box-shadow: inset 0 0 0 1px #e11d48;
+        }
+
+        .memory-basics-toss .memory-sim-panel {
+            border-radius: 4px;
+            background: #ffffff;
+            box-shadow: none;
+        }
+
+        .memory-basics-toss .memory-sim-panel::before {
+            display: none;
+        }
+
+        .memory-basics-toss .memory-summary-row {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0;
+            margin: 0;
+            border-bottom: 1px solid #d9dee7;
+        }
+
+        .memory-basics-toss #sram-memory-lab .memory-summary-row {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .memory-basics-toss .memory-state-pill {
+            display: grid;
+            grid-template-rows: 2.45rem 2.7rem;
+            align-items: center;
+            justify-items: center;
+            gap: 0;
+            padding: 0;
+            border: 0;
+            border-left: 1px solid #d9dee7;
+            border-radius: 0;
+            background: #ffffff;
+            box-shadow: none;
+            color: #4e5968;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .memory-basics-toss .memory-state-pill:first-child {
+            border-left: 0;
+        }
+
+        .memory-basics-toss .memory-state-pill span {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #d9dee7;
+            background: #f9fafb;
+        }
+
+        .memory-basics-toss .memory-state-pill strong {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #191f28;
+        }
+
+        .memory-basics-toss .memory-sim-svg {
+            padding: 0.75rem 1rem 0.95rem;
+            background: #ffffff;
+        }
+
+        .memory-basics-toss .memory-log-shell {
+            min-height: 4.7rem;
+            align-items: center;
+            border-radius: 4px;
+            border-color: #d9dee7;
+            background: #ffffff;
+            box-shadow: none;
+        }
+
+        .memory-basics-toss [data-memory-tone="blue"] .memory-log-shell,
+        .memory-basics-toss [data-memory-tone="rose"] .memory-log-shell {
+            border-color: #d9dee7;
+            background: #ffffff;
+        }
+
+        .memory-basics-toss .memory-log-badge {
+            min-width: 4.6rem;
+            min-height: 2.1rem;
+            border-radius: 2px;
+            background: #ffffff;
+            font-size: 0.72rem;
+        }
+
+        .memory-basics-toss .memory-stage-row {
+            gap: 0.6rem;
+        }
+
+        .memory-basics-toss .memory-stage-chip,
+        .memory-basics-toss .memory-feature-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.1rem;
+            padding: 0.45rem 0.9rem;
+            border: 1px solid #d9dee7;
+            border-radius: 4px;
+            background: #ffffff;
+            color: #6b7684;
+            font-size: 0.72rem;
+            font-weight: 800;
+            box-shadow: none;
+        }
+
+        .memory-basics-toss .memory-feature-chip {
+            color: #2563eb;
+            border-color: #c9d8ff;
+        }
+
+        .memory-basics-toss .memory-feature-rose {
+            color: #e11d48;
+            border-color: #ffd0d8;
+        }
+
+        .memory-basics-toss [data-memory-tone="blue"] .memory-stage-chip.is-active,
+        .memory-basics-toss [data-memory-tone="blue"] .memory-stage-chip.is-done,
+        .memory-basics-toss [data-memory-tone="blue"] .memory-stage-chip:hover {
+            border-color: #2563eb;
+            background: #ffffff;
+            color: #2563eb;
+            box-shadow: inset 0 0 0 1px #2563eb;
+        }
+
+        .memory-basics-toss [data-memory-tone="rose"] .memory-stage-chip.is-active,
+        .memory-basics-toss [data-memory-tone="rose"] .memory-stage-chip.is-done,
+        .memory-basics-toss [data-memory-tone="rose"] .memory-stage-chip:hover {
+            border-color: #e11d48;
+            background: #ffffff;
+            color: #e11d48;
+            box-shadow: inset 0 0 0 1px #e11d48;
+        }
+
+        .nand-lab-replica {
+            border: 1px solid #d9dee7;
+            border-radius: 0;
+            background: #ffffff;
+            box-shadow: none;
+        }
+
+        .nand-lab-replica .nand-lab-appbar {
+            display: flex;
+            min-height: 3.65rem;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border-bottom: 1px solid #d9dee7;
+            padding: 0 1.05rem;
+        }
+
+        .nand-lab-replica .nand-menu-icon {
+            display: inline-flex;
+            width: 2rem;
+            height: 2rem;
+            align-items: center;
+            justify-content: center;
+            color: #191f28;
+        }
+
+        .nand-lab-replica .nand-lab-badge {
+            display: inline-flex;
+            min-height: 2.35rem;
+            align-items: center;
+            gap: 0.45rem;
+            border: 1px solid #d0d7e2;
+            border-radius: 4px;
+            background: #ffffff;
+            padding: 0 0.85rem;
+            color: #0057ff;
+            font-size: 0.9rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .nand-lab-replica .nand-lab-body {
+            padding: 1.65rem 1.9rem 1.6rem;
+        }
+
+        .nand-lab-replica .nand-lab-tabs {
+            display: flex;
+            align-items: end;
+            gap: 0;
+            margin-top: 1.35rem;
+            border-bottom: 1px solid #d9dee7;
+        }
+
+        .nand-lab-replica .memory-op-btn {
+            min-width: 7.2rem;
+            min-height: 2.85rem;
+            border: 0;
+            border-bottom: 3px solid transparent;
+            border-radius: 0;
+            background: #ffffff;
+            color: #4e5968;
+            box-shadow: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .nand-lab-replica .memory-op-btn:hover,
+        .nand-lab-replica .memory-op-btn.is-active {
+            border-bottom-color: #0057ff;
+            background: #ffffff;
+            color: #0057ff;
+            box-shadow: none;
+        }
+
+        .nand-lab-replica .memory-op-btn[disabled],
+        .nand-lab-replica .memory-op-btn[disabled]:hover {
+            color: #8b95a1;
+            border-bottom-color: transparent;
+        }
+
+        .nand-lab-replica .memory-sim-panel {
+            border: 1px solid #d9dee7;
+            border-radius: 4px;
+            background: #ffffff;
+            box-shadow: none;
+        }
+
+        .nand-lab-replica .memory-sim-panel::before {
+            display: none;
+        }
+
+        .nand-lab-replica .memory-summary-row {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0;
+            margin: 1rem 0 0;
+            overflow: hidden;
+            border: 1px solid #d9dee7;
+            border-radius: 4px;
+            background: #ffffff;
+        }
+
+        .nand-lab-replica .memory-state-pill {
+            display: grid;
+            grid-template-rows: 2.55rem 2.75rem;
+            gap: 0;
+            align-items: stretch;
+            justify-items: stretch;
+            border: 0;
+            border-left: 1px solid #d9dee7;
+            border-radius: 0;
+            background: #ffffff;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .nand-lab-replica .memory-state-pill:first-child {
+            border-left: 0;
+        }
+
+        .nand-lab-replica .memory-state-pill span,
+        .nand-lab-replica .memory-state-pill strong {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            padding: 0 0.75rem;
+            text-align: center;
+        }
+
+        .nand-lab-replica .memory-state-pill span {
+            border-bottom: 1px solid #d9dee7;
+            background: #f9fafb;
+            color: #6b7684;
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .nand-lab-replica .memory-state-pill strong {
+            color: #0057ff;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .nand-lab-replica .memory-sim-svg {
+            display: block;
+            width: 100%;
+            height: 22rem;
+            background: #ffffff;
+        }
+
+        .nand-lab-replica .memory-log-shell {
+            min-height: 3.85rem;
+            align-items: center;
+            border: 1px solid #d9dee7;
+            border-radius: 4px;
+            background: #ffffff;
+            box-shadow: none;
+            padding: 0.85rem 1.1rem;
+        }
+
+        .nand-lab-replica .memory-log-badge {
+            min-width: 5.1rem;
+            min-height: 2.1rem;
+            border-radius: 4px;
+            border-color: transparent;
+            background: #ffffff;
+            color: #0057ff;
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+        }
+
+        .nand-lab-replica .memory-log-badge::before {
+            content: "✓";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.65rem;
+            height: 1.65rem;
+            margin-right: 0.55rem;
+            border-radius: 999px;
+            background: #0057ff;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .nand-lab-replica .memory-log-badge.is-active {
+            border-color: transparent;
+            background: #ffffff;
+            color: #0057ff;
+        }
+
+        .nand-lab-replica .memory-stage-row {
+            gap: 0.85rem;
+            padding-top: 1.05rem;
+            border-top: 1px solid #eef1f5;
+        }
+
+        .nand-lab-replica .memory-stage-chip {
+            min-height: 2.5rem;
+            border: 1px solid #d9dee7;
+            border-radius: 4px;
+            background: #ffffff;
+            color: #0057ff;
+            box-shadow: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.88rem;
+            font-weight: 750;
+        }
+
+        .nand-lab-replica .memory-stage-chip:hover,
+        .nand-lab-replica .memory-stage-chip.is-active,
+        .nand-lab-replica .memory-stage-chip.is-done {
+            border-color: #c4d7ff;
+            background: #ffffff;
+            color: #0057ff;
+            box-shadow: inset 0 0 0 1px #c4d7ff;
+        }
+
+        .nand-lab-replica .memory-stage-chip[disabled] {
+            color: #8b95a1;
+            background: #ffffff;
+            box-shadow: none;
+        }
+
+        .nand-lab-replica .memory-stage-note {
+            margin-top: 1rem;
+            color: #4e5968;
+            font-size: 0.85rem;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+
+        .nand-lab-replica .nand-lab-feature-chip {
+            display: inline-flex;
+            min-height: 2rem;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.35rem 0.95rem;
+            font-size: 0.78rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .flash-stack-replica {
+            --stack-blue: #2563eb;
+            --stack-violet: #7c3aed;
+            --stack-green: #16a34a;
+            --stack-line: #d9dee7;
+            --stack-muted: #6b7684;
+            border: 1px solid #d9dee7;
+            border-radius: 4px;
+            background: #ffffff;
+            box-shadow: none;
+        }
+
+        .flash-stack-replica .stack-overline {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            color: var(--stack-blue);
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+        }
+
+        .flash-stack-replica .stack-overline::after {
+            content: "";
+            width: 4.4rem;
+            height: 2px;
+            background: var(--stack-blue);
+        }
+
+        .flash-stack-replica .stack-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.5rem;
+            padding: 0.45rem 1.1rem;
+            border: 1px solid #d9dee7;
+            border-radius: 4px;
+            background: #ffffff;
+            color: #2563eb;
+            font-size: 0.9rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .flash-stack-replica .stack-stage-grid {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 2.5rem;
+            align-items: stretch;
+        }
+
+        .flash-stack-replica .stack-stage-card {
+            position: relative;
+            min-height: 16rem;
+            border: 1.5px solid var(--stage-color);
+            border-radius: 0;
+            background: #ffffff;
+            padding: 1rem;
+        }
+
+        .flash-stack-replica .stack-stage-no {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 3px;
+            background: var(--stage-color);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 900;
+        }
+
+        .flash-stack-replica .stack-stage-title {
+            color: #0f172a;
+            font-size: 1rem;
+            font-weight: 900;
+            line-height: 1.25;
+        }
+
+        .flash-stack-replica .stack-link {
+            position: absolute;
+            top: 50%;
+            right: -2.55rem;
+            width: 2.55rem;
+            height: 2px;
+            background: var(--stage-color);
+            transform: translateY(-50%);
+        }
+
+        .flash-stack-replica .stack-link::after {
+            content: "";
+            position: absolute;
+            right: -0.33rem;
+            top: 50%;
+            width: 0.72rem;
+            height: 0.72rem;
+            border-radius: 999px;
+            background: var(--stage-color);
+            transform: translateY(-50%);
+        }
+
+        .flash-stack-replica .stack-stage-card:last-child .stack-link {
+            display: none;
+        }
+
+        .flash-stack-replica .stack-mini-label {
+            color: var(--stage-color);
+            font-size: 0.72rem;
+            font-weight: 900;
+            line-height: 1.25;
+            text-align: center;
+        }
+
+        .flash-stack-replica .stack-subcopy {
+            color: #64748b;
+            font-size: 0.78rem;
+            font-weight: 700;
+            line-height: 1.45;
+            text-align: center;
+        }
+
+        .flash-stack-replica .stack-row-shell {
+            display: grid;
+            grid-template-columns: 9rem 1fr;
+            border: 1px solid #d9dee7;
+            border-radius: 0;
+            background: #ffffff;
+        }
+
+        .flash-stack-replica .stack-row-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #d9dee7;
+            color: #2563eb;
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .flash-stack-replica .stack-flow-items {
+            display: grid;
+            grid-template-columns: max-content 0.8rem max-content 0.8rem max-content 0.8rem max-content 0.8rem max-content 0.8rem max-content 0.8rem max-content;
+            align-items: center;
+            justify-content: center;
+            column-gap: 0.42rem;
+            padding: 0.75rem 0.55rem;
+        }
+
+        .flash-stack-replica .stack-flow-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.34rem;
+            min-width: 0;
+            color: #111827;
+            font-size: 0.72rem;
+            font-weight: 800;
+            line-height: 1.15;
+            white-space: nowrap;
+        }
+
+        .flash-stack-replica .stack-flow-icon {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.8rem;
+            height: 1.8rem;
+            border: 1px solid #d9dee7;
+            border-radius: 3px;
+            background: #ffffff;
+            color: var(--stage-color);
+        }
+
+        .flash-stack-replica .stack-flow-arrow {
+            display: inline-flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 0.98rem;
+            font-weight: 700;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .flash-stack-replica .stack-legend {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            padding: 0.9rem 1.1rem;
+            color: #334155;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .flash-stack-replica .stack-legend-dot {
+            width: 0.56rem;
+            height: 0.56rem;
+            border-radius: 999px;
+            background: var(--stage-color);
+        }
+
+        .flash-stack-replica .stack-info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .flash-stack-replica .stack-info-card {
+            display: grid;
+            grid-template-columns: 4.2rem 1fr;
+            gap: 1rem;
+            min-height: 8.2rem;
+            border: 1px solid #d9dee7;
+            border-radius: 0;
+            background: #ffffff;
+            padding: 1rem;
+        }
+
+        .flash-stack-replica .stack-info-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--stage-color);
+        }
+
+        .flash-stack-replica .ssd-three-wrap {
+            position: relative;
+            width: 8.5rem;
+            height: 4.6rem;
+            margin: 0.75rem auto 0.85rem;
+        }
+
+        .flash-stack-replica .ssd-three-wrap canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .flash-stack-replica .ssd-three-fallback {
+            position: absolute;
+            inset: 0.55rem 0.75rem;
+            display: flex;
+            align-items: center;
+            padding-left: 1.1rem;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #1f2937, #020617);
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 900;
+            box-shadow: inset 0 0 0 1px #334155;
+            pointer-events: none;
+        }
+
+        .flash-stack-replica .ssd-three-wrap.is-rendered .ssd-three-fallback {
+            display: none;
+        }
+
+        .nand-hierarchy-replica {
+            --hier-blue: #0057d9;
+            --hier-blue-soft: #e9f1ff;
+            --hier-violet: #7c3aed;
+            --hier-fuchsia: #d946ef;
+            --hier-green: #059669;
+            --hier-line: #d9dee7;
+            --hier-text: #111827;
+            --hier-muted: #4b5563;
+            background: #ffffff;
+        }
+
+        .nand-hierarchy-replica .hierarchy-overline {
+            color: var(--hier-blue);
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .nand-hierarchy-replica .hierarchy-card {
+            border: 1px solid var(--hier-line);
+            border-radius: 4px;
+            background: #ffffff;
+            box-shadow: none;
+        }
+
+        .nand-hierarchy-replica .hierarchy-title {
+            color: var(--hier-text);
+            font-size: 1.35rem;
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: 0;
+        }
+
+        .nand-hierarchy-replica .hierarchy-map-heading {
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+
+        .nand-hierarchy-replica .hierarchy-flow {
+            display: flex;
+            align-items: stretch;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.85rem;
+        }
+
+        .nand-hierarchy-replica .hierarchy-flow-node {
+            position: relative;
+            display: grid;
+            grid-template-columns: 2.15rem auto;
+            align-items: center;
+            min-width: 8.8rem;
+            min-height: 3.75rem;
+            gap: 0.7rem;
+            border: 1px solid var(--hier-line);
+            border-left: 3px solid var(--item-color);
+            border-radius: 3px;
+            background: #ffffff;
+            padding: 0.65rem 0.8rem 0.65rem 0.7rem;
+            color: var(--hier-text);
+        }
+
+        .nand-hierarchy-replica .hierarchy-flow-node::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -0.52rem;
+            width: 0.55rem;
+            height: 1px;
+            background: #aeb8c6;
+            transform: translateY(-50%);
+        }
+
+        .nand-hierarchy-replica .hierarchy-flow-node::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -0.68rem;
+            width: 0;
+            height: 0;
+            border-top: 0.22rem solid transparent;
+            border-bottom: 0.22rem solid transparent;
+            border-left: 0.3rem solid #aeb8c6;
+            transform: translateY(-50%);
+        }
+
+        .nand-hierarchy-replica .hierarchy-flow-node:last-child::before,
+        .nand-hierarchy-replica .hierarchy-flow-node:last-child::after {
+            display: none;
+        }
+
+        .nand-hierarchy-replica .hierarchy-flow-icon {
+            display: inline-flex;
+            width: 2.15rem;
+            height: 2.15rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+            background: color-mix(in srgb, var(--item-color) 11%, #ffffff);
+            color: var(--item-color);
+        }
+
+        .nand-hierarchy-replica .hierarchy-flow-copy {
+            display: grid;
+            gap: 0.12rem;
+            min-width: 0;
+        }
+
+        .nand-hierarchy-replica .hierarchy-flow-copy strong {
+            color: var(--hier-text);
+            font-size: 0.92rem;
+            font-weight: 900;
+            line-height: 1.05;
+        }
+
+        .nand-hierarchy-replica .hierarchy-flow-copy small {
+            color: #4b5563;
+            font-size: 0.68rem;
+            font-weight: 750;
+            line-height: 1.15;
+            white-space: nowrap;
+        }
+
+        .nand-hierarchy-replica .hierarchy-mode-pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.2rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 3px;
+            background: #ffffff;
+            color: var(--hier-blue);
+            padding: 0.35rem 0.9rem;
+            font-size: 0.82rem;
+            font-weight: 800;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .nand-hierarchy-replica .hierarchy-diagram-wrap {
+            overflow-x: auto;
+            padding-top: 1rem;
+        }
+
+        .nand-hierarchy-replica .hierarchy-diagram {
+            display: block;
+            width: min(100%, 76rem);
+            min-width: 760px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .nand-hierarchy-replica .hierarchy-chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            border-top: 1px solid #e5e7eb;
+            background: #ffffff;
+            padding: 0.65rem 1rem;
+        }
+
+        .nand-hierarchy-replica .hierarchy-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 2.35rem;
+            border: 1px solid var(--hier-line);
+            border-radius: 3px;
+            background: #ffffff;
+            color: var(--chip-color);
+            padding: 0.38rem 0.75rem;
+            font-size: 0.82rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .nand-hierarchy-replica .hierarchy-chip-icon,
+        .nand-hierarchy-replica .hierarchy-ladder-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            border-radius: 3px;
+            background: var(--item-color);
+            color: #ffffff;
+        }
+
+        .nand-hierarchy-replica .hierarchy-chip-icon {
+            width: 1.35rem;
+            height: 1.35rem;
+        }
+
+        .nand-hierarchy-replica .hierarchy-ladder-list {
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-rows: repeat(3, minmax(3.3rem, auto));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            column-gap: 2rem;
+            row-gap: 0;
+            margin-top: 0.8rem;
+        }
+
+        .nand-hierarchy-replica .hierarchy-ladder-row {
+            display: grid;
+            grid-template-columns: 2.25rem 5rem 1fr;
+            align-items: center;
+            gap: 1rem;
+            min-height: 3.3rem;
+            color: var(--hier-text);
+        }
+
+        .nand-hierarchy-replica .hierarchy-ladder-row + .hierarchy-ladder-row {
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .nand-hierarchy-replica .hierarchy-ladder-row:nth-child(4) {
+            border-top: 0;
+        }
+
+        .nand-hierarchy-replica .hierarchy-ladder-icon {
+            width: 1.9rem;
+            height: 1.9rem;
+        }
+
+        .nand-hierarchy-replica .hierarchy-ladder-term {
+            color: #1f2937;
+            font-size: 0.92rem;
+            font-weight: 900;
+        }
+
+        .nand-hierarchy-replica .hierarchy-ladder-desc {
+            color: #27364a;
+            font-size: 0.82rem;
+            font-weight: 600;
+            line-height: 1.45;
+        }
+
+        .nand-hierarchy-replica + div[class*="rounded-[30px]"][class*="violet-100"] {
+            display: none;
+        }
+
+        @media (max-width: 1280px) {
+            .flash-stack-replica .stack-stage-grid,
+            .flash-stack-replica .stack-info-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .flash-stack-replica .stack-stage-card:nth-child(2) .stack-link {
+                display: none;
+            }
+
+            .flash-stack-replica .stack-flow-items {
+                grid-template-columns: max-content 0.7rem max-content 0.7rem max-content 0.7rem max-content 0.7rem max-content 0.7rem max-content 0.7rem max-content;
+                column-gap: 0.28rem;
+            }
+
+            .flash-stack-replica .stack-flow-item {
+                gap: 0.28rem;
+                font-size: 0.66rem;
+            }
+
+            .flash-stack-replica .stack-flow-icon {
+                width: 1.58rem;
+                height: 1.58rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nand-lab-replica .nand-lab-body {
+                padding: 1.25rem 1rem;
+            }
+
+            .nand-lab-replica .nand-lab-appbar {
+                padding: 0 0.75rem;
+            }
+
+            .nand-lab-replica .nand-lab-badge {
+                min-height: 2.1rem;
+                padding: 0 0.65rem;
+                font-size: 0.78rem;
+            }
+
+            .nand-lab-replica .nand-lab-tabs,
+            .nand-lab-replica .memory-op-btn {
+                width: 100%;
+            }
+
+            .nand-lab-replica .memory-summary-row {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .nand-lab-replica .memory-state-pill:nth-child(odd) {
+                border-left: 0;
+            }
+
+            .nand-lab-replica .memory-sim-svg {
+                height: 19rem;
+            }
+
+            .memory-basics-toss .memory-summary-row,
+            .memory-basics-toss #sram-memory-lab .memory-summary-row {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .memory-basics-toss .memory-state-pill:nth-child(odd) {
+                border-left: 0;
+            }
+
+            .memory-basics-toss .memory-op-segment,
+            .memory-basics-toss .memory-op-btn {
+                width: 100%;
+            }
+
+            .flash-stack-replica .stack-stage-grid,
+            .flash-stack-replica .stack-info-grid,
+            .flash-stack-replica .stack-row-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .flash-stack-replica .stack-stage-card .stack-link,
+            .flash-stack-replica .stack-stage-card:nth-child(2) .stack-link {
+                display: none;
+            }
+
+            .flash-stack-replica .stack-row-label {
+                min-height: 3rem;
+                border-right: 0;
+                border-bottom: 1px solid #d9dee7;
+            }
+
+            .flash-stack-replica .stack-flow-items,
+            .flash-stack-replica .stack-legend {
+                grid-template-columns: 1fr;
+            }
+
+            .flash-stack-replica .stack-flow-item {
+                justify-content: flex-start;
+            }
+
+            .flash-stack-replica .stack-flow-arrow {
+                display: none;
+            }
+
+            .nand-hierarchy-replica .hierarchy-title {
+                font-size: 1.15rem;
+            }
+
+            .nand-hierarchy-replica .hierarchy-ladder-row {
+                grid-template-columns: 2.25rem 4.2rem 1fr;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .nand-hierarchy-replica .hierarchy-ladder-list {
+                grid-auto-flow: row;
+                grid-template-rows: none;
+                grid-template-columns: 1fr;
+                column-gap: 0;
+            }
+
+            .nand-hierarchy-replica .hierarchy-ladder-row:nth-child(4) {
+                border-top: 1px solid #e5e7eb;
+            }
+        }
+
     </style>
 </head>
 <body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-5">
@@ -50,35 +1140,36 @@
                         </div>
 
                         <div class="space-y-8 mb-8">
-                            <div class="card p-0 overflow-hidden flex flex-col" data-part5-panel="memory-basics" data-guidebook-toc-title="SRAM / DRAM">
-                                <div class="p-6 pb-0 bg-white">
+<div class="memory-basics-toss p-0 overflow-hidden flex flex-col bg-white" data-part5-panel="memory-basics" data-guidebook-toc-title="SRAM / DRAM">
+                                <div class="pt-4 pb-0 bg-white">
                                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
-                                        <div id="sram-memory-lab" data-memory-lab data-memory-kind="sram" data-memory-tone="blue" data-running="false" data-action="idle" data-stage="idle" data-write-value="1" class="rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.06)]">
-                                            <div class="px-5 pt-5 pb-3 flex items-start justify-between gap-4">
+                                        <div id="sram-memory-lab" data-memory-lab data-memory-kind="sram" data-memory-tone="blue" data-running="false" data-action="idle" data-stage="idle" data-write-value="1" class="memory-compare-panel overflow-hidden">
+                                            <div class="px-5 pt-5 pb-4 flex items-start justify-between gap-4">
                                                 <div>
                                                     <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">SRAM</div>
                                                     <h5 class="mt-2 text-[1.15rem] font-black text-slate-900">Standard 6T SRAM Cell</h5>
                                                     <p class="mt-2 text-sm leading-6 text-slate-600">Stores state stably with two <strong class="text-slate-900">cross-coupled inverters</strong> and two <strong class="text-slate-900">access transistors</strong>.</p>
                                                 </div>
-                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-xs font-extrabold text-blue-600">No Refresh</span>
+                                                <span class="memory-status-tag memory-status-blue">No Refresh</span>
                                             </div>
-                                            <div class="px-5 pb-3 flex flex-wrap items-center justify-between gap-3">
-                                                <div class="flex flex-wrap gap-2">
+                                            <div class="px-5 pb-4 flex flex-wrap items-center justify-between gap-3">
+                                                <div class="memory-op-segment">
                                                     <button type="button" class="memory-op-btn" data-memory-action="read">Read</button>
                                                     <button type="button" class="memory-op-btn" data-memory-action="write" data-memory-value="1">Write 1</button>
                                                     <button type="button" class="memory-op-btn" data-memory-action="write" data-memory-value="0">Write 0</button>
                                                 </div>
                                             </div>
                                             <div class="px-5">
-                                                <div class="memory-sim-panel border border-blue-100 p-4">
+                                                <div class="memory-sim-panel border border-slate-200 p-0">
                                                     <div class="memory-summary-row">
                                                         <span class="memory-state-pill"><span>Stored Bit</span><strong data-memory-store-value>None</strong></span>
                                                         <span class="memory-state-pill"><span>Bitline</span><strong data-memory-line-state>Floating (Z)</strong></span>
                                                         <span class="memory-state-pill"><span>Latch State</span><strong data-memory-detail-state>Q=? / QB=?</strong></span>
+                                                        <span class="memory-state-pill"><span>Cell State</span><strong>Stable</strong></span>
                                                     </div>
                                                     <svg viewBox="0 0 420 236" class="memory-sim-svg w-full h-[248px] block" aria-hidden="true">
                                                         <rect width="420" height="236" fill="#ffffff"/>
-                                                        <rect x="18" y="20" width="384" height="188" rx="24" fill="#fcfdff" stroke="#cfe2ff" stroke-width="1.8"/>
+                                                        <rect x="18" y="20" width="384" height="188" rx="4" fill="#ffffff" stroke="#d9dee7" stroke-width="1.4"/>
                                                         <text x="96" y="40" text-anchor="middle" fill="#64748b" font-size="12" font-weight="900">BL</text>
                                                         <text x="320" y="40" text-anchor="middle" fill="#64748b" font-size="12" font-weight="900">BLB</text>
                                                         <text x="24" y="78" fill="#8b5cf6" font-size="12" font-weight="900">WL</text>
@@ -92,12 +1183,12 @@
                                                         <line x1="96" y1="74" x2="96" y2="116" stroke="#94a3b8" stroke-width="2.6" stroke-linecap="round"/>
                                                         <line x1="320" y1="74" x2="320" y2="116" stroke="#94a3b8" stroke-width="2.6" stroke-linecap="round"/>
                                                         <line x1="96" y1="116" x2="108" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
-                                                        <rect x="108" y="102" width="22" height="28" rx="5" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5" class="memory-svg-chip" data-memory-access-left/>
+                                                        <rect x="108" y="102" width="22" height="28" rx="2" fill="#ffffff" stroke="#64748b" stroke-width="1.5" class="memory-svg-chip" data-memory-access-left/>
                                                         <line x1="119" y1="74" x2="119" y2="102" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4" stroke-linecap="round" data-memory-gate-line/>
                                                         <text x="119" y="97" text-anchor="middle" fill="#64748b" font-size="8.5" font-weight="900">Tr</text>
                                                         <line x1="130" y1="116" x2="154" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
                                                         <line x1="266" y1="116" x2="290" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
-                                                        <rect x="290" y="102" width="22" height="28" rx="5" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5" class="memory-svg-chip" data-memory-access-right/>
+                                                        <rect x="290" y="102" width="22" height="28" rx="2" fill="#ffffff" stroke="#64748b" stroke-width="1.5" class="memory-svg-chip" data-memory-access-right/>
                                                         <line x1="301" y1="74" x2="301" y2="102" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4" stroke-linecap="round" data-memory-gate-line/>
                                                         <text x="301" y="97" text-anchor="middle" fill="#64748b" font-size="8.5" font-weight="900">Tr</text>
                                                         <line x1="312" y1="116" x2="320" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
@@ -133,22 +1224,22 @@
                                                 </div>
                                             </div>
                                             <div class="px-5 pt-4 pb-5 flex flex-wrap gap-2">
-                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">6T Cell</span>
-                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Cross-Coupled Inverters</span>
-                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Non-Destructive Read</span>
+                                                <span class="memory-feature-chip">6T Cell</span>
+                                                <span class="memory-feature-chip">Cross-Coupled Inverters</span>
+                                                <span class="memory-feature-chip">Non-Destructive Read</span>
                                             </div>
                                         </div>
-                                        <div id="dram-memory-lab" data-memory-lab data-memory-kind="dram" data-memory-tone="rose" data-running="false" data-action="idle" data-stage="idle" data-write-value="1" class="rounded-[28px] border border-rose-100 bg-[linear-gradient(180deg,#ffffff_0%,#fff8fb_100%)] overflow-hidden shadow-[0_12px_30px_rgba(244,63,94,0.06)]">
-                                            <div class="px-5 pt-5 pb-3 flex items-start justify-between gap-4">
+                                        <div id="dram-memory-lab" data-memory-lab data-memory-kind="dram" data-memory-tone="rose" data-running="false" data-action="idle" data-stage="idle" data-write-value="1" class="memory-compare-panel overflow-hidden">
+                                            <div class="px-5 pt-5 pb-4 flex items-start justify-between gap-4">
                                                 <div>
                                                     <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-rose-500">DRAM</div>
                                                     <h5 class="mt-2 text-[1.15rem] font-black text-slate-900">Standard 1T1C DRAM Cell</h5>
                                                     <p class="mt-2 text-sm leading-6 text-slate-600">Stores data as charge in one <strong class="text-slate-900">access transistor</strong> and one <strong class="text-slate-900">storage capacitor</strong>.</p>
                                                 </div>
-                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-xs font-extrabold text-rose-600">Refresh Required</span>
+                                                <span class="memory-status-tag memory-status-rose">Refresh Required</span>
                                             </div>
-                                            <div class="px-5 pb-3 flex flex-wrap items-center justify-between gap-3">
-                                                <div class="flex flex-wrap gap-2">
+                                            <div class="px-5 pb-4 flex flex-wrap items-center justify-between gap-3">
+                                                <div class="memory-op-segment">
                                                     <button type="button" class="memory-op-btn" data-memory-action="read">Read</button>
                                                     <button type="button" class="memory-op-btn" data-memory-action="write" data-memory-value="1">Write 1</button>
                                                     <button type="button" class="memory-op-btn" data-memory-action="write" data-memory-value="0">Write 0</button>
@@ -156,7 +1247,7 @@
                                                 </div>
                                             </div>
                                             <div class="px-5">
-                                                <div class="memory-sim-panel border border-rose-100 p-4">
+                                                <div class="memory-sim-panel border border-slate-200 p-0">
                                                     <div class="memory-summary-row">
                                                         <span class="memory-state-pill"><span>Stored Charge</span><strong data-memory-store-value>0%</strong></span>
                                                         <span class="memory-state-pill"><span>Bitline</span><strong data-memory-line-state>Floating (Z)</strong></span>
@@ -164,7 +1255,7 @@
                                                     </div>
                                                     <svg viewBox="0 0 420 236" class="memory-sim-svg w-full h-[248px] block" aria-hidden="true">
                                                         <rect width="420" height="236" fill="#ffffff"/>
-                                                        <rect x="18" y="20" width="384" height="188" rx="24" fill="#fffcfd" stroke="#f7d4de" stroke-width="1.8"/>
+                                                        <rect x="18" y="20" width="384" height="188" rx="4" fill="#ffffff" stroke="#d9dee7" stroke-width="1.4"/>
                                                         <text x="122" y="40" text-anchor="middle" fill="#64748b" font-size="12" font-weight="900">BL</text>
                                                         <text x="26" y="78" fill="#8b5cf6" font-size="12" font-weight="900">WL</text>
                                                         <text x="122" y="58" text-anchor="middle" fill="#64748b" font-size="10.5" font-weight="900" data-memory-bl-value>Z</text>
@@ -173,7 +1264,7 @@
                                                         <path class="memory-svg-line" data-memory-bl-line d="M122 64V182" fill="none" stroke="#94a3b8" stroke-width="3.2" stroke-linecap="round"/>
                                                         <circle cx="122" cy="116" r="4.2" fill="#111827"/>
                                                         <line x1="122" y1="116" x2="154" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
-                                                        <rect x="154" y="102" width="24" height="28" rx="5" fill="#f3e8ff" stroke="#d8b4fe" stroke-width="1.6" class="memory-svg-chip" data-memory-access-left/>
+                                                        <rect x="154" y="102" width="24" height="28" rx="2" fill="#ffffff" stroke="#e11d48" stroke-width="1.6" class="memory-svg-chip" data-memory-access-left/>
                                                         <line x1="166" y1="74" x2="166" y2="102" stroke="#d8b4fe" stroke-width="1.6" stroke-dasharray="4 4" stroke-linecap="round" data-memory-gate-line/>
                                                         <text x="166" y="97" text-anchor="middle" fill="#a855f7" font-size="8.5" font-weight="900">Tr</text>
                                                         <line x1="178" y1="116" x2="276" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
@@ -207,9 +1298,9 @@
                                                 </div>
                                             </div>
                                             <div class="px-5 pt-4 pb-5 flex flex-wrap gap-2">
-                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-extrabold text-rose-600">1T1C</span>
-                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-extrabold text-rose-600">Charge Sharing</span>
-                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-extrabold text-rose-600">Destructive Read + Restore</span>
+                                                <span class="memory-feature-chip memory-feature-rose">1T1C</span>
+                                                <span class="memory-feature-chip memory-feature-rose">Charge Sharing</span>
+                                                <span class="memory-feature-chip memory-feature-rose">Destructive Read + Restore</span>
                                             </div>
                                         </div>
                                     </div>
@@ -260,8 +1351,12 @@
                                 <div class="border-t border-slate-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-8">
                                     <div class="mb-8 max-w-4xl">
                                         <div class="text-sm font-extrabold uppercase tracking-widest text-indigo-600 mb-2">Deep Dive Analysis</div>
-                                        <h3 class="text-3xl font-black text-slate-900 mb-4">DRAM 및 SRAM 불량 메커니즘 심층 분석</h3>
-                                        <p class="text-lg text-slate-600 leading-relaxed">반도체 메모리 칩은 나노미터(nm) 단위의 미세 공정이 적용됨에 따라 다양한 물리적, 전기적 요인으로 인해 오류가 발생할 수 있습니다. 본 섹션에서는 메모리 반도체의 핵심인 DRAM과 SRAM에서 발생하는 주요 불량 메커니즘을 엔지니어링 및 아키텍처 관점에서 상세히 분석합니다.</p>
+                                        <h3 class="text-3xl font-black text-slate-900 mb-4">DRAM &amp; SRAM Fail Mechanisms Deep Analysis</h3>
+                                        <ul class="list-disc space-y-2 pl-5 text-lg text-slate-600 leading-relaxed">
+                                            <li>나노미터(nm) 단위 미세 공정으로 인해 메모리 칩은 물리적·전기적 오류에 더 민감해집니다.</li>
+                                            <li>분석 대상은 메모리 반도체의 핵심 구조인 <strong class="text-slate-900">DRAM</strong>과 <strong class="text-slate-900">SRAM</strong>입니다.</li>
+                                            <li>주요 불량 메커니즘을 엔지니어링 관점과 아키텍처 관점에서 나누어 살펴봅니다.</li>
+                                        </ul>
                                     </div>
 
                                     <div class="mb-12">
@@ -269,7 +1364,11 @@
                                             <span class="bg-rose-100 text-rose-700 w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl">D</span>
                                             <h4 class="text-2xl font-bold text-slate-900">DRAM Fail Mechanisms</h4>
                                         </div>
-                                        <p class="mb-6 text-slate-600">DRAM은 커패시터(Capacitor)에 전하(Charge)를 축적하여 데이터를 저장하는 방식을 취합니다. 셀의 집적도가 높아질수록 주변 회로와의 간섭 및 미세한 공정 산포에 민감해지며, 엄격한 타이밍 마진 부족으로 인한 데이터 유실이 발생할 수 있습니다.</p>
+                                        <ul class="mb-6 list-disc space-y-2 pl-5 text-slate-600">
+                                            <li>DRAM은 커패시터(Capacitor)에 전하(Charge)를 축적해 데이터를 저장합니다.</li>
+                                            <li>셀 집적도가 높아질수록 주변 회로 간섭과 미세한 공정 산포에 더 민감해집니다.</li>
+                                            <li>타이밍 마진이 부족하면 저장된 데이터가 유실될 수 있습니다.</li>
+                                        </ul>
 
                                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                             <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
@@ -432,9 +1531,9 @@
                                                     </svg>
                                                 </div>
                                                 <div class="space-y-2 text-sm">
-                                                    <p><strong class="text-slate-800">원인:</strong> 파괴적 읽기 후 센스 앰프가 값을 셀에 되돌려 써야 하는데, 구동력 저하 또는 워드라인 유지 시간(tRAS) 부족으로 복원이 끝까지 진행되지 못함.</p>
-                                                    <p><strong class="text-slate-800">결과:</strong> 읽는 순간 거의 비워진 셀이 충분히 재충전되지 못해, 다음 접근 전까지 약한 전하 상태로 남아 데이터 유실 위험이 커짐.</p>
-                                                    <p><strong class="text-emerald-700">개선:</strong> 센스 앰프 구동력 강화, tRAS 타이밍 마진 확보.</p>
+                                                    <p><strong class="text-slate-800">원인:</strong> 읽기 후 셀 복원이 부족함. 센스 앰프 구동력 저하 또는 tRAS 부족이 주요 원인.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 셀이 약한 전하 상태로 남아 다음 접근 전 데이터 유실 위험이 커짐.</p>
+                                                    <p><strong class="text-emerald-700">개선:</strong> 센스 앰프 구동력 강화. tRAS 타이밍 마진 확보.</p>
                                                 </div>
                                             </div>
 
@@ -1178,7 +2277,11 @@
                                             <span class="bg-blue-100 text-blue-700 w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl">S</span>
                                             <h4 class="text-2xl font-bold text-slate-900">SRAM Fail Mechanisms</h4>
                                         </div>
-                                        <p class="mb-6 text-slate-600">SRAM은 6개의 트랜지스터(6T)가 상호 대칭적인 래치(Latch) 구조를 이루어 작동합니다. 초고속 성능이 요구되는 환경이므로 찰나의 타이밍과 내부 노드 간의 미세한 전압 균형이 정상 동작의 핵심입니다.</p>
+                                        <ul class="mb-6 list-disc space-y-2 pl-5 text-slate-600">
+                                            <li>SRAM은 6개의 트랜지스터(6T)가 상호 대칭 래치(Latch) 구조를 이루어 데이터를 유지합니다.</li>
+                                            <li>초고속 동작이 필요한 구조라 읽기·쓰기 순간의 타이밍 마진이 중요합니다.</li>
+                                            <li>내부 노드 간 미세한 전압 균형이 무너지면 셀 안정성과 데이터 유지 특성이 약해질 수 있습니다.</li>
+                                        </ul>
 
                                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                             <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
@@ -1980,271 +3083,804 @@
                                 </div>
                             </div>
 
-                            <div class="card" data-part5-panel="flash-ssd" data-guidebook-toc-title="Flash / SSD" hidden>
-                                <div id="nand-operation-lab" data-nand-lab data-memory-tone="blue" data-running="false" class="mb-6 rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.06)]">
-                                    <div class="px-5 pt-5 pb-3 flex items-start justify-between gap-4">
-                                        <div>
-                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">NAND Operation Lab</div>
-                                            <h5 class="mt-2 text-[1.15rem] font-black text-slate-900">Nand - Program / Read / Erase</h5>
-                                            <p class="mt-2 text-sm leading-6 text-slate-600">NAND는 <strong class="text-slate-900">전하를 가두면 문턱전압(Vth)이 올라가고</strong>, 읽을 때는 <strong class="text-slate-900">전류가 흐르는지 여부</strong>로 데이터를 판별합니다.</p>
+<div class="card" data-part5-panel="flash-ssd" data-guidebook-toc-title="Flash / SSD" hidden>
+                                <div id="nand-operation-lab" data-nand-lab data-memory-tone="blue" data-running="false" class="nand-lab-replica mb-6 overflow-hidden">
+                                    <div class="nand-lab-appbar">
+                                        <div class="flex min-w-0 items-center gap-4">
+                                            <span class="nand-menu-icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+                                                    <path d="M4 7h16M4 12h16M4 17h16"/>
+                                                </svg>
+                                            </span>
+                                            <div class="truncate text-base font-extrabold tracking-[-0.02em] text-slate-950">NAND Operation Lab</div>
                                         </div>
-                                        <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-xs font-extrabold text-blue-600">SLC Example</span>
+                                        <span class="nand-lab-badge">
+                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+                                                <path d="M7 3h7l4 4v14H7z"/>
+                                                <path d="M14 3v5h5M10 13h6M10 17h6"/>
+                                            </svg>
+                                            SLC Example
+                                        </span>
                                     </div>
-                                    <div class="px-5 pb-3 flex flex-wrap items-center justify-between gap-3">
-                                        <div class="flex flex-wrap gap-2">
+                                    <div class="nand-lab-body">
+                                        <h5 class="text-[1.55rem] font-black leading-tight tracking-[-0.035em] text-slate-950">NAND - Program / Read / Erase</h5>
+                                        <p class="mt-3 text-[0.95rem] leading-7 text-slate-600">NAND는 전하를 가두면 문턱전압(Vth)이 올라가고, 읽을 때는 전류가 흐르는지 여부로 데이터를 판별합니다.</p>
+
+                                        <div class="nand-lab-tabs" role="tablist" aria-label="NAND operation mode">
                                             <button type="button" class="memory-op-btn" data-nand-action="program">Program</button>
                                             <button type="button" class="memory-op-btn" data-nand-action="read">Read</button>
                                             <button type="button" class="memory-op-btn" data-nand-action="erase">Erase</button>
                                         </div>
-                                    </div>
-                                    <div class="px-5">
-                                        <div class="memory-sim-panel border border-blue-100 p-4">
-                                            <div class="memory-summary-row">
-                                                <span class="memory-state-pill"><span>Stored State</span><strong data-nand-state-summary>Erased 1</strong></span>
-                                                <span class="memory-state-pill"><span>Threshold</span><strong data-nand-threshold-summary>Low Vth</strong></span>
-                                                <span class="memory-state-pill"><span>Read Current</span><strong data-nand-current-summary>Flows</strong></span>
-                                            </div>
-                                            <svg viewBox="0 0 620 272" class="memory-sim-svg w-full h-[286px] block xl:h-[306px]" aria-hidden="true">
+
+                                        <div class="memory-summary-row" aria-label="NAND read status summary">
+                                            <span class="memory-state-pill"><span>Stored State</span><strong data-nand-state-summary>Erased 1</strong></span>
+                                            <span class="memory-state-pill"><span>Threshold</span><strong data-nand-threshold-summary>Low Vth</strong></span>
+                                            <span class="memory-state-pill"><span>Read Current</span><strong data-nand-current-summary>Flows</strong></span>
+                                            <span class="memory-state-pill"><span>Flows</span><strong data-nand-flow-summary>Current flows (1)</strong></span>
+                                        </div>
+
+                                        <div class="memory-sim-panel mt-4">
+                                            <svg viewBox="0 0 1120 320" class="memory-sim-svg" aria-hidden="true">
                                                 <defs>
-                                                    <pattern id="nandLabGrid" width="18" height="18" patternUnits="userSpaceOnUse">
-                                                        <path d="M18 0H0V18" fill="none" stroke="#edf6ff" stroke-width="1"/>
-                                                    </pattern>
                                                     <linearGradient id="nandChannelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                        <stop offset="0%" stop-color="#60a5fa"/>
-                                                        <stop offset="50%" stop-color="#2563eb"/>
-                                                        <stop offset="100%" stop-color="#60a5fa"/>
+                                                        <stop offset="0%" stop-color="#7ab4ff"/>
+                                                        <stop offset="50%" stop-color="#0057ff"/>
+                                                        <stop offset="100%" stop-color="#7ab4ff"/>
                                                     </linearGradient>
                                                     <linearGradient id="nandChargeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                        <stop offset="0%" stop-color="#60a5fa"/>
-                                                        <stop offset="100%" stop-color="#2563eb"/>
+                                                        <stop offset="0%" stop-color="#74b4ff"/>
+                                                        <stop offset="100%" stop-color="#0057ff"/>
                                                     </linearGradient>
                                                     <linearGradient id="nandThresholdGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                                                        <stop offset="0%" stop-color="#60a5fa"/>
-                                                        <stop offset="100%" stop-color="#a855f7"/>
+                                                        <stop offset="0%" stop-color="#2f80ed"/>
+                                                        <stop offset="100%" stop-color="#0057ff"/>
                                                     </linearGradient>
+                                                    <marker id="nandLabArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                                                        <path d="M0 0L10 5L0 10Z" fill="#0057ff"/>
+                                                    </marker>
                                                 </defs>
-                                                <rect width="620" height="272" fill="url(#nandLabGrid)"/>
-                                                <rect x="18" y="20" width="584" height="232" rx="28" fill="#ffffff" stroke="#dbeafe" stroke-width="1.8"/>
+                                                <rect width="1120" height="320" fill="#ffffff"/>
 
-                                                <text x="57" y="48" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="900">Vth</text>
-                                                <rect x="46" y="62" width="22" height="126" rx="11" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
-                                                <rect data-nand-threshold-fill x="49" y="154" width="16" height="28" rx="8" fill="url(#nandThresholdGrad)"/>
-                                                <text x="57" y="202" text-anchor="middle" fill="#64748b" font-size="10" font-weight="900">Low</text>
-                                                <text x="57" y="74" text-anchor="middle" fill="#64748b" font-size="10" font-weight="900">High</text>
-                                                <text x="57" y="220" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900" data-nand-threshold-label>Low Vth</text>
+                                                <text x="246" y="38" text-anchor="middle" fill="#0057ff" font-size="16" font-weight="900">Vth</text>
+                                                <rect x="233" y="50" width="26" height="150" rx="13" fill="#f8fafc" stroke="#c7d1de" stroke-width="1.5"/>
+                                                <rect data-nand-threshold-fill x="238" y="154" width="16" height="28" rx="8" fill="url(#nandThresholdGrad)"/>
+                                                <text x="246" y="68" text-anchor="middle" fill="#4e5968" font-size="12" font-weight="700">High</text>
+                                                <text x="246" y="218" text-anchor="middle" fill="#4e5968" font-size="12" font-weight="700">Low</text>
+                                                <text x="246" y="245" text-anchor="middle" fill="#0057ff" font-size="14" font-weight="900" data-nand-threshold-label>Low Vth</text>
 
-                                                <text x="290" y="30" text-anchor="middle" fill="#2563eb" font-size="11" font-weight="900" data-nand-gate-label>Erase state keeps threshold low</text>
-                                                <rect data-nand-control-gate x="188" y="40" width="204" height="24" rx="12" fill="#94a3b8" stroke="#64748b" stroke-width="1.8"/>
-                                                <text x="290" y="56" text-anchor="middle" fill="#ffffff" font-size="10.8" font-weight="900">Control Gate</text>
+                                                <text x="560" y="32" text-anchor="middle" fill="#0057ff" font-size="16" font-weight="900" data-nand-gate-label>Erase state keeps threshold low</text>
+                                                <rect data-nand-control-gate x="440" y="50" width="240" height="30" rx="4" fill="#e7edf4" stroke="#191f28" stroke-width="1.5"/>
+                                                <text x="560" y="70" text-anchor="middle" fill="#191f28" font-size="13" font-weight="900">Control Gate</text>
 
-                                                <rect x="202" y="76" width="176" height="18" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
-                                                <text x="290" y="89" text-anchor="middle" fill="#64748b" font-size="9.6" font-weight="900">Inter-Poly Oxide</text>
+                                                <rect x="440" y="92" width="240" height="26" rx="4" fill="#f9fafb" stroke="#d0d7e2" stroke-width="1.2"/>
+                                                <text x="560" y="110" text-anchor="middle" fill="#4e5968" font-size="13" font-weight="700">Inter-Poly Oxide</text>
 
-                                                <rect x="212" y="96" width="156" height="30" rx="15" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.6"/>
-                                                <rect data-nand-charge-fill x="218" y="102" width="0" height="18" rx="9" fill="url(#nandChargeGrad)" opacity="0.9"/>
+                                                <rect x="440" y="132" width="240" height="40" rx="6" fill="#ffffff" stroke="#0057ff" stroke-width="1.6"/>
+                                                <rect data-nand-charge-fill x="448" y="143" width="0" height="18" rx="3" fill="url(#nandChargeGrad)" opacity="0.9"/>
                                                 <g data-nand-electron-group style="opacity:0">
-                                                    <circle cx="238" cy="111" r="3.3" fill="#ffffff"/>
-                                                    <circle cx="256" cy="111" r="3.3" fill="#ffffff"/>
-                                                    <circle cx="274" cy="111" r="3.3" fill="#ffffff"/>
-                                                    <circle cx="292" cy="111" r="3.3" fill="#ffffff"/>
-                                                    <circle cx="310" cy="111" r="3.3" fill="#ffffff"/>
-                                                    <circle cx="328" cy="111" r="3.3" fill="#ffffff"/>
+                                                    <circle cx="476" cy="152" r="4" fill="#ffffff"/>
+                                                    <circle cx="508" cy="152" r="4" fill="#ffffff"/>
+                                                    <circle cx="540" cy="152" r="4" fill="#ffffff"/>
+                                                    <circle cx="572" cy="152" r="4" fill="#ffffff"/>
+                                                    <circle cx="604" cy="152" r="4" fill="#ffffff"/>
+                                                    <circle cx="636" cy="152" r="4" fill="#ffffff"/>
                                                 </g>
-                                                <text x="290" y="142" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900" data-nand-charge-label>Charge Trap Empty</text>
+                                                <text x="560" y="158" text-anchor="middle" fill="#0057ff" font-size="13" font-weight="900" data-nand-charge-label>Charge Trap Empty</text>
 
-                                                <rect x="202" y="148" width="176" height="14" rx="7" fill="#ecfeff" stroke="#67e8f9" stroke-width="1.2"/>
-                                                <text x="290" y="159" text-anchor="middle" fill="#0f766e" font-size="9.5" font-weight="900">Tunnel Oxide</text>
+                                                <rect x="440" y="190" width="240" height="24" rx="5" fill="#ffffff" stroke="#26c6da" stroke-width="1.3"/>
+                                                <text x="560" y="207" text-anchor="middle" fill="#0891b2" font-size="12.5" font-weight="800">Tunnel Oxide</text>
 
-                                                <path d="M116 178H432" fill="none" stroke="#334155" stroke-width="3.4" stroke-linecap="round"/>
-                                                <rect x="104" y="164" width="24" height="28" rx="7" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.4"/>
-                                                <rect x="420" y="164" width="24" height="28" rx="7" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.4"/>
-                                                <text x="116" y="206" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900">Source</text>
-                                                <text x="432" y="206" text-anchor="middle" fill="#2563eb" font-size="10.4" font-weight="900">Drain</text>
-                                                <rect x="116" y="170" width="316" height="14" rx="7" fill="#dbeafe" opacity="0.44" data-nand-channel-glow/>
-                                                <rect x="116" y="170" width="316" height="14" rx="7" fill="url(#nandChannelGrad)" opacity="0.2" data-nand-channel-core/>
-                                                <rect data-nand-barrier x="278" y="158" width="24" height="38" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="1.6" opacity="0"/>
-                                                <text x="290" y="226" text-anchor="middle" fill="#2563eb" font-size="10.8" font-weight="900" data-nand-channel-label>Read current flows through the channel</text>
+                                                <path d="M330 249H790" fill="none" stroke="#8b95a1" stroke-width="2.2" stroke-linecap="square"/>
+                                                <rect x="312" y="226" width="34" height="44" rx="4" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+                                                <rect x="774" y="226" width="34" height="44" rx="4" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+                                                <text x="329" y="292" text-anchor="middle" fill="#0057ff" font-size="13" font-weight="900">Source</text>
+                                                <text x="791" y="292" text-anchor="middle" fill="#0057ff" font-size="13" font-weight="900">Drain</text>
+                                                <rect x="330" y="243" width="460" height="12" rx="6" fill="#dbeafe" opacity="0.42" data-nand-channel-glow/>
+                                                <rect x="330" y="243" width="460" height="12" rx="6" fill="url(#nandChannelGrad)" opacity="0.2" data-nand-channel-core/>
+                                                <path d="M330 249H790" fill="none" stroke="#0057ff" stroke-width="2.6" marker-end="url(#nandLabArrow)"/>
+                                                <rect data-nand-barrier x="548" y="224" width="28" height="48" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="1.6" opacity="0"/>
+                                                <text x="560" y="303" text-anchor="middle" fill="#0057ff" font-size="14" font-weight="900" data-nand-channel-label>Read current flows through the channel</text>
 
                                                 <g data-nand-program-flow style="opacity:0">
-                                                    <path d="M290 176C290 154 290 138 290 120" fill="none" stroke="#2563eb" stroke-width="2.6" stroke-dasharray="6 5" stroke-linecap="round"/>
-                                                    <polygon points="286,124 290,116 294,124" fill="#2563eb"/>
-                                                    <circle r="4.4" fill="#2563eb">
-                                                        <animateMotion dur="1.3s" repeatCount="indefinite" path="M290 176C290 154 290 138 290 120"/>
+                                                    <path d="M560 244C560 222 560 190 560 160" fill="none" stroke="#0057ff" stroke-width="2.6" stroke-dasharray="8 7" stroke-linecap="round"/>
+                                                    <polygon points="554,164 560,153 566,164" fill="#0057ff"/>
+                                                    <circle r="4.4" fill="#0057ff">
+                                                        <animateMotion dur="1.3s" repeatCount="indefinite" path="M560 244C560 222 560 190 560 160"/>
                                                     </circle>
                                                     <circle r="4.4" fill="#38bdf8">
-                                                        <animateMotion dur="1.3s" begin="0.35s" repeatCount="indefinite" path="M290 176C290 154 290 138 290 120"/>
+                                                        <animateMotion dur="1.3s" begin="0.35s" repeatCount="indefinite" path="M560 244C560 222 560 190 560 160"/>
                                                     </circle>
                                                 </g>
 
                                                 <g data-nand-erase-flow style="opacity:0">
-                                                    <path d="M290 120C290 138 290 154 290 176" fill="none" stroke="#f59e0b" stroke-width="2.6" stroke-dasharray="6 5" stroke-linecap="round"/>
-                                                    <polygon points="286,172 290,180 294,172" fill="#f59e0b"/>
-                                                    <circle r="4.4" fill="#f59e0b">
-                                                        <animateMotion dur="1.3s" repeatCount="indefinite" path="M290 120C290 138 290 154 290 176"/>
+                                                    <path d="M560 160C560 190 560 222 560 244" fill="none" stroke="#f97316" stroke-width="2.6" stroke-dasharray="8 7" stroke-linecap="round"/>
+                                                    <polygon points="554,237 560,249 566,237" fill="#f97316"/>
+                                                    <circle r="4.4" fill="#f97316">
+                                                        <animateMotion dur="1.3s" repeatCount="indefinite" path="M560 160C560 190 560 222 560 244"/>
                                                     </circle>
                                                     <circle r="4.4" fill="#fbbf24">
-                                                        <animateMotion dur="1.3s" begin="0.35s" repeatCount="indefinite" path="M290 120C290 138 290 154 290 176"/>
+                                                        <animateMotion dur="1.3s" begin="0.35s" repeatCount="indefinite" path="M560 160C560 190 560 222 560 244"/>
                                                     </circle>
                                                 </g>
 
                                                 <g data-nand-read-flow style="opacity:0">
-                                                    <path d="M116 177H452" fill="none" stroke="#38bdf8" stroke-width="2.8" stroke-dasharray="7 5" stroke-linecap="round"/>
-                                                    <circle r="4.3" fill="#2563eb">
-                                                        <animateMotion dur="1.45s" repeatCount="indefinite" path="M116 177H452"/>
+                                                    <path d="M330 249H802" fill="none" stroke="#0057ff" stroke-width="2.8" stroke-dasharray="10 8" stroke-linecap="round"/>
+                                                    <circle r="4.8" fill="#0057ff">
+                                                        <animateMotion dur="1.45s" repeatCount="indefinite" path="M330 249H802"/>
                                                     </circle>
-                                                    <circle r="4.3" fill="#38bdf8">
-                                                        <animateMotion dur="1.45s" begin="0.45s" repeatCount="indefinite" path="M116 177H452"/>
+                                                    <circle r="4.8" fill="#38bdf8">
+                                                        <animateMotion dur="1.45s" begin="0.45s" repeatCount="indefinite" path="M330 249H802"/>
                                                     </circle>
                                                 </g>
 
-                                                <rect data-nand-sense-box x="458" y="144" width="122" height="66" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.8"/>
-                                                <text x="519" y="162" text-anchor="middle" fill="#334155" font-size="10.2" font-weight="900">Sense Amp</text>
-                                                <circle data-nand-bit-bubble cx="490" cy="187" r="16" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.6"/>
-                                                <text x="490" y="192" text-anchor="middle" fill="#2563eb" font-size="14" font-weight="900" data-nand-bit-label>1</text>
-                                                <text x="528" y="183" fill="#2563eb" font-size="10.3" font-weight="900" data-nand-read-label>Current flows</text>
-                                                <text x="528" y="198" fill="#64748b" font-size="9.8" font-weight="900" data-nand-state-label>Erase state reads as 1</text>
+                                                <rect data-nand-sense-box x="842" y="218" width="156" height="84" rx="8" fill="#ffffff" stroke="#93b7ff" stroke-width="1.4"/>
+                                                <text x="920" y="240" text-anchor="middle" fill="#191f28" font-size="13" font-weight="900">Sense Amp</text>
+                                                <circle data-nand-bit-bubble cx="874" cy="263" r="22" fill="#f8fbff" stroke="#93b7ff" stroke-width="1.5"/>
+                                                <text x="874" y="270" text-anchor="middle" fill="#0057ff" font-size="20" font-weight="900" data-nand-bit-label>1</text>
+                                                <text x="915" y="263" fill="#0057ff" font-size="14" font-weight="900" data-nand-read-label>Current flows</text>
+                                                <text x="915" y="284" fill="#4e5968" font-size="12" font-weight="700" data-nand-state-label>Erase state reads as 1</text>
                                             </svg>
                                         </div>
-                                    </div>
-                                    <div class="px-5 pt-4">
-                                        <div class="memory-log-shell">
-                                            <span class="memory-log-badge is-active" data-nand-log-badge>Ready</span>
-                                            <p class="text-sm leading-6 text-slate-600 font-medium" data-nand-log>초기 상태는 erase 예시입니다. trapped charge가 거의 없어 문턱전압이 낮고, read 전압에서 채널 전류가 흘러 <strong class="text-slate-900">1</strong>로 감지됩니다.</p>
+
+                                        <div class="memory-log-shell mt-4">
+                                            <span class="memory-log-badge is-active" data-nand-log-badge>READY</span>
+                                            <p class="text-[0.95rem] leading-7 text-slate-600 font-medium" data-nand-log>초기 상태는 erase 예시입니다. trapped charge가 거의 없어 문턱전압이 낮고, read 전압에서 채널 전류가 흘러 <strong class="text-slate-900">1</strong>로 감지됩니다.</p>
                                         </div>
-                                    </div>
-                                    <div class="px-5 pt-4">
-                                        <div class="memory-stage-row">
+
+                                        <div class="memory-stage-row mt-4">
                                             <button type="button" class="memory-stage-chip" data-nand-stage-chip="idle">Start</button>
-                                            <button type="button" class="memory-stage-chip" data-nand-stage-chip="slot-a">Bias</button>
-                                            <button type="button" class="memory-stage-chip" data-nand-stage-chip="slot-b">Tunnel</button>
-                                            <button type="button" class="memory-stage-chip" data-nand-stage-chip="slot-c">Store</button>
-                                            <button type="button" class="memory-stage-chip" data-nand-stage-chip="done">Stable</button>
+                                            <button type="button" class="memory-stage-chip" data-nand-stage-chip="slot-a">Apply Vread</button>
+                                            <button type="button" class="memory-stage-chip" data-nand-stage-chip="slot-b">Compare Vth</button>
+                                            <button type="button" class="memory-stage-chip" data-nand-stage-chip="slot-c">Sense</button>
+                                            <button type="button" class="memory-stage-chip" data-nand-stage-chip="done">Bit Out</button>
                                         </div>
                                         <div class="memory-stage-note">Example SLC convention: <strong class="text-slate-900">Erase = low Vth = current flows = 1</strong>, <strong class="text-slate-900">Program = trapped charge = high Vth = blocked current = 0</strong>.</div>
-                                    </div>
-                                    <div class="px-5 pt-4 pb-5 flex flex-wrap gap-2">
-                                        <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Program = Vth Up</span>
-                                        <span class="inline-flex items-center rounded-full bg-sky-50 px-3 py-1.5 text-[11px] font-extrabold text-sky-600">Read by Current Sense</span>
-                                        <span class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1.5 text-[11px] font-extrabold text-amber-600">Erase = Charge Removal</span>
-                                        <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1.5 text-[11px] font-extrabold text-indigo-600">Non-Volatile Storage</span>
+
+                                        <div class="mt-4 flex flex-wrap gap-2">
+                                            <span class="nand-lab-feature-chip bg-blue-50 text-blue-700">Program = Vth Up</span>
+                                            <span class="nand-lab-feature-chip bg-cyan-50 text-cyan-700">Read by Current Sense</span>
+                                            <span class="nand-lab-feature-chip bg-orange-50 text-orange-600">Erase = Charge Removal</span>
+                                            <span class="nand-lab-feature-chip bg-violet-50 text-violet-700">Non-Volatile Storage</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="mb-6 rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.05)]">
-                                    <div class="px-5 pt-5 pb-3 flex items-center justify-between gap-4">
-                                        <div>
-                                            <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">Storage Stack</div>
-                                            <div class="mt-1 text-lg font-black text-slate-900">Flash Material to SSD Product</div>
-                                        </div>
-                                        <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Flash = Memory / SSD = System</span>
-                                    </div>
-                                    <svg viewBox="0 0 760 220" class="w-full h-[240px] block" aria-hidden="true">
-                                        <defs>
-                                            <pattern id="flashStackGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                                                <path d="M20 0H0V20" fill="none" stroke="#eef6ff" stroke-width="1"/>
-                                            </pattern>
-                                            <linearGradient id="flashCellGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#e0f2fe"/>
-                                                <stop offset="100%" stop-color="#bfdbfe"/>
-                                            </linearGradient>
-                                            <linearGradient id="flashPkgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#ede9fe"/>
-                                                <stop offset="100%" stop-color="#ddd6fe"/>
-                                            </linearGradient>
-                                            <linearGradient id="flashCtrlGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#dcfce7"/>
-                                                <stop offset="100%" stop-color="#bbf7d0"/>
-                                            </linearGradient>
-                                            <linearGradient id="flashSsdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#dbeafe"/>
-                                                <stop offset="100%" stop-color="#bfdbfe"/>
-                                            </linearGradient>
-                                        </defs>
-                                        <rect width="760" height="220" fill="url(#flashStackGrid)"/>
+                                <div id="nand-voltage-graphs" class="mb-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1536" height="840" viewBox="0 0 1536 840" role="img" aria-labelledby="nandTransferTitle nandTransferDesc" class="block w-full h-auto">
+                                      <title id="nandTransferTitle">I-D V-G Transfer Characteristics</title>
+                                      <desc id="nandTransferDesc">Transfer characteristic chart comparing erased and programmed NAND cell current across gate voltage, including Vread, Isense, erase, read, and program references.</desc>
+                                      <defs>
+                                        <filter id="nandTransferCardShadow" x="-3%" y="-3%" width="106%" height="108%">
+                                          <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#1e3a5f" flood-opacity="0.16"/>
+                                        </filter>
+                                        <filter id="nandTransferSoftShadow" x="-12%" y="-18%" width="124%" height="140%">
+                                          <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#334155" flood-opacity="0.15"/>
+                                        </filter>
+                                        <linearGradient id="nandTransferReadBand" x1="0" y1="0" x2="0" y2="1">
+                                          <stop offset="0" stop-color="#bbf7d0" stop-opacity="0.72"/>
+                                          <stop offset="1" stop-color="#ecfccb" stop-opacity="0.34"/>
+                                        </linearGradient>
+                                        <linearGradient id="nandTransferPanelWash" x1="0" y1="0" x2="1" y2="1">
+                                          <stop offset="0" stop-color="#ffffff"/>
+                                          <stop offset="1" stop-color="#f3f7fc"/>
+                                        </linearGradient>
+                                        <marker id="nandTransferBlueArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                                          <path d="M0 0L10 5L0 10Z" fill="#0b58cf"/>
+                                        </marker>
+                                        <marker id="nandTransferSmallBlueArrow" markerWidth="4" markerHeight="4" refX="3.2" refY="2" orient="auto">
+                                          <path d="M0 0L4 2L0 4Z" fill="#0b58cf"/>
+                                        </marker>
+                                      </defs>
 
-                                        <rect x="26" y="46" width="146" height="122" rx="24" fill="#ffffff" stroke="#dbeafe" stroke-width="2"/>
-                                        <rect x="60" y="68" width="78" height="16" rx="8" fill="#94a3b8"/>
-                                        <rect x="52" y="94" width="94" height="14" rx="7" fill="#e0f2fe" stroke="#60a5fa" stroke-width="1.4"/>
-                                        <rect x="68" y="114" width="62" height="18" rx="8" fill="url(#flashCellGrad)" stroke="#3b82f6" stroke-width="1.6"/>
-                                        <circle cx="80" cy="123" r="4" fill="#2563eb">
-                                            <animate attributeName="cy" values="136;123;123;136" dur="2.4s" repeatCount="indefinite"/>
-                                            <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" repeatCount="indefinite"/>
-                                        </circle>
-                                        <circle cx="94" cy="123" r="4" fill="#38bdf8">
-                                            <animate attributeName="cy" values="138;123;123;138" dur="2.4s" begin="0.35s" repeatCount="indefinite"/>
-                                            <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="0.35s" repeatCount="indefinite"/>
-                                        </circle>
-                                        <circle cx="108" cy="123" r="4" fill="#60a5fa">
-                                            <animate attributeName="cy" values="140;123;123;140" dur="2.4s" begin="0.7s" repeatCount="indefinite"/>
-                                            <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="0.7s" repeatCount="indefinite"/>
-                                        </circle>
-                                        <path d="M52 141H146" fill="none" stroke="#64748b" stroke-width="3.5" stroke-linecap="round"/>
-                                        <text x="99" y="154" text-anchor="middle" fill="#2563eb" font-size="10.2" font-weight="900">floating-gate charge storage</text>
-                                        <text x="99" y="184" text-anchor="middle" fill="#2563eb" font-size="12.5" font-weight="900">NAND Flash Cell</text>
+                                      <rect width="1536" height="840" fill="#f8fafc"/>
+                                      <rect x="15" y="14" width="1506" height="812" rx="0" fill="#ffffff" stroke="#bfd3eb" stroke-width="1.4" filter="url(#nandTransferCardShadow)"/>
 
-                                        <path d="M172 107H228" fill="none" stroke="#93c5fd" stroke-width="4.2" stroke-linecap="round"/>
-                                        <circle r="5" fill="#2563eb">
-                                            <animateMotion dur="1.8s" repeatCount="indefinite" path="M172 107H228"/>
-                                        </circle>
-
-                                        <rect x="228" y="34" width="150" height="146" rx="24" fill="#ffffff" stroke="#ddd6fe" stroke-width="2"/>
-                                        <text x="303" y="58" text-anchor="middle" fill="#7c3aed" font-size="12.2" font-weight="900">Flash Package / Die</text>
-                                        <g transform="translate(254 76)">
-                                            <rect x="0" y="0" width="96" height="82" rx="16" fill="url(#flashPkgGrad)" stroke="#8b5cf6" stroke-width="1.8"/>
-                                            <g fill="#ffffff" stroke="#c4b5fd" stroke-width="1">
-                                                <rect x="12" y="12" width="72" height="11" rx="4">
-                                                    <animate attributeName="fill" values="#ffffff;#ddd6fe;#ddd6fe;#ffffff" dur="2.6s" repeatCount="indefinite"/>
-                                                </rect>
-                                                <rect x="12" y="28" width="72" height="11" rx="4"/>
-                                                <rect x="12" y="44" width="72" height="11" rx="4"/>
-                                                <rect x="12" y="60" width="72" height="11" rx="4">
-                                                    <animate attributeName="fill" values="#ffffff;#ffffff;#fecaca;#ffffff" dur="2.6s" repeatCount="indefinite"/>
-                                                </rect>
-                                            </g>
-                                            <text x="48" y="-7" text-anchor="middle" fill="#7c3aed" font-size="9.8" font-weight="900">page write</text>
-                                            <text x="48" y="97" text-anchor="middle" fill="#ef4444" font-size="9.8" font-weight="900">block erase</text>
+                                      <g transform="translate(54 42)" data-icon="lucide-flask-conical">
+                                        <rect x="0" y="0" width="66" height="66" rx="14" fill="#f3f8ff" stroke="#bfd3eb" stroke-width="1.2"/>
+                                        <g transform="translate(8 7) scale(2.08)" fill="none" stroke="#1d72e8" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+                                          <path d="M10 2v7.31"/>
+                                          <path d="M14 9.3V2"/>
+                                          <path d="M8.5 2h7"/>
+                                          <path d="M14 9.3a6.5 6.5 0 1 1-4 0"/>
+                                          <path d="M5.52 16h12.96"/>
                                         </g>
-                                        <text x="303" y="196" text-anchor="middle" fill="#7c3aed" font-size="10.5" font-weight="900">write by page / erase by block</text>
+                                        <circle cx="30" cy="50" r="2.2" fill="#1d72e8" opacity="0.9"/>
+                                        <circle cx="39" cy="46" r="1.8" fill="#1d72e8" opacity="0.65"/>
+                                      </g>
+                                      <text x="130" y="94" fill="#0f172a" font-family="Pretendard, Inter, Arial, sans-serif" font-size="29.4" font-weight="700" letter-spacing="-0.7">I<tspan baseline-shift="sub" font-size="18.2">D</tspan>-V<tspan baseline-shift="sub" font-size="18.2">G</tspan> Transfer Characteristics</text>
+                                      <path d="M773 70v37" stroke="#b8c8da" stroke-width="2"/>
+                                      <text x="806" y="94" fill="#334155" font-family="Pretendard, Inter, Arial, sans-serif" font-size="23" font-weight="500">Erase / Read / Program Voltage Reference</text>
+                                      <path d="M16 139H1521" stroke="#d8e3f1" stroke-width="1.2"/>
 
-                                        <path d="M378 107H434" fill="none" stroke="#a78bfa" stroke-width="4.2" stroke-linecap="round"/>
-                                        <circle r="5" fill="#7c3aed">
-                                            <animateMotion dur="1.8s" begin="0.2s" repeatCount="indefinite" path="M378 107H434"/>
-                                        </circle>
+                                      <g font-family="Pretendard, Inter, Arial, sans-serif">
+                                        <text x="124" y="194" fill="#0057c8" font-size="22" font-weight="900">Cell Current (I<tspan baseline-shift="sub" font-size="14">D</tspan>)</text>
+                                        <text x="304" y="194" fill="#111827" font-size="18" font-weight="500">[A]</text>
+                                        <text x="660" y="193" text-anchor="middle" fill="#0057c8" font-size="19" font-weight="900">V<tspan baseline-shift="sub" font-size="12">read</tspan> (Read Reference)</text>
+                                        <text x="660" y="796" text-anchor="middle" fill="#0057c8" font-size="19" font-weight="900">Gate Voltage (V<tspan baseline-shift="sub" font-size="12">G</tspan>) <tspan fill="#111827" font-size="16" font-weight="500">[V]</tspan></text>
+                                      </g>
 
-                                        <rect x="434" y="34" width="146" height="146" rx="24" fill="#ffffff" stroke="#bbf7d0" stroke-width="2"/>
-                                        <text x="507" y="58" text-anchor="middle" fill="#16a34a" font-size="12.2" font-weight="900">Controller + Firmware</text>
-                                        <rect x="454" y="76" width="46" height="22" rx="9" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.5"/>
-                                        <rect x="517" y="76" width="42" height="22" rx="9" fill="#ecfccb" stroke="#84cc16" stroke-width="1.5"/>
-                                        <rect x="468" y="118" width="78" height="24" rx="10" fill="url(#flashCtrlGrad)" stroke="#22c55e" stroke-width="1.6"/>
-                                        <text x="477" y="90" text-anchor="middle" fill="#2563eb" font-size="9.6" font-weight="900">LBA</text>
-                                        <text x="538" y="90" text-anchor="middle" fill="#65a30d" font-size="9.6" font-weight="900">ECC</text>
-                                        <text x="507" y="133" text-anchor="middle" fill="#16a34a" font-size="10" font-weight="900">FTL + Wear Leveling</text>
-                                        <path d="M500 88H517" fill="none" stroke="#94a3b8" stroke-width="2.6" stroke-linecap="round"/>
-                                        <path d="M477 98V118" fill="none" stroke="#94a3b8" stroke-width="2.6" stroke-linecap="round"/>
-                                        <path d="M538 98V118" fill="none" stroke="#94a3b8" stroke-width="2.6" stroke-linecap="round"/>
-                                        <circle r="4.2" fill="#22c55e">
-                                            <animateMotion dur="2s" repeatCount="indefinite" path="M454 87H500V130H546"/>
-                                        </circle>
-                                        <text x="507" y="160" text-anchor="middle" fill="#16a34a" font-size="10.5" font-weight="900">logical to physical mapping</text>
+                                      <g transform="translate(52 304)" font-family="Pretendard, Inter, Arial, sans-serif">
+                                        <text x="21" y="12" text-anchor="middle" fill="#0057c8" font-size="18" font-weight="800">ON</text>
+                                        <text x="21" y="34" text-anchor="middle" fill="#0057c8" font-size="17" font-weight="700">(High)</text>
+                                        <path d="M21 53v223" stroke="#86b7fb" stroke-width="3"/>
+                                        <path d="M21 53l-7 14h14Z" fill="#5a98ed"/>
+                                        <path d="M21 276l-7-14h14Z" fill="#98a6b8"/>
+                                        <text x="21" y="298" text-anchor="middle" fill="#475569" font-size="18" font-weight="700">OFF</text>
+                                        <text x="21" y="320" text-anchor="middle" fill="#475569" font-size="17" font-weight="700">(Low)</text>
+                                      </g>
 
-                                        <path d="M580 107H638" fill="none" stroke="#4ade80" stroke-width="4.2" stroke-linecap="round"/>
-                                        <circle r="5" fill="#16a34a">
-                                            <animateMotion dur="1.8s" begin="0.4s" repeatCount="indefinite" path="M580 107H638"/>
-                                        </circle>
+                                      <g id="nandTransferChart" transform="translate(188 216)">
+                                        <rect x="0" y="0" width="934" height="468" fill="#ffffff"/>
+                                        <g stroke="#dbe5f1" stroke-width="1" stroke-dasharray="5 5">
+                                          <path d="M0 5H934"/><path d="M0 86H934"/><path d="M0 164H934"/><path d="M0 244H934"/><path d="M0 323H934"/><path d="M0 405H934"/>
+                                          <path d="M22 0V468"/><path d="M112 0V468"/><path d="M202 0V468"/><path d="M292 0V468"/><path d="M382 0V468"/><path d="M472 0V468"/><path d="M562 0V468"/><path d="M652 0V468"/><path d="M742 0V468"/><path d="M832 0V468"/><path d="M922 0V468"/>
+                                        </g>
+                                        <path d="M0 468H934" stroke="#0f172a" stroke-width="2"/>
+                                        <path d="M0 468V0" stroke="#0f172a" stroke-width="2"/>
 
-                                        <rect x="638" y="34" width="96" height="146" rx="24" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
-                                        <text x="686" y="58" text-anchor="middle" fill="#2563eb" font-size="12.2" font-weight="900">SSD</text>
-                                        <rect x="657" y="76" width="58" height="26" rx="10" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.6"/>
-                                        <rect x="651" y="114" width="20" height="28" rx="6" fill="url(#flashSsdGrad)" stroke="#3b82f6" stroke-width="1.4"/>
-                                        <rect x="676" y="114" width="20" height="28" rx="6" fill="url(#flashSsdGrad)" stroke="#3b82f6" stroke-width="1.4"/>
-                                        <rect x="701" y="114" width="20" height="28" rx="6" fill="url(#flashSsdGrad)" stroke="#3b82f6" stroke-width="1.4"/>
-                                        <text x="686" y="93" text-anchor="middle" fill="#2563eb" font-size="9.8" font-weight="900">controller</text>
-                                        <text x="686" y="160" text-anchor="middle" fill="#2563eb" font-size="10.5" font-weight="900">usable storage device</text>
-                                        <circle r="4.2" fill="#2563eb">
-                                            <animateMotion dur="1.8s" begin="0.7s" repeatCount="indefinite" path="M657 90H715V128H701"/>
-                                        </circle>
+                                        <g fill="#0f172a" font-family="Pretendard, Inter, Arial, sans-serif" font-size="22">
+                                          <text x="-16" y="14" text-anchor="end">10<tspan baseline-shift="super" font-size="13">-3</tspan></text>
+                                          <text x="-16" y="94" text-anchor="end">10<tspan baseline-shift="super" font-size="13">-5</tspan></text>
+                                          <text x="-16" y="173" text-anchor="end">10<tspan baseline-shift="super" font-size="13">-7</tspan></text>
+                                          <text x="-16" y="253" text-anchor="end">10<tspan baseline-shift="super" font-size="13">-9</tspan></text>
+                                          <text x="-16" y="333" text-anchor="end">10<tspan baseline-shift="super" font-size="13">-11</tspan></text>
+                                          <text x="-16" y="412" text-anchor="end">10<tspan baseline-shift="super" font-size="13">-13</tspan></text>
+                                          <text x="-16" y="474" text-anchor="end">10<tspan baseline-shift="super" font-size="13">-15</tspan></text>
+                                          <text x="22" y="498" text-anchor="middle">-2</text><text x="112" y="498" text-anchor="middle">-1</text><text x="202" y="498" text-anchor="middle">0</text>
+                                          <text x="292" y="498" text-anchor="middle">1</text><text x="382" y="498" text-anchor="middle">2</text><text x="472" y="498" text-anchor="middle">3</text>
+                                          <text x="562" y="498" text-anchor="middle">4</text><text x="652" y="498" text-anchor="middle">5</text><text x="742" y="498" text-anchor="middle">6</text>
+                                          <text x="832" y="498" text-anchor="middle">7</text><text x="922" y="498" text-anchor="middle">8</text>
+                                        </g>
+
+                                        <rect x="30" y="22" width="280" height="91" rx="10" fill="#ffffff" stroke="#cbd5e1" filter="url(#nandTransferSoftShadow)"/>
+                                        <path d="M50 48H80" stroke="#005dcc" stroke-width="4" stroke-linecap="round"/>
+                                        <text x="94" y="55" fill="#111827" font-family="Pretendard, Inter, Arial, sans-serif" font-size="16">Erased State (Low Vth)</text>
+                                        <path d="M50 84H80" stroke="#ff7300" stroke-width="4" stroke-linecap="round"/>
+                                        <text x="94" y="91" fill="#111827" font-family="Pretendard, Inter, Arial, sans-serif" font-size="16">Programmed State (High Vth)</text>
+
+                                        <path d="M22 416C112 416 202 415 258 405C308 396 331 370 342 323C360 250 392 143 421 92C456 48 512 28 606 25C702 22 828 23 925 23" fill="none" stroke="#0667d9" stroke-width="4" stroke-linecap="round"/>
+                                        <path d="M421 92C456 48 512 28 660 24" fill="none" stroke="#0667d9" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 11"/>
+                                        <path d="M472 416C540 416 595 411 630 384C668 352 680 296 706 219C738 126 792 59 874 32C900 25 920 23 934 23" fill="none" stroke="#ff7300" stroke-width="4" stroke-linecap="round"/>
+
+                                        <path d="M0 325H934" stroke="#334155" stroke-width="1.4" stroke-dasharray="6 6"/>
+                                        <text x="24" y="292" fill="#374151" font-family="Pretendard, Inter, Arial, sans-serif" font-size="16">I<tspan baseline-shift="sub" font-size="10">sense</tspan> (typ.)</text>
+                                        <text x="24" y="314" fill="#374151" font-family="Pretendard, Inter, Arial, sans-serif" font-size="15">~ 1e-11 A</text>
+
+                                        <path d="M472 -18V468" stroke="#005dcc" stroke-width="2" stroke-dasharray="8 7"/>
+                                        <circle cx="472" cy="64" r="8" fill="#005dcc"/>
+                                        <rect x="472" y="23" width="180" height="302" fill="url(#nandTransferReadBand)" opacity="0.72"/>
+                                        <circle cx="342" cy="325" r="7" fill="#005dcc"/>
+                                        <path d="M342 325V468" stroke="#005dcc" stroke-width="2" stroke-dasharray="4 5"/>
+                                        <circle cx="652" cy="325" r="7" fill="#ff7300"/>
+                                        <path d="M652 325V468" stroke="#ff7300" stroke-width="2" stroke-dasharray="4 5"/>
+
+                                        <g font-family="Pretendard, Inter, Arial, sans-serif" font-size="17" font-weight="800">
+                                          <text x="552" y="178" text-anchor="middle" fill="#0057c8">Read</text>
+                                          <text x="552" y="200" text-anchor="middle" fill="#0057c8">Sense</text>
+                                          <text x="552" y="222" text-anchor="middle" fill="#0057c8">Margin</text>
+                                          <path d="M490 242H632" stroke="#005dcc" stroke-width="3" marker-start="url(#nandTransferSmallBlueArrow)" marker-end="url(#nandTransferSmallBlueArrow)"/>
+                                          <text x="342" y="536" text-anchor="middle" fill="#0057c8">V<tspan baseline-shift="sub" font-size="11">th</tspan> (Erase)</text>
+                                          <text x="342" y="560" text-anchor="middle" fill="#0057c8">Low</text>
+                                          <text x="652" y="536" text-anchor="middle" fill="#ff7300">V<tspan baseline-shift="sub" font-size="11">th</tspan> (Program)</text>
+                                          <text x="652" y="560" text-anchor="middle" fill="#ff7300">High</text>
+                                        </g>
+                                      </g>
+
+                                      <g transform="translate(1171 174)" font-family="Pretendard, Inter, Arial, sans-serif">
+                                        <rect x="0" y="0" width="308" height="581" rx="13" fill="#ffffff" stroke="#c5d3e4" stroke-width="1.3"/>
+                                        <circle cx="28" cy="38" r="7" fill="#0667d9"/><text x="44" y="45" fill="#0057c8" font-size="20" font-weight="900">Erased State <tspan font-size="17" font-weight="500">(Low Vth)</tspan></text>
+                                        <g fill="#111827" font-size="16">
+                                          <text x="24" y="83">•  Lower threshold voltage</text>
+                                          <text x="24" y="117">•  Turns ON at lower V<tspan baseline-shift="sub" font-size="10">G</tspan></text>
+                                          <text x="24" y="151">•  Higher I<tspan baseline-shift="sub" font-size="10">D</tspan> at V<tspan baseline-shift="sub" font-size="10">read</tspan> → Read '1'</text>
+                                          <text x="24" y="185">•  Erase makes V<tspan baseline-shift="sub" font-size="10">th</tspan> lower</text>
+                                        </g>
+                                        <path d="M15 210H292" stroke="#dbe3ef"/>
+                                        <circle cx="28" cy="240" r="7" fill="#ff7300"/><text x="44" y="247" fill="#ff6600" font-size="20" font-weight="900">Programmed State <tspan font-size="17" font-weight="500">(High Vth)</tspan></text>
+                                        <g fill="#111827" font-size="16">
+                                          <text x="24" y="286">•  Higher threshold voltage</text>
+                                          <text x="24" y="320">•  Stays OFF at V<tspan baseline-shift="sub" font-size="10">read</tspan></text>
+                                          <text x="24" y="354">•  Lower I<tspan baseline-shift="sub" font-size="10">D</tspan> at V<tspan baseline-shift="sub" font-size="10">read</tspan> → Read '0'</text>
+                                          <text x="24" y="388">•  Program makes V<tspan baseline-shift="sub" font-size="10">th</tspan> higher</text>
+                                        </g>
+                                        <rect x="14" y="412" width="278" height="153" rx="9" fill="url(#nandTransferPanelWash)"/>
+                                        <text x="29" y="442" fill="#0057c8" font-size="18" font-weight="900">Read Operation</text>
+                                        <g fill="#111827" font-size="15">
+                                          <text x="29" y="470">•  Apply V<tspan baseline-shift="sub" font-size="10">read</tspan> to the gate</text>
+                                          <text x="29" y="495">•  Compare I<tspan baseline-shift="sub" font-size="10">D</tspan> with I<tspan baseline-shift="sub" font-size="10">sense</tspan></text>
+                                          <text x="29" y="520">•  Above I<tspan baseline-shift="sub" font-size="10">sense</tspan> → Erased (1)</text>
+                                          <text x="29" y="545">•  Below I<tspan baseline-shift="sub" font-size="10">sense</tspan> → Programmed (0)</text>
+                                        </g>
+                                      </g>
                                     </svg>
                                 </div>
-                                <div class="mb-6 rounded-[30px] border border-violet-100 bg-[radial-gradient(circle_at_top_right,_rgba(167,139,250,0.16),_transparent_36%),linear-gradient(180deg,_#ffffff_0%,_#fbf9ff_100%)] p-5 shadow-[0_14px_30px_rgba(139,92,246,0.06)]">
+                                <div class="flash-stack-replica mb-6 overflow-hidden">
+                                    <div class="p-5 lg:p-6">
+                                        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                                            <div>
+                                                <div class="stack-overline">Storage Stack</div>
+                                                <h3 class="mt-3 text-2xl font-black tracking-[-0.03em] text-slate-950">Flash Material to SSD Product</h3>
+                                            </div>
+                                            <span class="stack-badge">Flash = Memory&nbsp;&nbsp;/&nbsp;&nbsp;SSD = System</span>
+                                        </div>
+
+                                        <div class="stack-stage-grid mt-7">
+                                            <div class="stack-stage-card" style="--stage-color:#2563eb">
+                                                <span class="stack-link" aria-hidden="true"></span>
+                                                <div class="flex items-center gap-4">
+                                                    <span class="stack-stage-no">01</span>
+                                                    <div class="stack-stage-title">NAND Flash Cell</div>
+                                                </div>
+                                                <svg viewBox="0 0 256 172" class="mt-4 h-[9.7rem] w-full" role="img" aria-label="NAND flash cell floating gate storage diagram">
+                                                    <rect x="44" y="24" width="120" height="9" rx="2" fill="#9ca3af" stroke="#64748b" stroke-width="1.2"/>
+                                                    <rect x="182" y="18" width="58" height="22" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+                                                    <text x="211" y="32" text-anchor="middle" fill="#334155" font-size="8.6" font-weight="800">Control Gate</text>
+                                                    <rect x="44" y="56" width="120" height="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+                                                    <rect x="182" y="49" width="58" height="22" rx="5" fill="#eff6ff" stroke="#93c5fd"/>
+                                                    <text x="211" y="63" text-anchor="middle" fill="#2563eb" font-size="8.6" font-weight="900">Tunnel Oxide</text>
+                                                    <rect x="48" y="86" width="112" height="10" fill="#f8fafc" stroke="#0f172a" stroke-width="1.4"/>
+                                                    <rect x="182" y="80" width="58" height="22" rx="5" fill="#f8fafc" stroke="#93c5fd"/>
+                                                    <text x="211" y="94" text-anchor="middle" fill="#2563eb" font-size="8.4" font-weight="900">Floating Gate</text>
+                                                    <g fill="#60a5fa" stroke="#2563eb" stroke-width="1">
+                                                        <circle cx="66" cy="119" r="4"/>
+                                                        <circle cx="84" cy="119" r="4"/>
+                                                        <circle cx="102" cy="119" r="4"/>
+                                                        <circle cx="120" cy="119" r="4"/>
+                                                        <circle cx="138" cy="119" r="4"/>
+                                                    </g>
+                                                    <path d="M32 137H176" stroke="#64748b" stroke-width="3.4" stroke-linecap="square"/>
+                                                    <rect x="40" y="140" width="128" height="24" fill="#f1f5f9"/>
+                                                    <text x="104" y="157" text-anchor="middle" fill="#475569" font-size="9" font-weight="700">p-Si Substrate</text>
+                                                </svg>
+                                                <div class="stack-mini-label">floating-gate charge storage</div>
+                                                <div class="stack-subcopy mt-3">전하를 저장하는 기본 단위 (Cell)</div>
+                                            </div>
+
+                                            <div class="stack-stage-card" style="--stage-color:#7c3aed">
+                                                <span class="stack-link" aria-hidden="true"></span>
+                                                <div class="flex items-center gap-4">
+                                                    <span class="stack-stage-no">02</span>
+                                                    <div class="stack-stage-title">Flash Package / Die</div>
+                                                </div>
+                                                <div class="mt-4 rounded border border-violet-100 bg-white p-3">
+                                                    <div class="text-[11px] font-bold text-slate-600">Page</div>
+                                                    <div class="mt-2 flex items-center gap-1.5">
+                                                        <span class="h-3.5 w-5 rounded-sm bg-violet-400"></span>
+                                                        <span class="h-3.5 w-5 rounded-sm bg-violet-400"></span>
+                                                        <span class="h-3.5 w-5 rounded-sm bg-violet-400"></span>
+                                                        <span class="h-3.5 w-5 rounded-sm bg-violet-400"></span>
+                                                        <span class="h-3.5 w-5 rounded-sm bg-violet-400"></span>
+                                                        <span class="px-1 text-xs font-black text-slate-500">...</span>
+                                                        <span class="h-3.5 w-5 rounded-sm bg-violet-400"></span>
+                                                        <span class="h-3.5 w-5 rounded-sm bg-violet-400"></span>
+                                                        <span class="h-3.5 w-5 rounded-sm bg-violet-400"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2 rounded border border-violet-100 bg-white p-3">
+                                                    <div class="text-[11px] font-bold text-slate-600">Block</div>
+                                                    <div class="mt-2 grid grid-cols-8 gap-1">
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                        <span class="h-4 rounded-sm border border-violet-300 bg-violet-50"></span>
+                                                    </div>
+                                                    <div class="mt-3 flex items-center gap-4 text-[10px] font-bold text-slate-600">
+                                                        <span class="inline-flex items-center gap-1"><i class="h-2.5 w-2.5 bg-violet-500"></i>data</span>
+                                                        <span class="inline-flex items-center gap-1"><i class="h-2.5 w-2.5 border border-violet-400 bg-white"></i>spare (OOB)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="stack-mini-label mt-3">page write / block erase</div>
+                                                <div class="stack-subcopy mt-2">페이지 단위 쓰기 / 블록 단위 삭제</div>
+                                            </div>
+
+                                            <div class="stack-stage-card" style="--stage-color:#16a34a">
+                                                <span class="stack-link" aria-hidden="true"></span>
+                                                <div class="flex items-center gap-4">
+                                                    <span class="stack-stage-no">03</span>
+                                                    <div class="stack-stage-title">Controller + Firmware</div>
+                                                </div>
+                                                <div class="mt-4 rounded border border-emerald-100 bg-white p-2.5">
+                                                    <div class="mb-2 text-center text-[11px] font-black text-green-700">Controller Engine</div>
+                                                    <div class="grid grid-cols-3 gap-2">
+                                                        <div class="rounded border border-emerald-300 bg-green-50 px-2 py-3 text-center text-[11px] font-black text-slate-900">FTL<br><span class="text-[9px] font-bold">Mapping</span></div>
+                                                        <div class="rounded border border-emerald-300 bg-green-50 px-2 py-3 text-center text-[11px] font-black text-slate-900">ECC<br><span class="text-[9px] font-bold">Correction</span></div>
+                                                        <div class="rounded border border-emerald-300 bg-green-50 px-2 py-3 text-center text-[11px] font-black text-slate-900">Wear<br><span class="text-[9px] font-bold">Leveling</span></div>
+                                                    </div>
+                                                    <div class="mt-3 rounded border border-emerald-300 bg-green-50 py-1.5 text-center text-[11px] font-black text-green-800">Logical to Physical Mapping</div>
+                                                    <div class="mt-3 rounded border border-slate-200 bg-white px-3 py-2">
+                                                        <div class="text-[10px] font-black text-green-700">Firmware Functions</div>
+                                                        <ul class="mt-1 space-y-0.5 text-[10px] font-semibold leading-4 text-slate-700">
+                                                            <li>GC (Garbage Collection)</li>
+                                                            <li>Bad Block Management</li>
+                                                            <li>TRIM / Over-Provisioning</li>
+                                                            <li>Power Loss Protection</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="stack-stage-card" style="--stage-color:#2563eb">
+                                                <div class="flex items-center gap-4">
+                                                    <span class="stack-stage-no">04</span>
+                                                    <div class="stack-stage-title">SSD (System)</div>
+                                                </div>
+                                                <div class="ssd-three-wrap">
+                                                    <canvas data-ssd-three aria-label="Three.js rendered SSD device"></canvas>
+                                                    <div class="ssd-three-fallback" aria-hidden="true">SSD</div>
+                                                </div>
+                                                <div class="grid grid-cols-3 gap-2">
+                                                    <div class="rounded border border-slate-200 bg-white p-2 text-center">
+                                                        <div class="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-full border border-blue-200 text-blue-600">↗</div>
+                                                        <div class="text-[10px] font-bold text-slate-700">Performance</div>
+                                                    </div>
+                                                    <div class="rounded border border-slate-200 bg-white p-2 text-center">
+                                                        <div class="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-full border border-blue-200 text-blue-600">◇</div>
+                                                        <div class="text-[10px] font-bold text-slate-700">Reliability</div>
+                                                    </div>
+                                                    <div class="rounded border border-slate-200 bg-white p-2 text-center">
+                                                        <div class="mx-auto mb-1 flex h-6 w-6 items-center justify-center rounded-full border border-blue-200 text-blue-600">▦</div>
+                                                        <div class="text-[10px] font-bold text-slate-700">Usable Capacity</div>
+                                                    </div>
+                                                </div>
+                                                <div class="stack-mini-label mt-4">usable storage device</div>
+                                                <div class="stack-subcopy mt-2">호스트에서 사용하는 최종 저장장치</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="stack-row-shell mt-6">
+                                            <div class="stack-row-label">Data Flow</div>
+                                            <div class="stack-flow-items">
+                                                <div class="stack-flow-item" style="--stage-color:#2563eb">
+                                                    <span class="stack-flow-icon"><svg viewBox="0 0 24 24" class="h-4 w-4"><path d="M7 3h7l4 4v14H7V3Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 3v5h5M9 13h6M9 17h6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+                                                    <span>Host Data</span>
+                                                </div>
+                                                <span class="stack-flow-arrow" aria-hidden="true">→</span>
+                                                <div class="stack-flow-item" style="--stage-color:#16a34a">
+                                                    <span class="stack-flow-icon"><svg viewBox="0 0 24 24" class="h-4 w-4"><path d="M7 7h10v10H7V7Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 9h3M4 15h3M17 9h3M17 15h3M9 4v3M15 4v3M9 17v3M15 17v3" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+                                                    <span>Controller (FTL)</span>
+                                                </div>
+                                                <span class="stack-flow-arrow" aria-hidden="true">→</span>
+                                                <div class="stack-flow-item" style="--stage-color:#7c3aed">
+                                                    <span class="stack-flow-icon"><svg viewBox="0 0 24 24" class="h-4 w-4"><ellipse cx="12" cy="6" rx="7" ry="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+                                                    <span>NAND I/O</span>
+                                                </div>
+                                                <span class="stack-flow-arrow" aria-hidden="true">→</span>
+                                                <div class="stack-flow-item" style="--stage-color:#7c3aed">
+                                                    <span class="stack-flow-icon"><svg viewBox="0 0 24 24" class="h-4 w-4"><path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+                                                    <span>NAND Array</span>
+                                                </div>
+                                                <span class="stack-flow-arrow" aria-hidden="true">→</span>
+                                                <div class="stack-flow-item" style="--stage-color:#7c3aed">
+                                                    <span class="stack-flow-icon"><svg viewBox="0 0 24 24" class="h-4 w-4"><path d="M5 19l4.5-1 9-9a2.1 2.1 0 0 0-3-3l-9 9L5 19Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 8l3 3" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+                                                    <span>Program / Read / Erase</span>
+                                                </div>
+                                                <span class="stack-flow-arrow" aria-hidden="true">→</span>
+                                                <div class="stack-flow-item" style="--stage-color:#16a34a">
+                                                    <span class="stack-flow-icon"><svg viewBox="0 0 24 24" class="h-4 w-4"><path d="M12 3l7 3v5c0 4.8-3.1 8.1-7 10-3.9-1.9-7-5.2-7-10V6l7-3Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 12.2l2.2 2.2 4.8-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+                                                    <span>Data Integrity (ECC)</span>
+                                                </div>
+                                                <span class="stack-flow-arrow" aria-hidden="true">→</span>
+                                                <div class="stack-flow-item" style="--stage-color:#2563eb">
+                                                    <span class="stack-flow-icon"><svg viewBox="0 0 24 24" class="h-4 w-4"><path d="M12 4v12M7 9l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 20h14" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+                                                    <span>Data Return</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="stack-row-shell mt-3">
+                                            <div class="stack-row-label text-slate-600">Legend</div>
+                                            <div class="stack-legend">
+                                                <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                                                    <div class="flex items-center gap-2" style="--stage-color:#2563eb"><span class="stack-legend-dot"></span>Material / Cell Layer</div>
+                                                    <div class="flex items-center gap-2" style="--stage-color:#7c3aed"><span class="stack-legend-dot"></span>Package / Die Layer</div>
+                                                    <div class="flex items-center gap-2" style="--stage-color:#16a34a"><span class="stack-legend-dot"></span>Controller / Firmware Layer</div>
+                                                    <div class="flex items-center gap-2" style="--stage-color:#2563eb"><span class="stack-legend-dot"></span>System / Product Layer</div>
+                                                </div>
+                                                <div class="border-l border-slate-200 pl-6">
+                                                    <div class="text-xs font-black text-slate-700">Key Protocols</div>
+                                                    <div class="mt-1 flex flex-wrap gap-x-6 gap-y-1 text-xs text-slate-600">
+                                                        <span><strong class="text-slate-800">ONFI</strong> : Open NAND Flash Interface</span>
+                                                        <span><strong class="text-slate-800">PCIe / SATA</strong> : Host Interface</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="stack-info-grid mt-5">
+                                            <div class="stack-info-card" style="--stage-color:#2563eb">
+                                                <div class="stack-info-icon"><svg viewBox="0 0 64 64" class="h-14 w-14"><circle cx="32" cy="32" r="4" fill="currentColor"/><ellipse cx="32" cy="32" rx="26" ry="9" fill="none" stroke="currentColor" stroke-width="3"/><ellipse cx="32" cy="32" rx="26" ry="9" fill="none" stroke="currentColor" stroke-width="3" transform="rotate(60 32 32)"/><ellipse cx="32" cy="32" rx="26" ry="9" fill="none" stroke="currentColor" stroke-width="3" transform="rotate(120 32 32)"/></svg></div>
+                                                <div>
+                                                    <div class="text-sm font-black text-slate-900"><span class="text-blue-600">01</span>&nbsp;&nbsp;NAND Flash Cell</div>
+                                                    <ul class="mt-3 space-y-1.5 text-xs font-medium leading-5 text-slate-600">
+                                                        <li>Floating gate에 전하를 저장하여 0/1을 표현</li>
+                                                        <li>수십 ~ 수백 개의 cell이 모여 page 구성</li>
+                                                        <li>p-Si substrate 위에 적층 구조 형성</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="stack-info-card" style="--stage-color:#7c3aed">
+                                                <div class="stack-info-icon"><svg viewBox="0 0 64 64" class="h-14 w-14"><path d="M32 8 8 20l24 12 24-12L32 8Z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M8 30l24 12 24-12M8 40l24 12 24-12" fill="none" stroke="currentColor" stroke-width="3"/></svg></div>
+                                                <div>
+                                                    <div class="text-sm font-black text-slate-900"><span class="text-violet-600">02</span>&nbsp;&nbsp;Flash Package / Die</div>
+                                                    <ul class="mt-3 space-y-1.5 text-xs font-medium leading-5 text-slate-600">
+                                                        <li>Page: 읽기/쓰기의 최소 단위</li>
+                                                        <li>Block: 삭제(erase)의 최소 단위</li>
+                                                        <li>Spare(OOB) 영역으로 신뢰성 확보</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="stack-info-card" style="--stage-color:#16a34a">
+                                                <div class="stack-info-icon"><svg viewBox="0 0 64 64" class="h-14 w-14"><rect x="16" y="16" width="32" height="32" fill="none" stroke="currentColor" stroke-width="3"/><rect x="24" y="24" width="16" height="16" fill="currentColor" opacity="0.25"/><path d="M8 20h8M8 28h8M8 36h8M8 44h8M48 20h8M48 28h8M48 36h8M48 44h8M20 8v8M28 8v8M36 8v8M44 8v8M20 48v8M28 48v8M36 48v8M44 48v8" stroke="currentColor" stroke-width="3"/></svg></div>
+                                                <div>
+                                                    <div class="text-sm font-black text-slate-900"><span class="text-green-600">03</span>&nbsp;&nbsp;Controller + Firmware</div>
+                                                    <ul class="mt-3 space-y-1.5 text-xs font-medium leading-5 text-slate-600">
+                                                        <li>FTL이 Logical ↔ Physical 주소 변환</li>
+                                                        <li>ECC로 데이터 오류 검출 및 정정</li>
+                                                        <li>Wear Leveling으로 수명 균일화</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="stack-info-card" style="--stage-color:#2563eb">
+                                                <div class="stack-info-icon"><svg viewBox="0 0 64 64" class="h-14 w-14"><rect x="18" y="8" width="28" height="48" rx="3" fill="none" stroke="currentColor" stroke-width="3"/><text x="32" y="34" text-anchor="middle" fill="currentColor" font-size="12" font-weight="900">SSD</text></svg></div>
+                                                <div>
+                                                    <div class="text-sm font-black text-slate-900"><span class="text-blue-600">04</span>&nbsp;&nbsp;SSD (System)</div>
+                                                    <ul class="mt-3 space-y-1.5 text-xs font-medium leading-5 text-slate-600">
+                                                        <li>고성능, 고신뢰성, 대용량 저장장치 제공</li>
+                                                        <li>호스트 인터페이스로 시스템과 연결</li>
+                                                        <li>사용 가능한 용량(Usable Capacity) 제공</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-5 flex items-center gap-3 border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600">
+                                            <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-600 text-xs font-black text-white">i</span>
+                                            계층이 올라갈수록 추상화와 부가 기능이 더해져, 원시 NAND 소재가 신뢰성 있고 사용 가능한 SSD 제품으로 완성됩니다.
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    (() => {
+                                        const initSsdThree = () => {
+                                            if (!window.THREE) return;
+
+                                            document.querySelectorAll('[data-ssd-three]:not([data-ssd-three-ready])').forEach((canvas) => {
+                                                canvas.dataset.ssdThreeReady = 'true';
+                                                const wrap = canvas.closest('.ssd-three-wrap');
+                                                const scene = new THREE.Scene();
+                                                const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+                                                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+                                                const camera = new THREE.OrthographicCamera(-3, 3, 1.8, -1.8, 0.1, 100);
+                                                camera.position.set(2.8, 1.6, 4.2);
+                                                camera.lookAt(0, 0, 0);
+
+                                                const light = new THREE.DirectionalLight(0xffffff, 2.2);
+                                                light.position.set(2, 3, 4);
+                                                scene.add(light);
+                                                scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+
+                                                const labelCanvas = document.createElement('canvas');
+                                                labelCanvas.width = 512;
+                                                labelCanvas.height = 256;
+                                                const ctx = labelCanvas.getContext('2d');
+                                                const grad = ctx.createLinearGradient(0, 0, 512, 256);
+                                                grad.addColorStop(0, '#1f2937');
+                                                grad.addColorStop(1, '#020617');
+                                                ctx.fillStyle = grad;
+                                                ctx.fillRect(0, 0, 512, 256);
+                                                ctx.strokeStyle = '#334155';
+                                                ctx.lineWidth = 8;
+                                                ctx.strokeRect(10, 10, 492, 236);
+                                                ctx.fillStyle = '#ffffff';
+                                                ctx.font = '900 84px Pretendard, Arial, sans-serif';
+                                                ctx.fillText('SSD', 64, 145);
+                                                ctx.beginPath();
+                                                ctx.arc(438, 134, 10, 0, Math.PI * 2);
+                                                ctx.fillStyle = '#2563eb';
+                                                ctx.fill();
+
+                                                const frontTexture = new THREE.CanvasTexture(labelCanvas);
+                                                if ('colorSpace' in frontTexture && THREE.SRGBColorSpace) {
+                                                    frontTexture.colorSpace = THREE.SRGBColorSpace;
+                                                }
+
+                                                const side = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.55, metalness: 0.15 });
+                                                const top = new THREE.MeshStandardMaterial({ color: 0x273449, roughness: 0.45, metalness: 0.18 });
+                                                const front = new THREE.MeshStandardMaterial({ map: frontTexture, roughness: 0.48, metalness: 0.08 });
+                                                const ssd = new THREE.Mesh(new THREE.BoxGeometry(3.65, 1.45, 0.32), [side, side, top, side, front, side]);
+                                                ssd.rotation.x = -0.05;
+                                                ssd.rotation.y = -0.18;
+                                                scene.add(ssd);
+
+                                                const edge = new THREE.LineSegments(
+                                                    new THREE.EdgesGeometry(ssd.geometry),
+                                                    new THREE.LineBasicMaterial({ color: 0x475569, transparent: true, opacity: 0.65 })
+                                                );
+                                                edge.rotation.copy(ssd.rotation);
+                                                scene.add(edge);
+
+                                                const render = () => {
+                                                    const rect = canvas.getBoundingClientRect();
+                                                    const width = Math.max(1, Math.floor(rect.width));
+                                                    const height = Math.max(1, Math.floor(rect.height));
+                                                    renderer.setSize(width, height, false);
+                                                    ssd.rotation.y = -0.18 + Math.sin(Date.now() / 1700) * 0.018;
+                                                    edge.rotation.copy(ssd.rotation);
+                                                    renderer.render(scene, camera);
+                                                    wrap?.classList.add('is-rendered');
+                                                    requestAnimationFrame(render);
+                                                };
+
+                                                render();
+                                            });
+                                        };
+
+                                        if (document.readyState === 'loading') {
+                                            document.addEventListener('DOMContentLoaded', initSsdThree, { once: true });
+                                        } else {
+                                            initSsdThree();
+                                        }
+                                    })();
+                                </script>
+                                <div class="nand-hierarchy-replica mb-6">
+                                    <div class="hierarchy-overline mb-3">NAND HIERARCHY</div>
+
+                                    <div class="hierarchy-card overflow-hidden">
+                                        <div class="px-5 pt-5 pb-3 lg:px-6 lg:pt-6">
+                                            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                                <div class="hierarchy-map-heading">
+                                                    <div class="hierarchy-overline">HIERARCHY MAP</div>
+                                                    <div class="hierarchy-title mt-1">Nested View</div>
+                                                    <div class="hierarchy-flow" aria-label="Nested NAND hierarchy: Page, Block, Plane, Die, Package">
+                                                        <div class="hierarchy-flow-node" style="--item-color:#0057d9;">
+                                                            <span class="hierarchy-flow-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h8v11H4zM6 5h4M6 8h4M6 11h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+                                                            <span class="hierarchy-flow-copy"><strong>Page</strong><small>read / program row</small></span>
+                                                        </div>
+                                                        <div class="hierarchy-flow-node" style="--item-color:#7c3aed;">
+                                                            <span class="hierarchy-flow-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 2.5 13 5v6L8 13.5 3 11V5zM3 5l5 2.5L13 5M8 7.5v6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+                                                            <span class="hierarchy-flow-copy"><strong>Block</strong><small>erase range</small></span>
+                                                        </div>
+                                                        <div class="hierarchy-flow-node" style="--item-color:#d946ef;">
+                                                            <span class="hierarchy-flow-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 3v3M4 9V6h8v3M2.5 9h3v4h-3zM6.5 9h3v4h-3zM10.5 9h3v4h-3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+                                                            <span class="hierarchy-flow-copy"><strong>Plane</strong><small>parallel array</small></span>
+                                                        </div>
+                                                        <div class="hierarchy-flow-node" style="--item-color:#059669;">
+                                                            <span class="hierarchy-flow-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><rect x="4.5" y="4.5" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><path d="M2 5.5h2.5M2 8h2.5M2 10.5h2.5M11.5 5.5H14M11.5 8H14M11.5 10.5H14M5.5 2v2.5M8 2v2.5M10.5 2v2.5M5.5 11.5V14M8 11.5V14M10.5 11.5V14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+                                                            <span class="hierarchy-flow-copy"><strong>Die</strong><small>silicon unit</small></span>
+                                                        </div>
+                                                        <div class="hierarchy-flow-node" style="--item-color:#0057d9;">
+                                                            <span class="hierarchy-flow-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><rect x="3" y="3" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 6h5M5.5 8h5M5.5 10h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>
+                                                            <span class="hierarchy-flow-copy"><strong>Package</strong><small>external unit</small></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span class="hierarchy-mode-pill">read / program / erase / parallel</span>
+                                            </div>
+
+                                            <div class="hierarchy-diagram-wrap">
+                                                <svg viewBox="0 0 1160 392" class="hierarchy-diagram" role="img" aria-label="NAND hierarchy map from page to package">
+                                                    <rect x="120" y="18" width="900" height="320" fill="#ffffff" stroke="#2563eb" stroke-width="1.2"/>
+                                                    <text x="142" y="48" fill="#0057d9" font-size="18" font-weight="900">Package</text>
+                                                    <text x="142" y="70" fill="#1f2937" font-size="12" font-weight="650">Board-mounted external unit</text>
+
+                                                    <rect x="142" y="92" width="856" height="248" fill="#ffffff" stroke="#059669" stroke-width="1.2"/>
+                                                    <text x="162" y="116" fill="#047857" font-size="17" font-weight="900">Die</text>
+                                                    <text x="162" y="138" fill="#1f2937" font-size="12" font-weight="650">Silicon die containing the storage array</text>
+
+                                                    <g>
+                                                        <rect x="162" y="150" width="286" height="158" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+                                                        <text x="305" y="174" text-anchor="middle" fill="#0057d9" font-size="14" font-weight="900">Plane A</text>
+                                                        <rect x="178" y="188" width="254" height="86" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+                                                        <text x="190" y="206" fill="#0057d9" font-size="10.5" font-weight="900">Page rows</text>
+                                                        <rect x="190" y="216" width="230" height="9" rx="2" fill="#eff6ff" stroke="#2563eb" stroke-width="0.8"/>
+                                                        <rect x="190" y="229" width="230" height="9" rx="2" fill="#ffffff" stroke="#2563eb" stroke-width="0.8"/>
+                                                        <rect x="190" y="242" width="230" height="9" rx="2" fill="#ffffff" stroke="#2563eb" stroke-width="0.8"/>
+                                                        <rect x="190" y="255" width="230" height="9" rx="2" fill="#ffffff" stroke="#2563eb" stroke-width="0.8"/>
+                                                        <rect x="178" y="284" width="254" height="24" fill="#f8fbff" stroke="#d9dee7" stroke-width="1"/>
+                                                        <text x="305" y="301" text-anchor="middle" fill="#0057d9" font-size="12" font-weight="900">Selected block</text>
+                                                    </g>
+
+                                                    <g>
+                                                        <rect x="482" y="150" width="280" height="158" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+                                                        <text x="622" y="174" text-anchor="middle" fill="#0057d9" font-size="14" font-weight="900">Plane B</text>
+                                                        <rect x="507" y="192" width="105" height="32" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+                                                        <rect x="627" y="192" width="105" height="32" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+                                                        <rect x="507" y="238" width="105" height="32" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+                                                        <rect x="627" y="238" width="105" height="32" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+                                                        <rect x="482" y="284" width="280" height="24" fill="#f8fbff" stroke="#d9dee7" stroke-width="1"/>
+                                                        <text x="622" y="301" text-anchor="middle" fill="#0057d9" font-size="12" font-weight="900">Plane-level parallelism</text>
+                                                    </g>
+
+                                                    <g>
+                                                        <rect x="798" y="150" width="176" height="158" fill="#ffffff" stroke="#059669" stroke-width="1"/>
+                                                        <rect x="830" y="174" width="112" height="24" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1"/>
+                                                        <rect x="830" y="214" width="112" height="24" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1"/>
+                                                        <rect x="830" y="254" width="112" height="24" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1"/>
+                                                        <rect x="798" y="284" width="176" height="24" fill="#f8fffc" stroke="#d9dee7" stroke-width="1"/>
+                                                        <text x="886" y="301" text-anchor="middle" fill="#047857" font-size="12" font-weight="900">Multiple dies per package</text>
+                                                    </g>
+
+                                                    <text x="162" y="330" fill="#0057d9" font-size="14" font-weight="900">Page = read/program, Block = erase</text>
+                                                </svg>
+                                            </div>
+                                        </div>
+
+                                        <div class="hierarchy-chip-row">
+                                            <span class="hierarchy-chip" style="--chip-color:#0057d9; --item-color:#0057d9;">
+                                                <span class="hierarchy-chip-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h8v11H4zM6 5h4M6 8h4M6 11h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+                                                Page Access
+                                            </span>
+                                            <span class="hierarchy-chip" style="--chip-color:#7c3aed; --item-color:#7c3aed;">
+                                                <span class="hierarchy-chip-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2.5 13 5v6L8 13.5 3 11V5zM3 5l5 2.5L13 5M8 7.5v6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+                                                Block Erase
+                                            </span>
+                                            <span class="hierarchy-chip" style="--chip-color:#d946ef; --item-color:#d946ef;">
+                                                <span class="hierarchy-chip-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v3M4 9V6h8v3M2.5 9h3v4h-3zM6.5 9h3v4h-3zM10.5 9h3v4h-3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+                                                Plane Parallelism
+                                            </span>
+                                            <span class="hierarchy-chip" style="--chip-color:#059669; --item-color:#059669;">
+                                                <span class="hierarchy-chip-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="4.5" y="4.5" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><path d="M2 5.5h2.5M2 8h2.5M2 10.5h2.5M11.5 5.5H14M11.5 8H14M11.5 10.5H14M5.5 2v2.5M8 2v2.5M10.5 2v2.5M5.5 11.5V14M8 11.5V14M10.5 11.5V14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+                                                Die Scale-Up
+                                            </span>
+                                            <span class="hierarchy-chip" style="--chip-color:#0057d9; --item-color:#0057d9;">
+                                                <span class="hierarchy-chip-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="3" y="3" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 6h5M5.5 8h5M5.5 10h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>
+                                                Package Integration
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="hierarchy-card mt-3 px-5 py-5 lg:px-6">
+                                        <div class="hierarchy-overline">HIERARCHY LADDER</div>
+                                        <div class="hierarchy-ladder-list">
+                                            <div class="hierarchy-ladder-row" style="--item-color:#0057d9;">
+                                                <span class="hierarchy-ladder-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h8v11H4zM6 5h4M6 8h4M6 11h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+                                                <span class="hierarchy-ladder-term">Page</span>
+                                                <span class="hierarchy-ladder-desc">Row-based access unit</span>
+                                            </div>
+                                            <div class="hierarchy-ladder-row" style="--item-color:#7c3aed;">
+                                                <span class="hierarchy-ladder-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2.5 13 5v6L8 13.5 3 11V5zM3 5l5 2.5L13 5M8 7.5v6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+                                                <span class="hierarchy-ladder-term">Block</span>
+                                                <span class="hierarchy-ladder-desc">Erase range made of multiple pages</span>
+                                            </div>
+                                            <div class="hierarchy-ladder-row" style="--item-color:#d946ef;">
+                                                <span class="hierarchy-ladder-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v3M4 9V6h8v3M2.5 9h3v4h-3zM6.5 9h3v4h-3zM10.5 9h3v4h-3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+                                                <span class="hierarchy-ladder-term">Plane</span>
+                                                <span class="hierarchy-ladder-desc">Block array and parallelism unit</span>
+                                            </div>
+                                            <div class="hierarchy-ladder-row" style="--item-color:#059669;">
+                                                <span class="hierarchy-ladder-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="4.5" y="4.5" width="7" height="7" stroke="currentColor" stroke-width="1.5"/><path d="M2 5.5h2.5M2 8h2.5M2 10.5h2.5M11.5 5.5H14M11.5 8H14M11.5 10.5H14M5.5 2v2.5M8 2v2.5M10.5 2v2.5M5.5 11.5V14M8 11.5V14M10.5 11.5V14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+                                                <span class="hierarchy-ladder-term">Die</span>
+                                                <span class="hierarchy-ladder-desc">Physical NAND silicon storage chip</span>
+                                            </div>
+                                            <div class="hierarchy-ladder-row" style="--item-color:#0057d9;">
+                                                <span class="hierarchy-ladder-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="3" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 6h5M5.5 8h5M5.5 10h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>
+                                                <span class="hierarchy-ladder-term">Package</span>
+                                                <span class="hierarchy-ladder-desc">Physical assembly with external interface</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hidden mb-6 rounded-[30px] border border-violet-100 bg-[radial-gradient(circle_at_top_right,_rgba(167,139,250,0.16),_transparent_36%),linear-gradient(180deg,_#ffffff_0%,_#fbf9ff_100%)] p-5 shadow-[0_14px_30px_rgba(139,92,246,0.06)]">
                                     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-5">
                                         <div>
                                             <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-violet-500">NAND Hierarchy</div>
@@ -3160,7 +4796,7 @@
                                 </div>
                             </div>
 
-                            <div class="card bg-white border-blue-100" data-part5-panel="mos-basics" data-guidebook-toc-title="MOS Basic" hidden>
+<div class="card bg-white border-blue-100" data-part5-panel="mos-basics" data-guidebook-toc-title="MOS Basic" hidden>
                                 <div class="bg-white rounded-3xl border border-gray-100 p-6 mb-5 overflow-hidden shadow-[0_12px_30px_rgba(15,23,42,0.04)]">
                                     <div class="flex items-center justify-between gap-4 mb-4">
                                         <div>
@@ -3646,7 +5282,7 @@
                         </div>
                     </section>
     </main>
-    <script src="../../assets/guidebook-page-common.js"></script>
+    <script src="../../assets/guidebook-page-common.js?v=page-common-guard-2"></script>
     <script>
         window.GuidebookPage.initActionSectionPage({
             defaultKey: 'finfet-planar',
@@ -3671,6 +5307,7 @@
                 stateSummary: root.querySelector('[data-nand-state-summary]'),
                 thresholdSummary: root.querySelector('[data-nand-threshold-summary]'),
                 currentSummary: root.querySelector('[data-nand-current-summary]'),
+                flowSummary: root.querySelector('[data-nand-flow-summary]'),
                 thresholdFill: root.querySelector('[data-nand-threshold-fill]'),
                 thresholdLabel: root.querySelector('[data-nand-threshold-label]'),
                 controlGate: root.querySelector('[data-nand-control-gate]'),
@@ -3781,7 +5418,7 @@
             };
             const setChargeLevel = (level) => {
                 const clamped = Math.max(0, Math.min(100, Math.round(level)));
-                const width = Math.round(144 * (clamped / 100));
+                const width = Math.round(224 * (clamped / 100));
                 setAttr(els.chargeFill, 'width', width);
                 setOpacity(els.chargeFill, clamped === 0 ? 0.15 : 0.92);
                 setOpacity(els.electronGroup, clamped === 0 ? 0 : Math.max(0.18, clamped / 100));
@@ -3823,10 +5460,11 @@
                 setAttr(els.bitLabel, 'fill', flowing ? '#2563eb' : '#dc2626');
                 setText(els.bitLabel, bit);
             };
-            const setSummaries = ({ bit, threshold, current }) => {
+            const setSummaries = ({ bit, threshold, current, flow }) => {
                 setText(els.stateSummary, bit === '0' ? 'Programmed 0' : 'Erased 1');
                 setText(els.thresholdSummary, threshold);
                 setText(els.currentSummary, current);
+                setText(els.flowSummary, flow);
             };
             const renderVisuals = ({
                 chargeLevel,
@@ -3858,6 +5496,7 @@
                     bit,
                     threshold: thresholdLevel >= 60 ? 'High Vth' : 'Low Vth',
                     current: currentFlows ? 'Flows' : 'Blocked',
+                    flow: currentFlows ? `Current flows (${bit})` : `Blocked current (${bit})`,
                 });
                 pulseTargets.forEach((target) => {
                     toggleClass(els[target], 'memory-pulse-live', true);

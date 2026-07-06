@@ -1,32 +1,33 @@
-<div class="card p-0 overflow-hidden flex flex-col" data-part5-panel="memory-basics" data-guidebook-toc-title="SRAM / DRAM">
-                                <div class="p-6 pb-0 bg-white">
+<div class="memory-basics-toss p-0 overflow-hidden flex flex-col bg-white" data-part5-panel="memory-basics" data-guidebook-toc-title="SRAM / DRAM">
+                                <div class="pt-4 pb-0 bg-white">
                                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
-                                        <div id="sram-memory-lab" data-memory-lab data-memory-kind="sram" data-memory-tone="blue" data-running="false" data-action="idle" data-stage="idle" data-write-value="1" class="rounded-[28px] border border-blue-100 bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_100%)] overflow-hidden shadow-[0_12px_30px_rgba(59,130,246,0.06)]">
-                                            <div class="px-5 pt-5 pb-3 flex items-start justify-between gap-4">
+                                        <div id="sram-memory-lab" data-memory-lab data-memory-kind="sram" data-memory-tone="blue" data-running="false" data-action="idle" data-stage="idle" data-write-value="1" class="memory-compare-panel overflow-hidden">
+                                            <div class="px-5 pt-5 pb-4 flex items-start justify-between gap-4">
                                                 <div>
                                                     <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-blue-500">SRAM</div>
                                                     <h5 class="mt-2 text-[1.15rem] font-black text-slate-900">Standard 6T SRAM Cell</h5>
                                                     <p class="mt-2 text-sm leading-6 text-slate-600">Stores state stably with two <strong class="text-slate-900">cross-coupled inverters</strong> and two <strong class="text-slate-900">access transistors</strong>.</p>
                                                 </div>
-                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-xs font-extrabold text-blue-600">No Refresh</span>
+                                                <span class="memory-status-tag memory-status-blue">No Refresh</span>
                                             </div>
-                                            <div class="px-5 pb-3 flex flex-wrap items-center justify-between gap-3">
-                                                <div class="flex flex-wrap gap-2">
+                                            <div class="px-5 pb-4 flex flex-wrap items-center justify-between gap-3">
+                                                <div class="memory-op-segment">
                                                     <button type="button" class="memory-op-btn" data-memory-action="read">Read</button>
                                                     <button type="button" class="memory-op-btn" data-memory-action="write" data-memory-value="1">Write 1</button>
                                                     <button type="button" class="memory-op-btn" data-memory-action="write" data-memory-value="0">Write 0</button>
                                                 </div>
                                             </div>
                                             <div class="px-5">
-                                                <div class="memory-sim-panel border border-blue-100 p-4">
+                                                <div class="memory-sim-panel border border-slate-200 p-0">
                                                     <div class="memory-summary-row">
                                                         <span class="memory-state-pill"><span>Stored Bit</span><strong data-memory-store-value>None</strong></span>
                                                         <span class="memory-state-pill"><span>Bitline</span><strong data-memory-line-state>Floating (Z)</strong></span>
                                                         <span class="memory-state-pill"><span>Latch State</span><strong data-memory-detail-state>Q=? / QB=?</strong></span>
+                                                        <span class="memory-state-pill"><span>Cell State</span><strong>Stable</strong></span>
                                                     </div>
                                                     <svg viewBox="0 0 420 236" class="memory-sim-svg w-full h-[248px] block" aria-hidden="true">
                                                         <rect width="420" height="236" fill="#ffffff"/>
-                                                        <rect x="18" y="20" width="384" height="188" rx="24" fill="#fcfdff" stroke="#cfe2ff" stroke-width="1.8"/>
+                                                        <rect x="18" y="20" width="384" height="188" rx="4" fill="#ffffff" stroke="#d9dee7" stroke-width="1.4"/>
                                                         <text x="96" y="40" text-anchor="middle" fill="#64748b" font-size="12" font-weight="900">BL</text>
                                                         <text x="320" y="40" text-anchor="middle" fill="#64748b" font-size="12" font-weight="900">BLB</text>
                                                         <text x="24" y="78" fill="#8b5cf6" font-size="12" font-weight="900">WL</text>
@@ -40,12 +41,12 @@
                                                         <line x1="96" y1="74" x2="96" y2="116" stroke="#94a3b8" stroke-width="2.6" stroke-linecap="round"/>
                                                         <line x1="320" y1="74" x2="320" y2="116" stroke="#94a3b8" stroke-width="2.6" stroke-linecap="round"/>
                                                         <line x1="96" y1="116" x2="108" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
-                                                        <rect x="108" y="102" width="22" height="28" rx="5" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5" class="memory-svg-chip" data-memory-access-left/>
+                                                        <rect x="108" y="102" width="22" height="28" rx="2" fill="#ffffff" stroke="#64748b" stroke-width="1.5" class="memory-svg-chip" data-memory-access-left/>
                                                         <line x1="119" y1="74" x2="119" y2="102" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4" stroke-linecap="round" data-memory-gate-line/>
                                                         <text x="119" y="97" text-anchor="middle" fill="#64748b" font-size="8.5" font-weight="900">Tr</text>
                                                         <line x1="130" y1="116" x2="154" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
                                                         <line x1="266" y1="116" x2="290" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
-                                                        <rect x="290" y="102" width="22" height="28" rx="5" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5" class="memory-svg-chip" data-memory-access-right/>
+                                                        <rect x="290" y="102" width="22" height="28" rx="2" fill="#ffffff" stroke="#64748b" stroke-width="1.5" class="memory-svg-chip" data-memory-access-right/>
                                                         <line x1="301" y1="74" x2="301" y2="102" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4" stroke-linecap="round" data-memory-gate-line/>
                                                         <text x="301" y="97" text-anchor="middle" fill="#64748b" font-size="8.5" font-weight="900">Tr</text>
                                                         <line x1="312" y1="116" x2="320" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
@@ -81,22 +82,22 @@
                                                 </div>
                                             </div>
                                             <div class="px-5 pt-4 pb-5 flex flex-wrap gap-2">
-                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">6T Cell</span>
-                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Cross-Coupled Inverters</span>
-                                                <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-extrabold text-blue-600">Non-Destructive Read</span>
+                                                <span class="memory-feature-chip">6T Cell</span>
+                                                <span class="memory-feature-chip">Cross-Coupled Inverters</span>
+                                                <span class="memory-feature-chip">Non-Destructive Read</span>
                                             </div>
                                         </div>
-                                        <div id="dram-memory-lab" data-memory-lab data-memory-kind="dram" data-memory-tone="rose" data-running="false" data-action="idle" data-stage="idle" data-write-value="1" class="rounded-[28px] border border-rose-100 bg-[linear-gradient(180deg,#ffffff_0%,#fff8fb_100%)] overflow-hidden shadow-[0_12px_30px_rgba(244,63,94,0.06)]">
-                                            <div class="px-5 pt-5 pb-3 flex items-start justify-between gap-4">
+                                        <div id="dram-memory-lab" data-memory-lab data-memory-kind="dram" data-memory-tone="rose" data-running="false" data-action="idle" data-stage="idle" data-write-value="1" class="memory-compare-panel overflow-hidden">
+                                            <div class="px-5 pt-5 pb-4 flex items-start justify-between gap-4">
                                                 <div>
                                                     <div class="text-[11px] font-extrabold uppercase tracking-[0.16em] text-rose-500">DRAM</div>
                                                     <h5 class="mt-2 text-[1.15rem] font-black text-slate-900">Standard 1T1C DRAM Cell</h5>
                                                     <p class="mt-2 text-sm leading-6 text-slate-600">Stores data as charge in one <strong class="text-slate-900">access transistor</strong> and one <strong class="text-slate-900">storage capacitor</strong>.</p>
                                                 </div>
-                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-xs font-extrabold text-rose-600">Refresh Required</span>
+                                                <span class="memory-status-tag memory-status-rose">Refresh Required</span>
                                             </div>
-                                            <div class="px-5 pb-3 flex flex-wrap items-center justify-between gap-3">
-                                                <div class="flex flex-wrap gap-2">
+                                            <div class="px-5 pb-4 flex flex-wrap items-center justify-between gap-3">
+                                                <div class="memory-op-segment">
                                                     <button type="button" class="memory-op-btn" data-memory-action="read">Read</button>
                                                     <button type="button" class="memory-op-btn" data-memory-action="write" data-memory-value="1">Write 1</button>
                                                     <button type="button" class="memory-op-btn" data-memory-action="write" data-memory-value="0">Write 0</button>
@@ -104,7 +105,7 @@
                                                 </div>
                                             </div>
                                             <div class="px-5">
-                                                <div class="memory-sim-panel border border-rose-100 p-4">
+                                                <div class="memory-sim-panel border border-slate-200 p-0">
                                                     <div class="memory-summary-row">
                                                         <span class="memory-state-pill"><span>Stored Charge</span><strong data-memory-store-value>0%</strong></span>
                                                         <span class="memory-state-pill"><span>Bitline</span><strong data-memory-line-state>Floating (Z)</strong></span>
@@ -112,7 +113,7 @@
                                                     </div>
                                                     <svg viewBox="0 0 420 236" class="memory-sim-svg w-full h-[248px] block" aria-hidden="true">
                                                         <rect width="420" height="236" fill="#ffffff"/>
-                                                        <rect x="18" y="20" width="384" height="188" rx="24" fill="#fffcfd" stroke="#f7d4de" stroke-width="1.8"/>
+                                                        <rect x="18" y="20" width="384" height="188" rx="4" fill="#ffffff" stroke="#d9dee7" stroke-width="1.4"/>
                                                         <text x="122" y="40" text-anchor="middle" fill="#64748b" font-size="12" font-weight="900">BL</text>
                                                         <text x="26" y="78" fill="#8b5cf6" font-size="12" font-weight="900">WL</text>
                                                         <text x="122" y="58" text-anchor="middle" fill="#64748b" font-size="10.5" font-weight="900" data-memory-bl-value>Z</text>
@@ -121,7 +122,7 @@
                                                         <path class="memory-svg-line" data-memory-bl-line d="M122 64V182" fill="none" stroke="#94a3b8" stroke-width="3.2" stroke-linecap="round"/>
                                                         <circle cx="122" cy="116" r="4.2" fill="#111827"/>
                                                         <line x1="122" y1="116" x2="154" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
-                                                        <rect x="154" y="102" width="24" height="28" rx="5" fill="#f3e8ff" stroke="#d8b4fe" stroke-width="1.6" class="memory-svg-chip" data-memory-access-left/>
+                                                        <rect x="154" y="102" width="24" height="28" rx="2" fill="#ffffff" stroke="#e11d48" stroke-width="1.6" class="memory-svg-chip" data-memory-access-left/>
                                                         <line x1="166" y1="74" x2="166" y2="102" stroke="#d8b4fe" stroke-width="1.6" stroke-dasharray="4 4" stroke-linecap="round" data-memory-gate-line/>
                                                         <text x="166" y="97" text-anchor="middle" fill="#a855f7" font-size="8.5" font-weight="900">Tr</text>
                                                         <line x1="178" y1="116" x2="276" y2="116" stroke="#334155" stroke-width="2.8" stroke-linecap="round"/>
@@ -155,9 +156,9 @@
                                                 </div>
                                             </div>
                                             <div class="px-5 pt-4 pb-5 flex flex-wrap gap-2">
-                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-extrabold text-rose-600">1T1C</span>
-                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-extrabold text-rose-600">Charge Sharing</span>
-                                                <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-extrabold text-rose-600">Destructive Read + Restore</span>
+                                                <span class="memory-feature-chip memory-feature-rose">1T1C</span>
+                                                <span class="memory-feature-chip memory-feature-rose">Charge Sharing</span>
+                                                <span class="memory-feature-chip memory-feature-rose">Destructive Read + Restore</span>
                                             </div>
                                         </div>
                                     </div>
@@ -208,8 +209,12 @@
                                 <div class="border-t border-slate-100 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-8">
                                     <div class="mb-8 max-w-4xl">
                                         <div class="text-sm font-extrabold uppercase tracking-widest text-indigo-600 mb-2">Deep Dive Analysis</div>
-                                        <h3 class="text-3xl font-black text-slate-900 mb-4">DRAM 및 SRAM 불량 메커니즘 심층 분석</h3>
-                                        <p class="text-lg text-slate-600 leading-relaxed">반도체 메모리 칩은 나노미터(nm) 단위의 미세 공정이 적용됨에 따라 다양한 물리적, 전기적 요인으로 인해 오류가 발생할 수 있습니다. 본 섹션에서는 메모리 반도체의 핵심인 DRAM과 SRAM에서 발생하는 주요 불량 메커니즘을 엔지니어링 및 아키텍처 관점에서 상세히 분석합니다.</p>
+                                        <h3 class="text-3xl font-black text-slate-900 mb-4">DRAM &amp; SRAM Fail Mechanisms Deep Analysis</h3>
+                                        <ul class="list-disc space-y-2 pl-5 text-lg text-slate-600 leading-relaxed">
+                                            <li>나노미터(nm) 단위 미세 공정으로 인해 메모리 칩은 물리적·전기적 오류에 더 민감해집니다.</li>
+                                            <li>분석 대상은 메모리 반도체의 핵심 구조인 <strong class="text-slate-900">DRAM</strong>과 <strong class="text-slate-900">SRAM</strong>입니다.</li>
+                                            <li>주요 불량 메커니즘을 엔지니어링 관점과 아키텍처 관점에서 나누어 살펴봅니다.</li>
+                                        </ul>
                                     </div>
 
                                     <div class="mb-12">
@@ -217,7 +222,11 @@
                                             <span class="bg-rose-100 text-rose-700 w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl">D</span>
                                             <h4 class="text-2xl font-bold text-slate-900">DRAM Fail Mechanisms</h4>
                                         </div>
-                                        <p class="mb-6 text-slate-600">DRAM은 커패시터(Capacitor)에 전하(Charge)를 축적하여 데이터를 저장하는 방식을 취합니다. 셀의 집적도가 높아질수록 주변 회로와의 간섭 및 미세한 공정 산포에 민감해지며, 엄격한 타이밍 마진 부족으로 인한 데이터 유실이 발생할 수 있습니다.</p>
+                                        <ul class="mb-6 list-disc space-y-2 pl-5 text-slate-600">
+                                            <li>DRAM은 커패시터(Capacitor)에 전하(Charge)를 축적해 데이터를 저장합니다.</li>
+                                            <li>셀 집적도가 높아질수록 주변 회로 간섭과 미세한 공정 산포에 더 민감해집니다.</li>
+                                            <li>타이밍 마진이 부족하면 저장된 데이터가 유실될 수 있습니다.</li>
+                                        </ul>
 
                                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                             <div class="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm">
@@ -380,9 +389,9 @@
                                                     </svg>
                                                 </div>
                                                 <div class="space-y-2 text-sm">
-                                                    <p><strong class="text-slate-800">원인:</strong> 파괴적 읽기 후 센스 앰프가 값을 셀에 되돌려 써야 하는데, 구동력 저하 또는 워드라인 유지 시간(tRAS) 부족으로 복원이 끝까지 진행되지 못함.</p>
-                                                    <p><strong class="text-slate-800">결과:</strong> 읽는 순간 거의 비워진 셀이 충분히 재충전되지 못해, 다음 접근 전까지 약한 전하 상태로 남아 데이터 유실 위험이 커짐.</p>
-                                                    <p><strong class="text-emerald-700">개선:</strong> 센스 앰프 구동력 강화, tRAS 타이밍 마진 확보.</p>
+                                                    <p><strong class="text-slate-800">원인:</strong> 읽기 후 셀 복원이 부족함. 센스 앰프 구동력 저하 또는 tRAS 부족이 주요 원인.</p>
+                                                    <p><strong class="text-slate-800">결과:</strong> 셀이 약한 전하 상태로 남아 다음 접근 전 데이터 유실 위험이 커짐.</p>
+                                                    <p><strong class="text-emerald-700">개선:</strong> 센스 앰프 구동력 강화. tRAS 타이밍 마진 확보.</p>
                                                 </div>
                                             </div>
 
@@ -1126,7 +1135,11 @@
                                             <span class="bg-blue-100 text-blue-700 w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl">S</span>
                                             <h4 class="text-2xl font-bold text-slate-900">SRAM Fail Mechanisms</h4>
                                         </div>
-                                        <p class="mb-6 text-slate-600">SRAM은 6개의 트랜지스터(6T)가 상호 대칭적인 래치(Latch) 구조를 이루어 작동합니다. 초고속 성능이 요구되는 환경이므로 찰나의 타이밍과 내부 노드 간의 미세한 전압 균형이 정상 동작의 핵심입니다.</p>
+                                        <ul class="mb-6 list-disc space-y-2 pl-5 text-slate-600">
+                                            <li>SRAM은 6개의 트랜지스터(6T)가 상호 대칭 래치(Latch) 구조를 이루어 데이터를 유지합니다.</li>
+                                            <li>초고속 동작이 필요한 구조라 읽기·쓰기 순간의 타이밍 마진이 중요합니다.</li>
+                                            <li>내부 노드 간 미세한 전압 균형이 무너지면 셀 안정성과 데이터 유지 특성이 약해질 수 있습니다.</li>
+                                        </ul>
 
                                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                             <div class="rounded-3xl border border-blue-200 bg-white p-5 shadow-sm">
@@ -1928,4 +1941,3 @@
                                 </div>
                             </div>
 
-                            
