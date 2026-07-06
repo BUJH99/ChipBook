@@ -1,0 +1,6 @@
+_site/
+.playwright-cli/
+.playwright-mcp/
+__pycache__/
+*.pyc
+image-creator-*.png

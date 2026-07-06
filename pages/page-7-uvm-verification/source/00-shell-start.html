@@ -237,6 +237,7 @@
   <script>
     (function () {
       const frameObservers = new WeakMap();
+      const frameMutationObservers = new WeakMap();
       const resizeTimers = new WeakMap();
       const frameHeightHints = {
         'sequence-diagram': 2200,
@@ -401,6 +402,41 @@
         resizeTimers.set(frame, timer);
       };
 
+      const scheduleFrameMeasureSeries = (frame) => {
+        [0, 160, 720, 1600, 3200, 6000].forEach((delay) => scheduleMeasure(frame, delay));
+      };
+
+      const bindFrameContentObservers = (frame) => {
+        const doc = frame?.contentDocument;
+        if (!doc) return;
+
+        if (typeof ResizeObserver !== 'undefined') {
+          frameObservers.get(frame)?.disconnect();
+          const observer = new ResizeObserver(() => debounceMeasure(frame, 40));
+          if (doc.documentElement) observer.observe(doc.documentElement);
+          if (doc.body) observer.observe(doc.body);
+          frameObservers.set(frame, observer);
+        }
+
+        if (typeof MutationObserver !== 'undefined' && doc.documentElement) {
+          frameMutationObservers.get(frame)?.disconnect();
+          const mutationObserver = new MutationObserver(() => debounceMeasure(frame, 80));
+          mutationObserver.observe(doc.documentElement, {
+            attributes: true,
+            childList: true,
+            characterData: true,
+            subtree: true,
+          });
+          frameMutationObservers.set(frame, mutationObserver);
+        }
+
+        if (doc.fonts && typeof doc.fonts.ready?.then === 'function') {
+          doc.fonts.ready.then(() => debounceMeasure(frame, 0)).catch(() => {});
+        }
+
+        doc.defaultView?.addEventListener('load', () => debounceMeasure(frame, 0), { once: true });
+      };
+
       const bindFrameResize = (frame) => {
         if (!frame || frame.dataset.page7ResizeBound === 'true') return;
         frame.dataset.page7ResizeBound = 'true';
@@ -408,22 +444,12 @@
         frame.style.overflow = 'hidden';
         frame.addEventListener('load', () => {
           applySectionFrameLayout(frame);
-          scheduleMeasure(frame, 0);
-          scheduleMeasure(frame, 160);
-          scheduleMeasure(frame, 720);
-          scheduleMeasure(frame, 1600);
+          scheduleFrameMeasureSeries(frame);
 
           try {
-            const doc = frame.contentDocument;
-            if (doc && typeof ResizeObserver !== 'undefined') {
-              frameObservers.get(frame)?.disconnect();
-              const observer = new ResizeObserver(() => debounceMeasure(frame, 40));
-              if (doc.documentElement) observer.observe(doc.documentElement);
-              if (doc.body) observer.observe(doc.body);
-              frameObservers.set(frame, observer);
-            }
+            bindFrameContentObservers(frame);
           } catch (error) {
-            // If a section ever becomes cross-origin, the fixed fallback above keeps the page usable.
+            // If a section ever becomes cross-origin, the fallback height keeps the page usable.
           }
         });
       };
@@ -438,7 +464,8 @@
           frame.src = frame.dataset.src;
           return;
         }
-        scheduleMeasure(frame, 20);
+        bindFrameContentObservers(frame);
+        scheduleFrameMeasureSeries(frame);
       };
 
       const preloadFrames = () => {
