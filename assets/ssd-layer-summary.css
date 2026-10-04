@@ -1,0 +1,46 @@
+.ssd-layer-summary { container: ssd-summary / inline-size; min-width: 0; margin-top: 16px; color: #293c55; font-family: "ChipBook Memory", "Pretendard", sans-serif; }
+.ssd-summary-reference { display: grid; grid-template-columns: minmax(0, 1fr); gap: 15px; padding: 17px 19px; border: 1px solid #dce5f0; border-radius: 9px; background: #fff; }
+.ssd-summary-ref-title { display: block; margin: 0 0 11px; color: #334b68; font-size: 14px; line-height: 1.4; font-weight: 700; }
+.ssd-summary-layers { display: flex; align-items: center; flex-wrap: wrap; gap: 9px 23px; margin: 0; padding: 0; list-style: none; }
+.ssd-summary-layers li { display: inline-flex; align-items: center; gap: 8px; color: #4a5e79; font-size: 13px; line-height: 1.5; font-weight: 550; white-space: nowrap; }
+.ssd-summary-dot { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: var(--stage-color); }
+.ssd-summary-protocols { min-width: 0; border-top: 1px solid #e8edf5; padding-top: 13px; }
+.ssd-summary-protocol-list { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 25px; margin: 0; }
+.ssd-summary-protocol-item { display: flex; align-items: baseline; gap: 9px; min-width: 0; font-size: 12px; line-height: 1.5; }
+.ssd-summary-protocol-item dt { color: #263c59; font-weight: 750; white-space: nowrap; }
+.ssd-summary-protocol-item dd { margin: 0; color: #60748f; white-space: nowrap; }
+.ssd-summary-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; margin-top: 16px; }
+.ssd-summary-card { container: ssd-summary-card / inline-size; min-width: 0; padding: 17px 18px 19px; border: 1px solid #dce5f0; border-radius: 9px; background: #fff; }
+.ssd-summary-card-head { display: grid; grid-template-columns: 28px 20px minmax(0, 1fr); align-items: center; column-gap: 9px; min-height: 30px; padding-bottom: 14px; border-bottom: 1px solid #e9eef6; }
+.ssd-summary-icon { display: flex; align-items: center; justify-content: center; width: 28px; height: 30px; color: var(--stage-color); }
+.ssd-summary-icon svg { display: block; width: 28px; height: 28px; }
+.ssd-summary-index { color: var(--stage-color); font-size: 14px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.ssd-layer-summary .ssd-summary-card h5 { margin: 0; color: #243750; font-size: 16px; line-height: 1.5; font-weight: 750; letter-spacing: -.25px; white-space: nowrap; }
+.ssd-summary-list { display: grid; gap: 10px; margin: 15px 0 0; padding: 0; list-style: none; }
+.ssd-summary-list li { display: flex; align-items: baseline; gap: 8px; min-width: 0; color: #4d617c; font-size: 14px; line-height: 1.65; font-weight: 450; word-break: keep-all; overflow-wrap: normal; }
+.ssd-summary-list li::before { content: ""; width: 4px; height: 4px; flex: 0 0 4px; align-self: flex-start; margin-top: 8px; border-radius: 50%; background: var(--stage-color); opacity: .8; }
+.ssd-summary-list li > span { min-width: 0; }
+@container ssd-summary (min-width: 650px) {
+    .ssd-summary-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container ssd-summary (min-width: 1280px) {
+    .ssd-summary-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .ssd-summary-reference { grid-template-columns: minmax(0, 1fr) auto; gap: 24px; }
+    .ssd-summary-protocols { border-top: 0; border-left: 1px solid #e3eaf4; padding: 0 0 0 23px; }
+}
+@container ssd-summary-card (max-width: 250px) {
+    .ssd-summary-card-head { grid-template-columns: 28px minmax(0, 1fr); row-gap: 7px; }
+    .ssd-summary-index { justify-self: end; }
+    .ssd-summary-card h5 { grid-column: 1 / -1; }
+}
+@container ssd-summary (max-width: 350px) {
+    .ssd-summary-reference { padding: 14px; }
+    .ssd-summary-layers { gap: 8px 18px; }
+    .ssd-summary-protocol-list { display: grid; gap: 8px; }
+    .ssd-summary-card { padding: 14px 12px 16px; }
+    .ssd-summary-list { gap: 9px; }
+}
+@media (max-width: 600px) {
+    .card[data-part5-panel="flash-ssd"] .flash-stack-replica { width: calc(100% + 48px); margin-inline: -24px; }
+    .flash-stack-replica .ssd-layer-summary { width: calc(100% + 40px); margin-inline: -20px; }
+}

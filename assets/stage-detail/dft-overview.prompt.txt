@@ -1,0 +1,4 @@
+Create a standalone technical overview diagram of DFT and power intent for a main process figure approximately 600 by 340 CSS pixels. On the left, show functional flip-flops becoming a scan chain with Scan In, Scan Out, and scan enable selecting the test path. On the right, show two power domains linked through clearly labeled LS (level shifter) and ISO (isolation) blocks. Clearly illustrate domain power boundaries without numerical voltages. Use a white background, restrained blue and dark linework, and pale fills. Use sparse short English labels. Only the technical diagram; no webpage UI or paragraphs.
+
+Input images:
+- 05-dft.png: Reference for picture-centered detailed stage explanation.

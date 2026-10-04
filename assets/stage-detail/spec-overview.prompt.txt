@@ -1,0 +1,4 @@
+Create a standalone technical diagram for the Spec / Architecture stage. Show a requirements document on the left flowing into a SoC architecture diagram containing CPU, Memory, Interconnect, Peripherals, IO, and Accelerator. Show PPA constraints below influencing the architecture. White background; restrained blue #3182f6 and dark #191f28, with pale blue, pale green, and pale violet module fills. Use short legible English labels only, with no paragraphs, headings, UI, or browser chrome. Landscape composition; the diagram should fill the available area and remain readable at 600 pixels wide in a 600 by 340 CSS main-process figure.
+
+Input images:
+- 01-spec.png: reference for page flow and picture-centered detailed explanations.

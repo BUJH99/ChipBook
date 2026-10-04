@@ -1,0 +1,4153 @@
+[
+  {
+    "caseName": "sram-read-upset",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "290.60001220703106",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "143.68000488281243",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "370",
+          "y": "123.12000427246073"
+        },
+        {
+          "opacity": "1",
+          "x": "290.60001220703106",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "143.68000488281243",
+          "y": "114"
+        },
+        {
+          "opacity": "1",
+          "x": "456.3199951171876",
+          "y": "114.00000762939453"
+        },
+        {
+          "opacity": "1",
+          "x": "370",
+          "y": "123.12000427246073"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-read-upset",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.5800",
+        "risk": "false",
+        "text": "Q 상승 · 상태 유지"
+      },
+      "pageOverflow": false,
+      "phase": "3",
+      "playing": "false",
+      "progress": "0.5800",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.5800",
+        "risk": "true",
+        "text": "트립 포인트 초과"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "290.60001220703106",
+          "y": "44"
+        },
+        {
+          "opacity": "0",
+          "x": "143.68000488281243",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "370",
+          "y": "123.12000427246073"
+        },
+        {
+          "opacity": "0",
+          "x": "290.60001220703106",
+          "y": "44"
+        },
+        {
+          "opacity": "0",
+          "x": "143.68000488281243",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "456.3199951171876",
+          "y": "114.00000762939453"
+        },
+        {
+          "opacity": "0",
+          "x": "370",
+          "y": "123.12000427246073"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-read-upset",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "0",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "읽기 후 상태 유지 · 0/1"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "저장 상태 반전 · 1/0"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "290.60001220703106",
+          "y": "44"
+        },
+        {
+          "opacity": "0",
+          "x": "143.68000488281243",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "370",
+          "y": "123.12000427246073"
+        },
+        {
+          "opacity": "0",
+          "x": "290.60001220703106",
+          "y": "44"
+        },
+        {
+          "opacity": "0",
+          "x": "143.68000488281243",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "456.3199951171876",
+          "y": "114.00000762939453"
+        },
+        {
+          "opacity": "0",
+          "x": "370",
+          "y": "123.12000427246073"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-read-upset",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "0",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "읽기 후 상태 유지 · 0/1"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "0",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "읽기 후 상태 유지 · 0/1"
+      }
+    }
+  },
+  {
+    "caseName": "sram-write-fail",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "243.6000122070312",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "127.07999877929686",
+          "y": "114"
+        },
+        {
+          "opacity": "1",
+          "x": "472.92000122070317",
+          "y": "114.00000762939453"
+        },
+        {
+          "opacity": "1",
+          "x": "366.7200073242187",
+          "y": "82"
+        },
+        {
+          "opacity": "1",
+          "x": "243.6000122070312",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "127.07999877929686",
+          "y": "114"
+        },
+        {
+          "opacity": "1",
+          "x": "472.92000122070317",
+          "y": "114.00000762939453"
+        },
+        {
+          "opacity": "1",
+          "x": "366.7200073242187",
+          "y": "82"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-write-fail",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.7300",
+        "risk": "false",
+        "text": "새 데이터 1 유지"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.7300",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.7300",
+        "risk": "true",
+        "text": "새 데이터 1 쓰기"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "243.6000122070312",
+          "y": "44"
+        },
+        {
+          "opacity": "0",
+          "x": "127.07999877929686",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "472.92000122070317",
+          "y": "114.00000762939453"
+        },
+        {
+          "opacity": "0",
+          "x": "366.7200073242187",
+          "y": "82"
+        },
+        {
+          "opacity": "0",
+          "x": "243.6000122070312",
+          "y": "44"
+        },
+        {
+          "opacity": "0",
+          "x": "127.07999877929686",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "472.92000122070317",
+          "y": "114.00000762939453"
+        },
+        {
+          "opacity": "0",
+          "x": "366.7200073242187",
+          "y": "82"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-write-fail",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "새 데이터 1 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "쓰기 실패 · 기존 0 유지"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "243.6000122070312",
+          "y": "44"
+        },
+        {
+          "opacity": "0",
+          "x": "127.07999877929686",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "472.92000122070317",
+          "y": "114.00000762939453"
+        },
+        {
+          "opacity": "0",
+          "x": "366.7200073242187",
+          "y": "82"
+        },
+        {
+          "opacity": "0",
+          "x": "243.6000122070312",
+          "y": "44"
+        },
+        {
+          "opacity": "0",
+          "x": "127.07999877929686",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "472.92000122070317",
+          "y": "114.00000762939453"
+        },
+        {
+          "opacity": "0",
+          "x": "366.7200073242187",
+          "y": "82"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-write-fail",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "새 데이터 1 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "새 데이터 1 유지"
+      }
+    }
+  },
+  {
+    "caseName": "sram-half-select",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-half-select",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.7400",
+        "risk": "false",
+        "text": "Half-select 교란 중"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.7400",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.7400",
+        "risk": "true",
+        "text": "비선택 셀 Q · 0 → 1"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-half-select",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "비선택 셀 0 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "비선택 셀 Q · 0 → 1"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "49.23999938964839",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-half-select",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "비선택 셀 0 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "비선택 셀 0 유지"
+      }
+    }
+  },
+  {
+    "caseName": "sram-hold",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "322.0800048828126",
+          "y": "164.00001525878906"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-hold",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.7800",
+        "risk": "false",
+        "text": "WL OFF · 상태 보존"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.7800",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "unknown",
+        "output": "unknown",
+        "progress": "0.7800",
+        "risk": "true",
+        "text": "저장 상태 보장 불가 · ?"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "322.0800048828126",
+          "y": "164.00001525878906"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-hold",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "WL OFF · 상태 보존"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "unknown",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "저장 상태 보장 불가 · ?"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "322.0800048828126",
+          "y": "164.00001525878906"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-hold",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "WL OFF · 상태 보존"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "WL OFF · 상태 보존"
+      }
+    }
+  },
+  {
+    "caseName": "sram-slow",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "162.60000305175782",
+          "y": "112"
+        },
+        {
+          "opacity": "1",
+          "x": "473.32000122070315",
+          "y": "129"
+        },
+        {
+          "opacity": "1",
+          "x": "162.60000305175782",
+          "y": "112"
+        },
+        {
+          "opacity": "1",
+          "x": "473.32000122070315",
+          "y": "129"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-slow",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "0.6800",
+        "risk": "false",
+        "text": "센싱 시점 · 유효한 판독"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.6800",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.6800",
+        "risk": "true",
+        "text": "센싱 시점 · 신호 부족"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "162.60000305175782",
+          "y": "112"
+        },
+        {
+          "opacity": "0",
+          "x": "473.32000122070315",
+          "y": "129"
+        },
+        {
+          "opacity": "0",
+          "x": "162.60000305175782",
+          "y": "112"
+        },
+        {
+          "opacity": "0",
+          "x": "473.32000122070315",
+          "y": "129"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-slow",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "센싱 시점 · 유효한 판독"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "센싱 시점 · 신호 부족"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "162.60000305175782",
+          "y": "112"
+        },
+        {
+          "opacity": "0",
+          "x": "473.32000122070315",
+          "y": "129"
+        },
+        {
+          "opacity": "0",
+          "x": "162.60000305175782",
+          "y": "112"
+        },
+        {
+          "opacity": "0",
+          "x": "473.32000122070315",
+          "y": "129"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-slow",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "센싱 시점 · 유효한 판독"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "센싱 시점 · 유효한 판독"
+      }
+    }
+  },
+  {
+    "caseName": "sram-rtn",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "370",
+          "y": "96.47999877929685"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-rtn",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.5700",
+        "risk": "false",
+        "text": "트랩 점유 · 여유 유지"
+      },
+      "pageOverflow": false,
+      "phase": "3",
+      "playing": "false",
+      "progress": "0.5700",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.5700",
+        "risk": "true",
+        "text": "트랩 점유 · 안정성 여유 부족"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "370",
+          "y": "96.47999877929685"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-rtn",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "초기 미스매치 여유"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "방출 후 여유 회복"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "370",
+          "y": "96.47999877929685"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-rtn",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "초기 미스매치 여유"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "초기 미스매치 여유"
+      }
+    }
+  },
+  {
+    "caseName": "sram-aging",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "196.600018310547",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "110.82666625976564",
+          "y": "113.65333251953128"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "322.319989013672",
+          "y": "82"
+        },
+        {
+          "opacity": "1",
+          "x": "196.600018310547",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "110.82666625976564",
+          "y": "113.65333251953128"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "322.319989013672",
+          "y": "82"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-aging",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.8800",
+        "risk": "false",
+        "text": "Fresh · 초기 특성 기준"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "0.8800",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.8800",
+        "risk": "true",
+        "text": "수명 조건 · 동작 여유 부족"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "65",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "110",
+          "y": "68"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "230",
+          "y": "114"
+        },
+        {
+          "opacity": "1",
+          "x": "65",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "110",
+          "y": "68"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "230",
+          "y": "114"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-aging",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "Fresh · 초기 특성 기준"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "수명 조건 · 동작 여유 부족"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "65",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "110",
+          "y": "68"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "230",
+          "y": "114"
+        },
+        {
+          "opacity": "1",
+          "x": "65",
+          "y": "44"
+        },
+        {
+          "opacity": "1",
+          "x": "110",
+          "y": "68"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "230",
+          "y": "114"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-aging",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "Fresh · 초기 특성 기준"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "수명 조건 Guardband 유지"
+      }
+    }
+  },
+  {
+    "caseName": "sram-ser",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "348.95999755859367",
+          "y": "82"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-ser",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.3900",
+        "risk": "false",
+        "text": "입자 사건 · 일시적 교란"
+      },
+      "pageOverflow": false,
+      "phase": "2",
+      "playing": "false",
+      "progress": "0.3900",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.3900",
+        "risk": "true",
+        "text": "SEU · Q=0 유지"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "348.95999755859367",
+          "y": "82"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-ser",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "교란 후 Q=1 복귀"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "0",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "SEU · Q=0 유지"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "348.95999755859367",
+          "y": "82"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "sram-ser",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "교란 후 Q=1 복귀"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "저장 셀 복구 · Q=1"
+      }
+    }
+  },
+  {
+    "caseName": "dram-retention",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "388",
+          "y": "196.87999572753904"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "388",
+          "y": "196.87999572753904"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-retention",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.7800",
+        "risk": "false",
+        "text": "판독 여유 유지"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.7800",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.7800",
+        "risk": "true",
+        "text": "보존 여유 소진"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "196.87999572753904"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "196.87999572753904"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-retention",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "판독 여유 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "보존 여유 소진"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "196.87999572753904"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "196.87999572753904"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-retention",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "판독 여유 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "판독 여유 유지"
+      }
+    }
+  },
+  {
+    "caseName": "dram-restore",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "275",
+          "y": "95.09999847412111"
+        },
+        {
+          "opacity": "1",
+          "x": "379.20001220703136",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-restore",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.6500",
+        "risk": "false",
+        "text": "Sense Amp → 셀 복원"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.6500",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.6500",
+        "risk": "true",
+        "text": "부분 복원 상태"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "275",
+          "y": "95.09999847412111"
+        },
+        {
+          "opacity": "0",
+          "x": "379.20001220703136",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-restore",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "복원 완료"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "부분 복원 상태"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "275",
+          "y": "95.09999847412111"
+        },
+        {
+          "opacity": "0",
+          "x": "379.20001220703136",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-restore",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "복원 완료"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "복원 완료"
+      }
+    }
+  },
+  {
+    "caseName": "dram-sense",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "173.03999938964833",
+          "y": "105"
+        },
+        {
+          "opacity": "1",
+          "x": "218",
+          "y": "132.1999999999999"
+        },
+        {
+          "opacity": "1",
+          "x": "449.3200012207031",
+          "y": "124"
+        },
+        {
+          "opacity": "1",
+          "x": "173.03999938964833",
+          "y": "105"
+        },
+        {
+          "opacity": "1",
+          "x": "218",
+          "y": "132.1999999999999"
+        },
+        {
+          "opacity": "1",
+          "x": "449.3200012207031",
+          "y": "124"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-sense",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "0.7400",
+        "risk": "false",
+        "text": "저장 1 / 판독 1"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.7400",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "0",
+        "progress": "0.7400",
+        "risk": "true",
+        "text": "저장 1 / 판독 0"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "173.03999938964833",
+          "y": "105"
+        },
+        {
+          "opacity": "0",
+          "x": "218",
+          "y": "132.1999999999999"
+        },
+        {
+          "opacity": "0",
+          "x": "449.3200012207031",
+          "y": "124"
+        },
+        {
+          "opacity": "0",
+          "x": "173.03999938964833",
+          "y": "105"
+        },
+        {
+          "opacity": "0",
+          "x": "218",
+          "y": "132.1999999999999"
+        },
+        {
+          "opacity": "0",
+          "x": "449.3200012207031",
+          "y": "124"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-sense",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "저장 1 / 판독 1"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "0",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "저장 1 / 판독 0"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "173.03999938964833",
+          "y": "105"
+        },
+        {
+          "opacity": "0",
+          "x": "218",
+          "y": "132.1999999999999"
+        },
+        {
+          "opacity": "0",
+          "x": "449.3200012207031",
+          "y": "124"
+        },
+        {
+          "opacity": "0",
+          "x": "173.03999938964833",
+          "y": "105"
+        },
+        {
+          "opacity": "0",
+          "x": "218",
+          "y": "132.1999999999999"
+        },
+        {
+          "opacity": "0",
+          "x": "449.3200012207031",
+          "y": "124"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-sense",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "저장 1 / 판독 1"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "저장 1 / 판독 1"
+      }
+    }
+  },
+  {
+    "caseName": "dram-rowhammer",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "226",
+          "y": "56"
+        },
+        {
+          "opacity": "1",
+          "x": "226",
+          "y": "178"
+        },
+        {
+          "opacity": "1",
+          "x": "226",
+          "y": "56"
+        },
+        {
+          "opacity": "1",
+          "x": "226",
+          "y": "178"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-rowhammer",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.7500",
+        "risk": "false",
+        "text": "Victim 전하 여유 유지"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.7500",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.7500",
+        "risk": "true",
+        "text": "Victim · 1 → 0"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "226",
+          "y": "56"
+        },
+        {
+          "opacity": "0",
+          "x": "226",
+          "y": "178"
+        },
+        {
+          "opacity": "0",
+          "x": "226",
+          "y": "56"
+        },
+        {
+          "opacity": "0",
+          "x": "226",
+          "y": "178"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-rowhammer",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "Victim 전하 여유 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "Victim · 1 → 0"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "226",
+          "y": "56"
+        },
+        {
+          "opacity": "0",
+          "x": "226",
+          "y": "178"
+        },
+        {
+          "opacity": "0",
+          "x": "226",
+          "y": "56"
+        },
+        {
+          "opacity": "0",
+          "x": "226",
+          "y": "178"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-rowhammer",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "Victim 전하 여유 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "Victim 전하 여유 유지"
+      }
+    }
+  },
+  {
+    "caseName": "dram-refresh",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "388",
+          "y": "187.0399963378906"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "388",
+          "y": "187.0399963378906"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-refresh",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.7400",
+        "risk": "false",
+        "text": "다음 REF까지 유지"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.7400",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.7400",
+        "risk": "true",
+        "text": "REF 이전 보존 실패"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "187.0399963378906"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "187.0399963378906"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-refresh",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "다음 REF까지 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "REF 이전 보존 실패"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "187.0399963378906"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "187.0399963378906"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-refresh",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "다음 REF까지 유지"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "다음 REF까지 유지"
+      }
+    }
+  },
+  {
+    "caseName": "dram-write-recovery",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "1",
+          "x": "275",
+          "y": "90.45999755859376"
+        },
+        {
+          "opacity": "1",
+          "x": "329.92000122070317",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-write-recovery",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.7900",
+        "risk": "false",
+        "text": "Write Driver → 셀 충전"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.7900",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "unknown",
+        "output": "unknown",
+        "progress": "0.7900",
+        "risk": "true",
+        "text": "새 데이터 충전 부족"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "275",
+          "y": "90.45999755859376"
+        },
+        {
+          "opacity": "0",
+          "x": "329.92000122070317",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-write-recovery",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "새 데이터 1 저장"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "unknown",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "새 데이터 충전 부족"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "275",
+          "y": "90.45999755859376"
+        },
+        {
+          "opacity": "0",
+          "x": "329.92000122070317",
+          "y": "114"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-write-recovery",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "새 데이터 1 저장"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "새 데이터 1 저장"
+      }
+    }
+  },
+  {
+    "caseName": "dram-vrt",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "388",
+          "y": "203.44000549316405"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "1",
+          "x": "388",
+          "y": "203.44000549316405"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-vrt",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "0.6400",
+        "risk": "false",
+        "text": "저누설 상태"
+      },
+      "pageOverflow": false,
+      "phase": "4",
+      "playing": "false",
+      "progress": "0.6400",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "0.6400",
+        "risk": "true",
+        "text": "짧은 보존 상태에서 오류"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "203.44000549316405"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "203.44000549316405"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-vrt",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "저누설 상태"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "짧은 보존 상태에서 오류"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "203.44000549316405"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "388",
+          "y": "203.44000549316405"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-vrt",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "저누설 상태"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "unknown",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "저누설 상태"
+      }
+    }
+  },
+  {
+    "caseName": "dram-hard-soft",
+    "preview": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-hard-soft",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "0.9000",
+        "risk": "false",
+        "text": "정상 저장 1"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "0.9000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "0",
+        "progress": "0.9000",
+        "risk": "true",
+        "text": "재기록해도 결함 지속"
+      }
+    },
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-hard-soft",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "정상 저장 1"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "0",
+        "output": "0",
+        "progress": "1.0000",
+        "risk": "true",
+        "text": "재기록해도 결함 지속"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-hard-soft",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "hard",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "정상 저장 1"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "예비 셀 · 저장 1"
+      }
+    }
+  },
+  {
+    "caseName": "dram-hard-soft-soft",
+    "baseline": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": 338.6875
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-hard-soft",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": 71.9375
+      },
+      "mitigation": "false",
+      "mode": "soft",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "정상 저장 1"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 2741.333251953125,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "재기록 후 데이터 복구"
+      }
+    },
+    "improved": {
+      "comparison": {
+        "height": 230.6666717529297,
+        "width": 1104,
+        "x": 361.3333587646485,
+        "y": -133.97900390625
+      },
+      "dialog": false,
+      "flow": [
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        },
+        {
+          "opacity": "0",
+          "x": "0",
+          "y": "0"
+        }
+      ],
+      "frameOverflow": false,
+      "id": "dram-hard-soft",
+      "lab": {
+        "height": 992.2083740234376,
+        "width": 1193.3333740234375,
+        "x": 316.66668701171875,
+        "y": -400.72900390625
+      },
+      "mitigation": "true",
+      "mode": "soft",
+      "normal": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "정상 저장 1"
+      },
+      "pageOverflow": false,
+      "phase": "5",
+      "playing": "false",
+      "progress": "1.0000",
+      "scrollY": 3214,
+      "viewport": {
+        "dpr": 1.0000000298023224,
+        "height": 994,
+        "width": 1582
+      },
+      "vulnerable": {
+        "bit": "1",
+        "output": "1",
+        "progress": "1.0000",
+        "risk": "false",
+        "text": "재기록 후 데이터 복구"
+      }
+    }
+  }
+]

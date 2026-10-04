@@ -1,0 +1,4 @@
+Create a standalone wide landscape technical storyboard for the Design Verification stage, arranged as four equal visual panels in one horizontal row, readable at approximately 1200 by 310 CSS pixels with small outer margins. Panel 1, Testbench: show a testbench and test scenarios reaching a DUT. Panel 2, Simulation: show aligned clock, input, and output waveforms. Panel 3, Debug: show expected and actual waveforms with a highlighted mismatch and a return arrow for debugging. Panel 4, Coverage: show colored covered and uncovered bins grouped as Normal, Boundary, and Error, without invented percentages or signoff claims. Use pure white background, restrained blue #3182f6 and dark #191f28 technical linework, pale fills, and sparse short English labels rather than paragraphs. Render only the technical diagrams without app chrome or interface cards.
+
+Input images:
+- 03-dv.png: Reference for the user's chosen page flow and picture-centered detailed explanations.

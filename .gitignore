@@ -4,3 +4,17 @@ _site/
 __pycache__/
 *.pyc
 *.png
+!assets/stage-detail/*.png
+!design-mockups/stage-detail/*.png
+!design-mockups/page5-fail-mechanisms/*.png
+!design-mockups/page5-fail-mechanisms/all-mechanisms/*.png
+!mechanism-selector-concept.png
+!mechanism-selector-inline-english-concept.png
+!memory-heading-inline-concept.png
+!memory-heading-small-english-concept.png
+!memory-concept-board.png
+!waveform-analyzer-concept.png
+!waveform-white-background-concept.png
+!memory-hierarchy-refinement-concept.png
+!ssd-summary-layout-concept.png
+!nand-ssd-visual-panels-concept.png

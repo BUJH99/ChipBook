@@ -1,0 +1,4 @@
+Create a standalone technical overview illustration of semiconductor manufacturing for a main process figure approximately 600 by 340 CSS pixels. Show a clear left-to-right sequence: a patterned silicon wafer, separated dies, a die assembled in an IC package, and a test fixture with a finished package. Connect the sequence with blue arrows. Use subtle material dimensionality and a pure white background. Use the short labels 'Wafer', 'Die', 'Package', and 'Test'. Do not include numerical yield claims, webpage UI, or paragraphs.
+
+Input images:
+- 09-manufacturing.png: Reference for picture-centered detailed stage explanation and subtle material dimensionality.

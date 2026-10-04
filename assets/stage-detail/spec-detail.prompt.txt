@@ -1,0 +1,4 @@
+Create a standalone wide landscape technical illustration for a full-width 1200 by 310 CSS detail strip. Arrange four equal visual panels in a single row, with each diagram large and only sparse short English labels. Panel 1, Use-case: use-case scenarios converge onto the chip function boundary. Panel 2, PPA: a triangle balancing Power, Performance, and Area, without numerical claims. Panel 3, IP hierarchy: SoC branches into CPU, Memory, and Peripheral. Panel 4, Interfaces: CPU and DMA on the left join Interconnect, with Memory and Peripheral on the right; arrows clarify their relationships. White background with muted blue linework and pale fills. Leave only a small clean margin and use a broad horizontal composition so the illustrations fill the asset. No UI cards, page navigation, headers, or paragraphs.
+
+Input images:
+- 01-spec.png: selected reference for picture-first detailed explanations.

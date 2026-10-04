@@ -1,0 +1,8 @@
+{
+  "mode": "builtin-imagegen",
+  "prompt": "Refine the Failure Mechanism selector for ChipBook. Show its closed state and expanded menu as one clear UI component study. Follow the existing product’s white and pale-blue surfaces, navy text, #2563eb accent, and readable Korean typography. Use a compact numbered badge, a strong Korean title, a smaller English subtitle, and a simple library-style chevron. The selected item is “01 읽기 오류” with “Read Upset”. The expanded menu is headed “SRAM” and “8 mechanisms”, with numbered options: 읽기 오류 / Read Upset, 쓰기 실패 / Write Fail, 하프 셀렉트 디스터브 / Half-select Disturb, 대기 전력 불량 / Hold Fail, 슬로우 비트 / Slow Bit, 미스매치·RTN / Mismatch / RTN, 열화 불량 / Aging, 소프트 에러 / Soft Error / SEU. Give the selected row a restrained blue highlight and checkmark. Keep borders, shadows and spacing subtle, suitable for the existing lesson toolbar.\n\nInput images:\n- codex-clipboard-cdc091fa-a4b7-4f43-af37-c28f7d7bfd46.png: the existing selector the user wants to improve.",
+  "input": "C:/Users/tbdk5/AppData/Local/Temp/codex-clipboard-cdc091fa-a4b7-4f43-af37-c28f7d7bfd46.png",
+  "source": "C:/Users/tbdk5/.codex/generated_images/01a0fd59-ef49-76b1-be61-d5486dfdc59a/exec-826e2c55-11d7-46b5-9963-6794c718758e.png",
+  "output": "mechanism-selector-concept.png",
+  "overwritten": false
+}

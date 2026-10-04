@@ -1,0 +1,7 @@
+{
+  "prompt": "Design the expanded “개념 설명과 참고 자료” section for ChipBook’s memory-failure lesson in its existing white, pale-blue, rounded interface. Use the SRAM Write Fail example. Lead with “쓰기 구동이 부족하면 새 데이터가 남지 않습니다.” Show a connected cause path: “쓰기 구동 부족” → “트립 포인트 미도달” → “기존 값으로 복귀”. Below it, place a five-step control using “기존 값”, “쓰기 구동”, “래치 전환”, “전환 여유”, and “쓰기 확인”. Show two clearly labeled comparison lanes, blue “정상 셀” and rose “취약 셀”, with three connected visual snapshots labeled “시작”, “현재”, and “완료”. Represent each SRAM state as paired Q/QB bit cells: the normal lane changes from 0/1 to 1/0 and holds 1/0; the vulnerable lane stays below the switching point and returns to 0/1. Emphasize the current snapshot and show its short phase explanation. Finish with compact consideration tags “쓰기 펄스 폭” and “Half-select 영향 검증”, a reference link, and a concise teaching-model note. Keep the explanation primarily visual through connected stages and visible bit states. Show desktop and mobile versions, keeping labels readable and arranging the comparison lanes vertically on mobile.",
+  "inputs": [],
+  "mode": "builtin",
+  "destination": "memory-concept-board.png",
+  "overwritten": false
+}

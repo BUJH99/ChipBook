@@ -1,0 +1,4 @@
+Create a standalone wide landscape technical storyboard of DFT and power intent for a full-width detail strip approximately 1200 by 310 CSS pixels. Show four equal panels in one row. Panel 1, 'Scan insertion': show a scan multiplexer and D flip-flop chain with SI, SO, SE, and differentiated functional and test paths. Panel 2, 'Power intent': show two power-domain boundaries with LS and ISO blocks and power-off isolation. Panel 3, 'Constraints': show functional-clock and scan/test-clock waveforms with a mode selector. Panel 4, 'Sanity check': show a scan-chain connectivity probe and a checked domain crossing. Use sparse short English labels, with no paragraphs, arbitrary voltages, or performance metrics. Use white background, blue and dark linework, and pale fills. Only technical diagrams, with no webpage UI.
+
+Input images:
+- 05-dft.png: Reference for picture-centered detailed stage explanation.

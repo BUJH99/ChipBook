@@ -1,0 +1,10 @@
+{
+  "prompt": "Edit the supplied waveform analyzer screenshot so the entire waveform plotting background is pure white (#FFFFFF). Preserve the existing layout, controls, signals, wave shapes, annotations, and cursor positions. Use readable dark slate labels, subtle pale gray grid lines, blue normal traces, rose dashed comparison traces, and distinct purple and teal cursors. Keep the A–B selection very lightly shaded. Change only the waveform color theme; do not redesign the page.",
+  "inputs": [
+    "C:/Users/tbdk5/AppData/Local/Temp/chipbook-waveform-qa/desktop-waveform.png"
+  ],
+  "mode": "builtin",
+  "overwritten": false,
+  "output": "waveform-white-background-concept.png",
+  "generatedAt": "2026-10-04T02:59:41.855Z"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "dram-refresh",
+  "prompt": "Create a complete desktop UI mockup for ChipBook Chapter 5-1. Faithfully use the selected Option 2 reference as the common design for this failure mechanism. Keep the existing application shell, Korean typography, family selector, mechanism selector, two equally sized Normal Cell and Vulnerable Cell diagrams, one synchronized conceptual waveform area, playback and phase controls, three concise cause/state/result explanations, and mitigation comparison control. Replace the active mechanism, diagrams, waveforms, phase labels, and educational explanation with the case below. Maintain the reference's visual hierarchy, proportions, spacing and blue-white identity. Use normal-width, readable Korean and English technical labels. Draw the circuit and waveform at the same highlighted instant. Label the plot '개념 파형' without invented device specifications. Produce one full screen with the same aspect ratio as the reference.\n\nActive case: DRAM — 리프레시 페일 · Refresh Fail.\nCompare periodic successful refresh of a 1T1C cell with a delayed or missed refresh. A refresh controller and capacitor charge state connect visually. Normal charge follows a bounded sawtooth; delayed vulnerable charge crosses a dashed retention limit before recharge. Phases: 정상 주기 / 리프레시 지연 / 전하 감소 / 데이터 오류. Distinguish refresh scheduling interval tREFI from operation completion time tRFC. Mitigation '리프레시 일정 보장'.\n\nInput images:\n- normal-fault-comparison.png: the user's selected Option 2 design reference.",
+  "input": "C:/Users/tbdk5/Desktop/MAIN/0_Working/CHIP/ChipBook/design-mockups/page5-fail-mechanisms/normal-fault-comparison.png",
+  "original": "C:/Users/tbdk5/.codex/generated_images/01a1029c-5871-7d11-8cae-50b123ac8779/exec-843bef63-5836-4875-9f60-e585737d0e8c.png",
+  "output": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\all-mechanisms\\dram-refresh.png",
+  "mode": "builtin",
+  "overwritten": false,
+  "created_at": "2026-10-03T16:35:36.8889572Z"
+}

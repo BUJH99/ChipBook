@@ -1,0 +1,10 @@
+{
+  "id": "dram-vrt",
+  "prompt": "Create a complete desktop UI mockup for ChipBook Chapter 5-1. Faithfully use the selected Option 2 reference as the common design for this failure mechanism. Keep the existing application shell, Korean typography, family selector, mechanism selector, two equally sized Normal Cell and Vulnerable Cell diagrams, one synchronized conceptual waveform area, playback and phase controls, three concise cause/state/result explanations, and mitigation comparison control. Replace the active mechanism, diagrams, waveforms, phase labels, and educational explanation with the case below. Maintain the reference's visual hierarchy, proportions, spacing and blue-white identity. Use normal-width, readable Korean and English technical labels. Draw the circuit and waveform at the same highlighted instant. Label the plot '개념 파형' without invented device specifications. Produce one full screen with the same aspect ratio as the reference.\n\nActive case: DRAM — 가변 보존 시간 · VRT.\nCompare a DRAM access transistor with stable leakage to one whose trap state changes leakage between low and high levels. Include a small transistor-trap inset connected to the storage capacitor. Show an irregular two-level leakage trace and a charge curve whose decay slope changes after the trap transition; a deterministic tutorial example, not a real measured random trace. Phases: 저누설 상태 / 트랩 상태 변화 / 고누설 상태 / 간헐적 오류. Mitigation '보수적 리프레시·재검사'; do not present a single burn-in pass as guaranteed detection.\n\nInput images:\n- normal-fault-comparison.png: the user's selected Option 2 design reference.",
+  "input": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\normal-fault-comparison.png",
+  "original": "C:\\Users\\tbdk5\\.codex\\generated_images\\01a1029c-3039-7b70-8373-321f346ec3b1\\exec-a5358c9e-1764-46ef-823f-85b0275c4601.png",
+  "output": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\all-mechanisms\\dram-vrt.png",
+  "mode": "builtin",
+  "overwritten": false,
+  "startedEpoch": 1791045377.694
+}

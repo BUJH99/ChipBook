@@ -1,0 +1,10 @@
+{
+  "id": "dram-rowhammer",
+  "prompt": "Create a complete desktop UI mockup for ChipBook Chapter 5-1. Faithfully use the selected Option 2 reference as the common design for this failure mechanism. Keep the existing application shell, Korean typography, family selector, mechanism selector, two equally sized Normal Cell and Vulnerable Cell diagrams, one synchronized conceptual waveform area, playback and phase controls, three concise cause/state/result explanations, and mitigation comparison control. Replace the active mechanism, diagrams, waveforms, phase labels, and educational explanation with the case below. Maintain the reference's visual hierarchy, proportions, spacing and blue-white identity. Use normal-width, readable Korean and English technical labels. Draw the circuit and waveform at the same highlighted instant. Label the plot '개념 파형' without invented device specifications. Produce one full screen with the same aspect ratio as the reference.\n\nActive case: DRAM — 로우 해머링 · Row Hammer.\nShow two matching three-row DRAM array diagrams: Aggressor A, Victim, Aggressor B. Repeated ACT pulses on adjacent aggressors disturb the unselected victim row; its capacitor charge drops faster in the vulnerable comparison. WL on the victim stays OFF during hammering. Show aggressor ACT pulse train and victim charge curves. Phases: 초기 저장 / 반복 ACT / 전하 여유 감소 / Bit Flip. Mitigation '인접 행 리프레시'. Show no numeric hammer-count threshold, and no guarantee that a generic TRR method prevents every access pattern.\n\nInput images:\n- normal-fault-comparison.png: the user's selected Option 2 design reference.",
+  "input": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\normal-fault-comparison.png",
+  "original": "C:\\Users\\tbdk5\\.codex\\generated_images\\01a1029c-3039-7b70-8373-321f346ec3b1\\exec-22db13f9-cbb7-4d7c-aa58-647e18796254.png",
+  "output": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\all-mechanisms\\dram-rowhammer.png",
+  "mode": "builtin",
+  "overwritten": false,
+  "startedEpoch": 1791045266.894
+}

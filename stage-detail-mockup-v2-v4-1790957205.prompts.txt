@@ -1,0 +1,45 @@
+Generation mode: built-in image_gen
+
+Input images: none; based on existing ChipBook source and design tokens
+
+Existing files overwritten: no
+
+
+
+VERSION 2 — OVERVIEW
+
+Saved image: C:\Users\tbdk5\Desktop\MAIN\0_Working\CHIP\ChipBook\stage-detail-mockup-v2-overview.png
+
+Create an alternative desktop web mockup for ChipBook’s “2-2. Stage Detail”. Use the existing white and pale gray interface, blue #3182f6 accents, dark #191f28 text, Korean sans-serif typography, subtle borders, and rounded corners. Make the main content a spacious three-column by three-row grid of nine illustrated semiconductor design stages. Show the title “2-2. Stage Detail” and subtitle “9개 단계의 핵심 변화를 한눈에”.
+
+Every stage has a numbered heading, a large explanatory miniature diagram, and a concise input-to-output caption. The diagram is the dominant content inside each stage. Use these exact headings and diagram subjects: “01 Spec / Architecture” with product requirements becoming an interconnected architecture block diagram; “02 RTL / HDL Coding” with architecture blocks becoming a short RTL code document and module hierarchy; “03 DV / Functional Verification” with a testbench driving a DUT, signal waveforms, and a debug feedback arrow; “04 Logic Synthesis” with an RTL block becoming connected logic gates and flip-flops; “05 DFT / PI” with a chain of scan flip-flops and two annotated power domains; “06 Physical Design” with three miniature chip layouts progressing from floorplan to placement to routed wires; “07 Signoff” with a chip layout connected to checks labeled “STA”, “DRC / LVS”, and “IR / EM”; “08 Tapeout” with an approved layout becoming a “GDSII / OASIS” file and foundry handoff package; “09 Fab / Package / Test” with a wafer, packaged chip, and production test fixture connected in sequence.
+
+Use short bottom captions respectively: “요구사항 → 설계 구조”, “설계 구조 → RTL”, “RTL → 검증된 RTL”, “RTL → Gate-level netlist”, “Netlist → 구현 준비”, “Netlist → 배치·배선”, “Layout → 최종 승인”, “승인된 Layout → 제조 데이터”, “제조 데이터 → 완성 칩”. Preserve clear visual hierarchy and comfortable whitespace. Use restrained blue for the first three stages, green for synthesis and DFT, violet for physical design, teal for signoff, and orange for tapeout and manufacturing. Render one coherent learning-page mockup.
+
+
+
+VERSION 3 — TIMELINE
+
+Saved image: C:\Users\tbdk5\Desktop\MAIN\0_Working\CHIP\ChipBook\stage-detail-mockup-v3-timeline.png
+
+Create a distinct tall desktop webpage mockup for ChipBook’s “2-2. Stage Detail”, using a vertical illustrated design-flow timeline. Preserve the existing white and pale gray surfaces, blue #3182f6, dark #191f28 text, Korean sans-serif typography, fine borders, and restrained rounded corners. Title the page “2-2. Stage Detail” with subtitle “입력에서 산출물까지, 설계의 흐름을 따라가기”.
+
+Build nine spacious horizontal rows along a continuous numbered vertical timeline. Align every row under three clear column headings: “INPUT · 입력”, “PROCESS · 핵심 변화”, “OUTPUT · 산출물”. Give the process column most of the width and illustrate each transformation with a meaningful technical diagram. Connect each output to the next stage’s input with a subtle directional connector.
+
+Show these nine rows: “01 Spec / Architecture”, requirements to architecture block diagram; “02 RTL / HDL Coding”, architecture to RTL source and module hierarchy; “03 DV / Functional Verification”, RTL through a testbench–DUT–waveform feedback loop to verified RTL; “04 Logic Synthesis”, verified RTL through standard-cell mapping to a gate-level netlist; “05 DFT / PI”, netlist through scan-chain insertion and power-domain definition to an implementation-ready netlist; “06 Physical Design”, netlist through floorplan, placement, clock tree, and routing thumbnails to routed DB and extracted RC; “07 Signoff”, routed design through STA, DRC/LVS, and IR/EM checks to approved layout; “08 Tapeout”, approved layout through export and foundry handoff to GDSII/OASIS; “09 Fab / Package / Test”, manufacturing data through wafer, package, and production test illustrations to a finished chip.
+
+Use concise document labels at both ends of each row, large diagrams in the center, and only one short Korean explanatory sentence per stage. Make sequence, artifact continuity, and reading order visually clear. Use blue, green, violet, teal, and orange stage accents consistent with ChipBook’s existing design-flow colors. Render the full timeline as one continuous page.
+
+
+
+VERSION 4 — EXPLORER
+
+Saved image: C:\Users\tbdk5\Desktop\MAIN\0_Working\CHIP\ChipBook\stage-detail-mockup-v4-explorer.png
+
+Create a third alternative desktop web mockup for ChipBook’s “2-2. Stage Detail”, designed as a visual stage explorer. Preserve the project’s white and pale gray background, blue #3182f6 accents, dark #191f28 text, Korean sans-serif typography, subtle borders, and rounded corners.
+
+Place a narrow stage navigation rail on the left listing “01 Spec”, “02 RTL”, “03 DV”, “04 Synthesis”, “05 DFT / PI”, “06 Physical Design”, “07 Signoff”, “08 Tapeout”, and “09 Fab / Package / Test”. Highlight “06 Physical Design” with a soft violet selection. In the main area show “2-2. Stage Detail”, then a prominent heading “06 Physical Design” and subtitle “논리 회로가 실제 칩의 배치와 배선으로 바뀌는 과정”.
+
+Make the dominant visual a spacious four-frame technical storyboard. Show the same chip outline and fixed macro locations across all frames so changes can be compared. Label the frames “01 Floorplan”, “02 Placement”, “03 CTS”, and “04 Routing”. Floorplan shows large macros, an IO perimeter, and empty standard-cell regions. Placement fills those regions with fine standard-cell rows. CTS overlays a branching clock distribution tree connecting clock sinks. Routing shows dense orthogonal interconnect paths while preserving the chip’s recognizable macro arrangement. Connect the frames with clear arrows. Beneath each frame use one concise Korean caption: “블록과 전원 구조 계획”, “표준 셀의 위치 결정”, “클록을 균형 있게 분배”, “셀 사이의 신호 연결”.
+
+Under the storyboard, show a compact input strip labeled “입력” with “Netlist”, “SDC”, “UPF”, and “Design kit”; a corresponding output strip labeled “산출물” with “Placed / routed DB”, “Extracted RC”, and “Closure report”. Illustrate a return path labeled “Extraction → Timing 분석 → ECO” that loops back toward placement and routing. Finish with a restrained next-stage handoff labeled “다음 단계 · 07 Signoff” and “STA · DRC / LVS · IR / EM”. Prioritize the four chip diagrams, consistent visual comparison, and concise supporting labels.

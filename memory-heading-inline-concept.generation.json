@@ -1,0 +1,7 @@
+{
+  "prompt": "Create a ChipBook memory-failure header layout using the existing white and pale-blue interface styling. Place the large bold title “읽기 오류 (Read Upset)” on the left and the smaller muted description “읽기 동작 중 비트라인의 영향으로 셀의 저장 상태가 반전되는 현상” directly to its right, aligned on the first text baseline with a clear gap. Keep the “Read Destructive” badge before the title. The description wraps within its right-hand column when space is limited. Show the header in both desktop and narrow-screen layouts.",
+  "inputs": [],
+  "mode": "builtin",
+  "destination": "memory-heading-inline-concept.png",
+  "overwritten": false
+}

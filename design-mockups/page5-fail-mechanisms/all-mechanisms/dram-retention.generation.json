@@ -1,0 +1,10 @@
+{
+  "id": "dram-retention",
+  "prompt": "Create a complete desktop UI mockup for ChipBook Chapter 5-1. Faithfully use the selected Option 2 reference as the common design for this failure mechanism. Keep the existing application shell, Korean typography, family selector, mechanism selector, two equally sized Normal Cell and Vulnerable Cell diagrams, one synchronized conceptual waveform area, playback and phase controls, three concise cause/state/result explanations, and mitigation comparison control. Replace the active mechanism, diagrams, waveforms, phase labels, and educational explanation with the case below. Maintain the reference's visual hierarchy, proportions, spacing and blue-white identity. Use normal-width, readable Korean and English technical labels. Draw the circuit and waveform at the same highlighted instant. Label the plot '개념 파형' without invented device specifications. Produce one full screen with the same aspect ratio as the reference.\n\nActive case: DRAM — 리텐션 불량 · Retention Fail.\nShow two 1T1C cells with WL OFF and charge leaking from the storage capacitor. Normal cell retains sufficient charge; vulnerable cell loses charge before the next refresh. Paired capacitor charge curves start high, the vulnerable curve crosses a dashed read margin first. Phases: 전하 저장 / 누설 진행 / 감지 여유 감소 / 보존 실패. Show temperature-aware shorter refresh interval as the mitigation, labeled '리프레시 간격 단축'. Store 1 initially; a low-charge state is a read-risk example, not a universal fixed voltage.\n\nInput images:\n- normal-fault-comparison.png: the user's selected Option 2 design reference.",
+  "input": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\normal-fault-comparison.png",
+  "original": "C:\\Users\\tbdk5\\.codex\\generated_images\\01a1029c-3039-7b70-8373-321f346ec3b1\\exec-aa2f090d-cd87-4898-92c6-d1302f145429.png",
+  "output": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\all-mechanisms\\dram-retention.png",
+  "mode": "builtin",
+  "overwritten": false,
+  "startedEpoch": 1791045179.747
+}

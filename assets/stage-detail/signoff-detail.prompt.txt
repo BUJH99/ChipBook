@@ -1,0 +1,4 @@
+Create a standalone wide technical illustration for a full-width 1200 by 310 CSS detail strip. Arrange four large panels in one horizontal row. Panel 1, STA: clock and data waveforms showing setup before and hold after the active clock edge. Panel 2, DRC / LVS: physical spacing alongside a layout versus netlist connectivity comparison. Panel 3, IR / EM: a power-grid heatmap and current flow, with only a relative legend and no measured numeric values. Panel 4, Release: a checklist consolidating reports, with a failure path returning toward ECO. Use sparse short English labels only, without paragraphs or UI. Pure white background, blue and dark technical linework, and pale fills.
+
+Input images:
+- 07-signoff.png: selected reference for picture-centered detailed explanations.

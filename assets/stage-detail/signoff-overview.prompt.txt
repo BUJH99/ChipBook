@@ -1,0 +1,4 @@
+Create a standalone technical process diagram for the Signoff stage, readable in a 600 by 340 CSS figure. A routed die on the left fans into three parallel checks: STA, illustrated with a clock and data path; DRC / LVS, illustrated with spacing and connectivity comparison; IR / EM, illustrated with a power-grid hotspot and current flow. The three checks converge to a release document on the right. Use short English labels, a white background, blue and dark technical linework, and pale fills. Do not include invented measured values, percentages, or automatic PASS results.
+
+Input images:
+- 07-signoff.png: selected reference for page flow and picture-centered detailed explanations.

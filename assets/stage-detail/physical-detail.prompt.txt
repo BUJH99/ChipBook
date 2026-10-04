@@ -1,0 +1,4 @@
+Create a standalone wide landscape technical storyboard of Physical Design for a full-width detail strip approximately 1200 by 310 CSS pixels. Show four equal panels in a single row, with the same chip boundary and fixed macro placement in all four panels: CPU upper-left, SRAM upper-right, DSP lower-left, and PLL lower-right. Use only these panel labels: 'Floorplan', 'Placement', 'CTS', 'Routing'. Floorplan shows empty standard-cell areas and a power plan. Placement fills standard-cell rows. CTS adds a branched balanced clock tree. Routing adds orthogonal colored signal wires while the fixed macros remain recognizable. Do not include arbitrary metal-layer numbers. Use white background, restrained blue and dark linework, and pale blue, green, and violet fills. Large diagrams dominate with minimal margins. No webpage UI, cards, or paragraphs.
+
+Input images:
+- 06-physical.png: Reference for picture-centered detailed stage explanation.

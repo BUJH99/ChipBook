@@ -1,0 +1,178 @@
+[
+  {
+    "id": "sram-read-upset",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "sram-write-fail",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "sram-half-select",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 545.64599609375
+    }
+  },
+  {
+    "id": "sram-hold",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "sram-slow",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "sram-rtn",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 545.64599609375
+    }
+  },
+  {
+    "id": "sram-aging",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "sram-ser",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "dram-retention",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "dram-restore",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "dram-sense",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 545.64599609375
+    }
+  },
+  {
+    "id": "dram-rowhammer",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "dram-refresh",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 517.30224609375
+    }
+  },
+  {
+    "id": "dram-write-recovery",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 545.64599609375
+    }
+  },
+  {
+    "id": "dram-vrt",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 545.64599609375
+    }
+  },
+  {
+    "id": "dram-hard-soft",
+    "pageOverflow": false,
+    "frameOverflow": false,
+    "comparison": {
+      "height": 524.3333740234375,
+      "width": 262,
+      "x": 56.33333587646485,
+      "y": 583.97900390625
+    }
+  }
+]

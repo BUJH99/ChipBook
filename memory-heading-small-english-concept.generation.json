@@ -1,0 +1,9 @@
+{
+  "prompt": "Make the heading smaller. Remove the parentheses around the English name and place it in smaller text immediately to the right of the Korean title, aligned on the same baseline.\n\nInput images:\n- Image 1: reference for the requested heading change.",
+  "inputs": [
+    "C:/Users/tbdk5/AppData/Local/Temp/codex-clipboard-5d97a780-2589-4135-9bac-82a714165b0d.png"
+  ],
+  "mode": "builtin",
+  "overwritten": false,
+  "output": "memory-heading-small-english-concept.png"
+}

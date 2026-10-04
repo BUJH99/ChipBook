@@ -1,0 +1,8 @@
+{
+  "prompt": "Refine the attached SRAM/DRAM hierarchy diagram as a polished technical SVG design reference. Improve the text size hierarchy, spacing, and label placement so circuit and array labels do not collide with wires, grids, borders, or adjacent blocks. Preserve the hierarchy and its SRAM/DRAM comparison. Redraw Rank/DIMM as a precise, recognisable horizontal DIMM with consistently aligned DRAM packages, a notched gold edge connector, restrained PCB routing, and a clear visual separation between a rank grouping and the module. Keep the existing visual language, make the internal labels comfortably readable, and balance the title scale with the diagrams.\n\nInput images:\n- codex-clipboard-ae04a046-9019-46a5-980a-37cbe39f8626.png: the section the user wants refined.",
+  "inputs": [
+    "C:/Users/tbdk5/AppData/Local/Temp/codex-clipboard-ae04a046-9019-46a5-980a-37cbe39f8626.png"
+  ],
+  "mode": "builtin",
+  "overwritten": false
+}

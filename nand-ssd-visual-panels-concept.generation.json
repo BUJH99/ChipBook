@@ -1,0 +1,10 @@
+{
+  "prompt": "Redesign the supplied NAND-to-SSD educational UI reference as a polished, highly readable Korean web interface mockup. Preserve its four topics and blue, violet, green, cyan identity in a spacious 2-by-2 layout. Replace text-heavy explanations with large meaningful scientific visualizations: 1) floating-gate cross-section with electrons visibly stored inside the floating gate, program/erase controls, and a threshold-voltage before/after graph; 2) a NAND block matrix with one selected page being programmed versus the whole block erased, with clear state legends; 3) an illustrated LBA-to-physical-page mapping, a one-bit ECC correction example, and wear-leveling bars; 4) an SSD board diagram with a host request traveling through the controller and parallel NAND channels, plus numbered progress steps. Use crisp native-vector-style diagrams, generous label spacing, short Korean captions, large dark typography, white backgrounds, subtle grids, thin borders, restrained color fills, and compact interactive controls. Keep headings and short labels on one line. Every visualization should explain cause and effect, with minimal decorative badges. Show a coherent desktop product screen, not a poster.",
+  "inputs": [
+    "C:/Users/tbdk5/AppData/Local/Temp/codex-clipboard-b8ac2a59-d441-4a1b-9b92-8e53894bba9a.png"
+  ],
+  "mode": "builtin",
+  "overwritten": false,
+  "output": "nand-ssd-visual-panels-concept.png",
+  "generatedAt": "2026-10-04T02:44:41.522Z"
+}

@@ -1,0 +1,4 @@
+Create a standalone technical overview diagram of Physical Design on a white background, with no webpage UI. Use a restrained blue #3182f6 and dark #191f28 palette with pale blue, green, and violet modules. A netlist document on the left transforms into a physical die in the center. Show fixed CPU in the upper-left, SRAM in the upper-right, DSP in the lower-left, and PLL in the lower-right, with routed standard cells in the central corridors. Use orthogonal signal wires and visually distinct clock branches. On the right, show extracted RC output. Include a clear Timing / ECO return loop back to the layout. Use sparse English labels only. Do not include arbitrary metal-layer numbering or numerical performance claims. Make the landscape composition readable at 600 pixels wide as a main process figure approximately 600 by 340 CSS pixels.
+
+Input images:
+- 06-physical.png: Reference for picture-centered detailed stage explanation.

@@ -1,0 +1,4 @@
+Create a standalone technical process diagram for the RTL stage, readable in a 600 by 340 CSS figure at 600 pixels wide. On the left, show a system architecture transforming into a top RTL module that branches into cpu, dma, and uart submodules. Below the module hierarchy, show register → combinational logic → register, with shared clock and reset connections. Use a white background, restrained blue and dark technical linework, pale fills, and sparse short English labels. No webpage, UI cards, or paragraphs.
+
+Input images:
+- 02-rtl.png: selected reference for page flow and picture-centered detailed explanations.

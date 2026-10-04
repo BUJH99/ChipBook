@@ -1,0 +1,7 @@
+{
+  "prompt": "Design a high-quality engineering waveform analyzer panel titled “WaveForm” for ChipBook’s existing white and blue interface. Keep a clean white toolbar and a deep navy plotting surface with precise, quiet grid lines. Show separate labeled tracks WL, BL, BLB, Q, and QB, comparing blue normal traces with rose vulnerable traces. Use an explicit “Model · normalized” source badge and an x-axis labeled t/T from 0 to 1. Place two draggable vertical cursors A and B, a lightly shaded selected interval, and a dashed trip-point line on the Q track. Include compact controls for Cursor A, Cursor B, Pan, Zoom out, Zoom in, Fit, Signals, CSV/VCD import, SVG export, and CSV export. Below the plot, show clear A/B/Δ readouts and a neatly aligned measurement table with signal names, units, cursor values, and interval statistics. Keep data marks dominant, use readable labels and tabular numerals, and avoid decorative effects. Show desktop and mobile versions; on mobile, wrap controls and retain readable signal tracks with fewer axis ticks.",
+  "inputs": [],
+  "mode": "builtin",
+  "destination": "waveform-analyzer-concept.png",
+  "overwritten": false
+}

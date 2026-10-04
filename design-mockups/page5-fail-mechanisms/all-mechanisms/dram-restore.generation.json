@@ -1,0 +1,10 @@
+{
+  "id": "dram-restore",
+  "prompt": "Create a complete desktop UI mockup for ChipBook Chapter 5-1. Faithfully use the selected Option 2 reference as the common design for this failure mechanism. Keep the existing application shell, Korean typography, family selector, mechanism selector, two equally sized Normal Cell and Vulnerable Cell diagrams, one synchronized conceptual waveform area, playback and phase controls, three concise cause/state/result explanations, and mitigation comparison control. Replace the active mechanism, diagrams, waveforms, phase labels, and educational explanation with the case below. Maintain the reference's visual hierarchy, proportions, spacing and blue-white identity. Use normal-width, readable Korean and English technical labels. Draw the circuit and waveform at the same highlighted instant. Label the plot '개념 파형' without invented device specifications. Produce one full screen with the same aspect ratio as the reference.\n\nActive case: DRAM — 리스토어 페일 · Restore Fail.\nShow each 1T1C storage capacitor connected to a bitline and Sense Amp. During a destructive read charge sharing reduces cell charge, then the sense amplifier restores it. Normal cell has sufficient active time and returns high; vulnerable cell is disconnected by early PRE before restoration completes. Waveforms show WL, PRE marker, and cell charge for both cases. Phases: 전하 공유 / 센싱 / 복원 / 프리차지. Mitigation 'tRAS 여유 확보' extends the restore window.\n\nInput images:\n- normal-fault-comparison.png: the user's selected Option 2 design reference.",
+  "input": "C:/Users/tbdk5/Desktop/MAIN/0_Working/CHIP/ChipBook/design-mockups/page5-fail-mechanisms/normal-fault-comparison.png",
+  "original": "C:/Users/tbdk5/.codex/generated_images/01a1029c-5871-7d11-8cae-50b123ac8779/exec-1ceb2a0b-48d9-469b-9b32-b0f6803c945d.png",
+  "output": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\all-mechanisms\\dram-restore.png",
+  "mode": "builtin",
+  "overwritten": false,
+  "created_at": "2026-10-03T16:34:14.4985456Z"
+}

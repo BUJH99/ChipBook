@@ -1,0 +1,230 @@
+{
+  "selected_reference": "../normal-fault-comparison.png",
+  "mechanism_count": 16,
+  "image_count": 17,
+  "images_completed_before_implementation": true,
+  "originals_overwritten": false,
+  "images": [
+    {
+      "id": "dram-retention",
+      "family": "DRAM",
+      "title": "리텐션 불량 · Retention Fail",
+      "file": "dram-retention.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "3d6e19489a4ede299f565c882de638e340dc6816a68a4deb1e958883eb5cbddb",
+      "source": "builtin-imagegen",
+      "generation_record": "dram-retention.generation.json"
+    },
+    {
+      "id": "dram-restore",
+      "family": "DRAM",
+      "title": "리스토어 페일 · Restore Fail",
+      "file": "dram-restore.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "1821c42aeaf2aee4dcab94260da6ca667268ed738be75ffee125b865f7c0f509",
+      "source": "builtin-imagegen",
+      "generation_record": "dram-restore.generation.json"
+    },
+    {
+      "id": "dram-sense",
+      "family": "DRAM",
+      "title": "센스 앰프 마진 불량 · Sense Margin",
+      "file": "dram-sense.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "48fa4ae93fc75cac6ce23c930acedf19bb065fc80a60d2624d567b88a2ece529",
+      "source": "builtin-imagegen",
+      "generation_record": "dram-sense.generation.json"
+    },
+    {
+      "id": "dram-rowhammer",
+      "family": "DRAM",
+      "title": "로우 해머링 · Row Hammer",
+      "file": "dram-rowhammer.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "a52c13b074c8ed551bb261fecdc1cf1846f7b6152070bb33e6d3f43d28f6aca1",
+      "source": "builtin-imagegen",
+      "generation_record": "dram-rowhammer.generation.json"
+    },
+    {
+      "id": "dram-refresh",
+      "family": "DRAM",
+      "title": "리프레시 페일 · Refresh Fail",
+      "file": "dram-refresh.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "536516859b3986704d25ecd480be7d7990df0c8156c9f3399ffb9c6ed7760df8",
+      "source": "builtin-imagegen",
+      "generation_record": "dram-refresh.generation.json"
+    },
+    {
+      "id": "dram-write-recovery",
+      "family": "DRAM",
+      "title": "라이트 리커버리 페일 · Write Recovery",
+      "file": "dram-write-recovery.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "110fa341cf79900e015ecbe1f2b680d32b08469933e5c07b72814f4acc17ced5",
+      "source": "builtin-imagegen",
+      "generation_record": "dram-write-recovery.generation.json"
+    },
+    {
+      "id": "dram-vrt",
+      "family": "DRAM",
+      "title": "가변 보존 시간 · VRT",
+      "file": "dram-vrt.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "8c55f9e7f84868fa46eb0eea359bf59313c78c88c884436c657f5bd722d5016f",
+      "source": "builtin-imagegen",
+      "generation_record": "dram-vrt.generation.json"
+    },
+    {
+      "id": "dram-hard-soft",
+      "family": "DRAM",
+      "title": "하드·소프트 에러 · Hard / Soft Error",
+      "file": "dram-hard-soft.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "b1101db16dd95071b97a4cefb884f7fd4335ca8bf787f57a58d2d40a270303bb",
+      "source": "builtin-imagegen",
+      "generation_record": "dram-hard-soft.generation.json"
+    },
+    {
+      "id": "sram-read-upset",
+      "family": "SRAM",
+      "title": "읽기 오류 · Read Upset",
+      "file": "sram-read-upset.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "cd95fdea9572bc86b8f0f87db9c834f81ee72b404be3cc415d76b83de4a82e6b",
+      "source": "selected-option-2-reused",
+      "generation_record": null
+    },
+    {
+      "id": "sram-write-fail",
+      "family": "SRAM",
+      "title": "쓰기 실패 · Write Fail",
+      "file": "sram-write-fail.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "4e5c732d6a04bc1459dab2656dadd648ea89d487853fdefd4fef76ff59b9666f",
+      "source": "builtin-imagegen",
+      "generation_record": "sram-write-fail.generation.json"
+    },
+    {
+      "id": "sram-half-select",
+      "family": "SRAM",
+      "title": "하프 셀렉트 디스터브 · Half Select",
+      "file": "sram-half-select.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "ac19e5c3db914dbb5340e6c86a3e7e2e30f6fd1df2351c5938348fc15a6986e1",
+      "source": "builtin-imagegen",
+      "generation_record": "sram-half-select.generation.json"
+    },
+    {
+      "id": "sram-hold",
+      "family": "SRAM",
+      "title": "대기 전력 불량 · Hold Fail",
+      "file": "sram-hold.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "e9acbf58b598ec4145b71776ea3e1b3f354dde68853444b3700d4bb836ec5af5",
+      "source": "builtin-imagegen",
+      "generation_record": "sram-hold.generation.json"
+    },
+    {
+      "id": "sram-slow",
+      "family": "SRAM",
+      "title": "슬로우 비트 · Slow Bit",
+      "file": "sram-slow.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "1d73dc8aac661f78fb285b09e521f66c1c884415de1b06d48262b365b0d64da6",
+      "source": "builtin-imagegen",
+      "generation_record": "sram-slow.generation.json"
+    },
+    {
+      "id": "sram-rtn",
+      "family": "SRAM",
+      "title": "미스매치·RTN · Mismatch / RTN",
+      "file": "sram-rtn.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "0ec174ffc4448f1408a74fe44c4fa21656b71d1ccb6b38999c126e522882e121",
+      "source": "builtin-imagegen",
+      "generation_record": "sram-rtn.generation.json"
+    },
+    {
+      "id": "sram-aging",
+      "family": "SRAM",
+      "title": "열화 불량 · Aging",
+      "file": "sram-aging.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "211db40193ba043c0f0789b2e94a1d40c46cc781f8f8406f4db060aaf9c810b9",
+      "source": "builtin-imagegen",
+      "generation_record": "sram-aging.generation.json"
+    },
+    {
+      "id": "sram-ser",
+      "family": "SRAM",
+      "title": "소프트 에러 · Soft Error / SEU",
+      "file": "sram-ser.png",
+      "pixels": [
+        1582,
+        994
+      ],
+      "sha256": "8dbbcfcb3852cb92a055f56f8dd3ca7e76f949c44e324b9854dc4b949d809d42",
+      "source": "builtin-imagegen",
+      "generation_record": "sram-ser.generation.json"
+    },
+    {
+      "id": "dram-hard-soft-soft",
+      "family": "DRAM",
+      "title": "소프트 에러 · Soft Error",
+      "file": "dram-hard-soft-soft.png",
+      "pixels": [
+        1580,
+        995
+      ],
+      "sha256": "8e32ea66abd0c6e95f96a8612af39a741df8b8947587f57deb8b9306c1c81d95",
+      "source": "builtin-imagegen",
+      "generation_record": "dram-hard-soft-soft.generation.json"
+    }
+  ]
+}

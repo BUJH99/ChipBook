@@ -1,0 +1,9 @@
+{
+  "prompt": "Move the English text from below the Korean text to immediately to its right, aligned on the same baseline. Widen the component only as needed to fit both labels on one row. Preserve the rest of the component.\n\nInput images:\n- Image 1: reference for the requested label placement.",
+  "inputs": [
+    "C:/Users/tbdk5/AppData/Local/Temp/codex-clipboard-45148ce2-ef8a-498d-9bef-4c06aab9fae1.png"
+  ],
+  "mode": "builtin",
+  "overwritten": false,
+  "output": "mechanism-selector-inline-english-concept.png"
+}

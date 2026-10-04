@@ -1,0 +1,10 @@
+{
+  "id": "sram-rtn",
+  "prompt": "Create a complete desktop UI mockup for ChipBook Chapter 5-1. Faithfully use the selected Option 2 reference as the common design for this failure mechanism. Keep the existing application shell, Korean typography, family selector, mechanism selector, two equally sized Normal Cell and Vulnerable Cell diagrams, one synchronized conceptual waveform area, playback and phase controls, three concise cause/state/result explanations, and mitigation comparison control. Replace the active mechanism, diagrams, waveforms, phase labels, and educational explanation with the case below. Maintain the reference's visual hierarchy, proportions, spacing and blue-white identity. Use normal-width, readable Korean and English technical labels. Draw the circuit and waveform at the same highlighted instant. Label the plot '개념 파형' without invented device specifications. Produce one full screen with the same aspect ratio as the reference.\n\nActive case: SRAM — 미스매치·RTN · Mismatch / RTN.\nShow matched 6T SRAM latches, with a small trap inset on one transistor in the vulnerable case. Static device mismatch biases the latch, and irregular trapping/release adds two-level threshold shifts reducing read or hold margin. Normal stays within margin; vulnerable crosses the demonstrated margin boundary during one trap state. Show a two-state delta-Vth trace and the normal/vulnerable margin on a shared timeline. Phases: 초기 미스매치 / 전자 포획 / 마진 감소 / 전자 방출. Mitigation '노이즈 마진 확보'; no claim that FinFET or GAA removes all RTN.\n\nInput images:\n- normal-fault-comparison.png: the user's selected Option 2 design reference.",
+  "input": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\normal-fault-comparison.png",
+  "original": "C:\\Users\\tbdk5\\.codex\\generated_images\\01a1029c-3039-7b70-8373-321f346ec3b1\\exec-ca1926bc-5db9-45d6-b33f-338c2ca80464.png",
+  "output": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\all-mechanisms\\sram-rtn.png",
+  "mode": "builtin",
+  "overwritten": false,
+  "startedEpoch": 1791045545.32
+}

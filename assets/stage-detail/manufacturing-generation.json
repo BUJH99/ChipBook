@@ -1,0 +1,23 @@
+{
+  "mode": "built-in image generation, local reference edit",
+  "reason": "The existing manufacturing SVG trials do not preserve the reference metal surfaces and bond-wire appearance adequately. The user explicitly allowed an image-generated PNG fallback for insufficient SVG quality.",
+  "prompt": "Upscale and reconstruct the provided reference as a 4096-pixel-wide image, preserving the reference aspect ratio, at the highest available native image quality. Preserve the exact original design, framing, typography, rendered text, colors, materials, and fine details. Reconstruct sharp detail for enlargement while matching the reference as closely as possible.",
+  "outputs": [
+    {
+      "reference": "manufacturing-overview.png",
+      "input_role": "original PNG design to reproduce faithfully at higher resolution",
+      "output": "manufacturing-overview-generated.png",
+      "actual_width": 1666,
+      "actual_height": 944
+    },
+    {
+      "reference": "manufacturing-detail.png",
+      "input_role": "original PNG design to reproduce faithfully at higher resolution",
+      "output": "manufacturing-detail-generated.png",
+      "actual_width": 2076,
+      "actual_height": 757
+    }
+  ],
+  "limitation": "The image tool retained approximately the reference pixel dimensions despite the explicit 4096-pixel request. These files must not be described as 4K or as lossless at arbitrary zoom.",
+  "original_files_overwritten": false
+}

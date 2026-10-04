@@ -1,0 +1,10 @@
+{
+  "id": "sram-hold",
+  "prompt": "Create a complete desktop UI mockup for ChipBook Chapter 5-1. Faithfully use the selected Option 2 reference as the common design for this failure mechanism. Keep the existing application shell, Korean typography, family selector, mechanism selector, two equally sized Normal Cell and Vulnerable Cell diagrams, one synchronized conceptual waveform area, playback and phase controls, three concise cause/state/result explanations, and mitigation comparison control. Replace the active mechanism, diagrams, waveforms, phase labels, and educational explanation with the case below. Maintain the reference's visual hierarchy, proportions, spacing and blue-white identity. Use normal-width, readable Korean and English technical labels. Draw the circuit and waveform at the same highlighted instant. Label the plot '개념 파형' without invented device specifications. Produce one full screen with the same aspect ratio as the reference.\n\nActive case: SRAM — 대기 전력 불량 · Hold Fail.\nShow two SRAM latches in idle with WL OFF. Normal standby supply maintains Q/QB separation. Vulnerable standby VDD drops below its retention requirement, the feedback latch loses stability and the stored state is lost. Plot standby VDD and paired cell state separation with a dashed conceptual retention limit. Phases: 대기 진입 / VDD 감소 / 보존 여유 소진 / 상태 소실. Mitigation 'Retention VDD 여유 확보'.\n\nInput images:\n- normal-fault-comparison.png: the user's selected Option 2 design reference.",
+  "input": "C:/Users/tbdk5/Desktop/MAIN/0_Working/CHIP/ChipBook/design-mockups/page5-fail-mechanisms/normal-fault-comparison.png",
+  "original": "C:/Users/tbdk5/.codex/generated_images/01a1029c-5871-7d11-8cae-50b123ac8779/exec-1eb6cdde-579c-4620-b47d-ec71ea6c6a8d.png",
+  "output": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\CHIP\\ChipBook\\design-mockups\\page5-fail-mechanisms\\all-mechanisms\\sram-hold.png",
+  "mode": "builtin",
+  "overwritten": false,
+  "created_at": "2026-10-03T16:38:57.7297632Z"
+}

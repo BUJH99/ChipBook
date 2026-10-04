@@ -1,0 +1,4 @@
+Create a standalone landscape technical diagram for the Design Verification stage, readable at approximately 600 by 340 CSS pixels. Show the testbench flow Driver → DUT → Monitor → Scoreboard, using directional blue arrows with clear connectivity. Stimulus from the Driver also feeds an independent Reference model, whose expected transactions feed the Scoreboard separately from the observed transactions from the Monitor. Show dashed red Debug feedback from a Scoreboard mismatch back to the RTL DUT, clearly separate from the functional data paths. Use sparse English labels: Driver, DUT, Monitor, Reference model, Scoreboard, Debug. Use white background, restrained blue #3182f6, dark #191f28 linework, and pale module fills. Render only the technical diagram, without a webpage, browser chrome, navigation, or paragraphs.
+
+Input images:
+- 03-dv.png: Reference for the user's chosen page flow and picture-centered detailed explanations.

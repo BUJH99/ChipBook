@@ -1,0 +1,4 @@
+Create a standalone wide landscape technical storyboard of semiconductor manufacturing for a full-width detail strip approximately 1200 by 310 CSS pixels. Show three panels in one row. 'Wafer fabrication' shows a patterned wafer and a magnified die. 'Package assembly' shows visibly separated die, substrate, bond/interconnect, and protective mold. 'Production test' shows a test fixture with probes and a conceptual pass/fail map, with no yield percentages. Use a pure white background, muted blue and dark technical linework, and subtle dimensional materials. Use sparse English labels. Only the technical illustration; no webpage UI or paragraphs.
+
+Input images:
+- 09-manufacturing.png: Reference for picture-centered detailed stage explanation and subtle material dimensionality.

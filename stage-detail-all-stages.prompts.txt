@@ -1,0 +1,80 @@
+===== 01 Spec / Architecture =====
+Create one ChipBook desktop web-page mockup for “2-2. Stage Detail”. Follow reference 1 for the page flow and reference 2 for picture-centered explanations of detailed steps. Use the existing bright white, pale gray, blue #3182f6 and dark #191f28 design language with readable Korean sans-serif type. The top selector contains all nine stages: 01 Spec, 02 RTL, 03 DV, 04 Synthesis, 05 DFT / PI, 06 Physical Design, 07 Signoff, 08 Tapeout, 09 Fab / Package / Test. Use a compact input column, a dominant process illustration, an output column, a full-width illustrated detail storyboard underneath, and previous/next stage handoff controls. Give the diagrams most of the space; keep text to short captions.
+
+Selected stage: “01 Spec / Architecture”. Subtitle: “요구사항을 설계 가능한 구조로 구체화”. Input labels: Product requirement; Application / market; Target use-case. Output labels: Architecture spec; Block diagram; Top-level requirement. Main process picture: Product requirements flow into an architecture with CPU, memory, interconnect, and peripherals, with PPA constraints influencing the design. Detailed step storyboard: four visual panels: use-case and function boundary; balanced Power / Performance / Area targets without invented numerical values; IP blocks and hierarchy; defined interfaces connecting the architecture. Keep all technical illustrations explanatory and consistent with the source content.
+
+Input images:
+- Image 1: overall page-flow reference.
+- Image 2: picture-centered detailed-step explanation reference.
+
+===== 02 RTL / HDL Coding =====
+Create one ChipBook desktop web-page mockup for “2-2. Stage Detail”. Follow reference 1 for the page flow and reference 2 for picture-centered explanations of detailed steps. Use the existing bright white, pale gray, blue #3182f6 and dark #191f28 design language with readable Korean sans-serif type. The top selector contains all nine stages: 01 Spec, 02 RTL, 03 DV, 04 Synthesis, 05 DFT / PI, 06 Physical Design, 07 Signoff, 08 Tapeout, 09 Fab / Package / Test. Use a compact input column, a dominant process illustration, an output column, a full-width illustrated detail storyboard underneath, and previous/next stage handoff controls. Give the diagrams most of the space; keep text to short captions.
+
+Selected stage: “02 RTL / HDL Coding”. Subtitle: “설계 구조를 클록에 따라 동작하는 RTL로 표현”. Input labels: Architecture spec; Block diagram; Top-level requirement. Output labels: RTL source; Interface definition; Early constraint. Main process picture: An architecture block is expanded into a top-module hierarchy and synchronous datapath with register, combinational logic, and the next register. Detailed step storyboard: four visual panels: module hierarchy; clock/reset waveform aligned to registers; register and combinational datapath; interface signals and a register map. Keep all technical illustrations explanatory and consistent with the source content.
+
+Input images:
+- Image 1: overall page-flow reference.
+- Image 2: picture-centered detailed-step explanation reference.
+
+===== 03 DV / Functional Verification =====
+Create one ChipBook desktop web-page mockup for “2-2. Stage Detail”. Follow reference 1 for the page flow and reference 2 for picture-centered explanations of detailed steps. Use the existing bright white, pale gray, blue #3182f6 and dark #191f28 design language with readable Korean sans-serif type. The top selector contains all nine stages: 01 Spec, 02 RTL, 03 DV, 04 Synthesis, 05 DFT / PI, 06 Physical Design, 07 Signoff, 08 Tapeout, 09 Fab / Package / Test. Use a compact input column, a dominant process illustration, an output column, a full-width illustrated detail storyboard underneath, and previous/next stage handoff controls. Give the diagrams most of the space; keep text to short captions.
+
+Selected stage: “03 DV / Functional Verification”. Subtitle: “다양한 시나리오로 RTL의 기능과 경계 조건을 검증”. Input labels: RTL source; Interface definition; Verification plan; Testbench / scenario. Output labels: Verified RTL; Bug fix log; Verification signoff state. Main process picture: Stimulus flows from a testbench driver into a DUT; a monitor observes output; a scoreboard compares against a reference model; a debug loop returns to the RTL. Detailed step storyboard: four visual panels: testbench and scenario setup; stimulus and output waveforms in simulation; mismatch location with debug feedback; covered versus uncovered scenario bins without invented completion percentages. Keep all technical illustrations explanatory and consistent with the source content.
+
+Input images:
+- Image 1: overall page-flow reference.
+- Image 2: picture-centered detailed-step explanation reference.
+
+===== 04 Logic Synthesis =====
+Create one ChipBook desktop web-page mockup for “2-2. Stage Detail”. Follow reference 1 for the page flow and reference 2 for picture-centered explanations of detailed steps. Use the existing bright white, pale gray, blue #3182f6 and dark #191f28 design language with readable Korean sans-serif type. The top selector contains all nine stages: 01 Spec, 02 RTL, 03 DV, 04 Synthesis, 05 DFT / PI, 06 Physical Design, 07 Signoff, 08 Tapeout, 09 Fab / Package / Test. Use a compact input column, a dominant process illustration, an output column, a full-width illustrated detail storyboard underneath, and previous/next stage handoff controls. Give the diagrams most of the space; keep text to short captions.
+
+Selected stage: “04 Logic Synthesis”. Subtitle: “RTL을 표준 셀 기반의 게이트 회로로 변환”. Input labels: Verified RTL; SDC constraint; Std cell library; Power intent. Output labels: Gate-level netlist; Timing report; Area / power report. Main process picture: A behavioral RTL register-and-logic block is mapped into connected standard-cell gates and flip-flops, assisted by library and timing constraints. Detailed step storyboard: four visual panels: RTL elaboration into registers and operators; library mapping into standard cells; before-and-after PPA optimization preserving logic; clock and data paths illustrating a timing sanity check. Keep all technical illustrations explanatory and consistent with the source content.
+
+Input images:
+- Image 1: overall page-flow reference.
+- Image 2: picture-centered detailed-step explanation reference.
+
+===== 05 DFT / PI =====
+Create one ChipBook desktop web-page mockup for “2-2. Stage Detail”. Follow reference 1 for the page flow and reference 2 for picture-centered explanations of detailed steps. Use the existing bright white, pale gray, blue #3182f6 and dark #191f28 design language with readable Korean sans-serif type. The top selector contains all nine stages: 01 Spec, 02 RTL, 03 DV, 04 Synthesis, 05 DFT / PI, 06 Physical Design, 07 Signoff, 08 Tapeout, 09 Fab / Package / Test. Use a compact input column, a dominant process illustration, an output column, a full-width illustrated detail storyboard underneath, and previous/next stage handoff controls. Give the diagrams most of the space; keep text to short captions.
+
+Selected stage: “05 DFT / PI”. Subtitle: “테스트 구조와 전원 의도를 반영해 물리 구현을 준비”. Input labels: Gate-level netlist; Timing report; Test requirements; Low-power intent. Output labels: Scan-ready netlist; Test structure; Implementation-ready constraints. Main process picture: A functional flip-flop chain gains a scan input and scan output; beside it, two power domains are connected through a level shifter and isolation cell. Detailed step storyboard: four visual panels: scan insertion with functional versus scan paths; UPF power domains and isolation; functional and test constraint modes; connectivity and test structure sanity checks. Keep all technical illustrations explanatory and consistent with the source content.
+
+Input images:
+- Image 1: overall page-flow reference.
+- Image 2: picture-centered detailed-step explanation reference.
+
+===== 06 Physical Design =====
+Create one ChipBook desktop web-page mockup for “2-2. Stage Detail”. Follow reference 1 for the page flow and reference 2 for picture-centered explanations of detailed steps. Use the existing bright white, pale gray, blue #3182f6 and dark #191f28 design language with readable Korean sans-serif type. The top selector contains all nine stages: 01 Spec, 02 RTL, 03 DV, 04 Synthesis, 05 DFT / PI, 06 Physical Design, 07 Signoff, 08 Tapeout, 09 Fab / Package / Test. Use a compact input column, a dominant process illustration, an output column, a full-width illustrated detail storyboard underneath, and previous/next stage handoff controls. Give the diagrams most of the space; keep text to short captions.
+
+Selected stage: “06 Physical Design”. Subtitle: “논리 회로가 실제 칩의 배치와 배선으로 바뀌는 과정”. Input labels: Implementation-ready netlist; Constraint; UPF; Design kit / target. Output labels: Placed / routed DB; Extracted RC; Closure report. Main process picture: A netlist becomes a physical die layout with fixed macros, standard-cell rows, clock tree and orthogonal signal routing; extracted RC feeds an ECO loop. Detailed step storyboard: four large visual panels showing exactly the same die and fixed macros: Floorplan; Placement; CTS; Routing. Show the progression from empty cell regions to placed cells, branching clock network, and dense signal interconnects. Keep all technical illustrations explanatory and consistent with the source content.
+
+Input images:
+- Image 1: overall page-flow reference.
+- Image 2: picture-centered detailed-step explanation reference.
+
+===== 07 Signoff =====
+Create one ChipBook desktop web-page mockup for “2-2. Stage Detail”. Follow reference 1 for the page flow and reference 2 for picture-centered explanations of detailed steps. Use the existing bright white, pale gray, blue #3182f6 and dark #191f28 design language with readable Korean sans-serif type. The top selector contains all nine stages: 01 Spec, 02 RTL, 03 DV, 04 Synthesis, 05 DFT / PI, 06 Physical Design, 07 Signoff, 08 Tapeout, 09 Fab / Package / Test. Use a compact input column, a dominant process illustration, an output column, a full-width illustrated detail storyboard underneath, and previous/next stage handoff controls. Give the diagrams most of the space; keep text to short captions.
+
+Selected stage: “07 Signoff”. Subtitle: “타이밍·물리 규칙·전원 무결성을 확인하고 최종 승인”. Input labels: Placed / routed DB; Extracted RC; Signoff deck; ECO result. Output labels: Approved layout DB; Signoff report; Release checklist. Main process picture: A routed chip layout fans out into three evidence branches: STA timing paths, DRC/LVS geometry-versus-netlist checks, and IR/EM power-grid analysis. Results converge on a release approval document. Detailed step storyboard: four visual panels: setup and hold timing windows; DRC spacing and LVS connectivity comparison; IR-drop heatmap and current-density path; evidence-based release checklist, with failed checks looping to ECO. Keep all technical illustrations explanatory and consistent with the source content.
+
+Input images:
+- Image 1: overall page-flow reference.
+- Image 2: picture-centered detailed-step explanation reference.
+
+===== 08 Tapeout =====
+Create one ChipBook desktop web-page mockup for “2-2. Stage Detail”. Follow reference 1 for the page flow and reference 2 for picture-centered explanations of detailed steps. Use the existing bright white, pale gray, blue #3182f6 and dark #191f28 design language with readable Korean sans-serif type. The top selector contains all nine stages: 01 Spec, 02 RTL, 03 DV, 04 Synthesis, 05 DFT / PI, 06 Physical Design, 07 Signoff, 08 Tapeout, 09 Fab / Package / Test. Use a compact input column, a dominant process illustration, an output column, a full-width illustrated detail storyboard underneath, and previous/next stage handoff controls. Give the diagrams most of the space; keep text to short captions.
+
+Selected stage: “08 Tapeout”. Subtitle: “승인된 레이아웃을 제조용 데이터로 패키징해 전달”. Input labels: Approved layout DB; Signoff report; Release checklist. Output labels: GDSII; Foundry handoff package; Release version data. Main process picture: Approved layout layers are exported as GDSII/OASIS, packaged with release documents, and handed to a foundry for mask preparation. Detailed step storyboard: three visual panels: export of geometric layout layers to GDSII/OASIS; versioned package with checklist; foundry handoff and mask-data preparation. Keep all technical illustrations explanatory and consistent with the source content.
+
+Input images:
+- Image 1: overall page-flow reference.
+- Image 2: picture-centered detailed-step explanation reference.
+
+===== 09 Fab / Package / Test =====
+Create one ChipBook desktop web-page mockup for “2-2. Stage Detail”. Follow reference 1 for the page flow and reference 2 for picture-centered explanations of detailed steps. Use the existing bright white, pale gray, blue #3182f6 and dark #191f28 design language with readable Korean sans-serif type. The top selector contains all nine stages: 01 Spec, 02 RTL, 03 DV, 04 Synthesis, 05 DFT / PI, 06 Physical Design, 07 Signoff, 08 Tapeout, 09 Fab / Package / Test. Use a compact input column, a dominant process illustration, an output column, a full-width illustrated detail storyboard underneath, and previous/next stage handoff controls. Give the diagrams most of the space; keep text to short captions.
+
+Selected stage: “09 Fab / Package / Test”. Subtitle: “설계 데이터를 웨이퍼와 패키지 칩으로 완성”. Input labels: GDSII; Foundry handoff package; Release version data. Output labels: Packaged chip; Yield data; Final product. Main process picture: Manufacturing data progresses through wafer fabrication, die separation and package assembly, and production test to a finished packaged chip. Detailed step storyboard: three visual panels: wafer fabrication with repeated dies; a die integrated into a package with substrate and bond/interconnect; production test and pass/fail sorting with a yield map but no invented yield percentage. Keep all technical illustrations explanatory and consistent with the source content.
+
+Input images:
+- Image 1: overall page-flow reference.
+- Image 2: picture-centered detailed-step explanation reference.

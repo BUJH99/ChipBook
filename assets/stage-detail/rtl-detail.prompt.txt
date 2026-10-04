@@ -1,0 +1,4 @@
+Create a standalone wide technical illustration for a full-width 1200 by 310 CSS detail strip. Use four equal panels in one horizontal row with small margins and large diagrams. Panel 1, Hierarchy: top branches into cpu, dma, and uart, each with child modules. Panel 2, Clock / Reset: aligned clk, rst_n, and q waveforms with an active rising edge highlighted. Panel 3, Datapath: DFF register → combinational ALU → DFF register, with a common clock. Panel 4, Interface: named clk, rst_n, valid, ready, and data ports around a module, alongside a compact address/register map concept. Pure white background, muted blue and dark technical linework, and pale fills. Use only sparse short English labels, with no paragraphs or UI shell.
+
+Input images:
+- 02-rtl.png: selected reference for picture-centered detailed explanations.

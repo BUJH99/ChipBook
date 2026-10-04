@@ -1,0 +1,45 @@
+.memory-hierarchy-figure { container: memory-hierarchy / inline-size; color: #233b5a; font-family: "ChipBook Memory", "Pretendard", sans-serif; }
+.mh-families { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+.mh-family { container: memory-family / inline-size; min-width: 0; border: 1px solid #d7e3f2; border-radius: 14px; padding: 18px; background: #fff; }
+.mh-family-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 14px; margin-bottom: 17px; }
+.memory-basics-toss .mh-family-head h4 { margin: 0; color: #175bbd; font-size: 25px; font-weight: 750; line-height: 1.2; letter-spacing: -.5px; }
+.mh-family-head p { margin: 0; color: #61758f; font-size: 12px; font-weight: 500; line-height: 1.5; }
+.mh-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin: 0; padding: 0; list-style: none; }
+.mh-stage { position: relative; min-width: 0; border: 1px solid #dbe4f0; border-radius: 9px; background: #fff; }
+.mh-stage-head { display: flex; justify-content: center; align-items: center; gap: 8px; min-height: 45px; padding: 10px 8px; border-bottom: 1px solid #edf2f8; background: #fafcff; border-radius: 9px 9px 0 0; }
+.mh-step { color: #93a8c3; font-family: ui-monospace, Consolas, monospace; font-size: 10px; font-weight: 500; }
+.memory-basics-toss .mh-stage-head h5 { margin: 0; color: #263951; font-size: 16px; line-height: 1.4; font-weight: 700; letter-spacing: -.2px; }
+.mh-stage-svg { display: block; width: 100%; max-width: 260px; height: auto; margin-inline: auto; font-family: "ChipBook Memory", "Pretendard", sans-serif; }
+.mh-stage-svg .mh-label { font-size: 13px; font-weight: 550; fill: #415977; }
+.mh-stage-svg .mh-strong { font-size: 14px; font-weight: 650; fill: #253b57; }
+.mh-stage-svg .mh-caption { font-size: 12px; font-weight: 450; fill: #61758f; }
+.mh-stage-svg .mh-wire { stroke: #6d92c2; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.mh-stage-svg .mh-tile { fill: #b9d8ff; stroke: #4c91ed; stroke-width: 1.1; }
+.mh-stage-svg .mh-block { fill: #f5f9ff; stroke: #aebfd5; stroke-width: 1; }
+.mh-stage-svg .mh-package { fill: #fbfdff; stroke: #506986; stroke-width: 1.4; }
+.mh-stage-arrow { position: absolute; left: calc(100% + 3px); top: calc(50% - 8px); width: 16px; height: 16px; overflow: visible; color: #6590ca; }
+.mh-row-bridge { --mh-bridge-inset: calc((100% - 44px) / 6); position: relative; height: 32px; color: #6590ca; }
+.mh-row-bridge::before { content: ""; position: absolute; right: var(--mh-bridge-inset); top: 0; height: 13px; border-right: 1.5px solid currentColor; }
+.mh-row-bridge span { position: absolute; left: var(--mh-bridge-inset); right: var(--mh-bridge-inset); top: 12px; height: 12px; border-left: 1.5px solid currentColor; border-top: 1.5px solid currentColor; border-top-left-radius: 3px; }
+.mh-bridge-arrow { position: absolute; left: calc(var(--mh-bridge-inset) - 7.5px); bottom: 0; width: 16px; height: 16px; }
+.memory-basics-toss .mh-family-note { margin: 14px 0 0; color: #61758f; font-size: 11px; line-height: 1.7; }
+.mh-family-note a { color: #4773ae; text-underline-offset: 3px; text-decoration: underline; }
+@container memory-hierarchy (min-width: 1380px) {
+    .mh-families { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container memory-family (max-width: 620px) {
+    .mh-row { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .mh-stage-arrow { left: calc(50% - 8px); top: calc(100% + 1px); transform: rotate(90deg); }
+    .mh-row-bridge::before, .mh-row-bridge span { display: none; }
+    .mh-bridge-arrow { left: calc(50% - 8px); top: 6px; }
+    .mh-family-head { margin-bottom: 14px; }
+    .memory-basics-toss .mh-family-head h4 { font-size: 23px; }
+}
+@media (max-width: 600px) {
+    .memory-basics-toss .memory-hierarchy-wrap { padding-inline: 0; }
+    .mh-family { padding: 12px; border-radius: 11px; }
+    .mh-family-head { gap: 4px 10px; }
+    .mh-family-head p { font-size: 11px; }
+    .memory-basics-toss .mh-stage-head h5 { font-size: 15px; }
+    .mh-families { gap: 16px; }
+}

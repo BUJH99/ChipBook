@@ -1,0 +1,8 @@
+{
+  "prompt": "Redesign the attached legend and four SSD hierarchy summary cards as an implementation-ready mockup. Preserve the existing content categories and color associations. Give labels and titles enough horizontal space to stay on one line; avoid arbitrary two-line wrapping of terms or broken Korean words. Make the legend compact, group the protocol definitions separately, and move the large side icons into small card headers so descriptions use the full card width. Tighten the wording into short, readable statements while preserving its meaning. Show a balanced desktop layout and a narrow-screen adaptation that rearranges complete items rather than squeezing the text. Keep the result consistent with the existing page.\n\nInput images:\n- codex-clipboard-ab1a2153-53e7-49a3-9dc2-15d00c786535.png: the section the user wants redesigned and improved.",
+  "inputs": [
+    "C:/Users/tbdk5/AppData/Local/Temp/codex-clipboard-ab1a2153-53e7-49a3-9dc2-15d00c786535.png"
+  ],
+  "mode": "builtin",
+  "overwritten": false
+}

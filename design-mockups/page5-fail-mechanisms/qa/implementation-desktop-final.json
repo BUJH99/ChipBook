@@ -1,0 +1,85 @@
+{
+  "comparison": {
+    "height": 230.6666717529297,
+    "width": 1104,
+    "x": 361.3333587646485,
+    "y": 338.6875
+  },
+  "dialog": false,
+  "flow": [
+    {
+      "opacity": "1",
+      "x": "290.60001220703106",
+      "y": "44"
+    },
+    {
+      "opacity": "1",
+      "x": "143.68000488281243",
+      "y": "114"
+    },
+    {
+      "opacity": "0",
+      "x": "0",
+      "y": "0"
+    },
+    {
+      "opacity": "1",
+      "x": "370",
+      "y": "123.12000427246073"
+    },
+    {
+      "opacity": "1",
+      "x": "290.60001220703106",
+      "y": "44"
+    },
+    {
+      "opacity": "1",
+      "x": "143.68000488281243",
+      "y": "114"
+    },
+    {
+      "opacity": "1",
+      "x": "456.3199951171876",
+      "y": "114.00000762939453"
+    },
+    {
+      "opacity": "1",
+      "x": "370",
+      "y": "123.12000427246073"
+    }
+  ],
+  "frameOverflow": false,
+  "id": "sram-read-upset",
+  "lab": {
+    "height": 992.2083740234376,
+    "width": 1193.3333740234375,
+    "x": 316.66668701171875,
+    "y": 71.9375
+  },
+  "mitigation": "false",
+  "mode": "hard",
+  "normal": {
+    "bit": "0",
+    "output": "unknown",
+    "progress": "0.5800",
+    "risk": "false",
+    "text": "Q 상승 · 상태 유지"
+  },
+  "pageOverflow": false,
+  "phase": "3",
+  "playing": "false",
+  "progress": "0.5800",
+  "scrollY": 2741.333251953125,
+  "viewport": {
+    "dpr": 1.0000000298023224,
+    "height": 994,
+    "width": 1582
+  },
+  "vulnerable": {
+    "bit": "1",
+    "output": "unknown",
+    "progress": "0.5800",
+    "risk": "true",
+    "text": "트립 포인트 초과"
+  }
+}

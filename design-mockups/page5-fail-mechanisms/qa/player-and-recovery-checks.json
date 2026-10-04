@@ -1,0 +1,271 @@
+{
+  "halfRate": {
+    "elapsedMs": 11320,
+    "start": "0.0007",
+    "end": "0.5655"
+  },
+  "fastCompletion": {
+    "elapsedMs": 11880,
+    "start": "0.0028",
+    "end": "1.0000",
+    "playing": "false"
+  },
+  "pauseStable": true,
+  "zoomButtonAndEscape": true,
+  "mobileScrollLeft": 120,
+  "ecc": {
+    "comparison": {
+      "height": 230.6666717529297,
+      "width": 1104,
+      "x": 361.3333587646485,
+      "y": -133.97900390625
+    },
+    "dialog": false,
+    "flow": [
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "1",
+        "x": "370",
+        "y": "132"
+      }
+    ],
+    "frameOverflow": false,
+    "id": "sram-ser",
+    "lab": {
+      "height": 992.2083740234376,
+      "width": 1193.3333740234375,
+      "x": 316.66668701171875,
+      "y": -400.72900390625
+    },
+    "mitigation": "true",
+    "mode": "hard",
+    "normal": {
+      "bit": "1",
+      "output": "1",
+      "progress": "0.7500",
+      "risk": "false",
+      "text": "교란 후 Q=1 복귀"
+    },
+    "pageOverflow": false,
+    "phase": "4",
+    "playing": "false",
+    "progress": "0.7500",
+    "scrollY": 3214,
+    "viewport": {
+      "dpr": 1.0000000298023224,
+      "height": 994,
+      "width": 1582
+    },
+    "vulnerable": {
+      "bit": "0",
+      "output": "1",
+      "progress": "0.7500",
+      "risk": "true",
+      "text": "셀 0 / ECC 판독 1"
+    }
+  },
+  "scrub": {
+    "comparison": {
+      "height": 230.6666717529297,
+      "width": 1104,
+      "x": 361.3333587646485,
+      "y": -133.97900390625
+    },
+    "dialog": false,
+    "flow": [
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "1",
+        "x": "139.6426471710083",
+        "y": "44"
+      },
+      {
+        "opacity": "1",
+        "x": "110",
+        "y": "94.36314519814887"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "1",
+        "x": "268.5134772487321",
+        "y": "82"
+      }
+    ],
+    "frameOverflow": false,
+    "id": "sram-ser",
+    "lab": {
+      "height": 992.2083740234376,
+      "width": 1193.3333740234375,
+      "x": 316.66668701171875,
+      "y": -400.72900390625
+    },
+    "mitigation": "true",
+    "mode": "hard",
+    "normal": {
+      "bit": "1",
+      "output": "1",
+      "progress": "0.8598",
+      "risk": "false",
+      "text": "교란 후 Q=1 복귀"
+    },
+    "pageOverflow": false,
+    "phase": "5",
+    "playing": "false",
+    "progress": "0.8598",
+    "scrollY": 3214,
+    "viewport": {
+      "dpr": 1.0000000298023224,
+      "height": 994,
+      "width": 1582
+    },
+    "vulnerable": {
+      "bit": "unknown",
+      "output": "1",
+      "progress": "0.8598",
+      "risk": "true",
+      "text": "Scrub · 셀 재기록"
+    }
+  },
+  "restored": {
+    "comparison": {
+      "height": 230.6666717529297,
+      "width": 1104,
+      "x": 361.3333587646485,
+      "y": -133.97900390625
+    },
+    "dialog": false,
+    "flow": [
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "139.6426471710083",
+        "y": "44"
+      },
+      {
+        "opacity": "0",
+        "x": "110",
+        "y": "94.36314519814887"
+      },
+      {
+        "opacity": "0",
+        "x": "0",
+        "y": "0"
+      },
+      {
+        "opacity": "0",
+        "x": "268.5134772487321",
+        "y": "82"
+      }
+    ],
+    "frameOverflow": false,
+    "id": "sram-ser",
+    "lab": {
+      "height": 992.2083740234376,
+      "width": 1193.3333740234375,
+      "x": 316.66668701171875,
+      "y": -400.72900390625
+    },
+    "mitigation": "true",
+    "mode": "hard",
+    "normal": {
+      "bit": "1",
+      "output": "1",
+      "progress": "1.0000",
+      "risk": "false",
+      "text": "교란 후 Q=1 복귀"
+    },
+    "pageOverflow": false,
+    "phase": "5",
+    "playing": "false",
+    "progress": "1.0000",
+    "scrollY": 3214,
+    "viewport": {
+      "dpr": 1.0000000298023224,
+      "height": 994,
+      "width": 1582
+    },
+    "vulnerable": {
+      "bit": "1",
+      "output": "1",
+      "progress": "1.0000",
+      "risk": "false",
+      "text": "저장 셀 복구 · Q=1"
+    }
+  }
+}

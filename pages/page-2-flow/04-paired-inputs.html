@@ -6,10 +6,10 @@
     <title>Additional Keyword | Design Flow | 반도체 디지털 회로설계 가이드북</title>
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/guidebook-common.css">
+    <link rel="stylesheet" href="../../assets/stage-detail.css">
+    <script src="../../assets/stage-detail.js" defer></script>
 </head>
 <body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-2">
     <main class="page-shell">
@@ -22,8 +22,7 @@
                                 <div id="part2-current-label" class="guidebook-section-kicker">2-1. Design to Product Flow</div>
                             </div>
                         </div>
-
-                        <div class="diagram-box mb-8" data-part2-panel="flow-overview" data-guidebook-toc-title="Design to Product Flow">
+<div class="diagram-box mb-8" data-part2-panel="flow-overview" data-guidebook-toc-title="Design to Product Flow">
                             <div class="svg-container">
                                 <svg viewBox="0 0 1450 560" style="min-width: 1240px; width: 100%; height: auto;" class="font-sans">
                                     <defs>
@@ -166,74 +165,74 @@
                                 </svg>
                             </div>
 
-                            <div class="mt-8 overflow-x-auto pb-2">
-                                <div class="flex items-stretch gap-2.5 min-w-[1180px]">
-                                    <div class="flex-1 min-w-[170px] bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-slate-300 transition-colors">
+                            <div class="mt-8 pb-2">
+                                <div class="flex flex-wrap items-stretch gap-2.5 w-full min-w-0">
+                                    <div class="flex-[1_1_170px] min-w-[150px] bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-slate-300 transition-colors">
                                         <div class="absolute top-0 left-0 w-full h-1 bg-slate-300 rounded-t-2xl"></div>
                                         <div class="text-[9px] font-black tracking-widest text-slate-400 mb-1 mt-1">STAGE 01</div>
                                         <h4 class="font-bold text-[15px] text-slate-900 mb-1.5">제품 정의 (Spec)</h4>
                                         <p class="text-[12px] text-slate-500 leading-snug">시장 타겟 PPA(Power, Performance, Area) 결정 및 시스템 아키텍처 수립</p>
                                     </div>
 
-                                    <div class="flex items-center justify-center text-slate-300 w-4 shrink-0">
+                                    <div class="hidden 2xl:flex items-center justify-center text-slate-300 w-4 shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                                         </svg>
                                     </div>
 
-                                    <div class="flex-1 min-w-[170px] bg-white p-4 rounded-2xl border border-blue-100 shadow-sm relative group hover:border-blue-200 transition-colors">
+                                    <div class="flex-[1_1_170px] min-w-[150px] bg-white p-4 rounded-2xl border border-blue-100 shadow-sm relative group hover:border-blue-200 transition-colors">
                                         <div class="absolute top-0 left-0 w-full h-1 bg-blue-500 rounded-t-2xl shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
                                         <div class="text-[9px] font-black tracking-widest text-blue-500 mb-1 mt-1">STAGE 02</div>
                                         <h4 class="font-bold text-[15px] text-blue-900 mb-1.5">논리 설계 (RTL)</h4>
                                         <p class="text-[12px] text-slate-500 leading-snug">마이크로 아키텍처 설계, Verilog/SystemVerilog 기반 코딩 및 IP 통합</p>
                                     </div>
 
-                                    <div class="flex items-center justify-center text-slate-300 w-4 shrink-0">
+                                    <div class="hidden 2xl:flex items-center justify-center text-slate-300 w-4 shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                                         </svg>
                                     </div>
 
-                                    <div class="flex-1 min-w-[170px] bg-white p-4 rounded-2xl border border-indigo-100 shadow-sm relative group hover:border-indigo-200 transition-colors">
+                                    <div class="flex-[1_1_170px] min-w-[150px] bg-white p-4 rounded-2xl border border-indigo-100 shadow-sm relative group hover:border-indigo-200 transition-colors">
                                         <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500 rounded-t-2xl"></div>
                                         <div class="text-[9px] font-black tracking-widest text-indigo-500 mb-1 mt-1">STAGE 03</div>
                                         <h4 class="font-bold text-[15px] text-indigo-900 mb-1.5">검증 &amp; 합성</h4>
                                         <p class="text-[12px] text-slate-500 leading-snug">UVM/Formal 기반 기능 검증(DV) 후 Gate-level Netlist 변환 및 DFT 삽입</p>
                                     </div>
 
-                                    <div class="flex items-center justify-center text-slate-300 w-4 shrink-0">
+                                    <div class="hidden 2xl:flex items-center justify-center text-slate-300 w-4 shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                                         </svg>
                                     </div>
 
-                                    <div class="flex-1 min-w-[170px] bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm relative group hover:border-emerald-200 transition-colors">
+                                    <div class="flex-[1_1_170px] min-w-[150px] bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm relative group hover:border-emerald-200 transition-colors">
                                         <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500 rounded-t-2xl"></div>
                                         <div class="text-[9px] font-black tracking-widest text-emerald-500 mb-1 mt-1">STAGE 04</div>
                                         <h4 class="font-bold text-[15px] text-emerald-900 mb-1.5">물리 설계 (PD)</h4>
                                         <p class="text-[12px] text-slate-500 leading-snug">Floorplan, P&amp;R, STA 튜닝, DRC/LVS 및 IR-Drop 검증 완료 후 GDS 확보</p>
                                     </div>
 
-                                    <div class="flex items-center justify-center text-slate-300 w-4 shrink-0">
+                                    <div class="hidden 2xl:flex items-center justify-center text-slate-300 w-4 shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                                         </svg>
                                     </div>
 
-                                    <div class="flex-1 min-w-[170px] bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-slate-300 transition-colors">
+                                    <div class="flex-[1_1_170px] min-w-[150px] bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative group hover:border-slate-300 transition-colors">
                                         <div class="absolute top-0 left-0 w-full h-1 bg-slate-600 rounded-t-2xl"></div>
                                         <div class="text-[9px] font-black tracking-widest text-slate-500 mb-1 mt-1">STAGE 05</div>
                                         <h4 class="font-bold text-[15px] text-slate-900 mb-1.5">Tape-out &amp; Fab</h4>
                                         <p class="text-[12px] text-slate-500 leading-snug">Foundry로 설계 이관, 마스크 제작 및 웨이퍼 레벨 대량 생산 진행</p>
                                     </div>
 
-                                    <div class="flex items-center justify-center text-slate-300 w-4 shrink-0">
+                                    <div class="hidden 2xl:flex items-center justify-center text-slate-300 w-4 shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                                         </svg>
                                     </div>
 
-                                    <div class="flex-1 min-w-[170px] bg-white p-4 rounded-2xl border border-purple-100 shadow-sm relative group hover:border-purple-200 transition-colors">
+                                    <div class="flex-[1_1_170px] min-w-[150px] bg-white p-4 rounded-2xl border border-purple-100 shadow-sm relative group hover:border-purple-200 transition-colors">
                                         <div class="absolute top-0 left-0 w-full h-1 bg-purple-600 rounded-t-2xl shadow-[0_0_8px_rgba(147,51,234,0.3)]"></div>
                                         <div class="text-[9px] font-black tracking-widest text-purple-600 mb-1 mt-1">STAGE 06</div>
                                         <h4 class="font-bold text-[15px] text-purple-900 mb-1.5">Post-Si 검증</h4>
@@ -243,537 +242,563 @@
                             </div>
                         </div>
 
-                        <div class="card mb-8" data-part2-panel="stage-detail" data-guidebook-toc-title="Stage Detail" hidden>
+<div class="stage-detail mb-8" data-part2-panel="stage-detail" data-guidebook-toc-title="Stage Detail" hidden>
+    <div class="sd-intro">
+        <p>각 단계에서 무엇이 들어오고, 어떻게 바뀌고, 무엇이 나오는지</p>
+        <small>9개 단계 · 그림으로 따라가는 설계 흐름</small>
+    </div>
+    <div class="sd-stage-nav" role="tablist" aria-label="설계 스테이지 선택">
+        <button type="button" class="sd-stage-tab" role="tab" id="sd-tab-spec" data-sd-stage="spec" aria-controls="sd-panel-spec" aria-selected="true" tabindex="0"><span><span class="sd-tab-number">01</span><span class="sd-tab-name">Spec</span></span><img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        <button type="button" class="sd-stage-tab" role="tab" id="sd-tab-rtl" data-sd-stage="rtl" aria-controls="sd-panel-rtl" aria-selected="false" tabindex="-1"><span><span class="sd-tab-number">02</span><span class="sd-tab-name">RTL</span></span><img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        <button type="button" class="sd-stage-tab" role="tab" id="sd-tab-dv" data-sd-stage="dv" aria-controls="sd-panel-dv" aria-selected="false" tabindex="-1"><span><span class="sd-tab-number">03</span><span class="sd-tab-name">DV</span></span><img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        <button type="button" class="sd-stage-tab" role="tab" id="sd-tab-synthesis" data-sd-stage="synthesis" aria-controls="sd-panel-synthesis" aria-selected="false" tabindex="-1"><span><span class="sd-tab-number">04</span><span class="sd-tab-name">Synthesis</span></span><img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        <button type="button" class="sd-stage-tab" role="tab" id="sd-tab-dft" data-sd-stage="dft" aria-controls="sd-panel-dft" aria-selected="false" tabindex="-1"><span><span class="sd-tab-number">05</span><span class="sd-tab-name">DFT / PI</span></span><img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        <button type="button" class="sd-stage-tab" role="tab" id="sd-tab-physical" data-sd-stage="physical" aria-controls="sd-panel-physical" aria-selected="false" tabindex="-1"><span><span class="sd-tab-number">06</span><span class="sd-tab-name">Physical Design</span></span><img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        <button type="button" class="sd-stage-tab" role="tab" id="sd-tab-signoff" data-sd-stage="signoff" aria-controls="sd-panel-signoff" aria-selected="false" tabindex="-1"><span><span class="sd-tab-number">07</span><span class="sd-tab-name">Signoff</span></span><img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        <button type="button" class="sd-stage-tab" role="tab" id="sd-tab-tapeout" data-sd-stage="tapeout" aria-controls="sd-panel-tapeout" aria-selected="false" tabindex="-1"><span><span class="sd-tab-number">08</span><span class="sd-tab-name">Tapeout</span></span><img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        <button type="button" class="sd-stage-tab" role="tab" id="sd-tab-manufacturing" data-sd-stage="manufacturing" aria-controls="sd-panel-manufacturing" aria-selected="false" tabindex="-1"><span><span class="sd-tab-number">09</span><span class="sd-tab-name">Fab / Package / Test</span></span></button>
+    </div>
+    <div class="sd-live" data-sd-live aria-live="polite" aria-atomic="true"></div>
 
-                            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
-                                <div class="rounded-[28px] border border-blue-100 bg-gradient-to-br from-white to-blue-50/70 p-6">
-                                    <div class="flex items-center justify-between gap-4 mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-black">01</div>
-                                            <div>
-                                                <div class="text-lg font-black text-gray-900">Spec / Architecture</div>
-                                                <div class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Define</div>
-                                            </div>
-                                        </div>
-                                        <span class="px-3 py-1.5 rounded-xl bg-white text-blue-700 text-xs font-extrabold border border-blue-100">Requirements</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 leading-relaxed">제품이 어떤 기능을 수행해야 하는지, 어떤 인터페이스와 성능 목표를 가져야 하는지, 어느 시장을 겨냥하는지를 정의하는 단계입니다. 여기서 블록 구조와 상위 spec이 흔들리면 이후 단계 전반이 재작업으로 이어집니다.</p>
-                                    <div class="mt-5 overflow-hidden rounded-[28px] border border-blue-100 bg-gradient-to-r from-white via-[#f9fbff] to-[#edf5ff]">
-                                        <div class="grid grid-cols-1 xl:grid-cols-[1fr_74px_1fr_74px_1fr]">
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-100 shadow-[0_10px_24px_rgba(49,130,246,0.10)] flex items-center justify-center text-sm font-black text-blue-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M8.5 10.5 12 14l3.5-3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-[1.1] text-blue-600">Input</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Product requirement</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Application / market</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Target use-case</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-blue-100/70 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-blue-200 bg-white text-blue-500 shadow-[0_16px_34px_rgba(49,130,246,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-100 shadow-[0_10px_24px_rgba(49,130,246,0.10)] flex items-center justify-center text-sm font-black text-blue-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7H12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 17H16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.5" stroke="currentColor" stroke-width="1.9"/></svg></div>
-                                                    <div class="text-[12px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-800">Process<br>Tasks</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">PPA 목표</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">블록 구조</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">IP 선택</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">인터페이스 정의</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-blue-100/70 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-blue-200 bg-white text-blue-500 shadow-[0_16px_34px_rgba(49,130,246,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5 bg-white/35">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-100 shadow-[0_10px_24px_rgba(49,130,246,0.10)] flex items-center justify-center text-sm font-black text-blue-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 7v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12 19 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12 5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-5 text-blue-600">Deliverables</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">Architecture spec</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">block diagram</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">top-level requirement</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+    <section id="sd-panel-spec" class="sd-stage-panel" role="tabpanel" aria-labelledby="sd-tab-spec" tabindex="0" data-sd-panel="spec">
+        <article class="sd-stage-card">
+            <header class="sd-stage-heading"><span class="sd-stage-number" aria-hidden="true">01</span><div><h3>Spec / Architecture</h3><p>요구사항을 설계 가능한 구조로 구체화</p></div></header>
+            <div class="sd-transform">
+                <section class="sd-column sd-input" aria-label="이 단계의 입력">
+                    <h4 class="sd-column-title"><strong>INPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/box.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Product requirement</strong><p>제품이 만족해야 할 기능·성능·제약</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Application / market</strong><p>응용 분야와 시장에서 필요한 조건</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Target use-case</strong><p>대표 사용 시나리오와 동작 환경</p></div></li>
+                    </ul>
+                </section>
+                <section class="sd-column sd-process" aria-label="이 단계의 핵심 변화">
+                    <h4 class="sd-column-title"><strong>PROCESS</strong></h4>
+                    <ol class="sd-process-steps"><li>Use-case<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>PPA<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>IP / Blocks<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Interfaces</li></ol>
+                    <figure class="sd-figure">
+                        <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="제품 요구사항과 PPA 목표를 바탕으로 CPU, 메모리, 주변장치와 인터커넥트를 구성하는 구조도." aria-label="01 Spec / Architecture · 핵심 흐름 그림 확대">
+                        <img src="../../assets/stage-detail/spec-overview.svg" width="1665" height="782" loading="lazy" decoding="async" alt="제품 요구사항과 PPA 목표를 바탕으로 CPU, 메모리, 주변장치와 인터커넥트를 구성하는 구조도.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                        <figcaption>제품의 요구사항을 기능 블록과 연결 구조로 바꾸고, 전력·성능·면적 목표를 설계의 기준으로 정합니다.</figcaption>
+                    </figure>
+                </section>
+                <section class="sd-column sd-output" aria-label="이 단계의 산출물">
+                    <h4 class="sd-column-title"><strong>OUTPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Architecture spec</strong><p>시스템 구조와 설계 목표 명세</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/hierarchy.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>block diagram</strong><p>기능 블록과 인터페이스 연결도</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>top-level requirement</strong><p>상위 기능과 성능의 요구사항</p></div></li>
+                    </ul>
+                </section>
+            </div>
+            <section class="sd-detail" aria-label="Spec / Architecture 세부 과정">
+                <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
+                <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+                    <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Use-case / 기능 범위. 제품이 수행할 기능과 외부 시스템의 경계를 정합니다. 어떤 상황에서 쓰이는지부터 확인합니다. 2. PPA 목표 설정. Power·Performance·Area 사이의 균형을 잡고 각 블록에 목표를 배분합니다. 3. IP / 블록 구조. 필요한 IP를 선택하고 기능을 블록과 계층 구조로 나눕니다. 4. 인터페이스 정의. 블록 사이에 주고받는 데이터, 제어 신호, 프로토콜의 기준을 정합니다." aria-label="01 Spec / Architecture · 세부 과정 그림 확대">
+                        <img src="../../assets/stage-detail/spec-detail.svg" width="2017" height="581" loading="lazy" decoding="async" alt="1. Use-case / 기능 범위. 제품이 수행할 기능과 외부 시스템의 경계를 정합니다. 어떤 상황에서 쓰이는지부터 확인합니다. 2. PPA 목표 설정. Power·Performance·Area 사이의 균형을 잡고 각 블록에 목표를 배분합니다. 3. IP / 블록 구조. 필요한 IP를 선택하고 기능을 블록과 계층 구조로 나눕니다. 4. 인터페이스 정의. 블록 사이에 주고받는 데이터, 제어 신호, 프로토콜의 기준을 정합니다.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                </div>
+                <ol class="sd-step-captions" style="--sd-step-count: 4">
+                    <li><div class="sd-step-heading"><span>01</span><h5>Use-case / 기능 범위</h5></div><p>제품이 수행할 기능과 외부 시스템의 경계를 정합니다. 어떤 상황에서 쓰이는지부터 확인합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>02</span><h5>PPA 목표 설정</h5></div><p>Power·Performance·Area 사이의 균형을 잡고 각 블록에 목표를 배분합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>03</span><h5>IP / 블록 구조</h5></div><p>필요한 IP를 선택하고 기능을 블록과 계층 구조로 나눕니다.</p></li>
+                    <li><div class="sd-step-heading"><span>04</span><h5>인터페이스 정의</h5></div><p>블록 사이에 주고받는 데이터, 제어 신호, 프로토콜의 기준을 정합니다.</p></li>
+                </ol>
+            </section>
+        </article>
+        <nav class="sd-handoff" aria-label="이전 및 다음 스테이지">
+            <button type="button" class="sd-handoff-button" data-sd-go="" disabled><img class="sd-icon" src="../../assets/icons/tabler/arrow-left.svg" width="24" height="24" alt="" aria-hidden="true"><span><small>설계의 시작</small><strong>Spec / Architecture</strong></span></button>
+            <p class="sd-handoff-note">정의한 구조와 요구사항이 RTL 설계의 기준이 됩니다.</p>
+            <button type="button" class="sd-handoff-button is-next" data-sd-go="rtl"><span><small>다음 단계 · 02 RTL</small><strong>Architecture spec</strong></span><img class="sd-icon" src="../../assets/icons/tabler/arrow-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        </nav>
+    </section>
 
-                                <div class="rounded-[28px] border border-blue-100 bg-gradient-to-br from-white to-blue-50/70 p-6">
-                                    <div class="flex items-center justify-between gap-4 mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-black">02</div>
-                                            <div>
-                                                <div class="text-lg font-black text-gray-900">RTL / HDL Coding</div>
-                                                <div class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Model</div>
-                                            </div>
-                                        </div>
-                                        <span class="px-3 py-1.5 rounded-xl bg-white text-blue-700 text-xs font-extrabold border border-blue-100">RTL</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 leading-relaxed">상위 spec을 실제 구현 가능한 RTL 구조로 구체화하는 단계입니다. HDL 코드, 모듈 분할, reset/clock 정책, 인터페이스 정의가 이 구간에서 정리되며, 이후 DV의 직접 입력이 됩니다.</p>
-                                    <div class="mt-5 overflow-hidden rounded-[28px] border border-blue-100 bg-gradient-to-r from-white via-[#f9fbff] to-[#edf5ff]">
-                                        <div class="grid grid-cols-1 xl:grid-cols-[1fr_74px_1fr_74px_1fr]">
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-100 shadow-[0_10px_24px_rgba(49,130,246,0.10)] flex items-center justify-center text-sm font-black text-blue-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M8.5 10.5 12 14l3.5-3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-[1.1] text-blue-600">Input</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Architecture spec</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">block diagram</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">top-level requirement</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-blue-100/70 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-blue-200 bg-white text-blue-500 shadow-[0_16px_34px_rgba(49,130,246,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-100 shadow-[0_10px_24px_rgba(49,130,246,0.10)] flex items-center justify-center text-sm font-black text-blue-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7H12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 17H16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.5" stroke="currentColor" stroke-width="1.9"/></svg></div>
-                                                    <div class="text-[12px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-800">Process<br>Tasks</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Module coding</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Hierarchy 설계</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Register map</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Assertion seed</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-blue-100/70 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-blue-200 bg-white text-blue-500 shadow-[0_16px_34px_rgba(49,130,246,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5 bg-white/35">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-100 shadow-[0_10px_24px_rgba(49,130,246,0.10)] flex items-center justify-center text-sm font-black text-blue-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 7v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12 19 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12 5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-5 text-blue-600">Deliverables</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">RTL source</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">interface definition</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">early constraint</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+    <section id="sd-panel-rtl" class="sd-stage-panel" role="tabpanel" aria-labelledby="sd-tab-rtl" tabindex="0" data-sd-panel="rtl" hidden>
+        <article class="sd-stage-card">
+            <header class="sd-stage-heading"><span class="sd-stage-number" aria-hidden="true">02</span><div><h3>RTL / HDL Coding</h3><p>설계 구조를 클록에 따라 동작하는 RTL로 표현</p></div></header>
+            <div class="sd-transform">
+                <section class="sd-column sd-input" aria-label="이 단계의 입력">
+                    <h4 class="sd-column-title"><strong>INPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Architecture spec</strong><p>기능 블록과 동작 구조의 명세</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/hierarchy.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>block diagram</strong><p>상위·하위 모듈 및 연결 관계</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>top-level requirement</strong><p>기능·성능·동작 조건</p></div></li>
+                    </ul>
+                </section>
+                <section class="sd-column sd-process" aria-label="이 단계의 핵심 변화">
+                    <h4 class="sd-column-title"><strong>PROCESS</strong></h4>
+                    <ol class="sd-process-steps"><li>Hierarchy<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Clock / Reset<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Datapath<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Interface</li></ol>
+                    <figure class="sd-figure">
+                        <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="아키텍처 블록을 top 모듈과 cpu, dma, uart 계층으로 나누고 레지스터, 조합 논리, 레지스터로 이어지는 동기 데이터 경로." aria-label="02 RTL / HDL Coding · 핵심 흐름 그림 확대">
+                        <img src="../../assets/stage-detail/rtl-overview.svg" width="1647" height="777" loading="lazy" decoding="async" alt="아키텍처 블록을 top 모듈과 cpu, dma, uart 계층으로 나누고 레지스터, 조합 논리, 레지스터로 이어지는 동기 데이터 경로.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                        <figcaption>블록 구조를 모듈 계층으로 나누고, 레지스터와 조합 논리의 동작을 클록·리셋 기준에 맞춰 코드로 표현합니다.</figcaption>
+                    </figure>
+                </section>
+                <section class="sd-column sd-output" aria-label="이 단계의 산출물">
+                    <h4 class="sd-column-title"><strong>OUTPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/code.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>RTL source</strong><p>Verilog / SystemVerilog 등 설계 소스</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/hierarchy.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>interface definition</strong><p>포트·신호·프로토콜 정의</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>early constraint</strong><p>초기 클록과 타이밍 제약</p></div></li>
+                    </ul>
+                </section>
+            </div>
+            <section class="sd-detail" aria-label="RTL / HDL Coding 세부 과정">
+                <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
+                <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+                    <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Module / Hierarchy. 아키텍처를 RTL 모듈로 분할하고 상위·하위 모듈의 연결을 코드로 구현합니다. 2. Clock / Reset. 클록 에지에서 바뀌는 상태와 리셋 시 초기값을 명확하게 정의합니다. 3. Register / Datapath. 레지스터와 조합 논리를 구분해 데이터가 어떻게 계산되고 저장되는지 표현합니다. 4. Interface / Assertion. 포트와 Register map을 정리하고, 기본 동작 규칙을 확인할 Assertion seed를 준비합니다." aria-label="02 RTL / HDL Coding · 세부 과정 그림 확대">
+                        <img src="../../assets/stage-detail/rtl-detail.svg" width="2020" height="541" loading="lazy" decoding="async" alt="1. Module / Hierarchy. 아키텍처를 RTL 모듈로 분할하고 상위·하위 모듈의 연결을 코드로 구현합니다. 2. Clock / Reset. 클록 에지에서 바뀌는 상태와 리셋 시 초기값을 명확하게 정의합니다. 3. Register / Datapath. 레지스터와 조합 논리를 구분해 데이터가 어떻게 계산되고 저장되는지 표현합니다. 4. Interface / Assertion. 포트와 Register map을 정리하고, 기본 동작 규칙을 확인할 Assertion seed를 준비합니다.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                </div>
+                <ol class="sd-step-captions" style="--sd-step-count: 4">
+                    <li><div class="sd-step-heading"><span>01</span><h5>Module / Hierarchy</h5></div><p>아키텍처를 RTL 모듈로 분할하고 상위·하위 모듈의 연결을 코드로 구현합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>02</span><h5>Clock / Reset</h5></div><p>클록 에지에서 바뀌는 상태와 리셋 시 초기값을 명확하게 정의합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>03</span><h5>Register / Datapath</h5></div><p>레지스터와 조합 논리를 구분해 데이터가 어떻게 계산되고 저장되는지 표현합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>04</span><h5>Interface / Assertion</h5></div><p>포트와 Register map을 정리하고, 기본 동작 규칙을 확인할 Assertion seed를 준비합니다.</p></li>
+                </ol>
+            </section>
+        </article>
+        <nav class="sd-handoff" aria-label="이전 및 다음 스테이지">
+            <button type="button" class="sd-handoff-button" data-sd-go="spec"><img class="sd-icon" src="../../assets/icons/tabler/arrow-left.svg" width="24" height="24" alt="" aria-hidden="true"><span><small>이전 단계 · 01 Spec</small><strong>Architecture spec</strong></span></button>
+            <p class="sd-handoff-note">작성한 RTL과 인터페이스 정의를 기능 검증에 전달합니다.</p>
+            <button type="button" class="sd-handoff-button is-next" data-sd-go="dv"><span><small>다음 단계 · 03 DV</small><strong>RTL source</strong></span><img class="sd-icon" src="../../assets/icons/tabler/arrow-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        </nav>
+    </section>
 
-                                <div class="rounded-[28px] border border-blue-100 bg-gradient-to-br from-white to-blue-50/70 p-6">
-                                    <div class="flex items-center justify-between gap-4 mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-black">03</div>
-                                            <div>
-                                                <div class="text-lg font-black text-gray-900">DV / Functional Verification</div>
-                                                <div class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Verify</div>
-                                            </div>
-                                        </div>
-                                        <span class="px-3 py-1.5 rounded-xl bg-white text-blue-700 text-xs font-extrabold border border-blue-100">Coverage</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 leading-relaxed">RTL이 spec대로 동작하는지 simulation과 coverage로 검증하는 단계입니다. 여기서 버그를 충분히 줄이지 못하면 synthesis 이후 수정 비용이 급격히 커지기 때문에, 실무에서는 front-end에서 가장 강한 품질 gate로 작동합니다.</p>
-                                    <div class="mt-5 overflow-hidden rounded-[28px] border border-blue-100 bg-gradient-to-r from-white via-[#f9fbff] to-[#edf5ff]">
-                                        <div class="grid grid-cols-1 xl:grid-cols-[1fr_74px_1fr_74px_1fr]">
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-100 shadow-[0_10px_24px_rgba(49,130,246,0.10)] flex items-center justify-center text-sm font-black text-blue-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M8.5 10.5 12 14l3.5-3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-[1.1] text-blue-600">Input</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">RTL source</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">interface definition</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">verification plan</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">testbench / scenario</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-blue-100/70 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-blue-200 bg-white text-blue-500 shadow-[0_16px_34px_rgba(49,130,246,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-100 shadow-[0_10px_24px_rgba(49,130,246,0.10)] flex items-center justify-center text-sm font-black text-blue-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7H12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 17H16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.5" stroke="currentColor" stroke-width="1.9"/></svg></div>
-                                                    <div class="text-[12px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-800">Process<br>Tasks</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">UVM environment</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Simulation</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Debug</div>
-                                                    <div class="rounded-2xl border border-blue-100 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Coverage closure</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-blue-100/70 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-blue-200 bg-white text-blue-500 shadow-[0_16px_34px_rgba(49,130,246,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5 bg-white/35">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-blue-100 shadow-[0_10px_24px_rgba(49,130,246,0.10)] flex items-center justify-center text-sm font-black text-blue-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 7v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12 19 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12 5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-5 text-blue-600">Deliverables</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">Verified RTL</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">bug fix log</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">verification signoff state</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+    <section id="sd-panel-dv" class="sd-stage-panel" role="tabpanel" aria-labelledby="sd-tab-dv" tabindex="0" data-sd-panel="dv" hidden>
+        <article class="sd-stage-card">
+            <header class="sd-stage-heading"><span class="sd-stage-number" aria-hidden="true">03</span><div><h3>DV / Functional Verification</h3><p>다양한 시나리오로 RTL의 기능과 경계 조건을 검증</p></div></header>
+            <div class="sd-transform">
+                <section class="sd-column sd-input" aria-label="이 단계의 입력">
+                    <h4 class="sd-column-title"><strong>INPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/code.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>RTL source</strong><p>기능을 검증할 설계 소스</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/hierarchy.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>interface definition</strong><p>입출력 신호와 프로토콜 기준</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/list-check.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>verification plan</strong><p>검증 대상 기능과 종료 기준</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>testbench / scenario</strong><p>검증 환경 및 테스트 시나리오</p></div></li>
+                    </ul>
+                </section>
+                <section class="sd-column sd-process" aria-label="이 단계의 핵심 변화">
+                    <h4 class="sd-column-title"><strong>PROCESS</strong></h4>
+                    <ol class="sd-process-steps"><li>Testbench<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Simulation<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Debug<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Coverage</li></ol>
+                    <figure class="sd-figure">
+                        <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="Driver가 DUT에 자극을 주고 Monitor와 Reference model의 결과를 Scoreboard에서 비교하며 불일치가 Debug와 RTL 수정으로 돌아가는 검증 루프." aria-label="03 DV / Functional Verification · 핵심 흐름 그림 확대">
+                        <img src="../../assets/stage-detail/dv-overview.svg" width="1666" height="775" loading="lazy" decoding="async" alt="Driver가 DUT에 자극을 주고 Monitor와 Reference model의 결과를 Scoreboard에서 비교하며 불일치가 Debug와 RTL 수정으로 돌아가는 검증 루프.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                        <figcaption>테스트벤치가 입력을 만들고 DUT의 출력을 관찰합니다. 기대 결과와 비교해 오류를 수정하고 검증 목표를 채웁니다.</figcaption>
+                    </figure>
+                </section>
+                <section class="sd-column sd-output" aria-label="이 단계의 산출물">
+                    <h4 class="sd-column-title"><strong>OUTPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/code.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Verified RTL</strong><p>검증 계획의 종료 기준을 만족한 RTL</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>bug fix log</strong><p>발견한 오류와 수정 이력</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/list-check.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>verification signoff state</strong><p>커버리지와 검증 종료 상태</p></div></li>
+                    </ul>
+                </section>
+            </div>
+            <section class="sd-detail" aria-label="DV / Functional Verification 세부 과정">
+                <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
+                <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+                    <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. UVM / Testbench. 검증 환경과 시나리오를 구성합니다. Driver·Monitor·Scoreboard의 역할을 나눕니다. 2. Simulation. 입력 자극을 적용하고 출력 파형과 트랜잭션을 확인합니다. 3. Debug loop. 기대 결과와 실제 결과가 다른 지점을 찾아 RTL을 수정하고 다시 검증합니다. 4. Coverage closure. 기능·경계·오류 조건의 커버리지를 확인하고 합의된 검증 종료 기준을 충족합니다." aria-label="03 DV / Functional Verification · 세부 과정 그림 확대">
+                        <img src="../../assets/stage-detail/dv-detail.svg" width="2076" height="647" loading="lazy" decoding="async" alt="1. UVM / Testbench. 검증 환경과 시나리오를 구성합니다. Driver·Monitor·Scoreboard의 역할을 나눕니다. 2. Simulation. 입력 자극을 적용하고 출력 파형과 트랜잭션을 확인합니다. 3. Debug loop. 기대 결과와 실제 결과가 다른 지점을 찾아 RTL을 수정하고 다시 검증합니다. 4. Coverage closure. 기능·경계·오류 조건의 커버리지를 확인하고 합의된 검증 종료 기준을 충족합니다.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                </div>
+                <ol class="sd-step-captions" style="--sd-step-count: 4">
+                    <li><div class="sd-step-heading"><span>01</span><h5>UVM / Testbench</h5></div><p>검증 환경과 시나리오를 구성합니다. Driver·Monitor·Scoreboard의 역할을 나눕니다.</p></li>
+                    <li><div class="sd-step-heading"><span>02</span><h5>Simulation</h5></div><p>입력 자극을 적용하고 출력 파형과 트랜잭션을 확인합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>03</span><h5>Debug loop</h5></div><p>기대 결과와 실제 결과가 다른 지점을 찾아 RTL을 수정하고 다시 검증합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>04</span><h5>Coverage closure</h5></div><p>기능·경계·오류 조건의 커버리지를 확인하고 합의된 검증 종료 기준을 충족합니다.</p></li>
+                </ol>
+            </section>
+        </article>
+        <nav class="sd-handoff" aria-label="이전 및 다음 스테이지">
+            <button type="button" class="sd-handoff-button" data-sd-go="rtl"><img class="sd-icon" src="../../assets/icons/tabler/arrow-left.svg" width="24" height="24" alt="" aria-hidden="true"><span><small>이전 단계 · 02 RTL</small><strong>RTL source</strong></span></button>
+            <p class="sd-handoff-note">기능 검증을 마친 RTL이 Logic Synthesis의 입력이 됩니다.</p>
+            <button type="button" class="sd-handoff-button is-next" data-sd-go="synthesis"><span><small>다음 단계 · 04 Synthesis</small><strong>Verified RTL</strong></span><img class="sd-icon" src="../../assets/icons/tabler/arrow-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        </nav>
+    </section>
 
-                                <div class="rounded-[28px] border border-lime-200 bg-gradient-to-br from-white to-lime-50 p-6">
-                                    <div class="flex items-center justify-between gap-4 mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded-2xl bg-lime-100 text-lime-700 flex items-center justify-center text-sm font-black">04</div>
-                                            <div>
-                                                <div class="text-lg font-black text-gray-900">Logic Synthesis</div>
-                                                <div class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Map</div>
-                                            </div>
-                                        </div>
-                                        <span class="px-3 py-1.5 rounded-xl bg-white text-lime-700 text-xs font-extrabold border border-lime-200">Netlist</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 leading-relaxed">RTL을 standard cell library에 매핑해 gate-level netlist로 바꾸는 단계입니다. 이때 timing, area, power report가 함께 생성되며, 실제 구현 가능한 논리 구조인지 처음으로 공정 관점에서 점검합니다.</p>
-                                    <div class="mt-5 overflow-hidden rounded-[28px] border border-lime-200 bg-gradient-to-r from-white via-[#fbfef3] to-[#f5fcd9]">
-                                        <div class="grid grid-cols-1 xl:grid-cols-[1fr_74px_1fr_74px_1fr]">
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-lime-200 shadow-[0_10px_24px_rgba(132,204,22,0.12)] flex items-center justify-center text-sm font-black text-lime-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M8.5 10.5 12 14l3.5-3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-[1.1] text-lime-700">Input</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-lime-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Verified RTL</div>
-                                                    <div class="rounded-2xl border border-lime-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">SDC constraint</div>
-                                                    <div class="rounded-2xl border border-lime-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Std cell library</div>
-                                                    <div class="rounded-2xl border border-lime-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Power intent</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-lime-200/80 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-lime-200 bg-white text-lime-600 shadow-[0_16px_34px_rgba(132,204,22,0.18)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-lime-200 shadow-[0_10px_24px_rgba(132,204,22,0.12)] flex items-center justify-center text-sm font-black text-lime-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7H12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 17H16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.5" stroke="currentColor" stroke-width="1.9"/></svg></div>
-                                                    <div class="text-[12px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-800">Process<br>Tasks</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-lime-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Library mapping</div>
-                                                    <div class="rounded-2xl border border-lime-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Compile</div>
-                                                    <div class="rounded-2xl border border-lime-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Optimization</div>
-                                                    <div class="rounded-2xl border border-lime-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">STA sanity</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-lime-200/80 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-lime-200 bg-white text-lime-600 shadow-[0_16px_34px_rgba(132,204,22,0.18)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5 bg-white/35">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-lime-200 shadow-[0_10px_24px_rgba(132,204,22,0.12)] flex items-center justify-center text-sm font-black text-lime-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 7v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12 19 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12 5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-5 text-lime-700">Deliverables</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">Gate-level netlist</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">timing report</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">area / power report</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+    <section id="sd-panel-synthesis" class="sd-stage-panel" role="tabpanel" aria-labelledby="sd-tab-synthesis" tabindex="0" data-sd-panel="synthesis" hidden>
+        <article class="sd-stage-card">
+            <header class="sd-stage-heading"><span class="sd-stage-number" aria-hidden="true">04</span><div><h3>Logic Synthesis</h3><p>RTL을 표준 셀 기반의 게이트 회로로 변환</p></div></header>
+            <div class="sd-transform">
+                <section class="sd-column sd-input" aria-label="이 단계의 입력">
+                    <h4 class="sd-column-title"><strong>INPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/code.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Verified RTL</strong><p>기능 검증을 완료한 RTL</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>SDC constraint</strong><p>클록과 입출력 등 타이밍 제약</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/database.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Std cell library</strong><p>사용할 표준 셀과 특성 정보</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Power intent</strong><p>전원 도메인 등 전력 설계 의도</p></div></li>
+                    </ul>
+                </section>
+                <section class="sd-column sd-process" aria-label="이 단계의 핵심 변화">
+                    <h4 class="sd-column-title"><strong>PROCESS</strong></h4>
+                    <ol class="sd-process-steps"><li>Compile<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Library mapping<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Optimization<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>STA sanity</li></ol>
+                    <figure class="sd-figure">
+                        <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="RTL의 레지스터와 연산 구조가 SDC 및 표준 셀 라이브러리를 이용해 게이트와 플립플롭의 연결 회로로 변환되는 개념도." aria-label="04 Logic Synthesis · 핵심 흐름 그림 확대">
+                        <img src="../../assets/stage-detail/synthesis-overview.svg" width="1665" height="814" loading="lazy" decoding="async" alt="RTL의 레지스터와 연산 구조가 SDC 및 표준 셀 라이브러리를 이용해 게이트와 플립플롭의 연결 회로로 변환되는 개념도.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                        <figcaption>RTL의 동작을 해석해 표준 셀로 매핑하고, 제약 조건 안에서 타이밍·면적·전력을 최적화합니다.</figcaption>
+                    </figure>
+                </section>
+                <section class="sd-column sd-output" aria-label="이 단계의 산출물">
+                    <h4 class="sd-column-title"><strong>OUTPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/code.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Gate-level netlist</strong><p>표준 셀과 연결 관계의 넷리스트</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/chart-bar.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>timing report</strong><p>경로 지연과 타이밍 분석 결과</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/chart-bar.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>area / power report</strong><p>합성 기준 면적·전력 분석 결과</p></div></li>
+                    </ul>
+                </section>
+            </div>
+            <section class="sd-detail" aria-label="Logic Synthesis 세부 과정">
+                <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
+                <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+                    <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Compile / Elaboration. RTL을 해석해 레지스터와 연산자 등 하드웨어 구조를 추출합니다. 2. Library mapping. 추출한 논리를 표준 셀 라이브러리에 있는 게이트와 플립플롭으로 매핑합니다. 3. PPA Optimization. 논리 동등성을 유지하면서 타이밍·면적·전력을 조정합니다. 4. STA sanity. 주요 타이밍 경로와 제약 적용 상태를 확인해 합성 결과의 이상을 점검합니다." aria-label="04 Logic Synthesis · 세부 과정 그림 확대">
+                        <img src="../../assets/stage-detail/synthesis-detail.svg" width="2073" height="672" loading="lazy" decoding="async" alt="1. Compile / Elaboration. RTL을 해석해 레지스터와 연산자 등 하드웨어 구조를 추출합니다. 2. Library mapping. 추출한 논리를 표준 셀 라이브러리에 있는 게이트와 플립플롭으로 매핑합니다. 3. PPA Optimization. 논리 동등성을 유지하면서 타이밍·면적·전력을 조정합니다. 4. STA sanity. 주요 타이밍 경로와 제약 적용 상태를 확인해 합성 결과의 이상을 점검합니다.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                </div>
+                <ol class="sd-step-captions" style="--sd-step-count: 4">
+                    <li><div class="sd-step-heading"><span>01</span><h5>Compile / Elaboration</h5></div><p>RTL을 해석해 레지스터와 연산자 등 하드웨어 구조를 추출합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>02</span><h5>Library mapping</h5></div><p>추출한 논리를 표준 셀 라이브러리에 있는 게이트와 플립플롭으로 매핑합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>03</span><h5>PPA Optimization</h5></div><p>논리 동등성을 유지하면서 타이밍·면적·전력을 조정합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>04</span><h5>STA sanity</h5></div><p>주요 타이밍 경로와 제약 적용 상태를 확인해 합성 결과의 이상을 점검합니다.</p></li>
+                </ol>
+            </section>
+        </article>
+        <nav class="sd-handoff" aria-label="이전 및 다음 스테이지">
+            <button type="button" class="sd-handoff-button" data-sd-go="dv"><img class="sd-icon" src="../../assets/icons/tabler/arrow-left.svg" width="24" height="24" alt="" aria-hidden="true"><span><small>이전 단계 · 03 DV</small><strong>Verified RTL</strong></span></button>
+            <p class="sd-handoff-note">Gate-level netlist에 테스트 구조와 구현 제약을 더합니다.</p>
+            <button type="button" class="sd-handoff-button is-next" data-sd-go="dft"><span><small>다음 단계 · 05 DFT / PI</small><strong>Gate-level netlist</strong></span><img class="sd-icon" src="../../assets/icons/tabler/arrow-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        </nav>
+    </section>
 
-                                <div class="rounded-[28px] border border-lime-300 bg-gradient-to-br from-white to-lime-100/80 p-6">
-                                    <div class="flex items-center justify-between gap-4 mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded-2xl bg-lime-200 text-lime-800 flex items-center justify-center text-sm font-black">05</div>
-                                            <div>
-                                                <div class="text-lg font-black text-gray-900">DFT / PI</div>
-                                                <div class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Prepare</div>
-                                            </div>
-                                        </div>
-                                        <span class="px-3 py-1.5 rounded-xl bg-white text-lime-800 text-xs font-extrabold border border-lime-200">Scan / UPF</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 leading-relaxed">양산 테스트 구조와 구현 친화적인 constraints를 정리하는 단계입니다. Scan/MBIST/ATPG 관점의 준비와 low-power, CDC, lint, formal sanity 체크를 함께 묶어, PD에 넘길 입력 품질을 끌어올립니다.</p>
-                                    <div class="mt-5 overflow-hidden rounded-[28px] border border-lime-300 bg-gradient-to-r from-white via-[#fbfef3] to-[#edf7c0]">
-                                        <div class="grid grid-cols-1 xl:grid-cols-[1fr_74px_1fr_74px_1fr]">
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-lime-300 shadow-[0_10px_24px_rgba(101,163,13,0.12)] flex items-center justify-center text-sm font-black text-lime-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M8.5 10.5 12 14l3.5-3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-[1.1] text-lime-700">Input</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-lime-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Gate-level netlist</div>
-                                                    <div class="rounded-2xl border border-lime-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">timing report</div>
-                                                    <div class="rounded-2xl border border-lime-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">test requirements</div>
-                                                    <div class="rounded-2xl border border-lime-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">low-power intent</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-lime-300/80 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-lime-300 bg-white text-lime-700 shadow-[0_16px_34px_rgba(101,163,13,0.18)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-lime-300 shadow-[0_10px_24px_rgba(101,163,13,0.12)] flex items-center justify-center text-sm font-black text-lime-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7H12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 17H16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.5" stroke="currentColor" stroke-width="1.9"/></svg></div>
-                                                    <div class="text-[12px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-800">Process<br>Tasks</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-lime-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Test logic insertion</div>
-                                                    <div class="rounded-2xl border border-lime-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">UPF 정의</div>
-                                                    <div class="rounded-2xl border border-lime-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Refined constraints</div>
-                                                    <div class="rounded-2xl border border-lime-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Sanity check</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-lime-300/80 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-lime-300 bg-white text-lime-700 shadow-[0_16px_34px_rgba(101,163,13,0.18)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5 bg-white/35">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-lime-300 shadow-[0_10px_24px_rgba(101,163,13,0.12)] flex items-center justify-center text-sm font-black text-lime-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 7v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12 19 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12 5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-5 text-lime-700">Deliverables</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">Scan-ready netlist</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">test structure</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">implementation-ready constraints</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+    <section id="sd-panel-dft" class="sd-stage-panel" role="tabpanel" aria-labelledby="sd-tab-dft" tabindex="0" data-sd-panel="dft" hidden>
+        <article class="sd-stage-card">
+            <header class="sd-stage-heading"><span class="sd-stage-number" aria-hidden="true">05</span><div><h3>DFT / PI</h3><p>테스트 구조와 전원 의도를 반영해 물리 구현을 준비</p></div></header>
+            <div class="sd-transform">
+                <section class="sd-column sd-input" aria-label="이 단계의 입력">
+                    <h4 class="sd-column-title"><strong>INPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/code.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Gate-level netlist</strong><p>합성된 게이트 수준의 넷리스트</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/chart-bar.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>timing report</strong><p>합성 타이밍 분석 결과</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>test requirements</strong><p>스캔 방식과 테스트 요구사항</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>low-power intent</strong><p>저전력 동작과 전원 도메인 의도</p></div></li>
+                    </ul>
+                </section>
+                <section class="sd-column sd-process" aria-label="이 단계의 핵심 변화">
+                    <h4 class="sd-column-title"><strong>PROCESS</strong></h4>
+                    <ol class="sd-process-steps"><li>Scan insertion<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>UPF<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Constraints<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Sanity</li></ol>
+                    <figure class="sd-figure">
+                        <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="일반 플립플롭이 Scan In, Scan Out, Scan Enable을 갖춘 스캔 체인으로 바뀌고, 두 전원 도메인 사이에 레벨 시프터와 아이솔레이션이 배치되는 구조." aria-label="05 DFT / PI · 핵심 흐름 그림 확대">
+                        <img src="../../assets/stage-detail/dft-overview.svg" width="1666" height="789" loading="lazy" decoding="async" alt="일반 플립플롭이 Scan In, Scan Out, Scan Enable을 갖춘 스캔 체인으로 바뀌고, 두 전원 도메인 사이에 레벨 시프터와 아이솔레이션이 배치되는 구조.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                        <figcaption>양산 테스트를 위한 구조와 전원 의도를 반영하고, 물리 구현에서 사용할 제약과 연결 상태를 정리합니다.</figcaption>
+                    </figure>
+                </section>
+                <section class="sd-column sd-output" aria-label="이 단계의 산출물">
+                    <h4 class="sd-column-title"><strong>OUTPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/code.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Scan-ready netlist</strong><p>테스트 구조를 반영한 넷리스트</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/hierarchy.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>test structure</strong><p>스캔 체인과 테스트 로직 정보</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>implementation-ready constraints</strong><p>물리 구현에 사용할 정리된 제약</p></div></li>
+                    </ul>
+                </section>
+            </div>
+            <section class="sd-detail" aria-label="DFT / PI 세부 과정">
+                <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
+                <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+                    <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Test logic insertion. 스캔 체인 등 테스트 로직을 삽입해 내부 상태를 제어·관찰할 수 있도록 준비합니다. 2. UPF / Power intent. 전원 도메인과 저전력 동작을 정의하고 도메인 경계의 처리를 정리합니다. 3. Refined constraints. 기능 모드와 테스트 모드에 맞춰 클록·타이밍·전원 제약을 구체화합니다. 4. Sanity check. 스캔 연결, 테스트 구조, 전원 의도와 제약의 일관성을 확인합니다." aria-label="05 DFT / PI · 세부 과정 그림 확대">
+                        <img src="../../assets/stage-detail/dft-detail.svg" width="1991" height="734" loading="lazy" decoding="async" alt="1. Test logic insertion. 스캔 체인 등 테스트 로직을 삽입해 내부 상태를 제어·관찰할 수 있도록 준비합니다. 2. UPF / Power intent. 전원 도메인과 저전력 동작을 정의하고 도메인 경계의 처리를 정리합니다. 3. Refined constraints. 기능 모드와 테스트 모드에 맞춰 클록·타이밍·전원 제약을 구체화합니다. 4. Sanity check. 스캔 연결, 테스트 구조, 전원 의도와 제약의 일관성을 확인합니다.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                </div>
+                <ol class="sd-step-captions" style="--sd-step-count: 4">
+                    <li><div class="sd-step-heading"><span>01</span><h5>Test logic insertion</h5></div><p>스캔 체인 등 테스트 로직을 삽입해 내부 상태를 제어·관찰할 수 있도록 준비합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>02</span><h5>UPF / Power intent</h5></div><p>전원 도메인과 저전력 동작을 정의하고 도메인 경계의 처리를 정리합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>03</span><h5>Refined constraints</h5></div><p>기능 모드와 테스트 모드에 맞춰 클록·타이밍·전원 제약을 구체화합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>04</span><h5>Sanity check</h5></div><p>스캔 연결, 테스트 구조, 전원 의도와 제약의 일관성을 확인합니다.</p></li>
+                </ol>
+            </section>
+        </article>
+        <nav class="sd-handoff" aria-label="이전 및 다음 스테이지">
+            <button type="button" class="sd-handoff-button" data-sd-go="synthesis"><img class="sd-icon" src="../../assets/icons/tabler/arrow-left.svg" width="24" height="24" alt="" aria-hidden="true"><span><small>이전 단계 · 04 Synthesis</small><strong>Gate-level netlist</strong></span></button>
+            <p class="sd-handoff-note">테스트와 전원 의도를 반영한 설계를 Physical Design에 전달합니다.</p>
+            <button type="button" class="sd-handoff-button is-next" data-sd-go="physical"><span><small>다음 단계 · 06 Physical Design</small><strong>Scan-ready netlist</strong></span><img class="sd-icon" src="../../assets/icons/tabler/arrow-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        </nav>
+    </section>
 
-                                <div class="rounded-[28px] border border-violet-200 bg-gradient-to-br from-white to-violet-50/80 p-6">
-                                    <div class="flex items-center justify-between gap-4 mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded-2xl bg-violet-100 text-violet-700 flex items-center justify-center text-sm font-black">06</div>
-                                            <div>
-                                                <div class="text-lg font-black text-gray-900">Physical Design</div>
-                                                <div class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Place & Route</div>
-                                            </div>
-                                        </div>
-                                        <span class="px-3 py-1.5 rounded-xl bg-white text-violet-700 text-xs font-extrabold border border-violet-200">Floorplan → Routing</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 leading-relaxed">Netlist를 실제 레이아웃으로 구현하는 단계입니다. Floorplan, placement, CTS, routing을 거치면서 parasitic이 반영되고, 그 결과가 signoff closure의 직접 입력이 됩니다.</p>
-                                    <div class="mt-5 overflow-hidden rounded-[28px] border border-violet-200 bg-gradient-to-r from-white via-[#fbf9ff] to-[#f3ecff]">
-                                        <div class="grid grid-cols-1 xl:grid-cols-[1fr_74px_1fr_74px_1fr]">
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-violet-200 shadow-[0_10px_24px_rgba(139,92,246,0.12)] flex items-center justify-center text-sm font-black text-violet-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M8.5 10.5 12 14l3.5-3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-[1.1] text-violet-700">Input</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-violet-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Implementation-ready netlist</div>
-                                                    <div class="rounded-2xl border border-violet-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Constraint</div>
-                                                    <div class="rounded-2xl border border-violet-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">UPF</div>
-                                                    <div class="rounded-2xl border border-violet-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Design kit / target</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-violet-200/80 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-violet-200 bg-white text-violet-600 shadow-[0_16px_34px_rgba(139,92,246,0.18)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-violet-200 shadow-[0_10px_24px_rgba(139,92,246,0.12)] flex items-center justify-center text-sm font-black text-violet-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7H12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 17H16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.5" stroke="currentColor" stroke-width="1.9"/></svg></div>
-                                                    <div class="text-[12px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-800">Process<br>Tasks</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-violet-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Placement</div>
-                                                    <div class="rounded-2xl border border-violet-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">CTS</div>
-                                                    <div class="rounded-2xl border border-violet-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Routing</div>
-                                                    <div class="rounded-2xl border border-violet-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Extraction / ECO loop</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-violet-200/80 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-violet-200 bg-white text-violet-600 shadow-[0_16px_34px_rgba(139,92,246,0.18)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5 bg-white/35">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-violet-200 shadow-[0_10px_24px_rgba(139,92,246,0.12)] flex items-center justify-center text-sm font-black text-violet-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 7v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12 19 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12 5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-5 text-violet-700">Deliverables</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">Placed / routed DB</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">extracted RC</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">closure report</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="rounded-[28px] border border-slate-300 bg-gradient-to-br from-white to-slate-100 p-6">
-                                    <div class="flex items-center justify-between gap-4 mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded-2xl bg-gray-900 text-white flex items-center justify-center text-sm font-black">07</div>
-                                            <div>
-                                                <div class="text-lg font-black text-gray-900">Signoff</div>
-                                                <div class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Approve</div>
-                                            </div>
-                                        </div>
-                                        <span class="px-3 py-1.5 rounded-xl bg-white text-slate-700 text-xs font-extrabold border border-slate-200">Final Approval</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 leading-relaxed">Post-route 결과가 timing, physical verification, power integrity, reliability 기준을 모두 만족하는지 최종 판단하는 단계입니다. 핵심은 “이 상태로 제조에 넘겨도 되는가”를 승인하는 것이며, Tapeout 직전의 마지막 품질 gate입니다.</p>
-                                    <div class="mt-5 overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-r from-white via-[#fbfcfd] to-[#eef2f6]">
-                                        <div class="grid grid-cols-1 xl:grid-cols-[1fr_74px_1fr_74px_1fr]">
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200 shadow-[0_10px_24px_rgba(71,85,105,0.10)] flex items-center justify-center text-sm font-black text-slate-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M8.5 10.5 12 14l3.5-3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-700">Input</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Placed / routed DB</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">extracted RC</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">signoff deck</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">ECO result</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-slate-200 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-slate-300 bg-white text-slate-600 shadow-[0_16px_34px_rgba(71,85,105,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200 shadow-[0_10px_24px_rgba(71,85,105,0.10)] flex items-center justify-center text-sm font-black text-slate-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7H12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 17H16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.5" stroke="currentColor" stroke-width="1.9"/></svg></div>
-                                                    <div class="text-[12px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-800">Process<br>Tasks</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">STA closure</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">DRC / LVS check</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">IR / EM check</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Release approval</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-slate-200 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-slate-300 bg-white text-slate-600 shadow-[0_16px_34px_rgba(71,85,105,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5 bg-white/35">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200 shadow-[0_10px_24px_rgba(71,85,105,0.10)] flex items-center justify-center text-sm font-black text-slate-700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 7v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12 19 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12 5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-5 text-slate-700">Deliverables</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">Approved layout DB</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">signoff report</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">release checklist</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6">
-                                    <div class="flex items-center justify-between gap-4 mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center text-sm font-black">08</div>
-                                            <div>
-                                                <div class="text-lg font-black text-gray-900">Tapeout</div>
-                                                <div class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Release</div>
-                                            </div>
-                                        </div>
-                                        <span class="px-3 py-1.5 rounded-xl bg-white text-slate-600 text-xs font-extrabold border border-slate-200">Foundry Handoff</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 leading-relaxed">Signoff에서 승인된 최종 레이아웃 데이터를 실제 제조용 포맷으로 묶어 파운드리에 넘기는 실행 단계입니다. 개념상 Signoff와 이어지지만, 판단 단계와 handoff 단계는 서로 다릅니다.</p>
-                                    <div class="mt-5 overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-r from-white via-[#fbfcfe] to-[#f1f5f9]">
-                                        <div class="grid grid-cols-1 xl:grid-cols-[1fr_74px_1fr_74px_1fr]">
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200 shadow-[0_10px_24px_rgba(100,116,139,0.10)] flex items-center justify-center text-sm font-black text-slate-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M8.5 10.5 12 14l3.5-3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-600">Input</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Approved layout DB</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">signoff report</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">release checklist</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-slate-200 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-slate-300 bg-white text-slate-500 shadow-[0_16px_34px_rgba(100,116,139,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200 shadow-[0_10px_24px_rgba(100,116,139,0.10)] flex items-center justify-center text-sm font-black text-slate-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7H12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 17H16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.5" stroke="currentColor" stroke-width="1.9"/></svg></div>
-                                                    <div class="text-[12px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-800">Process<br>Tasks</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">GDSII / OASIS export</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Foundry checklist</div>
-                                                    <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Mask data handoff</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-slate-200 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-slate-300 bg-white text-slate-500 shadow-[0_16px_34px_rgba(100,116,139,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5 bg-white/35">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200 shadow-[0_10px_24px_rgba(100,116,139,0.10)] flex items-center justify-center text-sm font-black text-slate-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 7v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12 19 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12 5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-5 text-slate-600">Deliverables</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">GDSII</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">foundry handoff package</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">release version data</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="rounded-[28px] border border-orange-200 bg-gradient-to-br from-white to-orange-50 p-6">
-                                    <div class="flex items-center justify-between gap-4 mb-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center text-sm font-black">09</div>
-                                            <div>
-                                                <div class="text-lg font-black text-gray-900">Fab / Package / Test</div>
-                                                <div class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Make Product</div>
-                                            </div>
-                                        </div>
-                                        <span class="px-3 py-1.5 rounded-xl bg-white text-orange-700 text-xs font-extrabold border border-orange-200">Manufacturing</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 leading-relaxed">Tapeout 이후에는 웨이퍼 제조, 패키징, 양산 테스트가 이어집니다. 설계 업무는 여기서 마무리되지만, 실제 제품 관점에서는 수율과 test 결과가 최종 성공 여부를 좌우합니다.</p>
-                                    <div class="mt-5 overflow-hidden rounded-[28px] border border-orange-200 bg-gradient-to-r from-white via-[#fff9f2] to-[#fff1df]">
-                                        <div class="grid grid-cols-1 xl:grid-cols-[1fr_74px_1fr_74px_1fr]">
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-orange-200 shadow-[0_10px_24px_rgba(251,146,60,0.12)] flex items-center justify-center text-sm font-black text-orange-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M8.5 10.5 12 14l3.5-3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-[1.1] text-orange-600">Input</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-orange-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">GDSII</div>
-                                                    <div class="rounded-2xl border border-orange-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">foundry handoff package</div>
-                                                    <div class="rounded-2xl border border-orange-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">release version data</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-orange-200 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-orange-200 bg-white text-orange-500 shadow-[0_16px_34px_rgba(251,146,60,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-orange-200 shadow-[0_10px_24px_rgba(251,146,60,0.12)] flex items-center justify-center text-sm font-black text-orange-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7H12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 17H16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.5" stroke="currentColor" stroke-width="1.9"/></svg></div>
-                                                    <div class="text-[12px] font-black uppercase tracking-[0.18em] leading-[1.1] text-slate-800">Process<br>Tasks</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-2xl border border-orange-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Wafer fabrication</div>
-                                                    <div class="rounded-2xl border border-orange-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Package assembly</div>
-                                                    <div class="rounded-2xl border border-orange-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">Production test</div>
-                                                </div>
-                                            </div>
-                                            <div class="hidden xl:flex items-center justify-center border-x border-orange-200 bg-white/40">
-                                                <div class="w-14 h-14 rounded-full border border-orange-200 bg-white text-orange-500 shadow-[0_16px_34px_rgba(251,146,60,0.16)] flex items-center justify-center text-2xl font-light">→</div>
-                                            </div>
-                                            <div class="p-5 bg-white/35">
-                                                <div class="flex items-center gap-3 mb-4">
-                                                    <div class="w-11 h-11 rounded-2xl bg-white border border-orange-200 shadow-[0_10px_24px_rgba(251,146,60,0.12)] flex items-center justify-center text-sm font-black text-orange-600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 19 7v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12 19 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12 5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-                                                    <div class="text-[11px] font-black uppercase tracking-[0.18em] leading-5 text-orange-600">Deliverables</div>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">Packaged chip</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">yield data</div>
-                                                    <div class="rounded-[22px] border border-white bg-white/90 px-4 py-3 text-base font-black leading-tight text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.05)]">final product</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    <section id="sd-panel-physical" class="sd-stage-panel" role="tabpanel" aria-labelledby="sd-tab-physical" tabindex="0" data-sd-panel="physical" hidden>
+        <article class="sd-stage-card">
+            <header class="sd-stage-heading"><span class="sd-stage-number" aria-hidden="true">06</span><div><h3>Physical Design</h3><p>논리 회로가 실제 칩의 배치와 배선으로 바뀌는 과정</p></div></header>
+            <div class="sd-transform">
+                <section class="sd-column sd-input" aria-label="이 단계의 입력">
+                    <h4 class="sd-column-title"><strong>INPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/code.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Implementation-ready netlist</strong><p>테스트 구조 등을 반영한 넷리스트</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Constraint</strong><p>타이밍과 물리 구현 제약</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>UPF</strong><p>전원 도메인과 저전력 정보</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/database.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Design kit / target</strong><p>공정 라이브러리·기술 파일·목표</p></div></li>
+                    </ul>
+                </section>
+                <section class="sd-column sd-process" aria-label="이 단계의 핵심 변화">
+                    <h4 class="sd-column-title"><strong>PROCESS</strong></h4>
+                    <ol class="sd-process-steps"><li>Floorplan<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Placement<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>CTS<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Routing</li></ol>
+                    <figure class="sd-figure">
+                        <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="넷리스트가 CPU, SRAM, DSP, PLL 매크로와 표준 셀, 클록 및 신호 배선을 포함한 칩 레이아웃으로 변하고 추출 RC 분석 결과가 ECO로 되돌아가는 과정." aria-label="06 Physical Design · 핵심 흐름 그림 확대">
+                        <img src="../../assets/stage-detail/physical-overview.svg" width="1666" height="930" loading="lazy" decoding="async" alt="넷리스트가 CPU, SRAM, DSP, PLL 매크로와 표준 셀, 클록 및 신호 배선을 포함한 칩 레이아웃으로 변하고 추출 RC 분석 결과가 ECO로 되돌아가는 과정.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                        <figcaption>넷리스트를 실제 칩 레이아웃으로 구현합니다. 배선에서 추출한 RC와 분석 결과를 이용해 필요한 ECO를 반복합니다.</figcaption>
+                    </figure>
+                </section>
+                <section class="sd-column sd-output" aria-label="이 단계의 산출물">
+                    <h4 class="sd-column-title"><strong>OUTPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/database.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Placed / routed DB</strong><p>배치·배선이 완료된 설계 DB</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/database.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>extracted RC</strong><p>배선의 기생 저항과 커패시턴스</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/chart-bar.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>closure report</strong><p>타이밍·전력 등 수렴 결과</p></div></li>
+                    </ul>
+                </section>
+            </div>
+            <section class="sd-detail" aria-label="Physical Design 세부 과정">
+                <div class="sd-detail-title"><h4>단계별 핵심 과정</h4><div class="sd-view-switch" role="group" aria-label="세부 과정 보기 방식"><button type="button" data-sd-view="diagram" aria-pressed="true">그림으로 보기</button><button type="button" data-sd-view="3d" aria-pressed="false">3D로 직접 보기</button></div></div>
+                <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+                    <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Floorplan. 칩 영역, 매크로, IO와 전원 구조를 계획하고 표준 셀을 배치할 공간을 확보합니다. 2. Placement. 표준 셀의 위치를 정합니다. 타이밍과 혼잡도를 함께 고려합니다. 3. CTS. 클록이 각 플립플롭에 전달되도록 트리를 구성하고 지연과 스큐를 조정합니다. 4. Routing / Extraction. 셀 사이를 배선하고 기생 RC를 추출합니다. 분석 결과에 따라 ECO를 반복합니다." aria-label="06 Physical Design · 세부 과정 그림 확대">
+                        <img src="../../assets/stage-detail/physical-detail.svg" width="1983" height="693" loading="lazy" decoding="async" alt="1. Floorplan. 칩 영역, 매크로, IO와 전원 구조를 계획하고 표준 셀을 배치할 공간을 확보합니다. 2. Placement. 표준 셀의 위치를 정합니다. 타이밍과 혼잡도를 함께 고려합니다. 3. CTS. 클록이 각 플립플롭에 전달되도록 트리를 구성하고 지연과 스큐를 조정합니다. 4. Routing / Extraction. 셀 사이를 배선하고 기생 RC를 추출합니다. 분석 결과에 따라 ECO를 반복합니다.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                </div>
+                <div class="sd-3d-view" data-sd-view-panel="3d" data-sd-3d="physical" hidden>
+                    <div class="sd-3d-toolbar">
+                        <div class="sd-3d-steps" role="group" aria-label="Physical Design 3D 과정"><button type="button" data-sd-3d-step="0" aria-pressed="true">Floorplan</button><button type="button" data-sd-3d-step="1" aria-pressed="false">Placement</button><button type="button" data-sd-3d-step="2" aria-pressed="false">CTS</button><button type="button" data-sd-3d-step="3" aria-pressed="false">Routing</button></div>
+                        <div class="sd-3d-actions">
+                            <button type="button" data-sd-camera="zoom-in" aria-label="3D 확대">확대</button>
+                            <button type="button" data-sd-camera="zoom-out" aria-label="3D 축소">축소</button>
+                            <button type="button" data-sd-camera="reset">시점 초기화</button>
+                            <button type="button" data-sd-auto aria-pressed="false">자동 회전</button>
                         </div>
+                    </div>
+                    <div class="sd-3d-canvas" data-sd-canvas tabindex="0" role="img" aria-label="Physical Design 3D 구조. 방향키로 회전, 더하기와 빼기로 확대 및 축소, Home 키로 초기화."><p class="sd-3d-loading">3D 구조를 불러오는 중입니다.</p></div>
+                    <div class="sd-3d-footer">
+                        <p class="sd-3d-explanation" data-sd-3d-description aria-live="polite"></p>
 
-                        <div class="card overflow-hidden" data-part2-panel="keyword-dictionary" data-guidebook-toc-title="Keyword Dictionary" hidden>
+                        <p class="sd-3d-help">드래그로 회전 · 휠로 확대 · 방향키로 회전 <span>구조와 흐름을 보는 개념 모델</span></p>
+                    </div>
+                </div>
+                <ol class="sd-step-captions" style="--sd-step-count: 4">
+                    <li><div class="sd-step-heading"><span>01</span><h5>Floorplan</h5></div><p>칩 영역, 매크로, IO와 전원 구조를 계획하고 표준 셀을 배치할 공간을 확보합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>02</span><h5>Placement</h5></div><p>표준 셀의 위치를 정합니다. 타이밍과 혼잡도를 함께 고려합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>03</span><h5>CTS</h5></div><p>클록이 각 플립플롭에 전달되도록 트리를 구성하고 지연과 스큐를 조정합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>04</span><h5>Routing / Extraction</h5></div><p>셀 사이를 배선하고 기생 RC를 추출합니다. 분석 결과에 따라 ECO를 반복합니다.</p></li>
+                </ol>
+            </section>
+        </article>
+        <nav class="sd-handoff" aria-label="이전 및 다음 스테이지">
+            <button type="button" class="sd-handoff-button" data-sd-go="dft"><img class="sd-icon" src="../../assets/icons/tabler/arrow-left.svg" width="24" height="24" alt="" aria-hidden="true"><span><small>이전 단계 · 05 DFT / PI</small><strong>Scan-ready netlist</strong></span></button>
+            <p class="sd-handoff-note">배치·배선 DB와 추출 RC를 Signoff 검증에 전달합니다.</p>
+            <button type="button" class="sd-handoff-button is-next" data-sd-go="signoff"><span><small>다음 단계 · 07 Signoff</small><strong>Placed / routed DB</strong></span><img class="sd-icon" src="../../assets/icons/tabler/arrow-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        </nav>
+    </section>
+
+    <section id="sd-panel-signoff" class="sd-stage-panel" role="tabpanel" aria-labelledby="sd-tab-signoff" tabindex="0" data-sd-panel="signoff" hidden>
+        <article class="sd-stage-card">
+            <header class="sd-stage-heading"><span class="sd-stage-number" aria-hidden="true">07</span><div><h3>Signoff</h3><p>타이밍·물리 규칙·전원 무결성을 확인하고 최종 승인</p></div></header>
+            <div class="sd-transform">
+                <section class="sd-column sd-input" aria-label="이 단계의 입력">
+                    <h4 class="sd-column-title"><strong>INPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/database.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Placed / routed DB</strong><p>최종 배치·배선 설계 데이터</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/database.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>extracted RC</strong><p>타이밍·전원 분석에 필요한 기생 성분</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/list-check.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>signoff deck</strong><p>검증 규칙과 실행 조건</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>ECO result</strong><p>설계 수정과 재검증 결과</p></div></li>
+                    </ul>
+                </section>
+                <section class="sd-column sd-process" aria-label="이 단계의 핵심 변화">
+                    <h4 class="sd-column-title"><strong>PROCESS</strong></h4>
+                    <ol class="sd-process-steps"><li>STA<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>DRC / LVS<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>IR / EM<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Approval</li></ol>
+                    <figure class="sd-figure">
+                        <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="라우팅된 레이아웃을 STA, DRC와 LVS, IR과 EM의 세 경로로 검증한 뒤 결과를 릴리스 승인 문서로 모으는 흐름." aria-label="07 Signoff · 핵심 흐름 그림 확대">
+                        <img src="../../assets/stage-detail/signoff-overview.svg" width="1665" height="938" loading="lazy" decoding="async" alt="라우팅된 레이아웃을 STA, DRC와 LVS, IR과 EM의 세 경로로 검증한 뒤 결과를 릴리스 승인 문서로 모으는 흐름.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                        <figcaption>완성된 물리 설계를 여러 관점에서 확인합니다. 타이밍·물리 규칙·전원 무결성 결과를 모아 릴리스를 승인합니다.</figcaption>
+                    </figure>
+                </section>
+                <section class="sd-column sd-output" aria-label="이 단계의 산출물">
+                    <h4 class="sd-column-title"><strong>OUTPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/database.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Approved layout DB</strong><p>최종 승인을 받은 레이아웃 DB</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/chart-bar.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>signoff report</strong><p>STA·DRC/LVS·IR/EM 검증 결과</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/list-check.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>release checklist</strong><p>릴리스 기준과 최종 점검 내역</p></div></li>
+                    </ul>
+                </section>
+            </div>
+            <section class="sd-detail" aria-label="Signoff 세부 과정">
+                <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
+                <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+                    <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. STA closure. 추출 RC와 조건을 반영해 setup·hold 등 타이밍 제약의 충족 여부를 확인합니다. 2. DRC / LVS. 레이아웃의 기하학적 규칙과, 레이아웃에서 추출한 회로의 연결 일치를 확인합니다. 3. IR / EM. 전압 강하와 전류 밀도에 따른 신뢰성을 점검합니다. 4. Release approval. 검증 리포트와 체크리스트를 모아 최종 승인합니다. 미충족 항목은 ECO 후 다시 확인합니다." aria-label="07 Signoff · 세부 과정 그림 확대">
+                        <img src="../../assets/stage-detail/signoff-detail.svg" width="2017" height="661" loading="lazy" decoding="async" alt="1. STA closure. 추출 RC와 조건을 반영해 setup·hold 등 타이밍 제약의 충족 여부를 확인합니다. 2. DRC / LVS. 레이아웃의 기하학적 규칙과, 레이아웃에서 추출한 회로의 연결 일치를 확인합니다. 3. IR / EM. 전압 강하와 전류 밀도에 따른 신뢰성을 점검합니다. 4. Release approval. 검증 리포트와 체크리스트를 모아 최종 승인합니다. 미충족 항목은 ECO 후 다시 확인합니다.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                </div>
+                <ol class="sd-step-captions" style="--sd-step-count: 4">
+                    <li><div class="sd-step-heading"><span>01</span><h5>STA closure</h5></div><p>추출 RC와 조건을 반영해 setup·hold 등 타이밍 제약의 충족 여부를 확인합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>02</span><h5>DRC / LVS</h5></div><p>레이아웃의 기하학적 규칙과, 레이아웃에서 추출한 회로의 연결 일치를 확인합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>03</span><h5>IR / EM</h5></div><p>전압 강하와 전류 밀도에 따른 신뢰성을 점검합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>04</span><h5>Release approval</h5></div><p>검증 리포트와 체크리스트를 모아 최종 승인합니다. 미충족 항목은 ECO 후 다시 확인합니다.</p></li>
+                </ol>
+            </section>
+        </article>
+        <nav class="sd-handoff" aria-label="이전 및 다음 스테이지">
+            <button type="button" class="sd-handoff-button" data-sd-go="physical"><img class="sd-icon" src="../../assets/icons/tabler/arrow-left.svg" width="24" height="24" alt="" aria-hidden="true"><span><small>이전 단계 · 06 Physical Design</small><strong>Placed / routed DB</strong></span></button>
+            <p class="sd-handoff-note">승인된 레이아웃과 검증 증빙을 Tapeout에 전달합니다.</p>
+            <button type="button" class="sd-handoff-button is-next" data-sd-go="tapeout"><span><small>다음 단계 · 08 Tapeout</small><strong>Approved layout DB</strong></span><img class="sd-icon" src="../../assets/icons/tabler/arrow-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        </nav>
+    </section>
+
+    <section id="sd-panel-tapeout" class="sd-stage-panel" role="tabpanel" aria-labelledby="sd-tab-tapeout" tabindex="0" data-sd-panel="tapeout" hidden>
+        <article class="sd-stage-card">
+            <header class="sd-stage-heading"><span class="sd-stage-number" aria-hidden="true">08</span><div><h3>Tapeout</h3><p>승인된 레이아웃을 제조용 데이터로 패키징해 전달</p></div></header>
+            <div class="sd-transform">
+                <section class="sd-column sd-input" aria-label="이 단계의 입력">
+                    <h4 class="sd-column-title"><strong>INPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/database.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Approved layout DB</strong><p>Signoff에서 승인된 설계 DB</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/chart-bar.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>signoff report</strong><p>최종 검증 결과와 증빙</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/list-check.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>release checklist</strong><p>릴리스에 필요한 최종 점검표</p></div></li>
+                    </ul>
+                </section>
+                <section class="sd-column sd-process" aria-label="이 단계의 핵심 변화">
+                    <h4 class="sd-column-title"><strong>PROCESS</strong></h4>
+                    <ol class="sd-process-steps"><li>GDSII / OASIS<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Release package<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Foundry handoff</li></ol>
+                    <figure class="sd-figure">
+                        <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="승인된 레이아웃 층을 GDSII 또는 OASIS로 내보내고 검증 문서와 버전 정보를 묶어 파운드리의 마스크 준비에 전달하는 과정." aria-label="08 Tapeout · 핵심 흐름 그림 확대">
+                        <img src="../../assets/stage-detail/tapeout-overview.svg" width="1665" height="564" loading="lazy" decoding="async" alt="승인된 레이아웃 층을 GDSII 또는 OASIS로 내보내고 검증 문서와 버전 정보를 묶어 파운드리의 마스크 준비에 전달하는 과정.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                        <figcaption>승인된 레이아웃을 제조용 데이터로 내보내고, 버전과 문서를 고정한 전달 패키지로 구성합니다.</figcaption>
+                    </figure>
+                </section>
+                <section class="sd-column sd-output" aria-label="이 단계의 산출물">
+                    <h4 class="sd-column-title"><strong>OUTPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>GDSII</strong><p>GDSII / OASIS 제조용 레이아웃</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/box.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>foundry handoff package</strong><p>파운드리 전달 데이터와 문서 묶음</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>release version data</strong><p>고정된 릴리스 버전과 이력</p></div></li>
+                    </ul>
+                </section>
+            </div>
+            <section class="sd-detail" aria-label="Tapeout 세부 과정">
+                <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
+                <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+                    <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. GDSII / OASIS export. 레이아웃의 계층과 기하 정보를 제조에 전달할 데이터 형식으로 내보냅니다. 2. Foundry checklist. Signoff 결과, 전달 항목, 버전 정보를 확인하고 릴리스 패키지를 정리합니다. 3. Mask data handoff. 파운드리의 전달 절차에 따라 데이터를 넘겨 마스크 준비와 제조로 연결합니다." aria-label="08 Tapeout · 세부 과정 그림 확대">
+                        <img src="../../assets/stage-detail/tapeout-detail.svg" width="2171" height="624" loading="lazy" decoding="async" alt="1. GDSII / OASIS export. 레이아웃의 계층과 기하 정보를 제조에 전달할 데이터 형식으로 내보냅니다. 2. Foundry checklist. Signoff 결과, 전달 항목, 버전 정보를 확인하고 릴리스 패키지를 정리합니다. 3. Mask data handoff. 파운드리의 전달 절차에 따라 데이터를 넘겨 마스크 준비와 제조로 연결합니다.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                </div>
+                <ol class="sd-step-captions" style="--sd-step-count: 3">
+                    <li><div class="sd-step-heading"><span>01</span><h5>GDSII / OASIS export</h5></div><p>레이아웃의 계층과 기하 정보를 제조에 전달할 데이터 형식으로 내보냅니다.</p></li>
+                    <li><div class="sd-step-heading"><span>02</span><h5>Foundry checklist</h5></div><p>Signoff 결과, 전달 항목, 버전 정보를 확인하고 릴리스 패키지를 정리합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>03</span><h5>Mask data handoff</h5></div><p>파운드리의 전달 절차에 따라 데이터를 넘겨 마스크 준비와 제조로 연결합니다.</p></li>
+                </ol>
+            </section>
+        </article>
+        <nav class="sd-handoff" aria-label="이전 및 다음 스테이지">
+            <button type="button" class="sd-handoff-button" data-sd-go="signoff"><img class="sd-icon" src="../../assets/icons/tabler/arrow-left.svg" width="24" height="24" alt="" aria-hidden="true"><span><small>이전 단계 · 07 Signoff</small><strong>Approved layout DB</strong></span></button>
+            <p class="sd-handoff-note">전달된 제조 데이터가 웨이퍼 제조와 제품화로 이어집니다.</p>
+            <button type="button" class="sd-handoff-button is-next" data-sd-go="manufacturing"><span><small>다음 단계 · 09 Fab / Package / Test</small><strong>GDSII</strong></span><img class="sd-icon" src="../../assets/icons/tabler/arrow-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        </nav>
+    </section>
+
+    <section id="sd-panel-manufacturing" class="sd-stage-panel" role="tabpanel" aria-labelledby="sd-tab-manufacturing" tabindex="0" data-sd-panel="manufacturing" hidden>
+        <article class="sd-stage-card">
+            <header class="sd-stage-heading"><span class="sd-stage-number" aria-hidden="true">09</span><div><h3>Fab / Package / Test</h3><p>설계 데이터를 웨이퍼와 패키지 칩으로 완성</p></div></header>
+            <div class="sd-transform">
+                <section class="sd-column sd-input" aria-label="이 단계의 입력">
+                    <h4 class="sd-column-title"><strong>INPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>GDSII</strong><p>제조에 사용할 레이아웃 데이터</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/box.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>foundry handoff package</strong><p>파운드리 전달 패키지</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/file-description.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>release version data</strong><p>승인된 제조 릴리스 버전</p></div></li>
+                    </ul>
+                </section>
+                <section class="sd-column sd-process" aria-label="이 단계의 핵심 변화">
+                    <h4 class="sd-column-title"><strong>PROCESS</strong></h4>
+                    <ol class="sd-process-steps"><li>Wafer fab<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Package<img class="sd-icon" src="../../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Production test</li></ol>
+                    <figure class="sd-figure">
+                        <button type="button" class="sd-diagram-button sd-framed " style="aspect-ratio: 1666 / 486; --sd-image-top: -47.1193%;" data-sd-zoom data-sd-caption="회로 패턴이 형성된 웨이퍼를 다이로 나누고 패키지 조립과 양산 테스트를 거쳐 완성 칩으로 만드는 순서." aria-label="09 Fab / Package / Test · 핵심 흐름 그림 확대">
+                        <img src="../../assets/stage-detail/manufacturing-overview-generated.png" width="1666" height="944" loading="lazy" decoding="async" alt="회로 패턴이 형성된 웨이퍼를 다이로 나누고 패키지 조립과 양산 테스트를 거쳐 완성 칩으로 만드는 순서.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                        <figcaption>설계 데이터를 바탕으로 웨이퍼에 회로를 형성하고, 다이를 패키지로 조립한 후 테스트해 제품으로 완성합니다.</figcaption>
+                    </figure>
+                </section>
+                <section class="sd-column sd-output" aria-label="이 단계의 산출물">
+                    <h4 class="sd-column-title"><strong>OUTPUT</strong></h4>
+                    <ul class="sd-artifact-list">
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/cpu.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>Packaged chip</strong><p>패키지 조립을 마친 칩</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/chart-bar.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>yield data</strong><p>양산 테스트 결과와 수율 데이터</p></div></li>
+                        <li class="sd-artifact"><img class="sd-icon" src="../../assets/icons/tabler/box.svg" width="24" height="24" alt="" aria-hidden="true"><div><strong>final product</strong><p>테스트를 거친 최종 제품</p></div></li>
+                    </ul>
+                </section>
+            </div>
+            <section class="sd-detail" aria-label="Fab / Package / Test 세부 과정">
+                <div class="sd-detail-title"><h4>단계별 핵심 과정</h4><div class="sd-view-switch" role="group" aria-label="세부 과정 보기 방식"><button type="button" data-sd-view="diagram" aria-pressed="true">그림으로 보기</button><button type="button" data-sd-view="3d" aria-pressed="false">3D로 직접 보기</button></div></div>
+                <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+                    <button type="button" class="sd-diagram-button sd-framed sd-detail-image" style="aspect-ratio: 2076 / 646; --sd-image-top: -6.8111%;" data-sd-zoom data-sd-caption="1. Wafer fabrication. 반복적인 공정을 통해 웨이퍼 위에 다수의 다이를 형성합니다. 2. Package assembly. 다이를 패키지 기판과 연결하고 보호 구조를 조립해 외부 접속을 만듭니다. 3. Production test. 제품 동작을 검사하고 결과를 분류합니다. 수율 데이터를 제품·공정 개선에 활용합니다." aria-label="09 Fab / Package / Test · 세부 과정 그림 확대">
+                        <img src="../../assets/stage-detail/manufacturing-detail-generated.png" width="2076" height="757" loading="lazy" decoding="async" alt="1. Wafer fabrication. 반복적인 공정을 통해 웨이퍼 위에 다수의 다이를 형성합니다. 2. Package assembly. 다이를 패키지 기판과 연결하고 보호 구조를 조립해 외부 접속을 만듭니다. 3. Production test. 제품 동작을 검사하고 결과를 분류합니다. 수율 데이터를 제품·공정 개선에 활용합니다.">
+                        <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
+                    </button>
+                </div>
+                <div class="sd-3d-view" data-sd-view-panel="3d" data-sd-3d="manufacturing" hidden>
+                    <div class="sd-3d-toolbar">
+                        <div class="sd-3d-steps" role="group" aria-label="Fab / Package / Test 3D 과정"><button type="button" data-sd-3d-step="0" aria-pressed="true">웨이퍼</button><button type="button" data-sd-3d-step="1" aria-pressed="false">패키지</button><button type="button" data-sd-3d-step="2" aria-pressed="false">테스트</button></div>
+                        <div class="sd-3d-actions">
+                            <button type="button" data-sd-camera="zoom-in" aria-label="3D 확대">확대</button>
+                            <button type="button" data-sd-camera="zoom-out" aria-label="3D 축소">축소</button>
+                            <button type="button" data-sd-camera="reset">시점 초기화</button>
+                            <button type="button" data-sd-auto aria-pressed="false">자동 회전</button>
+                        </div>
+                    </div>
+                    <div class="sd-3d-canvas" data-sd-canvas tabindex="0" role="img" aria-label="Fab / Package / Test 3D 구조. 방향키로 회전, 더하기와 빼기로 확대 및 축소, Home 키로 초기화."><p class="sd-3d-loading">3D 구조를 불러오는 중입니다.</p></div>
+                    <div class="sd-3d-footer">
+                        <p class="sd-3d-explanation" data-sd-3d-description aria-live="polite"></p>
+                        <label class="sd-explode-control" hidden>패키지 분해<input type="range" min="0" max="100" value="0" step="1" data-sd-explode aria-label="패키지 분해 정도"><output data-sd-explode-value>0%</output></label>
+                        <p class="sd-3d-help">드래그로 회전 · 휠로 확대 · 방향키로 회전 <span>구조와 흐름을 보는 개념 모델</span></p>
+                    </div>
+                </div>
+                <ol class="sd-step-captions" style="--sd-step-count: 3">
+                    <li><div class="sd-step-heading"><span>01</span><h5>Wafer fabrication</h5></div><p>반복적인 공정을 통해 웨이퍼 위에 다수의 다이를 형성합니다.</p></li>
+                    <li><div class="sd-step-heading"><span>02</span><h5>Package assembly</h5></div><p>다이를 패키지 기판과 연결하고 보호 구조를 조립해 외부 접속을 만듭니다.</p></li>
+                    <li><div class="sd-step-heading"><span>03</span><h5>Production test</h5></div><p>제품 동작을 검사하고 결과를 분류합니다. 수율 데이터를 제품·공정 개선에 활용합니다.</p></li>
+                </ol>
+            </section>
+        </article>
+        <nav class="sd-handoff" aria-label="이전 및 다음 스테이지">
+            <button type="button" class="sd-handoff-button" data-sd-go="tapeout"><img class="sd-icon" src="../../assets/icons/tabler/arrow-left.svg" width="24" height="24" alt="" aria-hidden="true"><span><small>이전 단계 · 08 Tapeout</small><strong>GDSII</strong></span></button>
+            <p class="sd-handoff-note">완성된 제품과 테스트 결과가 다음 제품·공정 개선의 근거가 됩니다.</p>
+            <button type="button" class="sd-handoff-button is-next" data-sd-go="" disabled><span><small>제품화 완료</small><strong>Final product</strong></span><img class="sd-icon" src="../../assets/icons/tabler/arrow-right.svg" width="24" height="24" alt="" aria-hidden="true"></button>
+        </nav>
+    </section>
+
+    <dialog class="sd-dialog" data-sd-dialog aria-labelledby="sd-dialog-title">
+        <div class="sd-dialog-header"><h4 id="sd-dialog-title">설계 흐름 크게 보기</h4><button type="button" data-sd-close><img class="sd-icon" src="../../assets/icons/tabler/x.svg" width="24" height="24" alt="" aria-hidden="true">닫기</button></div>
+        <div class="sd-dialog-image-wrap"><img data-sd-dialog-image alt=""></div>
+        <p class="sd-dialog-caption" data-sd-dialog-caption></p>
+    </dialog>
+</div>
+<div class="card overflow-hidden" data-part2-panel="keyword-dictionary" data-guidebook-toc-title="Keyword Dictionary" hidden>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                                 <div class="rounded-[30px] border border-slate-100 bg-white px-6 py-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">

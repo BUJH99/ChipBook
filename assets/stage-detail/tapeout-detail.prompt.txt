@@ -1,0 +1,4 @@
+Create a standalone wide landscape technical storyboard for the Tapeout stage, arranged as three equal visual panels in one horizontal row, readable at approximately 1200 by 310 CSS pixels. Panel 1, Export: geometric chip layout layers transform into a GDSII / OASIS document. Panel 2, Release package: show a versioned folder containing a signoff report, release checklist, and version data. Panel 3, Foundry handoff: show the approved package handed to a foundry and a rectangular photomask plate; do not depict a wafer as the photomask. Let the diagrams dominate, with sparse short English labels and small outer margins. Use a pure white background, restrained blue #3182f6, dark #191f28 technical linework, and pale fills. Render only the technical storyboard without paragraphs or app chrome.
+
+Input images:
+- 08-tapeout.png: Reference for the user's chosen page flow and picture-centered detailed explanations.

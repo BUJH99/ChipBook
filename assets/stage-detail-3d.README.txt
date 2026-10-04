@@ -1,0 +1,15 @@
+Stage Detail 3D
+
+Editable source: stage-detail-3d.js
+Runtime: stage-detail-3d.bundle.js (classic IIFE, window.ChipBookStage3D)
+Dependencies: vendor/three/three.module.min.js and vendor/three/OrbitControls.js, Three.js 0.160.0, MIT.
+
+The classic bundle supports the project's direct file preview as well as HTTP hosting.
+It loads only after selecting a 3D view. Inactive viewers stop rendering.
+
+Rebuild after changing the source or vendor files:
+  npx --yes esbuild@0.25.0 assets/stage-detail-3d.js --bundle --format=iife --global-name=ChipBookStage3D --minify --legal-comments=inline --outfile=assets/stage-detail-3d.bundle.js
+
+Physical Design: fixed macro positions, cell placement, clock tree, routing layers.
+Fab / Package / Test: wafer, package assembly with exploded view, production test fixture.
+These are explanatory concept models, not an EDA or manufacturing simulation.

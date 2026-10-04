@@ -1,0 +1,4 @@
+Create a standalone landscape technical diagram for the Tapeout stage, readable at approximately 600 by 340 CSS pixels. Show a clear left-to-right process: approved layered chip layout geometry → GDSII / OASIS file → release package with a checklist and version identifier → foundry handoff illustrated with a rectangular photomask concept. The photomask must be rectangular, not a wafer. Use sparse, short English labels: Approved layout, GDSII / OASIS, Release package, Foundry handoff. Use white background, restrained blue #3182f6, dark #191f28 technical linework, pale fills, and directional arrows. Render only the technical illustration, without paragraphs, interface panels, browser chrome, or navigation.
+
+Input images:
+- 08-tapeout.png: Reference for the user's chosen page flow and picture-centered detailed explanations.
