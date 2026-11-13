@@ -1,0 +1,28 @@
+{
+  "output": "../../page-25-eda-fpga.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/lesson-25-01.html",
+    "sections/lesson-25-02.html",
+    "sections/lesson-25-03.html",
+    "sections/lesson-25-04.html",
+    "sections/lesson-25-05.html",
+    "sections/lesson-25-06.html",
+    "sections/lesson-25-07.html",
+    "99-shell-end.html"
+  ],
+  "title": "EDA 도구와 자동화 및 FPGA",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/visual-atlas/visual-atlas.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/visual-atlas/visual-atlas.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": [
+    "../assets/features/visual-atlas/visual-atlas-3d.js"
+  ]
+}

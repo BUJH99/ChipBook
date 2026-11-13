@@ -1,0 +1,16 @@
+<article class="chapter-lesson" data-lesson-panel="section-03" data-lesson-id="18.03" data-guidebook-toc-title="{{section:section-03:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-03:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;18.03&quot;,&quot;kind&quot;:&quot;cdc&quot;,&quot;variant&quot;:&quot;handshake&quot;,&quot;title&quot;:&quot;요청과 응답으로 보장하는 데이터 전달&quot;,&quot;steps&quot;:[[&quot;Hold data&quot;,&quot;Source가 데이터를 고정한 뒤 request를 보냅니다.&quot;],[&quot;REQ 동기화&quot;,&quot;Destination이 동기화된 request를 인식하고 데이터를 받습니다.&quot;],[&quot;ACK 동기화&quot;,&quot;Acknowledge가 source clock으로 되돌아갑니다.&quot;],[&quot;다음 전송&quot;,&quot;Source는 응답을 받은 뒤 데이터를 변경합니다.&quot;]],&quot;subtitle&quot;:&quot;Multi-bit CDC는 bit 각각의 안정성뿐 아니라 하나의 값으로 함께 관측되는 조건이 필요하다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="요청과 응답으로 보장하는 데이터 전달"></section>
+<p>Handshake는 data를 안정적으로 유지한 구간을 제어 신호로 전달한다. Reconvergence는 독립적으로 동기화한 신호가 다시 결합하면서 원래 관계를 잃는 문제다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;cdc&quot;, &quot;title&quot;: &quot;서로 다른 clock의 포착&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="Handshake와 Multi-bit CDC 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Binary counter가 0111→1000으로 변할 때 bit별 동기화 결과가 순간 다른 값 조합이 될 수 있다. Gray code는 한 번에 한 bit만 바뀌는 속성을 특정 목적에 사용한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>// Source must hold payload while waiting for acknowledgement.
+property p_payload_stable;
+    @(posedge iClkSrc) disable iff (!iRstn)
+        (Req &amp;&amp; !Ack_sync) |=&gt; $stable(Data);
+endproperty
+assert_payload_stable: assert property (p_payload_stable);</code></pre>
+<div class="lesson-columns"><section><p>Gray code도 배선 지연과 전송 방식의 제약 없이 모든 bus CDC를 해결하지 않는다.</p></section><section><p>비트별 2FF만으로 bus 일관성이 보장되지 않음을 설명한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera CDC</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="18.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-04">다음 절 · Asynchronous FIFO</a></footer></article>

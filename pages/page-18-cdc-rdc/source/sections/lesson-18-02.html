@@ -1,0 +1,21 @@
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="18.02" data-guidebook-toc-title="{{section:section-02:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-02:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;18.02&quot;,&quot;kind&quot;:&quot;cdc&quot;,&quot;variant&quot;:&quot;sync&quot;,&quot;title&quot;:&quot;첫 FF의 불확실성이 다음 FF에 도달하기까지&quot;,&quot;steps&quot;:[[&quot;Source&quot;,&quot;Source domain에서 값 또는 이벤트가 바뀝니다.&quot;],[&quot;경계&quot;,&quot;두 Clock의 상대 위상은 고정되어 있지 않습니다.&quot;],[&quot;Sync 1&quot;,&quot;첫 샘플링 FF에는 metastability 위험이 있습니다.&quot;],[&quot;Sync 2&quot;,&quot;추가 정착 시간을 확보한 뒤 목적지에서 사용합니다.&quot;]],&quot;subtitle&quot;:&quot;2FF는 충분히 오래 유지되는 단일 bit level을 전달하는 기본 구조다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;cdc&quot;}" aria-label="첫 FF의 불확실성이 다음 FF에 도달하기까지"></section>
+<p>짧은 pulse는 목적 clock에서 보이지 않을 수 있어 pulse stretching, toggle 또는 handshake가 필요하다. 원천·목적 clock 속도뿐 아니라 event 사이 간격도 고려한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;cdc&quot;, &quot;title&quot;: &quot;서로 다른 clock의 포착&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="단일 비트 동기화 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>10 ns 폭 pulse를 20 ns 주기의 목적 clock로 관측하면 위상에 따라 놓칠 수 있다. Event를 toggle로 바꾸면 변화가 sampling될 때까지 상태를 유지할 수 있지만 event rate 제한이 남는다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>(* ASYNC_REG = &quot;TRUE&quot; *) logic Event_d1, Event_sync;
+always_ff @(posedge iClkDst or negedge iRstn) begin
+    if (!iRstn) begin
+        Event_d1   &lt;= 1&#x27;b0;
+        Event_sync &lt;= 1&#x27;b0;
+    end else begin
+        Event_d1   &lt;= iEvent_cdc;
+        Event_sync &lt;= Event_d1;
+    end
+end
+// Single-bit level only. Pulse width and reset release need separate contracts.</code></pre>
+<div class="lesson-columns"><section><p>모든 single-bit signal에 동일 2FF를 붙이면 사건의 수가 보존된다고 가정하지 않는다.</p></section><section><p>짧은 pulse가 유실되는 조건을 찾아 대안을 고른다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera CDC</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="18.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · Handshake와 Multi-bit CDC</a></footer></article>

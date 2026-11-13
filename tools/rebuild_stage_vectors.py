@@ -13,7 +13,7 @@ from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "assets" / "stage-detail"
+OUT = ROOT / "assets" / "features" / "stage-detail" / "images"
 INK = "#0a1948"
 WIRE = "#102c5f"
 BLUE = "#0876fa"

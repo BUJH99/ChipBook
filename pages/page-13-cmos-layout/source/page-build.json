@@ -1,0 +1,26 @@
+{
+  "output": "../../page-13-cmos-layout.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/lesson-13-01.html",
+    "sections/lesson-13-02.html",
+    "sections/lesson-13-03.html",
+    "sections/lesson-13-04.html",
+    "sections/lesson-13-05.html",
+    "sections/lesson-13-06.html",
+    "sections/lesson-13-07.html",
+    "99-shell-end.html"
+  ],
+  "title": "CMOS 회로와 Custom Layout",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/technical-pages/technical-pages.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/technical-pages/technical-pages.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": []
+}

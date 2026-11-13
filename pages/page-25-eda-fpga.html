@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDA 도구와 자동화 및 FPGA | 반도체 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/fonts.css?v=c76e3cfe4c44">
+    <link rel="stylesheet" href="../assets/guidebook-common.css?v=d690df41ee31">
+    <link rel="stylesheet" href="../assets/features/curriculum/curriculum.css?v=09e7ec987305">
+    <link rel="stylesheet" href="../assets/features/visual-atlas/visual-atlas.css?v=fdf94ae6f6da">
+
+</head>
+<body class="page-standalone curriculum-page visual-curriculum" data-page-id="page-25" data-chapter-number="25" data-default-section="section-01" data-section-aliases="{}" data-curriculum-engine="true" data-curriculum-mode="action">
+<main class="page-shell"><section class="page-section active" id="page-25"><div class="mb-4"><span class="badge">Part 25</span></div>
+<h2 class="section-title">EDA 도구와 자동화 및 FPGA</h2>
+<article class="chapter-lesson" data-lesson-panel="section-01" data-lesson-id="25.01" data-guidebook-toc-title="개발 환경과 재현성">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">25-1. 개발 환경과 재현성</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.01&quot;,&quot;kind&quot;:&quot;graph&quot;,&quot;variant&quot;:&quot;environment&quot;,&quot;title&quot;:&quot;Source·환경·실행 결과의 재현 경로&quot;,&quot;steps&quot;:[[&quot;입력&quot;,&quot;Source와 제약·환경을 함께 고정합니다.&quot;],[&quot;변환&quot;,&quot;중간 표현과 연결을 생성합니다.&quot;],[&quot;검증&quot;,&quot;변환 전후의 계약과 결과를 확인합니다.&quot;],[&quot;산출물&quot;,&quot;재현 가능한 결과와 근거를 남깁니다.&quot;]],&quot;subtitle&quot;:&quot;재현 가능한 환경은 tool·library·입력 revision과 실행 명령을 고정한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labels&quot;:[&quot;Source revision&quot;,&quot;Tool version&quot;,&quot;Libraries&quot;,&quot;Run scripts&quot;,&quot;Constraints&quot;,&quot;Artifacts&quot;]}" aria-label="Source·환경·실행 결과의 재현 경로"></section>
+<p>Source와 generated output, 임시 로그를 분리하면 변경 원인을 추적하기 쉽다. Version control은 결과뿐 아니라 의도와 검증 근거를 함께 남기는 도구다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>새 checkout에서 동일 build/test 명령으로 결과를 만들고 누락된 dependency를 확인한다. 실행 중 얻은 큰 산출물은 source와 구분해 관리한다.</p></div>
+<div class="lesson-columns"><section><p>개인 machine의 숨은 PATH나 작업 directory에 의존하는 script를 그대로 공유하지 않는다.</p></section><section><p>사용 도구와 입력 버전을 기록한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.01" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-02">다음 절 · 스크립트와 데이터 처리</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="25.02" data-guidebook-toc-title="스크립트와 데이터 처리">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">25-2. 스크립트와 데이터 처리</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.02&quot;,&quot;kind&quot;:&quot;graph&quot;,&quot;variant&quot;:&quot;scripts&quot;,&quot;title&quot;:&quot;입력 자료를 검증 가능한 결과로 변환하기&quot;,&quot;steps&quot;:[[&quot;입력&quot;,&quot;Source와 제약·환경을 함께 고정합니다.&quot;],[&quot;변환&quot;,&quot;중간 표현과 연결을 생성합니다.&quot;],[&quot;검증&quot;,&quot;변환 전후의 계약과 결과를 확인합니다.&quot;],[&quot;산출물&quot;,&quot;재현 가능한 결과와 근거를 남깁니다.&quot;]],&quot;subtitle&quot;:&quot;Python은 자료 처리와 orchestration, Tcl은 EDA 도구 내부 제어에 자주 쓰인다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labels&quot;:[&quot;Input data&quot;,&quot;Python parse&quot;,&quot;Tcl setup&quot;,&quot;EDA command&quot;,&quot;Report parse&quot;,&quot;Checks&quot;]}" aria-label="입력 자료를 검증 가능한 결과로 변환하기"></section>
+<p>Script는 입력 검증, exit status와 결과 파일 경로를 명시해야 한다. 구조화된 결과를 사용하면 log의 우연한 문구 변화에 덜 취약하다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>여러 corner의 timing summary를 읽어 mode·corner·slack·unconstrained count를 표로 만든다. 누락된 run을 0 violation으로 처리하지 않고 별도 실패로 표시한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>import csv
+from pathlib import Path
+
+rows = list(csv.DictReader(Path(&#x27;timing.csv&#x27;).open()))
+required = {&#x27;mode&#x27;, &#x27;corner&#x27;, &#x27;slack_ns&#x27;, &#x27;status&#x27;}
+assert rows and required &lt;= rows[0].keys()
+for row in rows:
+    if row[&#x27;status&#x27;] != &#x27;complete&#x27;:
+        raise RuntimeError(f&quot;Incomplete run: {row[&#x27;mode&#x27;]} / {row[&#x27;corner&#x27;]}&quot;)
+    slack = float(row[&#x27;slack_ns&#x27;])
+    print(row[&#x27;mode&#x27;], row[&#x27;corner&#x27;], &#x27;PASS&#x27; if slack &gt;= 0 else &#x27;VIOLATION&#x27;, slack)</code></pre>
+<div class="lesson-columns"><section><p>실행 명령이 끝났다는 사실과 필요한 산출물이 정상 생성됐다는 사실을 구별한다.</p></section><section><p>입력과 결과를 반복 생성하고 실패를 감지한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · Simulation과 Debug</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-03" data-lesson-id="25.03" data-guidebook-toc-title="Simulation과 Debug">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">25-3. Simulation과 Debug</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.03&quot;,&quot;kind&quot;:&quot;instrument&quot;,&quot;variant&quot;:&quot;simulation&quot;,&quot;title&quot;:&quot;Test·Waveform·원인 추적의 연결&quot;,&quot;steps&quot;:[[&quot;연결&quot;,&quot;Probe와 기준점을 대상 신호에 연결합니다.&quot;],[&quot;Trigger&quot;,&quot;재현 가능한 사건을 기준으로 포착합니다.&quot;],[&quot;관측&quot;,&quot;전원·Clock·Reset·데이터를 함께 읽습니다.&quot;],[&quot;분리&quot;,&quot;조건을 하나씩 바꾸어 원인 범위를 좁힙니다.&quot;]],&quot;subtitle&quot;:&quot;Simulation은 compile·elaboration·run의 실패를 구분해 진단한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Test·Waveform·원인 추적의 연결"></section>
+<p>Seed와 입력, model·tool version을 보존해야 같은 실패를 재현할 수 있다. 파형은 시간 단위와 X/Z, event 순서를 함께 읽는다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;formal&quot;, &quot;title&quot;: &quot;파형에서 첫 실패 찾기&quot;}" aria-label="파형에서 첫 실패 찾기"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>최초 error와 관련 scope를 찾은 뒤 해당 입력 sequence를 줄여 최소 재현을 만든다. 최종 timeout 메시지만 보는 것보다 앞선 protocol 위반을 찾는 것이 중요하다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code># 예제: 도구와 언어 지원에 맞게 파일 목록을 지정
+iverilog -g2012 -s tb_top -o sim.out rtl.sv tb.sv
+vvp sim.out
+# log의 exit code와 PASS/FAIL, waveform을 함께 확인</code></pre>
+<div class="lesson-columns"><section><p>Waveform에 보이는 마지막 증상을 원인으로 단정하지 않는다.</p></section><section><p>실패를 최소 입력으로 재현한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-04">다음 절 · 오픈 도구로 RTL부터 Layout까지</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="25.04" data-guidebook-toc-title="오픈 도구로 RTL부터 Layout까지">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">25-4. 오픈 도구로 RTL부터 Layout까지</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.04&quot;,&quot;kind&quot;:&quot;graph&quot;,&quot;variant&quot;:&quot;eda&quot;,&quot;title&quot;:&quot;RTL에서 Gate와 배치·배선까지&quot;,&quot;steps&quot;:[[&quot;입력&quot;,&quot;Source와 제약·환경을 함께 고정합니다.&quot;],[&quot;변환&quot;,&quot;중간 표현과 연결을 생성합니다.&quot;],[&quot;검증&quot;,&quot;변환 전후의 계약과 결과를 확인합니다.&quot;],[&quot;산출물&quot;,&quot;재현 가능한 결과와 근거를 남깁니다.&quot;]],&quot;three&quot;:&quot;soc&quot;,&quot;subtitle&quot;:&quot;오픈 flow는 RTL·library·constraint를 입력으로 합성·배치배선·timing과 layout 자료를 생성한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;,&quot;labels&quot;:[&quot;RTL / SDC&quot;,&quot;Synthesis&quot;,&quot;Library&quot;,&quot;Placement&quot;,&quot;Routing&quot;,&quot;Timing / DRC&quot;]}" aria-label="RTL에서 Gate와 배치·배선까지"></section>
+<p>각 도구의 지원 범위와 PDK 상태를 확인한다. 교육용 flow의 성공은 제조용 signoff와 구분해 해석한다.</p>
+
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;title&quot;: &quot;구현 산출물의 slack&quot;}" aria-label="구현 산출물의 slack"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Yosys의 netlist와 OpenROAD의 physical 결과를 같은 top·library·constraint로 연결한다. 단계 사이의 파일 revision과 단위가 맞는지 확인한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code># OpenROAD Flow Scripts: use an installed, revision-pinned flow and platform.
+# DESIGN_CONFIG supplies the top, RTL, SDC and platform settings.
+make DESIGN_CONFIG=./designs/&lt;platform&gt;/&lt;design&gt;/config.mk
+# Inspect synthesis, placement, CTS, routing and timing reports separately.
+# A successful educational flow is not a foundry signoff approval.</code></pre>
+<div class="lesson-columns"><section><p>명령이 exit 0이라는 것만으로 DRC·timing·power와 제조 인계가 모두 완료됐다고 보지 않는다.</p></section><section><p>교육용 flow와 제조용 signoff의 범위를 구분한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · FPGA 구조와 구현</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-05" data-lesson-id="25.05" data-guidebook-toc-title="FPGA 구조와 구현">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">25-5. FPGA 구조와 구현</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.05&quot;,&quot;kind&quot;:&quot;floorplan&quot;,&quot;variant&quot;:&quot;fpga&quot;,&quot;title&quot;:&quot;CLB·BRAM·DSP와 Programmable Routing&quot;,&quot;steps&quot;:[[&quot;CLB&quot;,&quot;LUT와 FF가 조합논리와 순차논리를 구현합니다.&quot;],[&quot;BRAM&quot;,&quot;전용 memory block에 저장 구조를 매핑합니다.&quot;],[&quot;DSP&quot;,&quot;곱셈과 누산을 전용 arithmetic block에 배치합니다.&quot;],[&quot;Routing&quot;,&quot;Programmable switch가 자원 사이의 연결을 구성합니다.&quot;]],&quot;three&quot;:&quot;fpga&quot;,&quot;subtitle&quot;:&quot;FPGA는 LUT·FF·BRAM·DSP·routing·clock 자원을 사용하는 구현 구조다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;}" aria-label="CLB·BRAM·DSP와 Programmable Routing"></section>
+<p>같은 RTL도 ASIC standard cell과 다른 resource로 mapping된다. Clocking, memory inference, pin과 IO standard 및 timing constraint를 확인한다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Multiplier를 DSP에 mapping하는 경우와 LUT logic으로 구현하는 경우의 resource·timing을 비교한다. 단순 gate count 비교로 ASIC 결과를 예측하지 않는다.</p></div>
+<div class="lesson-columns"><section><p>RTL 시뮬레이션 통과만으로 board pin과 clock constraint가 올바르다고 가정하지 않는다.</p></section><section><p>ASIC과 FPGA의 구현 차이를 설명한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-06">다음 절 · 보드 실습과 Prototype</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-06" data-lesson-id="25.06" data-guidebook-toc-title="보드 실습과 Prototype">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">25-6. 보드 실습과 Prototype</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.06&quot;,&quot;kind&quot;:&quot;serial&quot;,&quot;variant&quot;:&quot;uart&quot;,&quot;title&quot;:&quot;보드 IO에서 설계 내부까지 연결하기&quot;,&quot;steps&quot;:[[&quot;대기&quot;,&quot;선을 구동하는 장치와 유휴 전압을 먼저 구분합니다.&quot;],[&quot;전송&quot;,&quot;정해진 Clock 또는 bit 시간에 맞춰 데이터를 내보냅니다.&quot;],[&quot;샘플&quot;,&quot;수신 측이 유효한 구간의 값을 관측합니다.&quot;],[&quot;완료&quot;,&quot;종료 조건과 응답을 확인한 뒤 다음 전송으로 넘어갑니다.&quot;]],&quot;three&quot;:&quot;pcb&quot;,&quot;subtitle&quot;:&quot;보드 실습은 pinout·IO 전압·clock·reset과 실제 peripheral의 전기적 조건을 확인한 뒤 진행한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;,&quot;labType&quot;:&quot;uart&quot;}" aria-label="보드 IO에서 설계 내부까지 연결하기"></section>
+<p>On-chip analyzer는 선택한 내부 신호를 관측하지만 sampling clock와 trigger 범위가 제한된다. Prototype의 기능·속도 범위를 명시한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;uart&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;UART 송수신 파형&quot;, &quot;fault&quot;: &quot;실제 board 정보 없이 pin constraint와 전압 값을 임의로 적용하지 않는다.&quot;}" aria-label="보드 실습과 Prototype 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>UART echo 실습에서 내부 TX state, 실제 pin waveform, host 수신 byte를 연결한다. Baud 설정이 맞아도 pin mux나 전압이 다르면 통신이 실패할 수 있다.</p></div>
+<div class="lesson-columns"><section><p>실제 board 정보 없이 pin constraint와 전압 값을 임의로 적용하지 않는다.</p></section><section><p>bitstream 생성부터 관측 결과까지 재현한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.06" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-07">다음 절 · 자동 회귀와 결과 관리</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-07" data-lesson-id="25.07" data-guidebook-toc-title="자동 회귀와 결과 관리">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">25-7. 자동 회귀와 결과 관리</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.07&quot;,&quot;kind&quot;:&quot;coverage&quot;,&quot;variant&quot;:&quot;regression&quot;,&quot;title&quot;:&quot;테스트 행렬과 결과·실패 이력&quot;,&quot;steps&quot;:[[&quot;요구&quot;,&quot;검증할 요구사항을 명확하게 나눕니다.&quot;],[&quot;근거&quot;,&quot;각 요구에 맞는 검증 수단을 연결합니다.&quot;],[&quot;빈틈&quot;,&quot;누락되거나 미결인 항목을 드러냅니다.&quot;],[&quot;완료&quot;,&quot;결과와 예외의 근거를 함께 검토합니다.&quot;]],&quot;subtitle&quot;:&quot;자동 regression은 test 목록·seed·tool·revision을 기록하고 실패를 숨기지 않아야 한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="테스트 행렬과 결과·실패 이력"></section>
+<p>결과 diff는 같은 조건의 metric을 비교하고 missing result를 구분한다. Artifacts에는 재현에 필요한 로그·파형·설정이 포함된다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>실패한 seed를 다음 run에서 고정해 재현한 뒤 수정 전후를 비교한다. Timeout·compile error·mismatch를 다른 failure class로 분류한다.</p></div>
+<div class="lesson-columns"><section><p>Fail을 ignore하거나 retry 성공만 남겨 불안정성을 감추지 않는다.</p></section><section><p>실패를 숨기지 않고 재실행 방법을 남긴다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.07" aria-pressed="false">이 절 학습 완료</button></footer></article>
+</section></main>
+    <script src="../assets/guidebook-page-common.js?v=0bda89d04754"></script>
+    <script src="../assets/features/visual-atlas/visual-atlas.js?v=a41dcf70c9ca"></script>
+    <script src="../assets/features/curriculum/curriculum.js?v=a49d5d58f3f2"></script>
+</body>
+</html>

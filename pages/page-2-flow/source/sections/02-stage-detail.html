@@ -1,4 +1,4 @@
-<div class="stage-detail mb-8" data-part2-panel="stage-detail" data-guidebook-toc-title="Stage Detail" hidden>
+<div class="stage-detail mb-8" data-part2-panel="stage-detail" data-guidebook-toc-title="{{section:stage-detail:toc}}" hidden>
     <div class="sd-intro">
         <p>각 단계에서 무엇이 들어오고, 어떻게 바뀌고, 무엇이 나오는지</p>
         <small>9개 단계 · 그림으로 따라가는 설계 흐름</small>
@@ -33,7 +33,7 @@
                     <ol class="sd-process-steps"><li>Use-case<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>PPA<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>IP / Blocks<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Interfaces</li></ol>
                     <figure class="sd-figure">
                         <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="제품 요구사항과 PPA 목표를 바탕으로 CPU, 메모리, 주변장치와 인터커넥트를 구성하는 구조도." aria-label="01 Spec / Architecture · 핵심 흐름 그림 확대">
-                        <img src="../assets/stage-detail/spec-overview.svg" width="1665" height="782" loading="lazy" decoding="async" alt="제품 요구사항과 PPA 목표를 바탕으로 CPU, 메모리, 주변장치와 인터커넥트를 구성하는 구조도.">
+                        <img src="../assets/features/stage-detail/images/spec-overview.svg" width="1665" height="782" loading="lazy" decoding="async" alt="제품 요구사항과 PPA 목표를 바탕으로 CPU, 메모리, 주변장치와 인터커넥트를 구성하는 구조도.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                         <figcaption>제품의 요구사항을 기능 블록과 연결 구조로 바꾸고, 전력·성능·면적 목표를 설계의 기준으로 정합니다.</figcaption>
@@ -52,7 +52,7 @@
                 <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
                 <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
                     <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Use-case / 기능 범위. 제품이 수행할 기능과 외부 시스템의 경계를 정합니다. 어떤 상황에서 쓰이는지부터 확인합니다. 2. PPA 목표 설정. Power·Performance·Area 사이의 균형을 잡고 각 블록에 목표를 배분합니다. 3. IP / 블록 구조. 필요한 IP를 선택하고 기능을 블록과 계층 구조로 나눕니다. 4. 인터페이스 정의. 블록 사이에 주고받는 데이터, 제어 신호, 프로토콜의 기준을 정합니다." aria-label="01 Spec / Architecture · 세부 과정 그림 확대">
-                        <img src="../assets/stage-detail/spec-detail.svg" width="2017" height="581" loading="lazy" decoding="async" alt="1. Use-case / 기능 범위. 제품이 수행할 기능과 외부 시스템의 경계를 정합니다. 어떤 상황에서 쓰이는지부터 확인합니다. 2. PPA 목표 설정. Power·Performance·Area 사이의 균형을 잡고 각 블록에 목표를 배분합니다. 3. IP / 블록 구조. 필요한 IP를 선택하고 기능을 블록과 계층 구조로 나눕니다. 4. 인터페이스 정의. 블록 사이에 주고받는 데이터, 제어 신호, 프로토콜의 기준을 정합니다.">
+                        <img src="../assets/features/stage-detail/images/spec-detail.svg" width="2017" height="581" loading="lazy" decoding="async" alt="1. Use-case / 기능 범위. 제품이 수행할 기능과 외부 시스템의 경계를 정합니다. 어떤 상황에서 쓰이는지부터 확인합니다. 2. PPA 목표 설정. Power·Performance·Area 사이의 균형을 잡고 각 블록에 목표를 배분합니다. 3. IP / 블록 구조. 필요한 IP를 선택하고 기능을 블록과 계층 구조로 나눕니다. 4. 인터페이스 정의. 블록 사이에 주고받는 데이터, 제어 신호, 프로토콜의 기준을 정합니다.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                 </div>
@@ -88,7 +88,7 @@
                     <ol class="sd-process-steps"><li>Hierarchy<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Clock / Reset<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Datapath<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Interface</li></ol>
                     <figure class="sd-figure">
                         <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="아키텍처 블록을 top 모듈과 cpu, dma, uart 계층으로 나누고 레지스터, 조합 논리, 레지스터로 이어지는 동기 데이터 경로." aria-label="02 RTL / HDL Coding · 핵심 흐름 그림 확대">
-                        <img src="../assets/stage-detail/rtl-overview.svg" width="1647" height="777" loading="lazy" decoding="async" alt="아키텍처 블록을 top 모듈과 cpu, dma, uart 계층으로 나누고 레지스터, 조합 논리, 레지스터로 이어지는 동기 데이터 경로.">
+                        <img src="../assets/features/stage-detail/images/rtl-overview.svg" width="1647" height="777" loading="lazy" decoding="async" alt="아키텍처 블록을 top 모듈과 cpu, dma, uart 계층으로 나누고 레지스터, 조합 논리, 레지스터로 이어지는 동기 데이터 경로.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                         <figcaption>블록 구조를 모듈 계층으로 나누고, 레지스터와 조합 논리의 동작을 클록·리셋 기준에 맞춰 코드로 표현합니다.</figcaption>
@@ -107,7 +107,7 @@
                 <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
                 <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
                     <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Module / Hierarchy. 아키텍처를 RTL 모듈로 분할하고 상위·하위 모듈의 연결을 코드로 구현합니다. 2. Clock / Reset. 클록 에지에서 바뀌는 상태와 리셋 시 초기값을 명확하게 정의합니다. 3. Register / Datapath. 레지스터와 조합 논리를 구분해 데이터가 어떻게 계산되고 저장되는지 표현합니다. 4. Interface / Assertion. 포트와 Register map을 정리하고, 기본 동작 규칙을 확인할 Assertion seed를 준비합니다." aria-label="02 RTL / HDL Coding · 세부 과정 그림 확대">
-                        <img src="../assets/stage-detail/rtl-detail.svg" width="2020" height="541" loading="lazy" decoding="async" alt="1. Module / Hierarchy. 아키텍처를 RTL 모듈로 분할하고 상위·하위 모듈의 연결을 코드로 구현합니다. 2. Clock / Reset. 클록 에지에서 바뀌는 상태와 리셋 시 초기값을 명확하게 정의합니다. 3. Register / Datapath. 레지스터와 조합 논리를 구분해 데이터가 어떻게 계산되고 저장되는지 표현합니다. 4. Interface / Assertion. 포트와 Register map을 정리하고, 기본 동작 규칙을 확인할 Assertion seed를 준비합니다.">
+                        <img src="../assets/features/stage-detail/images/rtl-detail.svg" width="2020" height="541" loading="lazy" decoding="async" alt="1. Module / Hierarchy. 아키텍처를 RTL 모듈로 분할하고 상위·하위 모듈의 연결을 코드로 구현합니다. 2. Clock / Reset. 클록 에지에서 바뀌는 상태와 리셋 시 초기값을 명확하게 정의합니다. 3. Register / Datapath. 레지스터와 조합 논리를 구분해 데이터가 어떻게 계산되고 저장되는지 표현합니다. 4. Interface / Assertion. 포트와 Register map을 정리하고, 기본 동작 규칙을 확인할 Assertion seed를 준비합니다.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                 </div>
@@ -144,7 +144,7 @@
                     <ol class="sd-process-steps"><li>Testbench<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Simulation<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Debug<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Coverage</li></ol>
                     <figure class="sd-figure">
                         <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="Driver가 DUT에 자극을 주고 Monitor와 Reference model의 결과를 Scoreboard에서 비교하며 불일치가 Debug와 RTL 수정으로 돌아가는 검증 루프." aria-label="03 DV / Functional Verification · 핵심 흐름 그림 확대">
-                        <img src="../assets/stage-detail/dv-overview.svg" width="1666" height="775" loading="lazy" decoding="async" alt="Driver가 DUT에 자극을 주고 Monitor와 Reference model의 결과를 Scoreboard에서 비교하며 불일치가 Debug와 RTL 수정으로 돌아가는 검증 루프.">
+                        <img src="../assets/features/stage-detail/images/dv-overview.svg" width="1666" height="775" loading="lazy" decoding="async" alt="Driver가 DUT에 자극을 주고 Monitor와 Reference model의 결과를 Scoreboard에서 비교하며 불일치가 Debug와 RTL 수정으로 돌아가는 검증 루프.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                         <figcaption>테스트벤치가 입력을 만들고 DUT의 출력을 관찰합니다. 기대 결과와 비교해 오류를 수정하고 검증 목표를 채웁니다.</figcaption>
@@ -163,7 +163,7 @@
                 <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
                 <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
                     <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. UVM / Testbench. 검증 환경과 시나리오를 구성합니다. Driver·Monitor·Scoreboard의 역할을 나눕니다. 2. Simulation. 입력 자극을 적용하고 출력 파형과 트랜잭션을 확인합니다. 3. Debug loop. 기대 결과와 실제 결과가 다른 지점을 찾아 RTL을 수정하고 다시 검증합니다. 4. Coverage closure. 기능·경계·오류 조건의 커버리지를 확인하고 합의된 검증 종료 기준을 충족합니다." aria-label="03 DV / Functional Verification · 세부 과정 그림 확대">
-                        <img src="../assets/stage-detail/dv-detail.svg" width="2076" height="647" loading="lazy" decoding="async" alt="1. UVM / Testbench. 검증 환경과 시나리오를 구성합니다. Driver·Monitor·Scoreboard의 역할을 나눕니다. 2. Simulation. 입력 자극을 적용하고 출력 파형과 트랜잭션을 확인합니다. 3. Debug loop. 기대 결과와 실제 결과가 다른 지점을 찾아 RTL을 수정하고 다시 검증합니다. 4. Coverage closure. 기능·경계·오류 조건의 커버리지를 확인하고 합의된 검증 종료 기준을 충족합니다.">
+                        <img src="../assets/features/stage-detail/images/dv-detail.svg" width="2076" height="647" loading="lazy" decoding="async" alt="1. UVM / Testbench. 검증 환경과 시나리오를 구성합니다. Driver·Monitor·Scoreboard의 역할을 나눕니다. 2. Simulation. 입력 자극을 적용하고 출력 파형과 트랜잭션을 확인합니다. 3. Debug loop. 기대 결과와 실제 결과가 다른 지점을 찾아 RTL을 수정하고 다시 검증합니다. 4. Coverage closure. 기능·경계·오류 조건의 커버리지를 확인하고 합의된 검증 종료 기준을 충족합니다.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                 </div>
@@ -200,7 +200,7 @@
                     <ol class="sd-process-steps"><li>Compile<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Library mapping<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Optimization<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>STA sanity</li></ol>
                     <figure class="sd-figure">
                         <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="RTL의 레지스터와 연산 구조가 SDC 및 표준 셀 라이브러리를 이용해 게이트와 플립플롭의 연결 회로로 변환되는 개념도." aria-label="04 Logic Synthesis · 핵심 흐름 그림 확대">
-                        <img src="../assets/stage-detail/synthesis-overview.svg" width="1665" height="814" loading="lazy" decoding="async" alt="RTL의 레지스터와 연산 구조가 SDC 및 표준 셀 라이브러리를 이용해 게이트와 플립플롭의 연결 회로로 변환되는 개념도.">
+                        <img src="../assets/features/stage-detail/images/synthesis-overview.svg" width="1665" height="814" loading="lazy" decoding="async" alt="RTL의 레지스터와 연산 구조가 SDC 및 표준 셀 라이브러리를 이용해 게이트와 플립플롭의 연결 회로로 변환되는 개념도.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                         <figcaption>RTL의 동작을 해석해 표준 셀로 매핑하고, 제약 조건 안에서 타이밍·면적·전력을 최적화합니다.</figcaption>
@@ -219,7 +219,7 @@
                 <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
                 <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
                     <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Compile / Elaboration. RTL을 해석해 레지스터와 연산자 등 하드웨어 구조를 추출합니다. 2. Library mapping. 추출한 논리를 표준 셀 라이브러리에 있는 게이트와 플립플롭으로 매핑합니다. 3. PPA Optimization. 논리 동등성을 유지하면서 타이밍·면적·전력을 조정합니다. 4. STA sanity. 주요 타이밍 경로와 제약 적용 상태를 확인해 합성 결과의 이상을 점검합니다." aria-label="04 Logic Synthesis · 세부 과정 그림 확대">
-                        <img src="../assets/stage-detail/synthesis-detail.svg" width="2073" height="672" loading="lazy" decoding="async" alt="1. Compile / Elaboration. RTL을 해석해 레지스터와 연산자 등 하드웨어 구조를 추출합니다. 2. Library mapping. 추출한 논리를 표준 셀 라이브러리에 있는 게이트와 플립플롭으로 매핑합니다. 3. PPA Optimization. 논리 동등성을 유지하면서 타이밍·면적·전력을 조정합니다. 4. STA sanity. 주요 타이밍 경로와 제약 적용 상태를 확인해 합성 결과의 이상을 점검합니다.">
+                        <img src="../assets/features/stage-detail/images/synthesis-detail.svg" width="2073" height="672" loading="lazy" decoding="async" alt="1. Compile / Elaboration. RTL을 해석해 레지스터와 연산자 등 하드웨어 구조를 추출합니다. 2. Library mapping. 추출한 논리를 표준 셀 라이브러리에 있는 게이트와 플립플롭으로 매핑합니다. 3. PPA Optimization. 논리 동등성을 유지하면서 타이밍·면적·전력을 조정합니다. 4. STA sanity. 주요 타이밍 경로와 제약 적용 상태를 확인해 합성 결과의 이상을 점검합니다.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                 </div>
@@ -256,7 +256,7 @@
                     <ol class="sd-process-steps"><li>Scan insertion<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>UPF<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Constraints<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Sanity</li></ol>
                     <figure class="sd-figure">
                         <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="일반 플립플롭이 Scan In, Scan Out, Scan Enable을 갖춘 스캔 체인으로 바뀌고, 두 전원 도메인 사이에 레벨 시프터와 아이솔레이션이 배치되는 구조." aria-label="05 DFT / PI · 핵심 흐름 그림 확대">
-                        <img src="../assets/stage-detail/dft-overview.svg" width="1666" height="789" loading="lazy" decoding="async" alt="일반 플립플롭이 Scan In, Scan Out, Scan Enable을 갖춘 스캔 체인으로 바뀌고, 두 전원 도메인 사이에 레벨 시프터와 아이솔레이션이 배치되는 구조.">
+                        <img src="../assets/features/stage-detail/images/dft-overview.svg" width="1666" height="789" loading="lazy" decoding="async" alt="일반 플립플롭이 Scan In, Scan Out, Scan Enable을 갖춘 스캔 체인으로 바뀌고, 두 전원 도메인 사이에 레벨 시프터와 아이솔레이션이 배치되는 구조.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                         <figcaption>양산 테스트를 위한 구조와 전원 의도를 반영하고, 물리 구현에서 사용할 제약과 연결 상태를 정리합니다.</figcaption>
@@ -275,7 +275,7 @@
                 <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
                 <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
                     <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Test logic insertion. 스캔 체인 등 테스트 로직을 삽입해 내부 상태를 제어·관찰할 수 있도록 준비합니다. 2. UPF / Power intent. 전원 도메인과 저전력 동작을 정의하고 도메인 경계의 처리를 정리합니다. 3. Refined constraints. 기능 모드와 테스트 모드에 맞춰 클록·타이밍·전원 제약을 구체화합니다. 4. Sanity check. 스캔 연결, 테스트 구조, 전원 의도와 제약의 일관성을 확인합니다." aria-label="05 DFT / PI · 세부 과정 그림 확대">
-                        <img src="../assets/stage-detail/dft-detail.svg" width="1991" height="734" loading="lazy" decoding="async" alt="1. Test logic insertion. 스캔 체인 등 테스트 로직을 삽입해 내부 상태를 제어·관찰할 수 있도록 준비합니다. 2. UPF / Power intent. 전원 도메인과 저전력 동작을 정의하고 도메인 경계의 처리를 정리합니다. 3. Refined constraints. 기능 모드와 테스트 모드에 맞춰 클록·타이밍·전원 제약을 구체화합니다. 4. Sanity check. 스캔 연결, 테스트 구조, 전원 의도와 제약의 일관성을 확인합니다.">
+                        <img src="../assets/features/stage-detail/images/dft-detail.svg" width="1991" height="734" loading="lazy" decoding="async" alt="1. Test logic insertion. 스캔 체인 등 테스트 로직을 삽입해 내부 상태를 제어·관찰할 수 있도록 준비합니다. 2. UPF / Power intent. 전원 도메인과 저전력 동작을 정의하고 도메인 경계의 처리를 정리합니다. 3. Refined constraints. 기능 모드와 테스트 모드에 맞춰 클록·타이밍·전원 제약을 구체화합니다. 4. Sanity check. 스캔 연결, 테스트 구조, 전원 의도와 제약의 일관성을 확인합니다.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                 </div>
@@ -312,7 +312,7 @@
                     <ol class="sd-process-steps"><li>Floorplan<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Placement<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>CTS<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Routing</li></ol>
                     <figure class="sd-figure">
                         <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="넷리스트가 CPU, SRAM, DSP, PLL 매크로와 표준 셀, 클록 및 신호 배선을 포함한 칩 레이아웃으로 변하고 추출 RC 분석 결과가 ECO로 되돌아가는 과정." aria-label="06 Physical Design · 핵심 흐름 그림 확대">
-                        <img src="../assets/stage-detail/physical-overview.svg" width="1666" height="930" loading="lazy" decoding="async" alt="넷리스트가 CPU, SRAM, DSP, PLL 매크로와 표준 셀, 클록 및 신호 배선을 포함한 칩 레이아웃으로 변하고 추출 RC 분석 결과가 ECO로 되돌아가는 과정.">
+                        <img src="../assets/features/stage-detail/images/physical-overview.svg" width="1666" height="930" loading="lazy" decoding="async" alt="넷리스트가 CPU, SRAM, DSP, PLL 매크로와 표준 셀, 클록 및 신호 배선을 포함한 칩 레이아웃으로 변하고 추출 RC 분석 결과가 ECO로 되돌아가는 과정.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                         <figcaption>넷리스트를 실제 칩 레이아웃으로 구현합니다. 배선에서 추출한 RC와 분석 결과를 이용해 필요한 ECO를 반복합니다.</figcaption>
@@ -331,7 +331,7 @@
                 <div class="sd-detail-title"><h4>단계별 핵심 과정</h4><div class="sd-view-switch" role="group" aria-label="세부 과정 보기 방식"><button type="button" data-sd-view="diagram" aria-pressed="true">그림으로 보기</button><button type="button" data-sd-view="3d" aria-pressed="false">3D로 직접 보기</button></div></div>
                 <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
                     <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. Floorplan. 칩 영역, 매크로, IO와 전원 구조를 계획하고 표준 셀을 배치할 공간을 확보합니다. 2. Placement. 표준 셀의 위치를 정합니다. 타이밍과 혼잡도를 함께 고려합니다. 3. CTS. 클록이 각 플립플롭에 전달되도록 트리를 구성하고 지연과 스큐를 조정합니다. 4. Routing / Extraction. 셀 사이를 배선하고 기생 RC를 추출합니다. 분석 결과에 따라 ECO를 반복합니다." aria-label="06 Physical Design · 세부 과정 그림 확대">
-                        <img src="../assets/stage-detail/physical-detail.svg" width="1983" height="693" loading="lazy" decoding="async" alt="1. Floorplan. 칩 영역, 매크로, IO와 전원 구조를 계획하고 표준 셀을 배치할 공간을 확보합니다. 2. Placement. 표준 셀의 위치를 정합니다. 타이밍과 혼잡도를 함께 고려합니다. 3. CTS. 클록이 각 플립플롭에 전달되도록 트리를 구성하고 지연과 스큐를 조정합니다. 4. Routing / Extraction. 셀 사이를 배선하고 기생 RC를 추출합니다. 분석 결과에 따라 ECO를 반복합니다.">
+                        <img src="../assets/features/stage-detail/images/physical-detail.svg" width="1983" height="693" loading="lazy" decoding="async" alt="1. Floorplan. 칩 영역, 매크로, IO와 전원 구조를 계획하고 표준 셀을 배치할 공간을 확보합니다. 2. Placement. 표준 셀의 위치를 정합니다. 타이밍과 혼잡도를 함께 고려합니다. 3. CTS. 클록이 각 플립플롭에 전달되도록 트리를 구성하고 지연과 스큐를 조정합니다. 4. Routing / Extraction. 셀 사이를 배선하고 기생 RC를 추출합니다. 분석 결과에 따라 ECO를 반복합니다.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                 </div>
@@ -385,7 +385,7 @@
                     <ol class="sd-process-steps"><li>STA<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>DRC / LVS<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>IR / EM<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Approval</li></ol>
                     <figure class="sd-figure">
                         <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="라우팅된 레이아웃을 STA, DRC와 LVS, IR과 EM의 세 경로로 검증한 뒤 결과를 릴리스 승인 문서로 모으는 흐름." aria-label="07 Signoff · 핵심 흐름 그림 확대">
-                        <img src="../assets/stage-detail/signoff-overview.svg" width="1665" height="938" loading="lazy" decoding="async" alt="라우팅된 레이아웃을 STA, DRC와 LVS, IR과 EM의 세 경로로 검증한 뒤 결과를 릴리스 승인 문서로 모으는 흐름.">
+                        <img src="../assets/features/stage-detail/images/signoff-overview.svg" width="1665" height="938" loading="lazy" decoding="async" alt="라우팅된 레이아웃을 STA, DRC와 LVS, IR과 EM의 세 경로로 검증한 뒤 결과를 릴리스 승인 문서로 모으는 흐름.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                         <figcaption>완성된 물리 설계를 여러 관점에서 확인합니다. 타이밍·물리 규칙·전원 무결성 결과를 모아 릴리스를 승인합니다.</figcaption>
@@ -404,7 +404,7 @@
                 <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
                 <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
                     <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. STA closure. 추출 RC와 조건을 반영해 setup·hold 등 타이밍 제약의 충족 여부를 확인합니다. 2. DRC / LVS. 레이아웃의 기하학적 규칙과, 레이아웃에서 추출한 회로의 연결 일치를 확인합니다. 3. IR / EM. 전압 강하와 전류 밀도에 따른 신뢰성을 점검합니다. 4. Release approval. 검증 리포트와 체크리스트를 모아 최종 승인합니다. 미충족 항목은 ECO 후 다시 확인합니다." aria-label="07 Signoff · 세부 과정 그림 확대">
-                        <img src="../assets/stage-detail/signoff-detail.svg" width="2017" height="661" loading="lazy" decoding="async" alt="1. STA closure. 추출 RC와 조건을 반영해 setup·hold 등 타이밍 제약의 충족 여부를 확인합니다. 2. DRC / LVS. 레이아웃의 기하학적 규칙과, 레이아웃에서 추출한 회로의 연결 일치를 확인합니다. 3. IR / EM. 전압 강하와 전류 밀도에 따른 신뢰성을 점검합니다. 4. Release approval. 검증 리포트와 체크리스트를 모아 최종 승인합니다. 미충족 항목은 ECO 후 다시 확인합니다.">
+                        <img src="../assets/features/stage-detail/images/signoff-detail.svg" width="2017" height="661" loading="lazy" decoding="async" alt="1. STA closure. 추출 RC와 조건을 반영해 setup·hold 등 타이밍 제약의 충족 여부를 확인합니다. 2. DRC / LVS. 레이아웃의 기하학적 규칙과, 레이아웃에서 추출한 회로의 연결 일치를 확인합니다. 3. IR / EM. 전압 강하와 전류 밀도에 따른 신뢰성을 점검합니다. 4. Release approval. 검증 리포트와 체크리스트를 모아 최종 승인합니다. 미충족 항목은 ECO 후 다시 확인합니다.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                 </div>
@@ -440,7 +440,7 @@
                     <ol class="sd-process-steps"><li>GDSII / OASIS<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Release package<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Foundry handoff</li></ol>
                     <figure class="sd-figure">
                         <button type="button" class="sd-diagram-button" data-sd-zoom data-sd-caption="승인된 레이아웃 층을 GDSII 또는 OASIS로 내보내고 검증 문서와 버전 정보를 묶어 파운드리의 마스크 준비에 전달하는 과정." aria-label="08 Tapeout · 핵심 흐름 그림 확대">
-                        <img src="../assets/stage-detail/tapeout-overview.svg" width="1665" height="564" loading="lazy" decoding="async" alt="승인된 레이아웃 층을 GDSII 또는 OASIS로 내보내고 검증 문서와 버전 정보를 묶어 파운드리의 마스크 준비에 전달하는 과정.">
+                        <img src="../assets/features/stage-detail/images/tapeout-overview.svg" width="1665" height="564" loading="lazy" decoding="async" alt="승인된 레이아웃 층을 GDSII 또는 OASIS로 내보내고 검증 문서와 버전 정보를 묶어 파운드리의 마스크 준비에 전달하는 과정.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                         <figcaption>승인된 레이아웃을 제조용 데이터로 내보내고, 버전과 문서를 고정한 전달 패키지로 구성합니다.</figcaption>
@@ -459,7 +459,7 @@
                 <div class="sd-detail-title"><h4>단계별 핵심 과정</h4></div>
                 <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
                     <button type="button" class="sd-diagram-button sd-detail-image" data-sd-zoom data-sd-caption="1. GDSII / OASIS export. 레이아웃의 계층과 기하 정보를 제조에 전달할 데이터 형식으로 내보냅니다. 2. Foundry checklist. Signoff 결과, 전달 항목, 버전 정보를 확인하고 릴리스 패키지를 정리합니다. 3. Mask data handoff. 파운드리의 전달 절차에 따라 데이터를 넘겨 마스크 준비와 제조로 연결합니다." aria-label="08 Tapeout · 세부 과정 그림 확대">
-                        <img src="../assets/stage-detail/tapeout-detail.svg" width="2171" height="624" loading="lazy" decoding="async" alt="1. GDSII / OASIS export. 레이아웃의 계층과 기하 정보를 제조에 전달할 데이터 형식으로 내보냅니다. 2. Foundry checklist. Signoff 결과, 전달 항목, 버전 정보를 확인하고 릴리스 패키지를 정리합니다. 3. Mask data handoff. 파운드리의 전달 절차에 따라 데이터를 넘겨 마스크 준비와 제조로 연결합니다.">
+                        <img src="../assets/features/stage-detail/images/tapeout-detail.svg" width="2171" height="624" loading="lazy" decoding="async" alt="1. GDSII / OASIS export. 레이아웃의 계층과 기하 정보를 제조에 전달할 데이터 형식으로 내보냅니다. 2. Foundry checklist. Signoff 결과, 전달 항목, 버전 정보를 확인하고 릴리스 패키지를 정리합니다. 3. Mask data handoff. 파운드리의 전달 절차에 따라 데이터를 넘겨 마스크 준비와 제조로 연결합니다.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                 </div>
@@ -494,7 +494,7 @@
                     <ol class="sd-process-steps"><li>Wafer fab<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Package<img class="sd-icon" src="../assets/icons/tabler/chevron-right.svg" width="24" height="24" alt="" aria-hidden="true"></li><li>Production test</li></ol>
                     <figure class="sd-figure">
                         <button type="button" class="sd-diagram-button sd-framed " style="aspect-ratio: 1666 / 486; --sd-image-top: -47.1193%;" data-sd-zoom data-sd-caption="회로 패턴이 형성된 웨이퍼를 다이로 나누고 패키지 조립과 양산 테스트를 거쳐 완성 칩으로 만드는 순서." aria-label="09 Fab / Package / Test · 핵심 흐름 그림 확대">
-                        <img src="../assets/stage-detail/manufacturing-overview-generated.png" width="1666" height="944" loading="lazy" decoding="async" alt="회로 패턴이 형성된 웨이퍼를 다이로 나누고 패키지 조립과 양산 테스트를 거쳐 완성 칩으로 만드는 순서.">
+                        <img src="../assets/features/stage-detail/images/manufacturing-overview-generated.png" width="1666" height="944" loading="lazy" decoding="async" alt="회로 패턴이 형성된 웨이퍼를 다이로 나누고 패키지 조립과 양산 테스트를 거쳐 완성 칩으로 만드는 순서.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                         <figcaption>설계 데이터를 바탕으로 웨이퍼에 회로를 형성하고, 다이를 패키지로 조립한 후 테스트해 제품으로 완성합니다.</figcaption>
@@ -513,7 +513,7 @@
                 <div class="sd-detail-title"><h4>단계별 핵심 과정</h4><div class="sd-view-switch" role="group" aria-label="세부 과정 보기 방식"><button type="button" data-sd-view="diagram" aria-pressed="true">그림으로 보기</button><button type="button" data-sd-view="3d" aria-pressed="false">3D로 직접 보기</button></div></div>
                 <div class="sd-detail-viewport" data-sd-view-panel="diagram" tabindex="0" role="region" aria-label="세부 과정 그림. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
                     <button type="button" class="sd-diagram-button sd-framed sd-detail-image" style="aspect-ratio: 2076 / 646; --sd-image-top: -6.8111%;" data-sd-zoom data-sd-caption="1. Wafer fabrication. 반복적인 공정을 통해 웨이퍼 위에 다수의 다이를 형성합니다. 2. Package assembly. 다이를 패키지 기판과 연결하고 보호 구조를 조립해 외부 접속을 만듭니다. 3. Production test. 제품 동작을 검사하고 결과를 분류합니다. 수율 데이터를 제품·공정 개선에 활용합니다." aria-label="09 Fab / Package / Test · 세부 과정 그림 확대">
-                        <img src="../assets/stage-detail/manufacturing-detail-generated.png" width="2076" height="757" loading="lazy" decoding="async" alt="1. Wafer fabrication. 반복적인 공정을 통해 웨이퍼 위에 다수의 다이를 형성합니다. 2. Package assembly. 다이를 패키지 기판과 연결하고 보호 구조를 조립해 외부 접속을 만듭니다. 3. Production test. 제품 동작을 검사하고 결과를 분류합니다. 수율 데이터를 제품·공정 개선에 활용합니다.">
+                        <img src="../assets/features/stage-detail/images/manufacturing-detail-generated.png" width="2076" height="757" loading="lazy" decoding="async" alt="1. Wafer fabrication. 반복적인 공정을 통해 웨이퍼 위에 다수의 다이를 형성합니다. 2. Package assembly. 다이를 패키지 기판과 연결하고 보호 구조를 조립해 외부 접속을 만듭니다. 3. Production test. 제품 동작을 검사하고 결과를 분류합니다. 수율 데이터를 제품·공정 개선에 활용합니다.">
                         <span class="sd-zoom-affordance" aria-hidden="true"><img class="sd-icon" src="../assets/icons/tabler/zoom-in.svg" width="24" height="24" alt="" aria-hidden="true">크게 보기</span>
                     </button>
                 </div>

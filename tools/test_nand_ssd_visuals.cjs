@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('node:assert/strict');
-const { createState, transition, ERASED, DATA, READ_ERROR } = require('../assets/nand-ssd-visuals.js');
+const { createState, transition, ERASED, DATA, READ_ERROR } = require('../assets/features/memory/nand-ssd-visuals.js');
 let state = createState();
 const originalPages = [...state.pages];
 const programmed = transition(state, 'page-program');

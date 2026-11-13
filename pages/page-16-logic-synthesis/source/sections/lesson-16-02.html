@@ -1,0 +1,17 @@
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="16.02" data-guidebook-toc-title="{{section:section-02:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-02:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;16.02&quot;,&quot;kind&quot;:&quot;timing&quot;,&quot;variant&quot;:&quot;sdc&quot;,&quot;title&quot;:&quot;Clock·입출력·부하가 정의하는 Timing 환경&quot;,&quot;steps&quot;:[[&quot;Launch&quot;,&quot;시작 FF가 Clock edge 뒤에 데이터를 내보냅니다.&quot;],[&quot;Data path&quot;,&quot;Cell과 Net 지연을 거쳐 데이터가 이동합니다.&quot;],[&quot;Capture&quot;,&quot;도착한 데이터를 목적지 FF가 샘플링합니다.&quot;],[&quot;Slack&quot;,&quot;최대·최소 지연 조건의 여유를 각각 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;SDC는 clock와 외부 timing, 입출력 부하 등 분석의 가정을 기술한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;timing&quot;}" aria-label="Clock·입출력·부하가 정의하는 Timing 환경"></section>
+<p>생성 clock은 실제 원천과 관계를 정의해야 한다. IO delay는 칩 밖의 launch/capture와 board 조건을 내부 timing 분석에 연결한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;Timing 경로 계산&quot;, &quot;fault&quot;: &quot;제약이 없어서 violation이 없다는 결과를 timing 성공으로 읽지 않는다.&quot;}" aria-label="SDC의 기본 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Clock period를 정한 뒤 input delay와 output delay를 외부 소자·배선 예산에서 계산한다. 누락된 endpoint와 unconstrained path를 별도로 확인한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code># 아래 값은 설명용 가정입니다. 실제 설계의 IO 예산으로 바꾸세요.
+create_clock -name clk -period 10 [get_ports clk]
+set_input_delay  -clock clk -max 2.0 [get_ports data_in*]
+set_input_delay  -clock clk -min 0.2 [get_ports data_in*]
+set_output_delay -clock clk -max 1.0 [get_ports data_out*]
+set_output_delay -clock clk -min -0.1 [get_ports data_out*]
+# 단위와 실제 보드/외부 소자의 max/min 예산을 확인하세요.</code></pre>
+<div class="lesson-columns"><section><p>제약이 없어서 violation이 없다는 결과를 timing 성공으로 읽지 않는다.</p></section><section><p>모든 timing endpoint의 가정을 명시한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://yosyshq.readthedocs.io/projects/yosys/en/latest/" target="_blank" rel="noopener">Yosys Documentation</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=13">13장 · CMOS 회로와 Custom Layout</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="16.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · 예외 제약과 검증</a></footer></article>

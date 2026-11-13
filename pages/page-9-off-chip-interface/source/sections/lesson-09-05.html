@@ -1,0 +1,38 @@
+<article class="chapter-lesson technical-section" data-technical-section="i2c" data-lesson-panel="i2c-i3c" data-lesson-id="09.05" data-guidebook-toc-title="{{section:i2c-i3c:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:i2c-i3c:label}}</h2></div></header>
+<section class="card tech-panel tech-section">
+<h3 class="tech-title">구조와 설계 조건</h3>
+<div class="tech-grid tech-split">
+<section class="card tech-panel"><h4>I2C Open-Drain 구성도</h4><p>SDA와 SCL은 각각 pull-up 저항을 사용하는 open-drain 구조로, 여러 기기가 하나의 버스를 공유합니다.</p><div class="tech-scroll" data-i2c-topology></div></section>
+<section class="card tech-panel tech-art"><h4>실제 구현 예시 (PCB)</h4><p>여러 칩이 동일한 SDA/SCL 라인을 공유하며, 각각의 pull-up 저항이 선을 HIGH로 올립니다.</p><figure class="tech-figure"><img src="../assets/pages/page-9-off-chip-interface/images/i2c-shared-pcb.png" width="1558" height="1009" alt="초록 PCB 위 Controller, 주소 0x50과 0x68 Target이 파란 SDA와 초록 SCL을 공유하고, 각 버스가 별도의 4.7킬로옴 저항을 거쳐 VDD에 연결된 구조"></figure></section>
+</div></section>
+<section class="card tech-panel tech-section">
+<h3 class="tech-title">반복 START·읽기·NACK의 주체</h3><h4>I2C Register 읽기 예제 파형</h4>
+<p>내부 레지스터 주소를 지정한 후 STOP 없이 Repeated START를 내고 read로 전환합니다. 마지막 byte는 controller가 NACK를 보내 읽기를 끝냅니다. 데이터 bit는 SCL HIGH 구간에서 안정적이어야 합니다.</p>
+<div class="tech-scroll" data-i2c-wave></div>
+<div class="tech-fields" aria-label="파형 조건">
+<label>Transaction<select aria-label="Transaction" name="scenario" form="i2c-transaction"><option value="read">Repeated START + Read</option><option value="write">Write</option><option value="nack">주소 NACK</option></select></label>
+<label>Register / 송신 byte<input aria-label="Register / 송신 byte" name="register" type="number" min="0" max="255" step="1" value="165" required form="i2c-transaction"></label>
+<label>읽은 byte<input aria-label="읽은 byte" name="value" type="number" min="0" max="255" step="1" value="60" required form="i2c-transaction"></label>
+<label>Stretch 구간<input aria-label="Stretch 구간" name="stretch" type="number" min="0" max="4" step="1" value="0" required form="i2c-transaction"></label>
+</div>
+<div class="tech-grid tech-split"><section><h4>각 구간의 송신 주체와 데이터</h4><div data-i2c-ownership></div></section><section class="card tech-panel"><h4>7-bit 주소와 전송 byte</h4><p>7-bit 주소에 전송 방향 R/W bit를 붙이면 버스에서 보내는 8-bit 주소 byte가 됩니다.</p><div data-i2c-address-table></div><p class="tech-caption">Write 주소와 register를 보낸 뒤 새 START로 방향을 전환합니다. 주소를 받은 target이 ACK하고, 읽은 마지막 data byte에는 controller가 NACK합니다.</p></section></div>
+</section>
+<div class="tech-grid tech-section">
+<section class="card tech-panel"><h3>I2C 주소와 응답</h3><p>7-bit 주소와 R/W bit로 구성된 첫 byte의 비트 구성을 확인하고, ACK/NACK의 주체를 이해합니다.</p>
+<form id="i2c-transaction" data-i2c-transaction><div class="tech-fields"><label>7-bit 주소<select aria-label="7-bit 주소" name="address"><option value="80">0x50</option><option value="104">0x68</option><option value="60">0x3C</option><option value="72">0x48</option><option value="custom">직접 입력</option></select></label><label hidden>직접 주소 (10진)<input aria-label="직접 주소 (10진)" name="customAddress" type="number" min="0" max="127" step="1" value="42" required disabled></label><label>전송 방향<select aria-label="전송 방향" name="direction"><option value="0">Write (R/W = 0)</option><option value="1">Read (R/W = 1)</option></select></label></div><p class="tech-caption" data-i2c-address-note></p></form>
+<h4>전송 byte (8-bit)</h4><div class="tech-bits" data-i2c-bits aria-live="polite"></div><p class="tech-caption">상위 7 bit: 장치 주소　·　최하위 1 bit: R/W</p><div class="tech-output"><small>전송 byte (Hex)</small><output data-i2c-byte>0xA0</output></div><p class="tech-caption">수신기는 byte 뒤의 9번째 clock에서 SDA를 LOW로 당겨 ACK합니다. 마지막 byte의 NACK는 읽기를 마치려는 controller가 보낼 수 있습니다.</p></section>
+<section class="card tech-panel"><h3>Open-drain과 pull-up</h3><p>Open-drain은 LOW만 구동하고, HIGH는 pull-up 저항으로 형성됩니다. 각 기기의 출력 상태를 선택해 버스 레벨을 확인합니다.</p><div class="tech-control-pair"><form class="tech-control-stack" data-i2c-electrical><fieldset><legend>Controller (Master)</legend><label>SDA 출력<select name="controllerSda"><option value="1">High (Release)</option><option value="0">Low (Drive)</option></select></label><label>SCL 출력<select name="controllerScl"><option value="1">High (Release)</option><option value="0">Low (Drive)</option></select></label></fieldset><fieldset><legend>Target</legend><label>SDA 출력<select name="targetSda"><option value="0">Low (Drive)</option><option value="1">High (Release)</option></select></label><label>SCL 출력<select name="targetScl"><option value="1">High (Release)</option><option value="0">Low (Drive)</option></select></label></fieldset></form><div data-i2c-electrical-view></div></div></section>
+</div>
+<section class="card tech-panel tech-section"><h3>핵심 용어 정리</h3><div class="guidebook-scroll-region"><table class="modern-table tech-terms"><thead><tr><th scope="col">용어</th><th scope="col">설명</th></tr></thead><tbody>
+<tr><td>SDA</td><td>Data 및 ACK를 전달하는 공유 open-drain 선입니다. 각 구간의 송신 주체가 달라집니다.</td></tr>
+<tr><td>SCL</td><td>Clock 선입니다. 수신 측 stretching을 지원하는 구성에서는 실제 HIGH 도달을 관측합니다.</td></tr>
+<tr><td>Repeated START</td><td>STOP 없이 새 START를 내어 transaction을 이어갈 수 있는 조건입니다. Register 주소 설정 뒤 read 전환에 사용합니다.</td></tr>
+<tr><td>Arbitration</td><td>SCL HIGH에서 보낸 bit와 관측 SDA를 비교합니다. HIGH를 내보내려 선을 놓았지만 LOW를 읽은 controller가 중재에서 물러납니다.</td></tr>
+<tr><td>I3C</td><td>동적 주소 할당과 in-band interrupt 등의 기능을 제공하는 별도 규격 계열입니다. I2C 혼재와 push-pull 사용 구간의 조건을 원문에서 구분합니다.</td></tr>
+</tbody></table></div></section>
+<details class="card tech-panel tech-section"><summary>두 controller의 주소 중재 확인</summary><p>두 controller가 동시에 전송을 시작했을 때 주소 bit를 비교합니다. 이 모델은 동일한 R/W 방향에서 7-bit 주소를 비교합니다.</p><form class="tech-fields" data-i2c-arbitration><label>Controller A 주소 (10진)<input name="a" type="number" min="0" max="127" step="1" value="80" required></label><label>Controller B 주소 (10진)<input name="b" type="number" min="0" max="127" step="1" value="104" required></label></form><div data-i2c-arbitration-result></div></details>
+<aside class="lesson-sources"><strong>참고 자료</strong><p>I3C의 추가 동작을 모든 I2C 장치가 지원한다고 가정하지 않습니다. 혼재 버스의 전기·protocol 조건과 지원 속도는 장치 및 규격별로 확인합니다.</p><ul><li><a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP UM10204 I2C-bus specification</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="09.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=ddr-lpddr">다음 절 · DDR와 LPDDR</a></footer>
+</article>

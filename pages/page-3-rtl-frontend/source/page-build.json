@@ -9,5 +9,16 @@
     "sections/05-sta-concept.html",
     "sections/06-rtl-patterns.html",
     "99-shell-end.html"
+  ],
+  "title": "RTL / Frontend",
+  "styles": [
+    "../assets/components/learning-visuals.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/code-highlight.js",
+    "../assets/features/fpga-logic.js",
+    "../assets/pages/page-3-rtl-frontend.js"
   ]
 }

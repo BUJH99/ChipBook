@@ -6,9 +6,9 @@
     <title>Modeling a Bus Using a Class - Semiconductor Design Guide</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Fonts: Pretendard & IBM Plex Sans -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Custom Tailwind Configuration -->
@@ -115,6 +115,9 @@
             animation: spin-gear-reverse 8s linear infinite;
         }
     </style>
+    <link rel="stylesheet" href="../../../../assets/fonts.css">
+    <link rel="stylesheet" href="../../../../assets/components/embedded-content.css">
+    <script defer src="../../../../assets/components/embedded-document.js"></script>
 </head>
 <body class="bg-white text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
 
@@ -142,7 +145,7 @@
                                 <path d="M 0 0 L 10 5 L 0 10 z" fill="#60a5fa"/>
                             </marker>
                         </defs>
-                        
+
                         <!-- Raw Pin Signals -->
                         <g class="svg-node" transform="translate(10, 50)">
                             <path d="M 0 10 L 40 10 M 0 30 L 40 30 M 0 50 L 40 50 M 0 70 L 40 70" fill="none" class="stroke-slate-300 stroke-[3]" />
@@ -161,7 +164,7 @@
                             <path d="M 0 12 Q 0 0 12 0 L 128 0 Q 140 0 140 12 L 140 35 L 0 35 Z" class="fill-blue-50" />
                             <path d="M 0 35 L 140 35" fill="none" class="stroke-blue-500 stroke-[3]" />
                             <text x="70" y="22" text-anchor="middle" class="font-mono text-sm font-bold fill-blue-800">Sequence Item</text>
-                            
+
                             <!-- Encapsulated Fields -->
                             <g transform="translate(20, 50)">
                                 <rect width="100" height="22" rx="4" class="fill-slate-50 stroke-slate-200 stroke-1" />
@@ -210,7 +213,7 @@
                     <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">2</span>
                     <h2 class="text-2xl font-bold text-slate-900">상속 구조 (Inheritance)</h2>
                 </div>
-                
+
                 <!-- SVG Diagram: Inheritance -->
                 <div class="w-full flex-1 min-h-[420px] diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden p-4">
                     <svg viewBox="0 0 620 390" class="w-full h-full max-w-none drop-shadow-sm">
@@ -299,19 +302,19 @@
             </p>
 
             <div class="flex flex-col xl:flex-row gap-10 items-start">
-                
+
                 <!-- Expanded Layered SVG Diagram -->
                 <div class="w-full xl:w-3/5 h-[480px] diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden p-6 relative">
                     <!-- Layer Indicator Line -->
                     <div class="absolute left-6 top-8 bottom-8 w-1 bg-gradient-to-b from-slate-300 via-blue-300 to-emerald-400 rounded-full hidden sm:block"></div>
 
                     <svg viewBox="0 0 600 440" class="w-full h-full max-w-2xl drop-shadow-sm">
-                        
+
                         <!-- Layer 1: uvm_object -->
                         <g transform="translate(30, 10)">
                             <rect width="550" height="90" rx="8" class="fill-slate-50 stroke-slate-300 stroke-[2]" />
                             <text x="15" y="25" class="font-mono text-xs font-bold fill-slate-500 tracking-wider">L1: uvm_object (기본 객체 속성)</text>
-                            
+
                             <g transform="translate(30, 40)">
                                 <rect width="150" height="32" rx="4" class="fill-white stroke-slate-300 stroke-1" />
                                 <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-slate-600">m_inst_id</text>
@@ -333,7 +336,7 @@
                         <g transform="translate(30, 120)">
                             <rect width="550" height="90" rx="8" class="fill-blue-50 stroke-blue-300 stroke-[2]" />
                             <text x="15" y="25" class="font-mono text-xs font-bold fill-blue-600 tracking-wider">L2: uvm_transaction (시간/이벤트 추적)</text>
-                            
+
                             <g transform="translate(30, 40)">
                                 <rect width="150" height="32" rx="4" class="fill-white stroke-blue-200 stroke-2" />
                                 <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-blue-700">transaction_id</text>
@@ -355,7 +358,7 @@
                         <g transform="translate(30, 230)">
                             <rect width="550" height="90" rx="8" class="fill-indigo-50 stroke-indigo-300 stroke-[2]" />
                             <text x="15" y="25" class="font-mono text-xs font-bold fill-indigo-600 tracking-wider">L3: uvm_sequence_item (라우팅 및 시퀀스 제어)</text>
-                            
+
                             <g transform="translate(30, 40)">
                                 <rect width="150" height="32" rx="4" class="fill-white stroke-indigo-300 stroke-2" />
                                 <text x="75" y="20" text-anchor="middle" class="font-mono text-[11px] font-bold fill-indigo-800">sequence_id</text>
@@ -377,7 +380,7 @@
                         <g transform="translate(30, 340)">
                             <rect width="550" height="90" rx="8" class="fill-emerald-50 stroke-emerald-400 stroke-[3] stroke-dasharray-6" />
                             <text x="15" y="25" class="font-mono text-xs font-bold fill-emerald-700 tracking-wider">L4: my_bus_item (User Payload)</text>
-                            
+
                             <g transform="translate(30, 40)">
                                 <rect width="150" height="36" rx="6" class="fill-white stroke-emerald-400 stroke-[2] shadow-sm" />
                                 <text x="75" y="22" text-anchor="middle" class="font-mono text-sm font-bold fill-emerald-800">rand addr</text>
@@ -396,7 +399,7 @@
 
                 <!-- Expanded Text Descriptions -->
                 <div class="w-full xl:w-2/5 space-y-5">
-                    
+
                     <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl relative overflow-hidden">
                         <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-400"></div>
                         <h3 class="font-mono text-slate-800 font-bold mb-2 flex items-center gap-2 text-base ml-2">
@@ -450,14 +453,14 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
+
                 <!-- Code Architecture Diagram -->
                 <div class="lg:col-span-7 diagram-grid rounded-xl border border-slate-200 p-6 h-full flex flex-col justify-center">
                     <svg viewBox="0 0 500 450" class="w-full h-auto drop-shadow-sm">
                         <!-- Class Container -->
                         <rect x="10" y="10" width="480" height="430" rx="12" class="fill-white stroke-slate-300 stroke-2" />
                         <text x="30" y="40" class="font-mono text-blue-600 font-bold">class <tspan class="fill-slate-900">my_bus_item</tspan> extends <tspan class="fill-slate-600">uvm_sequence_item;</tspan></text>
-                        
+
                         <!-- [3] Field Modeling -->
                         <g transform="translate(30, 60)">
                             <rect width="440" height="60" rx="6" class="fill-slate-50 stroke-slate-200 stroke-1" />
@@ -534,7 +537,7 @@
                 </div>
                 <h2 class="text-2xl font-bold text-slate-900">Field Automation: <code class="font-mono text-rose-600 bg-rose-50 px-2 py-0.5 rounded text-xl">`uvm_field_*</code> 매크로의 마법</h2>
             </div>
-            
+
             <p class="text-slate-600 leading-relaxed mb-8">
                 객체 지향 프로그래밍에서 클래스 내부에 선언된 변수들을 제대로 활용하려면 깊은 복사(Deep Copy), 문자열 출력(Print), 두 객체 간의 값 비교(Compare) 등의 코드를 일일이 작성해야 합니다. 
                 UVM에서는 <code class="font-mono text-sm bg-slate-100 px-1 rounded">`uvm_field_*</code> 매크로를 통해 이러한 <strong>지루하고 반복적인 수백 줄의 코드를 단 한 줄로 자동화(Automation)</strong>합니다.
@@ -543,7 +546,7 @@
             <!-- Automation Factory SVG Diagram -->
             <div class="w-full h-80 diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden mb-8 relative">
                 <svg viewBox="0 0 800 300" class="w-full h-full">
-                    
+
                     <!-- 1. Input Side (Raw Variable) -->
                     <g transform="translate(40, 110)" class="svg-node">
                         <rect width="180" height="80" rx="8" class="fill-white stroke-slate-300 stroke-[3] drop-shadow-md" />
@@ -559,7 +562,7 @@
                     <g transform="translate(380, 150)">
                         <!-- Main Engine Body -->
                         <rect x="-80" y="-80" width="160" height="160" rx="20" class="fill-indigo-50 stroke-indigo-400 stroke-[4] drop-shadow-lg" />
-                        
+
                         <!-- Animated Gears using stroke-dasharray trick -->
                         <g style="transform-origin: 0px 0px;">
                             <!-- Big Gear (Reverse Spin) -->
@@ -625,13 +628,13 @@
                     <h4 class="font-mono font-bold text-emerald-800 text-lg mb-2">print()</h4>
                     <p class="text-sm text-slate-600">시뮬레이션 로그 파일에 객체 내부의 모든 변수 이름, 타입, 크기, 현재 할당된 값을 표 형태(Table format)로 깔끔하게 정렬하여 출력합니다.</p>
                 </div>
-                
+
                 <div class="bg-blue-50 rounded-xl p-5 border border-blue-100 relative overflow-hidden group hover:shadow-md transition-all">
                     <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/10 rounded-full group-hover:scale-150 transition-transform"></div>
                     <h4 class="font-mono font-bold text-blue-800 text-lg mb-2">copy()</h4>
                     <p class="text-sm text-slate-600">원본 객체와 동일한 데이터를 가지는 새로운 객체를 생성합니다. 포인터 주소만 넘기는 얕은 복사(Shallow copy)가 아닌 완벽한 깊은 복사(Deep copy)를 지원합니다.</p>
                 </div>
-                
+
                 <div class="bg-amber-50 rounded-xl p-5 border border-amber-100 relative overflow-hidden group hover:shadow-md transition-all">
                     <div class="absolute -right-4 -top-4 w-16 h-16 bg-amber-500/10 rounded-full group-hover:scale-150 transition-transform"></div>
                     <h4 class="font-mono font-bold text-amber-800 text-lg mb-2">compare()</h4>
@@ -658,7 +661,7 @@
             <!-- SVG Diagram: Bitwise Flag Combiner -->
             <div class="w-full h-64 diagram-grid rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden mb-10">
                 <svg viewBox="0 0 800 240" class="w-full h-full max-w-3xl drop-shadow-sm">
-                    
+
                     <!-- Base Preset Input -->
                     <g class="svg-node" transform="translate(60, 40)">
                         <rect width="160" height="40" rx="8" class="fill-indigo-50 stroke-indigo-300 stroke-[2]" />
@@ -709,14 +712,14 @@
 
             <!-- Categories Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
+
                 <!-- 1. 동작 제어 (Action Control) -->
                 <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 lg:row-span-2">
                     <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
                         <span class="w-1.5 h-6 bg-rose-500 rounded-full"></span> 1. 동작 제어 (Action Control)
                     </h3>
                     <p class="text-xs text-slate-500 mb-4">각 자동화 기능의 활성화/비활성화 여부를 명시적으로 지정합니다. (ON vs OFF)</p>
-                    
+
                     <ul class="text-sm space-y-2 font-mono">
                         <li class="flex items-center justify-between border-b border-slate-200 pb-2">
                             <code class="text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded text-xs">UVM_COPY</code>
@@ -794,7 +797,7 @@
                         <span class="w-1.5 h-6 bg-purple-500 rounded-full"></span> 4. 출력 형식 (Radix / Format)
                     </h3>
                     <p class="text-xs text-purple-700 mb-4"><code class="font-mono bg-purple-100 px-1">print()</code> 함수가 호출될 때 시뮬레이션 로그에 값이 표시되는 진수나 데이터 포맷을 결정합니다.</p>
-                    
+
                     <div class="flex flex-wrap gap-2 text-xs font-mono">
                         <!-- Numeric -->
                         <code class="px-2 py-1 bg-white border border-purple-200 text-purple-800 rounded shadow-sm">UVM_BIN (2진수)</code>
@@ -868,7 +871,7 @@
                 <div class="w-full h-32 flex items-center">
                     <svg viewBox="0 0 400 100" class="w-full h-full">
                         <line x1="40" y1="50" x2="360" y2="50" class="stroke-slate-300 stroke-2" />
-                        
+
                         <!-- pre_randomize -->
                         <g class="svg-node" transform="translate(80, 50)">
                             <circle cx="0" cy="0" r="8" class="fill-purple-500" />
@@ -900,12 +903,12 @@
         <!-- Section 4: 실제 코드 구성 & 실행 흐름 -->
         <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
             <h2 class="text-2xl font-bold text-slate-900 mb-8">[9] 실제 코드 구성 흐름 & [10] 실행 흐름</h2>
-            
+
             <div class="space-y-10">
                 <!-- Data Flow Animation SVG -->
                 <div class="relative w-full h-64 diagram-grid rounded-xl border border-slate-200 overflow-hidden">
                     <h3 class="absolute top-4 left-6 font-bold text-slate-700 z-10 bg-white/80 px-2 py-1 rounded">Execution Flow: Sequence &rarr; Driver &rarr; DUT</h3>
-                    
+
                     <svg viewBox="0 0 800 200" class="w-full h-full mt-8">
                         <!-- Connecting Lines with Flow Animation -->
                         <!-- Seq to Driver -->
@@ -914,7 +917,7 @@
                         <path d="M 520 100 L 680 100" fill="none" class="stroke-emerald-400 stroke-[4] animate-flow" />
                         <!-- Feedback (Optional) -->
                         <path d="M 680 120 C 600 160, 480 160, 460 120" fill="none" class="stroke-slate-300 stroke-[2] stroke-dasharray-4" />
-                        
+
                         <!-- Animated Item Packet 1 (Seq -> Drv) -->
                         <g class="animate-packet" transform="translate(220, 85)">
                             <rect width="30" height="30" rx="4" class="fill-blue-600 shadow-lg" />

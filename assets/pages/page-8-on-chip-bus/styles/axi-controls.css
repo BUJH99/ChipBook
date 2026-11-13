@@ -1,0 +1,305 @@
+.axi-full-control-showcase {
+  font-family: 'Pretendard', sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+.axi-full-control-showcase .mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.axi-full-control-showcase .schematic-grid {
+  background-image: linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.axi-full-control-showcase .hw-block {
+  border: 2px solid #0f172a;
+  background: #fff;
+  box-shadow: 4px 4px 0 #cbd5e1;
+  position: relative;
+}
+
+.axi-full-control-showcase .packet {
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 30;
+}
+
+.axi-full-control-showcase .error-shake {
+  animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(3px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+  40%, 60% { transform: translate3d(5px, 0, 0); }
+}
+
+.axi-full-control-showcase .katex-display {
+  margin: 0.5em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.axi-full-control-showcase .firewall-active {
+  border-color: #e11d48 !important;
+  background-color: #ffe4e6 !important;
+}
+
+.axi-full-control-showcase .monitor-locked {
+  border-color: #f59e0b !important;
+  background-color: #fef3c7 !important;
+}
+
+.axi-full-control-showcase .monitor-invalidated {
+  border-color: #e11d48 !important;
+  background-color: #fff1f2 !important;
+}
+
+.axi-full-control-showcase .axlock-monitor-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 0.22rem 0.55rem;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.axi-full-control-showcase .axlock-monitor-chip.is-idle {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #64748b;
+}
+
+.axi-full-control-showcase .axlock-monitor-chip.is-active {
+  background: #fef3c7;
+  border-color: #fcd34d;
+  color: #b45309;
+}
+
+.axi-full-control-showcase .axlock-monitor-chip.is-success {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #047857;
+}
+
+.axi-full-control-showcase .axlock-monitor-chip.is-invalid {
+  background: #ffe4e6;
+  border-color: #fda4af;
+  color: #be123c;
+}
+
+.axi-full-control-showcase .axlock-master-active {
+  border-color: #f59e0b !important;
+  background: #fffbeb !important;
+  box-shadow: 0 16px 26px rgba(245, 158, 11, 0.14) !important;
+  transform: translateY(-2px);
+}
+
+.axi-full-control-showcase .axlock-master-interloper {
+  border-color: #64748b !important;
+  background: #f8fafc !important;
+  box-shadow: 0 16px 26px rgba(100, 116, 139, 0.12) !important;
+  transform: translateY(-2px);
+}
+
+.axi-full-control-showcase .axlock-packet {
+  width: 118px;
+  min-height: 58px;
+  padding: 0.38rem 0.45rem 0.42rem;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.14rem;
+  box-shadow: 0 18px 28px rgba(15, 23, 42, 0.12);
+  text-align: center;
+}
+
+.axi-full-control-showcase .axlock-packet__channel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 9999px;
+  font-size: 0.54rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--axlock-packet-chip-bg, rgba(15, 23, 42, 0.08));
+  color: var(--axlock-packet-chip-color, currentColor);
+}
+
+.axi-full-control-showcase .axlock-packet__title {
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+
+.axi-full-control-showcase .axlock-packet__subtitle {
+  font-size: 0.56rem;
+  font-weight: 700;
+  line-height: 1.25;
+  opacity: 0.88;
+}
+
+.axi-full-control-showcase .arbiter-active {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3) !important;
+}
+
+.axi-full-control-showcase .tz-row-active {
+  background-color: #fef08a !important;
+  color: #854d0e !important;
+}
+
+.axi-full-control-showcase .cache-dirty {
+  background-color: #bfdbfe !important;
+  border-color: #3b82f6 !important;
+}
+
+.axi-full-control-showcase .ddr-writing {
+  box-shadow: 0 0 15px rgba(30, 41, 59, 0.5) inset;
+}
+
+.axi-full-advanced-showcase .outstanding-lane {
+  overflow: hidden;
+  border-radius: 9999px;
+  background: rgba(203, 213, 225, 0.95);
+  transition: box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.axi-full-advanced-showcase .outstanding-lane::after {
+  content: '';
+  position: absolute;
+  inset: -28% 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.axi-full-advanced-showcase .outstanding-lane.is-address-active {
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.12), 0 0 20px rgba(59, 130, 246, 0.16);
+  background: rgba(147, 197, 253, 0.32);
+}
+
+.axi-full-advanced-showcase .outstanding-lane.is-address-active::after {
+  opacity: 1;
+  background: linear-gradient(180deg, transparent 0%, rgba(59, 130, 246, 0.92) 50%, transparent 100%);
+  animation: outstandingLaneFlow 1s linear infinite;
+}
+
+.axi-full-advanced-showcase .outstanding-lane.is-response-active {
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.12), 0 0 20px rgba(16, 185, 129, 0.14);
+  background: rgba(110, 231, 183, 0.28);
+}
+
+.axi-full-advanced-showcase .outstanding-lane.is-response-active::after {
+  opacity: 1;
+  background: linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.92) 50%, transparent 100%);
+  animation: outstandingLaneFlow 1s linear infinite;
+}
+
+.axi-full-advanced-showcase .outstanding-depth-slot {
+  height: 0.55rem;
+  flex: 1 1 0;
+  border-radius: 9999px;
+  border: 1px solid rgba(203, 213, 225, 0.95);
+  background: rgba(226, 232, 240, 0.95);
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.axi-full-advanced-showcase .outstanding-depth-slot.is-filled {
+  border-color: rgba(59, 130, 246, 0.35);
+  background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.18);
+}
+
+.axi-full-advanced-showcase .outstanding-depth-slot.is-hot {
+  transform: scaleY(1.18);
+  box-shadow: 0 10px 18px rgba(59, 130, 246, 0.24);
+}
+
+.axi-full-advanced-showcase .ooo-path-shell {
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.axi-full-advanced-showcase .ooo-path-shell.is-hot-fast {
+  border-color: rgba(99, 102, 241, 0.38);
+  background: rgba(238, 242, 255, 0.92);
+  box-shadow: 0 14px 28px rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px);
+}
+
+.axi-full-advanced-showcase .ooo-path-shell.is-hot-slow {
+  border-color: rgba(100, 116, 139, 0.34);
+  background: rgba(248, 250, 252, 0.98);
+  box-shadow: 0 14px 28px rgba(100, 116, 139, 0.12);
+  transform: translateY(-1px);
+}
+
+.axi-full-advanced-showcase .ooo-order-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  min-height: 32px;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(203, 213, 225, 0.95);
+  background: rgba(248, 250, 252, 0.96);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+
+.axi-full-advanced-showcase .ooo-order-chip.is-issued {
+  border-color: rgba(99, 102, 241, 0.28);
+  background: rgba(224, 231, 255, 0.92);
+  color: #4338ca;
+  box-shadow: 0 10px 18px rgba(99, 102, 241, 0.12);
+}
+
+.axi-full-advanced-showcase .ooo-order-chip.is-returned {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: linear-gradient(180deg, rgba(236, 253, 245, 0.98) 0%, rgba(209, 250, 229, 0.94) 100%);
+  color: #047857;
+  box-shadow: 0 12px 22px rgba(16, 185, 129, 0.14);
+}
+
+.axi-full-advanced-showcase .ooo-order-chip.is-active {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.axi-full-advanced-showcase .ooo-order-chip.is-pending {
+  color: #94a3b8;
+}
+
+@keyframes outstandingLaneFlow {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.axi-full-advanced-showcase .scanning::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.1), transparent);
+  animation: scan 2s linear infinite;
+}

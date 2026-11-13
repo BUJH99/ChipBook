@@ -2,9 +2,32 @@
   "output": "../../page-10-solution.html",
   "parts": [
     "00-shell-start.html",
-    "sections/01-integration-stack.html",
-    "sections/02-solution-thinking.html",
-    "sections/03-interview-memory-hooks.html",
+    "sections/lesson-10-01.html",
+    "sections/lesson-10-02.html",
+    "sections/lesson-10-03.html",
+    "sections/lesson-10-04.html",
+    "sections/lesson-10-05.html",
+    "sections/lesson-10-06.html",
+    "sections/lesson-10-07.html",
+    "sections/lesson-10-08.html",
+    "sections/lesson-10-09.html",
+    "sections/lesson-10-10.html",
+    "sections/lesson-10-11.html",
+    "sections/lesson-10-12.html",
+    "sections/lesson-10-13.html",
+    "sections/lesson-10-14.html",
     "99-shell-end.html"
-  ]
+  ],
+  "title": "SoC Architecture & Integration",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/technical-pages/technical-pages.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/technical-pages/technical-pages.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": []
 }

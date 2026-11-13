@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실리콘 Bring-up과 수율 및 신뢰성 | 반도체 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/fonts.css?v=c76e3cfe4c44">
+    <link rel="stylesheet" href="../assets/guidebook-common.css?v=d690df41ee31">
+    <link rel="stylesheet" href="../assets/features/curriculum/curriculum.css?v=09e7ec987305">
+    <link rel="stylesheet" href="../assets/features/visual-atlas/visual-atlas.css?v=fdf94ae6f6da">
+
+</head>
+<body class="page-standalone curriculum-page visual-curriculum" data-page-id="page-23" data-chapter-number="23" data-default-section="section-01" data-section-aliases="{}" data-curriculum-engine="true" data-curriculum-mode="action">
+<main class="page-shell"><section class="page-section active" id="page-23"><div class="mb-4"><span class="badge">Part 23</span></div>
+<h2 class="section-title">실리콘 Bring-up과 수율 및 신뢰성</h2>
+<article class="chapter-lesson" data-lesson-panel="section-01" data-lesson-id="23.01" data-guidebook-toc-title="Bring-up 준비">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">23-1. Bring-up 준비</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;23.01&quot;,&quot;kind&quot;:&quot;instrument&quot;,&quot;variant&quot;:&quot;bringup&quot;,&quot;title&quot;:&quot;보드에서 먼저 확인할 전원·Clock·Reset&quot;,&quot;steps&quot;:[[&quot;연결&quot;,&quot;Probe와 기준점을 대상 신호에 연결합니다.&quot;],[&quot;Trigger&quot;,&quot;재현 가능한 사건을 기준으로 포착합니다.&quot;],[&quot;관측&quot;,&quot;전원·Clock·Reset·데이터를 함께 읽습니다.&quot;],[&quot;분리&quot;,&quot;조건을 하나씩 바꾸어 원인 범위를 좁힙니다.&quot;]],&quot;three&quot;:&quot;pcb&quot;,&quot;subtitle&quot;:&quot;Bring-up 준비는 성공했을 때 관측할 기준을 먼저 정하는 일이다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;}" aria-label="보드에서 먼저 확인할 전원·Clock·Reset"></section>
+<p>Board revision, power rail, clock, reset, boot strap, debug 연결과 software image를 기록한다. 장비의 probe·bandwidth·reference 연결도 측정의 일부다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;debug&quot;, &quot;title&quot;: &quot;증거를 모으는 bring-up&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="Bring-up 준비 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>전원 인가 전에 short와 rail 저항, 허용 공급 범위와 전류 제한을 확인한다. 초기 정상 파형과 실패 시 중단 조건을 정리해 재현 가능한 순서를 만든다.</p></div>
+<div class="lesson-columns"><section><p>측정 probe를 연결한 영향과 장비 설정을 생략하지 않는다.</p></section><section><p>검사 순서와 정상 기준을 미리 정한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="23.01" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-02">다음 절 · First Boot</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="23.02" data-guidebook-toc-title="First Boot">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">23-2. First Boot</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;23.02&quot;,&quot;kind&quot;:&quot;security&quot;,&quot;variant&quot;:&quot;boot&quot;,&quot;title&quot;:&quot;전원 인가에서 첫 Firmware 실행까지&quot;,&quot;steps&quot;:[[&quot;Power good&quot;,&quot;전원 안정과 clock 유효 조건을 확인합니다.&quot;],[&quot;Reset release&quot;,&quot;도메인별 reset 해제를 확인합니다.&quot;],[&quot;ROM 실행&quot;,&quot;최초 fetch와 boot status를 관측합니다.&quot;],[&quot;Firmware&quot;,&quot;초기 UART와 memory 접근으로 실행 경로를 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;First boot는 전원 ramp와 reference clock, reset release, debug 접근, ROM 실행과 memory 초기화를 단계별로 확인한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="전원 인가에서 첫 Firmware 실행까지"></section>
+<p>앞 단계의 정상 근거를 확보한 뒤 다음 단계로 이동한다. 로그가 없는 구간은 GPIO·trace·관측 register 같은 방법을 준비한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;domain&quot;, &quot;title&quot;: &quot;Clock·reset·power 상태 전환&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="First Boot 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>JTAG가 응답하지 않으면 boot code만 수정하기 전에 전원·clock·reset·pin/보안 상태를 확인한다. ROM 진입 이후 실패라면 실행 주소와 예외 원인을 좁힌다.</p></div>
+<div class="lesson-columns"><section><p>최종 증상인 화면 출력 실패만으로 display block부터 검사하지 않는다.</p></section><section><p>실패 지점 이전의 전제부터 확인한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="23.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · 기능 검증과 계측</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-03" data-lesson-id="23.03" data-guidebook-toc-title="기능 검증과 계측">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">23-3. 기능 검증과 계측</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;23.03&quot;,&quot;kind&quot;:&quot;instrument&quot;,&quot;variant&quot;:&quot;measure&quot;,&quot;title&quot;:&quot;Trigger와 Probe로 관측하는 기능 동작&quot;,&quot;steps&quot;:[[&quot;연결&quot;,&quot;Probe와 기준점을 대상 신호에 연결합니다.&quot;],[&quot;Trigger&quot;,&quot;재현 가능한 사건을 기준으로 포착합니다.&quot;],[&quot;관측&quot;,&quot;전원·Clock·Reset·데이터를 함께 읽습니다.&quot;],[&quot;분리&quot;,&quot;조건을 하나씩 바꾸어 원인 범위를 좁힙니다.&quot;]],&quot;subtitle&quot;:&quot;Silicon validation은 register·memory·interrupt·interface의 실제 동작을 확인한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Trigger와 Probe로 관측하는 기능 동작"></section>
+<p>관측 사실과 원인 가설을 구분하고 동일 조건의 재현을 먼저 확보한다. Scope·logic analyzer·on-chip trace는 서로 다른 범위를 관측한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;irq&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;Interrupt 상태 추적&quot;, &quot;fault&quot;: &quot;로그에 오류가 없다는 것과 물리 신호가 정상이라는 것은 다르다.&quot;}" aria-label="기능 검증과 계측 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>IRQ가 오지 않는 문제에서 source flag, mask, pending, CPU delivery를 나누어 검사한다. 각 단계의 timestamp와 설정을 남겨 한 경계씩 좁힌다.</p></div>
+<div class="lesson-columns"><section><p>로그에 오류가 없다는 것과 물리 신호가 정상이라는 것은 다르다.</p></section><section><p>추측과 측정 사실을 분리해 기록한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="23.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-04">다음 절 · PVT Characterization</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="23.04" data-guidebook-toc-title="PVT Characterization">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">23-4. PVT Characterization</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;23.04&quot;,&quot;kind&quot;:&quot;heatmap&quot;,&quot;variant&quot;:&quot;pvt&quot;,&quot;title&quot;:&quot;전압·주파수 Sweep과 Pass 영역&quot;,&quot;steps&quot;:[[&quot;좌표&quot;,&quot;각 칸이 나타내는 위치 또는 측정 조건을 확인합니다.&quot;],[&quot;측정&quot;,&quot;같은 기준으로 결과를 수집합니다.&quot;],[&quot;분포&quot;,&quot;연속된 패턴과 국소적인 취약점을 구분합니다.&quot;],[&quot;검증&quot;,&quot;관찰한 경향을 추가 측정과 모델로 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;Characterization은 전압·주파수·온도 등 조건을 바꾸며 동작 여유를 측정한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;pvt&quot;}" aria-label="전압·주파수 Sweep과 Pass 영역"></section>
+<p>Shmoo plot은 두 조건의 pass/fail 분포를 보여주지만 workload·판정 기준·표본 수가 필요하다. 제품 spec과 guardband는 측정과 신뢰성 근거를 함께 반영한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;pvt&quot;, &quot;title&quot;: &quot;전압·온도 Shmoo 예제&quot;}" aria-label="PVT Characterization 실습"></section>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;thermal&quot;, &quot;title&quot;: &quot;온도 조건별 margin 가정&quot;}" aria-label="온도 조건별 margin 가정"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Voltage–frequency grid를 sweep할 때 같은 test image와 error 기준을 유지한다. 특정 pattern에서만 생기는 실패도 별도로 기록한다.</p></div>
+<div class="lesson-columns"><section><p>한 chip의 짧은 test 결과를 모든 생산품의 한계로 일반화하지 않는다.</p></section><section><p>조건과 표본을 명시해 동작 범위를 해석한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="23.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · 수율과 불량 분석</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-05" data-lesson-id="23.05" data-guidebook-toc-title="수율과 불량 분석">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">23-5. 수율과 불량 분석</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;23.05&quot;,&quot;kind&quot;:&quot;heatmap&quot;,&quot;variant&quot;:&quot;yield&quot;,&quot;title&quot;:&quot;Wafer Map으로 보는 공간적 불량 분포&quot;,&quot;steps&quot;:[[&quot;좌표&quot;,&quot;각 칸이 나타내는 위치 또는 측정 조건을 확인합니다.&quot;],[&quot;측정&quot;,&quot;같은 기준으로 결과를 수집합니다.&quot;],[&quot;분포&quot;,&quot;연속된 패턴과 국소적인 취약점을 구분합니다.&quot;],[&quot;검증&quot;,&quot;관찰한 경향을 추가 측정과 모델로 확인합니다.&quot;]],&quot;three&quot;:&quot;wafer&quot;,&quot;subtitle&quot;:&quot;수율 분석은 wafer map과 failure bin, 공정·제품·test 조건의 관계를 살펴본다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;}" aria-label="Wafer Map으로 보는 공간적 불량 분포"></section>
+<p>공간 패턴은 원인 후보를 좁히지만 그 자체가 원인 증명은 아니다. 불량 분석은 재현과 물리적 관측, 설계·공정 데이터의 연결을 요구한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;yield&quot;, &quot;title&quot;: &quot;면적·결함 밀도·수율&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="수율과 불량 분석 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Wafer edge에 fail이 몰릴 때 probe 접촉이나 공정 균일도 등 여러 가설을 구분한다. Lot·wafer·site·tester revision을 함께 비교한다.</p></div>
+<div class="lesson-columns"><section><p>Correlation을 바로 root cause로 보고 설계나 공정을 바꾸지 않는다.</p></section><section><p>상관관계만으로 공정 원인을 단정하지 않는다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="23.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-06">다음 절 · Reliability</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-06" data-lesson-id="23.06" data-guidebook-toc-title="Reliability">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">23-6. Reliability</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;23.06&quot;,&quot;kind&quot;:&quot;heatmap&quot;,&quot;variant&quot;:&quot;reliability&quot;,&quot;title&quot;:&quot;Stress와 온도가 만드는 취약 영역&quot;,&quot;steps&quot;:[[&quot;좌표&quot;,&quot;각 칸이 나타내는 위치 또는 측정 조건을 확인합니다.&quot;],[&quot;측정&quot;,&quot;같은 기준으로 결과를 수집합니다.&quot;],[&quot;분포&quot;,&quot;연속된 패턴과 국소적인 취약점을 구분합니다.&quot;],[&quot;검증&quot;,&quot;관찰한 경향을 추가 측정과 모델로 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;Reliability는 시간과 스트레스에 따른 특성 변화와 고장 가능성을 다룬다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Stress와 온도가 만드는 취약 영역"></section>
+<p>BTI/HCI·EM·TDDB·ESD·latch-up은 원인과 검사 조건이 다르다. 가속 시험에서 사용 조건으로 해석할 때 모델과 적용 범위를 명시한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;thermal&quot;, &quot;title&quot;: &quot;온도와 신뢰성 조건&quot;}" aria-label="온도와 신뢰성 조건"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>높은 온도나 전압에서 얻은 변화율을 사용 환경으로 옮기려면 해당 고장 메커니즘에 적합한 모델이 필요하다. 단순히 시간 비율만 나누지 않는다.</p></div>
+<div class="lesson-columns"><section><p>기능 test pass를 장기간 신뢰성 보장으로 표현하지 않는다.</p></section><section><p>가속 시험과 사용 조건의 차이를 설명한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="23.06" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-07">다음 절 · Errata와 제품 개선</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-07" data-lesson-id="23.07" data-guidebook-toc-title="Errata와 제품 개선">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">23-7. Errata와 제품 개선</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;23.07&quot;,&quot;kind&quot;:&quot;coverage&quot;,&quot;variant&quot;:&quot;errata&quot;,&quot;title&quot;:&quot;재현 조건·원인·우회·수정의 추적&quot;,&quot;steps&quot;:[[&quot;요구&quot;,&quot;검증할 요구사항을 명확하게 나눕니다.&quot;],[&quot;근거&quot;,&quot;각 요구에 맞는 검증 수단을 연결합니다.&quot;],[&quot;빈틈&quot;,&quot;누락되거나 미결인 항목을 드러냅니다.&quot;],[&quot;완료&quot;,&quot;결과와 예외의 근거를 함께 검토합니다.&quot;]],&quot;subtitle&quot;:&quot;Errata는 재현 조건, 영향 범위, 회피 방법과 수정 상태를 명확히 전달한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="재현 조건·원인·우회·수정의 추적"></section>
+<p>Firmware workaround, metal ECO와 respin은 적용 범위·위험·일정이 다르다. 수정 뒤에는 원래 실패뿐 아니라 관련 정상 동작도 재검증한다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>특정 DMA 길이와 alignment에서만 발생하는 오류라면 제한 조건과 검출 방법을 정확히 적는다. Workaround의 성능·기능 영향도 함께 기록한다.</p></div>
+<div class="lesson-columns"><section><p>해결됐다는 결론만 남기고 어떤 revision과 조건에서 확인했는지 생략하지 않는다.</p></section><section><p>고객 영향과 수정 범위를 일관되게 전달한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="23.07" aria-pressed="false">이 절 학습 완료</button></footer></article>
+</section></main>
+    <script src="../assets/guidebook-page-common.js?v=0bda89d04754"></script>
+    <script src="../assets/features/visual-atlas/visual-atlas.js?v=a41dcf70c9ca"></script>
+    <script src="../assets/features/curriculum/curriculum.js?v=a49d5d58f3f2"></script>
+</body>
+</html>

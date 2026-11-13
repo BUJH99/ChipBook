@@ -1,0 +1,29 @@
+{
+  "output": "../../page-17-sta-clock-reset.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/lesson-17-01.html",
+    "sections/lesson-17-02.html",
+    "sections/lesson-17-03.html",
+    "sections/lesson-17-04.html",
+    "sections/lesson-17-05.html",
+    "sections/lesson-17-06.html",
+    "sections/lesson-17-07.html",
+    "sections/lesson-17-08.html",
+    "99-shell-end.html"
+  ],
+  "title": "STA와 Clock · Reset 설계",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/visual-atlas/visual-atlas.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/visual-atlas/visual-atlas.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": [
+    "../assets/features/visual-atlas/visual-atlas-3d.js"
+  ]
+}

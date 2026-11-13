@@ -1,0 +1,14 @@
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="26.02" data-guidebook-toc-title="{{section:section-02:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-02:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;26.02&quot;,&quot;kind&quot;:&quot;register&quot;,&quot;variant&quot;:&quot;apb&quot;,&quot;title&quot;:&quot;주소 Decode와 접근 정책을 갖는 Register IP&quot;,&quot;steps&quot;:[[&quot;주소 선택&quot;,&quot;Address decode로 Register를 선택합니다.&quot;],[&quot;Byte 선택&quot;,&quot;Write strobe가 갱신할 Byte를 결정합니다.&quot;],[&quot;접근 정책&quot;,&quot;RW·RO·W1C의 서로 다른 규칙을 적용합니다.&quot;],[&quot;값 갱신&quot;,&quot;선택하지 않은 Byte와 Bit는 보존합니다.&quot;]],&quot;subtitle&quot;:&quot;Bus IP는 register 기능과 bus protocol 두 계약을 함께 지킨다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;register&quot;}" aria-label="주소 Decode와 접근 정책을 갖는 Register IP"></section>
+<p>주소·data·response의 수락 시점과 wait/error 동작을 분리한다. AXI-Lite에서는 write address와 data가 독립적으로 도착할 수 있다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;dma&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;DMA 전송 추적&quot;, &quot;fault&quot;: &quot;VALID가 여러 cycle 유지될 때 side effect를 매 cycle 반복하면 안 된다.&quot;}" aria-label="APB 또는 AXI-Lite IP 실습"></section>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;register&quot;, &quot;title&quot;: &quot;Byte strobe와 access 속성&quot;}" aria-label="Byte strobe와 access 속성"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>W1C status와 start command, read-only counter를 가진 작은 IP를 구성한다. Register side effect가 handshake당 한 번만 실행되는지 확인한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>python reference.py --project register
+# RW with byte strobe 0101: 0x11223344 + 0xAABBCCDD -&gt; 0x11BB33DD
+# W1C: previous 1111, write 0101 -&gt; remaining 1010</code></pre>
+<div class="lesson-downloads"><h3>실행 가능한 예제</h3><a download href="../assets/examples/src/ApbRegister.sv">APB register RTL</a><a download href="../assets/examples/reference.py">Byte strobe / W1C reference</a></div>
+<div class="lesson-columns"><section><p>VALID가 여러 cycle 유지될 때 side effect를 매 cycle 반복하면 안 된다.</p></section><section><p>레지스터 계약과 프로토콜 규칙을 지킨다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="26.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · FIFO와 DMA Subsystem</a></footer></article>

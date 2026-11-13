@@ -10,5 +10,28 @@
     "sections/06-axi-stream.html",
     "sections/07-axi-full.html",
     "99-shell-end.html"
+  ],
+  "title": "On-Chip Bus",
+  "styles": [
+    "../assets/components/learning-visuals.css",
+    "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css",
+    "../assets/pages/page-8-on-chip-bus.css"
+  ],
+  "headScripts": [
+    "https://unpkg.com/lucide@latest",
+    "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js",
+    "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js",
+    {
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.1.0/skins/default.js",
+      "type": "text/javascript"
+    },
+    {
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.1.0/wavedrom.min.js",
+      "type": "text/javascript"
+    }
+  ],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/pages/page-8-on-chip-bus.js"
   ]
 }

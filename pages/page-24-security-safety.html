@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>하드웨어 보안과 기능 안전 | 반도체 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/fonts.css?v=c76e3cfe4c44">
+    <link rel="stylesheet" href="../assets/guidebook-common.css?v=d690df41ee31">
+    <link rel="stylesheet" href="../assets/features/curriculum/curriculum.css?v=09e7ec987305">
+    <link rel="stylesheet" href="../assets/features/visual-atlas/visual-atlas.css?v=fdf94ae6f6da">
+
+</head>
+<body class="page-standalone curriculum-page visual-curriculum" data-page-id="page-24" data-chapter-number="24" data-default-section="section-01" data-section-aliases="{}" data-curriculum-engine="true" data-curriculum-mode="action">
+<main class="page-shell"><section class="page-section active" id="page-24"><div class="mb-4"><span class="badge">Part 24</span></div>
+<h2 class="section-title">하드웨어 보안과 기능 안전</h2>
+<article class="chapter-lesson" data-lesson-panel="section-01" data-lesson-id="24.01" data-guidebook-toc-title="위협과 고장 모델">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">24-1. 위협과 고장 모델</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;24.01&quot;,&quot;kind&quot;:&quot;security&quot;,&quot;variant&quot;:&quot;threat&quot;,&quot;title&quot;:&quot;자산·공격 경로·고장 영향을 연결하기&quot;,&quot;steps&quot;:[[&quot;Root&quot;,&quot;변경할 수 없는 신뢰 기준에서 시작합니다.&quot;],[&quot;검증&quot;,&quot;인증 정보와 허용 조건을 확인합니다.&quot;],[&quot;경계&quot;,&quot;권한과 수명주기 상태에 맞는 경로만 허용합니다.&quot;],[&quot;허용 / 거부&quot;,&quot;검증 결과에 따라 다음 실행 또는 접근을 결정합니다.&quot;]],&quot;subtitle&quot;:&quot;Security threat model은 지킬 자산과 신뢰 경계, 공격자의 접근 능력을 정의한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="자산·공격 경로·고장 영향을 연결하기"></section>
+<p>Safety fault model은 우발 고장이 시스템에 주는 영향을 다룬다. 같은 오류 검출 장치도 어떤 가정에서 어떤 실패를 줄이는지 명시해야 한다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>외부 debug 접근, DMA와 boot 경로를 자산 지도에 표시하고 각각 필요한 권한을 정의한다. 우발 bit flip과 의도적 명령 변조는 다른 시험 목적을 갖는다.</p></div>
+<div class="lesson-columns"><section><p>보안 공격과 우발 고장을 한 failure rate로 섞지 않는다.</p></section><section><p>의도적 공격과 우발 고장을 구별한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://docs.riscv.org/reference/isa/priv/machine.html" target="_blank" rel="noopener">RISC-V Privileged Architecture</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="24.01" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-02">다음 절 · Root of Trust와 Secure Boot</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="24.02" data-guidebook-toc-title="Root of Trust와 Secure Boot">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">24-2. Root of Trust와 Secure Boot</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;24.02&quot;,&quot;kind&quot;:&quot;security&quot;,&quot;variant&quot;:&quot;secureboot&quot;,&quot;title&quot;:&quot;불변 Root에서 검증된 Firmware로&quot;,&quot;steps&quot;:[[&quot;Root&quot;,&quot;변경할 수 없는 신뢰 기준에서 시작합니다.&quot;],[&quot;검증&quot;,&quot;인증 정보와 허용 조건을 확인합니다.&quot;],[&quot;경계&quot;,&quot;권한과 수명주기 상태에 맞는 경로만 허용합니다.&quot;],[&quot;허용 / 거부&quot;,&quot;검증 결과에 따라 다음 실행 또는 접근을 결정합니다.&quot;]],&quot;subtitle&quot;:&quot;Root of trust는 이후 검증의 출발점이 되는 신뢰 기반이다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="불변 Root에서 검증된 Firmware로"></section>
+<p>Secure boot는 다음 단계의 코드와 필요한 metadata를 검증하고 실패 시의 동작을 정의한다. Key 저장, lifecycle, rollback 방지와 debug 정책이 함께 설계되어야 한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;secureboot&quot;, &quot;title&quot;: &quot;신뢰 연결과 실패 처리&quot;}" aria-label="Root of Trust와 Secure Boot 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>서명 확인을 통과한 오래된 image라도 알려진 문제를 가진 version으로 돌아가면 보호 목표를 깨뜨릴 수 있어 version 정책을 검토한다.</p></div>
+<div class="lesson-columns"><section><p>암호 알고리즘을 썼다는 사실만으로 key 관리와 boot chain 전체가 안전하다고 결론 내리지 않는다.</p></section><section><p>검증되지 않은 코드로 이어지는 경로를 찾는다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://docs.riscv.org/reference/isa/priv/machine.html" target="_blank" rel="noopener">RISC-V Privileged Architecture</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="24.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · 격리와 접근 제어</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-03" data-lesson-id="24.03" data-guidebook-toc-title="격리와 접근 제어">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">24-3. 격리와 접근 제어</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;24.03&quot;,&quot;kind&quot;:&quot;network&quot;,&quot;variant&quot;:&quot;access&quot;,&quot;title&quot;:&quot;Master·주소 영역·접근 권한의 경계&quot;,&quot;steps&quot;:[[&quot;Request&quot;,&quot;요청 주체와 목적지, 데이터의 소유자를 구분합니다.&quot;],[&quot;Route&quot;,&quot;연결과 주소 규칙에 따라 요청 경로를 선택합니다.&quot;],[&quot;Transfer&quot;,&quot;공유 자원의 중재와 응답 조건을 확인합니다.&quot;],[&quot;Response&quot;,&quot;완료·오류 응답이 원래 요청으로 돌아오는 경로를 봅니다.&quot;]],&quot;subtitle&quot;:&quot;접근 제어는 어느 주체가 어떤 주소와 기능을 어떤 mode에서 사용할 수 있는지 정한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labels&quot;:[&quot;CPU secure&quot;,&quot;DMA nonsecure&quot;,&quot;Boot ROM&quot;,&quot;Access filter&quot;,&quot;Secure SRAM&quot;,&quot;Shared SRAM&quot;,&quot;Peripheral&quot;]}" aria-label="Master·주소 영역·접근 권한의 경계"></section>
+<p>CPU privilege와 memory protection, DMA/IOMMU와 bus firewall의 경계를 함께 확인한다. 기본 거부와 오류 응답, side effect 여부를 정의한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;access&quot;, &quot;title&quot;: &quot;주소와 권한 검사&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="격리와 접근 제어 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>CPU가 접근할 수 없는 secure buffer를 DMA가 읽을 수 없는지 같은 정책으로 시험한다. 실패한 write가 상태를 일부 바꾸는지도 확인한다.</p></div>
+<div class="lesson-columns"><section><p>소프트웨어 pointer 검사만으로 다른 bus master의 접근을 통제할 수 있다고 생각하지 않는다.</p></section><section><p>CPU와 DMA의 접근 경계를 함께 검사한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://docs.riscv.org/reference/isa/priv/machine.html" target="_blank" rel="noopener">RISC-V Privileged Architecture</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="24.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-04">다음 절 · Debug와 물리적 공격 방어</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="24.04" data-guidebook-toc-title="Debug와 물리적 공격 방어">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">24-4. Debug와 물리적 공격 방어</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;24.04&quot;,&quot;kind&quot;:&quot;security&quot;,&quot;variant&quot;:&quot;debug&quot;,&quot;title&quot;:&quot;Debug 경로와 수명주기 상태의 통제&quot;,&quot;steps&quot;:[[&quot;Root&quot;,&quot;변경할 수 없는 신뢰 기준에서 시작합니다.&quot;],[&quot;검증&quot;,&quot;인증 정보와 허용 조건을 확인합니다.&quot;],[&quot;경계&quot;,&quot;권한과 수명주기 상태에 맞는 경로만 허용합니다.&quot;],[&quot;허용 / 거부&quot;,&quot;검증 결과에 따라 다음 실행 또는 접근을 결정합니다.&quot;]],&quot;subtitle&quot;:&quot;Debug interface는 개발 중 강력한 관측·제어 경로이므로 제품 lifecycle에 따라 권한을 관리한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Debug 경로와 수명주기 상태의 통제"></section>
+<p>Fault injection과 side-channel 분석은 설계의 방어 가정을 점검하는 방법이다. 보호 기능은 정상 debug·제조·복구 절차와도 일관되어야 한다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>개발·제조·현장 mode에서 허용되는 debug register와 인증 조건을 비교한다. 잠금 이후에도 예외 경로가 권한을 우회하지 않는지 확인한다.</p></div>
+<div class="lesson-columns"><section><p>Debug를 전부 끄는 선택의 유지보수·장애 분석 영향도 고려한다.</p></section><section><p>방어의 가정과 검증 범위를 명시한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://docs.riscv.org/reference/isa/priv/machine.html" target="_blank" rel="noopener">RISC-V Privileged Architecture</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="24.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · 고장 검출과 복구</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-05" data-lesson-id="24.05" data-guidebook-toc-title="고장 검출과 복구">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">24-5. 고장 검출과 복구</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;24.05&quot;,&quot;kind&quot;:&quot;scan&quot;,&quot;variant&quot;:&quot;fault-detect&quot;,&quot;title&quot;:&quot;검출·격리·복구로 이어지는 고장 경로&quot;,&quot;steps&quot;:[[&quot;중복 실행&quot;,&quot;두 core가 동일한 입력을 받아 연산합니다.&quot;],[&quot;비교&quot;,&quot;관측 가능한 결과를 comparator에서 비교합니다.&quot;],[&quot;고장 검출&quot;,&quot;차이가 발생하면 fault를 safety controller에 전달합니다.&quot;],[&quot;대응&quot;,&quot;검출 범위에 맞게 격리·복구 정책을 수행합니다.&quot;]],&quot;subtitle&quot;:&quot;ECC·parity·lockstep·watchdog·redundancy는 서로 다른 고장을 검출하거나 완화한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="검출·격리·복구로 이어지는 고장 경로"></section>
+<p>검출 이후 알림·격리·재시도·복구·safe state의 책임도 정해야 한다. 중복 장치가 같은 원인으로 실패하는 common-cause 문제를 고려한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;scan&quot;, &quot;title&quot;: &quot;고장 주입과 검출&quot;}" aria-label="고장 주입과 검출"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>두 core가 같은 잘못된 입력과 같은 설계 결함을 공유하면 lockstep 비교가 차이를 찾지 못할 수 있다. 독립성 가정과 검출 범위를 문서화한다.</p></div>
+<div class="lesson-columns"><section><p>Redundancy가 있다는 이유만으로 모든 고장에 강하다고 표현하지 않는다.</p></section><section><p>검출 범위와 공통 원인 고장을 구별한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://docs.riscv.org/reference/isa/priv/machine.html" target="_blank" rel="noopener">RISC-V Privileged Architecture</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="24.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-06">다음 절 · 증거와 시스템 검토</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-06" data-lesson-id="24.06" data-guidebook-toc-title="증거와 시스템 검토">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">24-6. 증거와 시스템 검토</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;24.06&quot;,&quot;kind&quot;:&quot;coverage&quot;,&quot;variant&quot;:&quot;evidence&quot;,&quot;title&quot;:&quot;보안·안전 요구와 검증 증거&quot;,&quot;steps&quot;:[[&quot;요구&quot;,&quot;검증할 요구사항을 명확하게 나눕니다.&quot;],[&quot;근거&quot;,&quot;각 요구에 맞는 검증 수단을 연결합니다.&quot;],[&quot;빈틈&quot;,&quot;누락되거나 미결인 항목을 드러냅니다.&quot;],[&quot;완료&quot;,&quot;결과와 예외의 근거를 함께 검토합니다.&quot;]],&quot;subtitle&quot;:&quot;보안·안전 요구는 설계 기능과 검증 증거에 연결되어야 한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="보안·안전 요구와 검증 증거"></section>
+<p>적용 표준의 범위와 제품 맥락, 책임과 잔여 위험을 명시한다. 교육 예제의 mechanism demonstration은 제품 인증 결과와 구분한다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>요구 → 보호 mechanism → 시험 → 결과 → 남은 조건의 대응표를 만든다. 변경 시 영향을 받는 증거를 다시 검토한다.</p></div>
+<div class="lesson-columns"><section><p>표준 이름을 나열하거나 checklist를 채운 것만으로 인증을 주장하지 않는다.</p></section><section><p>교육 예제를 제품 인증 결과로 표현하지 않는다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://docs.riscv.org/reference/isa/priv/machine.html" target="_blank" rel="noopener">RISC-V Privileged Architecture</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a><a target="_top" href="../index.html?chapter=10">10장 · SoC Architecture &amp; Integration</a><a target="_top" href="../index.html?chapter=20">20장 · DFT와 생산 테스트</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="24.06" aria-pressed="false">이 절 학습 완료</button></footer></article>
+</section></main>
+    <script src="../assets/guidebook-page-common.js?v=0bda89d04754"></script>
+    <script src="../assets/features/visual-atlas/visual-atlas.js?v=a41dcf70c9ca"></script>
+    <script src="../assets/features/curriculum/curriculum.js?v=a49d5d58f3f2"></script>
+</body>
+</html>

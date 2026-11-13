@@ -2,9 +2,33 @@
   "output": "../../page-9-off-chip-interface.html",
   "parts": [
     "00-shell-start.html",
-    "sections/01-interface-stack.html",
-    "sections/02-common-interfaces.html",
-    "sections/03-debug-checklist.html",
+    "sections/lesson-09-01.html",
+    "sections/lesson-09-02.html",
+    "sections/lesson-09-03.html",
+    "sections/lesson-09-04.html",
+    "sections/lesson-09-05.html",
+    "sections/lesson-09-06.html",
+    "sections/lesson-09-07.html",
+    "sections/lesson-09-08.html",
+    "sections/lesson-09-09.html",
+    "sections/lesson-09-10.html",
+    "sections/lesson-09-11.html",
+    "sections/lesson-09-12.html",
+    "sections/lesson-09-13.html",
+    "sections/lesson-09-14.html",
+    "sections/lesson-09-15.html",
     "99-shell-end.html"
-  ]
+  ],
+  "title": "Off-Chip Interface",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/technical-pages/technical-pages.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/technical-pages/technical-pages.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": []
 }

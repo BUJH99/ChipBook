@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UVM Env : Integrate Verification Components</title>
-    
+
     <!-- Fonts -->
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -39,7 +39,7 @@
             background-color: #f8fafc; /* slate-50 */
             color: #475569; /* slate-600 */
         }
-        
+
         .diagram-grid {
             background-color: #ffffff;
             background-image: 
@@ -66,7 +66,7 @@
             stroke-dasharray: 6;
             animation: flow-anim-rev 1.5s linear infinite;
         }
-        
+
         @keyframes flow-anim {
             from { stroke-dashoffset: 12; }
             to { stroke-dashoffset: 0; }
@@ -90,6 +90,9 @@
         .svg-text-body { font-family: 'Pretendard', sans-serif; font-weight: 500; fill: #475569; }
         .svg-text-mono { font-family: '"IBM Plex Sans"', monospace; font-weight: 600; fill: #1e293b; }
     </style>
+    <link rel="stylesheet" href="../../../../assets/fonts.css">
+    <link rel="stylesheet" href="../../../../assets/components/embedded-content.css">
+    <script defer src="../../../../assets/components/embedded-document.js"></script>
 </head>
 <body class="bg-white antialiased selection:bg-brand-100 selection:text-brand-700">
 
@@ -107,7 +110,7 @@
                     <p class="text-sm text-slate-500 mt-1">Env의 역할과 내부 구성요소 간의 유기적인 데이터 흐름 (TLM Connections)</p>
                 </div>
             </div>
-            
+
             <div class="p-6 diagram-grid relative flex-1 flex justify-center overflow-x-auto border-b border-slate-100">
                 <!-- SVG Core Diagram -->
                 <svg viewBox="0 0 1000 550" class="w-full max-w-5xl min-w-[800px] h-auto drop-shadow-sm">
@@ -119,7 +122,7 @@
                         <marker id="arrow-slate" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                             <path d="M 0 0 L 10 5 L 0 10 z" class="fill-slate-400" />
                         </marker>
-                        
+
                         <!-- Drop Shadow Filter -->
                         <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
                             <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.05" />
@@ -146,7 +149,7 @@
                         <rect width="220" height="260" rx="12" class="fill-white stroke-slate-300 stroke-2 pulse-active" filter="url(#shadow)"/>
                         <rect x="0" y="0" width="220" height="30" rx="12" class="fill-slate-100" />
                         <text x="110" y="20" text-anchor="middle" class="svg-text-title text-sm">UVM Agent (Active)</text>
-                        
+
                         <!-- Sequencer -->
                         <g transform="translate(20, 50)">
                             <rect width="180" height="40" rx="6" class="fill-brand-50 stroke-brand-200 stroke-2" />
@@ -163,7 +166,7 @@
                             <text x="90" y="25" text-anchor="middle" class="svg-text-mono text-xs">Monitor</text>
                             <circle cx="180" cy="20" r="4" class="fill-brand-500" /> <!-- AP Port -->
                         </g>
-                        
+
                         <!-- Internal Agent Connections -->
                         <path d="M 110 90 L 110 120" class="stroke-slate-400 stroke-2" fill="none" marker-end="url(#arrow-slate)" />
                         <text x="115" y="110" class="svg-text-body text-[10px]">TLM FIFO (Pull)</text>
@@ -189,10 +192,10 @@
                         <rect width="200" height="220" rx="12" class="fill-white stroke-slate-200 stroke-2" filter="url(#shadow)"/>
                         <path d="M 0 12 Q 0 0 12 0 L 188 0 Q 200 0 200 12 L 200 30 L 0 30 Z" class="fill-slate-800" />
                         <text x="100" y="20" text-anchor="middle" class="svg-text-title text-sm fill-white">UVM Scoreboard</text>
-                        
+
                         <rect x="20" y="60" width="160" height="40" rx="6" class="fill-indigo-50 stroke-indigo-200 stroke-2" />
                         <text x="100" y="85" text-anchor="middle" class="svg-text-mono text-xs">Expected Queue</text>
-                        
+
                         <rect x="20" y="120" width="160" height="40" rx="6" class="fill-indigo-50 stroke-indigo-200 stroke-2" />
                         <text x="100" y="145" text-anchor="middle" class="svg-text-mono text-xs">Actual Queue</text>
 
@@ -217,11 +220,11 @@
                     <!-- 1. Main Backbone (Monitor -> Ref Model) -->
                     <path d="M 260 450 L 350 450 L 350 185 L 420 185" class="stroke-brand-500 stroke-2 flow-line-fast" stroke-linejoin="round" fill="none" marker-end="url(#arrow-blue)" />
                     <text x="360" y="320" class="svg-text-mono text-[10px] fill-brand-600 font-bold bg-white">TLM Analysis Port (Write)</text>
-                    
+
                     <!-- 2. Branch to Scoreboard (Actual) -->
                     <circle cx="350" cy="280" r="3" class="fill-brand-500" /> <!-- Junction Dot -->
                     <path d="M 350 280 L 740 280" class="stroke-brand-500 stroke-2 flow-line-fast" fill="none" marker-end="url(#arrow-blue)" />
-                    
+
                     <!-- 3. Branch to Coverage Collector -->
                     <circle cx="350" cy="430" r="3" class="fill-brand-500" /> <!-- Junction Dot -->
                     <path d="M 350 430 L 740 430" class="stroke-brand-500 stroke-2 flow-line-fast" fill="none" marker-end="url(#arrow-blue)" />
@@ -260,7 +263,7 @@
 
         <!-- 2. Inheritance Structure & Config DB -->
         <div class="xl:col-span-1 flex flex-col gap-8">
-            
+
             <!-- [2] Inheritance Structure -->
             <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex-1">
                 <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2 mb-6">
@@ -274,7 +277,7 @@
                             <text x="50" y="16" text-anchor="middle" class="svg-text-mono text-[10px]">uvm_void</text>
                         </g>
                         <path d="M 100 34 L 100 50" class="stroke-slate-300 stroke-2" marker-end="url(#arrow-slate)" />
-                        
+
                         <g class="svg-node" transform="translate(50, 50)">
                             <rect width="100" height="24" rx="4" class="fill-slate-100 stroke-slate-300" />
                             <text x="50" y="16" text-anchor="middle" class="svg-text-mono text-[10px]">uvm_object</text>
@@ -336,7 +339,7 @@
                         <g transform="translate(10, 20)">
                             <rect width="130" height="65" rx="6" class="fill-white stroke-slate-300 stroke-2" filter="url(#shadow-indigo)" />
                             <text x="65" y="20" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-800">my_test</text>
-                            
+
                             <!-- Config Object inside Test -->
                             <rect x="15" y="32" width="100" height="22" rx="4" class="fill-indigo-50 stroke-indigo-200 stroke-[1.5px]" />
                             <text x="65" y="47" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-indigo-800">env_cfg_obj</text>
@@ -350,7 +353,7 @@
                             <ellipse cx="55" cy="15" rx="55" ry="10" class="fill-indigo-100 stroke-indigo-300 stroke-2" />
                             <text x="55" y="42" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-indigo-900">uvm_config_db</text>
                             <text x="55" y="58" text-anchor="middle" class="svg-text-mono text-[9px] fill-indigo-600">#(env_config)</text>
-                            
+
                             <!-- Slot indication -->
                             <path d="M 25 70 L 85 70" class="stroke-indigo-200 stroke-[2px]" />
                         </g>
@@ -377,9 +380,9 @@
                             <!-- Decision 1: has_agent -->
                             <rect x="25" y="100" width="120" height="22" rx="4" class="fill-slate-50 stroke-slate-300" />
                             <text x="85" y="114" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-slate-700">if (cfg.has_agent)</text>
-                            
+
                             <path d="M 85 122 L 85 135" class="stroke-brand-400 stroke-[1.5px]" fill="none" marker-end="url(#arrow-slate-small)" />
-                            
+
                             <!-- Build Agent -->
                             <rect x="35" y="140" width="100" height="35" rx="4" class="fill-white stroke-brand-400 stroke-[1.5px]" stroke-dasharray="2 2" />
                             <text x="85" y="156" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-brand-700">Agent</text>
@@ -388,9 +391,9 @@
                             <!-- Decision 2: has_scoreboard -->
                             <rect x="185" y="100" width="120" height="22" rx="4" class="fill-slate-50 stroke-slate-300" />
                             <text x="245" y="114" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-slate-700">if (cfg.has_sb)</text>
-                            
+
                             <path d="M 245 122 L 245 135" class="stroke-teal-400 stroke-[1.5px]" fill="none" marker-end="url(#arrow-slate-small)" />
-                            
+
                             <!-- Build Scoreboard -->
                             <rect x="195" y="140" width="100" height="35" rx="4" class="fill-white stroke-teal-400 stroke-[1.5px]" stroke-dasharray="2 2" />
                             <text x="245" y="156" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-teal-700">Scoreboard</text>
@@ -418,10 +421,10 @@
                 <span class="w-2 h-6 bg-teal-500 rounded-sm inline-block"></span>
                 [4, 5, 10] Phase별 Env 역할 메커니즘
             </h2>
-            
+
             <!-- 1열 4행 구조 컨테이너 -->
             <div class="flex flex-col gap-6 h-full">
-                
+
                 <!-- 1행: Build Phase -->
                 <div class="flex flex-col lg:flex-row bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
                     <div class="flex-1 p-6 lg:p-8 flex flex-col justify-center bg-slate-50/50">
@@ -453,7 +456,7 @@
                                     <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08" />
                                 </filter>
                             </defs>
-                            
+
                             <!-- Top-Down Execution Arrow Base -->
                             <path d="M 30 20 L 30 280" class="stroke-teal-500 stroke-[4px] stroke-dasharray-[6,4]" fill="none" marker-end="url(#arrow-teal)" />
                             <text x="45" y="150" class="svg-text-title text-[12px] fill-teal-700 transform -rotate-90 origin-[45px_150px]">Top-Down Phase Execution</text>
@@ -483,7 +486,7 @@
                             <g class="svg-node" transform="translate(70, 180)">
                                 <rect width="280" height="100" rx="10" class="fill-slate-50 stroke-slate-300 stroke-2" stroke-dasharray="6 3" />
                                 <text x="140" y="22" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-500 uppercase tracking-widest">UVM Factory Allocation</text>
-                                
+
                                 <!-- Agent Allocation -->
                                 <rect x="25" y="40" width="100" height="45" rx="6" class="fill-white stroke-brand-400 stroke-2" filter="url(#soft-shadow)" />
                                 <text x="75" y="60" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-800">Agent</text>
@@ -498,11 +501,11 @@
                             <!-- Creation Action Arrows (my_env -> Factory) -->
                             <path d="M 120 135 L 120 180" class="stroke-brand-500 stroke-[2px]" fill="none" marker-end="url(#arrow-blue)" />
                             <path d="M 160 135 L 160 160 L 275 160 L 275 180" class="stroke-brand-500 stroke-[2px]" stroke-linejoin="round" fill="none" marker-end="url(#arrow-blue)" />
-                            
+
                             <!-- create() Text Tags -->
                             <rect x="90" y="145" width="60" height="16" rx="4" class="fill-brand-50 stroke-brand-200" />
                             <text x="120" y="156" text-anchor="middle" class="svg-text-mono text-[9px] fill-brand-700 font-bold">type_id::create</text>
-                            
+
                             <rect x="220" y="145" width="60" height="16" rx="4" class="fill-brand-50 stroke-brand-200" />
                             <text x="250" y="156" text-anchor="middle" class="svg-text-mono text-[9px] fill-brand-700 font-bold">type_id::create</text>
                         </svg>
@@ -537,7 +540,7 @@
                                     <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08" />
                                 </filter>
                             </defs>
-                            
+
                             <!-- Bottom-Up Execution Arrow Base -->
                             <path d="M 30 280 L 30 20" class="stroke-orange-500 stroke-[4px] stroke-dasharray-[6,4]" fill="none" marker-end="url(#arrow-orange)" />
                             <text x="45" y="150" class="svg-text-title text-[12px] fill-orange-700 transform -rotate-90 origin-[45px_150px]">Bottom-Up Phase Execution</text>
@@ -557,11 +560,11 @@
                             <g class="svg-node" transform="translate(85, 140)">
                                 <rect width="90" height="110" rx="8" class="fill-slate-50 stroke-slate-300 stroke-2" />
                                 <text x="45" y="22" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-700">Agent</text>
-                                
+
                                 <!-- Monitor inside Agent -->
                                 <rect x="10" y="40" width="70" height="60" rx="4" class="fill-white stroke-slate-200 stroke-2" />
                                 <text x="45" y="55" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">Monitor</text>
-                                
+
                                 <!-- Analysis Port (Plug) -->
                                 <rect x="50" y="70" width="45" height="20" rx="4" class="fill-brand-50 stroke-brand-300 stroke-2" />
                                 <text x="65" y="83" text-anchor="middle" class="svg-text-mono text-[9px] fill-brand-700 font-bold">ap</text>
@@ -573,7 +576,7 @@
                             <g class="svg-node" transform="translate(255, 140)">
                                 <rect width="90" height="110" rx="8" class="fill-slate-50 stroke-slate-300 stroke-2" />
                                 <text x="45" y="22" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-slate-700">Scoreboard</text>
-                                
+
                                 <!-- Internal Compare Logic -->
                                 <rect x="10" y="40" width="70" height="60" rx="4" class="fill-white stroke-slate-200 stroke-2" />
                                 <text x="45" y="55" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">Comparator</text>
@@ -588,10 +591,10 @@
                             <!-- Connection Line (TLM Binding) -->
                             <!-- Command arrow pointing down to the connection -->
                             <path d="M 215 100 L 215 130" class="stroke-orange-400 stroke-[2px]" stroke-dasharray="4 2" fill="none" marker-end="url(#arrow-orange)" />
-                            
+
                             <!-- The Physical/Logical Link -->
                             <path d="M 197 216 L 243 216" class="stroke-orange-500 stroke-[4px]" fill="none" />
-                            
+
                             <!-- Pointer/Handle Passing Visual -->
                             <circle cx="215" cy="216" r="14" class="fill-white stroke-orange-300 stroke-[2px]" />
                             <path d="M 210 216 L 222 216" class="stroke-orange-500 stroke-[2px]" fill="none" marker-end="url(#arrow-orange)" />
@@ -626,7 +629,7 @@
                                     <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08" />
                                 </filter>
                             </defs>
-                            
+
                             <!-- Bottom-Up Execution Arrow Base -->
                             <path d="M 30 280 L 30 20" class="stroke-blue-500 stroke-[4px] stroke-dasharray-[6,4]" fill="none" marker-end="url(#arrow-blue-static)" />
                             <text x="45" y="150" class="svg-text-title text-[12px] fill-blue-700 transform -rotate-90 origin-[45px_150px]">Bottom-Up Phase Execution</text>
@@ -634,21 +637,21 @@
                             <!-- Hierarchy Locked Section -->
                             <g transform="translate(70, 20)">
                                 <rect width="290" height="110" rx="8" class="fill-slate-50 stroke-slate-300 stroke-2 stroke-dasharray-[6,4]" filter="url(#soft-shadow-blue)" />
-                                
+
                                 <!-- Padlock Icon -->
                                 <rect x="15" y="15" width="20" height="16" rx="3" class="fill-yellow-100 stroke-yellow-500 stroke-2" />
                                 <path d="M 19 15 L 19 10 C 19 6, 31 6, 31 10 L 31 15" class="fill-none stroke-yellow-500 stroke-2" />
                                 <text x="45" y="27" class="svg-text-mono text-[11px] font-bold fill-slate-600">UVM Hierarchy Locked</text>
-                                
+
                                 <!-- Mini Tree Visual -->
                                 <rect x="110" y="45" width="70" height="18" rx="4" class="fill-blue-100 stroke-blue-400 stroke-[1.5px]" />
                                 <text x="145" y="57" text-anchor="middle" class="svg-text-mono text-[9px] font-bold fill-blue-800">my_env</text>
-                                
+
                                 <path d="M 145 63 L 145 75 M 145 75 L 85 75 L 85 85 M 145 75 L 205 75 L 205 85" class="stroke-slate-400 stroke-[1.5px]" fill="none" />
-                                
+
                                 <rect x="50" y="85" width="70" height="18" rx="4" class="fill-white stroke-slate-300 stroke-[1.5px]" />
                                 <text x="85" y="97" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-700">agent</text>
-                                
+
                                 <rect x="170" y="85" width="70" height="18" rx="4" class="fill-white stroke-slate-300 stroke-[1.5px]" />
                                 <text x="205" y="97" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-700">scoreboard</text>
                             </g>
@@ -663,13 +666,13 @@
                                 <rect width="290" height="120" rx="6" class="fill-slate-900 stroke-slate-700" />
                                 <rect x="0" y="0" width="290" height="20" rx="6" class="fill-slate-800" />
                                 <rect x="0" y="10" width="290" height="10" class="fill-slate-800" /> <!-- Square bottom of header -->
-                                
+
                                 <!-- Window Buttons -->
                                 <circle cx="15" cy="10" r="4" class="fill-rose-500" />
                                 <circle cx="30" cy="10" r="4" class="fill-yellow-500" />
                                 <circle cx="45" cy="10" r="4" class="fill-emerald-500" />
                                 <text x="145" y="13" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-400">Simulation Console</text>
-                                
+
                                 <!-- Terminal Output Content -->
                                 <text x="15" y="35" class="svg-text-mono text-[9px] fill-emerald-400">UVM_INFO @ 0: reporter [UVMTOP] UVM test topology:</text>
                                 <text x="15" y="47" class="svg-text-mono text-[9px] fill-slate-500">---------------------------------------------------------</text>
@@ -710,7 +713,7 @@
                                     <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08" />
                                 </filter>
                             </defs>
-                            
+
                             <!-- Run Phase Main Box Scope -->
                             <rect x="70" y="20" width="290" height="230" rx="10" class="fill-white stroke-purple-200 stroke-2" stroke-dasharray="8 4" filter="url(#soft-shadow-purple)" />
                             <rect x="70" y="20" width="290" height="35" rx="10" class="fill-purple-50 border-b border-purple-200" />
@@ -724,7 +727,7 @@
                             <!-- Objection Mechanism -->
                             <rect x="90" y="65" width="85" height="18" rx="4" class="fill-rose-50 stroke-rose-300 stroke-[1.5px]" />
                             <text x="132" y="77" text-anchor="middle" class="svg-text-mono text-[9px] fill-rose-700 font-bold">raise_objection</text>
-                            
+
                             <rect x="250" y="65" width="85" height="18" rx="4" class="fill-rose-50 stroke-rose-300 stroke-[1.5px]" />
                             <text x="292" y="77" text-anchor="middle" class="svg-text-mono text-[9px] fill-rose-700 font-bold">drop_objection</text>
 
@@ -768,7 +771,7 @@
                                 <!-- Observing Waveform & Sampling dots -->
                                 <path d="M 85 15 L 90 15 L 90 7 L 100 7 L 100 15 L 105 15" class="stroke-teal-400 stroke-[1.5px]" fill="none" />
                                 <circle cx="95" cy="11" r="2.5" class="fill-teal-600" />
-                                
+
                                 <path d="M 125 15 L 130 15 L 130 7 L 140 7 L 140 15 L 145 15" class="stroke-teal-400 stroke-[1.5px]" fill="none" />
                                 <circle cx="135" cy="11" r="2.5" class="fill-teal-600" />
 
@@ -835,10 +838,10 @@
                         <rect x="0" y="0" width="300" height="30" rx="8" class="fill-purple-50" />
                         <text x="150" y="20" text-anchor="middle" class="svg-text-title text-[14px] fill-purple-900">System Virtual Sequencer</text>
                         <text x="150" y="45" text-anchor="middle" class="svg-text-mono text-[11px] fill-purple-600 font-bold">sys_vseqr</text>
-                        
+
                         <rect x="30" y="55" width="80" height="16" rx="4" class="fill-slate-100" />
                         <text x="70" y="66" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">uvm_sequencer</text>
-                        
+
                         <rect x="190" y="55" width="80" height="16" rx="4" class="fill-slate-100" />
                         <text x="230" y="66" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-500">uvm_sequencer</text>
 
@@ -852,11 +855,11 @@
                         <rect width="200" height="90" rx="8" class="fill-slate-800 stroke-slate-700 stroke-2" />
                         <text x="100" y="30" text-anchor="middle" class="svg-text-title text-[14px] fill-white">System Scoreboard</text>
                         <text x="100" y="50" text-anchor="middle" class="svg-text-mono text-[10px] fill-slate-300">sys_sb (End-to-End Check)</text>
-                        
+
                         <!-- Analysis Export Ports -->
                         <rect x="-10" y="40" width="20" height="30" rx="4" class="fill-teal-100 stroke-teal-500 stroke-2" />
                         <text x="0" y="55" text-anchor="middle" class="svg-text-mono text-[8px] fill-teal-800 font-bold transform -rotate-90 origin-[0px_55px]">exp_a</text>
-                        
+
                         <rect x="190" y="40" width="20" height="30" rx="4" class="fill-teal-100 stroke-teal-500 stroke-2" />
                         <text x="200" y="55" text-anchor="middle" class="svg-text-mono text-[8px] fill-teal-800 font-bold transform -rotate-90 origin-[200px_55px]">exp_b</text>
                     </g>
@@ -871,7 +874,7 @@
                         <!-- Agent A -->
                         <rect x="20" y="45" width="120" height="140" rx="6" class="fill-white stroke-slate-300 stroke-2" />
                         <text x="80" y="60" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-slate-700">MAC Agent</text>
-                        
+
                         <rect x="30" y="70" width="100" height="25" rx="4" class="fill-brand-50 stroke-brand-200 stroke-[1.5px]" />
                         <text x="80" y="86" text-anchor="middle" class="svg-text-mono text-[10px] fill-brand-800">sqr</text>
                         <circle cx="80" cy="70" r="4" class="fill-purple-400" /> <!-- Handle Target -->
@@ -898,7 +901,7 @@
                         <!-- Agent B -->
                         <rect x="20" y="45" width="120" height="140" rx="6" class="fill-white stroke-slate-300 stroke-2" />
                         <text x="80" y="60" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-slate-700">PHY Agent</text>
-                        
+
                         <rect x="30" y="70" width="100" height="25" rx="4" class="fill-brand-50 stroke-brand-200 stroke-[1.5px]" />
                         <text x="80" y="86" text-anchor="middle" class="svg-text-mono text-[10px] fill-brand-800">sqr</text>
                         <circle cx="80" cy="70" r="4" class="fill-purple-400" /> <!-- Handle Target -->
@@ -917,7 +920,7 @@
                     </g>
 
                     <!-- ORTHOGONAL ROUTING CONNECTIONS -->
-                    
+
                     <!-- 1. Handle Assignment (Purple) - Top-Down -->
                     <!-- Path to MAC sqr -->
                     <path d="M 420 140 L 420 170 L 140 170 L 140 265" class="stroke-purple-500 stroke-[3px]" stroke-dasharray="6 3" stroke-linejoin="round" fill="none" marker-end="url(#arrow-purple)" />
@@ -999,7 +1002,7 @@
                         <rect width="600" height="150" rx="10" class="fill-rose-50 stroke-rose-300 stroke-[2px]" />
                         <rect x="0" y="0" width="600" height="35" rx="10" class="fill-rose-100 border-b border-rose-200" />
                         <text x="300" y="23" text-anchor="middle" class="svg-text-title text-[15px] fill-rose-900">uvm_reg_block (RAL Model)</text>
-                        
+
                         <!-- Map -->
                         <rect x="20" y="50" width="160" height="80" rx="6" class="fill-white stroke-rose-300 stroke-[1.5px]" stroke-dasharray="4 2" />
                         <text x="100" y="70" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-rose-800">default_map</text>
@@ -1011,7 +1014,7 @@
                         <g transform="translate(200, 50)">
                             <rect width="380" height="80" rx="6" class="fill-white stroke-rose-200" />
                             <text x="190" y="20" text-anchor="middle" class="svg-text-mono text-[11px] font-bold fill-slate-600">Register Bank</text>
-                            
+
                             <!-- Headers -->
                             <text x="70" y="38" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-400">Reg Name</text>
                             <text x="190" y="38" text-anchor="middle" class="svg-text-mono text-[9px] fill-slate-400">Desired Value</text>
@@ -1020,13 +1023,13 @@
                             <!-- Reg: CTRL -->
                             <rect x="20" y="45" width="100" height="20" rx="4" class="fill-slate-50 stroke-slate-200" />
                             <text x="70" y="59" text-anchor="middle" class="svg-text-mono text-[10px] font-bold fill-slate-700">CTRL ('h00)</text>
-                            
+
                             <rect x="140" y="45" width="100" height="20" rx="4" class="fill-rose-50 stroke-rose-200" />
                             <text x="190" y="59" text-anchor="middle" class="svg-text-mono text-[10px] fill-rose-700">0x00000001</text>
 
                             <rect x="260" y="45" width="100" height="20" rx="4" class="fill-teal-50 stroke-teal-200" />
                             <text x="310" y="59" text-anchor="middle" class="svg-text-mono text-[10px] fill-teal-700 font-bold">0x00000001</text>
-                            
+
                             <circle cx="360" cy="55" r="4" class="fill-teal-500" /> <!-- Input port for Predictor -->
                         </g>
                     </g>
@@ -1052,7 +1055,7 @@
                     <g class="svg-node" transform="translate(250, 380)">
                         <rect width="500" height="100" rx="10" class="fill-slate-50 stroke-slate-300 stroke-[2px]" filter="url(#soft-shadow-rose)" />
                         <text x="250" y="25" text-anchor="middle" class="svg-text-title text-[14px] fill-slate-800">Bus Agent (e.g., APB/AXI)</text>
-                        
+
                         <!-- Sequencer -->
                         <rect x="20" y="40" width="140" height="40" rx="6" class="fill-white stroke-brand-300 stroke-[1.5px]" />
                         <text x="90" y="64" text-anchor="middle" class="svg-text-mono text-[12px] font-bold fill-brand-700">Sequencer</text>
@@ -1070,7 +1073,7 @@
 
 
                     <!-- ORTHOGONAL ROUTING CONNECTIONS -->
-                    
+
                     <!-- 1. Logical Binding (Dashed Line) -->
                     <path d="M 220 130 L 220 180 L 120 180 L 120 400 L 270 400" class="stroke-slate-400 stroke-[2px]" stroke-dasharray="4 4" stroke-linejoin="round" fill="none" />
                     <rect x="40" y="172" width="150" height="16" rx="2" class="fill-white" />
@@ -1151,7 +1154,7 @@
   <span class="text-slate-500 italic">// ---------------------------------------------------------</span>
   <span class="text-pink-400 font-bold">virtual function void</span> <span class="text-amber-200">build_phase</span>(<span class="text-teal-300">uvm_phase</span> phase);
     <span class="text-pink-400 font-bold">super</span>.<span class="text-amber-200">build_phase</span>(phase);
-    
+
     <span class="text-slate-500 italic">// [8] Config DB에서 설정 객체(cfg) 가져오기 (get)</span>
     <span class="text-pink-400 font-bold">if</span> (!<span class="text-indigo-400">uvm_config_db</span>#(<span class="text-teal-300">my_env_config</span>)::<span class="text-amber-200">get</span>(<span class="text-pink-400 font-bold">this</span>, <span class="text-green-300">""</span>, <span class="text-green-300">"env_cfg"</span>, cfg)) <span class="text-pink-400 font-bold">begin</span>
       <span class="text-indigo-400">`uvm_fatal</span>(<span class="text-green-300">"ENV/NOCFG"</span>, <span class="text-green-300">"No configuration specified for my_env"</span>)
@@ -1161,7 +1164,7 @@
     <span class="text-pink-400 font-bold">if</span> (cfg.has_agent) <span class="text-pink-400 font-bold">begin</span>
       agent = <span class="text-teal-300">my_agent</span>::type_id::<span class="text-amber-200">create</span>(<span class="text-green-300">"agent"</span>, <span class="text-pink-400 font-bold">this</span>);
     <span class="text-pink-400 font-bold">end</span>
-    
+
     <span class="text-pink-400 font-bold">if</span> (cfg.has_sb) <span class="text-pink-400 font-bold">begin</span>
       sb = <span class="text-teal-300">my_scoreboard</span>::type_id::<span class="text-amber-200">create</span>(<span class="text-green-300">"sb"</span>, <span class="text-pink-400 font-bold">this</span>);
     <span class="text-pink-400 font-bold">end</span>
@@ -1172,7 +1175,7 @@
   <span class="text-slate-500 italic">// ---------------------------------------------------------</span>
   <span class="text-pink-400 font-bold">virtual function void</span> <span class="text-amber-200">connect_phase</span>(<span class="text-teal-300">uvm_phase</span> phase);
     <span class="text-pink-400 font-bold">super</span>.<span class="text-amber-200">connect_phase</span>(phase);
-    
+
     <span class="text-slate-500 italic">// Agent의 Analysis Port(ap)를 Scoreboard의 Analysis Export(exp)와 물리적 연결</span>
     <span class="text-pink-400 font-bold">if</span> (cfg.has_agent && cfg.has_sb) <span class="text-pink-400 font-bold">begin</span>
       agent.ap.<span class="text-amber-200">connect</span>(sb.exp);

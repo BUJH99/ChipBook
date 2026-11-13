@@ -1,0 +1,165 @@
+@keyframes axisLabSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes axisLabPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+@keyframes axisLabBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes axisBeamTravel {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(calc(100% + 120px)); }
+}
+
+@keyframes axisBeamPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(var(--beam-rgb, 203, 213, 225), 0.22)); }
+  50% { filter: drop-shadow(0 0 14px rgba(var(--beam-rgb, 203, 213, 225), 0.42)); }
+}
+
+@keyframes axisHubOrbit {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.02); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes axisHubScan {
+  0%, 100% { transform: translateY(80%) scaleY(0.88); opacity: 0.38; }
+  50% { transform: translateY(-80%) scaleY(1.02); opacity: 0.92; }
+}
+
+@keyframes axisHubSpark {
+  0%, 100% { transform: scale(0.9); opacity: 0.86; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+@keyframes axisHubRipple {
+  0% { transform: scale(0.74); opacity: 0; }
+  22% { opacity: 0.9; }
+  100% { transform: scale(1.52); opacity: 0; }
+}
+
+@keyframes axisMasterBreath {
+  0%, 100% { box-shadow: 0 20px 36px rgba(37, 99, 235, 0.12), 0 0 0 1px rgba(37, 99, 235, 0.06); }
+  50% { box-shadow: 0 24px 40px rgba(37, 99, 235, 0.16), 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 24px rgba(37, 99, 235, 0.08); }
+}
+
+@keyframes axisMasterOrbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes axisMasterScan {
+  0%, 100% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 0.3; }
+  50% { transform: translateY(158px); opacity: 0.92; }
+  80% { opacity: 0.28; }
+}
+
+@keyframes axisMasterChargeIdle {
+  0%, 100% { width: 24%; opacity: 0.72; }
+  50% { width: 34%; opacity: 0.92; }
+}
+
+@keyframes axisMasterChargeArmed {
+  0%, 100% { width: 66%; opacity: 0.88; }
+  50% { width: 78%; opacity: 1; }
+}
+
+@keyframes axisMasterChargeBurst {
+  0% { opacity: 0.72; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+@keyframes axisMasterChargeStall {
+  0%, 100% { opacity: 0.78; }
+  50% { opacity: 1; }
+}
+
+@keyframes axisMasterEnergySweep {
+  0% { transform: translateX(-140%); }
+  100% { transform: translateX(140%); }
+}
+
+@keyframes axisMasterKick {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 1280px) {
+  .axis-channel-lab__layout {
+    grid-template-columns: minmax(0, 1fr) 324px;
+    min-width: 980px;
+  }
+
+  .axis-channel-lab__controls {
+    min-height: 760px;
+  }}
+
+@media (max-width: 900px) {
+  .axis-channel-lab {
+    padding: 0.9rem;
+  }
+
+  .axis-channel-lab__layout {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    min-width: 860px;
+    gap: 0.85rem;
+  }
+
+  .axis-channel-lab__clock {
+    top: 1rem;
+    left: 1rem;
+    min-width: 124px;
+    padding: 0.7rem 0.85rem;
+  }
+
+  .axis-channel-lab__canvas {
+    min-height: 680px;
+    padding: 0.95rem;
+  }}
+
+@media (max-width: 640px) {
+
+  .axis-channel-lab__canvas {
+    min-height: 640px;
+  }
+
+  .axis-master-node {
+    left: 18px;
+    width: 132px;
+    height: 202px;
+  }
+
+  .axis-switch-node {
+    width: 148px;
+    height: 148px;
+  }
+
+  .axis-slave-node {
+    width: 92px;
+    height: 78px;
+  }
+
+  .axis-status-strip {
+    left: 0.9rem;
+    bottom: 0.9rem;
+    max-width: calc(100% - 1.8rem);
+  }
+
+  .axis-sig-grid.two-col {
+    grid-template-columns: 1fr;
+  }}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

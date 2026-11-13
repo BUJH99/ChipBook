@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDC와 RDC | 반도체 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/fonts.css?v=c76e3cfe4c44">
+    <link rel="stylesheet" href="../assets/guidebook-common.css?v=d690df41ee31">
+    <link rel="stylesheet" href="../assets/features/curriculum/curriculum.css?v=09e7ec987305">
+    <link rel="stylesheet" href="../assets/features/visual-atlas/visual-atlas.css?v=fdf94ae6f6da">
+
+</head>
+<body class="page-standalone curriculum-page visual-curriculum" data-page-id="page-18" data-chapter-number="18" data-default-section="section-01" data-section-aliases="{}" data-curriculum-engine="true" data-curriculum-mode="action">
+<main class="page-shell"><section class="page-section active" id="page-18"><div class="mb-4"><span class="badge">Part 18</span></div>
+<h2 class="section-title">CDC와 RDC</h2>
+<article class="chapter-lesson" data-lesson-panel="section-01" data-lesson-id="18.01" data-guidebook-toc-title="Metastability와 도메인">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">18-1. Metastability와 도메인</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;18.01&quot;,&quot;kind&quot;:&quot;cdc&quot;,&quot;variant&quot;:&quot;meta&quot;,&quot;title&quot;:&quot;서로 다른 Clock 사이의 Sampling&quot;,&quot;steps&quot;:[[&quot;Source&quot;,&quot;Source domain에서 값 또는 이벤트가 바뀝니다.&quot;],[&quot;경계&quot;,&quot;두 Clock의 상대 위상은 고정되어 있지 않습니다.&quot;],[&quot;Sync 1&quot;,&quot;첫 샘플링 FF에는 metastability 위험이 있습니다.&quot;],[&quot;Sync 2&quot;,&quot;추가 정착 시간을 확보한 뒤 목적지에서 사용합니다.&quot;]],&quot;subtitle&quot;:&quot;비동기 입력이 저장 소자의 sampling 창 근처에서 변하면 metastability가 발생할 수 있다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;cdc&quot;}" aria-label="서로 다른 Clock 사이의 Sampling"></section>
+<p>동기화기는 해소 시간을 제공해 다음 단계로 전파될 확률을 낮춘다. MTBF 분석은 소자 특성·clock·data 활동·해소 시간의 가정에 의존한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;cdc&quot;, &quot;title&quot;: &quot;서로 다른 clock의 포착&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="Metastability와 도메인 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>두 flip-flop을 직렬로 놓고 첫 stage 출력이 안정될 시간을 확보한다. 첫 stage 출력에 fanout을 넓히거나 중간 조합논리를 넣으면 의도한 경계가 달라진다.</p></div>
+<div class="lesson-columns"><section><p>디지털 waveform에 X가 없다는 이유로 metastability 위험이 없다고 판단하지 않는다.</p></section><section><p>디지털 그림을 아날로그 metastability 시뮬레이션으로 오해하지 않는다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera CDC</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="18.01" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-02">다음 절 · 단일 비트 동기화</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="18.02" data-guidebook-toc-title="단일 비트 동기화">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">18-2. 단일 비트 동기화</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;18.02&quot;,&quot;kind&quot;:&quot;cdc&quot;,&quot;variant&quot;:&quot;sync&quot;,&quot;title&quot;:&quot;첫 FF의 불확실성이 다음 FF에 도달하기까지&quot;,&quot;steps&quot;:[[&quot;Source&quot;,&quot;Source domain에서 값 또는 이벤트가 바뀝니다.&quot;],[&quot;경계&quot;,&quot;두 Clock의 상대 위상은 고정되어 있지 않습니다.&quot;],[&quot;Sync 1&quot;,&quot;첫 샘플링 FF에는 metastability 위험이 있습니다.&quot;],[&quot;Sync 2&quot;,&quot;추가 정착 시간을 확보한 뒤 목적지에서 사용합니다.&quot;]],&quot;subtitle&quot;:&quot;2FF는 충분히 오래 유지되는 단일 bit level을 전달하는 기본 구조다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;cdc&quot;}" aria-label="첫 FF의 불확실성이 다음 FF에 도달하기까지"></section>
+<p>짧은 pulse는 목적 clock에서 보이지 않을 수 있어 pulse stretching, toggle 또는 handshake가 필요하다. 원천·목적 clock 속도뿐 아니라 event 사이 간격도 고려한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;cdc&quot;, &quot;title&quot;: &quot;서로 다른 clock의 포착&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="단일 비트 동기화 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>10 ns 폭 pulse를 20 ns 주기의 목적 clock로 관측하면 위상에 따라 놓칠 수 있다. Event를 toggle로 바꾸면 변화가 sampling될 때까지 상태를 유지할 수 있지만 event rate 제한이 남는다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>(* ASYNC_REG = &quot;TRUE&quot; *) logic Event_d1, Event_sync;
+always_ff @(posedge iClkDst or negedge iRstn) begin
+    if (!iRstn) begin
+        Event_d1   &lt;= 1&#x27;b0;
+        Event_sync &lt;= 1&#x27;b0;
+    end else begin
+        Event_d1   &lt;= iEvent_cdc;
+        Event_sync &lt;= Event_d1;
+    end
+end
+// Single-bit level only. Pulse width and reset release need separate contracts.</code></pre>
+<div class="lesson-columns"><section><p>모든 single-bit signal에 동일 2FF를 붙이면 사건의 수가 보존된다고 가정하지 않는다.</p></section><section><p>짧은 pulse가 유실되는 조건을 찾아 대안을 고른다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera CDC</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="18.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · Handshake와 Multi-bit CDC</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-03" data-lesson-id="18.03" data-guidebook-toc-title="Handshake와 Multi-bit CDC">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">18-3. Handshake와 Multi-bit CDC</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;18.03&quot;,&quot;kind&quot;:&quot;cdc&quot;,&quot;variant&quot;:&quot;handshake&quot;,&quot;title&quot;:&quot;요청과 응답으로 보장하는 데이터 전달&quot;,&quot;steps&quot;:[[&quot;Hold data&quot;,&quot;Source가 데이터를 고정한 뒤 request를 보냅니다.&quot;],[&quot;REQ 동기화&quot;,&quot;Destination이 동기화된 request를 인식하고 데이터를 받습니다.&quot;],[&quot;ACK 동기화&quot;,&quot;Acknowledge가 source clock으로 되돌아갑니다.&quot;],[&quot;다음 전송&quot;,&quot;Source는 응답을 받은 뒤 데이터를 변경합니다.&quot;]],&quot;subtitle&quot;:&quot;Multi-bit CDC는 bit 각각의 안정성뿐 아니라 하나의 값으로 함께 관측되는 조건이 필요하다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="요청과 응답으로 보장하는 데이터 전달"></section>
+<p>Handshake는 data를 안정적으로 유지한 구간을 제어 신호로 전달한다. Reconvergence는 독립적으로 동기화한 신호가 다시 결합하면서 원래 관계를 잃는 문제다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;cdc&quot;, &quot;title&quot;: &quot;서로 다른 clock의 포착&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="Handshake와 Multi-bit CDC 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Binary counter가 0111→1000으로 변할 때 bit별 동기화 결과가 순간 다른 값 조합이 될 수 있다. Gray code는 한 번에 한 bit만 바뀌는 속성을 특정 목적에 사용한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>// Source must hold payload while waiting for acknowledgement.
+property p_payload_stable;
+    @(posedge iClkSrc) disable iff (!iRstn)
+        (Req &amp;&amp; !Ack_sync) |=&gt; $stable(Data);
+endproperty
+assert_payload_stable: assert property (p_payload_stable);</code></pre>
+<div class="lesson-columns"><section><p>Gray code도 배선 지연과 전송 방식의 제약 없이 모든 bus CDC를 해결하지 않는다.</p></section><section><p>비트별 2FF만으로 bus 일관성이 보장되지 않음을 설명한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera CDC</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="18.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-04">다음 절 · Asynchronous FIFO</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="18.04" data-guidebook-toc-title="Asynchronous FIFO">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">18-4. Asynchronous FIFO</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;18.04&quot;,&quot;kind&quot;:&quot;memory&quot;,&quot;variant&quot;:&quot;fifo&quot;,&quot;title&quot;:&quot;양쪽 Clock이 공유하는 FIFO 저장 공간&quot;,&quot;steps&quot;:[[&quot;Write&quot;,&quot;Write clock에서 RAM과 write pointer를 갱신합니다.&quot;],[&quot;Pointer 전달&quot;,&quot;Gray pointer를 반대 clock으로 동기화합니다.&quot;],[&quot;Read&quot;,&quot;Read clock에서 empty가 아닐 때 데이터를 읽습니다.&quot;],[&quot;Full / empty&quot;,&quot;전달 지연을 포함해 안전한 full·empty를 판단합니다.&quot;]],&quot;subtitle&quot;:&quot;Async FIFO는 write와 read를 서로 다른 clock에서 수행하며 각 domain이 자기 pointer를 관리한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="양쪽 Clock이 공유하는 FIFO 저장 공간"></section>
+<p>상대 pointer를 Gray code 등으로 전달해 full/empty를 판단한다. Pointer wrap과 reset 관계, memory port의 동작을 함께 정의해야 한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;fifo&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;FIFO 상태 추적&quot;, &quot;fault&quot;: &quot;브라우저의 논리 queue 동작을 아날로그 metastability까지 검증한 것으로 해석하지 않는다.&quot;}" aria-label="Asynchronous FIFO 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Depth 4에서 다섯 번째 write를 막고, read 후 공간이 다시 생기는 과정을 본다. 실제 async 구현에서는 상대 pointer가 동기화 지연 뒤 반영되므로 flag가 보수적으로 유지될 수 있다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>// Binary pointer is used for memory indexing; Gray crosses the domain.
+assign PtrWrBin_d  = PtrWrBin + (WriteValid &amp;&amp; WriteReady);
+assign PtrWrGray_d = (PtrWrBin_d &gt;&gt; 1) ^ PtrWrBin_d;
+// Synchronize the Gray pointer before computing the remote empty/full view.
+// This fragment does not include the full/empty equation or physical skew constraints.</code></pre>
+<div class="lesson-columns"><section><p>브라우저의 논리 queue 동작을 아날로그 metastability까지 검증한 것으로 해석하지 않는다.</p></section><section><p>wrap·동시 read/write·reset에서 데이터 순서를 보존한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera CDC</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="18.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · RDC와 Reset 전략</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-05" data-lesson-id="18.05" data-guidebook-toc-title="RDC와 Reset 전략">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">18-5. RDC와 Reset 전략</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;18.05&quot;,&quot;kind&quot;:&quot;power&quot;,&quot;variant&quot;:&quot;rdc&quot;,&quot;title&quot;:&quot;Reset 경계와 유효한 출력의 격리&quot;,&quot;steps&quot;:[[&quot;정상&quot;,&quot;필요한 전원과 Clock이 안정된 상태입니다.&quot;],[&quot;격리&quot;,&quot;유효하지 않은 출력이 다른 영역으로 퍼지지 않게 막습니다.&quot;],[&quot;전원 전이&quot;,&quot;보존·차단·복구 순서를 따릅니다.&quot;],[&quot;재개&quot;,&quot;전원·Clock·Reset이 준비된 뒤 기능을 다시 허용합니다.&quot;]],&quot;subtitle&quot;:&quot;RDC는 reset 경계의 변화가 다른 영역의 관측과 상태에 주는 영향을 다룬다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Reset 경계와 유효한 출력의 격리"></section>
+<p>같은 clock를 쓰더라도 독립 reset 때문에 신호가 비동기적으로 바뀔 수 있다. Reset sequencing, isolation과 state handshake를 확인한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;domain&quot;, &quot;title&quot;: &quot;Clock·reset·power 상태 전환&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="RDC와 Reset 전략 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>송신 block만 reset되면 valid·control이 갑자기 바뀌어 수신 block이 잘못된 transaction으로 해석할 수 있다. 수신 측의 reset 여부와 contract를 함께 본다.</p></div>
+<div class="lesson-columns"><section><p>동일 clock이면 CDC/RDC 문제가 모두 없다고 가정하지 않는다.</p></section><section><p>동일 clock에서도 reset 경계 문제가 생기는 이유를 설명한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera CDC</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="18.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-06">다음 절 · 분석과 검증 및 Waiver</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-06" data-lesson-id="18.06" data-guidebook-toc-title="분석과 검증 및 Waiver">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">18-6. 분석과 검증 및 Waiver</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;18.06&quot;,&quot;kind&quot;:&quot;coverage&quot;,&quot;variant&quot;:&quot;waiver&quot;,&quot;title&quot;:&quot;Crossing별 구조·속성·검증 근거&quot;,&quot;steps&quot;:[[&quot;요구&quot;,&quot;검증할 요구사항을 명확하게 나눕니다.&quot;],[&quot;근거&quot;,&quot;각 요구에 맞는 검증 수단을 연결합니다.&quot;],[&quot;빈틈&quot;,&quot;누락되거나 미결인 항목을 드러냅니다.&quot;],[&quot;완료&quot;,&quot;결과와 예외의 근거를 함께 검토합니다.&quot;]],&quot;subtitle&quot;:&quot;CDC/RDC 분석은 구조가 적절한지와 protocol이 지켜지는지를 함께 확인한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Crossing별 구조·속성·검증 근거"></section>
+<p>Waiver는 위반을 숨기는 목록이 아니라 해당 구조가 안전하다는 조건과 증거다. Constraint와 mode 변화가 기존 waiver의 유효성을 바꿀 수 있다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>동기화된 request 동안 data가 안정적이라는 assertion과 event 중복·유실 검사를 붙인다. 구조 보고서의 경계를 실제 RTL과 연결한다.</p></div>
+<div class="lesson-columns"><section><p>오래된 waiver를 새 revision에 무조건 재사용하지 않는다.</p></section><section><p>waiver의 근거와 재검증 조건을 남긴다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera CDC</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="18.06" aria-pressed="false">이 절 학습 완료</button></footer></article>
+</section></main>
+    <script src="../assets/guidebook-page-common.js?v=0bda89d04754"></script>
+    <script src="../assets/features/visual-atlas/visual-atlas.js?v=a41dcf70c9ca"></script>
+    <script src="../assets/features/curriculum/curriculum.js?v=a49d5d58f3f2"></script>
+</body>
+</html>

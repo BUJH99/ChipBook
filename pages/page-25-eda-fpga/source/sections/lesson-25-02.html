@@ -1,0 +1,20 @@
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="25.02" data-guidebook-toc-title="{{section:section-02:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-02:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.02&quot;,&quot;kind&quot;:&quot;graph&quot;,&quot;variant&quot;:&quot;scripts&quot;,&quot;title&quot;:&quot;입력 자료를 검증 가능한 결과로 변환하기&quot;,&quot;steps&quot;:[[&quot;입력&quot;,&quot;Source와 제약·환경을 함께 고정합니다.&quot;],[&quot;변환&quot;,&quot;중간 표현과 연결을 생성합니다.&quot;],[&quot;검증&quot;,&quot;변환 전후의 계약과 결과를 확인합니다.&quot;],[&quot;산출물&quot;,&quot;재현 가능한 결과와 근거를 남깁니다.&quot;]],&quot;subtitle&quot;:&quot;Python은 자료 처리와 orchestration, Tcl은 EDA 도구 내부 제어에 자주 쓰인다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labels&quot;:[&quot;Input data&quot;,&quot;Python parse&quot;,&quot;Tcl setup&quot;,&quot;EDA command&quot;,&quot;Report parse&quot;,&quot;Checks&quot;]}" aria-label="입력 자료를 검증 가능한 결과로 변환하기"></section>
+<p>Script는 입력 검증, exit status와 결과 파일 경로를 명시해야 한다. 구조화된 결과를 사용하면 log의 우연한 문구 변화에 덜 취약하다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>여러 corner의 timing summary를 읽어 mode·corner·slack·unconstrained count를 표로 만든다. 누락된 run을 0 violation으로 처리하지 않고 별도 실패로 표시한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>import csv
+from pathlib import Path
+
+rows = list(csv.DictReader(Path(&#x27;timing.csv&#x27;).open()))
+required = {&#x27;mode&#x27;, &#x27;corner&#x27;, &#x27;slack_ns&#x27;, &#x27;status&#x27;}
+assert rows and required &lt;= rows[0].keys()
+for row in rows:
+    if row[&#x27;status&#x27;] != &#x27;complete&#x27;:
+        raise RuntimeError(f&quot;Incomplete run: {row[&#x27;mode&#x27;]} / {row[&#x27;corner&#x27;]}&quot;)
+    slack = float(row[&#x27;slack_ns&#x27;])
+    print(row[&#x27;mode&#x27;], row[&#x27;corner&#x27;], &#x27;PASS&#x27; if slack &gt;= 0 else &#x27;VIOLATION&#x27;, slack)</code></pre>
+<div class="lesson-columns"><section><p>실행 명령이 끝났다는 사실과 필요한 산출물이 정상 생성됐다는 사실을 구별한다.</p></section><section><p>입력과 결과를 반복 생성하고 실패를 감지한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · Simulation과 Debug</a></footer></article>

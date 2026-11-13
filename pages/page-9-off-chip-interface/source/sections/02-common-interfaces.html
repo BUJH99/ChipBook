@@ -1,4 +1,4 @@
-<div id="tab-common-interfaces" class="tab-content space-y-8" data-part9-panel="common-interfaces" data-guidebook-toc-title="Common Interfaces">
+<div id="tab-common-interfaces" class="tab-content space-y-8" data-part9-panel="common-interfaces" data-guidebook-toc-title="{{section:common-interfaces:toc}}">
     <!-- 9-2. Common Interfaces Section -->
     <section class="bg-white rounded-[32px] p-8 md:p-10 border border-slate-100 shadow-[0_20px_50px_rgba(15,23,42,0.04)]">
         <div class="mb-8 flex flex-col gap-4 border-b border-slate-100 pb-6 md:flex-row md:items-end md:justify-between">
@@ -125,7 +125,7 @@
                             <!-- ① TIMING CALIBRATION STATE (LEFT) -->
                             <g transform="translate(30, 25)">
                                 <text x="0" y="24" fill="#1e293b" font-size="13" font-weight="900">① DQ-DQS 90° 위상 센터 정렬 (Centering)</text>
-                                
+
                                 <!-- DQ Eye (Beautifully Opened with gradients) -->
                                 <path d="M 30 90 L 80 50 L 180 50 L 230 90 L 180 130 L 80 130 Z M 230 90 L 280 50 L 380 50 L 430 90 L 380 130 L 280 130 Z" fill="url(#dqEyeGrad)" stroke="#2563eb" stroke-width="1.5" />
                                 <text x="130" y="94" text-anchor="middle" fill="#1e3a8a" font-size="11" font-weight="900">DQ Eye Window</text>
@@ -151,7 +151,7 @@
                             <!-- ② DDR PHY RX CIRCUIT BLOCK (RIGHT) -->
                             <g transform="translate(500, 25)">
                                 <text x="20" y="24" fill="#1e293b" font-size="13" font-weight="900">② DDR PHY 수신 채널(RX) 및 DLL 보정 지연 회로</text>
-                                
+
                                 <!-- Frame Box -->
                                 <rect x="20" y="40" width="440" height="270" rx="12" fill="url(#ddrBlueGrad)" stroke="#bfdbfe" stroke-width="1.5" />
 
@@ -201,7 +201,7 @@
                                 <path d="M 95 90 H 130" stroke="#2563eb" stroke-width="1.5" marker-end="url(#ddrArrow)" />
                                 <path d="M 210 90 H 250" stroke="#2563eb" stroke-width="1.5" marker-end="url(#ddrArrow)" />
                                 <path d="M 300 90 H 325 V 130 H 350" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#ddrArrow)" />
-                                
+
                                 <path d="M 95 230 H 130" stroke="#047857" stroke-width="1.5" marker-end="url(#ddrArrow)" />
                                 <path d="M 210 230 H 250" stroke="#047857" stroke-width="1.5" marker-end="url(#ddrArrow)" />
                                 <path d="M 300 230 H 325 V 170 H 350" fill="none" stroke="#047857" stroke-width="1.5" marker-end="url(#ddrArrow)" />
@@ -519,7 +519,7 @@
                             <g transform="translate(100, 210)">
                                 <rect x="0" y="0" width="800" height="110" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" />
                                 <text x="400" y="26" text-anchor="middle" fill="#1e293b" font-size="12" font-weight="900">PCIe SerDes 데이터 복구 메커니즘 요약</text>
-                                
+
                                 <text x="50" y="55" fill="#64748b" font-size="10" font-weight="700">1. 송신 전송</text>
                                 <text x="50" y="75" fill="#334155" font-size="10">천이 에지를 부스팅하여 송출</text>
 
@@ -613,7 +613,7 @@
 
                             <!-- Feedback path (disparity check) -->
                             <path d="M 560 120 H 620" stroke="#475569" stroke-width="1.5" marker-end="url(#pcieArrow)" />
-                            
+
                             <!-- Disparity Calculator -->
                             <g transform="translate(620, 90)">
                                 <rect width="130" height="60" rx="6" fill="#ffffff" stroke="#ef4444" stroke-width="1.5" />
@@ -721,7 +721,7 @@
                 <p class="text-slate-600 text-sm leading-7 font-medium pl-3.5 mb-4">
                     물리 커넥터 단자 형태로서의 **USB Type-C®**는 상하 대칭형 24핀 구조를 채택하여 방향성에 무관하게 삽입할 수 있습니다. 칩 내부의 CC 컨트롤러 로직은 삽입 시 CC1/CC2 핀의 풀업/풀다운 저항($Rp/Rd$)의 임피던스 변화를 동적으로 센싱하여 다음과 같은 초기 협상을 자동으로 조율합니다.
                 </p>
-                
+
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mb-6">
                     <div class="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
                         <h6 class="text-sm font-bold text-slate-900 mb-2 flex items-center gap-1.5">
@@ -790,7 +790,7 @@
                                     <!-- A1 GND -->
                                     <rect x="0" y="0" width="30" height="24" rx="3" fill="#cbd5e1" stroke="#94a3b8" />
                                     <text x="15" y="15" text-anchor="middle" fill="#334155" font-size="8" font-weight="900">GND</text>
-                                    
+
                                     <!-- A2 TX1+ -->
                                     <rect x="35" y="0" width="30" height="24" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5" />
                                     <text x="50" y="15" text-anchor="middle" fill="#065f46" font-size="8" font-weight="900">TX1+</text>
@@ -1042,11 +1042,11 @@
                             <g transform="translate(210, 60)">
                                 <rect width="180" height="120" rx="8" fill="url(#flowEmerald2)" stroke="#10b981" stroke-width="1.5" />
                                 <text x="90" y="24" text-anchor="middle" fill="#065f46" font-size="11" font-weight="900">① Bit-Stuffing Block</text>
-                                
+
                                 <!-- 3-bit counter visual -->
                                 <rect x="15" y="45" width="150" height="30" rx="4" fill="#ffffff" stroke="#10b981" />
                                 <text x="90" y="64" text-anchor="middle" fill="#047857" font-size="8.5" font-weight="900">3-bit '1' Counter (Max=6)</text>
-                                
+
                                 <text x="90" y="96" text-anchor="middle" fill="#047857" font-size="8" font-weight="800">연속 6개 '1' 검출 시</text>
                                 <text x="90" y="108" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="900">강제로 '0' 비트 긴급 삽입!</text>
                             </g>
@@ -1074,7 +1074,7 @@
                             <g transform="translate(670, 75)">
                                 <rect width="150" height="90" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5" />
                                 <text x="75" y="26" text-anchor="middle" fill="#1e293b" font-size="10" font-weight="900">차동 라인 드라이버</text>
-                                
+
                                 <path d="M 30 50 H 120 M 30 70 H 120" stroke="#475569" stroke-width="1.5" />
                                 <text x="125" y="53" fill="#1e293b" font-size="8" font-weight="900">D+</text>
                                 <text x="125" y="73" fill="#1e293b" font-size="8" font-weight="900">D-</text>
@@ -1230,10 +1230,10 @@
                                     <!-- Differential Output nodes -->
                                     <line x1="40" y1="110" x2="160" y2="110" stroke="#059669" stroke-width="2" />
                                     <line x1="120" y1="130" x2="160" y2="130" stroke="#059669" stroke-width="2" />
-                                    
+
                                     <circle cx="40" cy="110" r="3" fill="#059669" />
                                     <circle cx="120" cy="130" r="3" fill="#059669" />
-                                    
+
                                     <!-- Pull-down switches -->
                                     <!-- Resistor left pulldown -->
                                     <rect x="30" y="140" width="20" height="30" fill="#ffffff" stroke="#047857" stroke-width="1.5" />
@@ -1268,7 +1268,7 @@
                                 <!-- Trace 1 (TX_P) and Trace 2 (TX_N) -->
                                 <path d="M 0 30 C 50 10, 100 10, 150 30" fill="none" stroke="#0284c7" stroke-width="3" />
                                 <path d="M 0 50 C 50 30, 100 30, 150 50" fill="none" stroke="#0284c7" stroke-width="3" />
-                                
+
                                 <text x="75" y="15" text-anchor="middle" fill="#0284c7" font-size="9" font-weight="900">Z_diff = 90 Ω Matching</text>
                                 <text x="75" y="75" text-anchor="middle" fill="#64748b" font-size="8" font-weight="800">High-Speed Differential Trace</text>
 
@@ -1301,12 +1301,12 @@
                                     <!-- Differential line rails -->
                                     <line x1="-15" y1="20" x2="105" y2="20" stroke="#2563eb" stroke-width="1.5" />
                                     <line x1="-15" y1="80" x2="105" y2="80" stroke="#2563eb" stroke-width="1.5" />
-                                    
+
                                     <!-- Clamping diode D+ -->
                                     <path d="M 20 20 V 5 H 15 L 25 5 L 20 20 Z" fill="#2563eb" />
                                     <line x1="15" y1="5" x2="25" y2="5" stroke="#2563eb" stroke-width="1.5" />
                                     <line x1="20" y1="5" x2="20" y2="0" stroke="#2563eb" />
-                                    
+
                                     <!-- Clamping diode D- -->
                                     <path d="M 20 80 V 95 H 15 L 25 95 L 20 80 Z" fill="#2563eb" />
                                     <line x1="15" y1="95" x2="25" y2="95" stroke="#2563eb" stroke-width="1.5" />
@@ -1336,7 +1336,7 @@
                                 <g transform="translate(15, 270)">
                                     <rect x="0" y="0" width="130" height="150" rx="8" fill="#fef2f2" stroke="#fecaca" stroke-width="1.5" />
                                     <text x="65" y="18" text-anchor="middle" fill="#991b1b" font-size="9" font-weight="900">Squelch Comparator</text>
-                                    
+
                                     <!-- Triangle comparator symbol -->
                                     <polygon points="35,45 85,70 35,95" fill="#ffffff" stroke="#991b1b" stroke-width="1.5" />
                                     <text x="45" y="65" fill="#991b1b" font-size="8">+</text>
@@ -1367,7 +1367,7 @@
                                     <line x1="5" y1="55" x2="5" y2="5" stroke="#64748b" stroke-width="1" />
                                     <text x="80" y="58" text-anchor="end" fill="#64748b" font-size="5">Freq</text>
                                     <text x="8" y="10" fill="#64748b" font-size="5">Gain</text>
-                                    
+
                                     <!-- CTLE curve (high pass boost) -->
                                     <path d="M 5 45 Q 40 45, 60 15 T 80 15" fill="none" stroke="#10b981" stroke-width="1.5" />
                                     <text x="45" y="32" text-anchor="middle" fill="#047857" font-size="6" font-weight="900">High-Freq Boost</text>
@@ -1400,7 +1400,7 @@
                                     <path d="M 47.5 125 C 20 125, 20 5, 5 20" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="2 1" marker-end="url(#cdrArrow)" />
                                     <path d="M 47.5 35 V 50" stroke="#7c3aed" stroke-width="1.5" />
                                     <path d="M 47.5 80 V 95" stroke="#7c3aed" stroke-width="1.5" />
-                                    
+
                                     <text x="50" y="145" text-anchor="middle" fill="#6d28d9" font-size="8" font-weight="900">데이터 에지 기반 위상 락킹</text>
                                 </g>
 

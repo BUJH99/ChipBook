@@ -2,9 +2,21 @@
   "output": "../../page-14-mock-exam.html",
   "parts": [
     "00-shell-start.html",
-    "sections/01-mock-start.html",
-    "sections/02-mock-exam.html",
-    "sections/03-mock-result.html",
+    "sections/lesson-28-01.html",
+    "sections/lesson-28-02.html",
+    "sections/lesson-28-03.html",
     "99-shell-end.html"
+  ],
+  "title": "모의시험과 설계 리뷰",
+  "styles": [
+    "../assets/features/practice.css",
+    "../assets/features/curriculum/curriculum.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/practice-data.js",
+    "../assets/features/practice.js",
+    "../assets/features/curriculum/curriculum.js"
   ]
 }

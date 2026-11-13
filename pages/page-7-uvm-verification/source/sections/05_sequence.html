@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>반도체 설계 가이드북 - UVM Sequence</title>
-    
+
     <!-- Fonts -->
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" />
+
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Tailwind Config for Design System -->
     <script>
         tailwind.config = {
@@ -83,7 +83,7 @@
         .fade-in-up {
             animation: fadeInUp 0.6s ease-out forwards;
         }
-        
+
         /* Code Block Syntax Highlighting */
         .keyword { color: #2563eb; font-weight: 600; }
         .string { color: #059669; }
@@ -91,6 +91,9 @@
         .type { color: #7c3aed; }
         .function { color: #ea580c; }
     </style>
+    <link rel="stylesheet" href="../../../../assets/fonts.css">
+    <link rel="stylesheet" href="../../../../assets/components/embedded-content.css">
+    <script defer src="../../../../assets/components/embedded-document.js"></script>
 </head>
 <body class="bg-white text-slate-600 antialiased">
 
@@ -100,7 +103,7 @@
         <!-- Section 1 & 2: Role and Inheritance -->
         <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden fade-in-up" style="animation-delay: 0.1s;">
             <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
-                
+
                 <!-- Column 1: Role -->
                 <div class="p-8 lg:p-10 flex flex-col gap-8">
                     <div>
@@ -115,7 +118,7 @@
                             Sequence는 생성된 Item을 Driver에게 직접 전달하지 않습니다. 대신, <code class="font-mono bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded text-sm">Sequencer</code>라는 중개자를 거쳐 Driver가 요청할 때마다 데이터를 공급하는 구조를 가집니다. 이를 통해 복잡한 시나리오를 모듈화하고 재사용성을 극대화할 수 있습니다.
                         </p>
                     </div>
-                    
+
                     <div class="diagram-grid border border-slate-200 rounded-xl p-6 flex-grow flex flex-col justify-center items-center relative">
                         <div class="w-full max-w-md">
                             <h3 class="text-xs font-bold text-slate-500 mb-6 uppercase tracking-wide text-center">Data Flow Scenario</h3>
@@ -125,10 +128,10 @@
                                         <path d="M 0 0 L 10 5 L 0 10 z" class="fill-blue-500" />
                                     </marker>
                                 </defs>
-                                
+
                                 <!-- Path Sequence -> Sequencer -->
                                 <path d="M 110 60 L 170 60" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#arrow)" />
-                                
+
                                 <!-- Path Sequencer -> Driver -->
                                 <path d="M 270 60 L 330 60" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#arrow)" />
 
@@ -137,7 +140,7 @@
                                     <rect x="10" y="30" width="100" height="60" rx="12" class="fill-white stroke-blue-600 stroke-2" />
                                     <text x="60" y="65" text-anchor="middle" class="font-sans font-bold text-sm fill-slate-800">Sequence</text>
                                 </g>
-                                
+
                                 <g class="transition-transform duration-300 hover:-translate-y-1">
                                     <rect x="170" y="30" width="100" height="60" rx="12" class="fill-white stroke-slate-300 stroke-2" />
                                     <text x="220" y="60" text-anchor="middle" class="font-sans font-bold text-sm fill-slate-800">Sequencer</text>
@@ -152,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Column 2: Inheritance -->
                 <div class="p-8 lg:p-10 flex flex-col gap-8">
                     <div>
@@ -220,7 +223,7 @@
                         <div class="w-3 h-3 rounded-full bg-green-500"></div>
                         <span class="ml-2 text-xs font-mono text-slate-400">my_sequence.sv</span>
                     </div>
-                    
+
                     <pre class="font-mono text-sm leading-relaxed overflow-x-auto">
 <span class="keyword">class</span> <span class="type">my_sequence</span> <span class="keyword">extends</span> uvm_sequence <span class="text-yellow-400">#(my_item)</span>;
 
@@ -289,7 +292,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                
+
                 <!-- SVG Diagram (Task body lifecycle) -->
                 <div class="lg:col-span-6 diagram-grid rounded-xl p-6 border border-slate-200 relative">
                     <svg viewBox="0 0 300 450" class="w-full h-auto">
@@ -363,7 +366,7 @@
 
                 <!-- Text Explanations -->
                 <div class="lg:col-span-6 space-y-6">
-                    
+
                     <div class="group">
                         <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2 mb-1">
                             <span class="w-6 h-6 rounded bg-slate-100 flex items-center justify-center text-xs group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">7</span>
@@ -541,14 +544,14 @@
                         <!-- Execution Blocks (Activation Boxes) -->
                         <rect x="142" y="100" width="16" height="60" rx="4" class="fill-blue-200 stroke-blue-400 stroke-1" />
                         <rect x="142" y="220" width="16" height="150" rx="4" class="fill-blue-200 stroke-blue-400 stroke-1" />
-                        
+
                         <rect x="442" y="100" width="16" height="270" rx="4" class="fill-slate-200 stroke-slate-400 stroke-1" />
-                        
+
                         <rect x="742" y="70" width="16" height="170" rx="4" class="fill-emerald-200 stroke-emerald-400 stroke-1" />
                         <rect x="742" y="320" width="16" height="50" rx="4" class="fill-emerald-200 stroke-emerald-400 stroke-1" />
 
                         <!-- Communication Arrows & Labels -->
-                        
+
                         <!-- 1. get_next_item -->
                         <path d="M 740 85 L 465 85" class="stroke-emerald-500 stroke-2 fill-none" marker-end="url(#seq-arrow-green)" />
                         <text x="600" y="75" text-anchor="middle" class="font-mono text-xs font-bold fill-emerald-700 bg-white px-1">1. get_next_item(req)</text>
@@ -570,11 +573,11 @@
                         <!-- 5. finish_item -->
                         <path d="M 160 235 L 435 235" class="stroke-blue-500 stroke-2 fill-none animate-flow" marker-end="url(#seq-arrow-blue)" />
                         <text x="300" y="225" text-anchor="middle" class="font-mono text-xs font-bold fill-blue-700">5. finish_item(req)</text>
-                        
+
                         <!-- 6. Item Delivery to Driver -->
                         <path d="M 465 255 L 735 255" class="stroke-slate-500 stroke-2 fill-none animate-flow" marker-end="url(#seq-arrow)" />
                         <text x="600" y="245" text-anchor="middle" class="font-sans text-xs font-bold fill-slate-700">6. Item 전달 & Unblock</text>
-                        
+
                         <!-- Driver Processing / Driving -->
                         <path d="M 770 260 L 780 260 L 780 310 L 770 310" class="stroke-emerald-400 stroke-2 fill-none" />
                         <text x="790" y="280" class="font-mono text-[11px] font-bold fill-emerald-800">Drive Signals</text>
@@ -628,7 +631,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
-                
+
                 <!-- Timeline SVG Column -->
                 <div class="lg:col-span-5 diagram-grid p-8 flex justify-center">
                     <svg viewBox="0 0 300 750" class="w-full max-w-[280px] h-auto drop-shadow-sm font-sans">
@@ -655,7 +658,7 @@
                         <path d="M 150 630 L 150 670" class="stroke-blue-500 stroke-2 animate-flow fill-none" marker-end="url(#flow-arrow-down)" />
 
                         <!-- Flow Nodes -->
-                        
+
                         <!-- 1. start_item -->
                         <g class="transition-transform duration-300 hover:-translate-y-1">
                             <rect x="50" y="50" width="200" height="40" rx="8" class="fill-blue-600 stroke-blue-700 stroke-2 shadow-sm" />
@@ -715,7 +718,7 @@
 
                 <!-- Source Code Column -->
                 <div class="lg:col-span-7 bg-slate-900 text-slate-300 p-8 lg:p-10 flex flex-col gap-8">
-                    
+
                     <!-- start_item block -->
                     <div>
                         <div class="flex items-center gap-2 mb-3">
@@ -771,7 +774,7 @@
   <span class="function">post_do</span>(item);
 <span class="keyword">endtask</span></pre>
                     </div>
-                    
+
                     <!-- Info Box -->
                     <div class="mt-4 bg-slate-800/50 border border-slate-700 rounded-lg p-4 flex gap-3">
                         <svg class="w-5 h-5 text-orange-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>

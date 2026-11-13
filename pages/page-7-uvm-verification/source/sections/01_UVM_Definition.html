@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UVM (Universal Verification Methodology) | 반도체 디지털 회로설계 가이드북</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
+
+
     <!-- Custom CSS & Animations -->
     <style>
         :root {
             --font-pretendard: 'Pretendard', sans-serif;
             --font-ibm: 'IBM Plex Sans', sans-serif;
         }
-        
+
         body {
             font-family: var(--font-pretendard);
         }
-        
+
         .font-ibm {
             font-family: var(--font-ibm);
         }
@@ -46,7 +46,7 @@
             from { stroke-dashoffset: 0; }
             to { stroke-dashoffset: 24; }
         }
-        
+
         .animate-flow-blue {
             stroke-dasharray: 6 6;
             animation: flow-forward 1s linear infinite;
@@ -259,6 +259,9 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../../../../assets/fonts.css">
+    <link rel="stylesheet" href="../../../../assets/components/embedded-content.css">
+    <script defer src="../../../../assets/components/embedded-document.js"></script>
 </head>
 <body class="bg-white text-slate-800 antialiased">
 
@@ -268,7 +271,7 @@
         <section class="space-y-6">
             <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-blue-600 pb-2 inline-block">왜 UVM이 필요한가?</h2>
             <p class="text-slate-600">규모가 커지는 최신 반도체 설계에서 기존 검증 방식이 가진 한계를 극복하기 위해 등장했습니다.</p>
-            
+
             <div class="flex flex-col md:flex-row gap-6">
                 <!-- SV TB (As-Is) -->
                 <div class="flex-1 bg-gradient-to-br from-white to-slate-50 p-8 rounded-2xl border border-slate-200 shadow-sm transition-transform duration-300 hover:-translate-y-1 group relative overflow-hidden">
@@ -282,7 +285,7 @@
                         <li class="flex items-start gap-2"><span class="text-red-400 font-bold">•</span> 컴포넌트 간 강한 결합(Hardcoded)으로 인한 스파게티 코드</li>
                         <li class="flex items-start gap-2"><span class="text-red-400 font-bold">•</span> 다른 프로젝트나 블록(Block) 레벨 검증으로의 재사용 어려움</li>
                     </ul>
-                    
+
                     <!-- Upgraded Visualization: Spaghetti / As-Is -->
                     <svg viewBox="0 0 300 140" class="w-full h-auto mt-4 drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300 relative z-10">
                         <defs>
@@ -293,26 +296,26 @@
                         <!-- Background Frame -->
                         <rect x="10" y="10" width="280" height="120" rx="8" class="fill-slate-50 stroke-slate-300 stroke-[1.5] stroke-dasharray-[6_4]"/>
                         <text x="150" y="28" text-anchor="middle" class="fill-slate-500 text-[10px] font-bold font-ibm tracking-widest">MONOLITHIC TESTBENCH</text>
-                        
+
                         <!-- Chaotic Wires (Spaghetti code representation) -->
                         <path d="M 50 60 C 120 10, 180 150, 250 60" fill="none" class="stroke-red-400 stroke-[2.5] opacity-70" stroke-linecap="round"/>
                         <path d="M 60 100 C 140 140, 120 20, 240 100" fill="none" class="stroke-orange-400 stroke-[2.5] opacity-70" stroke-linecap="round"/>
                         <path d="M 70 40 C 100 80, 200 30, 220 110" fill="none" class="stroke-rose-400 stroke-[2.5] opacity-70" stroke-linecap="round"/>
                         <path d="M 30 80 C 150 80, 160 40, 270 90" fill="none" class="stroke-purple-400 stroke-[2.5] opacity-70" stroke-linecap="round"/>
-                        
+
                         <!-- Tightly coupled / randomly placed blocks -->
                         <rect x="25" y="45" width="46" height="32" rx="4" class="fill-white stroke-slate-400 stroke-[1.5]" filter="url(#shadow-gray)"/>
                         <text x="48" y="65" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold font-ibm">Gen</text>
-                        
+
                         <rect x="100" y="85" width="46" height="32" rx="4" class="fill-white stroke-slate-400 stroke-[1.5]" filter="url(#shadow-gray)"/>
                         <text x="123" y="105" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold font-ibm">Drv</text>
-                        
+
                         <rect x="170" y="35" width="46" height="32" rx="4" class="fill-white stroke-slate-400 stroke-[1.5]" filter="url(#shadow-gray)"/>
                         <text x="193" y="55" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold font-ibm">Mon</text>
-                        
+
                         <rect x="235" y="75" width="46" height="32" rx="4" class="fill-white stroke-slate-400 stroke-[1.5]" filter="url(#shadow-gray)"/>
                         <text x="258" y="95" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold font-ibm">Chk</text>
-                        
+
                         <!-- Vulnerability/Warning Indicator (Animation Removed) -->
                         <g transform="translate(150, 70)">
                             <circle cx="0" cy="0" r="14" class="fill-red-50 stroke-red-200 stroke-2" filter="url(#shadow-gray)"/>
@@ -333,7 +336,7 @@
                         <li class="flex items-start gap-2"><span class="text-blue-500 font-bold">•</span> 독립적인 모듈화(Agent, Env) 및 계층 구조 지원</li>
                         <li class="flex items-start gap-2"><span class="text-blue-500 font-bold">•</span> VIP(Verification IP) 형태로 극대화된 재사용성</li>
                     </ul>
-                    
+
                     <!-- Upgraded Visualization: Plug-and-Play Reusability / To-Be -->
                     <svg viewBox="0 0 300 140" class="w-full h-auto mt-4 drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300 relative z-10">
                         <defs>
@@ -348,11 +351,11 @@
                                 <path d="M 0 0 L 5 10 L 10 0 z" class="fill-blue-500" />
                             </marker>
                         </defs>
-                        
+
                         <!-- Background Frame -->
                         <rect x="10" y="10" width="280" height="120" rx="8" fill="url(#uvm-grad)" class="stroke-blue-300 stroke-[1.5] stroke-dasharray-[4_4]"/>
                         <text x="150" y="28" text-anchor="middle" class="fill-blue-600 text-[10px] font-bold font-ibm tracking-widest">STANDARDIZED ARCHITECTURE</text>
-                        
+
                         <!-- Base Platform (System Level Environment) -->
                         <rect x="30" y="90" width="240" height="28" rx="6" class="fill-blue-100 stroke-blue-400 stroke-[1.5]"/>
                         <text x="150" y="108" text-anchor="middle" class="fill-blue-800 text-[10px] font-bold font-pretendard tracking-wide">System/Top-level Environment</text>
@@ -378,7 +381,7 @@
                             <text x="220" y="56" text-anchor="middle" class="fill-slate-800 text-[11px] font-bold font-ibm">VIP B</text>
                             <text x="220" y="68" text-anchor="middle" class="fill-teal-600 text-[8px] font-bold font-pretendard tracking-wider">REUSABLE</text>
                         </g>
-                        
+
                         <!-- Center Sync/Standard Icon (플러그인 허브 상징) -->
                         <circle cx="150" cy="90" r="12" class="fill-white stroke-blue-400 stroke-[1.5]"/>
                         <path d="M145 90 h10 M150 85 v10" class="stroke-blue-500 stroke-[2]"/>
@@ -390,7 +393,7 @@
         <!-- Core Objectives Section -->
         <section class="space-y-6">
             <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-blue-600 pb-2 inline-block">UVM의 핵심 목적</h2>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- 1. Reusability -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm group hover:border-blue-300 hover:shadow-md transition-all duration-300">
@@ -506,7 +509,7 @@
             <div class="space-y-6">
                 <!-- SVG Container (Premium UI & Responsive Fix) -->
                 <div class="relative w-full rounded-[2rem] border border-slate-200 shadow-2xl shadow-slate-200/50 overflow-hidden group bg-white">
-                    
+
                     <!-- 모바일 전용 스크롤 유도 인디케이터 -->
                     <div class="md:hidden absolute top-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-3 text-[0.8rem] text-blue-700 font-semibold flex items-center justify-center gap-2 z-10 shadow-md border border-blue-100 pointer-events-none transition-opacity duration-500">
                         <svg class="w-5 h-5 animate-bounce-x" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
@@ -520,7 +523,7 @@
                                 <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
                                     <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.06"/>
                                 </filter>
-                                
+
                                 <filter id="glow-blue" x="-50%" y="-50%" width="200%" height="200%">
                                     <feGaussianBlur stdDeviation="3" result="blur" />
                                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
@@ -673,7 +676,7 @@
                             <rect x="214" y="294" width="12" height="12" class="fill-white stroke-blue-500 stroke-2 active-only"/>
                             <rect x="214" y="364" width="12" height="12" class="fill-white stroke-blue-500 stroke-2 active-only"/>
                             <rect x="214" y="484" width="12" height="12" class="fill-white stroke-blue-500 stroke-2 active-only"/>
-                            
+
                             <polygon points="550,519 556,525 550,531 544,525" class="fill-white stroke-teal-500 stroke-2" />
                             <circle cx="640" cy="340" r="6" class="fill-white stroke-teal-600 stroke-2" />
                             <circle cx="640" cy="340" r="2" class="fill-teal-600" />
@@ -681,7 +684,7 @@
                             <circle cx="640" cy="490" r="2" class="fill-indigo-500" />
 
                             <!-- ================= Flow Animations (Particles) ================= -->
-                            
+
                             <rect x="234" y="207" width="128" height="20" rx="5" class="fill-white/95 stroke-blue-100 stroke-1 active-only active-flow" />
                             <text x="240" y="221" class="fill-blue-700 font-bold font-ibm text-xs active-only active-flow">uvm_sequence_item</text>
                             <circle r="4" class="fill-blue-500 active-only active-flow" filter="url(#glow-blue)">
@@ -710,7 +713,7 @@
                             </circle>
 
                             <!-- ================= Hardware Boundary ================= -->
-                            
+
                             <!-- Virtual Interface -->
                             <g class="hover-active-node cursor-pointer" data-info="vif">
                                 <rect x="80" y="710" width="840" height="36" rx="8" class="fill-slate-200 stroke-slate-300 stroke-[1.5]" filter="url(#soft-shadow)" />
@@ -734,7 +737,7 @@
                             <path d="M 220 746 L 220 780" fill="none" class="stroke-slate-800 stroke-[4] active-only" />
                             <path d="M 230 746 L 230 780" fill="none" class="stroke-slate-400 stroke-2 active-only" />
                             <path d="M 210 746 L 210 780" fill="none" class="stroke-slate-400 stroke-2 active-only" />
-                            
+
                             <path d="M 470 780 L 470 746" fill="none" class="stroke-slate-800 stroke-[4]" />
                             <path d="M 460 780 L 460 746" fill="none" class="stroke-slate-400 stroke-2" />
                             <path d="M 480 780 L 480 746" fill="none" class="stroke-slate-400 stroke-2" />
@@ -746,7 +749,7 @@
                 <!-- --- 하단 정적 정보 출력 패널 (Interactive Panel) --- -->
                 <div id="comp-info-panel" class="w-full min-h-[160px] p-6 md:p-8 bg-white rounded-3xl border border-slate-200 shadow-sm transition-all duration-300 flex items-center justify-center relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-teal-400 to-indigo-500"></div>
-                    
+
                     <!-- Default State -->
                     <div id="default-msg" class="flex flex-col items-center justify-center text-slate-400 w-full transition-opacity duration-300">
                         <svg class="w-10 h-10 mb-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -828,7 +831,7 @@
 
             // --- Component Description Logic ---
             const bulletIcon = `<svg class="w-[1.1rem] h-[1.1rem] text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-            
+
             const compData = {
                 env: {
                     title: 'UVM Environment (환경)',
@@ -931,21 +934,21 @@
             const infoNodes = document.querySelectorAll('[data-info]');
             const defaultMsg = document.getElementById('default-msg');
             const infoContent = document.getElementById('info-content');
-            
+
             const compTitleEl = document.getElementById('comp-title');
             const compDescEl = document.getElementById('comp-desc');
             const compIconEl = document.getElementById('comp-icon');
 
             function resetInfoPanel() {
                 infoNodes.forEach(n => n.classList.remove('selected-node'));
-                
+
                 infoContent.style.opacity = 0;
                 setTimeout(() => {
                     infoContent.classList.add('hidden');
                     infoContent.classList.remove('flex');
                     defaultMsg.classList.remove('hidden');
                     defaultMsg.classList.add('flex');
-                    
+
                     setTimeout(() => {
                         defaultMsg.style.opacity = 1;
                     }, 10);
@@ -957,25 +960,25 @@
                     e.stopPropagation();
                     const infoKey = node.dataset.info;
                     const data = compData[infoKey];
-                    
+
                     if(data) {
                         infoNodes.forEach(n => n.classList.remove('selected-node'));
                         node.classList.add('selected-node');
-                        
+
                         compTitleEl.textContent = data.title;
                         compDescEl.innerHTML = data.desc;
                         compIconEl.innerHTML = data.icon;
-                        
+
                         defaultMsg.style.opacity = 0;
                         infoContent.style.opacity = 0;
-                        
+
                         setTimeout(() => {
                             defaultMsg.classList.add('hidden');
                             defaultMsg.classList.remove('flex');
-                            
+
                             infoContent.classList.remove('hidden');
                             infoContent.classList.add('flex');
-                            
+
                             setTimeout(() => {
                                 infoContent.style.opacity = 1;
                             }, 10);

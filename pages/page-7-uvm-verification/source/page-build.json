@@ -3,5 +3,32 @@
   "parts": [
     "00-shell-start.html",
     "99-shell-end.html"
+  ],
+  "title": "UVM / Verification",
+  "styles": [
+    "../assets/components/learning-visuals.css",
+    "../assets/pages/page-7-uvm-verification.css"
+  ],
+  "headScripts": [],
+  "runtimeFiles": [
+    "sections/00_UVM_Sequence_diagram.html",
+    "sections/01_UVM_Definition.html",
+    "sections/02_UVM_Basic.html",
+    "sections/03_uvm_library.html",
+    "sections/04_Item.html",
+    "sections/05_sequence.html",
+    "sections/06_driver.html",
+    "sections/07_sequence.html",
+    "sections/08_scoreboard.html",
+    "sections/09_coverage.html",
+    "sections/10_Agent.html",
+    "sections/11_Env.html",
+    "sections/12_Sva.html",
+    "sections/13_Test.html",
+    "sections/14_Tool_VCS_Verdi.html"
+  ],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/pages/page-7-uvm-verification.js"
   ]
 }

@@ -3,19 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Design Flow with Role | 반도체 디지털 회로설계 가이드북</title>
+    <title>Design Flow with Role | 반도체 회로설계 가이드북</title>
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/guidebook-common.css">
-    <style>
-        [data-part6-panel][hidden] {
-            display: none !important;
-        }
+    <link rel="stylesheet" href="../assets/fonts.css?v=c76e3cfe4c44">
+    <link rel="stylesheet" href="../assets/guidebook-common.css?v=d690df41ee31">
+    <link rel="stylesheet" href="../assets/components/learning-visuals.css?v=ed22da78e7d3">
 
-    </style>
 </head>
 <body class="page-standalone bg-white text-gray-900 selection:bg-blue-100" data-page-id="page-6">
     <main class="page-shell">
@@ -29,7 +23,7 @@
                             </div>
                         </div>
 
-                        <div id="adt-role-flow" class="job-flow-root card bg-white border-blue-100 mb-8" data-active-role="all" data-part6-panel="role-map" data-guidebook-toc-title="Role Map">
+<div id="adt-role-flow" class="job-flow-root card bg-white border-blue-100 mb-8" data-active-role="all" data-part6-panel="role-map" data-guidebook-toc-title="Role Map">
                             <div class="flex flex-wrap gap-2 mb-6">
                                 <button type="button" class="job-role-filter is-active" data-role-flow-filter="all">전체</button>
                                 <button type="button" class="job-role-filter" data-role-flow-filter="foundation">Foundation IP</button>
@@ -212,8 +206,8 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                            <div class="card p-6 border-l-4 border-slate-500 rounded-l-none xl:col-span-2" data-part6-panel="foundation-ip" data-guidebook-toc-title="Foundation IP" hidden>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+<div class="card p-6 border-l-4 border-slate-500 rounded-l-none xl:col-span-2" data-part6-panel="foundation-ip" data-guidebook-toc-title="Foundation IP" hidden>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-2</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">Foundation IP</h3>
@@ -245,7 +239,7 @@
                                 </div>
                             </div>
 
-                            <div class="card p-6 border-l-4 border-blue-500 rounded-l-none xl:col-span-2" data-part6-panel="design-platform" data-guidebook-toc-title="DP" hidden>
+<div class="card p-6 border-l-4 border-blue-500 rounded-l-none xl:col-span-2" data-part6-panel="design-platform" data-guidebook-toc-title="DP" hidden>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-3</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">DP (Design Platform)</h3>
@@ -278,7 +272,7 @@
                                 </div>
                             </div>
 
-                            <div class="card p-6 border-l-4 border-green-500 rounded-l-none xl:col-span-2" data-part6-panel="design-verification" data-guidebook-toc-title="DV" hidden>
+<div class="card p-6 border-l-4 border-green-500 rounded-l-none xl:col-span-2" data-part6-panel="design-verification" data-guidebook-toc-title="DV" hidden>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-4</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">DV (Design Verification)</h3>
@@ -311,7 +305,7 @@
                                 </div>
                             </div>
 
-                            <div class="card p-6 border-l-4 border-purple-500 rounded-l-none xl:col-span-2" data-part6-panel="design-for-test" data-guidebook-toc-title="DFT" hidden>
+<div class="card p-6 border-l-4 border-purple-500 rounded-l-none xl:col-span-2" data-part6-panel="design-for-test" data-guidebook-toc-title="DFT" hidden>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-5</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">DFT (Design For Test)</h3>
@@ -344,7 +338,7 @@
                                 </div>
                             </div>
 
-                            <div class="card p-6 border-l-4 border-teal-500 rounded-l-none xl:col-span-2" data-part6-panel="physical-implementation" data-guidebook-toc-title="PI" hidden>
+<div class="card p-6 border-l-4 border-teal-500 rounded-l-none xl:col-span-2" data-part6-panel="physical-implementation" data-guidebook-toc-title="PI" hidden>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-6</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">PI (Physical Implementation)</h3>
@@ -377,7 +371,7 @@
                                 </div>
                             </div>
 
-                            <div class="card p-6 border-l-4 border-orange-500 rounded-l-none xl:col-span-2" data-part6-panel="physical-design" data-guidebook-toc-title="PD" hidden>
+<div class="card p-6 border-l-4 border-orange-500 rounded-l-none xl:col-span-2" data-part6-panel="physical-design" data-guidebook-toc-title="PD" hidden>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-7</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">PD (Physical Design)</h3>
@@ -410,7 +404,7 @@
                                 </div>
                             </div>
 
-                            <div class="card p-6 border-l-4 border-red-500 rounded-l-none xl:col-span-2" data-part6-panel="application-platform" data-guidebook-toc-title="AP" hidden>
+<div class="card p-6 border-l-4 border-red-500 rounded-l-none xl:col-span-2" data-part6-panel="application-platform" data-guidebook-toc-title="AP" hidden>
                                 <div class="flex items-center gap-3 mb-4">
                                     <span class="badge">6-8</span>
                                     <h3 class="text-xl font-extrabold text-gray-900">AP (Application Platform)</h3>
@@ -451,7 +445,7 @@
                             </div>
                         </div>
 
-                        <div class="card p-6 border-l-4 border-cyan-500 rounded-l-none mt-8" data-part6-panel="related-roles" data-guidebook-toc-title="연관 직무" hidden>
+<div class="card p-6 border-l-4 border-cyan-500 rounded-l-none mt-8" data-part6-panel="related-roles" data-guidebook-toc-title="연관 직무" hidden>
                             <div class="flex items-center gap-3 mb-4">
                                 <span class="badge">6-9</span>
                                 <h3 class="text-xl font-extrabold text-gray-900">함께 알아두면 좋은 연관 직무</h3>
@@ -546,7 +540,7 @@
                             </div>
                         </div>
 
-                        <div class="card p-6 border-l-4 border-amber-500 rounded-l-none mt-8" data-part6-panel="advanced-keywords" data-guidebook-toc-title="심화 키워드" hidden>
+<div class="card p-6 border-l-4 border-amber-500 rounded-l-none mt-8" data-part6-panel="advanced-keywords" data-guidebook-toc-title="심화 키워드" hidden>
                             <div class="flex items-center gap-3 mb-4">
                                 <span class="badge">6-10</span>
                                 <h3 class="text-xl font-extrabold text-gray-900">심화 키워드 정리</h3>
@@ -598,18 +592,8 @@
                         </div>
                     </section>
     </main>
-    <script src="../assets/guidebook-page-common.js"></script>
-    <script>
-        window.GuidebookPage.initActionSectionPage({
-            defaultKey: 'role-map',
-            panelSelector: '[data-part6-panel]',
-            panelKeyDataset: 'part6Panel',
-            currentHeader: {
-                shellId: 'part6-current-shell',
-                labelId: 'part6-current-label',
-                mode: 'static',
-            },
-        });
-    </script>
+    <script src="../assets/guidebook-page-common.js?v=0bda89d04754"></script>
+    <script src="../assets/features/role-flow.js?v=87d7555a176d"></script>
+    <script src="../assets/pages/page-6-role-flow.js?v=1f9767e34256"></script>
 </body>
 </html>

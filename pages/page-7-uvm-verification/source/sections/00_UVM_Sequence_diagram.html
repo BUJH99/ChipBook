@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>최종 고도화된 Full UVM Sequence 다이어그램</title>
-  
+
   <!-- Fonts -->
   <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <!-- Tailwind Config -->
   <script>
     tailwind.config = {
@@ -29,7 +29,7 @@
   <!-- React & ReactDOM -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  
+
   <!-- Babel for JSX -->
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
@@ -44,7 +44,7 @@
       padding-bottom: 4rem;
       box-sizing: border-box;
     }
-    
+
     .diagram-grid {
       background-color: #f8fafc;
       background-image: 
@@ -96,6 +96,9 @@
       }
     }
   </style>
+    <link rel="stylesheet" href="../../../../assets/fonts.css">
+    <link rel="stylesheet" href="../../../../assets/components/embedded-content.css">
+    <script defer src="../../../../assets/components/embedded-document.js"></script>
 </head>
 <body class="bg-white text-slate-800 antialiased font-sans" data-page7-height-mode="preview-fit">
   <div id="root"></div>
@@ -141,64 +144,64 @@
         { id: 1, type: 'loop', on: 'test', y: 160, text: '🌱 uvm_root::run_test("Top_Test")', sub: '(Top Test 생성 및 Phase Scheduler 진입)', color: '#4f46e5', width: 330 },
         { id: 2, type: 'loop', on: 'test', y: 210, text: '🛠️ uvm_config_db#(vif)::set()', sub: '(Virtual Interface 하위 계층에 등록)', color: '#4f46e5' },
         { id: 3, type: 'loop', on: 'test', y: 260, text: '🏭 factory.set_type_override()', sub: '(다형성을 활용한 Component 타입 오버라이드)', color: '#4f46e5' },
-        
+
         { id: 4, type: 'action', on: 'sqr', xOffset: 130, y: 310, text: 'if (get_is_active() == UVM_ACTIVE)', fill: '#e0e7ff', stroke: '#4f46e5', textFill: '#3730a3', className: '', width: 360 },
-        
+
         // 다이어그램 분리시키지 않고 생성 흐름 이어주기 (화살표 활용) - 끝단(end) 정렬 적용
         { id: 5, type: 'msg', from: 'test', to: 'sqr', y: 360, text: '🧱 Sequencer::type_id::create("sqr", this)', sub: '(Active일 때만 생성)', color: '#475569', dashed: true, flow: false, align: 'end', width: 340 },
         { id: 6, type: 'msg', from: 'test', to: 'drv', y: 410, text: '🧱 Driver::type_id::create("drv", this)', sub: '(Active일 때만 생성)', color: '#059669', dashed: true, flow: false, align: 'end', width: 320 },
-        
+
         { id: 7, type: 'msg', from: 'test', to: 'mon', y: 460, text: '🧱 Monitor::type_id::create("mon", this)', sub: '(모드 관계없이 항상 생성)', color: '#0891b2', dashed: true, flow: false, align: 'end', width: 330 },
         { id: 8, type: 'msg', from: 'test', to: 'sb', y: 510, text: '🧱 Scoreboard::type_id::create("sb", this)', sub: '(Env에서 생성)', color: '#be123c', dashed: true, flow: false, align: 'end', width: 330 },
         { id: 9, type: 'msg', from: 'test', to: 'cov', y: 560, text: '🧱 Coverage::type_id::create("cov", this)', sub: '(Env에서 생성)', color: '#5b21b6', dashed: true, flow: false, align: 'end', width: 320 },
-        
+
         { id: 10, type: 'loop', on: 'drv', y: 610, text: '🔍 uvm_config_db::get(vif)', sub: '(구동할 Interface 획득)', color: '#059669' },
         { id: 11, type: 'loop', on: 'mon', y: 660, text: '🔍 uvm_config_db::get(vif)', sub: '(관찰할 Interface 획득)', color: '#0891b2' },
-        
+
         /* === CONNECT PHASE === */
         { id: 12, type: 'msg', from: 'drv', to: 'sqr', y: 810, text: '🔗 seq_item_port.connect(seq_item_export)', sub: '(Agent 내부에서 Driver-Sequencer 연결)', color: '#475569', dashed: true, flow: false, width: 340 },
         { id: 13, type: 'msg', from: 'mon', to: 'sb', y: 860, text: '🔗 ap.connect(sb_export)', sub: '(Scoreboard로 Analysis Port 연결)', color: '#06b6d4', dashed: true, flow: false, align: 'end', width: 270 },
         { id: 14, type: 'msg', from: 'mon', to: 'cov', y: 910, text: '🔗 ap.connect(cov_export)', sub: '(Coverage 수집기로 Analysis Port 연결)', color: '#06b6d4', dashed: true, flow: false, align: 'end', width: 280 },
-        
+
         /* === RUN PHASE (Handshake & Validation) === */
         { id: 15, type: 'loop', on: 'test', y: 1010, text: '🔒 phase.raise_objection()', sub: '(시뮬레이션 조기 종료 방지)', color: '#4f46e5' },
         { id: 16, type: 'msg', from: 'test', to: 'seq', y: 1060, text: '🚀 seq.start(sqr)', sub: '(Sequence 구동 시작)', color: '#4f46e5', dashed: false, flow: false },
         { id: 17, type: 'loop', on: 'seq', y: 1110, text: '🏭 item_type::type_id::create("req")', sub: '(Factory를 통한 Transaction 객체 생성)', color: '#2563eb' },
-        
+
         { id: 18, type: 'msg', from: 'drv', to: 'sqr', y: 1160, text: '📥 1. get_next_item(req)', sub: '(Driver는 Item이 올 때까지 Block 대기)', color: '#10b981', dashed: false, flow: false },
         { id: 19, type: 'msg', from: 'seq', to: 'sqr', y: 1210, text: '📤 2. start_item(req)', sub: '(Sequencer에 버스 권한 요청)', color: '#2563eb', dashed: false, flow: false },
         { id: 20, type: 'loop', on: 'sqr', y: 1260, text: '⚖️ wait_for_grant()', sub: '(Sequencer 내부 FIFO 우선순위 중재)', color: '#475569' },
         { id: 21, type: 'msg', from: 'sqr', to: 'seq', y: 1310, text: '✅ 3. Grant (접근 승인)', sub: '(Sequence의 start_item Block 해제)', color: '#64748b', dashed: true, flow: false },
-        
+
         { id: 22, type: 'loop', on: 'seq', y: 1360, text: '🔄 pre_do(1)', sub: '(Item 전송 직전 User Callback)', color: '#2563eb' },
         { id: 23, type: 'loop', on: 'seq', y: 1410, text: '🎲 4. req.randomize()', sub: '(최신 상태를 반영한 Late Randomization)', color: '#eab308' },
-        
+
         { id: 24, type: 'msg', from: 'seq', to: 'sqr', y: 1460, text: '🚀 5. finish_item(req)', sub: '(전송 완료될 때까지 Sequence Block 진입)', color: '#2563eb', dashed: false, flow: true },
         { id: 25, type: 'loop', on: 'seq', y: 1510, text: '🔄 mid_do(req)', sub: '(전송 중 User Callback)', color: '#2563eb' },
         { id: 26, type: 'msg', from: 'sqr', to: 'drv', y: 1560, text: '📦 6. send_request(req) & Unblock', sub: '(Driver에 데이터 전달 및 대기 해제)', color: '#475569', dashed: false, flow: true },
         { id: 27, type: 'loop', on: 'seq', y: 1610, text: '⏳ wait_for_item_done()', sub: '(Sequence 내부 동기화용 대기 함수)', color: '#2563eb' },
-        
+
         // Detailed Driver/DUT logic with Assertions
         { id: 28, type: 'loop', on: 'drv', y: 1660, text: '⚡ drive_one_item(req)', sub: '(Protocol Pin-level Task 실행)', color: '#059669' },
         { id: 29, type: 'msg', from: 'drv', to: 'dut', y: 1710, text: '🔌 Drive Physical Signals', sub: '(@posedge clk)', color: '#10b981', dashed: false, flow: true },
         { id: 30, type: 'action', on: 'dut', y: 1760, text: '⚙️ Hardware State Change', fill: '#ffedd5', stroke: '#f97316', textFill: '#9a3412', className: 'active-node', width: 200 },
         { id: 31, type: 'loop', on: 'dut', y: 1810, text: '🚨 SVA / Concurrent Assertion', sub: '(프로토콜 및 타이밍 규칙 실시간 하드웨어 검증)', color: '#ea580c' },
-        
+
         // Monitor Sampling & Broadcasting
         { id: 32, type: 'msg', from: 'dut', to: 'mon', y: 1860, text: '👀 Sample Interface', sub: '(Virtual Interface 관찰)', color: '#06b6d4', dashed: true, flow: false },
         { id: 33, type: 'loop', on: 'mon', y: 1910, text: '🧩 assemble_pkt()', sub: '(TLM Analysis Port 패킷 조립)', color: '#0891b2' },
         { id: 34, type: 'msg', from: 'mon', to: 'sb', y: 1960, text: '📡 ap.write(item)', sub: '(To Scoreboard)', color: '#06b6d4', dashed: false, flow: true, align: 'end', width: 160 },
         { id: 35, type: 'msg', from: 'mon', to: 'cov', y: 2010, text: '📡 ap.write(item)', sub: '(To Coverage)', color: '#8b5cf6', dashed: false, flow: true, align: 'end', width: 160 },
-        
+
         // Handshake Closure (Response)
         { id: 36, type: 'loop', on: 'drv', y: 2060, text: '🏭 type_id::create("rsp")', sub: '(응답용 Transaction 객체 생성)', color: '#059669' },
         { id: 37, type: 'loop', on: 'drv', y: 2110, text: '🔄 7. rsp.set_id_info(req)', sub: '(요청-응답 간의 패킷 ID 동기화)', color: '#059669' },
         { id: 38, type: 'msg', from: 'drv', to: 'sqr', y: 2160, text: '🏁 8. item_done(rsp)', sub: '(응답 전달 및 단일 트랜잭션 종료 통보)', color: '#10b981', dashed: false, flow: true },
         { id: 39, type: 'msg', from: 'sqr', to: 'seq', y: 2210, text: '🔓 9. Unblock finish_item', sub: '(Sequence의 대기 상태 해제)', color: '#64748b', dashed: true, flow: false },
-        
+
         { id: 40, type: 'loop', on: 'seq', y: 2260, text: '🔄 post_do(req)', sub: '(전송 완료 후 User Callback)', color: '#2563eb' },
         { id: 41, type: 'msg', from: 'seq', to: 'sqr', y: 2310, text: '📬 10. get_response(rsp)', sub: '(선택적: Driver의 응답 데이터 최종 수거)', color: '#2563eb', dashed: false, flow: true },
-        
+
         { id: 42, type: 'msg', from: 'seq', to: 'test', y: 2360, text: '🎉 Sequence Complete', sub: '(Test로 제어권 반환)', color: '#4f46e5', dashed: true, flow: false },
         { id: 43, type: 'loop', on: 'test', y: 2410, text: '🔓 phase.drop_objection()', sub: '(시뮬레이션 종료 허가)', color: '#4f46e5' },
 
@@ -217,14 +220,14 @@
         { on: 'mon', start: 460, end: 680 },
         { on: 'sb', start: 510, end: 550 },
         { on: 'cov', start: 560, end: 600 },
-        
+
         /* Connect Phase (760 - 960) */
         { on: 'drv', start: 790, end: 830 },
         { on: 'sqr', start: 790, end: 830 },
         { on: 'mon', start: 840, end: 930 },
         { on: 'sb', start: 840, end: 880 },
         { on: 'cov', start: 890, end: 930 },
-        
+
         /* Run Phase (960 - 2480) - 분리시키지 않고 전체 구간을 이음 */
         { on: 'test', start: 990, end: 2430 }, 
         { on: 'seq', start: 1040, end: 2380 }, 
@@ -234,7 +237,7 @@
         { on: 'mon', start: 1840, end: 2030 },
         { on: 'sb', start: 1940, end: 1980 },
         { on: 'cov', start: 1990, end: 2030 },
-        
+
         /* Report Phase (2480 - 2730) */
         { on: 'sb', start: 2540, end: 2580 },
         { on: 'cov', start: 2590, end: 2630 },
@@ -249,7 +252,7 @@
         const fromP = participants.find(p => p.id === msg.from);
         const toP = participants.find(p => p.id === msg.to);
         const isRight = toP.x > fromP.x;
-        
+
         const startX = isRight ? fromP.x + 8 : fromP.x - 8;
         const endX = isRight ? toP.x - 14 : toP.x + 14; 
         const markerId = `arrow-${msg.color.replace('#', '')}`;
@@ -299,7 +302,7 @@
         const markerId = `arrow-${msg.color.replace('#', '')}`;
 
         const pathD = `M ${startX} ${y - 14} C ${startX + 50} ${y - 14}, ${startX + 50} ${y + 14}, ${startX + 4} ${y + 14}`;
-        
+
         const boxWidth = msg.width || 220;
 
         return (
@@ -391,7 +394,7 @@
                         fill={phase.bgColor} 
                       />
                       <line x1="10" y1={phase.start} x2="2390" y2={phase.start} stroke={phase.stroke} strokeWidth="2" strokeDasharray="8 4" />
-                      
+
                       <rect x="20" y={phase.start + 15} width="270" height="50" rx="8" fill="white" stroke={phase.stroke} strokeWidth="1" filter="url(#box-shadow)" />
                       <text x="35" y={phase.start + 35} className="font-mono text-[14px] font-bold fill-slate-800">{phase.name}</text>
                       <text x="35" y={phase.start + 52} className="font-sans text-[11px] fill-slate-500">{phase.desc}</text>
@@ -400,7 +403,7 @@
                   <line x1="10" y1="2730" x2="2390" y2="2730" stroke="#fecaca" strokeWidth="2" strokeDasharray="8 4" />
 
                   {/* 2. BOUNDARY BOXES */}
-                  
+
                   {/* UVM Active Agent (Sequencer, Driver) */}
                   <g className="active-agent-boundary">
                     <rect 
@@ -483,7 +486,7 @@
           </main>
 
           {!isZoomMode && isZoomOpen && (
-            <div className="fixed inset-0 z-50 bg-slate-950/70 p-3 backdrop-blur-sm md:p-6" role="dialog" aria-modal="true" aria-label="Full UVM sequence diagram enlarged modal">
+            <div className="fixed inset-x-0 z-50 bg-slate-950/70 p-3 backdrop-blur-sm md:p-6" style={{ top: 'var(--embedded-visible-top, 0px)', height: 'var(--embedded-visible-height, 100vh)' }} role="dialog" aria-modal="true" aria-label="Full UVM sequence diagram enlarged modal">
               <div className="flex h-full w-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-2xl">
                 <div className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 py-3">
                   <div>

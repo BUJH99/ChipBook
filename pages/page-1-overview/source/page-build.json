@@ -6,5 +6,15 @@
     "sections/02-value-chain.html",
     "sections/03-future-tech.html",
     "99-shell-end.html"
+  ],
+  "title": "OverView",
+  "styles": [
+    "../assets/components/learning-visuals.css",
+    "../assets/pages/page-1-overview.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/pages/page-1-overview.js"
   ]
 }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>저전력 설계와 UPF | 반도체 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/fonts.css?v=c76e3cfe4c44">
+    <link rel="stylesheet" href="../assets/guidebook-common.css?v=d690df41ee31">
+    <link rel="stylesheet" href="../assets/features/curriculum/curriculum.css?v=09e7ec987305">
+    <link rel="stylesheet" href="../assets/features/visual-atlas/visual-atlas.css?v=fdf94ae6f6da">
+
+</head>
+<body class="page-standalone curriculum-page visual-curriculum" data-page-id="page-19" data-chapter-number="19" data-default-section="section-01" data-section-aliases="{}" data-curriculum-engine="true" data-curriculum-mode="action">
+<main class="page-shell"><section class="page-section active" id="page-19"><div class="mb-4"><span class="badge">Part 19</span></div>
+<h2 class="section-title">저전력 설계와 UPF</h2>
+<article class="chapter-lesson" data-lesson-panel="section-01" data-lesson-id="19.01" data-guidebook-toc-title="전력 모델과 예산">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">19-1. 전력 모델과 예산</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;19.01&quot;,&quot;kind&quot;:&quot;cmos&quot;,&quot;variant&quot;:&quot;power&quot;,&quot;title&quot;:&quot;Switching Activity와 충전·방전 전력&quot;,&quot;steps&quot;:[[&quot;입력 LOW&quot;,&quot;PMOS가 켜지고 NMOS가 꺼지는 기본 상태입니다.&quot;],[&quot;입력 HIGH&quot;,&quot;NMOS가 켜지고 PMOS가 꺼지는 기본 상태입니다.&quot;],[&quot;출력 전이&quot;,&quot;부하의 전하를 충전하거나 방전합니다.&quot;],[&quot;상태 안정&quot;,&quot;입력과 출력이 안정된 뒤의 누설·유지 조건을 봅니다.&quot;]],&quot;subtitle&quot;:&quot;전력 예산은 workload와 clock·전압·온도 조건에서 동적·정적 항목을 나누어 계산한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;power&quot;}" aria-label="Switching Activity와 충전·방전 전력"></section>
+<p>Activity는 무엇을 세었는지 정의해야 하며 peak와 average는 다른 문제다. Block 수치를 합칠 때 중복 계상한 clock와 memory 영역을 확인한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;power&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;전력 모델&quot;, &quot;fault&quot;: &quot;짧은 idle 구간의 낮은 평균을 active workload의 전력으로 대표하지 않는다.&quot;}" aria-label="전력 모델과 예산 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>αCV²f 모델로 dynamic 성분의 경향을 보고 leakage와 항상 켜진 영역의 비용을 더한다. 실제 측정과 모델 값은 구분해 표시한다.</p></div>
+<div class="lesson-columns"><section><p>짧은 idle 구간의 낮은 평균을 active workload의 전력으로 대표하지 않는다.</p></section><section><p>조건이 다른 전력 숫자를 직접 비교하지 않는다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=13">13장 · CMOS 회로와 Custom Layout</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a><a target="_top" href="../index.html?chapter=18">18장 · CDC와 RDC</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="19.01" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-02">다음 절 · Clock Gating과 Operand Isolation</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="19.02" data-guidebook-toc-title="Clock Gating과 Operand Isolation">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">19-2. Clock Gating과 Operand Isolation</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;19.02&quot;,&quot;kind&quot;:&quot;clocktree&quot;,&quot;variant&quot;:&quot;gating&quot;,&quot;title&quot;:&quot;Clock 경로를 필요한 시점에만 열기&quot;,&quot;steps&quot;:[[&quot;Source&quot;,&quot;Clock의 기준 Source를 정의합니다.&quot;],[&quot;Trunk&quot;,&quot;큰 영역으로 Clock을 분배합니다.&quot;],[&quot;Branch&quot;,&quot;균형 잡힌 분기로 Sink에 접근합니다.&quot;],[&quot;Sink&quot;,&quot;도착 시간·Slew·Skew를 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;Clock gating은 필요 없는 register clock 전환을 막고 operand isolation은 불필요한 combinational switching을 줄인다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Clock 경로를 필요한 시점에만 열기"></section>
+<p>두 방법은 차단 위치와 제어 조건이 다르다. Enable의 유효 시간과 wake-up 후 상태 전달을 검증한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;power&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;전력 모델&quot;, &quot;fault&quot;: &quot;단순 AND clock gating으로 glitch를 만들지 않도록 검증된 cell과 제약을 사용한다.&quot;}" aria-label="Clock Gating과 Operand Isolation 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Register가 유지되어도 입력 조합회로가 계속 토글할 수 있다. 반대로 operand를 고정해도 clock tree는 계속 switching할 수 있어 어떤 활동을 줄이는지 구분한다.</p></div>
+<div class="lesson-columns"><section><p>단순 AND clock gating으로 glitch를 만들지 않도록 검증된 cell과 제약을 사용한다.</p></section><section><p>기능을 유지하면서 중지되는 활동을 설명한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=13">13장 · CMOS 회로와 Custom Layout</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a><a target="_top" href="../index.html?chapter=18">18장 · CDC와 RDC</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="19.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · Power Gating과 도메인</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-03" data-lesson-id="19.03" data-guidebook-toc-title="Power Gating과 도메인">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">19-3. Power Gating과 도메인</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;19.03&quot;,&quot;kind&quot;:&quot;power&quot;,&quot;variant&quot;:&quot;domain&quot;,&quot;title&quot;:&quot;Always-on과 Switchable 도메인의 경계&quot;,&quot;steps&quot;:[[&quot;정상&quot;,&quot;필요한 전원과 Clock이 안정된 상태입니다.&quot;],[&quot;격리&quot;,&quot;유효하지 않은 출력이 다른 영역으로 퍼지지 않게 막습니다.&quot;],[&quot;전원 전이&quot;,&quot;보존·차단·복구 순서를 따릅니다.&quot;],[&quot;재개&quot;,&quot;전원·Clock·Reset이 준비된 뒤 기능을 다시 허용합니다.&quot;]],&quot;three&quot;:&quot;power&quot;,&quot;subtitle&quot;:&quot;Power gating은 domain의 공급 경로를 끊어 leakage를 줄일 수 있다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;}" aria-label="Always-on과 Switchable 도메인의 경계"></section>
+<p>Power switch와 항상 켜진 제어, isolation, wake-up 전류와 안정 시간을 고려한다. Off domain의 출력이 on domain의 동작을 오염시키지 않아야 한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;domain&quot;, &quot;title&quot;: &quot;Clock·reset·power 상태 전환&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="Power Gating과 도메인 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>요청 정지와 완료 확인 후 isolation을 걸고 power를 끈다. 켤 때는 공급이 안정된 후 상태 복원과 reset 조건을 만족하고 isolation을 해제한다.</p></div>
+<div class="lesson-columns"><section><p>꺼진 domain의 register가 이전 값을 유지한다고 기대하지 않는다.</p></section><section><p>전원 없는 도메인의 출력을 통제한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=13">13장 · CMOS 회로와 Custom Layout</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a><a target="_top" href="../index.html?chapter=18">18장 · CDC와 RDC</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="19.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-04">다음 절 · Retention과 Level Shifter</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="19.04" data-guidebook-toc-title="Retention과 Level Shifter">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">19-4. Retention과 Level Shifter</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;19.04&quot;,&quot;kind&quot;:&quot;power&quot;,&quot;variant&quot;:&quot;retention&quot;,&quot;title&quot;:&quot;전압과 전원이 달라도 안전하게 전달하기&quot;,&quot;steps&quot;:[[&quot;정상&quot;,&quot;필요한 전원과 Clock이 안정된 상태입니다.&quot;],[&quot;격리&quot;,&quot;유효하지 않은 출력이 다른 영역으로 퍼지지 않게 막습니다.&quot;],[&quot;전원 전이&quot;,&quot;보존·차단·복구 순서를 따릅니다.&quot;],[&quot;재개&quot;,&quot;전원·Clock·Reset이 준비된 뒤 기능을 다시 허용합니다.&quot;]],&quot;subtitle&quot;:&quot;Retention은 지정한 상태를 별도 보존 경로에 저장하고 power 복귀 후 복원한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="전압과 전원이 달라도 안전하게 전달하기"></section>
+<p>Level shifter는 전압 domain 사이의 신호 수준을 변환한다. Isolation은 유효하지 않은 출력을 안전한 값으로 고정하는 별도 기능이다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;domain&quot;, &quot;title&quot;: &quot;Clock·reset·power 상태 전환&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="Retention과 Level Shifter 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Power-off 전에 save가 끝났는지, power-on 후 restore와 reset의 우선순위가 맞는지 확인한다. Level shifter의 방향과 항상 켜져 있어야 하는 전원도 검토한다.</p></div>
+<div class="lesson-columns"><section><p>Retention cell을 넣었다는 이유로 모든 memory와 register가 자동 보존된다고 생각하지 않는다.</p></section><section><p>보존 대상·복원 순서·전압 변환을 구별한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=13">13장 · CMOS 회로와 Custom Layout</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a><a target="_top" href="../index.html?chapter=18">18장 · CDC와 RDC</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="19.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · DVFS와 Power State</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-05" data-lesson-id="19.05" data-guidebook-toc-title="DVFS와 Power State">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">19-5. DVFS와 Power State</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;19.05&quot;,&quot;kind&quot;:&quot;power&quot;,&quot;variant&quot;:&quot;dvfs&quot;,&quot;title&quot;:&quot;전압·주파수와 동작 상태의 전이&quot;,&quot;steps&quot;:[[&quot;정상&quot;,&quot;필요한 전원과 Clock이 안정된 상태입니다.&quot;],[&quot;격리&quot;,&quot;유효하지 않은 출력이 다른 영역으로 퍼지지 않게 막습니다.&quot;],[&quot;전원 전이&quot;,&quot;보존·차단·복구 순서를 따릅니다.&quot;],[&quot;재개&quot;,&quot;전원·Clock·Reset이 준비된 뒤 기능을 다시 허용합니다.&quot;]],&quot;subtitle&quot;:&quot;DVFS는 성능 요구에 따라 전압과 주파수를 조절한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="전압·주파수와 동작 상태의 전이"></section>
+<p>낮은 전압에서는 허용 delay가 달라지므로 주파수와 함께 안전한 operating point를 정의한다. Regulator 안정 시간과 clock 전환·software 정책도 state transition의 일부다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;power&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;전력 모델&quot;, &quot;fault&quot;: &quot;Dynamic power의 제곱 법칙만 보고 전압을 임의로 낮추지 않는다.&quot;}" aria-label="DVFS와 Power State 실습"></section>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;domain&quot;, &quot;title&quot;: &quot;DVFS 전후 상태 순서&quot;}" aria-label="DVFS 전후 상태 순서"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>성능을 높일 때는 필요한 전압을 먼저 확보한 뒤 높은 주파수로 가는 순서를 검토한다. 낮출 때는 높은 주파수에서 낮은 전압을 거치는 순간이 없도록 한다.</p></div>
+<div class="lesson-columns"><section><p>Dynamic power의 제곱 법칙만 보고 전압을 임의로 낮추지 않는다.</p></section><section><p>전압/주파수 전환의 의존 조건을 확인한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=13">13장 · CMOS 회로와 Custom Layout</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a><a target="_top" href="../index.html?chapter=18">18장 · CDC와 RDC</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="19.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-06">다음 절 · UPF와 Power-Aware 검증</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-06" data-lesson-id="19.06" data-guidebook-toc-title="UPF와 Power-Aware 검증">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">19-6. UPF와 Power-Aware 검증</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;19.06&quot;,&quot;kind&quot;:&quot;coverage&quot;,&quot;variant&quot;:&quot;upf&quot;,&quot;title&quot;:&quot;Power intent와 검증 상태의 대응&quot;,&quot;steps&quot;:[[&quot;요구&quot;,&quot;검증할 요구사항을 명확하게 나눕니다.&quot;],[&quot;근거&quot;,&quot;각 요구에 맞는 검증 수단을 연결합니다.&quot;],[&quot;빈틈&quot;,&quot;누락되거나 미결인 항목을 드러냅니다.&quot;],[&quot;완료&quot;,&quot;결과와 예외의 근거를 함께 검토합니다.&quot;]],&quot;subtitle&quot;:&quot;UPF는 power domain과 공급, isolation·retention·level shifting 같은 power intent를 기술한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Power intent와 검증 상태의 대응"></section>
+<p>실제 구현과 simulation model이 이 의도를 어떻게 반영하는지 확인해야 한다. Power-aware 검증에서는 상태 전환과 X 전파, 경계 셀 동작을 함께 본다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;domain&quot;, &quot;title&quot;: &quot;Clock·reset·power 상태 전환&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="UPF와 Power-Aware 검증 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Off domain의 출력이 X가 될 때 isolation이 적용되어 on domain에 정의된 값이 전달되는지 확인한다. Save/restore 누락도 regression에 포함한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code># UPF concept fragment; supply, state and library bindings are project inputs.
+create_power_domain PD_AON  -elements {uPowerCtrl}
+create_power_domain PD_CORE -elements {uCore}
+set_isolation ISO_CORE -domain PD_CORE -clamp_value 0 -applies_to outputs
+# Connect the isolation control, supply sets, power states and retention policy
+# using the command revision supported by the selected UPF tool flow.</code></pre>
+<div class="lesson-columns"><section><p>UPF 문법 검사를 통과한 것을 모든 power 시나리오의 기능 검증으로 보지 않는다.</p></section><section><p>기능·power intent·구현의 불일치를 검출한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=13">13장 · CMOS 회로와 Custom Layout</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a><a target="_top" href="../index.html?chapter=18">18장 · CDC와 RDC</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="19.06" aria-pressed="false">이 절 학습 완료</button></footer></article>
+</section></main>
+    <script src="../assets/guidebook-page-common.js?v=0bda89d04754"></script>
+    <script src="../assets/features/visual-atlas/visual-atlas.js?v=a41dcf70c9ca"></script>
+    <script src="../assets/features/curriculum/curriculum.js?v=a49d5d58f3f2"></script>
+</body>
+</html>

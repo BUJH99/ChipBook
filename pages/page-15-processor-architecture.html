@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU · GPU · DSP 구조 | 반도체 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/fonts.css?v=c76e3cfe4c44">
+    <link rel="stylesheet" href="../assets/guidebook-common.css?v=d690df41ee31">
+    <link rel="stylesheet" href="../assets/features/curriculum/curriculum.css?v=09e7ec987305">
+    <link rel="stylesheet" href="../assets/features/visual-atlas/visual-atlas.css?v=fdf94ae6f6da">
+
+</head>
+<body class="page-standalone curriculum-page visual-curriculum" data-page-id="page-15" data-chapter-number="15" data-default-section="section-01" data-section-aliases="{}" data-curriculum-engine="true" data-curriculum-mode="action">
+<main class="page-shell"><section class="page-section active" id="page-15"><div class="mb-4"><span class="badge">Part 15</span></div>
+<h2 class="section-title">CPU · GPU · DSP 구조</h2>
+<article class="chapter-lesson" data-lesson-panel="section-01" data-lesson-id="15.01" data-guidebook-toc-title="ISA와 마이크로아키텍처">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">15-1. ISA와 마이크로아키텍처</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;15.01&quot;,&quot;kind&quot;:&quot;graph&quot;,&quot;variant&quot;:&quot;isa&quot;,&quot;title&quot;:&quot;명령의 의미에서 실행 회로까지&quot;,&quot;steps&quot;:[[&quot;입력&quot;,&quot;Source와 제약·환경을 함께 고정합니다.&quot;],[&quot;변환&quot;,&quot;중간 표현과 연결을 생성합니다.&quot;],[&quot;검증&quot;,&quot;변환 전후의 계약과 결과를 확인합니다.&quot;],[&quot;산출물&quot;,&quot;재현 가능한 결과와 근거를 남깁니다.&quot;]],&quot;subtitle&quot;:&quot;ISA는 software가 관측하는 명령·register·예외 등의 계약이다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labels&quot;:[&quot;Instruction&quot;,&quot;Decode&quot;,&quot;Registers&quot;,&quot;ALU&quot;,&quot;Memory&quot;,&quot;Retire&quot;]}" aria-label="명령의 의미에서 실행 회로까지"></section>
+<p>마이크로아키텍처는 그 계약을 구현하는 pipeline, 실행기와 저장 구조다. 같은 ISA를 서로 다른 구조로 구현할 수 있으며 기능 호환성과 성능은 다른 질문이다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Load 명령을 보면 주소 계산 → translation/protection → cache/memory 접근 → register 갱신으로 나눌 수 있다. ISA는 결과를 규정하지만 내부 cycle 수는 구현과 상황에 따라 달라진다.</p></div>
+<div class="lesson-columns"><section><p>명령 이름을 안다는 것과 실제 cache·pipeline 동작을 예측할 수 있다는 것을 혼동하지 않는다.</p></section><section><p>ISA 동작과 구현 방식을 구별한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="15.01" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-02">다음 절 · Pipeline과 Hazard</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="15.02" data-guidebook-toc-title="Pipeline과 Hazard">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">15-2. Pipeline과 Hazard</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;15.02&quot;,&quot;kind&quot;:&quot;pipeline&quot;,&quot;variant&quot;:&quot;hazard&quot;,&quot;title&quot;:&quot;Pipeline 단계와 Forwarding·Stall&quot;,&quot;steps&quot;:[[&quot;Fetch&quot;,&quot;명령과 실행에 필요한 정보를 가져옵니다.&quot;],[&quot;Issue&quot;,&quot;의존성과 자원 준비를 확인합니다.&quot;],[&quot;Execute&quot;,&quot;연산·메모리 접근을 수행합니다.&quot;],[&quot;Commit&quot;,&quot;완료한 결과를 정해진 순서와 규칙에 따라 반영합니다.&quot;]],&quot;subtitle&quot;:&quot;Pipeline은 명령 처리의 여러 단계를 겹쳐 throughput을 높인다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Pipeline 단계와 Forwarding·Stall"></section>
+<p>Data hazard는 이전 결과 의존성, control hazard는 다음 실행 위치와 관련된다. Forwarding·stall·flush의 조건을 명확히 정의해야 정확성을 보존한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;pipeline&quot;, &quot;title&quot;: &quot;의존성과 pipeline 진행&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="Pipeline과 Hazard 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Load 결과를 바로 다음 명령이 사용할 때 해당 결과가 필요한 stage에 제때 도착하는지 확인한다. 없으면 bubble이나 다른 scheduling이 필요하다.</p></div>
+<div class="lesson-columns"><section><p>Stage 수가 늘면 무조건 실행 시간이 줄어드는 것은 아니다. Clock 이득과 hazard penalty가 함께 변한다.</p></section><section><p>data/control hazard를 재현하고 해결한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="15.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · 고성능 CPU 기법</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-03" data-lesson-id="15.03" data-guidebook-toc-title="고성능 CPU 기법">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">15-3. 고성능 CPU 기법</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;15.03&quot;,&quot;kind&quot;:&quot;memory&quot;,&quot;variant&quot;:&quot;reorder&quot;,&quot;title&quot;:&quot;명령을 실행하고 순서대로 Commit하기&quot;,&quot;steps&quot;:[[&quot;Rename&quot;,&quot;Architectural register를 물리 register에 매핑합니다.&quot;],[&quot;Issue&quot;,&quot;Operand가 준비된 명령은 독립적으로 실행할 수 있습니다.&quot;],[&quot;Complete&quot;,&quot;실행 결과를 기록해도 아직 architectural state에 반영하지 않습니다.&quot;],[&quot;Commit&quot;,&quot;ROB의 앞에서 프로그램 순서대로 상태를 확정합니다.&quot;]],&quot;subtitle&quot;:&quot;Superscalar와 out-of-order 실행은 독립 명령을 병렬로 처리해 자원을 활용한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="명령을 실행하고 순서대로 Commit하기"></section>
+<p>Register renaming은 이름 의존성을 줄이고 ROB 같은 구조는 architectural state의 순서 있는 완료를 지원한다. Speculation 실패는 복구가 가능한 상태로 관리해야 한다.</p>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>오래 걸리는 load 뒤의 독립 산술 명령을 먼저 실행할 수 있어도 예외와 architectural commit 순서는 별도로 유지한다.</p></div>
+<div class="lesson-columns"><section><p>먼저 실행한 명령이 항상 먼저 software-visible state를 바꾼다고 해석하지 않는다.</p></section><section><p>성능 이점과 상태 관리 비용을 설명한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="15.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-04">다음 절 · 메모리 시스템</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="15.04" data-guidebook-toc-title="메모리 시스템">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">15-4. 메모리 시스템</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;15.04&quot;,&quot;kind&quot;:&quot;memory&quot;,&quot;variant&quot;:&quot;cache&quot;,&quot;title&quot;:&quot;Cache·Memory와 주소 선택&quot;,&quot;steps&quot;:[[&quot;Decode&quot;,&quot;주소가 Bank와 Row를 선택합니다.&quot;],[&quot;Access&quot;,&quot;선택한 저장 위치를 읽거나 씁니다.&quot;],[&quot;Transfer&quot;,&quot;실제 수락한 데이터가 경계를 통과합니다.&quot;],[&quot;Release&quot;,&quot;다음 접근을 위해 소유권과 완료 상태를 갱신합니다.&quot;]],&quot;subtitle&quot;:&quot;Cache는 주소의 tag·index·offset을 이용해 저장된 line을 찾는다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;cache&quot;}" aria-label="Cache·Memory와 주소 선택"></section>
+<p>TLB는 주소 변환 결과를 cache하는 구조이며 data cache와 역할이 다르다. 다중 agent의 cache coherence와 memory ordering은 계층 구조와 함께 검토한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;cache&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;주소와 Cache 동작&quot;, &quot;fault&quot;: &quot;Cache miss를 모두 DRAM 접근으로 간주하면 다른 cache level과 prefetch 등의 경로를 생략하게 된다.&quot;}" aria-label="메모리 시스템 실습"></section>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;access&quot;, &quot;title&quot;: &quot;주소 보호와 translation 경계&quot;}" aria-label="주소 보호와 translation 경계"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>4-line direct-mapped cache, 16-byte line에서 주소 0과 64는 같은 index에 대응하므로 서로 다른 tag가 교체된다. 가까운 주소라도 line boundary를 넘는지 확인한다.</p></div>
+<div class="lesson-columns"><section><p>Cache miss를 모두 DRAM 접근으로 간주하면 다른 cache level과 prefetch 등의 경로를 생략하게 된다.</p></section><section><p>주소 변환과 캐시 일관성을 구별한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="15.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · GPU와 벡터 처리</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-05" data-lesson-id="15.05" data-guidebook-toc-title="GPU와 벡터 처리">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">15-5. GPU와 벡터 처리</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;15.05&quot;,&quot;kind&quot;:&quot;array&quot;,&quot;variant&quot;:&quot;simd&quot;,&quot;title&quot;:&quot;여러 Lane에서 병렬로 실행하는 연산&quot;,&quot;steps&quot;:[[&quot;입력&quot;,&quot;A와 B의 입력 위치와 skew를 확인합니다.&quot;],[&quot;교차&quot;,&quot;같은 k의 두 operand가 하나의 PE에서 만납니다.&quot;],[&quot;누산&quot;,&quot;곱한 값을 해당 출력의 accumulator에 더합니다.&quot;],[&quot;배출&quot;,&quot;마지막 유효 연산 이후 출력 결과를 읽습니다.&quot;]],&quot;three&quot;:&quot;array&quot;,&quot;subtitle&quot;:&quot;SIMD는 한 명령이 여러 data lane을 처리하고 SIMT는 thread 묶음의 실행을 조직한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;}" aria-label="여러 Lane에서 병렬로 실행하는 연산"></section>
+<p>Branch divergence와 memory access 패턴은 실제 활용률에 영향을 준다. Memory coalescing은 인접한 요청을 효율적인 transaction으로 모으는 것과 관련된다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;bandwidth&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;대역폭 예산 계산&quot;, &quot;fault&quot;: &quot;Thread 수가 많다는 사실만으로 모든 연산기가 항상 유효한 일을 한다고 가정하지 않는다.&quot;}" aria-label="GPU와 벡터 처리 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Thread들이 연속 주소를 읽는 경우와 stride가 큰 주소를 읽는 경우를 비교한다. 필요한 payload가 같아도 실제 memory transaction 수는 달라질 수 있다.</p></div>
+<div class="lesson-columns"><section><p>Thread 수가 많다는 사실만으로 모든 연산기가 항상 유효한 일을 한다고 가정하지 않는다.</p></section><section><p>병렬화 수준과 실제 효율 차이를 설명한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="15.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-06">다음 절 · DSP와 특화 연산</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-06" data-lesson-id="15.06" data-guidebook-toc-title="DSP와 특화 연산">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">15-6. DSP와 특화 연산</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;15.06&quot;,&quot;kind&quot;:&quot;pe&quot;,&quot;variant&quot;:&quot;dsp&quot;,&quot;title&quot;:&quot;곱·누산을 반복하는 신호 처리 Datapath&quot;,&quot;steps&quot;:[[&quot;Operand&quot;,&quot;현재 유효한 A와 B를 보관합니다.&quot;],[&quot;Multiply&quot;,&quot;두 값을 곱하고 중간 비트 폭을 확보합니다.&quot;],[&quot;Accumulate&quot;,&quot;곱한 값을 기존 부분합에 더합니다.&quot;],[&quot;Control&quot;,&quot;Valid·Stall·Reset에 맞추어 상태를 갱신하거나 유지합니다.&quot;]],&quot;subtitle&quot;:&quot;DSP 알고리즘은 반복적인 곱셈·합산과 규칙적인 memory 접근을 많이 사용한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="곱·누산을 반복하는 신호 처리 Datapath"></section>
+<p>Fixed-point 구현은 binary point 위치, coefficient 정밀도, 누산 폭과 saturation을 정의해야 한다. Pipeline은 latency를 늘리면서도 sample 처리 간격을 줄일 수 있다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;quantize&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;양자화와 수치 오차&quot;, &quot;fault&quot;: &quot;소수점 위치가 다른 값을 단순 정수 덧셈으로 합치면 scale 오류가 생긴다.&quot;}" aria-label="DSP와 특화 연산 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>4-tap FIR은 각 출력에 네 곱의 합을 사용한다. 입력과 coefficient가 작아 보여도 누산의 최악 범위와 rounding 위치를 계산한다.</p></div>
+<div class="lesson-columns"><section><p>소수점 위치가 다른 값을 단순 정수 덧셈으로 합치면 scale 오류가 생긴다.</p></section><section><p>수치 오차와 처리율을 함께 계산한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="15.06" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-07">다음 절 · 구조 선택과 성능 비교</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-07" data-lesson-id="15.07" data-guidebook-toc-title="구조 선택과 성능 비교">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">15-7. 구조 선택과 성능 비교</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;15.07&quot;,&quot;kind&quot;:&quot;roofline&quot;,&quot;variant&quot;:&quot;compare&quot;,&quot;title&quot;:&quot;Workload별로 달라지는 구조의 한계&quot;,&quot;steps&quot;:[[&quot;연산량&quot;,&quot;Workload의 유효 연산 수를 셉니다.&quot;],[&quot;이동량&quot;,&quot;어느 Memory 경계를 통과하는 Byte인지 정합니다.&quot;],[&quot;Intensity&quot;,&quot;연산 수를 이동 Byte로 나눕니다.&quot;],[&quot;상한&quot;,&quot;Compute peak와 대역폭이 정한 한계 중 작은 값이 상한입니다.&quot;]],&quot;subtitle&quot;:&quot;CPU·GPU·DSP·NPU 선택은 workload의 병렬성, 제어 복잡도, 정밀도, 데이터 이동과 software 지원에 달려 있다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;roofline&quot;}" aria-label="Workload별로 달라지는 구조의 한계"></section>
+<p>작은 batch의 latency와 큰 batch의 throughput은 다른 평가다. End-to-end 비용에 전송과 변환도 포함한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;roofline&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;연산과 메모리 상한&quot;, &quot;fault&quot;: &quot;서로 다른 정밀도와 sparse 조건의 peak 수치를 직접 순위로 만들지 않는다.&quot;}" aria-label="구조 선택과 성능 비교 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>같은 kernel을 가속해도 입력을 복사하고 결과를 동기화하는 비용이 크면 짧은 작업에서는 CPU 경로가 유리할 수 있다.</p></div>
+<div class="lesson-columns"><section><p>서로 다른 정밀도와 sparse 조건의 peak 수치를 직접 순위로 만들지 않는다.</p></section><section><p>이름이나 peak 수치만으로 우열을 정하지 않는다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="15.07" aria-pressed="false">이 절 학습 완료</button></footer></article>
+</section></main>
+    <script src="../assets/guidebook-page-common.js?v=0bda89d04754"></script>
+    <script src="../assets/features/visual-atlas/visual-atlas.js?v=a41dcf70c9ca"></script>
+    <script src="../assets/features/curriculum/curriculum.js?v=a49d5d58f3f2"></script>
+</body>
+</html>

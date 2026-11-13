@@ -1,0 +1,15 @@
+<article class="chapter-lesson" data-lesson-panel="section-05" data-lesson-id="21.05" data-guidebook-toc-title="{{section:section-05:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-05:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;21.05&quot;,&quot;kind&quot;:&quot;formal&quot;,&quot;variant&quot;:&quot;equivalence&quot;,&quot;title&quot;:&quot;Reference와 ECO 구현의 대응&quot;,&quot;steps&quot;:[[&quot;가정&quot;,&quot;허용할 환경 동작을 명확하게 제한합니다.&quot;],[&quot;탐색&quot;,&quot;가능한 상태와 전이를 확인합니다.&quot;],[&quot;위반 경로&quot;,&quot;Property를 어기는 경로가 있으면 trace를 읽습니다.&quot;],[&quot;판정&quot;,&quot;증명·실패·미결을 구분하고 가정과 범위를 함께 해석합니다.&quot;]],&quot;subtitle&quot;:&quot;Equivalence는 두 설계의 관측 동작을 비교하며 combinational과 sequential 비교의 전제가 다르다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Reference와 ECO 구현의 대응"></section>
+<p>Register retiming이나 encoding 변경은 단순 node matching을 넘어서는 대응이 필요할 수 있다. ECO 뒤에는 변경 범위뿐 아니라 주변 영향도 확인한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;formal&quot;, &quot;title&quot;: &quot;ECO 전후 trace 비교&quot;}" aria-label="ECO 전후 trace 비교"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>기능 ECO가 아닌 timing ECO에서 동일 입력·초기 상태의 결과를 비교한다. Black box와 unmatched point가 결과를 얼마나 제한하는지 함께 읽는다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>// Example comparison point; reset/initial-state relation is part of the proof.
+assert_same_output: assert property (
+    @(posedge iClk) disable iff (!iRstn)
+    RefValid &amp;&amp; ImplValid |-&gt; RefData == ImplData
+);
+// This checker alone is not a complete sequential-equivalence proof.</code></pre>
+<div class="lesson-columns"><section><p>이름이 같은 register가 반드시 같은 의미의 상태라고 가정하지 않는다.</p></section><section><p>동치 검사의 전제와 실패 원인을 설명한다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="21.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-06">다음 절 · 검증 완료와 추적성</a></footer></article>

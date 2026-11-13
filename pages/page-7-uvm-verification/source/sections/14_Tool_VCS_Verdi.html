@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VCS & Verdi Guidebook : Simulation + Debug Flow</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v3.2.1/dist/web/static/pretendard.css" />
+
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -83,7 +83,7 @@
             animation: drawWave 3s ease-out forwards;
             animation-delay: 0.5s;
         }
-        
+
         /* Smooth Hover Transitions */
         .svg-node {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease;
@@ -119,6 +119,9 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
+    <link rel="stylesheet" href="../../../../assets/fonts.css">
+    <link rel="stylesheet" href="../../../../assets/components/embedded-content.css">
+    <script defer src="../../../../assets/components/embedded-document.js"></script>
 </head>
 <body class="font-sans antialiased text-slate-600 bg-white selection:bg-blue-100 selection:text-blue-900">
 
@@ -244,13 +247,13 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
+
                 <!-- Diagram: File Structure & Compile Flow -->
                 <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 diagram-grid relative overflow-hidden">
                     <svg viewBox="0 0 600 350" class="w-full h-auto">
                         <!-- Tree structure lines -->
                         <path d="M 50 80 L 50 280 M 50 120 L 80 120 M 50 180 L 80 180 M 50 240 L 80 240 M 50 280 L 80 280" fill="none" class="stroke-slate-300 stroke-2" />
-                        
+
                         <!-- Folder / Files -->
                         <g class="svg-node" transform="translate(30, 60)">
                             <text x="0" y="0" class="fill-slate-800 font-bold text-sm">📁 /project_root</text>
@@ -283,11 +286,11 @@
                             <rect width="150" height="120" rx="12" class="fill-white stroke-blue-500 stroke-2" />
                             <path d="M 320 150 L 470 150" fill="none" class="stroke-blue-100 stroke-2" />
                             <text x="395" y="142" text-anchor="middle" class="fill-blue-800 font-bold text-sm">VCS 2-Step Flow</text>
-                            
+
                             <!-- Steps -->
                             <rect x="15" y="45" width="120" height="24" rx="4" class="fill-slate-50 stroke-slate-200" />
                             <text x="75" y="61" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold">1. Analysis (Parse)</text>
-                            
+
                             <rect x="15" y="80" width="120" height="24" rx="4" class="fill-slate-50 stroke-slate-200" />
                             <text x="75" y="96" text-anchor="middle" class="fill-slate-600 text-[10px] font-bold">2. Elaboration</text>
                         </g>
@@ -358,7 +361,7 @@
                         VCS(Verilog Compiler Simulator)는 단순한 코드 해석기(Interpreter)가 아닙니다. 하드웨어 코드를 C/C++로 변환하고 GCC 컴파일러를 통해 네이티브 바이너리 머신 코드(<code class="font-mono text-xs bg-slate-200 px-1 rounded">simv</code>)로 빌드하는 <strong>고성능 컴파일 엔진</strong>입니다.
                     </p>
                 </div>
-                
+
                 <div class="p-8 diagram-grid relative overflow-x-auto">
                     <svg viewBox="0 0 850 200" class="w-full h-auto min-w-[800px]">
                         <!-- Lines connecting nodes -->
@@ -374,7 +377,7 @@
                             <text x="40" y="32" text-anchor="middle" class="fill-slate-800 font-bold text-xs">RTL / TB</text>
                             <text x="40" y="48" text-anchor="middle" class="fill-slate-500 font-mono text-[9px]">(System)Verilog</text>
                         </g>
-                        
+
                         <!-- Node 2: Analysis (vlogan) -->
                         <g class="svg-node" transform="translate(160, 65)">
                             <rect width="120" height="70" rx="10" class="fill-blue-50 stroke-blue-300 stroke-2" />
@@ -406,7 +409,7 @@
                             <text x="40" y="35" text-anchor="middle" class="fill-emerald-400 font-bold font-mono text-lg">simv</text>
                             <text x="40" y="52" text-anchor="middle" class="fill-slate-400 text-[10px]">Executable Binary</text>
                         </g>
-                        
+
                         <!-- Path Annotations -->
                         <text x="130" y="90" text-anchor="middle" class="fill-slate-400 text-[9px] bg-white">Parse</text>
                         <text x="310" y="90" text-anchor="middle" class="fill-blue-500 text-[9px] font-bold">AST / KDB</text>
@@ -510,7 +513,7 @@
                             <rect width="80" height="40" rx="8" class="fill-slate-800 stroke-slate-700" />
                             <text x="40" y="25" text-anchor="middle" class="fill-white font-mono font-bold text-sm">./simv</text>
                         </g>
-                        
+
                         <path d="M 140 100 L 250 100" fill="none" class="stroke-slate-300 stroke-2 animate-flow" />
                         <text x="195" y="90" text-anchor="middle" class="fill-slate-500 text-[10px] font-mono">$fsdbDumpvars</text>
 
@@ -537,7 +540,7 @@
                             $fsdbDumpSVA; <span class="text-slate-500">// Assertion Dump</span>
                         </div>
                     </div>
-                    
+
                     <div class="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
                         <h4 class="font-bold text-slate-900 mb-2">[6] 런타임 옵션 (Plusargs)</h4>
                         <p class="text-sm text-slate-600 mb-2">
@@ -601,7 +604,7 @@
                     <div class="w-3/4 relative overflow-hidden bg-[#0f111a]">
                         <!-- Grid Lines -->
                         <div class="absolute inset-0" style="background-image: linear-gradient(to right, #1e293b 1px, transparent 1px); background-size: 50px 100%;"></div>
-                        
+
                         <!-- Yellow Cursor -->
                         <div class="absolute top-0 bottom-0 left-[250px] w-px bg-yellow-400 z-10"></div>
                         <div class="absolute top-0 left-[230px] bg-yellow-400 text-black text-[9px] font-mono px-1 rounded-sm z-10">1245 ns</div>
@@ -610,7 +613,7 @@
                             <!-- Clock Signal (Emerald) -->
                             <path d="M 0 40 L 25 40 L 25 20 L 75 20 L 75 40 L 125 40 L 125 20 L 175 20 L 175 40 L 225 40 L 225 20 L 275 20 L 275 40 L 325 40 L 325 20 L 375 20 L 375 40 L 425 40 L 425 20 L 475 20 L 475 40" 
                                   fill="none" class="stroke-emerald-500 stroke-2 animate-wave" />
-                            
+
                             <!-- Reset Signal -->
                             <path d="M 0 90 L 50 90 L 50 70 L 600 70" fill="none" class="stroke-emerald-500 stroke-2 animate-wave" />
 
@@ -622,7 +625,7 @@
                             <!-- X State (Red Hatched) -->
                             <rect x="0" y="170" width="125" height="20" class="fill-red-900/30 stroke-red-500 stroke-1" />
                             <text x="60" y="184" text-anchor="middle" class="fill-red-500 text-[10px] font-mono">XXXX</text>
-                            
+
                             <polygon points="125,180 130,170 170,170 175,180 170,190 130,190" class="fill-green-900/40 stroke-green-500 stroke-1" />
                             <text x="150" y="184" text-anchor="middle" class="fill-green-400 text-[10px] font-mono">A1B2</text>
 
@@ -651,7 +654,7 @@
                         <li><span class="font-bold text-blue-600 font-mono">nSchema:</span> RTL 코드를 Gate-level 회로도로 시각화</li>
                     </ul>
                 </div>
-                
+
                 <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
                     <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
                         <svg width="16" height="16" viewBox="0 0 24 24" class="fill-blue-500"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
@@ -661,7 +664,7 @@
                         파형에서 알 수 없는 값(X)이나 Error 발생 시, 해당 신호를 더블클릭하여 값을 생성한 원인 소스코드로 즉각 점프합니다.
                     </p>
                 </div>
-                
+
                 <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm border-t-4 border-t-purple-500">
                     <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
                         <span class="text-purple-500 font-black text-xs">SVA</span>
@@ -693,13 +696,13 @@
                         Verdi는 단순한 파형 뷰어(Waveform Viewer)가 아닙니다. <strong>동적 시뮬레이션 결과(FSDB)</strong>와 <strong>정적 설계 정보(KDB)</strong>를 하나의 강력한 엔진으로 결합하여, 소스코드-파형-회로도 간의 완벽한 양방향 추적(Cross-probing)을 지원하는 통합 플랫폼입니다.
                     </p>
                 </div>
-                
+
                 <div class="p-8 diagram-grid relative overflow-x-auto">
                     <svg viewBox="0 0 850 240" class="w-full h-auto min-w-[800px]">
                         <!-- Data Load Flow Arrows -->
                         <path d="M 150 70 L 280 110" fill="none" class="stroke-blue-400 stroke-2 animate-flow" marker-end="url(#arrowBlue)" />
                         <path d="M 150 170 L 280 130" fill="none" class="stroke-purple-400 stroke-2 animate-flow" marker-end="url(#arrow)" />
-                        
+
                         <!-- Core to Apps Arrows -->
                         <path d="M 460 120 L 600 55" fill="none" class="stroke-emerald-300 stroke-2 animate-flow" marker-end="url(#arrow)" />
                         <path d="M 460 120 L 600 120" fill="none" class="stroke-emerald-300 stroke-2 animate-flow" marker-end="url(#arrow)" />
@@ -933,7 +936,7 @@
 
                         <!-- Merge -->
                         <path d="M 410 124 L 410 160" fill="none" class="stroke-purple-400 stroke-2 animate-flow" />
-                        
+
                         <g class="svg-node" transform="translate(330, 160)">
                             <rect width="160" height="40" rx="8" class="fill-slate-800 stroke-slate-700" />
                             <text x="80" y="18" text-anchor="middle" class="fill-white text-[10px] font-bold">URG (Unified Report Gen)</text>
@@ -1001,13 +1004,13 @@
                     </h4>
                     <p class="text-xs text-slate-400 mt-1">현업에서는 개발자가 직접 시뮬레이션을 돌리기보다, 자동화된 파이프라인과 커스텀 스크립트를 통해 Tool의 한계를 극복합니다.</p>
                 </div>
-                
+
                 <div class="p-8 relative overflow-hidden bg-[#0f111a] flex justify-center items-center">
                     <svg viewBox="0 0 900 300" class="w-full max-w-5xl h-auto drop-shadow-lg">
                         <!-- Connectors (Flow lines) -->
                         <path d="M 120 100 L 220 100" fill="none" class="stroke-slate-500 stroke-2 animate-flow" marker-end="url(#arrow)" />
                         <path d="M 340 100 L 440 100" fill="none" class="stroke-blue-500 stroke-2 animate-flow" marker-end="url(#arrowBlue)" />
-                        
+
                         <!-- LSF to Output -->
                         <path d="M 580 80 L 700 60" fill="none" class="stroke-emerald-400 stroke-2 animate-flow" marker-end="url(#arrow)" />
                         <path d="M 580 120 L 700 140" fill="none" class="stroke-purple-400 stroke-2 animate-flow" marker-end="url(#arrow)" />
@@ -1038,7 +1041,7 @@
                         <g class="svg-node" transform="translate(440, 40)">
                             <rect width="140" height="120" rx="16" class="fill-blue-900/30 stroke-blue-400 stroke-2" />
                             <text x="70" y="25" text-anchor="middle" class="fill-blue-300 font-bold text-xs">LSF / SGE Farm</text>
-                            
+
                             <!-- Mini Compute Nodes -->
                             <rect x="20" y="40" width="40" height="25" rx="4" class="fill-slate-700 stroke-slate-500" />
                             <text x="40" y="56" text-anchor="middle" class="fill-green-400 text-[9px] font-mono">vcs</text>
@@ -1048,7 +1051,7 @@
                             <text x="40" y="91" text-anchor="middle" class="fill-green-400 text-[9px] font-mono">simv</text>
                             <rect x="80" y="75" width="40" height="25" rx="4" class="fill-slate-700 stroke-slate-500" />
                             <text x="100" y="91" text-anchor="middle" class="fill-green-400 text-[9px] font-mono">simv</text>
-                            
+
                             <text x="70" y="115" text-anchor="middle" class="fill-slate-400 text-[9px]">Parallel Jobs</text>
                         </g>
 
@@ -1058,7 +1061,7 @@
                             <text x="60" y="25" text-anchor="middle" class="fill-emerald-300 font-bold text-xs">Coverage DB</text>
                             <text x="60" y="40" text-anchor="middle" class="fill-slate-300 text-[9px]">+ Slack Notify</text>
                         </g>
-                        
+
                         <g class="svg-node" transform="translate(700, 110)">
                             <rect width="120" height="70" rx="8" class="fill-purple-900/40 stroke-purple-500 stroke-2" />
                             <text x="60" y="25" text-anchor="middle" class="fill-purple-300 font-bold text-xs">Verdi + TCL</text>
@@ -1069,10 +1072,10 @@
                         <!-- Badge Overlays -->
                         <circle cx="220" cy="60" r="12" class="fill-white" />
                         <text x="220" y="64" text-anchor="middle" class="fill-blue-600 font-black text-xs">1</text>
-                        
+
                         <circle cx="440" cy="40" r="12" class="fill-white" />
                         <text x="440" y="44" text-anchor="middle" class="fill-blue-600 font-black text-xs">2</text>
-                        
+
                         <circle cx="700" cy="110" r="12" class="fill-white" />
                         <text x="700" y="114" text-anchor="middle" class="fill-blue-600 font-black text-xs">3</text>
                     </svg>
@@ -1112,7 +1115,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm mt-6">
                 <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
                     <svg width="18" height="18" viewBox="0 0 24 24" class="fill-slate-600"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>

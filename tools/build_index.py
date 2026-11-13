@@ -4,79 +4,14 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import hashlib
 import sys
-from pathlib import Path
+
+from site_common import render_head, load_registry, REPO_ROOT, write_text, versioned_asset
 
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-REGISTRY_PATH = REPO_ROOT / "src" / "app" / "page-registry.json"
 INDEX_PATH = REPO_ROOT / "index.html"
 
-SIDE_TOC_LAYER_STYLE = """    <style data-side-toc-layer>
-        .page-side-toc-shell[data-page-toc-shell] {
-            display: block !important;
-            position: relative;
-            width: min(12rem, 34vw);
-            flex: 0 0 auto;
-            z-index: 2147483000;
-            pointer-events: auto;
-            isolation: isolate;
-        }
-
-        .page-side-toc-content {
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            right: 0;
-            width: min(20rem, calc(100vw - 2rem));
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .page-side-toc-shell.is-expanded .page-side-toc-content {
-            max-height: 56vh;
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        @media (min-width: 1440px) {
-            .page-side-toc-shell[data-page-toc-shell] {
-                position: fixed !important;
-                top: 6.5rem !important;
-                right: max(1.25rem, calc((100vw - 2000px) / 2 + 1.5rem));
-                left: auto;
-                width: 13rem;
-            }
-
-            .page-side-toc-content {
-                width: 13rem;
-            }
-
-            .page-side-toc-shell.is-expanded .page-side-toc-content,
-            .page-side-toc-shell:hover .page-side-toc-content {
-                max-height: calc(100vh - 13rem);
-            }
-        }
-
-        @media (max-width: 639px) {
-            .page-side-toc-shell[data-page-toc-shell] {
-                width: min(6.8rem, 29vw);
-            }
-        }
-
-        @media (min-width: 1440px) and (hover: hover) and (pointer: fine) {
-            .page-side-toc-shell:hover .page-side-toc-content {
-                opacity: 1;
-                pointer-events: auto;
-            }
-        }
-    </style>"""
-
-
-def load_registry(path: Path = REGISTRY_PATH) -> dict[str, object]:
-    with path.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
 
 
 def escape(value: object) -> str:
@@ -146,12 +81,14 @@ def render_nav(pages: list[dict[str, object]]) -> str:
 def render_page_frame(page: dict[str, object], is_active: bool) -> str:
     page_id = escape(page["id"])
     title = escape(page.get("frameTitle") or page["title"])
-    source = escape(page["src"])
+    source_path = REPO_ROOT / str(page["src"]).removeprefix('./')
+    revision = hashlib.sha256(source_path.read_bytes()).hexdigest()[:12] if source_path.exists() else 'unbuilt'
+    source = escape(str(page["src"]) + '?v=' + revision)
     loading_text = escape(page.get("loadingText") or f"{page['title']} 페이지를 불러오는 중입니다...")
     active_class = " active" if is_active else ""
 
     return f"""
-<section class="page-section{active_class}" id="{page_id}">
+<section class="page-section{active_class}" id="{page_id}" data-chapter-number="{int(page['number'])}">
     <div class="page-frame-shell" data-page-shell>
         <div class="page-frame-loading">{loading_text}</div>
         <iframe
@@ -159,6 +96,7 @@ def render_page_frame(page: dict[str, object], is_active: bool) -> str:
             title="{title}"
             data-page-frame
             data-page-id="{page_id}"
+            data-section-aliases="{escape(json.dumps(page.get('sectionAliases', {})))}"
             data-page-src="{source}"
             loading="lazy"
         ></iframe>
@@ -188,12 +126,29 @@ def render_side_toc() -> str:
     </aside>"""
 
 
-def render_chapter_jump(total_pages: int) -> str:
+def render_chapter_jump(pages: list[dict[str, object]]) -> str:
+    first = int(pages[0]['number'])
+    last = int(pages[-1]['number'])
     return f"""                <div class="chapter-jump-control" data-chapter-jump aria-label="챕터 이동">
                     <button class="chapter-jump-step" type="button" data-chapter-step="-1" aria-label="이전 챕터">‹</button>
-                    <input class="chapter-jump-input" data-chapter-input type="number" inputmode="numeric" pattern="[0-9]*" min="1" max="{total_pages}" value="1" aria-label="챕터 번호">
+                    <input class="chapter-jump-input" data-chapter-input type="number" inputmode="numeric" pattern="[0-9]*" min="{first}" max="{last}" value="{first}" aria-label="챕터 번호">
                     <button class="chapter-jump-step" type="button" data-chapter-step="1" aria-label="다음 챕터">›</button>
                 </div>"""
+
+
+def render_search(pages: list[dict[str, object]]) -> str:
+    links = []
+    for page in pages:
+        for index, section in enumerate(page['sections'], 1):
+            label = f"{page['number']:02d}.{index:02d} · {section['title']}"
+            links.append(f'<a class="book-search-result" data-book-search-result href="?chapter={page["number"]}&amp;section={escape(section["key"])}"><strong>{escape(label)}</strong><span>{escape(page["title"])}</span></a>')
+    return f'''<dialog class="book-search-dialog" data-book-search-dialog aria-labelledby="book-search-title">
+        <form method="dialog"><h2 id="book-search-title">학습 절 찾기</h2><button aria-label="검색 닫기">닫기</button></form>
+        <label for="book-search-input">절 제목 또는 용어</label>
+        <input id="book-search-input" data-book-search type="search" placeholder="I2C, DMA, 타이밍…" autocomplete="off">
+        <p data-book-search-status role="status">{len(links)}개 학습 절</p>
+        <nav class="book-search-results" aria-label="검색 결과">{''.join(links)}</nav>
+    </dialog>'''
 
 
 def render_index(registry: dict[str, object]) -> str:
@@ -209,18 +164,8 @@ def render_index(registry: dict[str, object]) -> str:
     subtitle = escape(site.get("subtitle") or "")
     total_pages = len(pages)
 
-    return f"""<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title}</title>
-    <link rel="icon" href="data:,">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/guidebook-common.css?v=chapter-jump-mobile">
-{SIDE_TOC_LAYER_STYLE}
-</head>
+    head = render_head(str(site.get("title") or "ChipBook"), asset_prefix="./assets/")
+    return f"""{head}
 <body class="flex flex-col min-h-screen">
     <!-- Generated by tools/build_index.py from src/app/page-registry.json. -->
     <header class="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm h-18">
@@ -233,7 +178,8 @@ def render_index(registry: dict[str, object]) -> str:
                 </div>
             </div>
             <div class="guidebook-header-actions flex items-center gap-3">
-{render_chapter_jump(total_pages)}
+                <button type="button" class="book-search-open" data-book-search-open aria-haspopup="dialog">검색</button>
+{render_chapter_jump(pages)}
 {render_side_toc()}
                 <div class="text-sm font-semibold text-gray-500 hidden md:flex items-center gap-3 bg-gray-50 px-5 py-2.5 rounded-2xl border border-gray-100">
                     <kbd class="bg-white px-2 py-1 rounded-lg border border-gray-200 shadow-sm font-mono text-gray-800 text-xs">←</kbd>
@@ -268,7 +214,8 @@ def render_index(registry: dict[str, object]) -> str:
 
     </div>
 
-    <script src="./assets/guidebook-main.js?v=chapter-jump-mobile"></script>
+    {render_search(pages)}
+    <script src="{versioned_asset('./assets/guidebook-main.js')}"></script>
 </body>
 </html>
 """
@@ -289,7 +236,7 @@ def main(argv: list[str]) -> int:
             return 1 if changed else 0
 
         if changed:
-            INDEX_PATH.write_text(rendered, encoding="utf-8", newline="")
+            write_text(INDEX_PATH, rendered)
         print(f"[{'changed' if changed else 'ok'}] {INDEX_PATH.relative_to(REPO_ROOT)}")
         return 0
     except Exception as error:  # pragma: no cover - CLI error handling

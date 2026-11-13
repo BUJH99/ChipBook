@@ -1,0 +1,477 @@
+.axis-master-node {
+  --axis-master-rgb: 37, 99, 235;
+  --axis-master-color: #2563eb;
+  position: absolute;
+  top: 50%;
+  left: 32px;
+  width: 166px;
+  height: 234px;
+  transform: translateY(-50%);
+  border-radius: 1.15rem;
+  border: 1px solid rgba(var(--axis-master-rgb), 0.18);
+  border-top: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 42%, rgba(241, 245, 249, 0.96) 100%);
+  box-shadow:
+    0 20px 36px rgba(37, 99, 235, 0.12),
+    0 0 0 1px rgba(var(--axis-master-rgb), 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+  z-index: 30;
+  isolation: isolate;
+}
+
+.axis-master-node::before,
+.axis-master-node::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.axis-master-node::before {
+  inset: -8% -18% auto auto;
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(var(--axis-master-rgb), 0.24) 0%, rgba(var(--axis-master-rgb), 0.08) 42%, rgba(var(--axis-master-rgb), 0) 76%);
+  filter: blur(18px);
+  opacity: 0.52;
+  transition: opacity 0.28s ease, transform 0.28s ease, background 0.28s ease;
+}
+
+.axis-master-node::after {
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0) 36%),
+    linear-gradient(180deg, rgba(var(--axis-master-rgb), 0.06) 0%, rgba(var(--axis-master-rgb), 0.01) 28%, rgba(255, 255, 255, 0) 100%);
+  opacity: 1;
+}
+
+.axis-master-node.is-idle {
+  animation: axisMasterBreath 4.2s ease-in-out infinite;
+}
+
+.axis-master-node.is-idle::before {
+  opacity: 0.28;
+  transform: scale(0.92);
+}
+
+.axis-master-node.is-armed,
+.axis-master-node.is-driving {
+  border-color: rgba(var(--axis-master-rgb), 0.3);
+  box-shadow:
+    0 24px 42px rgba(37, 99, 235, 0.16),
+    0 0 0 1px rgba(var(--axis-master-rgb), 0.1),
+    0 0 28px rgba(var(--axis-master-rgb), 0.12);
+}
+
+.axis-master-node.is-armed::before,
+.axis-master-node.is-driving::before {
+  opacity: 0.72;
+  transform: scale(1.05);
+}
+
+.axis-master-node.is-armed {
+  animation: none;
+}
+
+.axis-master-node.is-driving {
+  transform: translateY(-50%) scale(1.045);
+  box-shadow:
+    0 28px 48px rgba(37, 99, 235, 0.2),
+    0 0 0 1px rgba(var(--axis-master-rgb), 0.14),
+    0 0 38px rgba(var(--axis-master-rgb), 0.16);
+}
+
+.axis-master-node.is-stalled {
+  --axis-master-rgb: 245, 158, 11;
+  --axis-master-color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 251, 235, 0.98) 42%, rgba(254, 243, 199, 0.94) 100%);
+  box-shadow:
+    0 24px 42px rgba(245, 158, 11, 0.15),
+    0 0 0 1px rgba(245, 158, 11, 0.08),
+    0 0 28px rgba(245, 158, 11, 0.12);
+}
+
+.axis-master-node.is-bursting .axis-master-node__icon-shell {
+  animation: axisMasterKick 0.44s cubic-bezier(0.2, 1, 0.3, 1) 1;
+}
+
+.axis-master-node.is-link-blocked .axis-master-node__footer {
+  background: linear-gradient(180deg, rgba(127, 29, 29, 0.96) 0%, rgba(153, 27, 27, 0.98) 100%);
+  border-top-color: rgba(252, 165, 165, 0.25);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.axis-master-node.is-link-ready .axis-master-node__footer {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.axis-master-node__head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.78rem 0.9rem 0.72rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.92);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.98) 0%, rgba(248, 250, 252, 0.82) 100%);
+  color: #64748b;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.axis-master-node__head-title {
+  white-space: nowrap;
+}
+
+.axis-master-node__head-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 22px;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background: rgba(var(--axis-master-rgb), 0.1);
+  border: 1px solid rgba(var(--axis-master-rgb), 0.12);
+  color: var(--axis-master-color);
+  font-size: 0.5rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  transition: background 0.28s ease, color 0.28s ease, border-color 0.28s ease;
+}
+
+.axis-master-node__body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  padding: 1.1rem 1rem 1rem;
+}
+
+.axis-master-node__ambient {
+  position: absolute;
+  inset: 24px 18px 44px;
+  border-radius: 1.1rem;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(var(--axis-master-rgb), 0.16) 0%, rgba(var(--axis-master-rgb), 0.06) 32%, rgba(var(--axis-master-rgb), 0) 72%);
+  opacity: 0.46;
+  filter: blur(10px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  pointer-events: none;
+}
+
+.axis-master-node__scanline {
+  position: absolute;
+  inset: -18% 10px auto;
+  height: 68px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(var(--axis-master-rgb), 0.1) 36%, rgba(255, 255, 255, 0.85) 50%, rgba(var(--axis-master-rgb), 0.08) 64%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  filter: blur(1.5px);
+  pointer-events: none;
+  transform: translateY(0);
+}
+
+.axis-master-node.is-armed .axis-master-node__ambient,
+.axis-master-node.is-driving .axis-master-node__ambient {
+  opacity: 0.88;
+  transform: scale(1.04);
+}
+
+.axis-master-node.is-stalled .axis-master-node__ambient {
+  opacity: 0.68;
+}
+
+.axis-master-node.is-armed .axis-master-node__scanline,
+.axis-master-node.is-driving .axis-master-node__scanline {
+  opacity: 0.95;
+  animation: axisMasterScan 2.3s ease-in-out infinite;
+}
+
+.axis-master-node.is-driving .axis-master-node__scanline {
+  animation-duration: 1.05s;
+}
+
+.axis-master-node__icon-shell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+}
+
+.axis-master-node__ring {
+  position: absolute;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--axis-master-rgb), 0.16);
+  transition: border-color 0.28s ease, opacity 0.28s ease, transform 0.28s ease;
+  pointer-events: none;
+}
+
+.axis-master-node__ring--outer {
+  inset: 0;
+  border-style: dashed;
+  opacity: 0.46;
+}
+
+.axis-master-node__ring--inner {
+  inset: 12px;
+  opacity: 0.72;
+  box-shadow: 0 0 0 1px rgba(var(--axis-master-rgb), 0.04);
+}
+
+.axis-master-node.is-idle .axis-master-node__ring--outer {
+  animation: axisMasterOrbit 8s linear infinite;
+}
+
+.axis-master-node.is-armed .axis-master-node__ring--outer,
+.axis-master-node.is-driving .axis-master-node__ring--outer {
+  opacity: 0.82;
+  animation: axisMasterOrbit 3.2s linear infinite;
+}
+
+.axis-master-node.is-armed .axis-master-node__ring--inner {
+  animation: axisMasterOrbit 2.5s linear infinite reverse;
+}
+
+.axis-master-node.is-driving .axis-master-node__ring--inner {
+  animation: axisMasterOrbit 1.35s linear infinite reverse;
+  opacity: 1;
+}
+
+.axis-master-node.is-stalled .axis-master-node__ring {
+  border-color: rgba(245, 158, 11, 0.24);
+}
+
+.axis-master-node__icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 1.1rem;
+  border: 1px solid rgba(var(--axis-master-rgb), 0.2);
+  background:
+    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.98) 0%, rgba(239, 246, 255, 0.96) 30%, rgba(219, 234, 254, 0.88) 100%);
+  color: var(--axis-master-color);
+  font-size: 1.45rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.96),
+    0 12px 20px rgba(var(--axis-master-rgb), 0.16);
+  z-index: 2;
+  overflow: hidden;
+  transition: border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, color 0.28s ease;
+}
+
+.axis-master-node__pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(var(--axis-master-rgb), 0.4) 0%, rgba(var(--axis-master-rgb), 0.18) 46%, rgba(var(--axis-master-rgb), 0) 82%);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.axis-master-node__pulse.is-firing {
+  transform: scale(1.56);
+  opacity: 1;
+}
+
+.axis-master-node__pulse.is-firing + .axis-master-node__icon-glint {
+  opacity: 1;
+  transform: translate3d(28px, -28px, 0);
+}
+
+.axis-master-node__icon-glint {
+  position: absolute;
+  inset: -24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.96) 50%, rgba(255, 255, 255, 0) 62%);
+  opacity: 0;
+  transform: translate3d(-28px, 28px, 0);
+  transition: transform 0.42s ease, opacity 0.42s ease;
+  pointer-events: none;
+}
+
+.axis-master-node__glyph {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 3px 8px rgba(var(--axis-master-rgb), 0.32));
+}
+
+.axis-master-node__stack {
+  text-align: center;
+  width: 100%;
+}
+
+.axis-master-node__label {
+  display: block;
+  margin-bottom: 0.22rem;
+  color: #94a3b8;
+  font-size: 0.54rem;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.axis-master-node__state {
+  color: var(--axis-master-color);
+  font-size: 0.92rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.28s ease, text-shadow 0.28s ease;
+}
+
+.axis-master-node__meta {
+  margin-top: 0.3rem;
+  color: #64748b;
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.88;
+}
+
+.axis-master-node__charge {
+  width: 100%;
+  padding: 0 0.1rem;
+}
+
+.axis-master-node__charge-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.34rem;
+  color: #94a3b8;
+  font-size: 0.46rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.axis-master-node__charge-value {
+  color: var(--axis-master-color);
+  transition: color 0.28s ease;
+}
+
+.axis-master-node__charge-track {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--axis-master-rgb), 0.12);
+  background: rgba(226, 232, 240, 0.78);
+  overflow: hidden;
+}
+
+.axis-master-node__charge-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 26%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(var(--axis-master-rgb), 0.38) 0%, rgba(var(--axis-master-rgb), 0.86) 100%);
+  box-shadow: 0 0 14px rgba(var(--axis-master-rgb), 0.22);
+  transition: width 0.32s ease, background 0.32s ease, box-shadow 0.32s ease;
+}
+
+.axis-master-node__charge-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.84) 50%, rgba(255, 255, 255, 0) 100%);
+  transform: translateX(-120%);
+}
+
+.axis-master-node.is-idle .axis-master-node__charge-bar {
+  width: 26%;
+  animation: axisMasterChargeIdle 3.2s ease-in-out infinite;
+}
+
+.axis-master-node.is-armed .axis-master-node__charge-bar {
+  width: 72%;
+  animation: axisMasterChargeArmed 1.45s ease-in-out infinite;
+}
+
+.axis-master-node.is-driving .axis-master-node__charge-bar {
+  width: 100%;
+  animation: axisMasterChargeBurst 0.55s linear infinite;
+}
+
+.axis-master-node.is-driving .axis-master-node__charge-bar::after,
+.axis-master-node.is-armed .axis-master-node__charge-bar::after {
+  animation: axisMasterEnergySweep 1.1s linear infinite;
+}
+
+.axis-master-node.is-stalled .axis-master-node__charge-bar {
+  width: 84%;
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.34) 0%, rgba(245, 158, 11, 0.92) 100%);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.24);
+  animation: axisMasterChargeStall 1.2s ease-in-out infinite;
+}
+
+.axis-master-node__footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.58rem 0.8rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%);
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.54rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.axis-master-node__footer-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.5);
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.26);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  flex: none;
+}
+
+.axis-master-node.is-link-ready .axis-master-node__footer-dot {
+  background: #22c55e;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.36);
+}
+
+.axis-master-node.is-link-blocked .axis-master-node__footer-dot {
+  background: #f87171;
+  box-shadow: 0 0 12px rgba(248, 113, 113, 0.34);
+  transform: scale(1.1);
+}
+
+.axis-master-node.is-driving .axis-master-node__state,
+.axis-master-node.is-armed .axis-master-node__state {
+  text-shadow: 0 0 14px rgba(var(--axis-master-rgb), 0.18);
+}
+
+.axis-master-node.is-armed .axis-master-node__head-chip,
+.axis-master-node.is-driving .axis-master-node__head-chip {
+  background: rgba(var(--axis-master-rgb), 0.16);
+  border-color: rgba(var(--axis-master-rgb), 0.22);
+}

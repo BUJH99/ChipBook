@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>반도체 디지털 회로설계 가이드북 - Coverage</title>
-    
+
     <!-- Fonts -->
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -75,7 +75,7 @@
         .animate-float {
             animation: float 3s ease-in-out infinite;
         }
-        
+
         @keyframes pulse-fast {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(1.1); }
@@ -101,6 +101,9 @@
         .cm { color: #7f848e; font-style: italic; } /* Comment */
         .op { color: #56b6c2; } /* Operator */
     </style>
+    <link rel="stylesheet" href="../../../../assets/fonts.css">
+    <link rel="stylesheet" href="../../../../assets/components/embedded-content.css">
+    <script defer src="../../../../assets/components/embedded-document.js"></script>
 </head>
 <body class="bg-white text-slate-600 font-sans antialiased selection:bg-brand-100 selection:text-brand-700">
 
@@ -140,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="mt-8 bg-slate-50 border-l-4 border-brand-500 rounded-r-xl p-5">
                 <h3 class="text-sm font-bold text-slate-800 mb-2 flex items-center">
                     <svg class="w-4 h-4 mr-2 text-brand-600" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4z"/></svg>
@@ -159,7 +162,7 @@
                 UVM 상속구조 & 연결 (Monitor → Coverage)
             </h2>
             <p class="text-slate-500 mb-8 ml-11">Coverage Component는 <code class="font-mono text-sm bg-slate-100 px-1 py-0.5 rounded text-brand-600">uvm_subscriber</code>를 상속받으며, Monitor로부터 TLM Port를 통해 트랜잭션을 수신합니다.</p>
-            
+
             <div class="diagram-grid rounded-xl border border-slate-200 p-6 relative h-64 flex items-center justify-center">
                 <!-- SVG Diagram for Monitor -> Coverage Flow -->
                 <svg class="w-full h-full max-w-3xl" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
@@ -172,7 +175,7 @@
                     <!-- Background Base Classes -->
                     <rect x="50" y="20" width="200" height="40" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="4"/>
                     <text x="150" y="45" text-anchor="middle" class="fill-slate-500 font-mono text-sm font-bold">uvm_monitor</text>
-                    
+
                     <rect x="550" y="20" width="200" height="40" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="4"/>
                     <text x="650" y="45" text-anchor="middle" class="fill-slate-500 font-mono text-sm font-bold">uvm_subscriber</text>
 
@@ -202,14 +205,14 @@
                     <!-- Monitor Port -->
                     <rect x="230" y="110" width="40" height="20" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
                     <text x="210" y="100" text-anchor="middle" class="fill-brand-600 font-mono text-xs font-bold">ap</text>
-                    
+
                     <!-- Coverage Export -->
                     <circle cx="550" cy="120" r="10" fill="#ffffff" stroke="#3b82f6" stroke-width="2"/>
                     <text x="585" y="100" text-anchor="middle" class="fill-brand-600 font-mono text-xs font-bold">analysis_export</text>
 
                     <!-- Connection Line (Animated) -->
                     <path d="M270 120 L540 120" fill="none" stroke="#2563eb" stroke-width="3" class="animate-flow" marker-end="url(#arrow-blue)"/>
-                    
+
                     <!-- Flowing Transaction Packet -->
                     <rect x="380" y="105" width="40" height="30" rx="4" fill="#3b82f6" class="animate-float"/>
                     <text x="400" y="125" text-anchor="middle" class="fill-white font-mono text-xs font-bold">TR</text>
@@ -217,7 +220,7 @@
 
                 </svg>
             </div>
-            
+
             <div class="mt-6 bg-slate-50 border-l-4 border-brand-500 rounded-r-xl p-5">
                 <h3 class="text-sm font-bold text-slate-800 mb-2 flex items-center">
                     <svg class="w-4 h-4 mr-2 text-brand-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
@@ -274,7 +277,7 @@
                     <circle cx="220" cy="305" r="3" fill="#3b82f6"/>
                     <path d="M 220 305 L 220 180 L 255 180" class="stroke-brand-500 stroke-2 fill-none animate-flow" marker-end="url(#arrow-blue)"/>
                     <path d="M 220 305 L 220 440 L 255 440" class="stroke-brand-500 stroke-2 fill-none animate-flow" marker-end="url(#arrow-blue)"/>
-                    
+
                     <path d="M 580 180 L 630 180 L 630 300 L 675 300" class="stroke-slate-400 stroke-2 fill-none stroke-dasharray-4" marker-end="url(#arrow-slate)"/>
                     <path d="M 580 440 L 630 440 L 630 310 L 675 310" class="stroke-slate-400 stroke-2 fill-none stroke-dasharray-4" marker-end="url(#arrow-slate)"/>
 
@@ -296,9 +299,9 @@
                         <rect x="0" y="0" width="320" height="210" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#card-shadow)"/>
                         <rect x="0" y="0" width="320" height="36" rx="12" fill="#f1f5f9"/>
                         <text x="160" y="23" text-anchor="middle" class="fill-slate-800 font-mono text-sm font-bold">[6] coverpoint addr</text>
-                        
+
                         <text x="20" y="55" class="fill-slate-500 font-mono text-xs font-bold">[7] bins</text>
-                        
+
                         <!-- Normal Bin 1 -->
                         <g transform="translate(20, 65)">
                             <rect x="0" y="0" width="280" height="36" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
@@ -329,7 +332,7 @@
                         <rect x="0" y="0" width="320" height="210" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#card-shadow)"/>
                         <rect x="0" y="0" width="320" height="36" rx="12" fill="#f1f5f9"/>
                         <text x="160" y="23" text-anchor="middle" class="fill-slate-800 font-mono text-sm font-bold">[6] coverpoint cmd</text>
-                        
+
                         <text x="20" y="55" class="fill-slate-500 font-mono text-xs font-bold">[7] bins</text>
 
                         <!-- Normal Bin 1 -->
@@ -362,7 +365,7 @@
                         <rect x="0" y="0" width="400" height="460" rx="12" fill="#ffffff" stroke="#8b5cf6" stroke-width="2" filter="url(#card-shadow)"/>
                         <rect x="0" y="0" width="400" height="40" rx="12" fill="#ede9fe"/>
                         <text x="200" y="25" text-anchor="middle" class="fill-violet-800 font-mono text-sm font-bold">[9] cross addr_x_cmd</text>
-                        
+
                         <text x="200" y="65" text-anchor="middle" class="fill-slate-500 font-sans text-xs">Cartesian Product (조합 매트릭스) & 예외 처리</text>
 
                         <g transform="translate(50, 110)">
@@ -375,12 +378,12 @@
                             <!-- Axes Lines -->
                             <line x1="40" y1="0" x2="40" y2="180" stroke="#cbd5e1" stroke-width="2"/>
                             <line x1="0" y1="180" x2="280" y2="180" stroke="#cbd5e1" stroke-width="2"/>
-                            
+
                             <!-- Grid Lines -->
                             <line x1="120" y1="0" x2="120" y2="180" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
                             <line x1="200" y1="0" x2="200" y2="180" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
                             <line x1="280" y1="0" x2="280" y2="180" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
-                            
+
                             <line x1="0" y1="60" x2="280" y2="60" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
                             <line x1="0" y1="120" x2="280" y2="120" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4"/>
 
@@ -401,7 +404,7 @@
                             <!-- (low, read) -->
                             <circle cx="80" cy="30" r="16" fill="#10b981" opacity="0.9" filter="url(#card-shadow)"/>
                             <text x="80" y="34" text-anchor="middle" class="fill-white font-mono text-[10px] font-bold">100</text>
-                            
+
                             <!-- (low, write) -->
                             <circle cx="160" cy="30" r="14" fill="#3b82f6" opacity="0.9"/>
                             <text x="160" y="34" text-anchor="middle" class="fill-white font-mono text-[10px] font-bold">80</text>
@@ -417,7 +420,7 @@
                             <!-- (high, write) - HOLE -->
                             <circle cx="160" cy="90" r="16" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="4" class="animate-pulse-fast"/>
                             <text x="160" y="94" text-anchor="middle" class="fill-red-500 font-mono text-[10px] font-bold">0</text>
-                            
+
                             <!-- Hole Label Tooltip -->
                             <path d="M 175 100 L 185 115" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrow-red)"/>
                             <rect x="145" y="118" width="85" height="20" rx="4" fill="#fee2e2" filter="url(#card-shadow)"/>
@@ -478,7 +481,7 @@
                     </h2>
                     <p class="text-sm text-slate-600 mb-4">Subscriber의 핵심 콜백(Callback) 함수입니다. Monitor로부터 트랜잭션을 수신할 때마다 즉시 호출되어 Coverage를 샘플링합니다.</p>
                 </div>
-                
+
                 <!-- SVG: write() execution and Zero-time concept -->
                 <div class="mt-2 mb-6 bg-slate-50 border border-slate-200 rounded-xl p-4 w-full relative shadow-inner flex items-center justify-center overflow-hidden h-[240px]">
                     <svg viewBox="0 0 500 240" class="w-full h-full max-w-md" xmlns="http://www.w3.org/2000/svg">
@@ -498,14 +501,14 @@
                         <g transform="translate(10, 80)">
                             <rect x="0" y="0" width="120" height="80" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow-light)"/>
                             <text x="60" y="25" text-anchor="middle" class="fill-slate-800 font-mono text-xs font-bold">Monitor</text>
-                            
+
                             <rect x="15" y="40" width="90" height="24" rx="4" fill="#eff6ff" stroke="#3b82f6"/>
                             <text x="60" y="56" text-anchor="middle" class="fill-brand-600 font-mono text-[10px] font-bold">ap.write(tr)</text>
                         </g>
 
                         <!-- TLM Connection -->
                         <path d="M 130 120 L 250 120" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4" class="animate-flow" marker-end="url(#arrow-blue-sm)"/>
-                        
+
                         <!-- Floating Transaction Packet -->
                         <rect x="170" y="108" width="30" height="24" rx="4" fill="#3b82f6" class="animate-pulse-fast"/>
                         <text x="185" y="124" text-anchor="middle" class="fill-white font-mono text-[10px] font-bold">TR</text>
@@ -529,10 +532,10 @@
 
                             <!-- Step 1: Copy -->
                             <text x="25" y="120" class="fill-slate-600 font-mono text-[10px]">1. this.tr = t;</text>
-                            
+
                             <!-- Step 2: Sample -->
                             <text x="25" y="145" class="fill-slate-600 font-mono text-[10px]">2. cg.sample();</text>
-                            
+
                             <!-- Internal Flow Arrow -->
                             <path d="M 110 120 L 110 135" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow-slate-sm)"/>
 
@@ -574,7 +577,7 @@
                     </h2>
                     <p class="text-sm text-slate-600 mb-4">리셋 구간에서는 잘못된 값이 수집되지 않도록 <code class="font-mono bg-slate-100 px-1 rounded">stop()</code>, 이후 <code class="font-mono bg-slate-100 px-1 rounded">start()</code>를 제어하여 데이터 오염을 방지합니다.</p>
                 </div>
-                
+
                 <!-- Upgraded Timing Diagram SVG -->
                 <div class="mt-4 bg-[#1e293b] border border-slate-700 rounded-xl p-4 w-full overflow-hidden relative shadow-inner">
                     <svg viewBox="0 0 500 240" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
@@ -607,7 +610,7 @@
                         <!-- Valid Data 1 -->
                         <polygon points="60,90 70,80 180,80 190,90 180,100 70,100" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="1.5"/>
                         <text x="125" y="94" text-anchor="middle" class="fill-brand-300 font-mono text-[10px]">Valid TR</text>
-                        
+
                         <!-- X-State / Unknown Data during Reset -->
                         <polygon points="210,90 220,80 370,80 380,90 370,100 220,100" fill="url(#x-state)" stroke="#ef4444" stroke-width="1.5"/>
                         <text x="295" y="94" text-anchor="middle" class="fill-white font-mono text-[10px] font-bold drop-shadow-md">Garbage (X/0)</text>
@@ -618,11 +621,11 @@
 
                         <!-- Track 3: Covergroup Status -->
                         <text x="10" y="145" class="fill-slate-300 font-mono text-xs font-bold">cg_bus</text>
-                        
+
                         <!-- cg.start() block 1 -->
                         <rect x="60" y="130" width="160" height="20" rx="4" fill="#10b981" fill-opacity="0.2" stroke="#10b981"/>
                         <text x="140" y="144" text-anchor="middle" class="fill-emerald-400 font-mono text-[10px] font-bold">ACTIVE</text>
-                        
+
                         <!-- cg.stop() block -->
                         <rect x="220" y="130" width="160" height="20" rx="4" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444"/>
                         <text x="300" y="144" text-anchor="middle" class="fill-red-400 font-mono text-[10px] font-bold">STOPPED</text>
@@ -635,7 +638,7 @@
 
                         <!-- Track 4: Sampling Action -->
                         <text x="10" y="195" class="fill-slate-300 font-mono text-xs font-bold">sample()</text>
-                        
+
                         <!-- Success Sample -->
                         <path d="M 125 105 L 125 180" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3" marker-end="url(#arrow-down-green)"/>
                         <circle cx="125" cy="190" r="8" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="2"/>
@@ -676,7 +679,7 @@
                 <span class="w-8 h-8 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center mr-3 text-lg font-mono">6</span>
                 [12] Coverage Report & Regression Merge
             </h2>
-            
+
             <p class="text-slate-600 leading-relaxed mb-8">
                 단일 시뮬레이션(Single Test)만으로는 복잡한 디자인의 모든 코너 케이스를 커버할 수 없습니다. 실무에서는 <strong>수백 개의 서로 다른 Random Seed</strong>를 사용하여 시뮬레이션을 반복(Regression)하고, 여기서 생성된 Coverage Database들을 하나로 <strong>병합(Merge)</strong>하여 최종 Report를 생성합니다.
             </p>
@@ -701,7 +704,7 @@
                         <text x="80" y="18" text-anchor="middle" class="fill-slate-800 font-mono text-xs font-bold">Test_001.ucdb</text>
                         <text x="80" y="32" text-anchor="middle" class="fill-slate-500 font-mono text-[10px]">Seed: 10482</text>
                         <path d="M 160 20 L 300 80" fill="none" stroke="#3b82f6" stroke-width="2" class="animate-flow" marker-end="url(#arrow-flow)"/>
-                        
+
                         <!-- Test 2 -->
                         <rect x="0" y="60" width="160" height="40" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow-sm)"/>
                         <text x="80" y="78" text-anchor="middle" class="fill-slate-800 font-mono text-xs font-bold">Test_002.ucdb</text>
@@ -727,7 +730,7 @@
                         <path d="M 92 40 L 108 40 M 100 32 L 100 48" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
                         <text x="100" y="75" text-anchor="middle" class="fill-brand-800 font-mono text-sm font-bold">Coverage Merge</text>
                         <text x="100" y="90" text-anchor="middle" class="fill-brand-600 font-mono text-[10px]">(vcover merge / imc)</text>
-                        
+
                         <path d="M 200 50 L 340 50" fill="none" stroke="#10b981" stroke-width="3" class="animate-flow" marker-end="url(#arrow-flow)"/>
                     </g>
 
@@ -775,7 +778,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Dashboard Content (Pure SVG) -->
                 <div class="w-full overflow-x-auto">
                     <svg viewBox="0 0 900 350" class="w-full min-w-[800px] h-auto" xmlns="http://www.w3.org/2000/svg">
@@ -783,7 +786,7 @@
                         <g transform="translate(150, 175)">
                             <!-- Background Circle -->
                             <circle cx="0" cy="0" r="90" fill="none" stroke="#1e293b" stroke-width="18"/>
-                            
+
                             <!-- Progress Circle (Total: 88%) 
                                  Circumference = 2 * pi * 90 = 565.48
                                  88% = 497.62, Offset = 565.48 - 497.62 = 67.85 -->
@@ -791,7 +794,7 @@
                                     stroke-dasharray="565.48" stroke-dashoffset="565.48" transform="rotate(-90)">
                                 <animate attributeName="stroke-dashoffset" from="565.48" to="67.85" dur="1.5s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
                             </circle>
-                            
+
                             <defs>
                                 <linearGradient id="donut-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#3b82f6" />
@@ -809,7 +812,7 @@
                             <text x="0" y="0" class="fill-slate-400 font-mono text-xs">HIERARCHY</text>
                             <text x="350" y="0" class="fill-slate-400 font-mono text-xs">PROGRESS</text>
                             <text x="500" y="0" class="fill-slate-400 font-mono text-xs text-right">SCORE</text>
-                            
+
                             <line x1="0" y1="15" x2="500" y2="15" stroke="#334155" stroke-width="1"/>
 
                             <!-- Root Node: Covergroup -->
@@ -817,7 +820,7 @@
                                 <rect x="0" y="-15" width="24" height="24" rx="4" fill="#3b82f6" fill-opacity="0.2"/>
                                 <text x="12" y="2" text-anchor="middle" class="fill-brand-400 font-mono text-xs font-bold">CG</text>
                                 <text x="35" y="3" class="fill-slate-200 font-mono text-sm font-bold">cg_bus_protocol</text>
-                                
+
                                 <!-- Progress Bar (88%) -->
                                 <rect x="350" y="-5" width="100" height="8" rx="4" fill="#1e293b"/>
                                 <rect x="350" y="-5" width="0" height="8" rx="4" fill="#3b82f6">
@@ -835,7 +838,7 @@
                                 <rect x="35" y="-15" width="24" height="24" rx="4" fill="#10b981" fill-opacity="0.2"/>
                                 <text x="47" y="2" text-anchor="middle" class="fill-emerald-400 font-mono text-xs font-bold">CP</text>
                                 <text x="70" y="3" class="fill-slate-300 font-mono text-sm">cp_addr</text>
-                                
+
                                 <rect x="350" y="-5" width="100" height="8" rx="4" fill="#1e293b"/>
                                 <rect x="350" y="-5" width="0" height="8" rx="4" fill="#10b981">
                                     <animate attributeName="width" from="0" to="100" dur="1s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
@@ -849,7 +852,7 @@
                                 <rect x="35" y="-15" width="24" height="24" rx="4" fill="#10b981" fill-opacity="0.2"/>
                                 <text x="47" y="2" text-anchor="middle" class="fill-emerald-400 font-mono text-xs font-bold">CP</text>
                                 <text x="70" y="3" class="fill-slate-300 font-mono text-sm">cp_cmd</text>
-                                
+
                                 <rect x="350" y="-5" width="100" height="8" rx="4" fill="#1e293b"/>
                                 <rect x="350" y="-5" width="0" height="8" rx="4" fill="#10b981">
                                     <animate attributeName="width" from="0" to="100" dur="1s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
@@ -863,14 +866,14 @@
                                 <rect x="35" y="-15" width="24" height="24" rx="4" fill="#f59e0b" fill-opacity="0.2"/>
                                 <text x="47" y="2" text-anchor="middle" class="fill-amber-400 font-mono text-xs font-bold">CR</text>
                                 <text x="70" y="3" class="fill-slate-300 font-mono text-sm">cross_addr_cmd</text>
-                                
+
                                 <rect x="350" y="-5" width="100" height="8" rx="4" fill="#1e293b"/>
                                 <rect x="350" y="-5" width="0" height="8" rx="4" fill="#f59e0b">
                                     <animate attributeName="width" from="0" to="75" dur="1.2s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
                                 </rect>
                                 <text x="500" y="3" class="fill-amber-400 font-mono text-sm text-right">75.0%</text>
                             </g>
-                            
+
                             <!-- Child 3 details (Waiver Info) -->
                             <g transform="translate(70, 220)">
                                 <path d="M 0 0 L 0 10 L 10 10" fill="none" stroke="#475569" stroke-width="1.5"/>
@@ -932,7 +935,7 @@
     <span class="cm">// [8] 옵션/조건 설정</span>
     <span class="kw">option.per_instance</span> = <span class="op">1</span>;
     <span class="cm">// Reset이 아닐 때만 수집</span>
-    
+
     <span class="cm">// [6] coverpoint 정의 (Address)</span>
     cp_addr: <span class="kw">coverpoint</span> tr.addr <span class="kw">iff</span>(!tr.reset) {
       <span class="cm">// [7] bins 정의</span>
@@ -958,7 +961,7 @@
   <span class="cm">// [10] write function 구현 (analysis port로부터 수신)</span>
   <span class="kw">virtual function void</span> <span class="fn">write</span>(<span class="ty">my_transaction</span> t);
     <span class="kw">this</span>.tr = t;
-    
+
     <span class="cm">// [11] Reset Handling </span>
     <span class="kw">if</span> (tr.reset) <span class="kw">begin</span>
       cg_bus.<span class="fn">stop</span>();  <span class="cm">// 리셋 중 샘플링 중단</span>

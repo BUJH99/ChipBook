@@ -1,0 +1,14 @@
+<article class="chapter-lesson" data-lesson-panel="section-03" data-lesson-id="25.03" data-guidebook-toc-title="{{section:section-03:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-03:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.03&quot;,&quot;kind&quot;:&quot;instrument&quot;,&quot;variant&quot;:&quot;simulation&quot;,&quot;title&quot;:&quot;Test·Waveform·원인 추적의 연결&quot;,&quot;steps&quot;:[[&quot;연결&quot;,&quot;Probe와 기준점을 대상 신호에 연결합니다.&quot;],[&quot;Trigger&quot;,&quot;재현 가능한 사건을 기준으로 포착합니다.&quot;],[&quot;관측&quot;,&quot;전원·Clock·Reset·데이터를 함께 읽습니다.&quot;],[&quot;분리&quot;,&quot;조건을 하나씩 바꾸어 원인 범위를 좁힙니다.&quot;]],&quot;subtitle&quot;:&quot;Simulation은 compile·elaboration·run의 실패를 구분해 진단한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Test·Waveform·원인 추적의 연결"></section>
+<p>Seed와 입력, model·tool version을 보존해야 같은 실패를 재현할 수 있다. 파형은 시간 단위와 X/Z, event 순서를 함께 읽는다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;formal&quot;, &quot;title&quot;: &quot;파형에서 첫 실패 찾기&quot;}" aria-label="파형에서 첫 실패 찾기"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>최초 error와 관련 scope를 찾은 뒤 해당 입력 sequence를 줄여 최소 재현을 만든다. 최종 timeout 메시지만 보는 것보다 앞선 protocol 위반을 찾는 것이 중요하다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code># 예제: 도구와 언어 지원에 맞게 파일 목록을 지정
+iverilog -g2012 -s tb_top -o sim.out rtl.sv tb.sv
+vvp sim.out
+# log의 exit code와 PASS/FAIL, waveform을 함께 확인</code></pre>
+<div class="lesson-columns"><section><p>Waveform에 보이는 마지막 증상을 원인으로 단정하지 않는다.</p></section><section><p>실패를 최소 입력으로 재현한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-04">다음 절 · 오픈 도구로 RTL부터 Layout까지</a></footer></article>

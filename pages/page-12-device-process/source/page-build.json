@@ -1,0 +1,26 @@
+{
+  "output": "../../page-12-device-process.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/lesson-12-01.html",
+    "sections/lesson-12-02.html",
+    "sections/lesson-12-03.html",
+    "sections/lesson-12-04.html",
+    "sections/lesson-12-05.html",
+    "sections/lesson-12-06.html",
+    "sections/lesson-12-07.html",
+    "99-shell-end.html"
+  ],
+  "title": "반도체 소자와 제조 공정",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/technical-pages/technical-pages.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/technical-pages/technical-pages.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": []
+}

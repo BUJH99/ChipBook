@@ -5,23 +5,14 @@ import argparse
 import json
 import os
 import sys
+import re
 from pathlib import Path
 
+from site_common import REPO_ROOT, load_text, write_text, render_head, load_registry, render_scripts, render_section_tokens
+from curriculum_content import expand_legacy_fragments, render_review_catalog, render_example_download
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
 PAGES_ROOT = REPO_ROOT / "pages"
 MANIFEST_NAME = "page-build.json"
-
-
-def load_text(path: Path) -> str:
-    with path.open("r", encoding="utf-8", newline="") as handle:
-        return handle.read()
-
-
-def write_text(path: Path, content: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as handle:
-        handle.write(content)
 
 
 def discover_manifests() -> list[Path]:
@@ -89,7 +80,32 @@ def render_manifest(manifest_path: Path, check_only: bool = False) -> bool:
 
     part_files = expand_part_patterns(manifest_dir, part_patterns)
     rendered = "".join(load_text(path) for path in part_files)
+    rendered = expand_legacy_fragments(rendered)
+    if '{{curriculum-review}}' in rendered:
+        rendered = rendered.replace('{{curriculum-review}}', render_review_catalog(load_registry()))
+    if '{{example-download}}' in rendered:
+        rendered = rendered.replace('{{example-download}}', render_example_download())
+    if re.search(r'<script\b', rendered, re.I):
+        raise ValueError(f'Declare chapter scripts in page-build.json, not content fragments: {manifest_path}')
+    pages = [page for page in load_registry()['pages']
+             if (REPO_ROOT / page['buildManifest']).resolve() == manifest_path.resolve()]
+    if len(pages) != 1:
+        raise ValueError(f'Manifest must belong to exactly one registered chapter: {manifest_path}')
+    rendered = render_section_tokens(rendered, pages[0])
+    if '{{page-head}}' in rendered:
+        title = manifest.get('title')
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError(f"'title' is required for the shared head in {manifest_path}")
+        rendered = rendered.replace('{{page-head}}', render_head(
+            title + ' | ' + load_registry()['site']['title'],
+            styles=manifest.get('styles', []), scripts=manifest.get('headScripts', []),
+        ))
+    if rendered.count('{{page-scripts}}') != 1:
+        raise ValueError(f'Expected one page-scripts slot in {manifest_path}')
+    rendered = rendered.replace('{{page-scripts}}', render_scripts(manifest.get('scripts', [])))
     output_path = (manifest_dir / os.path.normpath(output)).resolve()
+    if output_path.parent != PAGES_ROOT or output_path.suffix != '.html':
+        raise ValueError(f'Generated chapter must be a direct pages/*.html file: {output_path}')
     current = load_text(output_path) if output_path.exists() else None
     changed = current != rendered
 

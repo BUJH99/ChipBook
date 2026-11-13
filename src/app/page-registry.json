@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "반도체 디지털 회로설계 가이드북",
-    "brandTitleHtml": "반도체 디지털 <span class=\"text-blue-600\">회로설계 가이드북</span>",
-    "subtitle": "핵심 개념부터 설계 흐름, 실전 문제까지 한 번에 정리",
+    "title": "반도체 회로설계 가이드북",
+    "brandTitleHtml": "반도체 <span class=\"text-blue-600\">회로설계 가이드북</span>",
+    "subtitle": "소자·회로·시스템 설계부터 검증과 제품화까지",
     "totalPagesLabel": "Page {current} of {total}"
   },
   "pages": [
@@ -15,11 +15,22 @@
       "tocMode": "action",
       "sectionAttribute": "data-part1-panel",
       "buildManifest": "pages/page-1-overview/source/page-build.json",
-      "debugDir": "pages/page-1-overview",
       "sections": [
-        { "key": "landscape", "title": "Product Category", "source": "pages/page-1-overview/source/sections/01-landscape.html" },
-        { "key": "value-chain", "title": "Value Chain", "source": "pages/page-1-overview/source/sections/02-value-chain.html" },
-        { "key": "future-tech", "title": "Future Tech Trends", "source": "pages/page-1-overview/source/sections/03-future-tech.html" }
+        {
+          "key": "landscape",
+          "title": "Product Category",
+          "source": "pages/page-1-overview/source/sections/01-landscape.html"
+        },
+        {
+          "key": "value-chain",
+          "title": "Value Chain",
+          "source": "pages/page-1-overview/source/sections/02-value-chain.html"
+        },
+        {
+          "key": "future-tech",
+          "title": "Future Tech Trends",
+          "source": "pages/page-1-overview/source/sections/03-future-tech.html"
+        }
       ]
     },
     {
@@ -31,12 +42,27 @@
       "tocMode": "action",
       "sectionAttribute": "data-part2-panel",
       "buildManifest": "pages/page-2-flow/source/page-build.json",
-      "debugDir": "pages/page-2-flow",
       "sections": [
-        { "key": "flow-overview", "title": "Design to Product Flow", "source": "pages/page-2-flow/source/sections/01-flow-overview.html" },
-        { "key": "stage-detail", "title": "Stage Detail", "source": "pages/page-2-flow/source/sections/02-stage-detail.html" },
-        { "key": "keyword-dictionary", "title": "Keyword Dictionary", "source": "pages/page-2-flow/source/sections/03-keyword-dictionary.html" },
-        { "key": "paired-inputs", "title": "Additional Keyword", "source": "pages/page-2-flow/source/sections/04-paired-inputs.html" }
+        {
+          "key": "flow-overview",
+          "title": "Design to Product Flow",
+          "source": "pages/page-2-flow/source/sections/01-flow-overview.html"
+        },
+        {
+          "key": "stage-detail",
+          "title": "Stage Detail",
+          "source": "pages/page-2-flow/source/sections/02-stage-detail.html"
+        },
+        {
+          "key": "keyword-dictionary",
+          "title": "Keyword Dictionary",
+          "source": "pages/page-2-flow/source/sections/03-keyword-dictionary.html"
+        },
+        {
+          "key": "paired-inputs",
+          "title": "Additional Keyword",
+          "source": "pages/page-2-flow/source/sections/04-paired-inputs.html"
+        }
       ]
     },
     {
@@ -48,14 +74,37 @@
       "tocMode": "action",
       "sectionAttribute": "data-part3-panel",
       "buildManifest": "pages/page-3-rtl-frontend/source/page-build.json",
-      "debugDir": "pages/page-3-rtl-frontend",
       "sections": [
-        { "key": "logic-basics", "title": "CL, SL", "source": "pages/page-3-rtl-frontend/source/sections/01-logic-basics.html" },
-        { "key": "hdl-synthesis", "title": "HDL / Logic Synthesis", "source": "pages/page-3-rtl-frontend/source/sections/02-hdl-synthesis.html" },
-        { "key": "hierarchical-design", "title": "Hierarchical Design", "source": "pages/page-3-rtl-frontend/source/sections/03-hierarchical-design.html" },
-        { "key": "soc-concept", "title": "SoC", "source": "pages/page-3-rtl-frontend/source/sections/04-soc-concept.html" },
-        { "key": "sta-concept", "title": "STA", "source": "pages/page-3-rtl-frontend/source/sections/05-sta-concept.html" },
-        { "key": "rtl-patterns", "title": "Methodology for RTL coding", "source": "pages/page-3-rtl-frontend/source/sections/06-rtl-patterns.html" }
+        {
+          "key": "logic-basics",
+          "title": "CL, SL",
+          "source": "pages/page-3-rtl-frontend/source/sections/01-logic-basics.html"
+        },
+        {
+          "key": "hdl-synthesis",
+          "title": "HDL / Logic Synthesis",
+          "source": "pages/page-3-rtl-frontend/source/sections/02-hdl-synthesis.html"
+        },
+        {
+          "key": "hierarchical-design",
+          "title": "Hierarchical Design",
+          "source": "pages/page-3-rtl-frontend/source/sections/03-hierarchical-design.html"
+        },
+        {
+          "key": "soc-concept",
+          "title": "SoC",
+          "source": "pages/page-3-rtl-frontend/source/sections/04-soc-concept.html"
+        },
+        {
+          "key": "sta-concept",
+          "title": "STA",
+          "source": "pages/page-3-rtl-frontend/source/sections/05-sta-concept.html"
+        },
+        {
+          "key": "rtl-patterns",
+          "title": "Methodology for RTL coding",
+          "source": "pages/page-3-rtl-frontend/source/sections/06-rtl-patterns.html"
+        }
       ]
     },
     {
@@ -67,12 +116,27 @@
       "tocMode": "action",
       "sectionAttribute": "data-part4-panel",
       "buildManifest": "pages/page-4-physical-design/source/page-build.json",
-      "debugDir": "pages/page-4-physical-design",
       "sections": [
-        { "key": "floorplan", "title": "Floorplan", "source": "pages/page-4-physical-design/source/sections/01-floorplan.html" },
-        { "key": "pnr", "title": "PnR / CTS / Routing", "source": "pages/page-4-physical-design/source/sections/02-pnr.html" },
-        { "key": "signoff", "title": "Signoff / Tapeout", "source": "pages/page-4-physical-design/source/sections/03-Signoff_Tapeout.html" },
-        { "key": "design-kit", "title": "Design Kit / PDK", "source": "pages/page-4-physical-design/source/sections/04-design-kit.html" }
+        {
+          "key": "floorplan",
+          "title": "Floorplan",
+          "source": "pages/page-4-physical-design/source/sections/01-floorplan.html"
+        },
+        {
+          "key": "pnr",
+          "title": "PnR / CTS / Routing",
+          "source": "pages/page-4-physical-design/source/sections/02-pnr.html"
+        },
+        {
+          "key": "signoff",
+          "title": "Signoff / Tapeout",
+          "source": "pages/page-4-physical-design/source/sections/03-Signoff_Tapeout.html"
+        },
+        {
+          "key": "design-kit",
+          "title": "Design Kit / PDK",
+          "source": "pages/page-4-physical-design/source/sections/04-design-kit.html"
+        }
       ]
     },
     {
@@ -84,13 +148,31 @@
       "tocMode": "action",
       "sectionAttribute": "data-part5-panel",
       "buildManifest": "pages/page-5-memory-device/source/page-build.json",
-      "debugDir": "pages/page-5-memory-device",
       "sections": [
-        { "key": "memory-basics", "title": "SRAM / DRAM", "source": "pages/page-5-memory-device/source/sections/01-memory-basics.html" },
-        { "key": "flash-ssd", "title": "Flash / SSD", "source": "pages/page-5-memory-device/source/sections/02-flash-ssd.html" },
-        { "key": "mos-basics", "title": "MOS Basic", "source": "pages/page-5-memory-device/source/sections/03-mos-basics.html" },
-        { "key": "finfet-planar", "title": "FinFET / Planar", "source": "pages/page-5-memory-device/source/sections/04-finfet-planar.html" }
-      ]
+        {
+          "key": "memory-basics",
+          "title": "SRAM / DRAM",
+          "source": "pages/page-5-memory-device/source/sections/01-memory-basics.html"
+        },
+        {
+          "key": "flash-ssd",
+          "title": "Flash / SSD",
+          "source": "pages/page-5-memory-device/source/sections/02-flash-ssd.html"
+        },
+        {
+          "key": "mos-basics",
+          "title": "MOS Basic",
+          "source": "pages/page-5-memory-device/source/sections/03-mos-basics.html"
+        },
+        {
+          "key": "finfet-planar",
+          "title": "FinFET / Planar",
+          "source": "pages/page-5-memory-device/source/sections/04-finfet-planar.html"
+        }
+      ],
+      "sectionAliases": {
+        "section-01": "mos-basics"
+      }
     },
     {
       "id": "page-6",
@@ -101,18 +183,57 @@
       "tocMode": "action",
       "sectionAttribute": "data-part6-panel",
       "buildManifest": "pages/page-6-role-flow/source/page-build.json",
-      "debugDir": "pages/page-6-role-flow",
       "sections": [
-        { "key": "role-map", "title": "Role Map", "source": "pages/page-6-role-flow/source/sections/01-role-map.html" },
-        { "key": "foundation-ip", "title": "Foundation IP", "source": "pages/page-6-role-flow/source/sections/02-foundation-ip.html" },
-        { "key": "design-platform", "title": "DP", "source": "pages/page-6-role-flow/source/sections/03-design-platform.html" },
-        { "key": "design-verification", "title": "DV", "source": "pages/page-6-role-flow/source/sections/04-design-verification.html" },
-        { "key": "design-for-test", "title": "DFT", "source": "pages/page-6-role-flow/source/sections/05-design-for-test.html" },
-        { "key": "physical-implementation", "title": "PI", "source": "pages/page-6-role-flow/source/sections/06-physical-implementation.html" },
-        { "key": "physical-design", "title": "PD", "source": "pages/page-6-role-flow/source/sections/07-physical-design.html" },
-        { "key": "application-platform", "title": "AP", "source": "pages/page-6-role-flow/source/sections/08-application-platform.html" },
-        { "key": "related-roles", "title": "연관 직무", "source": "pages/page-6-role-flow/source/sections/09-related-roles.html" },
-        { "key": "advanced-keywords", "title": "심화 키워드", "source": "pages/page-6-role-flow/source/sections/10-advanced-keywords.html" }
+        {
+          "key": "role-map",
+          "title": "Role Map",
+          "source": "pages/page-6-role-flow/source/sections/01-role-map.html"
+        },
+        {
+          "key": "foundation-ip",
+          "title": "Foundation IP",
+          "source": "pages/page-6-role-flow/source/sections/02-foundation-ip.html"
+        },
+        {
+          "key": "design-platform",
+          "title": "DP",
+          "source": "pages/page-6-role-flow/source/sections/03-design-platform.html"
+        },
+        {
+          "key": "design-verification",
+          "title": "DV",
+          "source": "pages/page-6-role-flow/source/sections/04-design-verification.html"
+        },
+        {
+          "key": "design-for-test",
+          "title": "DFT",
+          "source": "pages/page-6-role-flow/source/sections/05-design-for-test.html"
+        },
+        {
+          "key": "physical-implementation",
+          "title": "PI",
+          "source": "pages/page-6-role-flow/source/sections/06-physical-implementation.html"
+        },
+        {
+          "key": "physical-design",
+          "title": "PD",
+          "source": "pages/page-6-role-flow/source/sections/07-physical-design.html"
+        },
+        {
+          "key": "application-platform",
+          "title": "AP",
+          "source": "pages/page-6-role-flow/source/sections/08-application-platform.html"
+        },
+        {
+          "key": "related-roles",
+          "title": "연관 직무",
+          "source": "pages/page-6-role-flow/source/sections/09-related-roles.html"
+        },
+        {
+          "key": "advanced-keywords",
+          "title": "심화 키워드",
+          "source": "pages/page-6-role-flow/source/sections/10-advanced-keywords.html"
+        }
       ]
     },
     {
@@ -124,23 +245,97 @@
       "tocMode": "action",
       "sectionAttribute": "data-page7-panel",
       "buildManifest": "pages/page-7-uvm-verification/source/page-build.json",
-      "debugDir": "pages/page-7-uvm-verification",
       "sections": [
-        { "key": "sequence-diagram", "title": "Full Scale UVM Component Interaction & Phases", "source": "pages/page-7-uvm-verification/source/sections/00_UVM_Sequence_diagram.html" },
-        { "key": "uvm-definition", "title": "UVM Universal Verification Methodology", "source": "pages/page-7-uvm-verification/source/sections/01_UVM_Definition.html" },
-        { "key": "uvm-basic", "title": "SV/OOP/UVM 기초", "source": "pages/page-7-uvm-verification/source/sections/02_UVM_Basic.html" },
-        { "key": "uvm-library", "title": "UVM 기초 라이브러리", "source": "pages/page-7-uvm-verification/source/sections/03_uvm_library.html" },
-        { "key": "sequence-item", "title": "Modeling a Bus Using a Class", "source": "pages/page-7-uvm-verification/source/sections/04_Item.html" },
-        { "key": "sequence", "title": "Sequence : Generate Transaction Scenario", "source": "pages/page-7-uvm-verification/source/sections/05_sequence.html" },
-        { "key": "driver", "title": "Driver : Transfer Transaction to DUT Signals", "source": "pages/page-7-uvm-verification/source/sections/06_driver.html" },
-        { "key": "sequencer", "title": "Sequencer : The Middle Route", "source": "pages/page-7-uvm-verification/source/sections/07_sequence.html" },
-        { "key": "scoreboard", "title": "Scoreboard : Compare DUT Result with Golden Model", "source": "pages/page-7-uvm-verification/source/sections/08_scoreboard.html" },
-        { "key": "coverage", "title": "Coverage : Check Verification Completeness", "source": "pages/page-7-uvm-verification/source/sections/09_coverage.html" },
-        { "key": "agent", "title": "Agent : Integrated Verification Component", "source": "pages/page-7-uvm-verification/source/sections/10_Agent.html" },
-        { "key": "env", "title": "Env : Integrate Verification Components", "source": "pages/page-7-uvm-verification/source/sections/11_Env.html" },
-        { "key": "sva", "title": "SVA : Protocol Rule & Timing Behavior", "source": "pages/page-7-uvm-verification/source/sections/12_Sva.html" },
-        { "key": "test", "title": "UVM Test : Control Verification Scenario", "source": "pages/page-7-uvm-verification/source/sections/13_Test.html" },
-        { "key": "vcs-verdi", "title": "VCS & Verdi : Simulation + Debug Flow", "source": "pages/page-7-uvm-verification/source/sections/14_Tool_VCS_Verdi.html" }
+        {
+          "key": "sequence-diagram",
+          "title": "Full Scale UVM Component Interaction & Phases",
+          "source": "pages/page-7-uvm-verification/source/sections/00_UVM_Sequence_diagram.html",
+          "tocTitle": "Sequence Diagram"
+        },
+        {
+          "key": "uvm-definition",
+          "title": "UVM Universal Verification Methodology",
+          "source": "pages/page-7-uvm-verification/source/sections/01_UVM_Definition.html",
+          "tocTitle": "UVM Basic"
+        },
+        {
+          "key": "uvm-basic",
+          "title": "SV/OOP/UVM 기초",
+          "source": "pages/page-7-uvm-verification/source/sections/02_UVM_Basic.html",
+          "tocTitle": "SV, OOP Basic"
+        },
+        {
+          "key": "uvm-library",
+          "title": "UVM 기초 라이브러리",
+          "source": "pages/page-7-uvm-verification/source/sections/03_uvm_library.html",
+          "tocTitle": "Library"
+        },
+        {
+          "key": "sequence-item",
+          "title": "Modeling a Bus Using a Class",
+          "source": "pages/page-7-uvm-verification/source/sections/04_Item.html",
+          "tocTitle": "Class"
+        },
+        {
+          "key": "sequence",
+          "title": "Sequence : Generate Transaction Scenario",
+          "source": "pages/page-7-uvm-verification/source/sections/05_sequence.html",
+          "tocTitle": "Sequence"
+        },
+        {
+          "key": "driver",
+          "title": "Driver : Transfer Transaction to DUT Signals",
+          "source": "pages/page-7-uvm-verification/source/sections/06_driver.html",
+          "tocTitle": "Driver"
+        },
+        {
+          "key": "sequencer",
+          "title": "Sequencer : The Middle Route",
+          "source": "pages/page-7-uvm-verification/source/sections/07_sequence.html",
+          "tocTitle": "Sequencer"
+        },
+        {
+          "key": "scoreboard",
+          "title": "Scoreboard : Compare DUT Result with Golden Model",
+          "source": "pages/page-7-uvm-verification/source/sections/08_scoreboard.html",
+          "tocTitle": "Scoreboard"
+        },
+        {
+          "key": "coverage",
+          "title": "Coverage : Check Verification Completeness",
+          "source": "pages/page-7-uvm-verification/source/sections/09_coverage.html",
+          "tocTitle": "Coverage"
+        },
+        {
+          "key": "agent",
+          "title": "Agent : Integrated Verification Component",
+          "source": "pages/page-7-uvm-verification/source/sections/10_Agent.html",
+          "tocTitle": "Agent"
+        },
+        {
+          "key": "env",
+          "title": "Env : Integrate Verification Components",
+          "source": "pages/page-7-uvm-verification/source/sections/11_Env.html",
+          "tocTitle": "Env"
+        },
+        {
+          "key": "sva",
+          "title": "SVA : Protocol Rule & Timing Behavior",
+          "source": "pages/page-7-uvm-verification/source/sections/12_Sva.html",
+          "tocTitle": "SVA"
+        },
+        {
+          "key": "test",
+          "title": "UVM Test : Control Verification Scenario",
+          "source": "pages/page-7-uvm-verification/source/sections/13_Test.html",
+          "tocTitle": "Test"
+        },
+        {
+          "key": "vcs-verdi",
+          "title": "VCS & Verdi : Simulation + Debug Flow",
+          "source": "pages/page-7-uvm-verification/source/sections/14_Tool_VCS_Verdi.html",
+          "tocTitle": "VCS & Verdi"
+        }
       ]
     },
     {
@@ -152,15 +347,42 @@
       "tocMode": "action",
       "sectionAttribute": "data-part8-panel",
       "buildManifest": "pages/page-8-on-chip-bus/source/page-build.json",
-      "debugDir": "pages/page-8-on-chip-bus",
       "sections": [
-        { "key": "amba", "title": "AMBA Protocol", "source": "pages/page-8-on-chip-bus/source/sections/01-amba.html" },
-        { "key": "bus", "title": "BUS", "source": "pages/page-8-on-chip-bus/source/sections/02-bus.html" },
-        { "key": "apb", "title": "APB", "source": "pages/page-8-on-chip-bus/source/sections/03-apb.html" },
-        { "key": "ahb", "title": "AHB", "source": "pages/page-8-on-chip-bus/source/sections/04-ahb.html" },
-        { "key": "axi-lite", "title": "AXI LITE", "source": "pages/page-8-on-chip-bus/source/sections/05-axi-lite.html" },
-        { "key": "axi-stream", "title": "AXI STREAM", "source": "pages/page-8-on-chip-bus/source/sections/06-axi-stream.html" },
-        { "key": "axi-full", "title": "AXI FULL", "source": "pages/page-8-on-chip-bus/source/sections/07-axi-full.html" }
+        {
+          "key": "amba",
+          "title": "AMBA Protocol",
+          "source": "pages/page-8-on-chip-bus/source/sections/01-amba.html"
+        },
+        {
+          "key": "bus",
+          "title": "BUS",
+          "source": "pages/page-8-on-chip-bus/source/sections/02-bus.html"
+        },
+        {
+          "key": "apb",
+          "title": "APB",
+          "source": "pages/page-8-on-chip-bus/source/sections/03-apb.html"
+        },
+        {
+          "key": "ahb",
+          "title": "AHB",
+          "source": "pages/page-8-on-chip-bus/source/sections/04-ahb.html"
+        },
+        {
+          "key": "axi-lite",
+          "title": "AXI LITE",
+          "source": "pages/page-8-on-chip-bus/source/sections/05-axi-lite.html"
+        },
+        {
+          "key": "axi-stream",
+          "title": "AXI STREAM",
+          "source": "pages/page-8-on-chip-bus/source/sections/06-axi-stream.html"
+        },
+        {
+          "key": "axi-full",
+          "title": "AXI FULL",
+          "source": "pages/page-8-on-chip-bus/source/sections/07-axi-full.html"
+        }
       ]
     },
     {
@@ -170,82 +392,1053 @@
       "src": "./pages/page-9-off-chip-interface.html",
       "loadingText": "Off-Chip Interface 페이지를 불러오는 중입니다...",
       "tocMode": "action",
-      "sectionAttribute": "data-part9-panel",
+      "sectionAttribute": "data-lesson-panel",
       "buildManifest": "pages/page-9-off-chip-interface/source/page-build.json",
-      "debugDir": "pages/page-9-off-chip-interface",
       "sections": [
-        { "key": "interface-stack", "title": "Interface Stack", "source": "pages/page-9-off-chip-interface/source/sections/01-interface-stack.html" },
-        { "key": "common-interfaces", "title": "Common Interfaces", "source": "pages/page-9-off-chip-interface/source/sections/02-common-interfaces.html" },
-        { "key": "debug-checklist", "title": "Debug Checklist", "source": "pages/page-9-off-chip-interface/source/sections/03-debug-checklist.html" }
-      ]
+        {
+          "key": "interface-boundary",
+          "title": "인터페이스의 경계와 계층",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-01.html"
+        },
+        {
+          "key": "io-electrical",
+          "title": "IO 전기적 기초",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-02.html"
+        },
+        {
+          "key": "gpio-uart",
+          "title": "GPIO와 UART",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-03.html"
+        },
+        {
+          "key": "spi-qspi",
+          "title": "SPI와 QSPI",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-04.html"
+        },
+        {
+          "key": "i2c-i3c",
+          "title": "I2C와 I3C",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-05.html"
+        },
+        {
+          "key": "ddr-lpddr",
+          "title": "DDR와 LPDDR",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-06.html"
+        },
+        {
+          "key": "pcie",
+          "title": "PCI Express",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-07.html"
+        },
+        {
+          "key": "usb-typec-pd",
+          "title": "USB와 Type-C 및 PD",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-08.html"
+        },
+        {
+          "key": "ethernet",
+          "title": "Ethernet",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-09.html"
+        },
+        {
+          "key": "mipi",
+          "title": "MIPI 카메라와 디스플레이",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-10.html"
+        },
+        {
+          "key": "can-lin",
+          "title": "CAN과 LIN",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-11.html"
+        },
+        {
+          "key": "serdes-phy",
+          "title": "SerDes와 PHY",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-12.html"
+        },
+        {
+          "key": "si-pi-channel",
+          "title": "SI와 PI 및 보드 채널",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-13.html"
+        },
+        {
+          "key": "interface-budget",
+          "title": "인터페이스 선택과 성능 예산",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-14.html"
+        },
+        {
+          "key": "interface-debug",
+          "title": "Bring-up과 디버그 실습",
+          "source": "pages/page-9-off-chip-interface/source/sections/lesson-09-15.html"
+        }
+      ],
+      "sectionAliases": {
+        "interface-stack": "interface-boundary",
+        "common-interfaces": "ddr-lpddr",
+        "debug-checklist": "si-pi-channel"
+      }
     },
     {
       "id": "page-10",
       "number": 10,
-      "title": "Solution",
+      "title": "SoC Architecture & Integration",
       "src": "./pages/page-10-solution.html",
-      "loadingText": "Solution 페이지를 불러오는 중입니다...",
+      "loadingText": "SoC Architecture & Integration 페이지를 불러오는 중입니다...",
       "tocMode": "action",
-      "sectionAttribute": "data-part10-panel",
+      "sectionAttribute": "data-lesson-panel",
       "buildManifest": "pages/page-10-solution/source/page-build.json",
-      "debugDir": "pages/page-10-solution",
       "sections": [
-        { "key": "integration-stack", "title": "Integration Stack", "source": "pages/page-10-solution/source/sections/01-integration-stack.html" },
-        { "key": "solution-thinking", "title": "Solution Thinking", "source": "pages/page-10-solution/source/sections/02-solution-thinking.html" },
-        { "key": "interview-memory-hooks", "title": "Interview Memory Hooks", "source": "pages/page-10-solution/source/sections/03-interview-memory-hooks.html" }
-      ]
+        {
+          "key": "system-requirements",
+          "title": "제품 요구와 시스템 예산",
+          "source": "pages/page-10-solution/source/sections/lesson-10-01.html"
+        },
+        {
+          "key": "soc-map",
+          "title": "SoC 구조와 IP 분할",
+          "source": "pages/page-10-solution/source/sections/lesson-10-02.html"
+        },
+        {
+          "key": "address-register",
+          "title": "주소 공간과 레지스터 설계",
+          "source": "pages/page-10-solution/source/sections/lesson-10-03.html"
+        },
+        {
+          "key": "memory-consistency",
+          "title": "메모리 계층과 일관성",
+          "source": "pages/page-10-solution/source/sections/lesson-10-04.html"
+        },
+        {
+          "key": "dma-path",
+          "title": "DMA와 데이터 이동",
+          "source": "pages/page-10-solution/source/sections/lesson-10-05.html"
+        },
+        {
+          "key": "interrupt-timer",
+          "title": "인터럽트와 타이머",
+          "source": "pages/page-10-solution/source/sections/lesson-10-06.html"
+        },
+        {
+          "key": "clock-reset-integration",
+          "title": "Clock과 Reset 통합",
+          "source": "pages/page-10-solution/source/sections/lesson-10-07.html"
+        },
+        {
+          "key": "boot-driver",
+          "title": "Boot와 펌웨어 및 드라이버",
+          "source": "pages/page-10-solution/source/sections/lesson-10-08.html"
+        },
+        {
+          "key": "noc-qos",
+          "title": "Interconnect와 QoS",
+          "source": "pages/page-10-solution/source/sections/lesson-10-09.html"
+        },
+        {
+          "key": "soc-low-power",
+          "title": "전력 도메인과 저전력 통합",
+          "source": "pages/page-10-solution/source/sections/lesson-10-10.html"
+        },
+        {
+          "key": "soc-security-safety",
+          "title": "보안과 안전의 통합 접점",
+          "source": "pages/page-10-solution/source/sections/lesson-10-11.html"
+        },
+        {
+          "key": "system-performance",
+          "title": "시스템 성능과 병목",
+          "source": "pages/page-10-solution/source/sections/lesson-10-12.html"
+        },
+        {
+          "key": "soc-integration-verification",
+          "title": "시스템 통합 검증",
+          "source": "pages/page-10-solution/source/sections/lesson-10-13.html"
+        },
+        {
+          "key": "soc-case-study",
+          "title": "제품 사례와 설계 리뷰",
+          "source": "pages/page-10-solution/source/sections/lesson-10-14.html"
+        }
+      ],
+      "sectionAliases": {
+        "integration-stack": "system-requirements",
+        "solution-thinking": "address-register",
+        "interview-memory-hooks": "soc-integration-verification"
+      }
     },
     {
       "id": "page-11",
       "number": 11,
-      "title": "AI Accelerator",
+      "title": "AI Accelerator Architecture",
       "src": "./pages/page-11-ai-accelerator.html",
-      "loadingText": "AI Accelerator 페이지를 불러오는 중입니다...",
+      "loadingText": "AI Accelerator Architecture 페이지를 불러오는 중입니다...",
       "tocMode": "action",
-      "sectionAttribute": "data-part11-panel",
+      "sectionAttribute": "data-lesson-panel",
       "buildManifest": "pages/page-11-ai-accelerator/source/page-build.json",
-      "debugDir": "pages/page-11-ai-accelerator",
       "sections": [
-        { "key": "accelerator-stack", "title": "Accelerator Stack", "source": "pages/page-11-ai-accelerator/source/sections/01-accelerator-stack.html" },
-        { "key": "dataflow", "title": "Dataflow", "source": "pages/page-11-ai-accelerator/source/sections/02-dataflow.html" },
-        { "key": "metric-debug", "title": "Metric & Debug", "source": "pages/page-11-ai-accelerator/source/sections/03-metric-debug.html" }
+        {
+          "key": "ai-workloads",
+          "title": "Workload와 연산 그래프",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-01.html"
+        },
+        {
+          "key": "ai-numerics",
+          "title": "수 표현과 양자화",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-02.html"
+        },
+        {
+          "key": "mac-pe",
+          "title": "MAC과 Processing Element",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-03.html"
+        },
+        {
+          "key": "systolic-array",
+          "title": "Systolic Array",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-04.html"
+        },
+        {
+          "key": "dataflow-reuse",
+          "title": "Dataflow와 데이터 재사용",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-05.html"
+        },
+        {
+          "key": "tiling-mapping",
+          "title": "Tiling과 Loop Mapping",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-06.html"
+        },
+        {
+          "key": "accelerator-memory",
+          "title": "메모리 계층과 Bandwidth",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-07.html"
+        },
+        {
+          "key": "compute-overlap",
+          "title": "DMA와 Compute 중첩",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-08.html"
+        },
+        {
+          "key": "activation-postprocess",
+          "title": "Activation과 후처리",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-09.html"
+        },
+        {
+          "key": "sparsity-compression",
+          "title": "Sparsity와 Compression",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-10.html"
+        },
+        {
+          "key": "attention-kv",
+          "title": "Attention과 KV Cache",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-11.html"
+        },
+        {
+          "key": "accelerator-software",
+          "title": "Compiler와 Runtime",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-12.html"
+        },
+        {
+          "key": "accelerator-performance",
+          "title": "성능과 전력 분석",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-13.html"
+        },
+        {
+          "key": "accelerator-verification",
+          "title": "검증과 디버그",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-14.html"
+        },
+        {
+          "key": "mini-npu-project",
+          "title": "작은 NPU 설계 실습",
+          "source": "pages/page-11-ai-accelerator/source/sections/lesson-11-15.html"
+        }
+      ],
+      "sectionAliases": {
+        "accelerator-stack": "ai-workloads",
+        "dataflow": "dataflow-reuse",
+        "metric-debug": "accelerator-performance"
+      }
+    },
+    {
+      "id": "page-12",
+      "src": "./pages/page-12-device-process.html",
+      "buildManifest": "pages/page-12-device-process/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 12,
+      "title": "반도체 소자와 제조 공정",
+      "loadingText": "반도체 소자와 제조 공정 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "반도체와 전하",
+          "source": "pages/page-12-device-process/source/sections/lesson-12-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "MOS 구조와 동작",
+          "source": "pages/page-12-device-process/source/sections/lesson-12-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "공정의 기본 순서",
+          "source": "pages/page-12-device-process/source/sections/lesson-12-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "FEOL과 BEOL",
+          "source": "pages/page-12-device-process/source/sections/lesson-12-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "Planar와 FinFET 및 GAA",
+          "source": "pages/page-12-device-process/source/sections/lesson-12-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "공정 변동과 소자 모델",
+          "source": "pages/page-12-device-process/source/sections/lesson-12-06.html"
+        },
+        {
+          "key": "section-07",
+          "title": "특수 소자와 기술 접점",
+          "source": "pages/page-12-device-process/source/sections/lesson-12-07.html"
+        }
+      ]
+    },
+    {
+      "id": "page-cmos-layout",
+      "src": "./pages/page-13-cmos-layout.html",
+      "buildManifest": "pages/page-13-cmos-layout/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 13,
+      "title": "CMOS 회로와 Custom Layout",
+      "loadingText": "CMOS 회로와 Custom Layout 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "CMOS Inverter",
+          "source": "pages/page-13-cmos-layout/source/sections/lesson-13-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "CMOS 논리 게이트",
+          "source": "pages/page-13-cmos-layout/source/sections/lesson-13-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "지연과 구동 능력",
+          "source": "pages/page-13-cmos-layout/source/sections/lesson-13-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "회로의 전력",
+          "source": "pages/page-13-cmos-layout/source/sections/lesson-13-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "저장 소자와 Clock 회로",
+          "source": "pages/page-13-cmos-layout/source/sections/lesson-13-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "Standard Cell과 Layout",
+          "source": "pages/page-13-cmos-layout/source/sections/lesson-13-06.html"
+        },
+        {
+          "key": "section-07",
+          "title": "Custom 회로 설계 실습",
+          "source": "pages/page-13-cmos-layout/source/sections/lesson-13-07.html"
+        }
+      ]
+    },
+    {
+      "id": "page-analog-mixed-rf",
+      "src": "./pages/page-14-analog-mixed-rf.html",
+      "buildManifest": "pages/page-14-analog-mixed-rf/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 14,
+      "title": "Analog · Mixed-Signal · RF",
+      "loadingText": "Analog · Mixed-Signal · RF 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "아날로그 설계 지표",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "Bias와 Reference",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "증폭기와 Comparator",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "Feedback와 안정도",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "Noise와 Mismatch",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "ADC",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-06.html"
+        },
+        {
+          "key": "section-07",
+          "title": "DAC",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-07.html"
+        },
+        {
+          "key": "section-08",
+          "title": "PLL과 DLL",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-08.html"
+        },
+        {
+          "key": "section-09",
+          "title": "RF IC 기초",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-09.html"
+        },
+        {
+          "key": "section-10",
+          "title": "전력 IC와 센서 인터페이스",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-10.html"
+        },
+        {
+          "key": "section-11",
+          "title": "Analog Layout",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-11.html"
+        },
+        {
+          "key": "section-12",
+          "title": "Mixed-Signal 검증",
+          "source": "pages/page-14-analog-mixed-rf/source/sections/lesson-14-12.html"
+        }
+      ]
+    },
+    {
+      "id": "page-15",
+      "src": "./pages/page-15-processor-architecture.html",
+      "buildManifest": "pages/page-15-processor-architecture/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 15,
+      "title": "CPU · GPU · DSP 구조",
+      "loadingText": "CPU · GPU · DSP 구조 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "ISA와 마이크로아키텍처",
+          "source": "pages/page-15-processor-architecture/source/sections/lesson-15-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "Pipeline과 Hazard",
+          "source": "pages/page-15-processor-architecture/source/sections/lesson-15-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "고성능 CPU 기법",
+          "source": "pages/page-15-processor-architecture/source/sections/lesson-15-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "메모리 시스템",
+          "source": "pages/page-15-processor-architecture/source/sections/lesson-15-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "GPU와 벡터 처리",
+          "source": "pages/page-15-processor-architecture/source/sections/lesson-15-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "DSP와 특화 연산",
+          "source": "pages/page-15-processor-architecture/source/sections/lesson-15-06.html"
+        },
+        {
+          "key": "section-07",
+          "title": "구조 선택과 성능 비교",
+          "source": "pages/page-15-processor-architecture/source/sections/lesson-15-07.html"
+        }
+      ]
+    },
+    {
+      "id": "page-16",
+      "src": "./pages/page-16-logic-synthesis.html",
+      "buildManifest": "pages/page-16-logic-synthesis/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 16,
+      "title": "Logic Synthesis와 제약",
+      "loadingText": "Logic Synthesis와 제약 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "합성의 단계",
+          "source": "pages/page-16-logic-synthesis/source/sections/lesson-16-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "SDC의 기본",
+          "source": "pages/page-16-logic-synthesis/source/sections/lesson-16-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "예외 제약과 검증",
+          "source": "pages/page-16-logic-synthesis/source/sections/lesson-16-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "회로 추론과 자원 공유",
+          "source": "pages/page-16-logic-synthesis/source/sections/lesson-16-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "PPA 최적화와 리포트",
+          "source": "pages/page-16-logic-synthesis/source/sections/lesson-16-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "LEC와 합성 인계",
+          "source": "pages/page-16-logic-synthesis/source/sections/lesson-16-06.html"
+        }
+      ]
+    },
+    {
+      "id": "page-17",
+      "src": "./pages/page-17-sta-clock-reset.html",
+      "buildManifest": "pages/page-17-sta-clock-reset/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 17,
+      "title": "STA와 Clock · Reset 설계",
+      "loadingText": "STA와 Clock · Reset 설계 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "Timing Path와 Timing Arc",
+          "source": "pages/page-17-sta-clock-reset/source/sections/lesson-17-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "Setup과 Hold",
+          "source": "pages/page-17-sta-clock-reset/source/sections/lesson-17-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "Clock 정의와 분배",
+          "source": "pages/page-17-sta-clock-reset/source/sections/lesson-17-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "IO와 Source-Synchronous Timing",
+          "source": "pages/page-17-sta-clock-reset/source/sections/lesson-17-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "MMMC와 Variation",
+          "source": "pages/page-17-sta-clock-reset/source/sections/lesson-17-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "Crosstalk과 기생 영향",
+          "source": "pages/page-17-sta-clock-reset/source/sections/lesson-17-06.html"
+        },
+        {
+          "key": "section-07",
+          "title": "Reset Timing",
+          "source": "pages/page-17-sta-clock-reset/source/sections/lesson-17-07.html"
+        },
+        {
+          "key": "section-08",
+          "title": "Timing Closure 실습",
+          "source": "pages/page-17-sta-clock-reset/source/sections/lesson-17-08.html"
+        }
+      ]
+    },
+    {
+      "id": "page-18",
+      "src": "./pages/page-18-cdc-rdc.html",
+      "buildManifest": "pages/page-18-cdc-rdc/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 18,
+      "title": "CDC와 RDC",
+      "loadingText": "CDC와 RDC 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "Metastability와 도메인",
+          "source": "pages/page-18-cdc-rdc/source/sections/lesson-18-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "단일 비트 동기화",
+          "source": "pages/page-18-cdc-rdc/source/sections/lesson-18-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "Handshake와 Multi-bit CDC",
+          "source": "pages/page-18-cdc-rdc/source/sections/lesson-18-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "Asynchronous FIFO",
+          "source": "pages/page-18-cdc-rdc/source/sections/lesson-18-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "RDC와 Reset 전략",
+          "source": "pages/page-18-cdc-rdc/source/sections/lesson-18-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "분석과 검증 및 Waiver",
+          "source": "pages/page-18-cdc-rdc/source/sections/lesson-18-06.html"
+        }
+      ]
+    },
+    {
+      "id": "page-19",
+      "src": "./pages/page-19-low-power.html",
+      "buildManifest": "pages/page-19-low-power/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 19,
+      "title": "저전력 설계와 UPF",
+      "loadingText": "저전력 설계와 UPF 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "전력 모델과 예산",
+          "source": "pages/page-19-low-power/source/sections/lesson-19-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "Clock Gating과 Operand Isolation",
+          "source": "pages/page-19-low-power/source/sections/lesson-19-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "Power Gating과 도메인",
+          "source": "pages/page-19-low-power/source/sections/lesson-19-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "Retention과 Level Shifter",
+          "source": "pages/page-19-low-power/source/sections/lesson-19-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "DVFS와 Power State",
+          "source": "pages/page-19-low-power/source/sections/lesson-19-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "UPF와 Power-Aware 검증",
+          "source": "pages/page-19-low-power/source/sections/lesson-19-06.html"
+        }
+      ]
+    },
+    {
+      "id": "page-20",
+      "src": "./pages/page-20-dft-test.html",
+      "buildManifest": "pages/page-20-dft-test/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 20,
+      "title": "DFT와 생산 테스트",
+      "loadingText": "DFT와 생산 테스트 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "Fault Model과 Testability",
+          "source": "pages/page-20-dft-test/source/sections/lesson-20-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "Scan 구조",
+          "source": "pages/page-20-dft-test/source/sections/lesson-20-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "ATPG와 Coverage",
+          "source": "pages/page-20-dft-test/source/sections/lesson-20-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "Memory BIST와 Repair",
+          "source": "pages/page-20-dft-test/source/sections/lesson-20-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "JTAG와 Boundary Scan",
+          "source": "pages/page-20-dft-test/source/sections/lesson-20-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "ATE와 테스트 인계",
+          "source": "pages/page-20-dft-test/source/sections/lesson-20-06.html"
+        }
+      ]
+    },
+    {
+      "id": "page-21",
+      "src": "./pages/page-21-formal-verification.html",
+      "buildManifest": "pages/page-21-formal-verification/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 21,
+      "title": "Formal과 고급 검증",
+      "loadingText": "Formal과 고급 검증 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "검증 기법 선택",
+          "source": "pages/page-21-formal-verification/source/sections/lesson-21-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "Property와 환경 가정",
+          "source": "pages/page-21-formal-verification/source/sections/lesson-21-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "Formal 실행과 해석",
+          "source": "pages/page-21-formal-verification/source/sections/lesson-21-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "분할과 추상화",
+          "source": "pages/page-21-formal-verification/source/sections/lesson-21-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "Equivalence와 ECO 검증",
+          "source": "pages/page-21-formal-verification/source/sections/lesson-21-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "검증 완료와 추적성",
+          "source": "pages/page-21-formal-verification/source/sections/lesson-21-06.html"
+        }
+      ]
+    },
+    {
+      "id": "page-22",
+      "src": "./pages/page-22-package-chiplet.html",
+      "buildManifest": "pages/page-22-package-chiplet/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 22,
+      "title": "패키징과 Chiplet 및 시스템 물리",
+      "loadingText": "패키징과 Chiplet 및 시스템 물리 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "패키지 기본 구조",
+          "source": "pages/page-22-package-chiplet/source/sections/lesson-22-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "2.5D와 3D Integration",
+          "source": "pages/page-22-package-chiplet/source/sections/lesson-22-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "Chiplet과 Die-to-Die",
+          "source": "pages/page-22-package-chiplet/source/sections/lesson-22-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "HBM과 Co-Design",
+          "source": "pages/page-22-package-chiplet/source/sections/lesson-22-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "Package와 Board SI/PI",
+          "source": "pages/page-22-package-chiplet/source/sections/lesson-22-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "Thermal과 기계적 신뢰성",
+          "source": "pages/page-22-package-chiplet/source/sections/lesson-22-06.html"
+        },
+        {
+          "key": "section-07",
+          "title": "패키지 선택과 인계",
+          "source": "pages/page-22-package-chiplet/source/sections/lesson-22-07.html"
+        }
+      ]
+    },
+    {
+      "id": "page-23",
+      "src": "./pages/page-23-silicon-validation.html",
+      "buildManifest": "pages/page-23-silicon-validation/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 23,
+      "title": "실리콘 Bring-up과 수율 및 신뢰성",
+      "loadingText": "실리콘 Bring-up과 수율 및 신뢰성 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "Bring-up 준비",
+          "source": "pages/page-23-silicon-validation/source/sections/lesson-23-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "First Boot",
+          "source": "pages/page-23-silicon-validation/source/sections/lesson-23-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "기능 검증과 계측",
+          "source": "pages/page-23-silicon-validation/source/sections/lesson-23-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "PVT Characterization",
+          "source": "pages/page-23-silicon-validation/source/sections/lesson-23-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "수율과 불량 분석",
+          "source": "pages/page-23-silicon-validation/source/sections/lesson-23-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "Reliability",
+          "source": "pages/page-23-silicon-validation/source/sections/lesson-23-06.html"
+        },
+        {
+          "key": "section-07",
+          "title": "Errata와 제품 개선",
+          "source": "pages/page-23-silicon-validation/source/sections/lesson-23-07.html"
+        }
+      ]
+    },
+    {
+      "id": "page-24",
+      "src": "./pages/page-24-security-safety.html",
+      "buildManifest": "pages/page-24-security-safety/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 24,
+      "title": "하드웨어 보안과 기능 안전",
+      "loadingText": "하드웨어 보안과 기능 안전 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "위협과 고장 모델",
+          "source": "pages/page-24-security-safety/source/sections/lesson-24-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "Root of Trust와 Secure Boot",
+          "source": "pages/page-24-security-safety/source/sections/lesson-24-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "격리와 접근 제어",
+          "source": "pages/page-24-security-safety/source/sections/lesson-24-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "Debug와 물리적 공격 방어",
+          "source": "pages/page-24-security-safety/source/sections/lesson-24-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "고장 검출과 복구",
+          "source": "pages/page-24-security-safety/source/sections/lesson-24-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "증거와 시스템 검토",
+          "source": "pages/page-24-security-safety/source/sections/lesson-24-06.html"
+        }
+      ]
+    },
+    {
+      "id": "page-25",
+      "src": "./pages/page-25-eda-fpga.html",
+      "buildManifest": "pages/page-25-eda-fpga/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 25,
+      "title": "EDA 도구와 자동화 및 FPGA",
+      "loadingText": "EDA 도구와 자동화 및 FPGA 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "개발 환경과 재현성",
+          "source": "pages/page-25-eda-fpga/source/sections/lesson-25-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "스크립트와 데이터 처리",
+          "source": "pages/page-25-eda-fpga/source/sections/lesson-25-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "Simulation과 Debug",
+          "source": "pages/page-25-eda-fpga/source/sections/lesson-25-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "오픈 도구로 RTL부터 Layout까지",
+          "source": "pages/page-25-eda-fpga/source/sections/lesson-25-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "FPGA 구조와 구현",
+          "source": "pages/page-25-eda-fpga/source/sections/lesson-25-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "보드 실습과 Prototype",
+          "source": "pages/page-25-eda-fpga/source/sections/lesson-25-06.html"
+        },
+        {
+          "key": "section-07",
+          "title": "자동 회귀와 결과 관리",
+          "source": "pages/page-25-eda-fpga/source/sections/lesson-25-07.html"
+        }
+      ]
+    },
+    {
+      "id": "page-26",
+      "src": "./pages/page-26-design-projects.html",
+      "buildManifest": "pages/page-26-design-projects/source/page-build.json",
+      "tocMode": "action",
+      "sectionAttribute": "data-lesson-panel",
+      "number": 26,
+      "title": "설계 프로젝트와 사례",
+      "loadingText": "설계 프로젝트와 사례 페이지를 불러오는 중입니다...",
+      "sectionAliases": {},
+      "sections": [
+        {
+          "key": "section-01",
+          "title": "UART와 SPI Peripheral",
+          "source": "pages/page-26-design-projects/source/sections/lesson-26-01.html"
+        },
+        {
+          "key": "section-02",
+          "title": "APB 또는 AXI-Lite IP",
+          "source": "pages/page-26-design-projects/source/sections/lesson-26-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "FIFO와 DMA Subsystem",
+          "source": "pages/page-26-design-projects/source/sections/lesson-26-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "작은 SoC 통합",
+          "source": "pages/page-26-design-projects/source/sections/lesson-26-04.html"
+        },
+        {
+          "key": "section-05",
+          "title": "작은 NPU 통합",
+          "source": "pages/page-26-design-projects/source/sections/lesson-26-05.html"
+        },
+        {
+          "key": "section-06",
+          "title": "RTL부터 Physical 또는 FPGA까지",
+          "source": "pages/page-26-design-projects/source/sections/lesson-26-06.html"
+        }
       ]
     },
     {
       "id": "page-13",
-      "number": 13,
-      "title": "예상 기출문제",
+      "number": 27,
+      "title": "문제은행과 해설",
       "src": "./pages/page-13-practice-bank.html",
-      "loadingText": "예상 기출문제 페이지를 불러오는 중입니다...",
-      "tocMode": "dynamic",
+      "loadingText": "문제은행과 해설 페이지를 불러오는 중입니다...",
+      "tocMode": "scroll",
       "buildManifest": "pages/page-13-practice-bank/source/page-build.json",
-      "debugDir": "pages/page-13-practice-bank",
       "navGroup": "practice",
       "navIcon": "📝",
       "navAccent": "blue",
       "sections": [
-        { "key": "practice-overview", "title": "문제은행 개요", "source": "pages/page-13-practice-bank/source/sections/01-practice-overview.html" },
-        { "key": "practice-filters", "title": "검색 및 필터", "source": "pages/page-13-practice-bank/source/sections/02-practice-filters.html" },
-        { "key": "practice-bank", "title": "문제 은행", "source": "pages/page-13-practice-bank/source/sections/03-practice-bank.html" }
-      ]
+        {
+          "key": "practice-overview",
+          "title": "문제은행 탐색",
+          "source": "pages/page-13-practice-bank/source/sections/lesson-27-01.html"
+        },
+        {
+          "key": "practice-bank",
+          "title": "파형과 코드 문제",
+          "source": "pages/page-13-practice-bank/source/sections/lesson-27-02.html"
+        },
+        {
+          "key": "section-03",
+          "title": "설계 판단과 디버그 문제",
+          "source": "pages/page-13-practice-bank/source/sections/lesson-27-03.html"
+        },
+        {
+          "key": "section-04",
+          "title": "오답 복습",
+          "source": "pages/page-13-practice-bank/source/sections/lesson-27-04.html"
+        }
+      ],
+      "sectionAliases": {
+        "practice-filters": "practice-overview"
+      },
+      "sectionAttribute": "data-lesson-panel"
     },
     {
       "id": "page-14",
-      "number": 14,
-      "title": "실전 모의 20문항",
+      "number": 28,
+      "title": "모의시험과 설계 리뷰",
       "src": "./pages/page-14-mock-exam.html",
-      "loadingText": "실전 모의 20문항 페이지를 불러오는 중입니다...",
+      "loadingText": "모의시험과 설계 리뷰 페이지를 불러오는 중입니다...",
       "tocMode": "scroll",
       "buildManifest": "pages/page-14-mock-exam/source/page-build.json",
-      "debugDir": "pages/page-14-mock-exam",
       "navGroup": "practice",
       "navIcon": "⏱️",
       "navAccent": "red",
       "sections": [
-        { "key": "mock-start", "title": "시험 안내", "source": "pages/page-14-mock-exam/source/sections/01-mock-start.html" },
-        { "key": "mock-exam", "title": "문항 풀이", "source": "pages/page-14-mock-exam/source/sections/02-mock-exam.html" },
-        { "key": "mock-result", "title": "채점 결과", "source": "pages/page-14-mock-exam/source/sections/03-mock-result.html" }
-      ]
+        {
+          "key": "mock-start",
+          "title": "시험 안내와 구성",
+          "source": "pages/page-14-mock-exam/source/sections/lesson-28-01.html"
+        },
+        {
+          "key": "mock-exam",
+          "title": "풀이와 채점",
+          "source": "pages/page-14-mock-exam/source/sections/lesson-28-02.html"
+        },
+        {
+          "key": "mock-result",
+          "title": "결과와 설계 리뷰",
+          "source": "pages/page-14-mock-exam/source/sections/lesson-28-03.html"
+        }
+      ],
+      "sectionAliases": {},
+      "sectionAttribute": "data-lesson-panel"
     }
   ]
 }

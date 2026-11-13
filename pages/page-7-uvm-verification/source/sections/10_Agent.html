@@ -33,7 +33,7 @@
             from { stroke-dashoffset: 24; }
             to { stroke-dashoffset: 0; }
         }
-        
+
         .animate-flow {
             stroke-dasharray: 6 6;
             animation: flow-animation 0.8s linear infinite;
@@ -62,6 +62,9 @@
             border-radius: 4px;
         }
     </style>
+    <link rel="stylesheet" href="../../../../assets/fonts.css">
+    <link rel="stylesheet" href="../../../../assets/components/embedded-content.css">
+    <script defer src="../../../../assets/components/embedded-document.js"></script>
 </head>
 <body class="bg-white text-slate-600 antialiased">
 
@@ -74,7 +77,7 @@
                 <h2 class="text-2xl font-bold text-slate-900 mb-2">1. 시스템 레벨 구조: Env ↔ Agent ↔ DUT</h2>
                 <p class="text-sm text-slate-500">Agent의 역할 / Env와 Agent 연결 구조 / Virtual Interface 전달 / Config Object / Factory 구조</p>
             </div>
-            
+
             <div class="diagram-grid rounded-xl border border-slate-200 overflow-hidden relative">
                 <svg viewBox="0 0 1000 450" class="w-full h-auto" preserveAspectRatio="xMidYMid meet">
                     <defs>
@@ -122,7 +125,7 @@
                     <!-- Config to Agent -->
                     <path d="M 220 150 L 335 150" class="fill-none stroke-blue-400 stroke-2 animate-flow" marker-end="url(#arrow)" />
                     <text x="280" y="140" text-anchor="middle" class="fill-slate-500 text-xs font-mono">get() vif & cfg</text>
-                    
+
                     <!-- Factory to Agent -->
                     <path d="M 780 150 L 665 150" class="fill-none stroke-amber-400 stroke-2 animate-flow" marker-end="url(#arrow)" />
                     <text x="720" y="140" text-anchor="middle" class="fill-slate-500 text-xs font-mono">create()</text>
@@ -132,7 +135,7 @@
                     <text x="565" y="330" text-anchor="middle" class="fill-emerald-600 font-bold text-sm font-mono bg-white">Virtual Interface (vif)</text>
                 </svg>
             </div>
-            
+
             <div class="mt-6 p-5 bg-slate-50 rounded-xl border border-slate-200">
                 <h3 class="text-sm font-bold text-slate-800 mb-2 flex items-center">
                     <svg class="w-4 h-4 mr-2 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -166,7 +169,7 @@
                     <!-- Left: ACTIVE AGENT -->
                     <g transform="translate(20, 20)">
                         <rect x="0" y="0" width="450" height="420" rx="12" class="fill-white stroke-blue-300 stroke-[2px]" />
-                        
+
                         <!-- Header Badge -->
                         <rect x="0" y="0" width="450" height="50" rx="12" class="fill-blue-600" />
                         <rect x="0" y="25" width="450" height="25" class="fill-blue-600" /> <!-- Square bottom corners -->
@@ -220,7 +223,7 @@
                         <!-- Virtual Interface arrows -->
                         <path d="M 130 340 L 130 400" class="fill-none stroke-emerald-500 stroke-[3px] animate-flow" marker-end="url(#arr-tlm)" />
                         <text x="90" y="380" class="fill-emerald-600 text-xs font-bold font-mono">Drive (Tx)</text>
-                        
+
                         <path d="M 330 400 L 330 340" class="fill-none stroke-emerald-500 stroke-[3px] animate-flow" marker-end="url(#arr-tlm)" />
                         <text x="340" y="380" class="fill-emerald-600 text-xs font-bold font-mono">Sample (Rx)</text>
                     </g>
@@ -229,7 +232,7 @@
                     <!-- Right: PASSIVE AGENT -->
                     <g transform="translate(530, 20)">
                         <rect x="0" y="0" width="450" height="420" rx="12" class="fill-white stroke-slate-300 stroke-[2px] stroke-dasharray-[6_6]" />
-                        
+
                         <!-- Header Badge -->
                         <rect x="0" y="0" width="450" height="50" rx="12" class="fill-slate-500" />
                         <rect x="0" y="25" width="450" height="25" class="fill-slate-500" />
@@ -345,7 +348,7 @@
                     <!-- Floating Priority Labels -->
                     <rect x="250" y="160" width="130" height="24" rx="12" fill="#ffffff" stroke="#c7d2fe" stroke-width="1" filter="url(#shadow-node)" />
                     <text x="315" y="176" fill="#4f46e5" font-size="11" font-weight="bold" text-anchor="middle">Highest Priority</text>
-                    
+
                     <rect x="620" y="160" width="110" height="24" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
                     <text x="675" y="176" fill="#94a3b8" font-size="11" font-weight="bold" text-anchor="middle">Fallback (Ignored)</text>
 
@@ -433,7 +436,7 @@
                         <filter id="shadow-md" x="-10%" y="-10%" width="120%" height="120%">
                             <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.08"/>
                         </filter>
-                        
+
                         <!-- Rich UI Gradients -->
                         <linearGradient id="grad-build" x1="0%" y1="0%" x2="100%" y2="0%">
                             <stop offset="0%" stop-color="#2563eb" /> <!-- blue-600 -->
@@ -472,12 +475,12 @@
                     <!-- Animated Foreground Flow Lines (Data & Logic Progression) -->
                     <path d="M 160 170 L 195 170" fill="none" stroke="#3b82f6" stroke-width="3" class="animate-flow" marker-end="url(#arrow-blue)" />
                     <path d="M 330 170 L 345 170" fill="none" stroke="#3b82f6" stroke-width="3" class="animate-flow" marker-end="url(#arrow-blue)" />
-                    
+
                     <!-- Active Branch Flow Line -->
                     <path d="M 400 170 C 430 170, 420 80, 455 80" fill="none" stroke="#0ea5e9" stroke-width="3" class="animate-flow" marker-end="url(#arrow-blue)" />
                     <!-- Merge to Connect Phase Flow -->
                     <path d="M 640 80 C 680 80, 670 170, 695 170" fill="none" stroke="#4f46e5" stroke-width="3" class="animate-flow" marker-end="url(#arrow-indigo)" />
-                    
+
                     <!-- Passive Branch Flow Line (Dashed / Inactive) -->
                     <path d="M 400 170 C 430 170, 420 260, 455 260" fill="none" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6 6" marker-end="url(#arrow-gray)" />
                     <path d="M 640 260 C 680 260, 670 170, 695 170" fill="none" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6 6" marker-end="url(#arrow-gray)" />
@@ -541,7 +544,7 @@
                         <rect x="0" y="0" width="100" height="110" rx="12" fill="#ffffff" stroke="#c4b5fd" stroke-width="2" filter="url(#shadow-md)" />
                         <rect x="0" y="0" width="6" height="110" rx="3" fill="#8b5cf6" />
                         <text x="50" y="25" fill="#6d28d9" font-size="11" font-weight="bold" text-anchor="middle">TLM Connections</text>
-                        
+
                         <!-- Mini Diagram: DRV -> SQR -->
                         <rect x="15" y="40" width="25" height="16" rx="4" fill="#eff6ff" stroke="#bfdbfe" />
                         <text x="27.5" y="51" fill="#2563eb" font-size="8" font-weight="bold" text-anchor="middle">DRV</text>
@@ -599,7 +602,7 @@
     my_sequencer  sqr;
     my_driver     drv;
     my_monitor    mon;
-    
+
     <span class="text-slate-500">// Agent-level Analysis Port 선언</span>
     uvm_analysis_port #(<span class="text-emerald-300">my_transaction</span>) ap;
 
@@ -611,7 +614,7 @@
     <span class="text-slate-500">// Build Phase (컴포넌트 생성 및 설정)</span>
     <span class="text-blue-400 font-bold">virtual function</span> <span class="text-emerald-300">void</span> build_phase(<span class="text-emerald-300">uvm_phase</span> phase);
         <span class="text-blue-400 font-bold">super</span>.build_phase(phase);
-        
+
         <span class="text-slate-500">// Monitor는 Active/Passive 관계없이 항상 생성</span>
         mon = my_monitor::type_id::create(<span class="text-amber-300">"mon"</span>, <span class="text-blue-400 font-bold">this</span>);
         ap  = <span class="text-blue-400 font-bold">new</span>(<span class="text-amber-300">"ap"</span>, <span class="text-blue-400 font-bold">this</span>);
@@ -626,7 +629,7 @@
     <span class="text-slate-500">// Connect Phase (TLM 및 인터페이스 연결)</span>
     <span class="text-blue-400 font-bold">virtual function</span> <span class="text-emerald-300">void</span> connect_phase(<span class="text-emerald-300">uvm_phase</span> phase);
         <span class="text-blue-400 font-bold">super</span>.connect_phase(phase);
-        
+
         <span class="text-slate-500">// Monitor AP를 Agent AP에 연결 (상위 Env로 전달하기 위함)</span>
         mon.ap.connect(ap);
 
@@ -706,7 +709,7 @@
                         <rect x="0" y="0" width="220" height="40" rx="12" fill="#334155" />
                         <rect x="0" y="20" width="220" height="20" fill="#334155" />
                         <text x="110" y="26" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle" font-family="monospace">Monitor</text>
-                        
+
                         <!-- Internal Logic Box -->
                         <rect x="20" y="60" width="180" height="110" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
                         <text x="35" y="85" fill="#0f172a" font-size="12" font-weight="bold" font-family="monospace">1. Sample DUT Signals</text>

@@ -1,0 +1,162 @@
+<section class="lesson-reference" aria-label="공통 부록">
+<h3>공통 부록</h3>
+<p>본문을 읽다가 필요한 계산, 언어, 용어와 파일 형식을 여기서 찾아 다시 연결합니다.</p>
+<nav class="lesson-progress" aria-label="부록 이동"><a href="#reference-math" data-lesson-anchor="reference-math">A 회로와 수학</a><a href="#reference-code" data-lesson-anchor="reference-code">B 언어와 코드</a><a href="#reference-glossary" data-lesson-anchor="reference-glossary">C 용어 사전</a><a href="#reference-files" data-lesson-anchor="reference-files">D 파일과 리포트</a><a href="#reference-sources" data-lesson-anchor="reference-sources">E 원문 자료</a></nav>
+<details class="curriculum-legacy" id="reference-math"><summary>A · 회로와 수학 기초</summary>
+<p>단위를 먼저 맞추고, 식이 유효한 가정과 경계 조건을 확인합니다. 아래 식은 설명에 필요한 기본 모델입니다.</p>
+<div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th>관계</th><th>식</th><th>적용할 때 확인할 것</th></tr></thead><tbody>
+<tr><td>저항</td><td>V = IR, P = VI</td><td>전압 V, 전류 A, 저항 Ω, 전력 W. 주파수에 따른 복소 impedance와 구분한다.</td></tr>
+<tr><td>Capacitor</td><td>Q = CV, i = C·dV/dt</td><td>부호와 전류 방향, 초기 전하, 비선형 capacitance 여부.</td></tr>
+<tr><td>Inductor</td><td>v = L·di/dt</td><td>전류 변화가 전압을 만든다. 실제 저항·포화·기생 성분은 별도다.</td></tr>
+<tr><td>복소 impedance</td><td>ZR=R, ZL=jωL, ZC=1/(jωC)</td><td>정현파 정상상태, ω=2πf. 크기와 위상을 함께 사용하고 DC 초기 조건과 구별한다.</td></tr>
+<tr><td>미분과 적분</td><td>변화율 dV/dt, 누적 ∫i dt</td><td>급격한 edge의 전류와 capacitor에 축적된 전하를 연결한다.</td></tr>
+<tr><td>RC 응답</td><td>τ = RC, V(t) = VDD(1−e^(−t/τ))</td><td>단일 집중 RC 충전 모델. 10–90% rise time은 ln(9)τ.</td></tr>
+<tr><td>주기와 주파수</td><td>T = 1/f</td><td>500 MHz는 2 ns. MHz·ns를 혼용할 때 10의 지수를 확인한다.</td></tr>
+<tr><td>Dynamic power</td><td>P = αCV²f</td><td>활동도 정의, 등가 부하와 전압 조건. Leakage와 short-circuit은 별도.</td></tr>
+<tr><td>행렬 곱</td><td>C[i,j] = Σk A[i,k] B[k,j]</td><td>M×K와 K×N의 결과는 M×N, MAC 수는 MKN.</td></tr>
+<tr><td>평균과 분산</td><td>μ = E[X], σ² = E[(X−μ)²]</td><td>평균은 tail와 worst case를 대신하지 않는다. Sampling 조건을 기록한다.</td></tr>
+<tr><td>독립 잡음</td><td>σtotal² = Σ σi²</td><td>독립성·비상관 가정을 확인한다. RMS 값을 단순 합산하지 않는다.</td></tr>
+<tr><td>Sampling</td><td>주기 sampling과 입력 spectrum의 관계</td><td>Band-limited 신호의 재구성 조건과 실제 anti-alias filter를 함께 검토한다.</td></tr>
+<tr><td>dB</td><td>10log10(P2/P1), 20log10(V2/V1)</td><td>전압 비를 전력 비로 바꿀 때 impedance 조건이 같아야 한다.</td></tr>
+<tr><td>단위 변환</td><td>1 byte=8 bit, 1 MiB=2²⁰ byte</td><td>MB와 MiB, Gb/s와 GB/s, payload와 raw rate를 구별한다.</td></tr>
+</tbody></table></div>
+<div class="lesson-lab" data-lesson-lab="{&quot;type&quot;:&quot;rc&quot;,&quot;title&quot;:&quot;RC 시간과 단위 확인&quot;}"></div>
+</details>
+<details class="curriculum-legacy" id="reference-code"><summary>B · 언어와 코드 참조</summary>
+<dl class="lesson-terms"><div><dt>Verilog / SV RTL</dt><dd>Bit 폭·signedness·reset·clock·합성 가능성부터 확인한다. Blocking/nonblocking은 event 의미와 회로 의도에 맞게 사용한다.</dd></div><div><dt>SV 검증</dt><dd>Class·constraint·interface·clocking·SVA의 관측 시점을 명시한다. Randomization 실패와 objection 균형을 검사한다.</dd></div><div><dt>C와 MMIO</dt><dd>실제 플랫폼의 register 접근·barrier·DMA API를 사용한다. Volatile만으로 cache와 bus ordering을 해결하지 않는다.</dd></div><div><dt>Python</dt><dd>입력과 출력 schema, 단위, exit code와 예외 처리를 명시한다. Missing result를 정상 0으로 바꾸지 않는다.</dd></div><div><dt>Tcl</dt><dd>EDA collection·scope·pattern을 확인하고 빈 collection을 경고로 처리한다. 예외 제약은 설계 근거와 연결한다.</dd></div><div><dt>Shell / Git</dt><dd>Working directory와 tool version을 고정하고 실패 exit code를 보존한다. Source와 generated artifact를 분리한다.</dd></div></dl>
+<pre class="lesson-code"><code>// 순차 상태와 다음 상태를 구분하는 예
+always_comb begin
+    next_count = count;
+    if (enable) next_count = count + 1'b1;
+end
+always_ff @(posedge clk or negedge reset_n) begin
+    if (!reset_n) count &lt;= '0;
+    else          count &lt;= next_count;
+end</code></pre>
+<p>이 코드는 개념 예제입니다. 실제 IP의 width·overflow·reset 해제·clock 제약을 추가로 정의합니다.</p>
+<h3>C · MMIO와 W1C</h3>
+<pre class="lesson-code"><code>#include &lt;stdint.h&gt;
+volatile uint32_t *const dma = (volatile uint32_t *)0x40001000u;
+dma[1] = 0x20000000u;   // SRC
+dma[2] = 0x20001000u;   // DST
+dma[3] = 32u;           // LEN bytes
+/* Platform DMA/cache/barrier operations belong here. */
+dma[0] = 1u;            // START
+/* Poll with a bounded timeout; check error before using output. */
+dma[4] = 1u;            // W1C: clear DONE only, no read-modify-write</code></pre>
+<h3>Python · 독립적인 행렬 곱 reference</h3>
+<pre class="lesson-code"><code>A = [[1, 2], [3, 4]]
+B = [[5, 6], [7, 8]]
+C = [[sum(A[i][k] * B[k][j] for k in range(2))
+      for j in range(2)] for i in range(2)]
+assert C == [[19, 22], [43, 50]]</code></pre>
+<h3>Tcl · 제약 대상 확인</h3>
+<pre class="lesson-code"><code>set clocks [get_ports iClk]
+if {[llength $clocks] == 0} { error "Missing clock port" }
+create_clock -name CoreClk -period 10.0 $clocks
+set_clock_uncertainty 0.1 [get_clocks CoreClk]
+report_checks -path_delay max</code></pre>
+<p>Tcl collection의 타입과 길이 검사 API는 도구에 따라 다릅니다. 위 예제는 OpenSTA 계열의 흐름을 설명하며, 다른 EDA 도구에서는 해당 collection API를 사용합니다.</p>
+<h3>실행과 결과 파일</h3>
+<pre class="lesson-code"><code>python reference.py --project npu
+python run_examples.py lint
+python run_examples.py simulate --output .artifacts/hdl</code></pre>
+<p><a href="../assets/examples/reference.py" download>실행 가능한 Python reference</a>와 <a href="../assets/examples/README.txt" download>프로젝트 실행 안내</a>는 26장 예제와 같은 파일입니다.</p>
+</details>
+<details class="curriculum-legacy" id="reference-glossary"><summary>C · 한영 용어와 신호 사전</summary>
+<div class="lesson-lab-inputs"><label>용어 검색<input type="search" data-glossary-search placeholder="약어 또는 설명 검색"></label></div>
+<div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th>용어</th><th>의미</th><th>구별할 개념</th></tr></thead><tbody>
+<tr data-glossary-row><td>RTL · Register Transfer Level</td><td>Register 상태와 그 사이의 논리·전송을 기술하는 수준</td><td>Gate netlist, transistor 회로 · <a target="_top" href="../index.html?chapter=3">03장</a></td></tr>
+<tr data-glossary-row><td>CL / SL</td><td>Combinational logic / Sequential logic</td><td>현재 입력과 저장 상태의 유무 · <a target="_top" href="../index.html?chapter=3">03장</a></td></tr>
+<tr data-glossary-row><td>PPA</td><td>Performance, Power, Area</td><td>Cost·yield·일정도 별도 제약 · <a target="_top" href="../index.html?chapter=2">02장</a></td></tr>
+<tr data-glossary-row><td>STA</td><td>Static Timing Analysis</td><td>실제 입력 sequence를 실행하는 simulation · <a target="_top" href="../index.html?chapter=17">17장</a></td></tr>
+<tr data-glossary-row><td>CDC / RDC</td><td>Clock / Reset Domain Crossing</td><td>같은 clock라도 독립 reset 경계가 존재할 수 있다 · <a target="_top" href="../index.html?chapter=18">18장</a></td></tr>
+<tr data-glossary-row><td>Setup / Hold</td><td>Capture edge 전후의 data 안정 시간 요구</td><td>최대 경로와 최소 경로 분석 · <a target="_top" href="../index.html?chapter=17">17장</a></td></tr>
+<tr data-glossary-row><td>Skew / Jitter</td><td>관측 지점 사이 clock 도착 차이 / edge 시각 변동</td><td>정의·측정 범위와 기준 · <a target="_top" href="../index.html?chapter=17">17장</a></td></tr>
+<tr data-glossary-row><td>Latency / Throughput</td><td>한 작업의 지연 / 연속 작업의 처리율</td><td>Pipeline의 첫 결과와 결과 간격 · <a target="_top" href="../index.html?chapter=15">15장</a></td></tr>
+<tr data-glossary-row><td>Handshake</td><td>전송의 수락 조건을 양쪽이 확인하는 계약</td><td>요청 발행과 최종 완료 · <a target="_top" href="../index.html?chapter=8">08장</a></td></tr>
+<tr data-glossary-row><td>Backpressure</td><td>수신 측이 처리 여유에 따라 전송을 제한하는 동작</td><td>Data 유실이나 무조건적 오류 · <a target="_top" href="../index.html?chapter=8">08장</a></td></tr>
+<tr data-glossary-row><td>Outstanding</td><td>아직 완료되지 않은 요청</td><td>FIFO occupancy와 항상 같지는 않다 · <a target="_top" href="../index.html?chapter=8">08장</a></td></tr>
+<tr data-glossary-row><td>Coherence / Consistency</td><td>복사본의 가시성·소유 관계 / 접근의 관측 순서</td><td>Cacheability, ordering barrier · <a target="_top" href="../index.html?chapter=10">10장</a></td></tr>
+<tr data-glossary-row><td>DMA</td><td>설정된 메모리·장치 경로의 data transfer를 수행하는 엔진</td><td>CPU virtual address와 DMA bus address · <a target="_top" href="../index.html?chapter=10">10장</a></td></tr>
+<tr data-glossary-row><td>IRQ / ISR</td><td>Interrupt request / Interrupt service routine</td><td>Source, pending, mask, acknowledgement · <a target="_top" href="../index.html?chapter=10">10장</a></td></tr>
+<tr data-glossary-row><td>PHY / Controller</td><td>물리 신호 조건 / Protocol·transaction 제어</td><td>역할 분할은 interface별로 명시 · <a target="_top" href="../index.html?chapter=9">09장</a></td></tr>
+<tr data-glossary-row><td>DFT / ATPG / ATE</td><td>검사 가능 설계 / Pattern 생성 / 생산 검사 장비</td><td>기능 검증과 제조 결함 검사 · <a target="_top" href="../index.html?chapter=20">20장</a></td></tr>
+<tr data-glossary-row><td>DRC / LVS / PEX</td><td>기하 규칙 / 회로 대응 / 기생 추출</td><td>한 검사가 다른 검사를 대신하지 않는다 · <a target="_top" href="../index.html?chapter=13">13장</a></td></tr>
+<tr data-glossary-row><td>IR / EM</td><td>전원 경로 전압 손실 / 전류 관련 배선 신뢰성</td><td>동작 여유와 장기 고장 · <a target="_top" href="../index.html?chapter=4">04장</a></td></tr>
+<tr data-glossary-row><td>PVT / MMMC</td><td>Process·Voltage·Temperature / Multi-Mode Multi-Corner</td><td>Local mismatch와 global corner · <a target="_top" href="../index.html?chapter=17">17장</a></td></tr>
+<tr data-glossary-row><td>UPF</td><td>Power intent를 기술하는 형식</td><td>RTL 기능과 실제 power cell 구현 · <a target="_top" href="../index.html?chapter=19">19장</a></td></tr>
+<tr data-glossary-row><td>UVM / SVA / RAL</td><td>검증 방법론 / 시간 속성 / Register 추상 모델</td><td>Stimulus, checker, coverage 역할 · <a target="_top" href="../index.html?chapter=7">07장</a></td></tr>
+<tr data-glossary-row><td>PE / MAC</td><td>Processing Element / Multiply-Accumulate</td><td>PE에는 제어·저장·전송도 포함 · <a target="_top" href="../index.html?chapter=11">11장</a></td></tr>
+<tr data-glossary-row><td>TOPS / FLOPS</td><td>정의한 operation의 초당 처리량</td><td>정밀도·MAC 계산 방식·dense/sparse 조건 · <a target="_top" href="../index.html?chapter=11">11장</a></td></tr>
+<tr data-glossary-row><td>GEMM / Tile</td><td>일반 행렬 곱 / 부분 연산·저장의 단위</td><td>전체 shape와 tail 영역 · <a target="_top" href="../index.html?chapter=11">11장</a></td></tr>
+<tr data-glossary-row><td>ADC / DAC</td><td>Analog-to-digital / Digital-to-analog 변환</td><td>Resolution과 실제 정확도 · <a target="_top" href="../index.html?chapter=14">14장</a></td></tr>
+<tr data-glossary-row><td>PLL / DLL / CDR</td><td>위상 고정 / 지연 고정 / 데이터의 clock 복원</td><td>Lock, jitter, 동작 범위 · <a target="_top" href="../index.html?chapter=14">14장</a></td></tr>
+<tr data-glossary-row><td>LDO / PMIC</td><td>Low-dropout regulator / Power-management IC</td><td>효율·잡음·열·기동 순서 · <a target="_top" href="../index.html?chapter=14">14장</a></td></tr>
+<tr data-glossary-row><td>TSV / RDL / BGA</td><td>수직 silicon via / 재배선층 / Package ball array</td><td>Die와 package, PCB의 경계 · <a target="_top" href="../index.html?chapter=22">22장</a></td></tr>
+<tr data-glossary-row><td>Bring-up / Characterization</td><td>최초 기능 활성화 / 조건별 특성·여유 분석</td><td>생산 테스트·신뢰성 시험 · <a target="_top" href="../index.html?chapter=23">23장</a></td></tr>
+<tr data-glossary-row><td>Golden model</td><td>검사 기준이 되는 독립적 기대 동작</td><td>DUT 구현을 그대로 복제한 모델 · <a target="_top" href="../index.html?chapter=21">21장</a></td></tr>
+<tr data-glossary-row><td>MAC · Ethernet</td><td>Media Access Control: Ethernet frame과 링크 접근을 다루는 계층</td><td>AI 연산의 Multiply-Accumulate와 다름 · <a target="_top" href="../index.html?chapter=9&amp;section=ethernet">09.09</a></td></tr>
+<tr data-glossary-row><td>CL · DDR</td><td>CAS latency: READ 명령과 read data 사이의 정해진 clock 관계</td><td>Combinational logic의 약어와 분야가 다름 · <a target="_top" href="../index.html?chapter=9&amp;section=ddr-lpddr">09.06</a></td></tr>
+</tbody></table></div>
+</details>
+<details class="curriculum-legacy" id="reference-files"><summary>D · 파일과 리포트 읽기</summary>
+<div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th>파일</th><th>담는 정보</th><th>함께 확인할 것</th></tr></thead><tbody>
+<tr><td>.v / .sv</td><td>RTL, netlist 또는 testbench</td><td>파일 역할·top·include·define·언어 지원</td></tr>
+<tr><td>Liberty .lib</td><td>Cell 기능·timing·power 모델</td><td>Corner, 단위, slew/load 범위</td></tr>
+<tr><td>LEF / DEF</td><td>Technology·cell 물리 추상 / Design 배치·배선 정보</td><td>Layer·site·unit·macro version</td></tr>
+<tr><td>SDC</td><td>Clock·IO delay·timing exception 등 제약</td><td>대상 collection, mode와 설계 근거</td></tr>
+<tr><td>SPEF / SDF</td><td>추출 기생 / Delay annotation</td><td>Net 이름·단위·revision·적용 방법</td></tr>
+<tr><td>UPF</td><td>전력 domain과 상태·경계 셀 의도</td><td>RTL·library·simulation model 대응</td></tr>
+<tr><td>GDS / OASIS</td><td>최종 layout 형상 데이터</td><td>Layer map, top cell, 검증에 사용한 revision</td></tr>
+<tr><td>VCD / FST</td><td>시간에 따른 신호 변화</td><td>Timescale, scope, X/Z와 기록 구간</td></tr>
+<tr><td>Coverage / Log</td><td>관측된 scenario, 오류와 실행 이력</td><td>Seed·tool·source revision·누락 run</td></tr>
+<tr><td>Timing report</td><td>경로·arrival·required·slack</td><td>Setup/hold 종류, mode/corner와 exception</td></tr>
+</tbody></table></div>
+<pre class="lesson-code"><code>Example setup path (ns)
+Launch tCQ                 0.50
+Data path delay            6.00
+Arrival                    6.50
+Clock period              10.00
+Capture skew              +0.20
+Uncertainty               -0.10
+Setup                     -0.40
+Required                   9.70
+Slack = required-arrival  +3.20</code></pre>
+<h3>파일에서 연결되는 필드</h3>
+<pre class="lesson-code"><code># SDC: clock definition
+create_clock -name CoreClk -period 10.0 [get_ports iClk]
+
+/* Liberty: schematic example, table values omitted */
+cell (INV_X1) {
+  pin (A) { direction : input; capacitance : 0.001; }
+  pin (Y) { direction : output; function : "!A"; }
+}
+
+# SPEF: units and naming must match the extracted design
+*C_UNIT 1 PF
+*R_UNIT 1 OHM
+*D_NET signal_name 0.025
+
+# UPF: domain intent, supply/state/isolation rules require project policy
+create_power_domain PD_CORE -elements {uCore}</code></pre>
+<p>Liberty·SPEF·UPF 조각은 필드를 읽기 위한 축약 예제이며 완전한 tool 입력 파일이 아닙니다. 실제 실행에는 library·net·supply와 분석 조건을 모두 연결합니다.</p>
+</details>
+<details class="curriculum-legacy" id="reference-sources"><summary>E · 규격과 원문 자료</summary>
+<p>개념을 확인할 공개 원문입니다. 실제 설계에서는 사용한 규격의 revision, 소자 datasheet와 tool/library version을 고정하고 해당 절을 함께 기록합니다.</p>
+<p>이 교재의 자료 확인일은 2026-10-18입니다. 연결된 표준 모음 페이지는 원문을 찾는 출발점이며, 특정 규격의 인증이나 모든 최신 조항의 구현을 뜻하지 않습니다. PCIe 계산은 Gen1~5, I2C 실습은 7-bit 주소, NPU 예제는 INT8·INT32로 범위를 제한합니다.</p>
+<ul class="lesson-sources">
+<li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera · UVM, CDC, SystemRDL, AMS 등</a></li>
+<li><a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP · I2C-bus specification</a></li>
+<li><a href="https://docs.riscv.org/reference/isa/priv/machine.html" target="_blank" rel="noopener">RISC-V · Privileged Architecture</a></li>
+<li><a href="https://docs.kernel.org/core-api/dma-api-howto.html" target="_blank" rel="noopener">Linux Kernel · DMA API guide</a></li>
+<li><a href="https://nvdla.org/hw/v1/hwarch.html" target="_blank" rel="noopener">NVDLA · Hardware Architecture</a></li>
+<li><a href="https://eyeriss.mit.edu/" target="_blank" rel="noopener">MIT · Eyeriss architecture and dataflow</a></li>
+<li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD · RTL-to-GDS flow</a></li>
+<li><a href="https://skywater-pdk.readthedocs.io/en/main/" target="_blank" rel="noopener">SKY130 · PDK, devices and layout rules</a></li>
+<li><a href="https://web.mit.edu/6.012/www/" target="_blank" rel="noopener">MIT · Microelectronic Devices and Circuits</a></li>
+<li><a href="https://www.ti.com/video/series/precision-labs.html" target="_blank" rel="noopener">TI · Precision Labs</a></li>
+<li><a href="https://www.uciexpress.org/specifications" target="_blank" rel="noopener">UCIe · Die-to-die specifications</a></li>
+</ul>
+</details>
+</section>

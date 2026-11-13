@@ -7,5 +7,61 @@
     "sections/03-mos-basics.html",
     "sections/04-finfet-planar.html",
     "99-shell-end.html"
+  ],
+  "title": "Memory / Storage / Materials",
+  "styles": [
+    "../assets/components/learning-visuals.css",
+    "../assets/features/memory/memory-fail.css",
+    "../assets/features/memory/memory-fail-concepts.css",
+    "../assets/features/memory/memory-waveform.css",
+    "../assets/features/memory/memory-hierarchy.css",
+    "../assets/features/memory/ssd-layer-summary.css",
+    "../assets/features/memory/nand-ssd-visuals.css",
+    "../assets/pages/page-5-memory-device.css",
+    "../assets/pages/page-5-memory-device/flash-ssd.css",
+    "../assets/pages/page-5-memory-device/mos-basics.css",
+    "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  ],
+  "headScripts": [
+    "https://unpkg.com/three@0.160.0/build/three.min.js",
+    "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  ],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/pages/page-5-memory-device/flash-ssd.js",
+    "../assets/pages/page-5-memory-device/mos-motion.js",
+    "../assets/pages/page-5-memory-device/mos-math.js",
+    "../assets/features/transistor-viewer.js",
+    "../assets/features/memory/operation.js",
+    "../assets/features/memory/memory-fail-model.js?v=fail-compare-2",
+    "../assets/features/memory/memory-fail-diagrams.js?v=fail-compare-2",
+    "../assets/features/memory/memory-fail-concepts.js?v=concept-4",
+    "../assets/features/memory/memory-waveform-core.js?v=wave-5",
+    "../assets/features/memory/memory-waveform.js?v=wave-5",
+    "../assets/features/memory/memory-fail.js?v=fail-compare-14",
+    "../assets/features/memory/nand-ssd-visuals.js?v=nsv-1",
+    "../assets/pages/page-5-memory-device.js"
+  ],
+  "runtimeAssets": [
+    "../assets/icons/tabler/arrow-left.svg",
+    "../assets/icons/tabler/arrow-right.svg",
+    "../assets/icons/tabler/book.svg",
+    "../assets/icons/tabler/box.svg",
+    "../assets/icons/tabler/chart-bar.svg",
+    "../assets/icons/tabler/check.svg",
+    "../assets/icons/tabler/chevron-right.svg",
+    "../assets/icons/tabler/circle-check.svg",
+    "../assets/icons/tabler/code.svg",
+    "../assets/icons/tabler/cpu.svg",
+    "../assets/icons/tabler/database.svg",
+    "../assets/icons/tabler/external-link.svg",
+    "../assets/icons/tabler/file-description.svg",
+    "../assets/icons/tabler/hierarchy.svg",
+    "../assets/icons/tabler/list-check.svg",
+    "../assets/icons/tabler/rotate-clockwise.svg",
+    "../assets/icons/tabler/route.svg",
+    "../assets/icons/tabler/target.svg",
+    "../assets/icons/tabler/x.svg",
+    "../assets/icons/tabler/zoom-in.svg"
   ]
 }

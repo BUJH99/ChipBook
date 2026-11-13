@@ -1,0 +1,15 @@
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="26.04" data-guidebook-toc-title="{{section:section-04:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-04:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;26.04&quot;,&quot;kind&quot;:&quot;dma&quot;,&quot;variant&quot;:&quot;soc&quot;,&quot;title&quot;:&quot;ROM·SRAM·Peripheral·IRQ의 작은 SoC&quot;,&quot;steps&quot;:[[&quot;Boot&quot;,&quot;Reset vector에서 ROM의 첫 명령을 읽습니다.&quot;],[&quot;Initialize&quot;,&quot;SRAM·clock·peripheral을 실행 가능한 상태로 준비합니다.&quot;],[&quot;Transfer&quot;,&quot;MMIO로 설정한 DMA가 승인된 데이터만 전달합니다.&quot;],[&quot;IRQ&quot;,&quot;완료 상태를 확인하고 pending을 적절히 처리합니다.&quot;]],&quot;three&quot;:&quot;soc&quot;,&quot;subtitle&quot;:&quot;작은 SoC는 CPU, memory, interconnect, peripheral과 clock/reset을 하나의 실행 경로로 연결한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;,&quot;modelVariant&quot;:&quot;mini-soc&quot;}" aria-label="ROM·SRAM·Peripheral·IRQ의 작은 SoC"></section>
+<p>Boot image와 address map, register definition을 일치시킨다. 최소 smoke test는 memory와 실제 peripheral의 관측 가능한 결과까지 이어진다.</p>
+
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;access&quot;, &quot;title&quot;: &quot;SoC 주소 경계 검사&quot;}" aria-label="SoC 주소 경계 검사"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>ROM 진입 → SRAM 검사 → UART 출력 → DMA 전송 → IRQ 확인 순으로 test를 늘린다. 각 단계의 실패가 어디에서 관측되는지 정의한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>python mini_soc.py
+python mini_soc.py --fault
+# 정상: UART=OK, destination=0..31, IRQ cleared
+# 오류: DMA error status 관측 후 IRQ cleared</code></pre>
+<div class="lesson-downloads"><h3>실행 가능한 예제</h3><a download href="../assets/examples/mini_soc.py">CPU·SRAM·UART·DMA·IRQ 실행 모델</a><a download href="../assets/examples/src/TOP.sv">DMA–FIFO 통합 TOP</a><a download href="../assets/examples/src/StreamDma.sv">DMA</a><a download href="../assets/examples/src/ReadyValidFifo.sv">FIFO</a><a download href="../assets/examples/run_examples.py">예제 실행 도구</a></div>
+<div class="lesson-columns"><section><p>IP simulation의 성공을 연결 검증과 firmware 실행 검증으로 대신하지 않는다.</p></section><section><p>boot와 smoke test의 관측 증거를 남긴다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="26.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · 작은 NPU 통합</a></footer></article>

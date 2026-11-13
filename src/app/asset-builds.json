@@ -1,0 +1,42 @@
+{
+  "bundles": [
+    {
+      "entry": "assets/features/technical-pages/source/index.mjs",
+      "output": "assets/features/technical-pages/technical-pages.js",
+      "minify": true
+    },
+    {
+      "entry": "assets/features/visual-atlas/source/index.mjs",
+      "output": "assets/features/visual-atlas/visual-atlas.js",
+      "minify": true
+    },
+    {
+      "entry": "assets/features/visual-atlas/source/three-view.mjs",
+      "output": "assets/features/visual-atlas/visual-atlas-3d.js",
+      "globalName": "ChipBookVisual3D",
+      "minify": true
+    },
+    {
+      "entry": "assets/features/curriculum/source/index.mjs",
+      "output": "assets/features/curriculum/curriculum.js"
+    },
+    {
+      "entry": "src/features/stage-detail/index.mjs",
+      "output": "assets/features/stage-detail/stage-detail-3d.bundle.js",
+      "globalName": "ChipBookStage3D",
+      "minify": true
+    },
+    {
+      "entry": "assets/pages/page-8-on-chip-bus/source/index.mjs",
+      "output": "assets/pages/page-8-on-chip-bus.js"
+    },
+    {
+      "entry": "assets/pages/page-8-on-chip-bus/styles/index.css",
+      "output": "assets/pages/page-8-on-chip-bus.css"
+    },
+    {
+      "entry": "assets/features/memory/source/index.mjs",
+      "output": "assets/features/memory/operation.js"
+    }
+  ]
+}

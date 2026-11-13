@@ -1,0 +1,15 @@
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="18.04" data-guidebook-toc-title="{{section:section-04:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-04:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;18.04&quot;,&quot;kind&quot;:&quot;memory&quot;,&quot;variant&quot;:&quot;fifo&quot;,&quot;title&quot;:&quot;양쪽 Clock이 공유하는 FIFO 저장 공간&quot;,&quot;steps&quot;:[[&quot;Write&quot;,&quot;Write clock에서 RAM과 write pointer를 갱신합니다.&quot;],[&quot;Pointer 전달&quot;,&quot;Gray pointer를 반대 clock으로 동기화합니다.&quot;],[&quot;Read&quot;,&quot;Read clock에서 empty가 아닐 때 데이터를 읽습니다.&quot;],[&quot;Full / empty&quot;,&quot;전달 지연을 포함해 안전한 full·empty를 판단합니다.&quot;]],&quot;subtitle&quot;:&quot;Async FIFO는 write와 read를 서로 다른 clock에서 수행하며 각 domain이 자기 pointer를 관리한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="양쪽 Clock이 공유하는 FIFO 저장 공간"></section>
+<p>상대 pointer를 Gray code 등으로 전달해 full/empty를 판단한다. Pointer wrap과 reset 관계, memory port의 동작을 함께 정의해야 한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;fifo&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;FIFO 상태 추적&quot;, &quot;fault&quot;: &quot;브라우저의 논리 queue 동작을 아날로그 metastability까지 검증한 것으로 해석하지 않는다.&quot;}" aria-label="Asynchronous FIFO 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Depth 4에서 다섯 번째 write를 막고, read 후 공간이 다시 생기는 과정을 본다. 실제 async 구현에서는 상대 pointer가 동기화 지연 뒤 반영되므로 flag가 보수적으로 유지될 수 있다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>// Binary pointer is used for memory indexing; Gray crosses the domain.
+assign PtrWrBin_d  = PtrWrBin + (WriteValid &amp;&amp; WriteReady);
+assign PtrWrGray_d = (PtrWrBin_d &gt;&gt; 1) ^ PtrWrBin_d;
+// Synchronize the Gray pointer before computing the remote empty/full view.
+// This fragment does not include the full/empty equation or physical skew constraints.</code></pre>
+<div class="lesson-columns"><section><p>브라우저의 논리 queue 동작을 아날로그 metastability까지 검증한 것으로 해석하지 않는다.</p></section><section><p>wrap·동시 read/write·reset에서 데이터 순서를 보존한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://www.accellera.org/downloads/standards" target="_blank" rel="noopener">Accellera CDC</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=17">17장 · STA와 Clock · Reset 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="18.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · RDC와 Reset 전략</a></footer></article>

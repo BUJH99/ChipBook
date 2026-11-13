@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('node:assert/strict');
-const model = require('../assets/memory-fail-model.js');
+const model = require('../assets/features/memory/memory-fail-model.js');
 const at = (id, p = 1, mitigation = false, mode = 'hard') => model.sample(id, p, mitigation, mode);
 
 assert.equal(model.lessons.length, 16, 'Every original failure lesson is represented');

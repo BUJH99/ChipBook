@@ -1,7 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const core = require('../assets/memory-waveform-core.js');
-const model = require('../assets/memory-fail-model.js');
+const core = require('../assets/features/memory/memory-waveform-core.js');
+const model = require('../assets/features/memory/memory-fail-model.js');
 const near = (actual, expected, tolerance = 1e-9) => assert.ok(Math.abs(actual - expected) < tolerance, `${actual} ≈ ${expected}`);
 const linear = (x, y) => ({ x, y, interpolation: 'linear' });
 const step = (x, y, end) => ({ x, y, interpolation: 'step', end });

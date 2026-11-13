@@ -15,5 +15,15 @@
     "sections/09-related-roles.html",
     "sections/10-advanced-keywords.html",
     "99-shell-end.html"
+  ],
+  "title": "Design Flow with Role",
+  "styles": [
+    "../assets/components/learning-visuals.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/role-flow.js",
+    "../assets/pages/page-6-role-flow.js"
   ]
 }

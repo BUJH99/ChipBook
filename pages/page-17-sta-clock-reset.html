@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STA와 Clock · Reset 설계 | 반도체 회로설계 가이드북</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/fonts.css?v=c76e3cfe4c44">
+    <link rel="stylesheet" href="../assets/guidebook-common.css?v=d690df41ee31">
+    <link rel="stylesheet" href="../assets/features/curriculum/curriculum.css?v=09e7ec987305">
+    <link rel="stylesheet" href="../assets/features/visual-atlas/visual-atlas.css?v=fdf94ae6f6da">
+
+</head>
+<body class="page-standalone curriculum-page visual-curriculum" data-page-id="page-17" data-chapter-number="17" data-default-section="section-01" data-section-aliases="{}" data-curriculum-engine="true" data-curriculum-mode="action">
+<main class="page-shell"><section class="page-section active" id="page-17"><div class="mb-4"><span class="badge">Part 17</span></div>
+<h2 class="section-title">STA와 Clock · Reset 설계</h2>
+<article class="chapter-lesson" data-lesson-panel="section-01" data-lesson-id="17.01" data-guidebook-toc-title="Timing Path와 Timing Arc">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">17-1. Timing Path와 Timing Arc</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;17.01&quot;,&quot;kind&quot;:&quot;timing&quot;,&quot;variant&quot;:&quot;arc&quot;,&quot;title&quot;:&quot;Launch·Cell arc·Net·Capture의 연결&quot;,&quot;steps&quot;:[[&quot;Launch&quot;,&quot;시작 FF가 Clock edge 뒤에 데이터를 내보냅니다.&quot;],[&quot;Data path&quot;,&quot;Cell과 Net 지연을 거쳐 데이터가 이동합니다.&quot;],[&quot;Capture&quot;,&quot;도착한 데이터를 목적지 FF가 샘플링합니다.&quot;],[&quot;Slack&quot;,&quot;최대·최소 지연 조건의 여유를 각각 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;Timing path는 launch 지점에서 capture 지점까지의 cell과 net arc를 잇는다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;timing&quot;}" aria-label="Launch·Cell arc·Net·Capture의 연결"></section>
+<p>Arrival time은 데이터가 도착하는 시각, required time은 제약에서 요구하는 시각이다. Slack의 부호와 의미는 setup/hold 같은 check 종류와 함께 읽어야 한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;Timing 경로 계산&quot;, &quot;fault&quot;: &quot;Worst path의 요약 slack만 보고 어느 cell·net이 원인인지 생략하지 않는다.&quot;}" aria-label="Timing Path와 Timing Arc 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>tCQ 0.5 ns와 data delay 6 ns이면 arrival은 6.5 ns다. Period 10 ns, skew 0.2 ns, uncertainty 0.1 ns, setup 0.4 ns이면 required는 9.7 ns, slack은 3.2 ns다.</p></div>
+<div class="lesson-columns"><section><p>Worst path의 요약 slack만 보고 어느 cell·net이 원인인지 생략하지 않는다.</p></section><section><p>보고서의 arrival/required/slack을 재계산한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad.readthedocs.io/en/latest/main/src/sta/README.html" target="_blank" rel="noopener">OpenSTA</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=4">04장 · 물리 설계와 Signoff</a><a target="_top" href="../index.html?chapter=16">16장 · Logic Synthesis와 제약</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="17.01" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-02">다음 절 · Setup과 Hold</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="17.02" data-guidebook-toc-title="Setup과 Hold">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">17-2. Setup과 Hold</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;17.02&quot;,&quot;kind&quot;:&quot;timing&quot;,&quot;variant&quot;:&quot;setup-hold&quot;,&quot;title&quot;:&quot;최대 지연과 최소 지연을 동시에 확인하기&quot;,&quot;steps&quot;:[[&quot;Launch&quot;,&quot;시작 FF가 Clock edge 뒤에 데이터를 내보냅니다.&quot;],[&quot;Data path&quot;,&quot;Cell과 Net 지연을 거쳐 데이터가 이동합니다.&quot;],[&quot;Capture&quot;,&quot;도착한 데이터를 목적지 FF가 샘플링합니다.&quot;],[&quot;Slack&quot;,&quot;최대·최소 지연 조건의 여유를 각각 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;Setup은 capture edge 전에 데이터가 안정되어야 하는 조건이고 hold는 edge 뒤에 너무 빨리 바뀌지 않아야 하는 조건이다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;timing&quot;}" aria-label="최대 지연과 최소 지연을 동시에 확인하기"></section>
+<p>단순 single-cycle 경로에서 setup은 최대 지연, hold는 최소 지연을 본다. Positive capture skew는 setup에 여유를 주면서 hold에는 불리할 수 있다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;Timing 경로 계산&quot;, &quot;fault&quot;: &quot;Clock period를 늘리는 것만으로 일반적인 같은-edge hold 위반이 해결된다고 설명하지 않는다.&quot;}" aria-label="Setup과 Hold 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>아래 계산기는 tCQ·setup·uncertainty·min delay·hold의 가정을 명시한다. Data 최대 delay를 줄여 setup을 고쳐도 최소 delay가 줄면 hold 문제가 생길 수 있다.</p></div>
+<div class="lesson-columns"><section><p>Clock period를 늘리는 것만으로 일반적인 같은-edge hold 위반이 해결된다고 설명하지 않는다.</p></section><section><p>서로 다른 위반 원인과 수정 방향을 구별한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad.readthedocs.io/en/latest/main/src/sta/README.html" target="_blank" rel="noopener">OpenSTA</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=4">04장 · 물리 설계와 Signoff</a><a target="_top" href="../index.html?chapter=16">16장 · Logic Synthesis와 제약</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="17.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · Clock 정의와 분배</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-03" data-lesson-id="17.03" data-guidebook-toc-title="Clock 정의와 분배">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">17-3. Clock 정의와 분배</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;17.03&quot;,&quot;kind&quot;:&quot;clocktree&quot;,&quot;variant&quot;:&quot;clock&quot;,&quot;title&quot;:&quot;Clock Source에서 Sink까지의 분배&quot;,&quot;steps&quot;:[[&quot;Source&quot;,&quot;Clock의 기준 Source를 정의합니다.&quot;],[&quot;Trunk&quot;,&quot;큰 영역으로 Clock을 분배합니다.&quot;],[&quot;Branch&quot;,&quot;균형 잡힌 분기로 Sink에 접근합니다.&quot;],[&quot;Sink&quot;,&quot;도착 시간·Slew·Skew를 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;Primary clock와 generated clock의 관계를 실제 source와 분주·mux 구조에 맞게 정의한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Clock Source에서 Sink까지의 분배"></section>
+<p>Ideal clock 단계와 propagated clock 단계의 latency·skew 가정도 다르다. Clock gating과 mux는 유효 edge와 mode별 관계를 검증해야 한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;Timing 경로 계산&quot;, &quot;fault&quot;: &quot;Clock 이름이 다르다는 이유만으로 비동기 clock group으로 처리하지 않는다.&quot;}" aria-label="Clock 정의와 분배 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Divide-by-2 clock은 source period와 위상 관계를 가진다. 이를 관계없는 clock처럼 정의하면 필요한 synchronous path 분석을 놓칠 수 있다.</p></div>
+<div class="lesson-columns"><section><p>Clock 이름이 다르다는 이유만으로 비동기 clock group으로 처리하지 않는다.</p></section><section><p>분주·mux 조건에서 유효 clock 관계를 명시한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad.readthedocs.io/en/latest/main/src/sta/README.html" target="_blank" rel="noopener">OpenSTA</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=4">04장 · 물리 설계와 Signoff</a><a target="_top" href="../index.html?chapter=16">16장 · Logic Synthesis와 제약</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="17.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-04">다음 절 · IO와 Source-Synchronous Timing</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="17.04" data-guidebook-toc-title="IO와 Source-Synchronous Timing">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">17-4. IO와 Source-Synchronous Timing</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;17.04&quot;,&quot;kind&quot;:&quot;serial&quot;,&quot;variant&quot;:&quot;source-sync&quot;,&quot;title&quot;:&quot;Clock과 Data를 함께 전달하는 IO 경계&quot;,&quot;steps&quot;:[[&quot;대기&quot;,&quot;선을 구동하는 장치와 유휴 전압을 먼저 구분합니다.&quot;],[&quot;전송&quot;,&quot;정해진 Clock 또는 bit 시간에 맞춰 데이터를 내보냅니다.&quot;],[&quot;샘플&quot;,&quot;수신 측이 유효한 구간의 값을 관측합니다.&quot;],[&quot;완료&quot;,&quot;종료 조건과 응답을 확인한 뒤 다음 전송으로 넘어갑니다.&quot;]],&quot;subtitle&quot;:&quot;IO timing은 칩 내부뿐 아니라 외부 소자의 clock-to-output, setup/hold와 board delay를 포함한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="Clock과 Data를 함께 전달하는 IO 경계"></section>
+<p>Source-synchronous 경로는 전달된 clock/strobe와 data의 상대 시간을 본다. Input/output delay의 max와 min 의미를 분리한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;Timing 경로 계산&quot;, &quot;fault&quot;: &quot;IO delay에 전체 clock period를 임의로 넣으면 실제 외부 계약과 무관한 분석이 된다.&quot;}" aria-label="IO와 Source-Synchronous Timing 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>외부 송신기의 최대 tCO와 board 지연으로 input max delay를 구성하고 최소 조건도 별도로 계산한다. Board skew와 jitter를 어느 예산에 넣었는지 명시한다.</p></div>
+<div class="lesson-columns"><section><p>IO delay에 전체 clock period를 임의로 넣으면 실제 외부 계약과 무관한 분석이 된다.</p></section><section><p>외부 소자 요구까지 포함해 여유를 계산한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad.readthedocs.io/en/latest/main/src/sta/README.html" target="_blank" rel="noopener">OpenSTA</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=4">04장 · 물리 설계와 Signoff</a><a target="_top" href="../index.html?chapter=16">16장 · Logic Synthesis와 제약</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="17.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · MMMC와 Variation</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-05" data-lesson-id="17.05" data-guidebook-toc-title="MMMC와 Variation">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">17-5. MMMC와 Variation</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;17.05&quot;,&quot;kind&quot;:&quot;heatmap&quot;,&quot;variant&quot;:&quot;corners&quot;,&quot;title&quot;:&quot;여러 Corner에서 달라지는 경로 여유&quot;,&quot;steps&quot;:[[&quot;좌표&quot;,&quot;각 칸이 나타내는 위치 또는 측정 조건을 확인합니다.&quot;],[&quot;측정&quot;,&quot;같은 기준으로 결과를 수집합니다.&quot;],[&quot;분포&quot;,&quot;연속된 패턴과 국소적인 취약점을 구분합니다.&quot;],[&quot;검증&quot;,&quot;관찰한 경향을 추가 측정과 모델로 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;MMMC는 동작 mode와 공정·전압·온도 corner의 조합에서 검증한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="여러 Corner에서 달라지는 경로 여유"></section>
+<p>Variation 모델은 경로의 지연 차이를 보수적으로 반영하며 모델마다 가정이 다르다. 공통 clock 경로의 pessimism 처리도 분석 결과에 영향을 준다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;Timing 경로 계산&quot;, &quot;fault&quot;: &quot;하나의 slow corner가 모든 setup을, 하나의 fast corner가 모든 hold를 대표한다고 단정하지 않는다.&quot;}" aria-label="MMMC와 Variation 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Functional mode에서 최악인 경로와 test mode에서 최악인 경로가 다를 수 있다. 모든 활성 mode/corner가 필요한 제약과 library를 사용하는지 확인한다.</p></div>
+<div class="lesson-columns"><section><p>하나의 slow corner가 모든 setup을, 하나의 fast corner가 모든 hold를 대표한다고 단정하지 않는다.</p></section><section><p>하나의 corner 통과를 전체 signoff로 오해하지 않는다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad.readthedocs.io/en/latest/main/src/sta/README.html" target="_blank" rel="noopener">OpenSTA</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=4">04장 · 물리 설계와 Signoff</a><a target="_top" href="../index.html?chapter=16">16장 · Logic Synthesis와 제약</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="17.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-06">다음 절 · Crosstalk과 기생 영향</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-06" data-lesson-id="17.06" data-guidebook-toc-title="Crosstalk과 기생 영향">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">17-6. Crosstalk과 기생 영향</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;17.06&quot;,&quot;kind&quot;:&quot;beol&quot;,&quot;variant&quot;:&quot;coupling&quot;,&quot;title&quot;:&quot;인접 배선의 기생 C와 Coupling&quot;,&quot;steps&quot;:[[&quot;소자&quot;,&quot;FEOL에서 형성한 소자와 접점을 봅니다.&quot;],[&quot;Metal&quot;,&quot;각 층에서 가로·세로 연결을 형성합니다.&quot;],[&quot;Via&quot;,&quot;인접한 배선층 사이를 수직으로 잇습니다.&quot;],[&quot;기생&quot;,&quot;배선의 R·C와 이웃 신호의 영향을 추출합니다.&quot;]],&quot;subtitle&quot;:&quot;Coupling capacitance는 주변 net의 switching 조건에 따라 victim의 delay와 noise에 영향을 준다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="인접 배선의 기생 C와 Coupling"></section>
+<p>Input slew와 load가 cell timing arc의 delay를 바꾸므로 배선과 cell을 함께 본다. Crosstalk 분석은 aggressor의 timing window도 고려한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;rc&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;RC 시간 응답&quot;, &quot;fault&quot;: &quot;Noise glitch와 delay 변화는 서로 다른 실패 경로이므로 하나의 수치로 섞지 않는다.&quot;}" aria-label="Crosstalk과 기생 영향 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>인접한 두 net이 같은 방향과 반대 방향으로 전환하는 경우의 영향을 비교한다. Shield나 spacing 변경은 routing 자원과 다른 기생도 바꾼다.</p></div>
+<div class="lesson-columns"><section><p>Noise glitch와 delay 변화는 서로 다른 실패 경로이므로 하나의 수치로 섞지 않는다.</p></section><section><p>잡음과 지연 영향의 조건을 구별한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad.readthedocs.io/en/latest/main/src/sta/README.html" target="_blank" rel="noopener">OpenSTA</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=4">04장 · 물리 설계와 Signoff</a><a target="_top" href="../index.html?chapter=16">16장 · Logic Synthesis와 제약</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="17.06" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-07">다음 절 · Reset Timing</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-07" data-lesson-id="17.07" data-guidebook-toc-title="Reset Timing">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">17-7. Reset Timing</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;17.07&quot;,&quot;kind&quot;:&quot;cdc&quot;,&quot;variant&quot;:&quot;reset&quot;,&quot;title&quot;:&quot;비동기 Assert와 동기 Deassert&quot;,&quot;steps&quot;:[[&quot;Assert&quot;,&quot;비동기 reset이 두 synchronizer FF를 즉시 0으로 만듭니다.&quot;],[&quot;첫 edge&quot;,&quot;첫 destination clock edge에서 첫 FF에 1이 들어갑니다.&quot;],[&quot;두 번째 edge&quot;,&quot;다음 edge에서 두 번째 FF가 1을 받아 reset을 해제합니다.&quot;],[&quot;도메인별 적용&quot;,&quot;독립 clock마다 해제 동기화를 구성합니다.&quot;]],&quot;subtitle&quot;:&quot;Recovery와 removal은 비동기 제어 신호가 clock edge 근처에서 해제될 때의 timing 요구다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="비동기 Assert와 동기 Deassert"></section>
+<p>Reset의 최소 pulse와 domain별 해제 순서도 중요하다. Reset 신호를 data setup/hold와 동일한 check로만 다루지 않는다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;cdc&quot;, &quot;title&quot;: &quot;Reset 해제의 sampling 관계&quot;}" aria-label="Reset 해제의 sampling 관계"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Async assert, synchronous deassert 구조에서는 reset assertion과 release의 목적이 다르다. 각 domain의 유효 clock가 존재해야 release가 진행된다.</p></div>
+<div class="lesson-columns"><section><p>Reset tree를 일반 data net처럼만 최적화하면 pulse·skew·recovery/removal 조건을 놓친다.</p></section><section><p>reset 해제와 data setup/hold 검사를 구별한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad.readthedocs.io/en/latest/main/src/sta/README.html" target="_blank" rel="noopener">OpenSTA</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=4">04장 · 물리 설계와 Signoff</a><a target="_top" href="../index.html?chapter=16">16장 · Logic Synthesis와 제약</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="17.07" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-08">다음 절 · Timing Closure 실습</a></footer></article>
+<article class="chapter-lesson" data-lesson-panel="section-08" data-lesson-id="17.08" data-guidebook-toc-title="Timing Closure 실습">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">17-8. Timing Closure 실습</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;17.08&quot;,&quot;kind&quot;:&quot;timing&quot;,&quot;variant&quot;:&quot;closure&quot;,&quot;title&quot;:&quot;Arrival·Required·Slack의 조정&quot;,&quot;steps&quot;:[[&quot;Launch&quot;,&quot;시작 FF가 Clock edge 뒤에 데이터를 내보냅니다.&quot;],[&quot;Data path&quot;,&quot;Cell과 Net 지연을 거쳐 데이터가 이동합니다.&quot;],[&quot;Capture&quot;,&quot;도착한 데이터를 목적지 FF가 샘플링합니다.&quot;],[&quot;Slack&quot;,&quot;최대·최소 지연 조건의 여유를 각각 확인합니다.&quot;]],&quot;subtitle&quot;:&quot;Timing closure는 위반 path의 유형과 원인을 분류하고 최소한의 수정으로 조건을 만족시키는 반복 과정이다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;,&quot;labType&quot;:&quot;timing&quot;}" aria-label="Arrival·Required·Slack의 조정"></section>
+<p>Buffer·sizing·logic restructuring·pipeline·placement·routing은 서로 다른 비용을 가진다. ECO 뒤에는 관련 모든 check를 다시 실행한다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;steps&quot;: [], &quot;title&quot;: &quot;Timing 경로 계산&quot;, &quot;fault&quot;: &quot;보고서 한 경로만 좋아지고 새 worst path를 만들 수 있으므로 전체 결과를 비교한다.&quot;}" aria-label="Timing Closure 실습 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Setup 위반에서 cell logic depth가 원인인지 wire/fanout이 원인인지 분리한다. Hold 수정으로 넣은 delay가 다른 mode의 setup을 악화시키지 않는지 본다.</p></div>
+<div class="lesson-columns"><section><p>보고서 한 경로만 좋아지고 새 worst path를 만들 수 있으므로 전체 결과를 비교한다.</p></section><section><p>한 경로 수정이 다른 corner에 주는 영향을 확인한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad.readthedocs.io/en/latest/main/src/sta/README.html" target="_blank" rel="noopener">OpenSTA</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=4">04장 · 물리 설계와 Signoff</a><a target="_top" href="../index.html?chapter=16">16장 · Logic Synthesis와 제약</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="17.08" aria-pressed="false">이 절 학습 완료</button></footer></article>
+</section></main>
+    <script src="../assets/guidebook-page-common.js?v=0bda89d04754"></script>
+    <script src="../assets/features/visual-atlas/visual-atlas.js?v=a41dcf70c9ca"></script>
+    <script src="../assets/features/curriculum/curriculum.js?v=a49d5d58f3f2"></script>
+</body>
+</html>

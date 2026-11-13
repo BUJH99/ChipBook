@@ -2,9 +2,22 @@
   "output": "../../page-13-practice-bank.html",
   "parts": [
     "00-shell-start.html",
-    "sections/01-practice-overview.html",
-    "sections/02-practice-filters.html",
-    "sections/03-practice-bank.html",
+    "sections/lesson-27-01.html",
+    "sections/lesson-27-02.html",
+    "sections/lesson-27-03.html",
+    "sections/lesson-27-04.html",
     "99-shell-end.html"
+  ],
+  "title": "문제은행과 해설",
+  "styles": [
+    "../assets/features/practice.css",
+    "../assets/features/curriculum/curriculum.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/practice-data.js",
+    "../assets/features/practice.js",
+    "../assets/features/curriculum/curriculum.js"
   ]
 }

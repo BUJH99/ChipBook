@@ -3,10 +3,9 @@ from __future__ import annotations
 import argparse
 import subprocess
 import sys
-from pathlib import Path
+from site_common import REPO_ROOT
 
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
 TOOLS_DIR = REPO_ROOT / "tools"
 
 
@@ -24,18 +23,10 @@ def main() -> int:
         action="store_true",
         help="Verify generated files without rewriting them.",
     )
-    parser.add_argument(
-        "--include-chapter7",
-        action="store_true",
-        help="Regenerate the chapter 7 single page before validating the site.",
-    )
     args = parser.parse_args()
 
-    if args.include_chapter7:
-        if args.check:
-            print("[skip] tools/build_chapter7_single_page.py has no --check mode")
-        else:
-            run_script("build_chapter7_single_page.py")
+    subprocess.run(['node', str(TOOLS_DIR / 'build_assets.cjs'), *(['--check'] if args.check else [])],
+                   cwd=REPO_ROOT, check=True)
 
     split_args = ["--check"] if args.check else []
     index_args = ["--check"] if args.check else []
@@ -43,10 +34,14 @@ def main() -> int:
     run_script("build_split_pages.py", *split_args)
     run_script("build_index.py", *index_args)
     run_script("validate_page_registry.py")
+    run_script("validate_site.py")
 
     print("[ok] site hierarchy")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except subprocess.CalledProcessError as error:
+        raise SystemExit(error.returncode)

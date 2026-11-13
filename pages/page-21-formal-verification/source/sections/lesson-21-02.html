@@ -1,0 +1,17 @@
+<article class="chapter-lesson" data-lesson-panel="section-02" data-lesson-id="21.02" data-guidebook-toc-title="{{section:section-02:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-02:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;21.02&quot;,&quot;kind&quot;:&quot;formal&quot;,&quot;variant&quot;:&quot;property&quot;,&quot;title&quot;:&quot;가정이 제한하는 상태와 Property&quot;,&quot;steps&quot;:[[&quot;가정&quot;,&quot;허용할 환경 동작을 명확하게 제한합니다.&quot;],[&quot;탐색&quot;,&quot;가능한 상태와 전이를 확인합니다.&quot;],[&quot;위반 경로&quot;,&quot;Property를 어기는 경로가 있으면 trace를 읽습니다.&quot;],[&quot;판정&quot;,&quot;증명·실패·미결을 구분하고 가정과 범위를 함께 해석합니다.&quot;]],&quot;subtitle&quot;:&quot;Assert는 설계가 지켜야 하는 성질, assume은 환경에서 허용하는 동작, cover는 도달하고 싶은 상황을 표현한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 수치 조건과 계산 결과는 아래 실습에서 확인합니다.&quot;}" aria-label="가정이 제한하는 상태와 Property"></section>
+<p>Clock와 reset 의미를 property와 맞춰야 한다. 과도한 assumption은 반례를 없애면서 실제 동작도 제거할 수 있다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;formal&quot;, &quot;title&quot;: &quot;Property·반례·vacuity&quot;, &quot;scope&quot;: &quot;조건을 변경하고 도식과 수치의 변화를 함께 확인합니다. 모델의 가정은 결과 아래에 표시합니다.&quot;}" aria-label="Property와 환경 가정 실습"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Ready가 영원히 낮아도 된다는 환경에서 모든 요청이 반드시 완료된다고 증명하려 하면 liveness 조건이 맞지 않는다. 필요한 fairness를 명시하고 그 가정이 실제 환경에서 성립하는지 확인한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>// One-cycle request acknowledgement in the chosen synchronous interface.
+property p_request_ack;
+    @(posedge iClk) disable iff (!iRstn)
+        iReq |=&gt; oAck;
+endproperty
+assert_request_ack: assert property (p_request_ack);
+cover_request: cover property (@(posedge iClk) disable iff (!iRstn) iReq);
+// A proof with an unreachable iReq can be vacuous; inspect assumptions and cover.</code></pre>
+<div class="lesson-columns"><section><p>DUT가 보장해야 할 동작을 assume으로 넣어 검사를 순환 논리로 만들지 않는다.</p></section><section><p>잘못된 가정이 실제 버그를 숨기는 사례를 찾는다.</p></section></div>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="21.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-03">다음 절 · Formal 실행과 해석</a></footer></article>

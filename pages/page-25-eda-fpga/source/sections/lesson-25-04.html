@@ -1,0 +1,16 @@
+<article class="chapter-lesson" data-lesson-panel="section-04" data-lesson-id="25.04" data-guidebook-toc-title="{{section:section-04:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-04:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;25.04&quot;,&quot;kind&quot;:&quot;graph&quot;,&quot;variant&quot;:&quot;eda&quot;,&quot;title&quot;:&quot;RTL에서 Gate와 배치·배선까지&quot;,&quot;steps&quot;:[[&quot;입력&quot;,&quot;Source와 제약·환경을 함께 고정합니다.&quot;],[&quot;변환&quot;,&quot;중간 표현과 연결을 생성합니다.&quot;],[&quot;검증&quot;,&quot;변환 전후의 계약과 결과를 확인합니다.&quot;],[&quot;산출물&quot;,&quot;재현 가능한 결과와 근거를 남깁니다.&quot;]],&quot;three&quot;:&quot;soc&quot;,&quot;subtitle&quot;:&quot;오픈 flow는 RTL·library·constraint를 입력으로 합성·배치배선·timing과 layout 자료를 생성한다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;,&quot;labels&quot;:[&quot;RTL / SDC&quot;,&quot;Synthesis&quot;,&quot;Library&quot;,&quot;Placement&quot;,&quot;Routing&quot;,&quot;Timing / DRC&quot;]}" aria-label="RTL에서 Gate와 배치·배선까지"></section>
+<p>각 도구의 지원 범위와 PDK 상태를 확인한다. 교육용 flow의 성공은 제조용 signoff와 구분해 해석한다.</p>
+
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;title&quot;: &quot;구현 산출물의 slack&quot;}" aria-label="구현 산출물의 slack"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>Yosys의 netlist와 OpenROAD의 physical 결과를 같은 top·library·constraint로 연결한다. 단계 사이의 파일 revision과 단위가 맞는지 확인한다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code># OpenROAD Flow Scripts: use an installed, revision-pinned flow and platform.
+# DESIGN_CONFIG supplies the top, RTL, SDC and platform settings.
+make DESIGN_CONFIG=./designs/&lt;platform&gt;/&lt;design&gt;/config.mk
+# Inspect synthesis, placement, CTS, routing and timing reports separately.
+# A successful educational flow is not a foundry signoff approval.</code></pre>
+<div class="lesson-columns"><section><p>명령이 exit 0이라는 것만으로 DRC·timing·power와 제조 인계가 모두 완료됐다고 보지 않는다.</p></section><section><p>교육용 flow와 제조용 signoff의 범위를 구분한다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://openroad-flow-scripts.readthedocs.io/en/latest/tutorials/FlowTutorial.html" target="_blank" rel="noopener">OpenROAD Flow Tutorial</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="25.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=section-05">다음 절 · FPGA 구조와 구현</a></footer></article>

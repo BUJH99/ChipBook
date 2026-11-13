@@ -1,0 +1,31 @@
+{
+  "output": "../../page-14-analog-mixed-rf.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/lesson-14-01.html",
+    "sections/lesson-14-02.html",
+    "sections/lesson-14-03.html",
+    "sections/lesson-14-04.html",
+    "sections/lesson-14-05.html",
+    "sections/lesson-14-06.html",
+    "sections/lesson-14-07.html",
+    "sections/lesson-14-08.html",
+    "sections/lesson-14-09.html",
+    "sections/lesson-14-10.html",
+    "sections/lesson-14-11.html",
+    "sections/lesson-14-12.html",
+    "99-shell-end.html"
+  ],
+  "title": "Analog · Mixed-Signal · RF",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/technical-pages/technical-pages.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/technical-pages/technical-pages.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": []
+}

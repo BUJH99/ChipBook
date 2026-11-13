@@ -2,20 +2,26 @@
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import sys
 from pathlib import Path
+from html.parser import HTMLParser
+from site_common import REPO_ROOT, load_registry, section_title
 
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-REGISTRY_PATH = REPO_ROOT / "src" / "app" / "page-registry.json"
-EXCLUDED_PARTS = {"uvm_refactoring"}
+EXCLUDED_PARTS = {".artifacts", "legacy", "design-mockups", "output"}
 
 
-def load_registry() -> dict[str, object]:
-    with REGISTRY_PATH.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
+class SectionLabels(HTMLParser):
+    def __init__(self, attribute):
+        super().__init__()
+        self.attribute = attribute
+        self.labels = {}
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if self.attribute in attrs and 'data-guidebook-toc-title' in attrs:
+            self.labels.setdefault(attrs[self.attribute], []).append(attrs['data-guidebook-toc-title'])
 
 
 def resolve_repo_path(raw_path: str) -> Path:
@@ -44,7 +50,7 @@ def validate_artifact_path(raw_path: object, label: str, errors: list[str], must
         return
 
     path = resolve_repo_path(raw_path)
-    require(not is_excluded(path), f"{label} points into excluded uvm_refactoring: {raw_path}", errors)
+    require(not is_excluded(path), f"{label} points outside active source: {raw_path}", errors)
     if must_be_file:
         require(path.is_file(), f"{label} file not found: {raw_path}", errors)
     else:
@@ -61,15 +67,14 @@ def validate_page(page: dict[str, object], index: int, seen_ids: set[str], seen_
     if isinstance(number, int):
         require(number not in seen_numbers, f"Duplicate page number: {number}", errors)
         seen_numbers.add(number)
-        require(page_id == f"page-{number}", f"{page_label}.id should match page-{number}, got {page_id!r}", errors)
+        require(isinstance(page_id, str) and re.fullmatch(r'page-[a-z0-9-]+', page_id) is not None,
+                f"{page_label}.id must be a stable page identifier", errors)
     if isinstance(page_id, str):
         require(page_id not in seen_ids, f"Duplicate page id: {page_id}", errors)
         seen_ids.add(page_id)
 
     validate_artifact_path(page.get("src"), f"{page_label}.src", errors)
     validate_artifact_path(page.get("buildManifest"), f"{page_label}.buildManifest", errors)
-    validate_artifact_path(page.get("generator"), f"{page_label}.generator", errors)
-    validate_artifact_path(page.get("debugDir"), f"{page_label}.debugDir", errors, must_be_file=False)
 
     source_text = ""
     if isinstance(page.get("src"), str):
@@ -85,6 +90,8 @@ def validate_page(page: dict[str, object], index: int, seen_ids: set[str], seen_
         )
 
     section_attribute = page.get("sectionAttribute")
+    parsed = SectionLabels(section_attribute)
+    parsed.feed(source_text)
     sections = page.get("sections")
     require(isinstance(sections, list) and len(sections) > 0, f"{page_label}.sections must be a non-empty list", errors)
     if not isinstance(sections, list):
@@ -101,6 +108,9 @@ def validate_page(page: dict[str, object], index: int, seen_ids: set[str], seen_
         title = section.get("title")
         require(isinstance(key, str) and key.strip(), f"{section_label}.key is required", errors)
         require(isinstance(title, str) and title.strip(), f"{section_label}.title is required", errors)
+        if 'tocTitle' in section:
+            require(isinstance(section['tocTitle'], str) and section['tocTitle'].strip(),
+                    f'{section_label}.tocTitle must be a nonempty string', errors)
         if isinstance(key, str):
             require(key not in seen_section_keys, f"Duplicate section key in {page_label}: {key}", errors)
             seen_section_keys.add(key)
@@ -112,6 +122,8 @@ def validate_page(page: dict[str, object], index: int, seen_ids: set[str], seen_
                     f"{page_label}.src does not contain {section_attribute}=\"{key}\"",
                     errors,
                 )
+                require(bool(parsed.labels.get(key)) and all(label == section_title(section) for label in parsed.labels[key]),
+                        f'{section_label} generated TOC label does not match the registry', errors)
 
         validate_artifact_path(section.get("source"), f"{section_label}.source", errors)
 

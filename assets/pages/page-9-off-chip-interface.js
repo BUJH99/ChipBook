@@ -1,0 +1,20 @@
+let part9SectionEngine = null;
+
+part9SectionEngine = window.GuidebookPage.initActionSectionPage({
+    defaultKey: 'interface-stack',
+    panelSelector: '[data-part9-panel]',
+    panelKeyDataset: 'part9Panel',
+    titleAttribute: 'data-guidebook-toc-title',
+    currentHeader: {
+        shellId: 'part9-current-shell',
+        labelId: 'part9-current-label',
+    },
+    beforeInit: () => {
+        if (window.parent && window.parent !== window) {
+            document.body.classList.add('is-embedded');
+        }
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+});

@@ -1,0 +1,28 @@
+const {test,expect}=require('@playwright/test');
+const {openBook,openChapter,openSection}=require('./helpers.cjs');
+const registry=require('../../src/app/page-registry.json');
+test('all analog sections preserve circuit models, conversion boundaries and measured-unit inputs',async({page},info)=>{
+    test.setTimeout(240000);const errors=await openBook(page,info),frame=await openChapter(page,14);
+    for(const [i,section] of registry.pages.find(p=>p.number===14).sections.entries()){
+        await openSection(page,section.key);const article=frame.locator(`[data-lesson-id="14.${String(i+1).padStart(2,'0')}"]`);
+        await expect(article).toHaveClass(/technical-section/);await expect(article.locator('svg').first()).toBeVisible();
+        expect(await article.locator('svg').evaluateAll(nodes=>nodes.every(n=>!/(?:NaN|undefined|Infinity)/.test(n.outerHTML)))).toBe(true);
+        await expect(article.locator('.tech-model-error:visible')).toHaveCount(0);await expect(article.locator('[data-visual-scene],[data-lab-action="play"],[data-lab-action="step"]')).toHaveCount(0);
+        for(const image of await article.locator('img').all()){await image.scrollIntoViewIfNeeded();await expect.poll(()=>image.evaluate(i=>i.complete&&i.naturalWidth>0)).toBe(true);}
+        await expect(page.locator('[data-page-toc-title]')).toContainText(section.title);expect(await frame.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+        await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:info.outputPath(`section-14-${String(i+1).padStart(2,'0')}.png`),fullPage:true});
+    }
+    await openSection(page,'section-01');await frame.getByLabel('센서 입력 Vpp (mV)',{exact:true}).fill('100');await expect(frame.locator('[data-analog-spec-results]')).toContainText('CLIP');
+    await openSection(page,'section-02');await frame.getByLabel('Output Vout (V)',{exact:true}).fill('.05');await expect(frame.locator('[data-analog-mirror-results]')).toContainText('Triode');
+    await openSection(page,'section-03');await expect(frame.locator('[data-analog-amplifier-result]')).toContainText('25 V/V');await frame.getByLabel('각 branch ID (μA)',{exact:true}).fill('200');await expect(frame.locator('[data-analog-amplifier-result]')).toContainText('50 V/V');
+    await openSection(page,'section-04');await expect(frame.locator('[data-analog-loop-results]')).toContainText('Phase margin');const before=await frame.locator('[data-analog-loop-results]').textContent();await frame.getByLabel('Load CL (pF)',{exact:true}).fill('50');await expect(frame.locator('[data-analog-loop-results]')).not.toHaveText(before);
+    await openSection(page,'section-05');await frame.getByLabel('적분 상한 fH (Hz)',{exact:true}).fill('1');await expect(frame.locator('.tech-model-error:visible')).toContainText('상한');await frame.getByLabel('적분 상한 fH (Hz)',{exact:true}).fill('1000000');await expect(frame.locator('.tech-model-error:visible')).toHaveCount(0);
+    await openSection(page,'section-06');await expect(frame.locator('[data-analog-adc-results]')).toContainText('184 · 10111000');await frame.getByLabel('ADC resolution (bit)',{exact:true}).selectOption('4');await frame.getByLabel('ADC VREF (V)',{exact:true}).fill('3.2');await frame.getByLabel('ADC Vin (V)',{exact:true}).fill('1.6');await expect(frame.locator('[data-analog-adc-results]')).toContainText('8 · 1000');await frame.getByText('4-bit 예의 shared top plate와 독립 bottom switch 보기',{exact:true}).click();await expect(frame.locator('[data-analog-capacitor-dac] svg')).toBeVisible();
+    await openSection(page,'section-07');await frame.getByRole('button',{name:'DAC bit 0 toggle',exact:true}).click();await expect(frame.getByLabel('DAC 목표 code',{exact:true})).toHaveValue('9');await expect(frame.locator('[data-analog-dac-results]')).toContainText('0.563 V');
+    await openSection(page,'section-08');await expect(frame.locator('[data-analog-pll-results]')).toContainText('500 MHz');await frame.getByLabel('PLL divider N',{exact:true}).fill('8');await expect(frame.locator('[data-analog-pll-results]')).toContainText('200 MHz');
+    await openSection(page,'section-09');await expect(frame.locator('[data-analog-rf-results]')).toContainText('100 / 4,700 MHz');await frame.getByLabel('Ideal IF cutoff (MHz)',{exact:true}).fill('50');await expect(frame.locator('[data-analog-rf-results]')).toContainText('REJECT');
+    await openSection(page,'section-10');await expect(frame.locator('[data-analog-regulator-results]')).toContainText('150 mW');await frame.getByLabel('Regulator Vin (V)',{exact:true}).fill('1.9');await expect(frame.locator('[data-analog-regulator-results]')).toContainText('DROPOUT');await expect(frame.locator('[data-analog-sensor-results]')).toContainText('1 ms');
+    await openSection(page,'section-11');await frame.getByLabel('Matching unit 배치',{exact:true}).selectOption('AABB');await expect(frame.locator('[data-analog-layout-selected]')).toContainText('A−B -2%');
+    await openSection(page,'section-12');await frame.getByLabel('Mixed input waveform',{exact:true}).selectOption('dc');await expect(frame.locator('[data-analog-mixed-events]')).toContainText('5 · 101');await frame.getByLabel('ADC full-scale VREF (V)',{exact:true}).fill('.5');await expect(frame.locator('[data-analog-mixed-results]')).toContainText('7 · 111');await frame.getByLabel('Model power',{exact:true}).selectOption('0');await expect(frame.locator('[data-analog-mixed-events]')).toContainText('변환 없음');
+    await openChapter(page,13);await openChapter(page,14);await openSection(page,'section-06');await expect(frame.locator('[data-analog-adc-results]')).toContainText('8 · 1000');expect(errors).toEqual([]);
+});

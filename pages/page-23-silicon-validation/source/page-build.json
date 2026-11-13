@@ -1,0 +1,28 @@
+{
+  "output": "../../page-23-silicon-validation.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/lesson-23-01.html",
+    "sections/lesson-23-02.html",
+    "sections/lesson-23-03.html",
+    "sections/lesson-23-04.html",
+    "sections/lesson-23-05.html",
+    "sections/lesson-23-06.html",
+    "sections/lesson-23-07.html",
+    "99-shell-end.html"
+  ],
+  "title": "실리콘 Bring-up과 수율 및 신뢰성",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/visual-atlas/visual-atlas.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/visual-atlas/visual-atlas.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": [
+    "../assets/features/visual-atlas/visual-atlas-3d.js"
+  ]
+}

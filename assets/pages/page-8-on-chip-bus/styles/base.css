@@ -1,0 +1,114 @@
+body {
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+.axi-full-timing-heading {
+  min-height: 4.25rem;
+}
+
+.axi-full-timing-heading h4 {
+  max-width: 46rem;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+#WaveDrom_Display_7 svg text {
+  font-family: 'IBM Plex Mono', 'Pretendard', sans-serif !important;
+  letter-spacing: 0 !important;
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.tab-content.active { display: block; }
+
+#page-8.page-section {
+  min-height: 0;
+}
+
+body.is-embedded .page-8-layout {
+  display: block !important;
+}
+
+body.is-embedded [data-page-8-inline-nav] {
+  display: none !important;
+}
+
+.protocol-summary-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 168px;
+  border: 1px solid rgba(255, 255, 255, 0.84);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(249, 250, 251, 0.92) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 18px 38px rgba(148, 163, 184, 0.08);
+}
+
+.protocol-summary-card::after {
+  content: "";
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  width: 148px;
+  height: 148px;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  filter: blur(30px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.protocol-summary-card.apb::after { background: rgba(245, 158, 11, 0.34); }
+.protocol-summary-card.ahb::after { background: rgba(34, 197, 94, 0.28); }
+.protocol-summary-card.axi::after { background: rgba(49, 130, 246, 0.28); }
+
+.protocol-summary-chip {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 118px;
+  min-height: 60px;
+  padding: 0.85rem 1.6rem;
+  border-radius: 22px;
+  border: 1px solid transparent;
+  font-size: clamp(1.375rem, 1.1rem + 0.55vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.protocol-summary-chip.apb {
+  background: linear-gradient(180deg, #FFF7DB 0%, #FFE8A3 100%);
+  border-color: rgba(245, 158, 11, 0.24);
+  color: #C46B00;
+  box-shadow: 0 16px 30px rgba(245, 158, 11, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.protocol-summary-chip.ahb {
+  background: linear-gradient(180deg, #E9FBF0 0%, #D6F7E3 100%);
+  border-color: rgba(34, 197, 94, 0.2);
+  color: #14974C;
+  box-shadow: 0 16px 30px rgba(34, 197, 94, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.protocol-summary-chip.axi {
+  background: linear-gradient(180deg, #EBF4FF 0%, #D7E8FF 100%);
+  border-color: rgba(49, 130, 246, 0.2);
+  color: #2B6FF0;
+  box-shadow: 0 16px 30px rgba(49, 130, 246, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.protocol-summary-card p {
+  position: relative;
+  z-index: 1;
+  max-width: 18rem;
+  font-size: 1.04rem;
+  line-height: 1.6;
+}

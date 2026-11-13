@@ -1,4 +1,4 @@
-<div class="tab-content card !rounded-[32px] border border-blue-100 bg-white p-6 md:p-8" id="sol-part-2" data-part10-panel="solution-thinking" data-guidebook-toc-title="Solution Thinking">
+<div class="tab-content card !rounded-[32px] border border-blue-100 bg-white p-6 md:p-8" id="sol-part-2" data-part10-panel="solution-thinking" data-guidebook-toc-title="{{section:solution-thinking:toc}}">
     <div class="mb-6 border-b border-slate-100 pb-4">
         <div class="text-xs font-black uppercase tracking-[0.2em] text-blue-600">10-2. System Bottleneck &amp; HW/SW Co-Design</div>
         <h3 class="mt-2 text-2xl font-black leading-tight text-slate-900">시스템 병목 해결과 HW/SW 설계 경계</h3>
@@ -10,7 +10,7 @@
 
     <!-- Two-column Technical Visualizations -->
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        
+
         <!-- COLUMN 1: Roofline Model (Compute vs Memory Bound) -->
         <div class="flex flex-col rounded-3xl border border-slate-100 bg-slate-50/50 p-5 md:p-6">
             <div class="mb-4">
@@ -81,7 +81,7 @@
                         <circle cx="0" cy="0" r="14" stroke="#10b981" stroke-width="1.5" fill="none" opacity="0.6" />
                         <text x="-15" y="-18" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="800" fill="#047857" text-anchor="middle">B: Optimized (Compute Bound)</text>
                     </g>
-                    
+
                     <!-- Arrow transition tiling -->
                     <path d="M 160 200 Q 240 130 330 102" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="4 4" stroke-linecap="round" />
                     <!-- Arrowhead -->
@@ -89,7 +89,7 @@
                     <text x="248" y="132" font-family="'Pretendard', sans-serif" font-size="10" font-weight="800" fill="#4f46e5" text-anchor="middle">Data Tiling &amp; Reuse</text>
                 </svg>
             </div>
-            
+
             <div class="mt-4 rounded-2xl border border-slate-100 bg-white p-4">
                 <div class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Key Strategy</div>
                 <p class="text-xs md:text-sm leading-6 text-slate-600">
@@ -112,7 +112,7 @@
             <div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
                 <svg viewBox="0 0 540 330" class="block h-auto w-full" fill="none">
                     <rect width="540" height="330" rx="12" fill="#ffffff" />
-                    
+
                     <!-- Nodes -->
                     <!-- CPU Node -->
                     <g transform="translate(60, 50)" filter="url(#solShadow)">
@@ -163,7 +163,7 @@
                     <g transform="translate(265, 148)" opacity="0.8">
                         <ellipse cx="0" cy="0" rx="36" ry="20" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
                         <text x="0" y="4" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10" font-weight="800" fill="#475569">System RAM</text>
-                        
+
                         <!-- Connecting arrows RAM <-> DMA -->
                         <line x1="26" y1="12" x2="90" y2="76" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="2 2" />
                     </g>

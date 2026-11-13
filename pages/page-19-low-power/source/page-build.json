@@ -1,0 +1,27 @@
+{
+  "output": "../../page-19-low-power.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/lesson-19-01.html",
+    "sections/lesson-19-02.html",
+    "sections/lesson-19-03.html",
+    "sections/lesson-19-04.html",
+    "sections/lesson-19-05.html",
+    "sections/lesson-19-06.html",
+    "99-shell-end.html"
+  ],
+  "title": "저전력 설계와 UPF",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/visual-atlas/visual-atlas.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/visual-atlas/visual-atlas.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": [
+    "../assets/features/visual-atlas/visual-atlas-3d.js"
+  ]
+}

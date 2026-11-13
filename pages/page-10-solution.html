@@ -3,1026 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solution | 반도체 디지털 회로설계 가이드북</title>
+    <title>SoC Architecture &amp; Integration | 반도체 회로설계 가이드북</title>
     <link rel="icon" href="data:,">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/guidebook-common.css">
-    <style>
-        /* Custom HSL tokens and colors matching high-fidelity tone */
-        :root {
-            --sol-primary: #1d4ed8;
-            --sol-primary-soft: rgba(29, 78, 216, 0.05);
-            --sol-accent-blue: #3b82f6;
-            --sol-accent-purple: #8b5cf6;
-            --sol-accent-emerald: #10b981;
-            --sol-accent-amber: #f59e0b;
-            --sol-dark: #0f172a;
-        }
+    <link rel="stylesheet" href="../assets/fonts.css?v=c76e3cfe4c44">
+    <link rel="stylesheet" href="../assets/guidebook-common.css?v=d690df41ee31">
+    <link rel="stylesheet" href="../assets/features/curriculum/curriculum.css?v=09e7ec987305">
+    <link rel="stylesheet" href="../assets/features/technical-pages/technical-pages.css?v=e037ed4c1ed4">
 
-        .sol-gradient-bg {
-            background: linear-gradient(180deg, #ffffff 0%, #f4f7fe 50%, #ffffff 100%);
-            box-shadow: 0 20px 50px rgba(29, 78, 216, 0.05);
-        }
-
-        /* Premium C code highlighting styles */
-        .sol-code-shell {
-            background-color: #0f172a;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5), 0 12px 24px rgba(15, 23, 42, 0.16);
-            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-            color: #e2e8f0;
-            border-radius: 20px;
-            padding: 1.25rem;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            overflow-x: auto;
-        }
-
-        .sol-code-keyword { color: #f43f5e; font-weight: 700; }
-        .sol-code-type { color: #38bdf8; font-weight: 600; }
-        .sol-code-var { color: #f1f5f9; }
-        .sol-code-num { color: #fb923c; }
-        .sol-code-comment { color: #64748b; font-style: italic; }
-        .sol-code-func { color: #a855f7; font-weight: 600; }
-        .sol-code-macro { color: #a7f3d0; font-weight: 600; }
-
-        /* SVG text fonts */
-        .sol-svg-text {
-            font-family: 'Pretendard', sans-serif;
-            letter-spacing: -0.025em;
-        }
-
-        /* SVG animation classes */
-        .sol-anim-pulse {
-            transform-origin: center;
-            animation: sol-pulse 3s ease-in-out infinite;
-        }
-
-        .sol-anim-float {
-            transform-origin: center;
-            animation: sol-float 4s ease-in-out infinite;
-        }
-
-        .sol-anim-dash-flow {
-            stroke-dasharray: 6 12;
-            animation: sol-dash-flow 1.5s linear infinite;
-        }
-
-        .sol-anim-dash-flow-reverse {
-            stroke-dasharray: 6 12;
-            animation: sol-dash-flow-reverse 1.5s linear infinite;
-        }
-
-        .sol-node-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
-        .sol-node-hover:hover {
-            transform: translateY(-2px);
-            filter: drop-shadow(0 12px 20px rgba(59, 130, 246, 0.15));
-        }
-
-        .sol-node-hover:hover rect {
-            stroke: var(--sol-accent-blue);
-            stroke-width: 2.5px;
-        }
-
-        @keyframes sol-pulse {
-            0%, 100% {
-                transform: scale(0.97);
-                opacity: 0.85;
-            }
-            50% {
-                transform: scale(1.03);
-                opacity: 1;
-            }
-        }
-
-        @keyframes sol-float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-3px);
-            }
-        }
-
-        @keyframes sol-dash-flow {
-            from {
-                stroke-dashoffset: 18;
-            }
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-
-        @keyframes sol-dash-flow-reverse {
-            from {
-                stroke-dashoffset: 0;
-            }
-            to {
-                stroke-dashoffset: 18;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .sol-anim-pulse, .sol-anim-float, .sol-anim-dash-flow, .sol-anim-dash-flow-reverse {
-                animation: none !important;
-            }
-        }
-
-        /* Glassmorphism card utility */
-        .sol-glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04);
-        }
-    </style>
 </head>
-<body class="page-standalone" data-page-id="page-10">
-    <main class="page-shell">
-        <section class="page-section active" id="page-10">
-            <div class="mb-4"><span class="badge">Part 10</span></div>
-            <h2 class="section-title">Solution</h2>
-
-            <div class="page-10-layout">
-                <div id="part10-current-shell" class="guidebook-section-head">
-                    <div class="guidebook-section-shell">
-                        <div id="part10-current-label" class="guidebook-section-kicker">10-1. Integration Stack</div>
-                    </div>
-                </div>
-<div class="tab-content active space-y-6" id="sol-part-1" data-part10-panel="integration-stack" data-guidebook-toc-title="Integration Stack">
-    <section class="card !rounded-[32px] border border-blue-100 bg-white p-6 md:p-8">
-        <div class="mb-8 flex flex-col gap-4 border-b border-slate-100 pb-6 md:flex-row md:items-end md:justify-between">
-            <div>
-                <div class="text-xs font-black uppercase tracking-[0.2em] text-blue-600">10-1. Integration Stack</div>
-                <h3 class="mt-2 text-2xl md:text-3xl font-black leading-tight text-slate-900">SoC Solution 통합 맵</h3>
-                <p class="mt-2 text-sm md:text-base text-slate-500 leading-relaxed">
-                    Solution은 여러 블록과 소프트웨어가 한 제품의 목표를 달성하도록 통합되는 구조입니다.<br class="hidden sm:inline" />
-                    문제 정의부터 하드웨어, 버스, 메모리, 소프트웨어, 검증까지 하나의 유기적인 흐름으로 연결해야 완벽한 실제 제품이 됩니다.
-                </p>
-            </div>
-            <div class="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-2xl border border-slate-100 text-xs font-bold text-slate-500 self-start md:self-auto">
-                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 sol-anim-pulse"></span>
-                <span>System Architecture Flow</span>
-            </div>
-        </div>
-
-        <!-- SoC Solution Integration Map SVG Section -->
-        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-3 md:p-6 overflow-x-auto scrollbar-hide">
-            <div class="min-w-[1340px]">
-                <svg viewBox="0 0 1480 780" class="block h-auto w-full sol-svg-text" role="img" aria-labelledby="solMapTitle solMapDesc">
-                    <title id="solMapTitle">SoC Solution Integration Map</title>
-                    <desc id="solMapDesc">An advanced architectural map depicting target, workload, IPs, memory, interconnects, software, and validation layers connecting to six core system outcomes.</desc>
-                    
-                    <defs>
-                        <!-- Gradients for Cards and Layers -->
-                        <linearGradient id="solBridgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#1d4ed8" />
-                            <stop offset="50%" stop-color="#3b82f6" />
-                            <stop offset="100%" stop-color="#4f46e5" />
-                        </linearGradient>
-                        
-                        <linearGradient id="solNodeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#ffffff" />
-                            <stop offset="100%" stop-color="#f8fafc" />
-                        </linearGradient>
-
-                        <linearGradient id="solGoalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#eff6ff" />
-                            <stop offset="100%" stop-color="#dbeafe" />
-                        </linearGradient>
-
-                        <linearGradient id="solFitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#f5f3ff" />
-                            <stop offset="100%" stop-color="#e0e7ff" />
-                        </linearGradient>
-
-                        <linearGradient id="solPathGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#ecfdf5" />
-                            <stop offset="100%" stop-color="#d1fae5" />
-                        </linearGradient>
-
-                        <!-- Soft Drop Shadows -->
-                        <filter id="solShadow" x="-10%" y="-10%" width="120%" height="120%">
-                            <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.04" />
-                        </filter>
-                        <filter id="solGlow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="5" result="blur" />
-                            <feComponentTransfer in="blur" result="glow">
-                                <feFuncA type="linear" slope="0.3"/>
-                            </feComponentTransfer>
-                            <feMerge>
-                                <feMergeNode in="glow" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-                    </defs>
-
-                    <!-- Background Base Grid Gridlines -->
-                    <rect width="1480" height="780" rx="24" fill="#f8fafc" />
-                    <g stroke="rgba(148,163,184,0.06)" stroke-width="1.5">
-                        <!-- Horizontal Grid Lines -->
-                        <line x1="40" y1="80" x2="1440" y2="80" />
-                        <line x1="40" y1="160" x2="1440" y2="160" />
-                        <line x1="40" y1="240" x2="1440" y2="240" />
-                        <line x1="40" y1="372" x2="1440" y2="372" />
-                        <line x1="40" y1="500" x2="1440" y2="500" />
-                        <line x1="40" y1="620" x2="1440" y2="620" />
-                        <!-- Vertical Grid Lines -->
-                        <line x1="180" y1="40" x2="180" y2="740" />
-                        <line x1="380" y1="40" x2="380" y2="740" />
-                        <line x1="580" y1="40" x2="580" y2="740" />
-                        <line x1="780" y1="40" x2="780" y2="740" />
-                        <line x1="980" y1="40" x2="980" y2="740" />
-                        <line x1="1180" y1="40" x2="1180" y2="740" />
-                        <line x1="1300" y1="40" x2="1300" y2="740" />
-                    </g>
-
-                    <text x="50" y="46" font-size="12" font-weight="900" fill="#94a3b8" letter-spacing="0.15em">SOC SOLUTION ARCHITECTURE MAP</text>
-
-                    <!-- Flow Connectors: Columns to Bridge Layer -->
-                    <!-- Background flow pipes -->
-                    <g stroke="#e2e8f0" stroke-width="4" stroke-linecap="round">
-                        <line x1="166" y1="240" x2="166" y2="340" />
-                        <line x1="330" y1="240" x2="330" y2="340" />
-                        <line x1="494" y1="240" x2="494" y2="340" />
-                        <line x1="658" y1="240" x2="658" y2="340" />
-                        <line x1="822" y1="240" x2="822" y2="340" />
-                        <line x1="986" y1="240" x2="986" y2="340" />
-                        <line x1="1150" y1="240" x2="1150" y2="340" />
-                        <line x1="1314" y1="240" x2="1314" y2="340" />
-                    </g>
-
-                    <!-- Animated flow lines -->
-                    <g stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" fill="none" class="sol-anim-dash-flow">
-                        <line x1="166" y1="240" x2="166" y2="340" />
-                        <line x1="330" y1="240" x2="330" y2="340" />
-                        <line x1="494" y1="240" x2="494" y2="340" />
-                        <line x1="658" y1="240" x2="658" y2="340" />
-                        <line x1="822" y1="240" x2="822" y2="340" />
-                        <line x1="986" y1="240" x2="986" y2="340" />
-                        <line x1="1150" y1="240" x2="1150" y2="340" />
-                        <line x1="1314" y1="240" x2="1314" y2="340" />
-                    </g>
-
-                    <!-- ================= COLUMN 1: Problem ================= -->
-                    <g class="sol-node-hover" transform="translate(96, 76)" filter="url(#solShadow)">
-                        <rect width="140" height="164" rx="20" fill="url(#solNodeGrad)" stroke="#cbd5e1" stroke-width="1.2" />
-                        <!-- Target Icon -->
-                        <g transform="translate(70, 42)" stroke="#2563eb" stroke-width="2" fill="none">
-                            <circle cx="0" cy="0" r="18" stroke-opacity="0.2" />
-                            <circle cx="0" cy="0" r="12" />
-                            <circle cx="0" cy="0" r="5" fill="#2563eb" />
-                        </g>
-                        <text x="70" y="94" text-anchor="middle" font-size="16" font-weight="900" fill="#0f172a">Problem</text>
-                        <text x="70" y="122" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">해결해야 할</text>
-                        <text x="70" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">제품 문제 정의</text>
-                    </g>
-
-                    <!-- ================= COLUMN 2: Workload ================= -->
-                    <g class="sol-node-hover" transform="translate(260, 76)" filter="url(#solShadow)">
-                        <rect width="140" height="164" rx="20" fill="url(#solNodeGrad)" stroke="#cbd5e1" stroke-width="1.2" />
-                        <!-- Chart Icon -->
-                        <g transform="translate(56, 26)" fill="#3b82f6">
-                            <rect x="0" y="16" width="6" height="16" rx="1.5" />
-                            <rect x="11" y="8" width="6" height="24" rx="1.5" />
-                            <rect x="22" y="0" width="6" height="32" rx="1.5" />
-                        </g>
-                        <text x="70" y="94" text-anchor="middle" font-size="16" font-weight="900" fill="#0f172a">Workload</text>
-                        <text x="70" y="122" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">사용 시나리오 &amp;</text>
-                        <text x="70" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">요구 스펙 분석</text>
-                    </g>
-
-                    <!-- ================= COLUMN 3: IP Blocks ================= -->
-                    <g class="sol-node-hover" transform="translate(424, 76)" filter="url(#solShadow)">
-                        <rect width="140" height="164" rx="20" fill="url(#solNodeGrad)" stroke="#cbd5e1" stroke-width="1.2" />
-                        <!-- Chip Icon -->
-                        <g transform="translate(70, 42)">
-                            <rect x="-14" y="-14" width="28" height="28" rx="4" fill="none" stroke="#2563eb" stroke-width="2.5" />
-                            <rect x="-6" y="-6" width="12" height="12" rx="2" fill="#2563eb" />
-                            <!-- Pins -->
-                            <line x1="-19" y1="-7" x2="-14" y2="-7" stroke="#2563eb" stroke-width="2" stroke-linecap="round" />
-                            <line x1="-19" y1="7" x2="-14" y2="7" stroke="#2563eb" stroke-width="2" stroke-linecap="round" />
-                            <line x1="14" y1="-7" x2="19" y2="-7" stroke="#2563eb" stroke-width="2" stroke-linecap="round" />
-                            <line x1="14" y1="7" x2="19" y2="7" stroke="#2563eb" stroke-width="2" stroke-linecap="round" />
-                            <line x1="-7" y1="-19" x2="-7" y2="-14" stroke="#2563eb" stroke-width="2" stroke-linecap="round" />
-                            <line x1="7" y1="-19" x2="7" y2="-14" stroke="#2563eb" stroke-width="2" stroke-linecap="round" />
-                            <line x1="-7" y1="14" x2="-7" y2="19" stroke="#2563eb" stroke-width="2" stroke-linecap="round" />
-                            <line x1="7" y1="14" x2="7" y2="19" stroke="#2563eb" stroke-width="2" stroke-linecap="round" />
-                        </g>
-                        <text x="70" y="94" text-anchor="middle" font-size="16" font-weight="900" fill="#0f172a">IP Blocks</text>
-                        <text x="70" y="122" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">CPU, NPU, GPU</text>
-                        <text x="70" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">주요 IP 조합</text>
-                    </g>
-
-                    <!-- ================= COLUMN 4: Memory ================= -->
-                    <g class="sol-node-hover" transform="translate(588, 76)" filter="url(#solShadow)">
-                        <rect width="140" height="164" rx="20" fill="url(#solNodeGrad)" stroke="#cbd5e1" stroke-width="1.2" />
-                        <!-- Database Icon -->
-                        <g transform="translate(70, 42)" stroke="#2563eb" stroke-width="2.2" fill="none">
-                            <ellipse cx="0" cy="-10" rx="14" ry="5" />
-                            <path d="M-14 -10 V0 A14 5 0 0 0 14 0 V-10" />
-                            <path d="M-14 0 V10 A14 5 0 0 0 14 10 V0" />
-                        </g>
-                        <text x="70" y="94" text-anchor="middle" font-size="16" font-weight="900" fill="#0f172a">Memory</text>
-                        <text x="70" y="122" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">DRAM, SRAM</text>
-                        <text x="70" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">용량 &amp; 대역폭 구성</text>
-                    </g>
-
-                    <!-- ================= COLUMN 5: Bus / NoC ================= -->
-                    <g class="sol-node-hover" transform="translate(752, 76)" filter="url(#solShadow)">
-                        <rect width="140" height="164" rx="20" fill="url(#solNodeGrad)" stroke="#cbd5e1" stroke-width="1.2" />
-                        <!-- Network Icon -->
-                        <g transform="translate(70, 42)" stroke="#2563eb" stroke-width="2" fill="none">
-                            <circle cx="0" cy="0" r="5" fill="#2563eb" />
-                            <circle cx="-12" cy="11" r="3.5" />
-                            <circle cx="12" cy="11" r="3.5" />
-                            <circle cx="0" cy="-13" r="3.5" />
-                            <line x1="-10" y1="9" x2="-4" y2="4" />
-                            <line x1="10" y1="9" x2="4" y2="4" />
-                            <line x1="0" y1="-9" x2="0" y2="-4" />
-                        </g>
-                        <text x="70" y="94" text-anchor="middle" font-size="16" font-weight="900" fill="#0f172a">Bus / NoC</text>
-                        <text x="70" y="122" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">AXI Interconnect</text>
-                        <text x="70" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">및 NoC 연결 구조</text>
-                    </g>
-
-                    <!-- ================= COLUMN 6: Off-Chip I/O ================= -->
-                    <g class="sol-node-hover" transform="translate(916, 76)" filter="url(#solShadow)">
-                        <rect width="140" height="164" rx="20" fill="url(#solNodeGrad)" stroke="#cbd5e1" stroke-width="1.2" />
-                        <!-- Interface Icon -->
-                        <g transform="translate(70, 42)" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-linejoin="round">
-                            <rect x="-14" y="-10" width="28" height="20" rx="3" />
-                            <path d="M-6 10 V15 H6 V10" />
-                            <path d="M-9 -3 H9" stroke-width="1.5" />
-                            <circle cx="-4" cy="3" r="1.5" fill="#2563eb" stroke="none" />
-                            <circle cx="4" cy="3" r="1.5" fill="#2563eb" stroke="none" />
-                        </g>
-                        <text x="70" y="94" text-anchor="middle" font-size="16" font-weight="900" fill="#0f172a">Off-Chip I/O</text>
-                        <text x="70" y="122" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">LPDDR, PCIe, USB</text>
-                        <text x="70" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">외부 고속 I/F</text>
-                    </g>
-
-                    <!-- ================= COLUMN 7: Software ================= -->
-                    <g class="sol-node-hover" transform="translate(1080, 76)" filter="url(#solShadow)">
-                        <rect width="140" height="164" rx="20" fill="url(#solNodeGrad)" stroke="#cbd5e1" stroke-width="1.2" />
-                        <!-- Code Brackets Icon -->
-                        <g transform="translate(70, 42)" stroke="#2563eb" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M -8 -9 L -15 -2 L -8 5" />
-                            <path d="M 8 -9 L 15 -2 L 8 5" />
-                            <line x1="3" y1="-12" x2="-3" y2="8" />
-                        </g>
-                        <text x="70" y="94" text-anchor="middle" font-size="16" font-weight="900" fill="#0f172a">Software</text>
-                        <text x="70" y="122" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">FW, Driver, BSP</text>
-                        <text x="70" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">상위 SW 스택 통합</text>
-                    </g>
-
-                    <!-- ================= COLUMN 8: Validation ================= -->
-                    <g class="sol-node-hover" transform="translate(1244, 76)" filter="url(#solShadow)">
-                        <rect width="140" height="164" rx="20" fill="url(#solNodeGrad)" stroke="#cbd5e1" stroke-width="1.2" />
-                        <!-- Shield Check Icon -->
-                        <g transform="translate(70, 42)" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-linejoin="round">
-                            <path d="M-13 -11 L0 -15 L13 -11 V0 C13 8 7 14 0 17 C-7 14 -13 8 -13 0 Z" />
-                            <path d="M-5 -1 L-1 3 L6 -4" stroke="#10b981" stroke-width="2.5" />
-                        </g>
-                        <text x="70" y="94" text-anchor="middle" font-size="16" font-weight="900" fill="#0f172a">Validation</text>
-                        <text x="70" y="122" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">시나리오 기반</text>
-                        <text x="70" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748b">동작 검증 &amp; 신뢰성</text>
-                    </g>
-
-                    <!-- ================= BRIDGE LAYER: Integrated Solution Layer ================= -->
-                    <g transform="translate(96, 340)" filter="url(#solGlow)">
-                        <rect width="1288" height="74" rx="22" fill="url(#solBridgeGrad)" />
-                        <!-- Core Text -->
-                        <text x="644" y="38" text-anchor="middle" fill="#ffffff" font-size="21" font-weight="900" letter-spacing="0.05em">Integrated Solution Layer</text>
-                        <text x="644" y="58" text-anchor="middle" fill="rgba(255, 255, 255, 0.8)" font-size="12.5" font-weight="700">하드웨어 + 소프트웨어 통합 제어를 통한 시스템 PPA 최적화 및 최종 가치 실현</text>
-                        
-                        <!-- Layer Visual Decorative Lines -->
-                        <line x1="20" y1="37" x2="380" y2="37" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="4 4" />
-                        <line x1="908" y1="37" x2="1268" y2="37" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="4 4" />
-                    </g>
-
-                    <!-- Flow Connectors: Bridge Layer to Outcomes -->
-                    <g stroke="#cbd5e1" stroke-width="3" stroke-linecap="round">
-                        <line x1="201" y1="414" x2="201" y2="500" />
-                        <line x1="411" y1="414" x2="411" y2="500" />
-                        <line x1="621" y1="414" x2="621" y2="500" />
-                        <line x1="831" y1="414" x2="831" y2="500" />
-                        <line x1="1041" y1="414" x2="1041" y2="500" />
-                        <line x1="1251" y1="414" x2="1251" y2="500" />
-                    </g>
-                    <!-- Animated flowing dots downward -->
-                    <g stroke="#3b82f6" stroke-width="2" stroke-linecap="round" fill="none" class="sol-anim-dash-flow">
-                        <line x1="201" y1="414" x2="201" y2="500" />
-                        <line x1="411" y1="414" x2="411" y2="500" />
-                        <line x1="621" y1="414" x2="621" y2="500" />
-                        <line x1="831" y1="414" x2="831" y2="500" />
-                        <line x1="1041" y1="414" x2="1041" y2="500" />
-                        <line x1="1251" y1="414" x2="1251" y2="500" />
-                    </g>
-
-                    <!-- ================= OUTCOME CARD 1: Performance ================= -->
-                    <g class="sol-node-hover" transform="translate(106, 500)" filter="url(#solShadow)">
-                        <rect width="190" height="114" rx="20" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5" />
-                        <rect width="190" height="6" rx="3" fill="#3b82f6" />
-                        <!-- Speedometer Icon -->
-                        <g transform="translate(95, 42)" stroke="#3b82f6" stroke-width="2.2" fill="none">
-                            <path d="M-15 8 A16 16 0 0 1 15 8" />
-                            <line x1="0" y1="8" x2="6" y2="-4" stroke-linecap="round" />
-                        </g>
-                        <text x="95" y="78" text-anchor="middle" font-size="16" font-weight="900" fill="#1e3a8a">성능 달성</text>
-                        <text x="95" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#64748b">목표 대역폭 및 Latency 충족</text>
-                    </g>
-
-                    <!-- ================= OUTCOME CARD 2: Power Efficiency ================= -->
-                    <g class="sol-node-hover" transform="translate(316, 500)" filter="url(#solShadow)">
-                        <rect width="190" height="114" rx="20" fill="#ffffff" stroke="#a7f3d0" stroke-width="1.5" />
-                        <rect width="190" height="6" rx="3" fill="#10b981" />
-                        <!-- Bolt Icon -->
-                        <g transform="translate(95, 42)" fill="#10b981">
-                            <path d="M2 -16 L-8 0 H0 L-2 14 L8 -2 H0 Z" />
-                        </g>
-                        <text x="95" y="78" text-anchor="middle" font-size="16" font-weight="900" fill="#064e3b">전력 효율</text>
-                        <text x="95" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#64748b">동적/정적 전력 소모 최소화</text>
-                    </g>
-
-                    <!-- ================= OUTCOME CARD 3: Area Optimization ================= -->
-                    <g class="sol-node-hover" transform="translate(526, 500)" filter="url(#solShadow)">
-                        <rect width="190" height="114" rx="20" fill="#ffffff" stroke="#fed7aa" stroke-width="1.5" />
-                        <rect width="190" height="6" rx="3" fill="#f97316" />
-                        <!-- Layout Grid Icon -->
-                        <g transform="translate(95, 42)" stroke="#f97316" stroke-width="2" fill="none">
-                            <rect x="-12" y="-12" width="24" height="24" rx="3" />
-                            <line x1="-12" y1="0" x2="12" y2="0" />
-                            <line x1="0" y1="-12" x2="0" y2="12" />
-                        </g>
-                        <text x="95" y="78" text-anchor="middle" font-size="16" font-weight="900" fill="#7c2d12">면적 최적화</text>
-                        <text x="95" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#64748b">실리콘 Die Cost 효율성 극대화</text>
-                    </g>
-
-                    <!-- ================= OUTCOME CARD 4: Reliability ================= -->
-                    <g class="sol-node-hover" transform="translate(736, 500)" filter="url(#solShadow)">
-                        <rect width="190" height="114" rx="20" fill="#ffffff" stroke="#ddd6fe" stroke-width="1.5" />
-                        <rect width="190" height="6" rx="3" fill="#8b5cf6" />
-                        <!-- Protection Icon -->
-                        <g transform="translate(95, 42)" stroke="#8b5cf6" stroke-width="2.2" fill="none" stroke-linejoin="round">
-                            <path d="M-10 -11 L0 -14 L10 -11 V-1 C10 5 5 11 0 13 C-5 11 -10 5 -10 -1 Z" />
-                        </g>
-                        <text x="95" y="78" text-anchor="middle" font-size="16" font-weight="900" fill="#4c1d95">신뢰성 확보</text>
-                        <text x="95" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#64748b">장기 동작 수명 및 결함 대응</text>
-                    </g>
-
-                    <!-- ================= OUTCOME CARD 5: Manufacturability ================= -->
-                    <g class="sol-node-hover" transform="translate(946, 500)" filter="url(#solShadow)">
-                        <rect width="190" height="114" rx="20" fill="#ffffff" stroke="#fbcfe8" stroke-width="1.5" />
-                        <rect width="190" height="6" rx="3" fill="#ec4899" />
-                        <!-- Factory/Production Icon -->
-                        <g transform="translate(95, 42)" stroke="#ec4899" stroke-width="2.2" fill="none" stroke-linejoin="round">
-                            <path d="M-13 12 V-12 L-4 -4 V-12 L5 -4 V12 Z" />
-                            <line x1="-13" y1="4" x2="5" y2="4" />
-                        </g>
-                        <text x="95" y="78" text-anchor="middle" font-size="16" font-weight="900" fill="#831843">양산성 고려</text>
-                        <text x="95" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#64748b">수율(Yield) 향상 및 결함 테스트</text>
-                    </g>
-
-                    <!-- ================= OUTCOME CARD 6: Usability ================= -->
-                    <g class="sol-node-hover" transform="translate(1156, 500)" filter="url(#solShadow)">
-                        <rect width="190" height="114" rx="20" fill="#ffffff" stroke="#c7d2fe" stroke-width="1.5" />
-                        <rect width="190" height="6" rx="3" fill="#6366f1" />
-                        <!-- Sparkly User Icon -->
-                        <g transform="translate(95, 42)" stroke="#6366f1" stroke-width="2" fill="none">
-                            <circle cx="0" cy="-6" r="6" />
-                            <path d="M-12 10 A12 12 0 0 1 12 10" />
-                            <path d="M12 -12 L14 -9 L17 -9 L15 -7 L16 -4 L13 -6 L10 -4 L11 -7 L9 -9 L12 -9 Z" fill="#6366f1" stroke="none" />
-                        </g>
-                        <text x="95" y="78" text-anchor="middle" font-size="16" font-weight="900" fill="#312e81">사용성 향상</text>
-                        <text x="95" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#64748b">드라이버 포팅 및 개발 편의성</text>
-                    </g>
-
-                    <!-- Core Architectural Alignment Lines (Connective loops at bottom) -->
-                    <path d="M 201 614 V 670 H 1251 V 614" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="6 6" />
-                    <circle cx="726" cy="670" r="6" fill="#4f46e5" />
-                    <text x="726" y="694" text-anchor="middle" font-size="12" font-weight="900" fill="#4f46e5">Hardware-Software Unified Validation Loop</text>
-                </svg>
-            </div>
-        </div>
-
-        <!-- 3 Premium Column Cards at the bottom -->
-        <div class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
-            <div class="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50/50 to-blue-100/30 p-6 shadow-sm">
-                <div class="flex items-center gap-3">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-600 font-extrabold text-white text-sm shadow-md">Goal</span>
-                    <h4 class="text-lg font-black text-slate-900">Product Goal (제품 목표)</h4>
-                </div>
-                <p class="mt-4 text-sm leading-7 text-slate-600">
-                    단순한 개별 성능 수치가 아닌, 최종 제품이 목표로 하는 <strong>정량적 기준(성능, 전력 소모, 칩 면적, 총 제조 비용)</strong>을 먼저 엄격히 정의합니다. 제품의 타겟 시장(AI 서버, 모바일, 차량용 등)에 따라 요구되는 PPA 우선순위가 결정되며, 이를 바탕으로 모든 IP의 선택과 커스텀 아키텍처 설계를 개시합니다.
-                </p>
-            </div>
-
-            <div class="rounded-3xl border border-violet-100 bg-gradient-to-br from-violet-50/50 to-violet-100/30 p-6 shadow-sm">
-                <div class="flex items-center gap-3">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-600 font-extrabold text-white text-sm shadow-md">Fit</span>
-                    <h4 class="text-lg font-black text-slate-900">Architecture Fit (구조 정합)</h4>
-                </div>
-                <p class="mt-4 text-sm leading-7 text-slate-600">
-                    하드웨어 연산기(Compute)와 메모리 대역폭(Memory), 온칩 버스(Bus Interconnect), 외부 I/O 포트 사이의 <strong>성능 병목(Bottleneck)을 분석하여 최적의 균형점</strong>을 맞춥니다. 한 쪽이 아무리 빨라도 다른 한 쪽이 느리면 시스템 전체 속도가 고사하는 현상을 아키텍처 매칭과 정합 최적화를 통해 해결합니다.
-                </p>
-            </div>
-
-            <div class="rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50/50 to-emerald-100/30 p-6 shadow-sm">
-                <div class="flex items-center gap-3">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600 font-extrabold text-white text-sm shadow-md">Path</span>
-                    <h4 class="text-lg font-black text-slate-900">Bring-up Path (실리콘 활성화)</h4>
-                </div>
-                <p class="mt-4 text-sm leading-7 text-slate-600">
-                    설계된 칩이 물리적인 보드 위에서 깨어나 오동작 없이 원활하게 구동하기까지의 경로를 설계 단계에서 함께 수립합니다. 레지스터 맵 설계, 인터럽트 라우팅, 부트 시퀀스 구성, 디바이스 드라이버 및 실리콘 검증 소프트웨어까지 <strong>하드웨어와 소프트웨어가 유기적으로 맞닿도록 연결고리</strong>를 만듭니다.
-                </p>
-            </div>
-        </div>
-    </section>
-</div>
-<div class="tab-content card !rounded-[32px] border border-blue-100 bg-white p-6 md:p-8" id="sol-part-2" data-part10-panel="solution-thinking" data-guidebook-toc-title="Solution Thinking">
-    <div class="mb-6 border-b border-slate-100 pb-4">
-        <div class="text-xs font-black uppercase tracking-[0.2em] text-blue-600">10-2. System Bottleneck &amp; HW/SW Co-Design</div>
-        <h3 class="mt-2 text-2xl font-black leading-tight text-slate-900">시스템 병목 해결과 HW/SW 설계 경계</h3>
-        <p class="mt-2 text-sm md:text-base text-slate-500 leading-relaxed">
-            반도체 칩이 진정한 솔루션이 되려면 개별 IP의 우수성을 넘어 전체 시스템 레벨의 병목을 해결하고, <br class="hidden sm:inline" />
-            하드웨어와 소프트웨어가 밀결합되는 제어 인터페이스(Control Interface)가 극도로 정밀하게 정의되어야 합니다.
-        </p>
-    </div>
-
-    <!-- Two-column Technical Visualizations -->
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        
-        <!-- COLUMN 1: Roofline Model (Compute vs Memory Bound) -->
-        <div class="flex flex-col rounded-3xl border border-slate-100 bg-slate-50/50 p-5 md:p-6">
-            <div class="mb-4">
-                <span class="inline-block bg-blue-100 text-blue-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider mb-2">Performance Boundary</span>
-                <h4 class="text-lg font-black text-slate-900">1) Roofline Model을 통한 시스템 제약 분석</h4>
-                <p class="mt-1 text-xs md:text-sm text-slate-500 leading-relaxed">
-                    시스템 성능은 <strong>산술 연산 밀도(Arithmetic Intensity)</strong>에 따라 메모리 대역폭(Memory Bandwidth)에 지배받는 <strong>Memory-Bound</strong> 구간과 하드웨어 최고 연산 능력에 지배받는 <strong>Compute-Bound</strong> 구간으로 나뉩니다.
-                </p>
-            </div>
-
-            <!-- Roofline Model SVG Graph -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-                <svg viewBox="0 0 540 330" class="block h-auto w-full" fill="none">
-                    <!-- Grid background -->
-                    <rect width="540" height="330" rx="12" fill="#ffffff" />
-                    <g stroke="rgba(148,163,184,0.08)" stroke-width="1.2">
-                        <line x1="60" y1="50" x2="480" y2="50" />
-                        <line x1="60" y1="110" x2="480" y2="110" />
-                        <line x1="60" y1="170" x2="480" y2="170" />
-                        <line x1="60" y1="230" x2="480" y2="230" />
-                        <line x1="60" y1="290" x2="480" y2="290" />
-                        <line x1="60" y1="290" x2="60" y2="50" />
-                        <line x1="200" y1="290" x2="200" y2="50" />
-                        <line x1="340" y1="290" x2="340" y2="50" />
-                        <line x1="480" y1="290" x2="480" y2="50" />
-                    </g>
-
-                    <!-- Shaded Bounds Zones -->
-                    <!-- Memory Bound Zone -->
-                    <path d="M 60 290 L 260 90 L 60 90 Z" fill="rgba(244,63,94,0.04)" />
-                    <!-- Compute Bound Zone -->
-                    <path d="M 260 90 L 480 90 L 480 290 L 260 290 Z" fill="rgba(59,130,246,0.04)" />
-
-                    <!-- Axis Labels -->
-                    <text x="270" y="320" font-family="'Pretendard', sans-serif" font-size="11" font-weight="800" fill="#64748b" text-anchor="middle">Arithmetic Intensity (FLOPs / Byte - 연산 밀도)</text>
-                    <text x="20" y="170" font-family="'Pretendard', sans-serif" font-size="11" font-weight="800" fill="#64748b" text-anchor="middle" transform="rotate(-90 20 170)">Attainable Performance (GFLOPS - 달성 성능)</text>
-
-                    <!-- Axis ticks -->
-                    <text x="55" y="294" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">0</text>
-                    <text x="55" y="234" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">10</text>
-                    <text x="55" y="174" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">100</text>
-                    <text x="55" y="114" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">1000</text>
-                    <text x="55" y="54" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">Peak</text>
-
-                    <text x="60" y="306" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="middle">0.1</text>
-                    <text x="200" y="306" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="middle">1.0</text>
-                    <text x="340" y="306" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="middle">10.0 (Inflection)</text>
-                    <text x="480" y="306" font-family="'Pretendard', sans-serif" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="middle">100.0</text>
-
-                    <!-- Roofline boundary path -->
-                    <path d="M 60 290 L 260 90 H 480" stroke="#0f172a" stroke-width="3" stroke-linecap="round" fill="none" />
-                    <!-- Slanted memory slope label -->
-                    <text x="130" y="180" font-family="'Pretendard', sans-serif" font-size="11" font-weight="900" fill="#e11d48" transform="rotate(-45 130 180)">Memory Bandwidth Limit (Memory Wall)</text>
-                    <!-- Horizontal compute ceiling label -->
-                    <text x="370" y="80" font-family="'Pretendard', sans-serif" font-size="11" font-weight="900" fill="#2563eb" text-anchor="middle">Peak Compute Limit (NPU Peak)</text>
-
-                    <!-- Operating Points / Target Icons -->
-                    <!-- Memory-Bound point (Legacy/Inefficient code) -->
-                    <g transform="translate(140, 210)" class="sol-anim-pulse">
-                        <circle cx="0" cy="0" r="7" fill="#f43f5e" />
-                        <circle cx="0" cy="0" r="14" stroke="#f43f5e" stroke-width="1.5" fill="none" opacity="0.6" />
-                        <text x="18" y="4" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="800" fill="#e11d48">A: Memory Bound</text>
-                    </g>
-
-                    <!-- Optimized Point (Using Tiling / SRAM reuse) -->
-                    <g transform="translate(360, 90)" class="sol-anim-pulse">
-                        <circle cx="0" cy="0" r="7" fill="#10b981" />
-                        <circle cx="0" cy="0" r="14" stroke="#10b981" stroke-width="1.5" fill="none" opacity="0.6" />
-                        <text x="-15" y="-18" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="800" fill="#047857" text-anchor="middle">B: Optimized (Compute Bound)</text>
-                    </g>
-                    
-                    <!-- Arrow transition tiling -->
-                    <path d="M 160 200 Q 240 130 330 102" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="4 4" stroke-linecap="round" />
-                    <!-- Arrowhead -->
-                    <polygon points="332,98 327,105 321,99" fill="#6366f1" />
-                    <text x="248" y="132" font-family="'Pretendard', sans-serif" font-size="10" font-weight="800" fill="#4f46e5" text-anchor="middle">Data Tiling &amp; Reuse</text>
-                </svg>
-            </div>
-            
-            <div class="mt-4 rounded-2xl border border-slate-100 bg-white p-4">
-                <div class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Key Strategy</div>
-                <p class="text-xs md:text-sm leading-6 text-slate-600">
-                    연산 강도가 낮은 설계(A)는 아무리 CPU/NPU 코어 클럭을 높여도 DRAM 속도 한계(Memory Wall)에 갇힙니다. <strong>로컬 SRAM 캐시 최적화, 데이터 타일링(Data Tiling) 기법</strong>을 통해 연산당 메모리 접근률을 최대한 줄여 곡선의 꺾임점 우측(B)으로 시스템 동작 지점을 이동시키는 것이 솔루션 설계의 핵심입니다.
-                </p>
-            </div>
-        </div>
-
-        <!-- COLUMN 2: HW/SW Co-Design Interface Loop -->
-        <div class="flex flex-col rounded-3xl border border-slate-100 bg-slate-50/50 p-5 md:p-6">
-            <div class="mb-4">
-                <span class="inline-block bg-violet-100 text-violet-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider mb-2">Interface Pipeline</span>
-                <h4 class="text-lg font-black text-slate-900">2) 하드웨어와 소프트웨어의 제어 및 통신 루프</h4>
-                <p class="mt-1 text-xs md:text-sm text-slate-500 leading-relaxed">
-                    드라이버 소프트웨어와 하드웨어 연산 가속기가 <strong>레지스터 맵(MMIO)</strong>, <strong>DMA 전송</strong>, 그리고 완료 보고용 <strong>인터럽트(Interrupt)</strong> 구조를 통해 어떻게 고속 데이터 제어 주기를 완수하는지 보여줍니다.
-                </p>
-            </div>
-
-            <!-- HW/SW Interface Loop SVG -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-                <svg viewBox="0 0 540 330" class="block h-auto w-full" fill="none">
-                    <rect width="540" height="330" rx="12" fill="#ffffff" />
-                    
-                    <!-- Nodes -->
-                    <!-- CPU Node -->
-                    <g transform="translate(60, 50)" filter="url(#solShadow)">
-                        <rect x="0" y="0" width="130" height="54" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8" />
-                        <text x="65" y="27" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="13" font-weight="900" fill="#1d4ed8">CPU Core (SW)</text>
-                        <text x="65" y="42" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#64748b">Device Driver / OS</text>
-                    </g>
-
-                    <!-- MMIO Reg Map Node -->
-                    <g transform="translate(350, 50)" filter="url(#solShadow)">
-                        <rect x="0" y="0" width="130" height="54" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.8" />
-                        <text x="65" y="27" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="13" font-weight="900" fill="#7c3aed">MMIO Register</text>
-                        <text x="65" y="42" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#64748b">Base: 0x4000_1000</text>
-                    </g>
-
-                    <!-- DMA Engine Node -->
-                    <g transform="translate(350, 220)" filter="url(#solShadow)">
-                        <rect x="0" y="0" width="130" height="54" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="1.8" />
-                        <text x="65" y="27" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="13" font-weight="900" fill="#047857">DMA Engine</text>
-                        <text x="65" y="42" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#64748b">Direct Memory Access</text>
-                    </g>
-
-                    <!-- GIC/VIC Node -->
-                    <g transform="translate(60, 220)" filter="url(#solShadow)">
-                        <rect x="0" y="0" width="130" height="54" rx="14" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.8" />
-                        <text x="65" y="27" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="13" font-weight="900" fill="#b45309">Interrupt Ctrl</text>
-                        <text x="65" y="42" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#64748b">NVIC / GIC Core</text>
-                    </g>
-
-                    <!-- Connection Paths and Labels -->
-                    <!-- Path 1: CPU to MMIO -->
-                    <path d="M 190 77 H 340" stroke="#3b82f6" stroke-width="2.5" stroke-dasharray="4 4" fill="none" class="sol-anim-dash-flow" />
-                    <text x="265" y="66" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#1d4ed8">1. MMIO Write Start</text>
-
-                    <!-- Path 2: MMIO to DMA -->
-                    <path d="M 415 104 V 210" stroke="#8b5cf6" stroke-width="2.5" stroke-dasharray="4 4" fill="none" class="sol-anim-dash-flow" />
-                    <text x="424" y="162" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#7c3aed">2. Trigger DMA</text>
-
-                    <!-- Path 3: DMA to GIC -->
-                    <path d="M 350 247 H 199" stroke="#10b981" stroke-width="2.5" stroke-dasharray="4 4" fill="none" class="sol-anim-dash-flow-reverse" />
-                    <text x="270" y="238" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#047857">3. Done &amp; Assert IRQ</text>
-
-                    <!-- Path 4: GIC to CPU -->
-                    <path d="M 125 220 V 114" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4 4" fill="none" class="sol-anim-dash-flow-reverse" />
-                    <text x="116" y="162" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#b45309" text-anchor="end">4. CPU ISR Exec</text>
-
-                    <!-- Center System RAM Cloud representation -->
-                    <g transform="translate(265, 148)" opacity="0.8">
-                        <ellipse cx="0" cy="0" rx="36" ry="20" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
-                        <text x="0" y="4" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10" font-weight="800" fill="#475569">System RAM</text>
-                        
-                        <!-- Connecting arrows RAM <-> DMA -->
-                        <line x1="26" y1="12" x2="90" y2="76" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="2 2" />
-                    </g>
-                </svg>
-            </div>
-
-            <div class="mt-4 rounded-2xl border border-slate-100 bg-white p-4">
-                <div class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Key Strategy</div>
-                <p class="text-xs md:text-sm leading-6 text-slate-600">
-                    CPU가 가속기에 고성능 연산을 요청할 때 매번 메모리를 읽는 것은 극도로 비효율적입니다. 따라서 CPU는 레지스터에 가속기가 처리할 주소와 길이만 기록하고(1), 가속기 내부의 <strong>고속 DMA 엔진(2)</strong>이 시스템 버스를 장악해 메모리에서 연산기로 데이터를 전달한 뒤, 연산이 끝나면 <strong>인터럽트(3)</strong>를 발생시켜 CPU가 인터럽트 핸들러(ISR)로 빠져나오게(4) 설계합니다.
-                </p>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Bare-Metal C Device Driver Code Block -->
-    <div class="mt-8">
-        <div class="mb-3 flex items-center justify-between">
-            <h4 class="text-lg font-black text-slate-900 flex items-center gap-2">
-                <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-white font-mono text-xs">C</span>
-                실제 하드웨어 레지스터 맵 제어 C 드라이버 예시
-            </h4>
-            <span class="text-xs text-slate-400 font-mono">accel_driver.c</span>
-        </div>
-        <div class="sol-code-shell select-all">
-            <div><span class="sol-code-comment">// 1. NPU 하드웨어 가속기 메모리 맵 레지스터 정의</span></div>
-            <div><span class="sol-code-keyword">typedef struct</span> {</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">CTRL</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x00: 제어 레지스터 (Bit 0: Start, Bit 1: Int Enable)</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">DMA_SRC</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x04: DMA 소스 주소 (DRAM 메모리 위치)</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">DMA_DST</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x08: DMA 목적지 주소 (SRAM 로컬 캐시 위치)</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">DMA_LEN</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x0C: DMA 전송 데이터 바이트 크기</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-type">volatile uint32_t</span> <span class="sol-code-var">STATUS</span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// 0x10: 상태 레지스터 (Bit 0: Busy, Bit 1: Int Triggered)</span></div>
-            <div>} <span class="sol-code-type">NpuAccelRegs</span>;</div>
-            <br />
-            <div><span class="sol-code-macro">#define</span> <span class="sol-code-var">NPU_BASE_ADDR</span> (<span class="sol-code-num">0x40001000</span>)</div>
-            <div><span class="sol-code-type">NpuAccelRegs</span>* <span class="sol-code-keyword">const</span> <span class="sol-code-var">npu</span> = (<span class="sol-code-type">NpuAccelRegs</span>*)<span class="sol-code-var">NPU_BASE_ADDR</span>;</div>
-            <br />
-            <div><span class="sol-code-comment">// 2. 드라이버 API: 가속기 구동 함수</span></div>
-            <div><span class="sol-code-type">void</span> <span class="sol-code-func">npu_start_transfer</span>(<span class="sol-code-type">uint32_t</span> <span class="sol-code-var">src_addr</span>, <span class="sol-code-type">uint32_t</span> <span class="sol-code-var">dst_addr</span>, <span class="sol-code-type">uint32_t</span> <span class="sol-code-var">len</span>) {</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (A) 가속기가 이전 연산을 완전히 마치고 유휴 상태(Idle)가 될 때까지 폴링</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-keyword">while</span> (<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">STATUS</span> &amp; <span class="sol-code-num">0x1</span>);</div>
-            <br />
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (B) DMA 주소 및 길이 설정 (하드웨어 제어 경계)</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">DMA_SRC</span> = <span class="sol-code-var">src_addr</span>;</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">DMA_DST</span> = <span class="sol-code-var">dst_addr</span>;</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">DMA_LEN</span> = <span class="sol-code-var">len</span>;</div>
-            <br />
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (C) 인터럽트를 허용하고 가속기 및 DMA 구동 트리거!</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">CTRL</span> = (<span class="sol-code-num">0x1</span> | <span class="sol-code-num">0x2</span>); <span class="sol-code-comment">// Bit 0 = Start, Bit 1 = Interrupt Enable</span></div>
-            <div>}</div>
-            <br />
-            <div><span class="sol-code-comment">// 3. 인터럽트 서비스 루틴 (ISR) - 가속기 연산 완료 시 자동 호출</span></div>
-            <div><span class="sol-code-type">void</span> <span class="sol-code-func">npu_interrupt_service_handler</span>(<span class="sol-code-type">void</span>) {</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (A) 인터럽트 유발 소스 확인</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-keyword">if</span> (<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">STATUS</span> &amp; <span class="sol-code-num">0x2</span>) {</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (B) 다음 전송 차단을 피하기 위해 인터럽트 클리어 플래그 기록</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-var">npu</span>-&gt;<span class="sol-code-var">STATUS</span> = <span class="sol-code-num">0x2</span>;&nbsp;&nbsp;<span class="sol-code-comment">// W1C (Write 1 to Clear)</span></div>
-            <br />
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-comment">// (C) 드라이버 상위 계층 혹은 세마포어를 잠금 해제하여 프로세스 작업 복귀</span></div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sol-code-func">release_system_semaphore</span>();</div>
-            <div>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
-            <div>}</div>
-        </div>
-    </div>
-</div>
-<div class="tab-content card border border-slate-200 bg-[linear-gradient(180deg,_#ffffff_0%,_#fbfcfe_100%)] p-6 md:p-8" id="sol-part-3" data-part10-panel="interview-memory-hooks" data-guidebook-toc-title="Interview Memory Hooks">
-    <div class="mb-6 border-b border-slate-100 pb-4">
-        <div class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">10-3. Scalability &amp; Verification Loop</div>
-        <h3 class="text-2xl font-black leading-tight text-slate-900">시스템 확장성과 실리콘 검증 루프</h3>
-        <p class="mt-2 text-sm md:text-base text-slate-500 leading-relaxed">
-            솔루션의 지속 가능한 성장을 위한 다중 다이(Multi-Die) 칩렛(Chiplet) 아키텍처 확장 전략과, <br class="hidden sm:inline" />
-            천문학적인 실리콘 제작 실패 비용을 방지하기 위한 시뮬레이션 기반 시스템 검증 루프를 학습합니다.
-        </p>
-    </div>
-
-    <!-- Two-column Scalability and Verification Visuals -->
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 mb-8">
-        
-        <!-- COLUMN 1: Chiplet & NoC Scalability -->
-        <div class="flex flex-col rounded-3xl border border-slate-100 bg-white p-5 md:p-6 shadow-sm">
-            <div class="mb-4">
-                <span class="inline-block bg-indigo-100 text-indigo-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider mb-2">Chiplet Expansion</span>
-                <h4 class="text-lg font-black text-slate-900">1) Chiplet 및 Unified NoC 확장 모델</h4>
-                <p class="mt-1 text-xs md:text-sm text-slate-500 leading-relaxed">
-                    단일 다이 면적(Reticle Limit) 극복을 위해 연산 다이(Compute Die)와 입출력 다이(I/O Die)를 분리하고, <strong>UCIe 고속 인터커넥트</strong>와 <strong>Unified NoC</strong>를 묶어 단일 패키지 솔루션으로 결합합니다.
-                </p>
-            </div>
-
-            <!-- Chiplet SVG Diagram -->
-            <div class="rounded-2xl border border-slate-150 bg-slate-50 p-3">
-                <svg viewBox="0 0 540 330" class="block h-auto w-full" fill="none">
-                    <!-- Package Outline Base -->
-                    <rect x="20" y="20" width="500" height="290" rx="20" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5" />
-                    <rect x="25" y="25" width="490" height="280" rx="15" fill="none" stroke="#e2e8f0" stroke-width="1" />
-                    <text x="32" y="44" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#94a3b8" letter-spacing="0.1em">CHIPLET MCM PACKAGE</text>
-
-                    <!-- Silicon Interposer Substrate -->
-                    <rect x="50" y="60" width="440" height="220" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4" />
-                    <text x="60" y="78" font-family="'Pretendard', sans-serif" font-size="9.5" font-weight="800" fill="#64748b">Silicon Interposer Substrate</text>
-
-                    <!-- Compute Die 0 (CCD 0) -->
-                    <g transform="translate(70, 96)" filter="url(#solShadow)">
-                        <rect x="0" y="0" width="100" height="130" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8" />
-                        <text x="50" y="32" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="12" font-weight="900" fill="#1d4ed8">Compute Die</text>
-                        <text x="50" y="46" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#94a3b8">(CCD 0)</text>
-                        <!-- NPU Core Blocks inside CCD -->
-                        <rect x="15" y="60" width="30" height="24" rx="4" fill="#ffffff" stroke="#93c5fd" />
-                        <text x="30" y="75" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="800" fill="#1d4ed8">NPU</text>
-                        <rect x="55" y="60" width="30" height="24" rx="4" fill="#ffffff" stroke="#93c5fd" />
-                        <text x="70" y="75" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="800" fill="#1d4ed8">NPU</text>
-                        <rect x="15" y="90" width="70" height="24" rx="4" fill="#ffffff" stroke="#93c5fd" />
-                        <text x="50" y="105" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="800" fill="#1d4ed8">SRAM Cache</text>
-                    </g>
-
-                    <!-- Compute Die 1 (CCD 1) -->
-                    <g transform="translate(370, 96)" filter="url(#solShadow)">
-                        <rect x="0" y="0" width="100" height="130" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8" />
-                        <text x="50" y="32" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="12" font-weight="900" fill="#1d4ed8">Compute Die</text>
-                        <text x="50" y="46" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="700" fill="#94a3b8">(CCD 1)</text>
-                        <!-- NPU Core Blocks inside CCD -->
-                        <rect x="15" y="60" width="30" height="24" rx="4" fill="#ffffff" stroke="#93c5fd" />
-                        <text x="30" y="75" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="800" fill="#1d4ed8">NPU</text>
-                        <rect x="55" y="60" width="30" height="24" rx="4" fill="#ffffff" stroke="#93c5fd" />
-                        <text x="70" y="75" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="800" fill="#1d4ed8">NPU</text>
-                        <rect x="15" y="90" width="70" height="24" rx="4" fill="#ffffff" stroke="#93c5fd" />
-                        <text x="50" y="105" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9" font-weight="800" fill="#1d4ed8">SRAM Cache</text>
-                    </g>
-
-                    <!-- Central I/O Die (IOD) -->
-                    <g transform="translate(200, 110)" filter="url(#solShadow)">
-                        <rect x="0" y="0" width="140" height="100" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.8" />
-                        <text x="70" y="28" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="13" font-weight="900" fill="#7c3aed">Active I/O Die</text>
-                        <text x="70" y="42" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="9.5" font-weight="700" fill="#64748b">(Active IOD)</text>
-                        <!-- NoC Switch / Controllers -->
-                        <rect x="15" y="56" width="110" height="30" rx="4" fill="#ffffff" stroke="#c4b5fd" />
-                        <text x="70" y="75" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="800" fill="#7c3aed">NoC Switch Hub</text>
-                    </g>
-
-                    <!-- UCIe D2D Interconnect Bus lines (CCD0 <-> IOD <-> CCD1) -->
-                    <!-- CCD0 to IOD -->
-                    <path d="M 170 146 H 200" stroke="#f59e0b" stroke-width="3" stroke-dasharray="3 3" fill="none" class="sol-anim-dash-flow" />
-                    <rect x="164" y="138" width="12" height="16" rx="2" fill="#f59e0b" />
-                    <text x="170" y="130" font-family="'Pretendard', sans-serif" font-size="8" font-weight="900" fill="#b45309" text-anchor="middle">UCIe</text>
-                    <!-- CCD1 to IOD -->
-                    <path d="M 370 146 H 340" stroke="#f59e0b" stroke-width="3" stroke-dasharray="3 3" fill="none" class="sol-anim-dash-flow-reverse" />
-                    <rect x="364" y="138" width="12" height="16" rx="2" fill="#f59e0b" />
-                    <text x="370" y="130" font-family="'Pretendard', sans-serif" font-size="8" font-weight="900" fill="#b45309" text-anchor="middle">UCIe</text>
-
-                    <!-- HBM (High Bandwidth Memory) stack representations -->
-                    <!-- HBM left -->
-                    <g transform="translate(70, 236)" filter="url(#solShadow)">
-                        <rect x="0" y="0" width="100" height="34" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.2" />
-                        <text x="50" y="21" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#047857">HBM3 Stack</text>
-                        <!-- Bus connection up to CCD0 -->
-                        <line x1="50" y1="0" x2="50" y2="-10" stroke="#10b981" stroke-width="2.5" stroke-dasharray="2 2" />
-                    </g>
-                    <!-- HBM right -->
-                    <g transform="translate(370, 236)" filter="url(#solShadow)">
-                        <rect x="0" y="0" width="100" height="34" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.2" />
-                        <text x="50" y="21" text-anchor="middle" font-family="'Pretendard', sans-serif" font-size="10.5" font-weight="900" fill="#047857">HBM3 Stack</text>
-                        <!-- Bus connection up to CCD1 -->
-                        <line x1="50" y1="0" x2="50" y2="-10" stroke="#10b981" stroke-width="2.5" stroke-dasharray="2 2" />
-                    </g>
-                </svg>
-            </div>
-        </div>
-
-        <!-- COLUMN 2: Silicon Verification Timeline -->
-        <div class="flex flex-col rounded-3xl border border-slate-100 bg-white p-5 md:p-6 shadow-sm">
-            <div class="mb-4">
-                <span class="inline-block bg-emerald-100 text-emerald-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider mb-2">Validation Pipeline</span>
-                <h4 class="text-lg font-black text-slate-900">2) Pre-to-Post Silicon 종합 검증 루프</h4>
-                <p class="mt-1 text-xs md:text-sm text-slate-500 leading-relaxed">
-                    칩 설계가 진행됨에 따라 가상 프로토타입부터 에뮬레이터, FPGA, 그리고 마침내 물리 칩의 디버깅 단계까지, 각 <strong>단계별 모델의 클럭 대역폭 속도와 상호 피드백</strong> 관계를 도출합니다.
-                </p>
-            </div>
-
-            <!-- Verification Loop SVG -->
-            <div class="rounded-2xl border border-slate-150 bg-slate-50 p-3">
-                <svg viewBox="0 0 540 330" class="block h-auto w-full" fill="none">
-                    <!-- Base Grid Lines -->
-                    <rect width="540" height="330" rx="12" fill="#ffffff" />
-                    
-                    <!-- Vertical Timeline Spine -->
-                    <line x1="80" y1="40" x2="80" y2="280" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" />
-                    <!-- Flow arrows down -->
-                    <path d="M 80 40 L 80 270" stroke="#6366f1" stroke-width="2" stroke-dasharray="6 6" fill="none" class="sol-anim-dash-flow" />
-
-                    <!-- Chronological Pipeline Nodes -->
-                    <!-- Stage 1: Virtual Prototype -->
-                    <g transform="translate(68, 40)">
-                        <circle cx="12" cy="12" r="10" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
-                        <rect x="40" y="-4" width="370" height="32" rx="8" fill="#eff6ff" stroke="#93c5fd" />
-                        <text x="50" y="16" font-family="'Pretendard', sans-serif" font-size="11.5" font-weight="900" fill="#1d4ed8">1. Virtual Prototype (SystemC - ~100MHz)</text>
-                    </g>
-
-                    <!-- Stage 2: Functional DV -->
-                    <g transform="translate(68, 88)">
-                        <circle cx="12" cy="12" r="10" fill="#8b5cf6" stroke="#ffffff" stroke-width="2" />
-                        <rect x="40" y="-4" width="370" height="32" rx="8" fill="#f5f3ff" stroke="#c4b5fd" />
-                        <text x="50" y="16" font-family="'Pretendard', sans-serif" font-size="11.5" font-weight="900" fill="#7c3aed">2. Functional DV (UVM Testbench - ~10Hz)</text>
-                    </g>
-
-                    <!-- Stage 3: Emulation -->
-                    <g transform="translate(68, 136)">
-                        <circle cx="12" cy="12" r="10" fill="#f59e0b" stroke="#ffffff" stroke-width="2" />
-                        <rect x="40" y="-4" width="370" height="32" rx="8" fill="#fffbeb" stroke="#fde68a" />
-                        <text x="50" y="16" font-family="'Pretendard', sans-serif" font-size="11.5" font-weight="900" fill="#b45309">3. Hardware Emulation (Palladium - ~1MHz)</text>
-                    </g>
-
-                    <!-- Stage 4: FPGA Prototype -->
-                    <g transform="translate(68, 184)">
-                        <circle cx="12" cy="12" r="10" fill="#10b981" stroke="#ffffff" stroke-width="2" />
-                        <rect x="40" y="-4" width="370" height="32" rx="8" fill="#ecfdf5" stroke="#a7f3d0" />
-                        <text x="50" y="16" font-family="'Pretendard', sans-serif" font-size="11.5" font-weight="900" fill="#047857">4. FPGA Prototyping (SoC Board - ~50MHz)</text>
-                    </g>
-
-                    <!-- Stage 5: Silicon Bring-up -->
-                    <g transform="translate(68, 232)">
-                        <circle cx="12" cy="12" r="10" fill="#ef4444" stroke="#ffffff" stroke-width="2" />
-                        <rect x="40" y="-4" width="370" height="32" rx="8" fill="#fef2f2" stroke="#fca5a5" />
-                        <text x="50" y="16" font-family="'Pretendard', sans-serif" font-size="11.5" font-weight="900" fill="#b91c1c">5. Post-Silicon Bring-up (JTAG/OS - ~3GHz)</text>
-                    </g>
-
-                    <!-- Feedback Loop: Post-silicon to Pre-silicon -->
-                    <path d="M 448 248 C 500 248, 500 56, 448 56" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round" />
-                    <!-- Feedback loop arrowhead -->
-                    <polygon points="444,56 450,51 450,61" fill="#ef4444" />
-                    <text x="498" y="152" font-family="'Pretendard', sans-serif" font-size="9" font-weight="900" fill="#b91c1c" text-anchor="middle" transform="rotate(90 498 152)">Silicon Verification Feedback Loop</text>
-                </svg>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- 2x2 Grid of Premium Interview Memory Hooks -->
-    <h3 class="text-xl font-black text-slate-900 mb-5 flex items-center gap-2">
-        <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 text-white font-mono text-xs">★</span>
-        핵심 면접 답변 키워드 (Interview Hooks)
-    </h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-        <!-- Hook 1 -->
-        <div class="rounded-3xl border border-blue-100 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-blue-200">
-            <div class="flex items-center gap-2.5 mb-2">
-                <span class="inline-block w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-                <div class="text-[15px] font-black text-slate-900">System Bottleneck &amp; Memory Wall</div>
-            </div>
-            <p class="text-[13.5px] leading-7 text-slate-600">
-                가장 연산 속도가 느린 메모리 및 온칩 인터커넥트의 대역폭 한계가 칩의 최대 PPA 효율을 제한(Amdahl's Law)합니다. 가속기 아키텍처 면접 시, <strong>캐시 활용을 극대화하여 연산 밀도(Arithmetic Intensity)를 꺾임점 우측으로 향상</strong>시켜 대역폭 벽을 우회했다는 점을 반드시 논리적으로 설명해야 합니다.
-            </p>
-        </div>
-
-        <!-- Hook 2 -->
-        <div class="rounded-3xl border border-purple-100 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-purple-200">
-            <div class="flex items-center gap-2.5 mb-2">
-                <span class="inline-block w-2.5 h-2.5 rounded-full bg-purple-500"></span>
-                <div class="text-[15px] font-black text-slate-900">HW/SW Co-Design &amp; Register Interface</div>
-            </div>
-            <p class="text-[13.5px] leading-7 text-slate-600">
-                하드웨어 가속기만 잘 만든다고 시스템 속도가 빨라지지 않습니다. <strong>레지스터 맵(MMIO) 제어 인터페이스 설계, 순환 DMA 링 버퍼 디스크립터 구조, 인터럽트 레이턴시 정책</strong>이 소프트웨어 디바이스 드라이버와 유기적으로 물리도록 Co-Design 되어야 가속기의 물리 유효 대역폭이 극대화된다는 점을 설명하십시오.
-            </p>
-        </div>
-
-        <!-- Hook 3 -->
-        <div class="rounded-3xl border border-emerald-100 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-emerald-200">
-            <div class="flex items-center gap-2.5 mb-2">
-                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                <div class="text-[15px] font-black text-slate-900">MCM Chiplet Scalability &amp; NoC</div>
-            </div>
-            <p class="text-[13.5px] leading-7 text-slate-600">
-                칩 내부 코어 수나 대역폭 확장 시 단일 다이(Die) 면적 초과로 수율이 하락하는 한계를 해결하기 위해, <strong>Compute Die와 I/O Die를 물리적으로 쪼개고 UCIe 고속 2.5D/3D 패키징</strong>과 단일 <strong>Unified NoC</strong> 기술로 연결해 전체 시스템 통합 성능을 유지한 확장성 설계 경험을 답변 키워드로 활용하십시오.
-            </p>
-        </div>
-
-        <!-- Hook 4 -->
-        <div class="rounded-3xl border border-amber-100 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-amber-200">
-            <div class="flex items-center gap-2.5 mb-2">
-                <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                <div class="text-[15px] font-black text-slate-900">Validation Loop &amp; Silicon Bring-up</div>
-            </div>
-            <p class="text-[13.5px] leading-7 text-slate-600">
-                칩 제작 실패 시의 손실을 방지하려면 pre-silicon 단계에서 <strong>SystemC 아키텍처 탐색, UVM 기반 기능 검증, 하드웨어 에뮬레이션, 실시간급 FPGA 보드 검증</strong>까지 촘촘한 검증 피드백 루프를 돌아야 합니다. 이후 실제 실리콘이 입고되면 <strong>JTAG 디버깅 및 OS 부트스트랩 완료</strong>까지의 파이프라인 지식을 어필하십시오.
-            </p>
-        </div>
-
-    </div>
-</div>
-            </div>
-        </section>
-    </main>
-    <script src="../assets/guidebook-page-common.js"></script>
-    <script>
-        let part10SectionEngine = null;
-
-        part10SectionEngine = window.GuidebookPage.initActionSectionPage({
-            defaultKey: 'integration-stack',
-            panelSelector: '[data-part10-panel]',
-            panelKeyDataset: 'part10Panel',
-            titleAttribute: 'data-guidebook-toc-title',
-            currentHeader: {
-                shellId: 'part10-current-shell',
-                labelId: 'part10-current-label',
-            },
-            beforeInit: () => {
-                if (window.parent && window.parent !== window) {
-                    document.body.classList.add('is-embedded');
-                }
-            }
-        });
-    </script>
+<body class="page-standalone curriculum-page technical-curriculum" data-page-id="page-10" data-chapter-number="10" data-default-section="system-requirements" data-section-aliases="{&quot;integration-stack&quot;: &quot;system-requirements&quot;, &quot;solution-thinking&quot;: &quot;address-register&quot;, &quot;interview-memory-hooks&quot;: &quot;soc-integration-verification&quot;}" data-curriculum-engine="true" data-curriculum-mode="action">
+<main class="page-shell"><section class="page-section active" id="page-10"><div class="mb-4"><span class="badge">Part 10</span></div>
+<h2 class="section-title">SoC Architecture &amp; Integration</h2>
+<article class="chapter-lesson technical-section" data-technical-section="soc-requirements" data-lesson-panel="system-requirements" data-lesson-id="10.01" data-guidebook-toc-title="제품 요구와 시스템 예산">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-1. 제품 요구와 시스템 예산</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">제품 예산은 같은 단위로 닫습니다</h3><p>성능 목표와 전력·메모리·열·비용 한계를 함께 기록한 뒤 hardware와 software의 책임을 나눕니다. 각 요구에는 측정 workload, 조건, 결과 단위와 통과 기준이 필요합니다.</p><div class="tech-grid tech-split"><figure class="tech-figure"><img src="../assets/pages/page-10-solution/images/vision-product-board.png" alt="Camera, PMIC, LPDDR, storage, display 연결과 SoC가 있는 영상 처리 보드 개념도" loading="lazy"></figure><div class="tech-budget-stack"><section><h4>Throughput 예산</h4><p>카메라의 연속 입력을 수락할 지속 전송률</p><strong data-system-rate></strong></section><section><h4>Frame 시간 예산</h4><p>입력 주기와 처리 deadline을 구분해 기록</p><strong data-system-period></strong></section><section><h4>Memory 예산</h4><p>두 frame buffer에 추가 workspace 필요</p><strong data-system-memory></strong></section><section><h4>Power · Cost 예산</h4><p>Active / idle 전력, 열 조건과 BOM을 함께 정의합니다.</p><strong>측정 조건과 목표를 명시</strong></section></div></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">제품 요구에서 칩 제약으로</h3><p>기능 설명을 수치와 관측 조건이 있는 요구로 바꿉니다. 요구·구조·검증 근거 사이의 연결을 잃지 않습니다.</p><div class="tech-process-columns"><section><h4>제품 요구</h4><ul><li>해상도 / frame rate</li><li>실시간 처리 기능</li><li>전력 / 열 / 단가</li><li>배터리 / 폼팩터</li></ul></section><section><h4>시스템 요구사항</h4><ul><li>Throughput (MB/s)</li><li>Latency (ms)</li><li>Memory (byte)</li><li>Power (W)</li></ul></section><section><h4>아키텍처 분배</h4><ul><li>HW / SW 책임</li><li>자원별 예산</li><li>인터페이스 계약</li><li>병렬 처리와 소유권</li></ul></section><section><h4>칩 제약 조건</h4><ul><li>메모리 크기 / 대역폭</li><li>블록별 성능</li><li>전력 / 열 한계</li><li>면적 / 비용 목표</li></ul></section></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">제품 요구와 전송 예산</h3><p>한 frame의 데이터 크기와 지속 입력률을 계산합니다. Capture·Transfer·Compute·Display의 latency 합계와, 각 stage가 독립적으로 겹칠 때의 steady-state 처리 주기를 각각 확인합니다.</p><div class="tech-grid tech-input-figure"><div><form class="tech-fields tech-vertical-fields" data-system-budget-inputs><label>영상 폭 (pixel)<input aria-label="영상 폭 (pixel)" type="number" name="width" min="1" max="8192" step="1" value="1920" required ></label><label>영상 높이 (pixel)<input aria-label="영상 높이 (pixel)" type="number" name="height" min="1" max="8192" step="1" value="1080" required ></label><label>Pixel당 byte<input aria-label="Pixel당 byte" type="number" name="bytesPerPixel" min="0.125" max="16" step="0.125" value="1.25" required ></label><label>Frame rate (fps)<input aria-label="Frame rate (fps)" type="number" name="fps" min="1" max="1000" step="1" value="60" required ></label><label>지속 전송률 (MB/s)<input aria-label="지속 전송률 (MB/s)" type="number" name="bandwidth" min="1" max="100000" step="1" value="1000" required ></label><label>연산 시간 (ms/frame)<input aria-label="연산 시간 (ms/frame)" type="number" name="compute" min="0.01" max="1000" step="0.01" value="6" required ></label></form><div data-system-values></div></div><div><div class="tech-scroll" data-system-pipeline></div><p class="tech-caption">교육 조건: Capture 2 ms, Display 3 ms, Transfer는 frame byte ÷ 입력한 지속 전송률입니다. 1.25 B/pixel은 10-bit packed 데이터 가정입니다. MB는 10⁶ byte, MiB는 2²⁰ byte입니다. Queue·동기화·공유 자원 경합은 별도입니다.</p></div></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">요구사항과 검증 연결</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">항목</th><th scope="col">예시 요구</th><th scope="col">관측 및 통과 조건</th></tr></thead><tbody><tr><td>입력</td><td>1920 × 1080 × 1.25 B × 60 fps</td><td>155.52 MB/s 이상 지속 수락</td></tr><tr><td>Latency</td><td>Frame 단위 deadline을 별도 지정</td><td>전송·queue·연산·동기화의 end-to-end 시간</td></tr><tr><td>Memory</td><td>Double buffer + workspace</td><td>2 × frame byte + scratch 크기</td></tr><tr><td>전력 / 열</td><td>Active / idle 예산</td><td>동일 전압·온도·workload에서 측정</td></tr></tbody></table></div></section>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.01" aria-pressed="false">이 절 학습 완료</button><a href="?section=soc-map">다음 절 · SoC 구조와 IP 분할</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-map" data-lesson-panel="soc-map" data-lesson-id="10.02" data-guidebook-toc-title="SoC 구조와 IP 분할">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-2. SoC 구조와 IP 분할</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">SoC 연결 계층과 IP의 책임</h3><p>Control path는 설정과 상태, data path는 payload, clock/reset과 power path는 실행 조건을 만듭니다. 아래 구조도는 IP 역할을 구분한 개념 배치이며 실제 제품의 면적·층수·floorplan을 나타내지 않습니다.</p><figure class="tech-figure"><img src="../assets/pages/page-10-solution/images/soc-ip-map.png" alt="CPU cluster, NPU array, interconnect, DMA, SRAM banks, peripheral fabric과 외부 인터페이스를 배치한 SoC 개념도" loading="lazy"></figure><div class="tech-fields"><label>연결 계층<select aria-label="연결 계층" name="socPath"><option value="control">Control · 설정과 상태</option><option value="data">Data · payload 전송</option><option value="clock">Clock / reset · 실행 조건</option><option value="power">Power · 도메인 제어</option></select></label></div><div class="tech-scroll" data-soc-selected-path></div><div class="tech-observation" data-soc-path-note></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">IP 경계에 명시할 계약</h3><p>블록 연결의 폭·주소·순서·응답·오류 책임을 명시해야 통합 단계에서 해석이 갈리지 않습니다.</p><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">IP 경계</th><th scope="col">계약</th><th scope="col">완료 / 오류의 관측점</th></tr></thead><tbody><tr><td>CPU ↔ register</td><td>주소·access·byte strobe·ordering</td><td>응답·status·side effect</td></tr><tr><td>DMA ↔ memory</td><td>범위·길이·alignment·error response</td><td>수락 byte·잔여량·timeout</td></tr><tr><td>NPU ↔ buffer</td><td>Shape·dtype·ownership·완료 조건</td><td>Output valid·결과 비교</td></tr><tr><td>Clock / reset</td><td>Domain·reset release·CDC/RDC</td><td>Clock stable·reset sync</td></tr><tr><td>전력 경계</td><td>Isolation·retention·wake acknowledge</td><td>Clamp·save / restore 완료</td></tr></tbody></table></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">데이터 이동 시나리오</h3><p>CPU는 제어 레지스터를 쓰고, DMA는 SRAM과 accelerator 사이에서 payload를 이동합니다. 완료 또는 오류 상태가 생성되면 interrupt controller를 통해 CPU에 알립니다.</p><div class="tech-scroll" data-soc-example-path></div><p class="tech-caption">CPU의 MMIO 접근과 DMA의 payload 전송은 별도의 bus traffic입니다. 데이터가 준비되었다는 조건과 IRQ를 관측했다는 조건도 구분합니다.</p></section>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.02" aria-pressed="false">이 절 학습 완료</button><a href="?section=address-register">다음 절 · 주소 공간과 레지스터 설계</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-register" data-lesson-panel="address-register" data-lesson-id="10.03" data-guidebook-toc-title="주소 공간과 레지스터 설계">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-3. 주소 공간과 레지스터 설계</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">주소 공간과 주변장치 선택</h3><p>주소 decoder는 범위·alignment·겹침을 검사해 하나의 요청이 정확히 한 target에 도달하도록 합니다. 아래 예제는 32-bit 주소 공간의 일부를 사용하며 영역 높이는 실제 용량 비례가 아닙니다.</p><div class="tech-scroll" data-soc-address-map></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">주소 · bit field · byte strobe</h3><p>DMA 주변장치의 base는 0x4000_0000입니다. Offset, reset 값, 접근 속성, side effect를 RTL과 driver가 같은 의미로 사용해야 합니다.</p><div class="tech-grid"><section class="card tech-panel "><h3>DMA 레지스터 맵</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">Offset</th><th scope="col">이름</th><th scope="col">Access</th><th scope="col">의미</th></tr></thead><tbody><tr><td>0x00</td><td>CTRL</td><td>RW + command</td><td>bit1 IRQ_ENABLE, bit0 START (self-clear)</td></tr><tr><td>0x04 / 0x08</td><td>SRC / DST</td><td>RW</td><td>정렬된 source / destination bus address</td></tr><tr><td>0x0C</td><td>LENGTH</td><td>RW</td><td>전송 byte 수</td></tr><tr><td>0x10</td><td>STATUS</td><td>Mixed</td><td>bit0 BUSY: RO, bit1 DONE / bit2 ERROR: W1C</td></tr><tr><td>0x14</td><td>DESC_ADDR</td><td>RW</td><td>선택적 descriptor mode의 bus address</td></tr></tbody></table></div></section><section class="card tech-panel "><h3>CTRL bit field</h3><div class="tech-scroll" data-soc-ctrl-bits></div><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">Bit</th><th scope="col">이름</th><th scope="col">Reset</th><th scope="col">동작</th></tr></thead><tbody><tr><td>31:2</td><td>RESERVED</td><td>0</td><td>정의되지 않은 bit의 write policy 명시</td></tr><tr><td>1</td><td>IRQ_ENABLE</td><td>0</td><td>완료 / 오류 interrupt 허용</td></tr><tr><td>0</td><td>START</td><td>0</td><td>1을 쓰면 전송 시작; 수락 뒤 self-clear</td></tr></tbody></table></div></section></div><div class="tech-grid tech-section"><section class="card tech-panel "><h3>메모리 맵과 address decoder</h3><div class="tech-scroll" data-soc-decoder></div></section><section class="card tech-panel "><h3>32-bit byte lane 선택</h3><div class="tech-scroll" data-soc-byte-lanes></div></section></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">C와 RTL의 access 의미를 맞추기</h3><p>RW는 선택한 byte를 갱신하고, RO는 쓰기로 바뀌지 않으며, W1C는 선택한 byte 안에서 1을 쓴 bit만 지웁니다. 아래는 한 access 속성으로 구성된 32-bit register의 독립 예제입니다. 위 STATUS처럼 mixed access인 register는 field별 규칙을 적용합니다.</p><form class="tech-fields " data-soc-register-inputs><label>이전 값 (10진)<input aria-label="이전 값 (10진)" type="number" name="previous" min="0" max="4294967295" step="1" value="2864434397" required ></label><label>쓰기 값 (10진)<input aria-label="쓰기 값 (10진)" type="number" name="value" min="0" max="4294967295" step="1" value="1" required ></label><label>Write strobe (0–15)<input aria-label="Write strobe (0–15)" type="number" name="strobe" min="0" max="15" step="1" value="3" required ></label><label>Access 속성<select aria-label="Access 속성" name="access"><option value="RW">RW</option><option value="RO">RO</option><option value="W1C">W1C</option></select></label></form><div class="tech-grid"><div data-soc-register-result></div><div class="tech-observation"><ul><li>W1C STATUS를 read-modify-write하면 다른 pending bit까지 지울 수 있습니다.</li><li>동시 event set과 software clear의 우선순위를 정의합니다.</li><li>SRC / DST는 bus address이며 CPU virtual pointer와 같다고 가정하지 않습니다.</li><li><code>volatile</code>만으로 cache synchronization과 bus ordering이 해결되지는 않습니다.</li></ul></div></div></section>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.03" aria-pressed="false">이 절 학습 완료</button><a href="?section=memory-consistency">다음 절 · 메모리 계층과 일관성</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-coherence" data-lesson-panel="memory-consistency" data-lesson-id="10.04" data-guidebook-toc-title="메모리 계층과 일관성">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-4. 메모리 계층과 일관성</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">메모리 계층 구조</h3><p>CPU 가까운 cache부터 공유 interconnect와 DRAM까지 용량·지연·소유권이 달라집니다. Cacheability, address translation, coherence, ordering은 서로 구분해야 합니다.</p><div class="tech-grid"><div class="tech-scroll" data-soc-memory-hierarchy></div><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">계층</th><th scope="col">역할</th><th scope="col">설계에서 확인할 조건</th></tr></thead><tbody><tr><td>L1 cache</td><td>Core에 가장 가까운 instruction / data</td><td>Hit latency·line 크기·write 정책</td></tr><tr><td>L2 / LLC</td><td>하위 계층의 miss 흡수·공유</td><td>공유 범위·inclusive 여부·bandwidth</td></tr><tr><td>Interconnect</td><td>Snoop·routing·중재</td><td>Coherent port·ordering·backpressure</td></tr><tr><td>DRAM</td><td>큰 공유 저장 공간</td><td>대역폭·bank conflict·refresh</td></tr><tr><td>Device memory</td><td>MMIO와 주변장치</td><td>Cache 속성·side effect·접근 순서</td></tr></tbody></table></div></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">두 코어의 cache line 소유권</h3><p>같은 line에 대한 coherence 예제입니다. Core 0이 Modified 상태이면 다른 core가 동시에 유효한 Shared 복사본을 갖는 안정 상태로 표시할 수 없습니다.</p><div class="tech-fields"><label>Coherence 사건<select aria-label="Coherence 사건" name="coherenceEvent"><option value="write">Core 0 write · M / I</option><option value="read">Core 1 read 후 · S / S</option><option value="invalidate">Core 1 write 후 · I / M</option></select></label></div><div class="tech-grid tech-split"><div class="tech-scroll" data-soc-two-core></div><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">MESI 상태</th><th scope="col">의미</th></tr></thead><tbody><tr><td>M · Modified</td><td>이 cache가 최신 dirty copy를 소유</td></tr><tr><td>E · Exclusive</td><td>유일한 clean copy</td></tr><tr><td>S · Shared</td><td>여러 cache가 가진 clean copy</td></tr><tr><td>I · Invalid</td><td>사용할 수 없는 copy</td></tr></tbody></table></div></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">Coherence · ordering · atomicity</h3><p>같은 주소의 최신 값을 관측하는 조건과 서로 다른 접근의 순서를 관측하는 조건은 다릅니다. Descriptor를 publish하고 doorbell을 쓰는 사이에는 플랫폼의 ordering 규칙도 필요합니다.</p><div class="tech-grid"><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">성질</th><th scope="col">질문</th><th scope="col">예</th></tr></thead><tbody><tr><td>Coherence</td><td>같은 주소의 최신 값은?</td><td>Dirty cache와 DMA read</td></tr><tr><td>Ordering</td><td>서로 다른 접근 순서는?</td><td>Descriptor 작성 후 doorbell</td></tr><tr><td>Atomicity</td><td>중간 상태가 보이는가?</td><td>여러 word의 descriptor 갱신</td></tr><tr><td>Visibility</td><td>누가 언제 관측하는가?</td><td>완료 후 output buffer 사용</td></tr></tbody></table></div><div class="tech-scroll" data-soc-ownership-timeline></div></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">CPU와 DMA의 buffer 소유권</h3><p>Non-coherent DMA에서는 CPU cache와 장치가 보는 memory 사이에 명시적 동기화가 필요할 수 있습니다. 실제 driver는 플랫폼의 DMA mapping·ownership·synchronization API를 사용해야 합니다.</p><div class="tech-grid tech-input-figure"><div><form class="tech-fields tech-vertical-fields" data-soc-coherence-inputs><label>DMA 동작<select aria-label="DMA 동작" name="direction"><option value="read">DMA가 CPU의 buffer를 읽음</option><option value="write">DMA가 buffer를 갱신함</option></select></label><label>DMA 연결<select aria-label="DMA 연결" name="coherent"><option value="0">Non-coherent</option><option value="1">Coherent</option></select></label><label>Cache 동기화<select aria-label="Cache 동기화" name="maintenance"><option value="0">수행하지 않음</option><option value="1">플랫폼 DMA API 수행</option></select></label></form><div class="tech-output" data-coherence-outcome aria-live="polite"></div></div><div><div class="tech-scroll" data-soc-buffer-ownership></div><p class="tech-caption">고정 예: 이전 값 0x11, 새 값 0xA5. CPU가 dirty cache에 쓴 뒤 장치가 읽는 경우와 장치가 쓴 뒤 CPU가 cached copy를 읽는 경우를 구분합니다. Coherent 경로도 ownership과 ordering 의무를 없애지는 않습니다.</p></div></div></section>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://docs.kernel.org/core-api/dma-api-howto.html" target="_blank" rel="noopener">Linux DMA API guide</a></li><li><a href="https://docs.riscv.org/reference/isa/priv/machine.html" target="_blank" rel="noopener">RISC-V Privileged Architecture</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.04" aria-pressed="false">이 절 학습 완료</button><a href="?section=dma-path">다음 절 · DMA와 데이터 이동</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-dma" data-lesson-panel="dma-path" data-lesson-id="10.05" data-guidebook-toc-title="DMA와 데이터 이동">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-5. DMA와 데이터 이동</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">DMA 전송 경로</h3><p>CPU가 descriptor 또는 제어 register를 설정하면 DMA가 source와 destination 사이의 데이터를 옮깁니다. 요청 발행, 실제 수락, 최종 완료를 구분하며 오류·timeout·부분 전송도 상태로 남겨야 합니다.</p><div class="tech-grid"><div class="tech-scroll" data-soc-dma-architecture></div><figure class="tech-figure"><img src="../assets/pages/page-10-solution/images/dma-soc-cutaway.png" alt="CPU, FIFO를 가진 DMA, SRAM, peripheral의 물리적 연결을 표현한 SoC cutaway" loading="lazy"></figure></div><p class="tech-caption">그림은 연결 역할을 설명하는 개념 배치입니다. 아래 추적은 source read가 준비된 뒤 destination이 수락하는 단일 전송 경계를 cycle 단위로 계산합니다.</p></section><section class="card tech-panel tech-section"><h3 class="tech-title">DMA 제어 register와 descriptor</h3><div class="tech-grid"><div><form class="tech-fields tech-vertical-fields" data-soc-dma-inputs><label>Source 주소 (10진)<input aria-label="Source 주소 (10진)" type="number" name="source" min="0" max="4294967295" step="1" value="536870912" required ></label><label>Destination 주소 (10진)<input aria-label="Destination 주소 (10진)" type="number" name="destination" min="0" max="4294967295" step="1" value="536875008" required ></label><label>전송 길이 (byte)<input aria-label="전송 길이 (byte)" type="number" name="length" min="1" max="512" step="1" value="32" required ></label><label>Beat 폭 (byte)<select aria-label="Beat 폭 (byte)" name="beat"><option value="4">4</option><option value="8">8</option><option value="16">16</option></select></label><label>Stall 횟수<input aria-label="Stall 횟수" type="number" name="stall" min="0" max="20" step="1" value="1" required ></label><label>Timeout (cycle)<input aria-label="Timeout (cycle)" type="number" name="timeout" min="1" max="300" step="1" value="100" required ></label><label>Bus error cycle (-1: 없음)<input aria-label="Bus error cycle (-1: 없음)" type="number" name="errorAt" min="-1" max="300" step="1" value="-1" required ></label></form></div><div><h4>현재 descriptor의 값</h4><div data-soc-dma-descriptor></div><p class="tech-caption">이 예제는 한 채널의 direct-address 전달입니다. Descriptor mode를 쓰는 설계에서는 ownership flag, next pointer, cache synchronization을 별도로 정의합니다.</p><div class="tech-output" data-soc-dma-status aria-live="polite"></div></div></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">전송 타이밍과 수락 byte</h3><p>READY가 낮으면 payload를 유지하고 수락된 byte를 늘리지 않습니다. 마지막 beat는 남은 byte만 유효하게 기록합니다.</p><div class="tech-scroll" data-soc-dma-timeline></div></section><div class="tech-grid tech-section"><section class="card tech-panel "><h3>전송 로그 · Transfer ledger</h3><div class="tech-ledger" data-soc-dma-ledger></div></section><section class="card tech-panel "><h3>전송 성공의 보존 조건</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">검사</th><th scope="col">정상 조건</th><th scope="col">실패 주입</th></tr></thead><tbody><tr><td>Byte 보존</td><td>accepted + remaining = length</td><td>부분 마지막 beat</td></tr><tr><td>Backpressure</td><td>VALID와 payload 유지</td><td>READY=0</td></tr><tr><td>오류 응답</td><td>중단·status·IRQ</td><td>중간 beat error</td></tr><tr><td>Timeout</td><td>완료 또는 명시적 중단</td><td>준비되지 않는 target</td></tr><tr><td>재시작</td><td>이전 state 초기화</td><td>ERROR 이후 새 descriptor</td></tr></tbody></table></div><p class="tech-caption">Source에서 수락한 byte와 destination이 수락한 byte는 실제 구현에서 각각 추적해야 합니다. FIFO 점유량과 outstanding 요청도 함께 검증합니다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://docs.kernel.org/core-api/dma-api-howto.html" target="_blank" rel="noopener">Linux DMA API guide</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.05" aria-pressed="false">이 절 학습 완료</button><a href="?section=interrupt-timer">다음 절 · 인터럽트와 타이머</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-irq" data-lesson-panel="interrupt-timer" data-lesson-id="10.06" data-guidebook-toc-title="인터럽트와 타이머">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-6. 인터럽트와 타이머</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">Interrupt controller 구조와 동작</h3><p>Peripheral은 사건을 만들고 controller는 pending·enable·우선순위를 관리합니다. 이 예제는 enable이 IRQ 전달만 막고 pending 수집은 유지하는 구조입니다.</p><div class="tech-scroll" data-soc-irq-topology></div><div class="tech-grid"><section class="card tech-panel "><h3>Interrupt Enable Register (IER)</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">Bit</th><th scope="col">이름</th><th scope="col">의미</th></tr></thead><tbody><tr><td>0</td><td>EN0</td><td>Timer IRQ 전달 허용</td></tr><tr><td>1</td><td>EN1</td><td>UART IRQ 전달 허용</td></tr><tr><td>2</td><td>EN2</td><td>DMA IRQ 전달 허용</td></tr><tr><td>3</td><td>EN3</td><td>GPIO IRQ 전달 허용</td></tr></tbody></table></div></section><section class="card tech-panel "><h3>Interrupt Pending Register (IPR)</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">Bit</th><th scope="col">이름</th><th scope="col">의미</th></tr></thead><tbody><tr><td>0</td><td>P0</td><td>Timer 사건 기록</td></tr><tr><td>1</td><td>P1</td><td>UART 사건 기록</td></tr><tr><td>2</td><td>P2</td><td>DMA 사건 기록</td></tr><tr><td>3</td><td>P3</td><td>GPIO 사건 기록</td></tr></tbody></table></div></section></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">Timer 동작과 interrupt 발생</h3><p>Clock마다 counter가 증가하고 period 경계에서 사건을 발생시킵니다. 아래 예제는 0부터 period − 1까지 센 뒤 0으로 돌아가는 modulo timer입니다.</p><div class="tech-grid tech-input-figure"><div><form class="tech-fields tech-vertical-fields" data-soc-timer-inputs><label>Timer clock (MHz)<input aria-label="Timer clock (MHz)" type="number" name="frequency" min="0.01" max="2000" step="0.01" value="100" required ></label><label>Timer period (cycle)<input aria-label="Timer period (cycle)" type="number" name="period" min="2" max="32" step="1" value="10" required ></label></form><div class="tech-output" data-soc-timer-period></div></div><div class="tech-scroll" data-soc-timer-wave></div></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">Level source와 pending clear의 순서</h3><p>Level source가 남아 있으면 pending을 지운 뒤 다시 IRQ가 발생할 수 있습니다. 원인 register를 읽고 source를 처리한 뒤 controller의 완료 절차를 수행합니다. 정확한 acknowledge 순서는 controller와 장치 계약을 따릅니다.</p><div class="tech-grid"><section class="card tech-panel tech-tint-red"><h3>Pending만 먼저 clear</h3><div class="tech-scroll" data-soc-irq-wrong></div><p>활성 source가 즉시 다시 pending을 만듭니다.</p></section><section class="card tech-panel tech-tint-green"><h3>Source clear 후 pending clear</h3><div class="tech-scroll" data-soc-irq-correct></div><p>원인을 제거하고 controller의 기록을 정리합니다.</p></section></div></section><div class="tech-grid tech-section"><section class="card tech-panel "><h3>Interrupt 상태의 소유자</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">상태</th><th scope="col">소유자</th><th scope="col">검사</th></tr></thead><tbody><tr><td>Source</td><td>Peripheral</td><td>원인 조건이 남았는가</td></tr><tr><td>Pending</td><td>Controller</td><td>사건을 기억하는가</td></tr><tr><td>Mask / enable</td><td>Software policy</td><td>수집과 전달 중 무엇을 막는가</td></tr><tr><td>IRQ</td><td>CPU 요청</td><td>우선순위·pending·mask</td></tr><tr><td>Timer</td><td>Clocked counter</td><td>주기·wrap·clear 동시 사건</td></tr></tbody></table></div></section><section class="card tech-panel "><h3>Source · pending · IRQ 직접 확인</h3><div class="tech-fields"><label>Trigger<select aria-label="Trigger" name="trigger"><option value="level">Level-triggered</option><option value="edge">Edge-triggered</option></select></label></div><div class="tech-actions"><button type="button" data-irq-action="event">이벤트 발생</button><button type="button" data-irq-action="mask">IRQ Mask 전환</button><button type="button" data-irq-action="source-clear">Source clear</button><button type="button" data-irq-action="pending-clear">Pending clear</button><button type="button" data-irq-action="tick">Timer 1 tick</button><button type="button" data-irq-action="reset">상태 초기화</button></div><div data-soc-irq-state aria-live="polite"></div><p class="tech-caption">여기서 timer는 period 4 cycle입니다. Edge mode에서 source가 이미 HIGH이면 같은 HIGH를 다시 설정해도 새 edge가 아닙니다. Timer wrap 사건은 pending을 설정합니다.</p></section></div>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.06" aria-pressed="false">이 절 학습 완료</button><a href="?section=clock-reset-integration">다음 절 · Clock과 Reset 통합</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-clock" data-lesson-panel="clock-reset-integration" data-lesson-id="10.07" data-guidebook-toc-title="Clock과 Reset 통합">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-7. Clock과 Reset 통합</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">SoC의 Clock / Reset 통합 구조</h3><p>Reference clock에서 만들어진 clock을 각 domain에 분배하고, 전원·clock 안정 조건에 따라 reset을 해제합니다. Clock source, mux, divider, PLL lock과 domain별 reset 규칙을 명시합니다.</p><div class="tech-scroll" data-soc-clock-tree></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">Clock stable과 reset release</h3><p>비동기 assert는 상태를 빠르게 초기화할 수 있지만 deassert는 목적 clock domain에서 동기화합니다. 아래는 power-good과 lock이 모두 유효한 뒤 두 목적 clock edge를 거쳐 reset을 해제하는 예제입니다.</p><div class="tech-scroll" data-soc-reset-startup></div><p class="tech-caption">파형은 edge 순서를 위한 정규화 시간축입니다. 24 MHz와 800 MHz의 실제 주기 비율을 축척으로 표현하지 않습니다. Memory training과 bus 준비는 reset 해제 이후의 별도 조건입니다.</p></section><div class="tech-grid tech-section"><section class="card tech-panel "><h3>Domain별 clock / reset 정책</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">Domain</th><th scope="col">Clock 예</th><th scope="col">Reset 조건</th><th scope="col">주요 블록</th></tr></thead><tbody><tr><td>CPU</td><td>PLL 800 MHz ÷ 1</td><td>Power-good, lock, 2-edge sync</td><td>Core, L2, debug</td></tr><tr><td>BUS</td><td>PLL 800 MHz ÷ 2</td><td>Power-good, lock, 2-edge sync</td><td>Interconnect, DMA</td></tr><tr><td>PERI</td><td>PLL 800 MHz ÷ 4</td><td>Power-good, lock, 2-edge sync</td><td>UART, SPI, GPIO</td></tr><tr><td>MEM</td><td>별도 PHY clock 계약</td><td>Reset 해제 + 초기화 / training</td><td>DRAM controller / PHY</td></tr></tbody></table></div></section><section class="card tech-panel "><h3>시작 단계와 관측 항목</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">단계</th><th scope="col">조건</th><th scope="col">관측</th></tr></thead><tbody><tr><td>전원 안정</td><td>Power-good</td><td>전압·ramp</td></tr><tr><td>Clock 준비</td><td>PLL / mux 안정</td><td>주파수·존재</td></tr><tr><td>Domain reset</td><td>동기 deassert</td><td>Reset sync chain</td></tr><tr><td>Memory 준비</td><td>초기화·training</td><td>Ready / failure</td></tr><tr><td>IP enable</td><td>이전 조건 만족</td><td>첫 register 응답</td></tr></tbody></table></div></section></div><section class="card tech-panel tech-section"><h3 class="tech-title">Domain 조건별 reset 결과</h3><div class="tech-grid tech-input-figure"><form class="tech-fields tech-vertical-fields" data-soc-clock-inputs><label>Power-good<select aria-label="Power-good" name="power"><option value="1">정상</option><option value="0">전원 준비 안 됨</option></select></label><label>PLL lock<select aria-label="PLL lock" name="locked"><option value="1">Locked</option><option value="0">Unlocked</option></select></label><label>Clock source<select aria-label="Clock source" name="clockSource"><option value="pll">PLL</option><option value="reference">Reference bypass · 24 MHz</option></select></label><label>준비 후 목적 clock edge<input aria-label="준비 후 목적 clock edge" type="number" name="edges" min="0" max="10" step="1" value="2" required ></label><label>CPU reset 요청<select aria-label="CPU reset 요청" name="cpuReset"><option value="0">해제 요청</option><option value="1">Assert</option></select></label><label>BUS reset 요청<select aria-label="BUS reset 요청" name="busReset"><option value="0">해제 요청</option><option value="1">Assert</option></select></label><label>PERI reset 요청<select aria-label="PERI reset 요청" name="periReset"><option value="0">해제 요청</option><option value="1">Assert</option></select></label></form><div><div class="tech-scroll" data-soc-domain-result></div><p class="tech-caption">Bypass는 안정된 reference를 전제로 하며 PLL lock을 요구하지 않습니다. 필수 clock이 없거나 reset 요청이 있으면 해당 domain의 reset은 유지됩니다.</p></div></div></section>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.07" aria-pressed="false">이 절 학습 완료</button><a href="?section=boot-driver">다음 절 · Boot와 펌웨어 및 드라이버</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-boot" data-lesson-panel="boot-driver" data-lesson-id="10.08" data-guidebook-toc-title="Boot와 펌웨어 및 드라이버">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-8. Boot와 펌웨어 및 드라이버</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">SoC의 부팅 경로와 소프트웨어 계층</h3><p>CPU는 reset vector의 ROM 코드를 실행해 최소 환경을 구성하고 다음 image를 선택·검사합니다. 예제에서는 외부 flash의 image를 SRAM에 적재한 뒤 제어를 넘깁니다. 플랫폼에 따라 XIP나 DRAM 적재 경로를 사용할 수 있습니다.</p><div class="tech-grid tech-split"><div class="tech-scroll" data-soc-boot-memory></div><div class="tech-scroll" data-soc-software-stack></div></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">부팅 시퀀스와 전달 산출물</h3><div class="tech-boot-steps"><section><span>01</span><h4>ROM 단계</h4><p>Reset vector에서 최소 clock·stack 환경 준비</p></section><section><span>02</span><h4>이미지 선택</h4><p>부팅 매체·인증 정책·version 확인</p></section><section><span>03</span><h4>이미지 적재</h4><p>Flash → SRAM 복사와 실행 메모리 준비</p></section><section><span>04</span><h4>제어 전달</h4><p>Entry point와 실행 상태를 다음 단계에 전달</p></section><section><span>05</span><h4>드라이버 초기화</h4><p>MMIO·DMA mapping·interrupt 설정</p></section><section><span>06</span><h4>응용 실행</h4><p>서비스 시작과 실패 시 복구 경로 준비</p></section></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">코드와 실제 동작</h3><p>Start 전에 이전 동작이 끝났는지 확인하고 descriptor를 publish한 뒤 doorbell을 기록합니다. 완료 대기는 제한 시간을 두며 실패 시 status·잔여량·오류 원인을 보존합니다.</p><div class="tech-grid tech-split"><div><pre class="lesson-code"><code>/* 교육용 API: 실제 플랫폼의 MMIO/DMA API로 구현 */
+prepare_descriptor(&amp;desc, src_bus_addr, dst_bus_addr, length);
+dma_sync_for_device(&amp;desc);
+write_register(DESC_ADDR, descriptor_bus_addr);
+write_register(CTRL, START | IRQ_ENABLE);
+
+if (!wait_for_completion_with_timeout(deadline)) {
+    stop_dma_and_wait_idle();
+    record_status_and_remaining_bytes();
+    return ERROR_TIMEOUT;
+}
+dma_sync_for_cpu(output_buffer);
+return verify_output();</code></pre><p class="tech-caption">교육용 API 예제입니다. DESC_ADDR는 이 장의 확장 register map에서 offset 0x14이며, CTRL은 0x00입니다. 실제 OS·CPU의 MMIO / DMA API로 구현합니다. 완료 응답 후에도 error status를 판별해야 합니다.</p></div><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">로그</th><th scope="col">실제 동작</th></tr></thead><tbody><tr><td>BOOT: clock ready</td><td>Clock source·reset 상태 확인</td></tr><tr><td>BOOT: memory ready</td><td>메모리 초기화 완료</td></tr><tr><td>DMA: config</td><td>Descriptor 및 SRC·DST·LEN 준비</td></tr><tr><td>DMA: start</td><td>CTRL START command</td></tr><tr><td>DMA: done / error</td><td>STATUS 확인·W1C·IRQ 처리</td></tr></tbody></table></div></div></section><div class="tech-grid tech-section"><section class="card tech-panel "><h3>Driver의 정상 · timeout · error 경로</h3><div class="tech-fields"><label>Driver 결과 시나리오<select aria-label="Driver 결과 시나리오" name="driverScenario"><option value="success">정상 완료</option><option value="timeout">Timeout</option><option value="error">Bus error</option></select></label></div><div class="tech-scroll" data-soc-driver-path></div><div data-soc-driver-outcome></div></section><section class="card tech-panel "><h3>펌웨어의 레지스터 쓰기</h3><form class="tech-fields " data-soc-boot-register-inputs><label>Register 선택<select aria-label="Register 선택" name="register"><option value="CTRL">CTRL · 0x00</option><option value="SRC">SRC · 0x04</option><option value="DST">DST · 0x08</option><option value="LENGTH">LENGTH · 0x0C</option><option value="STATUS">STATUS · 0x10</option></select></label><label>Register 쓰기 값 (10진)<input aria-label="Register 쓰기 값 (10진)" type="number" name="writeValue" min="0" max="4294967295" step="1" value="3" required ></label></form><div data-soc-boot-register></div><p class="tech-caption">START command, IRQ enable, RO BUSY, W1C DONE/ERROR의 서로 다른 효과를 분리합니다. 상태 값은 register write 규칙을 보여 주는 고정 예제입니다.</p></section></div>
+<aside class="lesson-sources"><strong>참고 자료</strong><ul><li><a href="https://docs.kernel.org/core-api/dma-api-howto.html" target="_blank" rel="noopener">Linux DMA API guide</a></li></ul></aside>
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.08" aria-pressed="false">이 절 학습 완료</button><a href="?section=noc-qos">다음 절 · Interconnect와 QoS</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-qos" data-lesson-panel="noc-qos" data-lesson-id="10.09" data-guidebook-toc-title="Interconnect와 QoS">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-9. Interconnect와 QoS</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">Mesh NoC와 트래픽 경쟁</h3><p>Packet은 router를 거쳐 목적지로 전달됩니다. 여러 source가 같은 link와 target을 공유하면 queue와 arbiter에서 경합이 생깁니다. QoS 값은 정책의 입력이며 그 자체로 latency 보장이 되지는 않습니다.</p><div class="tech-scroll" data-soc-noc-mesh></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">요청량과 서비스 순서의 영향</h3><p>아래 그래프는 cycle 0에 세 source의 요청이 모두 도착하고 한 cycle마다 한 beat를 수락하는 결정적 예제입니다. 중재 단위는 한 beat이며 source 내부 순서를 보존합니다.</p><form class="tech-fields " data-soc-qos-inputs><label>Camera 요청 (beat)<input aria-label="Camera 요청 (beat)" type="number" name="camera" min="0" max="24" step="1" value="6" required ></label><label>CPU 요청 (beat)<input aria-label="CPU 요청 (beat)" type="number" name="cpu" min="0" max="24" step="1" value="4" required ></label><label>DMA 요청 (beat)<input aria-label="DMA 요청 (beat)" type="number" name="dma" min="0" max="24" step="1" value="8" required ></label><label>중재 정책<select aria-label="중재 정책" name="policy"><option value="round-robin">Round robin</option><option value="priority">Fixed priority · Camera > CPU > DMA</option><option value="weighted">Weighted · Camera:CPU:DMA = 2:1:1</option><option value="deadline">Earliest deadline 예제</option></select></label></form><div class="tech-grid"><section class="card tech-panel "><h3>Camera의 평균 완료 cycle 비교</h3><div class="tech-scroll" data-soc-qos-delay></div><div class="tech-legend"><span style="--legend:#0879ff">Fixed priority</span><span style="--legend:#00a987">Round robin</span><span style="--legend:#7e59c9">Weighted</span><span style="--legend:#eb5874">Deadline</span></div><p class="tech-caption">각 source가 같은 개수의 beat를 한 번에 요청한 batch 예제입니다. 연속 도착 traffic의 일반적인 latency 곡선은 아닙니다.</p></section><section class="card tech-panel "><h3>Source별 누적 수락 beat</h3><div class="tech-scroll" data-soc-qos-accepted></div><p class="tech-caption">파랑 Camera · 초록 CPU · 보라 DMA. 선택한 정책과 요청량으로 실제 service 순서를 계산합니다.</p></section></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">QoS 정책 비교</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">정책</th><th scope="col">장점</th><th scope="col">주의</th></tr></thead><tbody><tr><td>Fixed priority</td><td>중요 source의 빠른 응답</td><td>낮은 priority starvation 가능</td></tr><tr><td>Round robin</td><td>지속 경쟁 시 서비스 기회 분배</td><td>긴 비선점 burst는 다른 요청을 막음</td></tr><tr><td>Weighted</td><td>서비스 비율 조절</td><td>요청량·weight·중재 단위가 모두 영향</td></tr><tr><td>Deadline-aware</td><td>시간 제약을 선택에 반영</td><td>Deadline 관측·예측·admission 필요</td></tr></tbody></table></div><p class="tech-caption">Weighted 예제는 2:1:1 slot 순환입니다. Deadline 예제는 Camera의 i번째 beat에 6+2i, CPU에 12+3i, DMA에 24+6i cycle의 deadline을 부여합니다. 어떤 정책도 이 예제만으로 실제 시스템의 최악 지연을 보장하지 않습니다.</p></section><section class="card tech-panel tech-section"><h3 class="tech-title">동시 요청과 수락 순서</h3><div class="tech-scroll" data-soc-qos-service></div><div data-soc-qos-summary></div><p class="tech-caption">이미 수락된 transfer는 이 단순 모델에서 선점하지 않습니다. 실제 router에서는 virtual channel, credit, burst, 응답 경로와 target service time을 추가로 확인합니다.</p></section>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.09" aria-pressed="false">이 절 학습 완료</button><a href="?section=soc-low-power">다음 절 · 전력 도메인과 저전력 통합</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-power" data-lesson-panel="soc-low-power" data-lesson-id="10.10" data-guidebook-toc-title="전력 도메인과 저전력 통합">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-10. 전력 도메인과 저전력 통합</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">Isolation과 retention의 역할</h3><p>전력 domain이 꺼지면 해당 영역의 출력과 저장 상태를 신뢰할 수 없습니다. Isolation은 살아 있는 영역에 불확정 출력이 전달되는 것을 막고, retention은 지정한 state를 보존합니다.</p><div class="tech-process-columns"><section><h4>Always-on domain</h4><p>전력 제어·wake 감시·다른 domain의 제어</p></section><section><h4>Isolation boundary</h4><p>유효하지 않은 switched output을 clamp</p></section><section><h4>Level shifter</h4><p>서로 다른 전압 domain의 signal 변환</p></section><section><h4>Switched domain</h4><p>Power switch로 공급 제어 · 선택한 state retention</p></section></div><figure class="tech-figure"><img src="../assets/pages/page-10-solution/images/soc-power-islands.png" alt="Always-on domain과 power switch, isolation, level shifter, retention을 갖는 switched domain 개념도" loading="lazy"></figure><p class="tech-caption">그림은 기능 배치 개념도입니다. Isolation 위치·방향·clamp 값과 level shifter의 필요 여부는 실제 전압·전원 상태에 맞춰 정의합니다.</p></section><section class="card tech-panel tech-section"><h3 class="tech-title">Clock · reset · power 상태 전환</h3><p>Power-off 예제는 새 요청 차단 → 진행 작업 완료 → 상태 저장 → isolation → clock 차단 → power-off 순서입니다. 복귀 때는 전원과 clock을 안정시킨 뒤 저장 상태와 reset을 복구하고, 출력이 유효해진 후 isolation을 해제합니다.</p><div class="tech-grid tech-split"><div><div class="tech-scroll" data-soc-power-sequence></div></div><div><form class="tech-fields tech-vertical-fields" data-soc-power-inputs><label>Switched 전원<select aria-label="Switched 전원" name="power"><option value="1">ON</option><option value="0">OFF</option></select></label><label>Switched clock<select aria-label="Switched clock" name="clock"><option value="1">동작</option><option value="0">Gated</option></select></label><label>Switched reset_n<select aria-label="Switched reset_n" name="resetN"><option value="1">Deasserted</option><option value="0">Asserted</option></select></label><label>Isolation clamp<select aria-label="Isolation clamp" name="isolation"><option value="0">해제</option><option value="1">활성</option></select></label><label>Retention 보존<select aria-label="Retention 보존" name="retention"><option value="1">선택 state 보존</option><option value="0">보존 없음</option></select></label></form><div data-soc-power-status aria-live="polite"></div></div></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">전력 상태별 책임</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">조치</th><th scope="col">Power-off 전</th><th scope="col">Power-on 후</th></tr></thead><tbody><tr><td>Traffic</td><td>새 요청 차단·진행 중 요청 정리</td><td>준비 완료 후 재개</td></tr><tr><td>Retention</td><td>Save acknowledge 확인</td><td>Restore acknowledge 확인</td></tr><tr><td>Isolation</td><td>출력 clamp 활성</td><td>유효 출력 확보 후 해제</td></tr><tr><td>Clock / reset</td><td>Clock 정지·reset 정책</td><td>Clock 안정·reset 동기 해제</td></tr></tbody></table></div><div class="tech-observation">Clock gating은 공급 전원을 끄지 않습니다. Power gating과 동일한 leakage 절감 효과로 취급하지 않으며, retention을 선택하지 않은 register가 자동으로 보존된다고 가정하지 않습니다.</div></section>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.10" aria-pressed="false">이 절 학습 완료</button><a href="?section=soc-security-safety">다음 절 · 보안과 안전의 통합 접점</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-access" data-lesson-panel="soc-security-safety" data-lesson-id="10.11" data-guidebook-toc-title="보안과 안전의 통합 접점">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-11. 보안과 안전의 통합 접점</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">보안과 안전의 실패 경로</h3><p>보안은 자산과 신뢰 경계에 대한 허용 접근을 정의하고, 기능 안전은 우발 고장이 시스템에 주는 영향을 다룹니다. CPU뿐 아니라 DMA·debug·boot의 접근 경로도 함께 확인합니다.</p><div class="tech-scroll" data-soc-security-topology></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">주요 실패 시나리오와 반응</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">사건</th><th scope="col">관측</th><th scope="col">반응</th></tr></thead><tbody><tr><td>권한 없는 DMA</td><td>Master / security attribute 불일치</td><td>Bus error·감사 정보</td></tr><tr><td>잘못된 boot image</td><td>인증 / 정책 실패</td><td>실행 차단·복구 경로</td></tr><tr><td>ECC uncorrectable</td><td>Syndrome·주소</td><td>격리·retry·안전 상태 정책</td></tr><tr><td>Watchdog timeout</td><td>진행 없음</td><td>로그 보존·reset 정책</td></tr></tbody></table></div><p class="tech-caption">암호 블록이나 ECC를 추가한 사실만으로 전체 요구의 충족을 판단할 수 없습니다. 검출 범위, 실패 통지, 복구 상태와 검증 근거를 연결합니다.</p></section><section class="card tech-panel tech-section"><h3 class="tech-title">주소와 권한 검사</h3><p>이 예제는 Boot ROM, secure SRAM aperture, shared SRAM의 세 범위를 검사합니다. 같은 정책을 CPU와 DMA에 적용하고 미할당 주소는 decode error로 구분합니다.</p><div class="tech-grid tech-input-figure"><form class="tech-fields tech-vertical-fields" data-soc-access-inputs><label>접근 master<select aria-label="접근 master" name="master"><option value="DMA">DMA</option><option value="CPU">CPU</option><option value="Debug">Debug</option></select></label><label>보안 속성<select aria-label="보안 속성" name="secure"><option value="0">Non-secure</option><option value="1">Secure</option></select></label><label>접근 주소 (10진)<input aria-label="접근 주소 (10진)" type="number" name="address" min="0" max="4294967295" step="1" value="536870912" required ></label><label>접근 종류<select aria-label="접근 종류" name="write"><option value="1">Write</option><option value="0">Read</option></select></label><label>Secure aperture 정책<select aria-label="Secure aperture 정책" name="locked"><option value="1">Secure only</option><option value="0">양쪽 허용</option></select></label></form><div class="tech-scroll" data-soc-access-path></div></div><div data-soc-access-result aria-live="polite"></div><p class="tech-caption">이 예제의 응답 계약: 미할당 주소는 DECERR, 매핑된 target에서 거부한 권한 또는 ROM 쓰기는 SLVERR입니다. 실제 interconnect / firewall의 응답 정책은 해당 사양으로 확인합니다.</p></section>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.11" aria-pressed="false">이 절 학습 완료</button><a href="?section=system-performance">다음 절 · 시스템 성능과 병목</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-performance" data-lesson-panel="system-performance" data-lesson-id="10.12" data-guidebook-toc-title="시스템 성능과 병목">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-12. 시스템 성능과 병목</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">데이터 이동과 처리 경로</h3><p>CPU는 작업을 설정하고 DMA는 memory와 accelerator 사이에서 데이터를 옮깁니다. 시스템 latency는 연산뿐 아니라 입력·출력 전송, queue, 동기화와 software overhead를 포함합니다.</p><div class="tech-scroll" data-soc-performance-path></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">예시 병목 분석과 시간 예산</h3><p>입력 byte·출력 byte·연산량을 고정하고 지속 대역폭과 연산 상한으로 최소 시간을 계산합니다. 예제의 peak 수치를 실제 측정 sustained 성능으로 오해하지 않습니다.</p><form class="tech-fields " data-soc-performance-inputs><label>입력 데이터 (MB)<input aria-label="입력 데이터 (MB)" type="number" name="inputMB" min="0.001" max="100000" step="0.001" value="256" required ></label><label>출력 데이터 (MB)<input aria-label="출력 데이터 (MB)" type="number" name="outputMB" min="0.001" max="100000" step="0.001" value="64" required ></label><label>연산량 (GOp)<input aria-label="연산량 (GOp)" type="number" name="operationsG" min="0.001" max="100000" step="0.001" value="20" required ></label><label>연산 상한 (TOp/s)<input aria-label="연산 상한 (TOp/s)" type="number" name="peakTOPS" min="0.001" max="10000" step="0.001" value="10" required ></label><label>Memory 대역폭 (GB/s)<input aria-label="Memory 대역폭 (GB/s)" type="number" name="bandwidthGB" min="0.001" max="10000" step="0.001" value="25" required ></label><label>반복 tile 수<input aria-label="반복 tile 수" type="number" name="tiles" min="1" max="8" step="1" value="3" required ></label></form><div class="tech-scroll" data-soc-performance-waterfall></div><div data-soc-performance-budgets></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">단계별 자원 점유와 overlap</h3><p>동일한 tile들을 load·compute·store로 처리합니다. 아래 overlap은 독립 load engine과 store engine, 두 buffer를 가정하며, 같은 buffer를 재사용하기 전에 이전 store가 끝나야 합니다.</p><div class="tech-scroll" data-soc-performance-overlap></div><p class="tech-caption">세 engine이 실제로 같은 memory port를 공유하면 표시한 대역폭을 동시에 사용할 수 없습니다. 이 그림은 독립 자원이라는 가정 아래의 시간 예산이며, 실제 시스템은 경합을 포함해 다시 측정합니다.</p></section><div class="tech-grid tech-section"><section class="card tech-panel "><h3>연산과 메모리 상한 · Roofline</h3><div class="tech-scroll" data-soc-roofline></div><div data-soc-roofline-result></div></section><section class="card tech-panel "><h3>병목을 바꾸는 실험</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">실험</th><th scope="col">Memory-bound 예상</th><th scope="col">Compute-bound 예상</th></tr></thead><tbody><tr><td>Peak 2배</td><td>변화 작음</td><td>상한 개선</td></tr><tr><td>Bandwidth 2배</td><td>상한 개선</td><td>변화 작음</td></tr><tr><td>재사용 증가</td><td>외부 byte 감소로 개선</td><td>추가 이득 제한</td></tr><tr><td>Overlapping</td><td>직렬 시간을 겹침</td><td>공유 자원 충돌 시 제한</td></tr></tbody></table></div><p>전체 시간의 절반인 연산을 두 배 빠르게 만들면 총 시간은 0.5 + 0.25 = 0.75가 되어 speedup은 약 1.33배입니다. 가장 느린 block을 추정만으로 바꾸지 말고 cycle counter와 queue occupancy를 확인합니다.</p></section></div>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.12" aria-pressed="false">이 절 학습 완료</button><a href="?section=soc-integration-verification">다음 절 · 시스템 통합 검증</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-verification" data-lesson-panel="soc-integration-verification" data-lesson-id="10.13" data-guidebook-toc-title="시스템 통합 검증">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-13. 시스템 통합 검증</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">시스템 통합 검증 연결</h3><p>Address map·register 정의·clock/reset·interrupt·power state를 하나의 system test에서 연결합니다. Sequence / driver는 자극을 만들고 monitor는 관측하며 scoreboard는 expected와 actual을 비교합니다.</p><div class="tech-scroll" data-soc-verification-environment></div><p class="tech-caption">각 agent의 driver는 자신이 담당한 interface만 구동합니다. Monitor와 scoreboard의 관측선은 DUT를 구동하는 배선이 아닙니다.</p></section><section class="card tech-panel tech-section"><h3 class="tech-title">DMA smoke test와 메모리 비교</h3><p>알려진 pattern을 source SRAM에 준비한 뒤 설정·start·수락·IRQ·output 비교까지 확인합니다. 결과 손상을 주입하면 상태가 DONE이어도 scoreboard는 실패해야 합니다.</p><form class="tech-fields " data-soc-verification-inputs><label>검증 길이 (byte)<input aria-label="검증 길이 (byte)" type="number" name="length" min="4" max="64" step="4" value="16" required ></label><label>시작 pattern (byte)<input aria-label="시작 pattern (byte)" type="number" name="pattern" min="0" max="255" step="1" value="165" required ></label><label>Stall 횟수<input aria-label="Stall 횟수" type="number" name="stall" min="0" max="10" step="1" value="1" required ></label><label>손상 byte index (-1: 없음)<input aria-label="손상 byte index (-1: 없음)" type="number" name="corruptAt" min="-1" max="63" step="1" value="-1" required ></label></form><div class="tech-grid tech-split"><div><h4>Transaction trace</h4><div class="tech-ledger" data-soc-verification-trace></div></div><div><h4>SRAM expected / actual</h4><div data-soc-memory-compare></div></div></div><div class="tech-output" data-soc-verification-status aria-live="polite"></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">잘못된 접근과 실패 관측</h3><p>주소 decode 오류, RO write, IRQ mask 누락을 구분해 진단 경로를 확인합니다. 기대했던 실패가 나타나는 것도 검증의 통과 조건이 될 수 있습니다.</p><div class="tech-fields"><label>실패 주입 종류<select aria-label="실패 주입 종류" name="integrationFault"><option value="decode">미할당 주소 접근</option><option value="rom">Boot ROM write</option><option value="irq">완료 IRQ mask 누락</option><option value="reset">전송 중 reset</option></select></label></div><div class="tech-scroll" data-soc-integration-fault></div><div data-soc-integration-evidence></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">통합 검증 matrix</h3><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">요구</th><th scope="col">정상 검사</th><th scope="col">실패 검사</th></tr></thead><tbody><tr><td>Register</td><td>읽기 / 쓰기·reset value</td><td>잘못된 주소·RO write</td></tr><tr><td>DMA</td><td>길이·순서·reference 비교</td><td>Stall·timeout·bus error</td></tr><tr><td>IRQ</td><td>완료 사건과 처리 계약</td><td>Mask·clear 동시 event</td></tr><tr><td>Reset</td><td>Known state</td><td>전송 중 reset</td></tr><tr><td>Power</td><td>준비 후 traffic 재개</td><td>Isolation 누락·복구 실패</td></tr></tbody></table></div><p class="tech-caption">IP별 test pass의 합계가 system test pass는 아닙니다. 경계의 순서·형식·전력 조건과 재현 가능한 완료 기준을 별도로 확인합니다.</p></section>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.13" aria-pressed="false">이 절 학습 완료</button><a href="?section=soc-case-study">다음 절 · 제품 사례와 설계 리뷰</a></footer></article>
+<article class="chapter-lesson technical-section" data-technical-section="soc-products" data-lesson-panel="soc-case-study" data-lesson-id="10.14" data-guidebook-toc-title="제품 사례와 설계 리뷰">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">10-14. 제품 사례와 설계 리뷰</h2></div></header>
+<section class="card tech-panel tech-section"><h3 class="tech-title">제품 사례 비교</h3><p>요구와 제약을 먼저 고정한 뒤 선택한 구조, 남은 위험, 검증 근거를 비교합니다. 제품 이름만 바꾼 같은 블록도로는 제어·연속 traffic·신뢰성·연산 집약도의 차이를 설명하기 어렵습니다.</p><div class="tech-product-grid"><section><h4>Sensor hub</h4><div class="tech-scroll" data-product-mini="sensor"></div></section><section><h4>Vision SoC</h4><div class="tech-scroll" data-product-mini="vision"></div></section><section><h4>Storage controller</h4><div class="tech-scroll" data-product-mini="storage"></div></section><section><h4>Edge AI module</h4><div class="tech-scroll" data-product-mini="edge"></div></section></div><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">제품</th><th scope="col">지배적인 요구</th><th scope="col">구조 판단</th></tr></thead><tbody><tr><td>Sensor hub</td><td>낮은 평균 전력·wake latency</td><td>Always-on 작은 core + peripheral</td></tr><tr><td>Vision SoC</td><td>Frame bandwidth·실시간 처리</td><td>ISP / NPU + DMA + buffer ownership</td></tr><tr><td>Storage controller</td><td>Queue·tail latency·전원 장애 복구</td><td>Host queue + DMA + ECC + NAND channels</td></tr><tr><td>Edge AI module</td><td>모델 용량·peak 전력·열</td><td>외부 memory·accelerator·DVFS</td></tr><tr><td>공통 review</td><td>요구 → 근거 → 대안</td><td>측정 조건과 실패 경로 명시</td></tr></tbody></table></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">Vision SoC의 경계별 계약</h3><p>Sensor → Capture → Buffer → Compute → Output 경로에서 format·rate·buffer ownership·오류 복구를 연결합니다. 아래 4K60 RAW10은 교육용 입력 예제이며 모든 내부 경계가 같은 format을 유지하는 것은 아닙니다.</p><div class="tech-scroll" data-soc-vision-detail></div><div class="guidebook-scroll-region"><table class="modern-table"><thead><tr><th scope="col">경계</th><th scope="col">형식 / 프로토콜</th><th scope="col">소유권</th><th scope="col">실패와 복구</th></tr></thead><tbody><tr><td>Sensor → Capture</td><td>CSI-2 RAW10 입력 예</td><td>Sensor → SoC</td><td>Packet 오류·재동기화</td></tr><tr><td>Capture → Buffer</td><td>정의한 내부 pixel format</td><td>Capture → memory</td><td>Overflow 감지·frame drop</td></tr><tr><td>Buffer → Compute</td><td>AXI burst / tensor layout</td><td>Memory → NPU</td><td>잘못된 shape·재시도 정책</td></tr><tr><td>Compute → Output</td><td>Video / display format</td><td>NPU → output consumer</td><td>Frame 손실 감지·대체 경로</td></tr></tbody></table></div></section><section class="card tech-panel tech-section"><h3 class="tech-title">네 제품의 구조와 예산 비교</h3><p>같은 관점에서 면적과 전력의 상대 예산을 읽고, 부하 증가 때 먼저 확인할 근거를 찾습니다. 아래 비율은 구조 차이를 설명하기 위한 가상 설계 예산이며 실제 제품 측정값이 아닙니다.</p><form class="tech-fields " data-soc-product-inputs><label>제품 선택<select aria-label="제품 선택" name="product"><option value="sensor">Sensor hub</option><option value="vision">Vision SoC</option><option value="storage">Storage controller</option><option value="edge">Edge AI module</option></select></label><label>기준 입력의 부하 배수<input aria-label="기준 입력의 부하 배수" type="number" name="load" min="0.25" max="8" step="0.25" value="1" required ></label></form><div class="tech-grid"><div class="tech-scroll" data-soc-selected-product></div><div><div class="tech-scroll" data-soc-product-budgets></div><div data-soc-product-review></div></div></div></section>
+
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=2">02장 · 요구사항부터 제품까지 설계 흐름</a><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=5">05장 · 메모리와 스토리지</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="10.14" aria-pressed="false">이 절 학습 완료</button></footer></article>
+</section></main>
+    <script src="../assets/guidebook-page-common.js?v=0bda89d04754"></script>
+    <script src="../assets/features/technical-pages/technical-pages.js?v=ad33c056f9d4"></script>
+    <script src="../assets/features/curriculum/curriculum.js?v=a49d5d58f3f2"></script>
 </body>
 </html>

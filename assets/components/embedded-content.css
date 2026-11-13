@@ -1,0 +1,38 @@
+/* Shared sizing for standalone UVM documents and their embedded versions. */
+.is-embedded-document,
+.is-embedded-document body,
+.is-embedded-document #root,
+.is-embedded-document #root > div {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow-y: hidden !important;
+}
+.is-embedded-document #root main.flex-1 {
+    flex: none !important;
+    overflow: visible !important;
+}
+.is-embedded-document .scroll-container,
+.is-embedded-document .overflow-y-auto,
+.is-embedded-document .overflow-y-scroll,
+.is-embedded-document .overflow-auto {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+}
+.grid > *,
+.flex > * {
+    min-width: 0;
+}
+h1, h2, h3, h4, h5 {
+    overflow-wrap: anywhere;
+}
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+@media (max-width: 639px) {
+    .grid > .order-1,
+    .grid > .order-2 {
+        width: 100%;
+    }
+}

@@ -1,0 +1,1038 @@
+[
+  {
+    "id": "09.01",
+    "chapter": 9,
+    "key": "interface-boundary",
+    "question": "RTL 결과가 맞는데 링크가 실패할 수 있는 이유는?",
+    "answer": "RTL은 논리 계약을 확인하지만 실제 채널의 지연·반사·잡음과 수신 sampling margin은 별도 조건이다."
+  },
+  {
+    "id": "09.02",
+    "chapter": 9,
+    "key": "io-electrical",
+    "question": "Open-drain의 high를 누가 만드는가?",
+    "answer": "출력 트랜지스터가 꺼졌을 때 pull-up과 부하의 RC 경로가 high를 만든다."
+  },
+  {
+    "id": "09.03",
+    "chapter": 9,
+    "key": "gpio-uart",
+    "question": "8N1에서 유효 데이터보다 전송 bit가 많은 이유는?",
+    "answer": "수신 동기화를 위한 start/stop bit가 추가되기 때문이다."
+  },
+  {
+    "id": "09.04",
+    "chapter": 9,
+    "key": "spi-qspi",
+    "question": "CPHA=0에서 첫 데이터는 언제 준비되어야 하는가?",
+    "answer": "CS 활성 후 첫 sampling edge 이전에 유효해야 한다."
+  },
+  {
+    "id": "09.05",
+    "chapter": 9,
+    "key": "i2c-i3c",
+    "question": "주소 0x50 write가 파형에서는 0xA0인 이유는?",
+    "answer": "7-bit 주소 뒤에 R/W=0 bit를 붙여 8-bit 주소 byte를 만들기 때문이다."
+  },
+  {
+    "id": "09.06",
+    "chapter": 9,
+    "key": "ddr-lpddr",
+    "question": "왜 pass window의 한쪽 끝보다 중앙을 선호하는가?",
+    "answer": "샘플 위치가 이동할 때 양쪽 경계까지의 여유를 확보하기 위해서다."
+  },
+  {
+    "id": "09.07",
+    "chapter": 9,
+    "key": "pcie",
+    "question": "작은 payload에서 실효 대역폭이 낮아질 수 있는 이유는?",
+    "answer": "payload 대비 header·관리 traffic과 전송 간격의 비중이 커지기 때문이다."
+  },
+  {
+    "id": "09.08",
+    "chapter": 9,
+    "key": "usb-typec-pd",
+    "question": "Type-C 케이블이 연결되면 항상 같은 USB 속도가 나오는가?",
+    "answer": "아니다. 케이블과 양쪽 장치의 지원 capability 및 협상 결과가 함께 결정한다."
+  },
+  {
+    "id": "09.09",
+    "chapter": 9,
+    "key": "ethernet",
+    "question": "Buffer를 무한히 늘리면 처리율 부족이 해결되는가?",
+    "answer": "지속적인 도착률이 서비스율보다 크면 backlog가 계속 증가하므로 해결되지 않는다."
+  },
+  {
+    "id": "09.10",
+    "chapter": 9,
+    "key": "mipi",
+    "question": "동일 해상도·fps에서 RGB888과 RAW12의 payload는 같은가?",
+    "answer": "아니다. 활성 pixel당 24 bit와 12 bit이므로 이 조건에서는 RGB888이 두 배다."
+  },
+  {
+    "id": "09.11",
+    "chapter": 9,
+    "key": "can-lin",
+    "question": "CAN 중재에서 패배한 노드가 frame을 망가뜨리지 않는 이유는?",
+    "answer": "송신한 recessive와 관측한 dominant의 차이를 감지해 이후 송신을 중단하기 때문이다."
+  },
+  {
+    "id": "09.12",
+    "chapter": 9,
+    "key": "serdes-phy",
+    "question": "EQ를 강하게 하면 무조건 좋아지는가?",
+    "answer": "아니다. 잡음 증폭, 오차 전파, channel 및 adaptation 조건 때문에 최적점이 달라진다."
+  },
+  {
+    "id": "09.13",
+    "chapter": 9,
+    "key": "si-pi-channel",
+    "question": "TDR의 시간축에서 반사가 보이는 위치는 무엇과 관련되는가?",
+    "answer": "신호의 왕복 지연과 전파 속도로 계산한 불연속까지의 거리와 관련된다."
+  },
+  {
+    "id": "09.14",
+    "chapter": 9,
+    "key": "interface-budget",
+    "question": "Raw 8 Gb/s는 8 GB/s인가?",
+    "answer": "아니다. bit를 byte로 바꾸면 1 GB/s이며 overhead를 적용하면 payload는 더 작다."
+  },
+  {
+    "id": "09.15",
+    "chapter": 9,
+    "key": "interface-debug",
+    "question": "Training 실패 직후 첫 확인 대상으로 무엇이 적절한가?",
+    "answer": "전원·reference clock·reset·설정의 정상 근거와 실패 단계 로그를 확인한 뒤 channel/PHY 세부로 좁힌다."
+  },
+  {
+    "id": "10.01",
+    "chapter": 10,
+    "key": "system-requirements",
+    "question": "Latency 20 ms인 pipeline이 60 fps를 처리할 수 있는가?",
+    "answer": "단계가 겹쳐 충분한 throughput을 내면 가능하다. 첫 결과 지연과 연속 결과 간격을 구분해야 한다."
+  },
+  {
+    "id": "10.02",
+    "chapter": 10,
+    "key": "soc-map",
+    "question": "IP 연결표에 최소한 무엇을 기록해야 하는가?",
+    "answer": "신호/프로토콜, 폭, 주소, clock/reset domain, 전력 조건, 순서와 오류 처리 책임이다."
+  },
+  {
+    "id": "10.03",
+    "chapter": 10,
+    "key": "address-register",
+    "question": "W1C bit를 0으로 지우려 하면 어떻게 되는가?",
+    "answer": "보통 해당 bit는 그대로다. W1C는 지울 위치에 1을 쓰는 계약이다."
+  },
+  {
+    "id": "10.04",
+    "chapter": 10,
+    "key": "memory-consistency",
+    "question": "Coherent DMA이면 모든 쓰기 순서도 자동으로 원하는 대로 보장되는가?",
+    "answer": "아니다. 데이터 가시성과 descriptor/doorbell 등의 ordering 계약은 구분해서 지켜야 한다."
+  },
+  {
+    "id": "10.05",
+    "chapter": 10,
+    "key": "dma-path",
+    "question": "READY가 0인 cycle에서 transferred byte는 증가하는가?",
+    "answer": "수락 handshake가 없으므로 증가하지 않는다."
+  },
+  {
+    "id": "10.06",
+    "chapter": 10,
+    "key": "interrupt-timer",
+    "question": "Mask 상태에서 event가 발생하면 항상 버려지는가?",
+    "answer": "그렇지 않다. source/controller의 pending 저장 계약에 따라 이후 unmask 때 전달될 수 있다."
+  },
+  {
+    "id": "10.07",
+    "chapter": 10,
+    "key": "clock-reset-integration",
+    "question": "PLL lock 신호만 있으면 downstream reset을 즉시 풀어도 되는가?",
+    "answer": "lock의 clock domain·안정성·동기화와 해당 block의 reset 해제 조건을 함께 확인해야 한다."
+  },
+  {
+    "id": "10.08",
+    "chapter": 10,
+    "key": "boot-driver",
+    "question": "Timeout 후 바로 새 전송을 시작해도 되는가?",
+    "answer": "이전 DMA가 정지·취소되었는지와 buffer ownership이 회복되었는지 먼저 확인해야 한다."
+  },
+  {
+    "id": "10.09",
+    "chapter": 10,
+    "key": "noc-qos",
+    "question": "Queue를 늘리면 latency가 항상 줄어드는가?",
+    "answer": "더 많은 요청을 보관할 수 있지만 대기 시간이 늘 수도 있다. 처리율과 지연을 함께 봐야 한다."
+  },
+  {
+    "id": "10.10",
+    "chapter": 10,
+    "key": "soc-low-power",
+    "question": "Retention 없이 전원을 껐다 켜면 register 상태가 유지되는가?",
+    "answer": "상태 보존을 보장할 수 없으며 reset·재초기화 경로가 필요하다."
+  },
+  {
+    "id": "10.11",
+    "chapter": 10,
+    "key": "soc-security-safety",
+    "question": "CPU의 MMU 설정만으로 모든 DMA 접근을 막을 수 있는가?",
+    "answer": "DMA 경로에는 별도 주소 변환·보호 장치나 interconnect 정책이 필요할 수 있다."
+  },
+  {
+    "id": "10.12",
+    "chapter": 10,
+    "key": "system-performance",
+    "question": "Amdahl 분석에서 연산을 무한히 빠르게 해도 전체 speedup이 제한되는 이유는?",
+    "answer": "가속하지 않은 직렬 구간의 시간이 남기 때문이다."
+  },
+  {
+    "id": "10.13",
+    "chapter": 10,
+    "key": "soc-integration-verification",
+    "question": "가장 작은 system smoke test에는 무엇을 넣는가?",
+    "answer": "기동, 주소 접근, 한 번의 실제 데이터 이동, 완료 관측과 결과 비교를 포함한다."
+  },
+  {
+    "id": "10.14",
+    "chapter": 10,
+    "key": "soc-case-study",
+    "question": "아키텍처 리뷰에서 그림 외에 필요한 것은?",
+    "answer": "요구별 수치 예산, 인터페이스 계약, 가정, 실패 처리와 검증 근거다."
+  },
+  {
+    "id": "11.01",
+    "chapter": 11,
+    "key": "ai-workloads",
+    "question": "M×K와 K×N 곱셈에서 결과 shape와 MAC 수는?",
+    "answer": "결과는 M×N이며 총 M×N×K MAC이다."
+  },
+  {
+    "id": "11.02",
+    "chapter": 11,
+    "key": "ai-numerics",
+    "question": "입력 8 bit 두 개를 곱하면 누산기도 8 bit면 충분한가?",
+    "answer": "아니다. 곱의 범위와 누산 횟수에 필요한 여유를 고려해야 한다."
+  },
+  {
+    "id": "11.03",
+    "chapter": 11,
+    "key": "mac-pe",
+    "question": "Stall 중 operand가 유지될 때 매 cycle 누산해도 되는가?",
+    "answer": "수락된 연산이 아니면 누산하면 안 된다. 같은 항이 중복될 수 있다."
+  },
+  {
+    "id": "11.04",
+    "chapter": 11,
+    "key": "systolic-array",
+    "question": "PE(1,1)는 왜 PE(0,0)보다 늦게 첫 연산을 하는가?",
+    "answer": "Operand가 row와 column 방향으로 이동하는 추가 지연이 있기 때문이다."
+  },
+  {
+    "id": "11.05",
+    "chapter": 11,
+    "key": "dataflow-reuse",
+    "question": "Output-stationary가 주로 줄이려는 데이터 이동은?",
+    "answer": "출력 partial sum을 local에 누산해 반복적인 외부 저장과 읽기를 줄이려 한다."
+  },
+  {
+    "id": "11.06",
+    "chapter": 11,
+    "key": "tiling-mapping",
+    "question": "M=17, tile M=8이면 몇 개의 row tile이 필요한가?",
+    "answer": "ceil(17/8)=3개이며 마지막 tile의 유효 row는 1개다."
+  },
+  {
+    "id": "11.07",
+    "chapter": 11,
+    "key": "accelerator-memory",
+    "question": "용량과 bandwidth를 따로 확인해야 하는 이유는?",
+    "answer": "저장할 수 있는 byte 수와 한 cycle에 읽고 쓸 수 있는 byte 수는 다른 제약이기 때문이다."
+  },
+  {
+    "id": "11.08",
+    "chapter": 11,
+    "key": "compute-overlap",
+    "question": "Ping-pong buffer가 하나의 buffer보다 유리한 조건은?",
+    "answer": "전송과 연산이 겹칠 수 있고 서로 다른 buffer를 안전하게 사용할 때다."
+  },
+  {
+    "id": "11.09",
+    "chapter": 11,
+    "key": "activation-postprocess",
+    "question": "함수 근사 오차가 작으면 모델 정확도도 반드시 같아지는가?",
+    "answer": "그렇지 않다. 누적 오차와 입력 분포, 모델 민감도에 따라 달라진다."
+  },
+  {
+    "id": "11.10",
+    "chapter": 11,
+    "key": "sparsity-compression",
+    "question": "Sparse 표현이 dense보다 커지는 경우가 있는가?",
+    "answer": "Index·pointer·padding 비용이 줄인 value byte보다 커지면 가능하다."
+  },
+  {
+    "id": "11.11",
+    "chapter": 11,
+    "key": "attention-kv",
+    "question": "Sequence length를 두 배로 늘리면 이 단순 KV 저장량은?",
+    "answer": "다른 조건이 같으면 두 배가 된다."
+  },
+  {
+    "id": "11.12",
+    "chapter": 11,
+    "key": "accelerator-software",
+    "question": "Operator fusion의 잠재적 단점은?",
+    "answer": "Local resource 요구가 커져 병렬성이 줄거나 scheduling·지원 형식 제약이 커질 수 있다."
+  },
+  {
+    "id": "11.13",
+    "chapter": 11,
+    "key": "accelerator-performance",
+    "question": "Arithmetic intensity를 계산할 때 어떤 byte를 세는가?",
+    "answer": "분석하는 memory 경계를 실제로 통과하는 byte를 센다. SRAM과 DRAM 경계를 혼용하지 않는다."
+  },
+  {
+    "id": "11.14",
+    "chapter": 11,
+    "key": "accelerator-verification",
+    "question": "Stall이 없는 테스트만 통과하면 어떤 문제가 남는가?",
+    "answer": "데이터 유지·valid 정렬·중복 누산·buffer ownership 문제가 아직 드러나지 않았을 수 있다."
+  },
+  {
+    "id": "11.15",
+    "chapter": 11,
+    "key": "mini-npu-project",
+    "question": "최소 end-to-end 성공 조건은?",
+    "answer": "설정·입력 전송·연산·출력 반환·완료 통지가 모두 일치하고 모든 출력이 reference와 맞아야 한다."
+  },
+  {
+    "id": "12.01",
+    "chapter": 12,
+    "key": "section-01",
+    "question": "평형 PN 접합에 내부 전기장이 있어도 순전류가 0인 이유는?",
+    "answer": "Drift와 diffusion 성분이 서로 균형을 이루기 때문이다."
+  },
+  {
+    "id": "12.02",
+    "chapter": 12,
+    "key": "section-02",
+    "question": "MOSFET의 saturation은 BJT의 saturation과 같은 동작인가?",
+    "answer": "소자 구조와 영역 정의가 다르므로 용어만으로 동일시할 수 없다."
+  },
+  {
+    "id": "12.03",
+    "chapter": 12,
+    "key": "section-03",
+    "question": "Lithography와 etch의 역할 차이는?",
+    "answer": "Lithography는 선택 패턴을 만들고 etch는 그 패턴에 따라 대상 재료를 제거한다."
+  },
+  {
+    "id": "12.04",
+    "chapter": 12,
+    "key": "section-04",
+    "question": "같은 net의 배치·배선이 바뀌면 무엇을 다시 확인해야 하는가?",
+    "answer": "기생 RC, timing, coupling과 전류 밀도 등 영향을 받는 항목을 재확인한다."
+  },
+  {
+    "id": "12.05",
+    "chapter": 12,
+    "key": "section-05",
+    "question": "GAA 구조를 평가할 때 gate 제어 외에 볼 것은?",
+    "answer": "접촉과 기생 성분, 변동, 열, 제조 가능성과 실제 library의 회로 특성이다."
+  },
+  {
+    "id": "12.06",
+    "chapter": 12,
+    "key": "section-06",
+    "question": "Corner sweep만으로 local mismatch 영향을 모두 확인할 수 있는가?",
+    "answer": "아니다. 소자 간 상대적 차이를 나타내는 mismatch 모델과 분석이 필요하다."
+  },
+  {
+    "id": "12.07",
+    "chapter": 12,
+    "key": "section-07",
+    "question": "센서의 소자 특성과 signal conditioning을 함께 보는 이유는?",
+    "answer": "소자의 출력 범위·잡음·비선형성이 필요한 증폭·변환·보정 조건을 결정하기 때문이다."
+  },
+  {
+    "id": "13.01",
+    "chapter": 13,
+    "key": "section-01",
+    "question": "부하 capacitance를 늘리면 무엇이 변하는가?",
+    "answer": "전환에 필요한 전하와 지연, switching energy가 증가하는 방향으로 영향을 준다."
+  },
+  {
+    "id": "13.02",
+    "chapter": 13,
+    "key": "section-02",
+    "question": "NAND의 NMOS network가 직렬인 이유는?",
+    "answer": "A와 B가 모두 high일 때만 출력에서 ground까지 이어져야 하기 때문이다."
+  },
+  {
+    "id": "13.03",
+    "chapter": 13,
+    "key": "section-03",
+    "question": "Buffer 추가가 upstream 경로에 주는 영향은?",
+    "answer": "입력 capacitance와 배선이 달라져 앞단 delay와 전력도 변한다."
+  },
+  {
+    "id": "13.04",
+    "chapter": 13,
+    "key": "section-04",
+    "question": "전압을 10% 낮추면 단순 dynamic power 비율은?",
+    "answer": "다른 조건이 같으면 0.9²=0.81이므로 약 19% 감소한다."
+  },
+  {
+    "id": "13.05",
+    "chapter": 13,
+    "key": "section-05",
+    "question": "Clock을 일반 combinational gate로 제어할 때 주의할 점은?",
+    "answer": "Enable 변화가 clock pulse를 잘라내거나 새 edge를 만들 수 있다는 점이다."
+  },
+  {
+    "id": "13.06",
+    "chapter": 13,
+    "key": "section-06",
+    "question": "DRC와 LVS가 서로 대체될 수 없는 이유는?",
+    "answer": "기하 규칙과 회로 연결이라는 서로 다른 속성을 검사하기 때문이다."
+  },
+  {
+    "id": "13.07",
+    "chapter": 13,
+    "key": "section-07",
+    "question": "Post-layout 결과가 나빠졌을 때 첫 확인은?",
+    "answer": "사용한 netlist·모델·corner·입력·부하가 동일한지 확인한 뒤 기생과 연결을 분석한다."
+  },
+  {
+    "id": "14.01",
+    "chapter": 14,
+    "key": "section-01",
+    "question": "DC 동작점을 먼저 확인하는 이유는?",
+    "answer": "소자 동작 영역과 주변에서 사용할 small-signal 모델이 그 동작점에 의존하기 때문이다."
+  },
+  {
+    "id": "14.02",
+    "chapter": 14,
+    "key": "section-02",
+    "question": "Start-up 회로가 필요한 이유는?",
+    "answer": "원하는 동작점 외의 비활성 상태에 머무르지 않도록 초기 조건을 만들어 주기 위해서다."
+  },
+  {
+    "id": "14.03",
+    "chapter": 14,
+    "key": "section-03",
+    "question": "Differential 입력이 작으면 common-mode는 무시해도 되는가?",
+    "answer": "아니다. 두 입력의 절대 전압이 허용 범위에 있어야 한다."
+  },
+  {
+    "id": "14.04",
+    "chapter": 14,
+    "key": "section-04",
+    "question": "큰 phase margin 하나만으로 모든 large-signal 동작을 설명할 수 있는가?",
+    "answer": "아니다. Slew rate·saturation recovery 등 large-signal 조건도 따로 확인한다."
+  },
+  {
+    "id": "14.05",
+    "chapter": 14,
+    "key": "section-05",
+    "question": "Offset을 평균 내면 thermal noise처럼 항상 0으로 사라지는가?",
+    "answer": "정적인 offset은 반복 측정 평균으로 제거되지 않으며 보정이나 회로 개선이 필요하다."
+  },
+  {
+    "id": "14.06",
+    "chapter": 14,
+    "key": "section-06",
+    "question": "Aliasing은 양자화 bit 수를 늘리면 해결되는가?",
+    "answer": "아니다. Sampling rate와 입력 spectrum 및 anti-alias filtering 문제다."
+  },
+  {
+    "id": "14.07",
+    "chapter": 14,
+    "key": "section-07",
+    "question": "Glitch와 settling은 같은 지표인가?",
+    "answer": "Glitch는 전환 순간의 불필요한 에너지/파형이고 settling은 최종 오차 범위에 도달하는 시간이다."
+  },
+  {
+    "id": "14.08",
+    "chapter": 14,
+    "key": "section-08",
+    "question": "PLL과 DLL이 조절하는 주요 대상은?",
+    "answer": "PLL은 oscillator의 위상/주파수 동작을 제어하고 DLL은 delay 경로를 조정한다."
+  },
+  {
+    "id": "14.09",
+    "chapter": 14,
+    "key": "section-09",
+    "question": "RF 측정값에 주파수와 reference impedance가 필요한 이유는?",
+    "answer": "전송·반사와 소자/배선의 반응이 해당 조건에 의존하기 때문이다."
+  },
+  {
+    "id": "14.10",
+    "chapter": 14,
+    "key": "section-10",
+    "question": "LDO의 입력-출력 전압 차가 커질 때 주요 부담은?",
+    "answer": "같은 부하 전류에서 소모 전력과 발열이 커진다."
+  },
+  {
+    "id": "14.11",
+    "chapter": 14,
+    "key": "section-11",
+    "question": "대칭적인 소자 배치에서 배선도 함께 고려하는 이유는?",
+    "answer": "배선의 저항·capacitance·coupling 차이가 회로의 상대적 응답을 바꿀 수 있기 때문이다."
+  },
+  {
+    "id": "14.12",
+    "chapter": 14,
+    "key": "section-12",
+    "question": "모델을 단순화할 때 기록할 것은?",
+    "answer": "보존하는 동작, 제외한 현상, 유효 입력 범위와 원래 회로에 대한 비교 근거다."
+  },
+  {
+    "id": "15.01",
+    "chapter": 15,
+    "key": "section-01",
+    "question": "같은 ISA이면 같은 프로그램의 실행 시간이 같은가?",
+    "answer": "아니다. 실행 구조·clock·memory·예측과 workload 조건이 달라진다."
+  },
+  {
+    "id": "15.02",
+    "chapter": 15,
+    "key": "section-02",
+    "question": "Forwarding만 있으면 모든 dependency stall이 없어지는가?",
+    "answer": "결과가 아직 생성되지 않은 cycle에는 전달할 값이 없으므로 stall이 남을 수 있다."
+  },
+  {
+    "id": "15.03",
+    "chapter": 15,
+    "key": "section-03",
+    "question": "실행 순서와 commit 순서를 구분하는 이유는?",
+    "answer": "예외·분기 복구와 ISA가 요구하는 관측 동작을 보존하기 위해서다."
+  },
+  {
+    "id": "15.04",
+    "chapter": 15,
+    "key": "section-04",
+    "question": "같은 index의 서로 다른 tag 접근이 반복되면?",
+    "answer": "Direct-mapped 구조에서는 conflict miss가 반복될 수 있다."
+  },
+  {
+    "id": "15.05",
+    "chapter": 15,
+    "key": "section-05",
+    "question": "Branch divergence가 성능에 영향을 주는 이유는?",
+    "answer": "묶인 thread가 다른 경로를 필요로 하면 실행 lane 일부가 비활성인 구간이 생길 수 있기 때문이다."
+  },
+  {
+    "id": "15.06",
+    "chapter": 15,
+    "key": "section-06",
+    "question": "FIR 누산기 폭에 tap 수를 고려하는 이유는?",
+    "answer": "여러 곱이 같은 부호로 더해지는 최악 범위가 커지기 때문이다."
+  },
+  {
+    "id": "15.07",
+    "chapter": 15,
+    "key": "section-07",
+    "question": "가속기 선택에 application 전체 측정이 필요한 이유는?",
+    "answer": "지원되지 않는 연산, 전송, queue와 software overhead가 실제 이득을 바꾸기 때문이다."
+  },
+  {
+    "id": "16.01",
+    "chapter": 16,
+    "key": "section-01",
+    "question": "Elaboration에서 결정되는 것은?",
+    "answer": "Module instance, parameter, generate 등 실제 설계 구조다."
+  },
+  {
+    "id": "16.02",
+    "chapter": 16,
+    "key": "section-02",
+    "question": "Constraint 검토에서 unconstrained path를 보는 이유는?",
+    "answer": "검사할 기준이 없는 경로가 성공한 경로처럼 숨는 것을 막기 위해서다."
+  },
+  {
+    "id": "16.03",
+    "chapter": 16,
+    "key": "section-03",
+    "question": "False path의 타당성은 어디서 오는가?",
+    "answer": "설계 동작·mode·protocol과 이를 확인한 검증 근거에서 온다."
+  },
+  {
+    "id": "16.04",
+    "chapter": 16,
+    "key": "section-04",
+    "question": "자원 공유를 검토할 때 기능 외에 볼 지표는?",
+    "answer": "연산 일정, latency·throughput, mux delay와 제어·전력 비용이다."
+  },
+  {
+    "id": "16.05",
+    "chapter": 16,
+    "key": "section-05",
+    "question": "Cell delay가 줄었는데 total path delay가 늘 수 있는가?",
+    "answer": "추가 wire, fanout, input slew 변화 때문에 가능하다."
+  },
+  {
+    "id": "16.06",
+    "chapter": 16,
+    "key": "section-06",
+    "question": "동치 결과에 함께 기록할 조건은?",
+    "answer": "비교한 revision, model/library, reset·clock 가정, black box와 제외 범위다."
+  },
+  {
+    "id": "17.01",
+    "chapter": 17,
+    "key": "section-01",
+    "question": "Report의 incremental delay와 cumulative arrival은 같은가?",
+    "answer": "Incremental은 해당 구간의 지연, cumulative는 앞 구간부터 누적한 시간이다."
+  },
+  {
+    "id": "17.02",
+    "chapter": 17,
+    "key": "section-02",
+    "question": "Setup 수정과 hold 수정을 함께 확인해야 하는 이유는?",
+    "answer": "최대·최소 경로 지연과 clock 관계에 주는 영향이 서로 다르기 때문이다."
+  },
+  {
+    "id": "17.03",
+    "chapter": 17,
+    "key": "section-03",
+    "question": "Generated clock을 정의하는 핵심 이유는?",
+    "answer": "원천 clock과 edge·주기 관계를 보존해 올바른 timing check를 만들기 위해서다."
+  },
+  {
+    "id": "17.04",
+    "chapter": 17,
+    "key": "section-04",
+    "question": "IO timing에서 minimum delay가 필요한 이유는?",
+    "answer": "가장 이른 data 도착에 따른 hold 관계도 검사해야 하기 때문이다."
+  },
+  {
+    "id": "17.05",
+    "chapter": 17,
+    "key": "section-05",
+    "question": "MMMC matrix를 기록하는 이유는?",
+    "answer": "검증한 조건과 빠진 조건을 명확히 하고 결과를 재현하기 위해서다."
+  },
+  {
+    "id": "17.06",
+    "chapter": 17,
+    "key": "section-06",
+    "question": "Aggressor가 항상 switching한다고 가정해도 되는가?",
+    "answer": "분석 목적과 보수성에 따라 다르며 실제 가능 timing window와 mode를 검토해야 한다."
+  },
+  {
+    "id": "17.07",
+    "chapter": 17,
+    "key": "section-07",
+    "question": "Clock이 멈춘 domain에서 synchronous reset release가 진행되는가?",
+    "answer": "유효 clock edge가 없으면 동기화 단계가 진행되지 않는다."
+  },
+  {
+    "id": "17.08",
+    "chapter": 17,
+    "key": "section-08",
+    "question": "Timing ECO 뒤에 LEC가 필요한 이유는?",
+    "answer": "타이밍을 고치는 과정에서 기능이 바뀌지 않았는지 확인하기 위해서다."
+  },
+  {
+    "id": "18.01",
+    "chapter": 18,
+    "key": "section-01",
+    "question": "2FF가 metastability 발생 자체를 없애는가?",
+    "answer": "아니다. 위험한 상태가 다음 논리로 전파될 확률을 줄이도록 시간을 제공한다."
+  },
+  {
+    "id": "18.02",
+    "chapter": 18,
+    "key": "section-02",
+    "question": "빠른 domain의 pulse를 느린 domain으로 보낼 때 무엇을 확인하는가?",
+    "answer": "Pulse 폭과 event 간격, 목적 sampling 기회, acknowledge 필요성을 확인한다."
+  },
+  {
+    "id": "18.03",
+    "chapter": 18,
+    "key": "section-03",
+    "question": "Bus의 각 bit에 2FF를 붙여도 충분하지 않은 이유는?",
+    "answer": "각 bit가 서로 다른 목적 cycle에 반영되어 일관되지 않은 word를 만들 수 있기 때문이다."
+  },
+  {
+    "id": "18.04",
+    "chapter": 18,
+    "key": "section-04",
+    "question": "Read가 끝났는데 write 쪽 full이 잠시 남을 수 있는 이유는?",
+    "answer": "Read pointer가 write domain으로 동기화되어 전달되는 시간이 필요하기 때문이다."
+  },
+  {
+    "id": "18.05",
+    "chapter": 18,
+    "key": "section-05",
+    "question": "RDC가 CDC와 별도 검토를 요구하는 이유는?",
+    "answer": "Reset이 정상 clock 기반 상태 전이와 다른 시점에 관계를 바꿀 수 있기 때문이다."
+  },
+  {
+    "id": "18.06",
+    "chapter": 18,
+    "key": "section-06",
+    "question": "Waiver에 꼭 남겨야 할 것은?",
+    "answer": "대상 구조, 안전 가정, 검증 근거, 적용 revision과 다시 검토할 조건이다."
+  },
+  {
+    "id": "19.01",
+    "chapter": 19,
+    "key": "section-01",
+    "question": "전력 숫자에 workload가 필요한 이유는?",
+    "answer": "Switching activity와 memory traffic, 활성 block 비율이 workload에 따라 달라지기 때문이다."
+  },
+  {
+    "id": "19.02",
+    "chapter": 19,
+    "key": "section-02",
+    "question": "Operand isolation과 clock gating을 함께 보는 이유는?",
+    "answer": "조합회로와 순차회로/clock망의 불필요한 활동을 각각 줄일 수 있기 때문이다."
+  },
+  {
+    "id": "19.03",
+    "chapter": 19,
+    "key": "section-03",
+    "question": "Always-on 영역이 필요한 이유는?",
+    "answer": "꺼진 domain의 전원을 다시 켜고 경계 신호를 관리할 제어가 살아 있어야 하기 때문이다."
+  },
+  {
+    "id": "19.04",
+    "chapter": 19,
+    "key": "section-04",
+    "question": "Isolation과 level shifting은 같은 기능인가?",
+    "answer": "아니다. 하나는 경계의 유효성/고정값, 다른 하나는 전압 수준 변환을 다룬다."
+  },
+  {
+    "id": "19.05",
+    "chapter": 19,
+    "key": "section-05",
+    "question": "전압·주파수 전환에서 중간 상태도 검증하는 이유는?",
+    "answer": "최종 상태는 안전해도 전환 중 허용 조건을 벗어날 수 있기 때문이다."
+  },
+  {
+    "id": "19.06",
+    "chapter": 19,
+    "key": "section-06",
+    "question": "UPF와 RTL을 함께 검증해야 하는 이유는?",
+    "answer": "기능 제어와 전원 상태의 관계가 서로 맞아야 실제 동작이 보존되기 때문이다."
+  },
+  {
+    "id": "20.01",
+    "chapter": 20,
+    "key": "section-01",
+    "question": "결함 검출에 제어성과 관측성이 모두 필요한 이유는?",
+    "answer": "결함 효과를 만들고 그 차이가 출력이나 scan 관측점까지 도달해야 하기 때문이다."
+  },
+  {
+    "id": "20.02",
+    "chapter": 20,
+    "key": "section-02",
+    "question": "Shift와 capture의 차이는?",
+    "answer": "Shift는 상태를 serial로 이동시키고 capture는 검사할 회로의 반응을 저장한다."
+  },
+  {
+    "id": "20.03",
+    "chapter": 20,
+    "key": "section-03",
+    "question": "100%라는 숫자를 보기 전에 확인할 것은?",
+    "answer": "Fault model, 분모, 제외 조건과 test mode 가정이다."
+  },
+  {
+    "id": "20.04",
+    "chapter": 20,
+    "key": "section-04",
+    "question": "Spare가 있으면 모든 memory 불량을 수리할 수 있는가?",
+    "answer": "Spare 종류·수량과 불량 위치 조합에 따라 수리 가능성이 달라진다."
+  },
+  {
+    "id": "20.05",
+    "chapter": 20,
+    "key": "section-05",
+    "question": "Capture와 Update를 분리하는 이유는?",
+    "answer": "관측한 상태를 shift하는 동안 동작 출력이 임의로 바뀌지 않게 하고 새 값을 지정된 시점에 적용하기 위해서다."
+  },
+  {
+    "id": "20.06",
+    "chapter": 20,
+    "key": "section-06",
+    "question": "ATE 실패 분석에서 tester 설정도 확인하는 이유는?",
+    "answer": "전압·접촉·timing·pattern 변환 오류가 실제 결함과 비슷한 증상을 만들 수 있기 때문이다."
+  },
+  {
+    "id": "21.01",
+    "chapter": 21,
+    "key": "section-01",
+    "question": "Formal과 simulation을 같이 사용하는 이유는?",
+    "answer": "탐색 범위·모델·실행 길이와 관측 목적이 달라 서로 다른 오류를 찾을 수 있기 때문이다."
+  },
+  {
+    "id": "21.02",
+    "chapter": 21,
+    "key": "section-02",
+    "question": "Vacuous pass를 확인하는 방법은?",
+    "answer": "Antecedent와 관련 상황이 실제로 도달 가능한지 cover 및 assumption 검토로 확인한다."
+  },
+  {
+    "id": "21.03",
+    "chapter": 21,
+    "key": "section-03",
+    "question": "Bounded pass와 proof를 구별해야 하는 이유는?",
+    "answer": "보장하는 시간 범위와 증명의 의미가 다르기 때문이다."
+  },
+  {
+    "id": "21.04",
+    "chapter": 21,
+    "key": "section-04",
+    "question": "추상 모델에 필요한 문서는?",
+    "answer": "보존한 성질, 완화/제거한 행동, 경계 가정과 원래 설계에 대한 대응이다."
+  },
+  {
+    "id": "21.05",
+    "chapter": 21,
+    "key": "section-05",
+    "question": "Sequential equivalence에서 초기 상태가 중요한 이유는?",
+    "answer": "이후 출력이 과거 state에 의존하므로 비교 시작 조건이 관측 동작을 바꾸기 때문이다."
+  },
+  {
+    "id": "21.06",
+    "chapter": 21,
+    "key": "section-06",
+    "question": "Coverage가 높은데 bug가 남을 수 있는 이유는?",
+    "answer": "측정하지 않은 요구, 잘못된 checker, 환경 가정과 데이터 조합의 공백이 남을 수 있기 때문이다."
+  },
+  {
+    "id": "22.01",
+    "chapter": 22,
+    "key": "section-01",
+    "question": "Package를 이상적인 connector로만 취급하면 무엇을 놓치는가?",
+    "answer": "기생 RLC, coupling, 전원·열·기계적 조건과 pin 배치의 영향을 놓친다."
+  },
+  {
+    "id": "22.02",
+    "chapter": 22,
+    "key": "section-02",
+    "question": "3D 적층에서 열이 중요한 이유는?",
+    "answer": "수직으로 겹친 열원과 제한된 방열 경로 때문에 hotspot과 온도 분포가 달라질 수 있기 때문이다."
+  },
+  {
+    "id": "22.03",
+    "chapter": 22,
+    "key": "section-03",
+    "question": "Known good die가 중요한 이유는?",
+    "answer": "조립 전에 die 품질을 확인해야 값비싼 패키지에서 불량 die로 인한 손실을 줄일 수 있기 때문이다."
+  },
+  {
+    "id": "22.04",
+    "chapter": 22,
+    "key": "section-04",
+    "question": "HBM 배치와 compute floorplan을 같이 보는 이유는?",
+    "answer": "신호·전원·열 경로와 배선 가능성이 서로 영향을 주기 때문이다."
+  },
+  {
+    "id": "22.05",
+    "chapter": 22,
+    "key": "section-05",
+    "question": "모델 handoff에서 port/reference 정의가 필요한 이유는?",
+    "answer": "어느 경계의 전압·전류와 파를 주고받는지 일치해야 하기 때문이다."
+  },
+  {
+    "id": "22.06",
+    "chapter": 22,
+    "key": "section-06",
+    "question": "열 측정에 주변 조건을 기록해야 하는 이유는?",
+    "answer": "방열 경로와 대류 조건이 결과를 크게 바꾸기 때문이다."
+  },
+  {
+    "id": "22.07",
+    "chapter": 22,
+    "key": "section-07",
+    "question": "Package 인계에서 좌표 기준이 중요한 이유는?",
+    "answer": "Top/bottom view와 회전·mirror 차이가 실제 연결 오류를 만들 수 있기 때문이다."
+  },
+  {
+    "id": "23.01",
+    "chapter": 23,
+    "key": "section-01",
+    "question": "Golden image와 board revision을 고정하는 이유는?",
+    "answer": "Hardware와 software 조건이 바뀌면 실패의 원인 비교가 어려워지기 때문이다."
+  },
+  {
+    "id": "23.02",
+    "chapter": 23,
+    "key": "section-02",
+    "question": "첫 부팅을 작은 단계로 나누는 이점은?",
+    "answer": "정상으로 확인한 경계와 최초 실패 지점을 분리할 수 있기 때문이다."
+  },
+  {
+    "id": "23.03",
+    "chapter": 23,
+    "key": "section-03",
+    "question": "다음 검사를 고르는 기준은?",
+    "answer": "현재 증거로 구분되지 않는 가설들을 가장 직접적으로 나눌 수 있는 관측을 선택한다."
+  },
+  {
+    "id": "23.04",
+    "chapter": 23,
+    "key": "section-04",
+    "question": "Shmoo 결과에 workload를 같이 적는 이유는?",
+    "answer": "활성 경로와 power/thermal 조건이 workload에 따라 달라지기 때문이다."
+  },
+  {
+    "id": "23.05",
+    "chapter": 23,
+    "key": "section-05",
+    "question": "같은 fail bin도 여러 원인을 가질 수 있는 이유는?",
+    "answer": "Test는 관측 결과를 분류하며 서로 다른 결함이 같은 결과를 낼 수 있기 때문이다."
+  },
+  {
+    "id": "23.06",
+    "chapter": 23,
+    "key": "section-06",
+    "question": "가속 시험에서 고장 메커니즘 확인이 중요한 이유는?",
+    "answer": "다른 메커니즘이 지배하면 사용 조건으로의 외삽이 잘못될 수 있기 때문이다."
+  },
+  {
+    "id": "23.07",
+    "chapter": 23,
+    "key": "section-07",
+    "question": "Workaround에도 검증이 필요한 이유는?",
+    "answer": "원래 실패를 피하면서 새로운 기능·성능·복구 문제를 만들 수 있기 때문이다."
+  },
+  {
+    "id": "24.01",
+    "chapter": 24,
+    "key": "section-01",
+    "question": "위협 모델에 공격자의 능력을 적는 이유는?",
+    "answer": "가능한 경로와 필요한 방어 범위를 그 가정이 결정하기 때문이다."
+  },
+  {
+    "id": "24.02",
+    "chapter": 24,
+    "key": "section-02",
+    "question": "서명 검증과 rollback 방지를 구분하는 이유는?",
+    "answer": "코드의 인증과 허용된 최신성/버전 정책은 다른 요구이기 때문이다."
+  },
+  {
+    "id": "24.03",
+    "chapter": 24,
+    "key": "section-03",
+    "question": "접근 거부 후 side effect도 확인하는 이유는?",
+    "answer": "오류 응답이 나와도 데이터나 peripheral 상태가 이미 변했을 수 있기 때문이다."
+  },
+  {
+    "id": "24.04",
+    "chapter": 24,
+    "key": "section-04",
+    "question": "Lifecycle state를 보안 정책에 포함하는 이유는?",
+    "answer": "같은 interface라도 개발과 출하 후에 허용해야 하는 권한이 다르기 때문이다."
+  },
+  {
+    "id": "24.05",
+    "chapter": 24,
+    "key": "section-05",
+    "question": "오류 검출과 복구를 구분해야 하는 이유는?",
+    "answer": "문제를 알아내는 것과 안전하고 일관된 상태로 돌아오는 것은 별도의 설계 요구다."
+  },
+  {
+    "id": "24.06",
+    "chapter": 24,
+    "key": "section-06",
+    "question": "설계 변경 때 증거 추적성이 필요한 이유는?",
+    "answer": "기존 검증 중 무엇이 여전히 유효하고 무엇을 다시 해야 하는지 판단하기 위해서다."
+  },
+  {
+    "id": "25.01",
+    "chapter": 25,
+    "key": "section-01",
+    "question": "Tool version을 기록하는 이유는?",
+    "answer": "언어 지원·최적화·기본 옵션과 결과가 version에 따라 달라질 수 있기 때문이다."
+  },
+  {
+    "id": "25.02",
+    "chapter": 25,
+    "key": "section-02",
+    "question": "실패한 run의 숫자를 0으로 채우면 왜 위험한가?",
+    "answer": "실패가 정상 결과처럼 보이며 aggregate 판단을 왜곡하기 때문이다."
+  },
+  {
+    "id": "25.03",
+    "chapter": 25,
+    "key": "section-03",
+    "question": "Seed만 있으면 항상 재현되는가?",
+    "answer": "동일 code·tool·설정·입력과 필요한 실행 조건도 함께 보존되어야 한다."
+  },
+  {
+    "id": "25.04",
+    "chapter": 25,
+    "key": "section-04",
+    "question": "단계별 산출물을 남기는 이유는?",
+    "answer": "어느 변환에서 구조나 지표가 달라졌는지 확인하고 재실행하기 위해서다."
+  },
+  {
+    "id": "25.05",
+    "chapter": 25,
+    "key": "section-05",
+    "question": "FPGA에서 BRAM 추론을 확인해야 하는 이유는?",
+    "answer": "RTL 표현과 read/write 의미에 따라 의도한 memory resource가 추론되지 않을 수 있기 때문이다."
+  },
+  {
+    "id": "25.06",
+    "chapter": 25,
+    "key": "section-06",
+    "question": "내부 logic analyzer와 외부 scope를 함께 쓰는 이유는?",
+    "answer": "내부 상태와 실제 IO 전기적 동작이라는 서로 다른 경계를 확인하기 위해서다."
+  },
+  {
+    "id": "25.07",
+    "chapter": 25,
+    "key": "section-07",
+    "question": "CI에서 결과 파일 존재 검사도 필요한 이유는?",
+    "answer": "Command가 성공했어도 기대한 test가 실행되지 않았거나 이전 파일을 읽었을 수 있기 때문이다."
+  },
+  {
+    "id": "26.01",
+    "chapter": 26,
+    "key": "section-01",
+    "question": "Peripheral 완료 기준에 오류 시나리오가 필요한 이유는?",
+    "answer": "실제 software와 외부 장치는 잘못된 순서·설정·timing을 만들 수 있기 때문이다."
+  },
+  {
+    "id": "26.02",
+    "chapter": 26,
+    "key": "section-02",
+    "question": "Write address와 data를 같은 cycle에만 받도록 만들면 어떤 문제가 생기는가?",
+    "answer": "합법적인 서로 다른 도착 순서에서 전송을 놓치거나 멈출 수 있다."
+  },
+  {
+    "id": "26.03",
+    "chapter": 26,
+    "key": "section-03",
+    "question": "마지막 partial beat를 검사하는 이유는?",
+    "answer": "초과 쓰기·유효 byte 누락·잘못된 완료 count를 찾기 위해서다."
+  },
+  {
+    "id": "26.04",
+    "chapter": 26,
+    "key": "section-04",
+    "question": "최소 SoC에서도 map과 boot 문서가 필요한 이유는?",
+    "answer": "CPU가 실행하고 접근할 주소와 IP가 응답하는 주소를 동일하게 정의해야 하기 때문이다."
+  },
+  {
+    "id": "26.05",
+    "chapter": 26,
+    "key": "section-05",
+    "question": "Tensor layout 불일치의 흔한 증상은?",
+    "answer": "숫자 범위가 그럴듯해도 결과 위치와 값이 체계적으로 어긋날 수 있다."
+  },
+  {
+    "id": "26.06",
+    "chapter": 26,
+    "key": "section-06",
+    "question": "제3자가 프로젝트를 재현하려면 무엇이 필요한가?",
+    "answer": "Source, dependency와 tool version, 입력·제약, 명령, 기대 결과와 비교 기준이다."
+  }
+]

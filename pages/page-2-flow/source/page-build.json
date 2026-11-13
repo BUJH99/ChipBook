@@ -7,5 +7,23 @@
     "sections/03-keyword-dictionary.html",
     "sections/04-paired-inputs.html",
     "99-shell-end.html"
+  ],
+  "title": "Design Flow",
+  "styles": [
+    "../assets/components/learning-visuals.css",
+    "../assets/features/stage-detail/stage-detail.css"
+  ],
+  "headScripts": [
+    {
+      "src": "../assets/features/stage-detail/stage-detail.js",
+      "defer": true
+    }
+  ],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/pages/page-2-flow.js"
+  ],
+  "runtimeAssets": [
+    "../assets/features/stage-detail/stage-detail-3d.bundle.js"
   ]
 }

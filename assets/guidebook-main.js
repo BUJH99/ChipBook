@@ -14,7 +14,9 @@
     const chapterStepButtons = Array.from(document.querySelectorAll('[data-chapter-step]'));
     const tocStateByPage = new Map();
     const pendingTocActivationByPage = new Map();
+    const modalStateByPage = new Map();
     const totalPages = sections.length;
+    const chapterNumbers = sections.map((section) => Number(section.dataset.chapterNumber || section.id.replace('page-', '')));
     const headerOffset = 104;
     let currentPage = 1;
     let tocRenderRaf = 0;
@@ -24,16 +26,20 @@
         return frame?.dataset.pageId || `page-${currentPage}`;
     };
     const frameHeightOverscan = 40;
+    const updateLocation = (chapter, section) => {
+        try {
+            const url = new URL(window.location.href);
+            url.searchParams.set('chapter', String(chapter));
+            if (section) url.searchParams.set('section', section);
+            else { url.searchParams.delete('section'); url.searchParams.delete('detail'); }
+            history.replaceState(null, '', url.href);
+        } catch { /* Some direct-file preview hosts do not permit history updates. */ }
+    };
 
     const isFormTarget = (target) => {
         if (!(target instanceof Element)) return false;
         return Boolean(target.closest('input, textarea, select, button, [contenteditable="true"]')) || target.isContentEditable;
     };
-
-    const isFinePointer = () => (
-        typeof window.matchMedia === 'function'
-        && window.matchMedia('(min-width: 1440px) and (hover: hover) and (pointer: fine)').matches
-    );
 
     const setTocExpanded = (expanded) => {
         if (!tocRoot || !tocToggle) return;
@@ -47,7 +53,12 @@
     const ensurePageLoaded = (pageNum) => {
         const frame = frames[toIndex(pageNum)];
         if (!frame || frame.dataset.loaded === 'true') return;
-        frame.src = frame.dataset.pageSrc;
+        const params = new URLSearchParams(window.location.search);
+        const url = new URL(frame.dataset.pageSrc, window.location.href);
+        if (Number(params.get('chapter')) === chapterNumbers[toIndex(pageNum)]) {
+            for (const key of ['section', 'detail']) if (params.get(key)) url.searchParams.set(key, params.get(key));
+        }
+        frame.src = url.href;
         frame.dataset.loaded = 'true';
     };
 
@@ -73,36 +84,60 @@
 
     const getCurrentFrame = () => frames[toIndex(currentPage)] || null;
 
+    const frameViewport = (frame) => {
+        const rect = frame.getBoundingClientRect();
+        const headerBottom = document.querySelector('header')?.getBoundingClientRect().bottom || 0;
+        const top = Math.max(rect.top, headerBottom, 0);
+        const bottom = Math.min(rect.bottom, window.innerHeight);
+        return { top: Math.max(0, top - rect.top), height: Math.max(0, bottom - top) };
+    };
+    const sendFrameViewport = () => {
+        const frame = getCurrentFrame();
+        if (frame?.getAttribute('src')) frame.contentWindow?.postMessage({
+            type: 'adt:page-viewport', pageId: frame.dataset.pageId, viewport: frameViewport(frame),
+        }, '*');
+    };
+    let viewportRaf = 0;
+    const scheduleViewport = () => {
+        if (viewportRaf) return;
+        viewportRaf = window.requestAnimationFrame(() => { viewportRaf = 0; sendFrameViewport(); });
+    };
+
+    const sendFrameActivity = (frame) => {
+        if (!frame?.contentWindow || !frame.getAttribute('src')) return;
+        frame.contentWindow.postMessage({
+            type: 'adt:page-active',
+            pageId: frame.dataset.pageId,
+            active: frame === getCurrentFrame() && !document.hidden,
+            viewport: frameViewport(frame),
+        }, '*');
+    };
+
     const sendTocActivationToFrame = (frame, pageId, key) => {
         if (!frame || !pageId || !key) return;
 
-        const send = () => {
-            if (!frame.contentWindow) return;
-
-            try {
-                if (typeof frame.contentWindow.GuidebookPageHandleTocActivation === 'function') {
-                    frame.contentWindow.GuidebookPageHandleTocActivation(key);
-                }
-            } catch (error) {
-                // Keep the postMessage fallback for embedded/cross-context browser surfaces.
-            }
-
-            frame.contentWindow.postMessage({
-                type: 'adt:page-toc-activate',
-                pageId,
-                key,
-            }, '*');
-        };
-
-        [0, 100, 300].forEach((delay) => {
-            window.setTimeout(send, delay);
-        });
+        frame.contentWindow?.postMessage({
+            type: 'adt:page-toc-activate', pageId, key,
+        }, '*');
     };
 
     const applyPendingTocActivation = (pageId) => {
-        const pendingKey = pendingTocActivationByPage.get(pageId);
+        let pendingKey = pendingTocActivationByPage.get(pageId);
+        const frame = Array.from(frames).find((candidate) => candidate.dataset.pageId === pageId) || null;
+        try { pendingKey = JSON.parse(frame?.dataset.sectionAliases || '{}')[pendingKey] || pendingKey; } catch { /* Original documents have no aliases. */ }
+        if (pendingKey) pendingTocActivationByPage.set(pageId, pendingKey);
         const state = tocStateByPage.get(pageId);
-        if (!pendingKey || !state || state.mode !== 'action') return;
+        if (!pendingKey || !state) return;
+        if (state.mode === 'scroll') {
+            const item = state.items.find(entry => entry.key === pendingKey);
+            if (!item || frame !== getCurrentFrame()) return;
+            pendingTocActivationByPage.delete(pageId);
+            window.requestAnimationFrame(() => {
+                const frameTop = window.scrollY + frame.getBoundingClientRect().top;
+                window.scrollTo({ top: Math.max(0, frameTop + item.top - headerOffset), behavior: 'auto' });
+            });
+            return;
+        }
 
         const hasPendingItem = state.items.some((entry) => entry.key === pendingKey);
         if (!hasPendingItem) return;
@@ -113,7 +148,6 @@
         }));
         scheduleTocRender();
 
-        const frame = Array.from(frames).find((candidate) => candidate.dataset.pageId === pageId) || null;
         sendTocActivationToFrame(frame, pageId, pendingKey);
     };
 
@@ -161,6 +195,7 @@
         const state = tocStateByPage.get(currentPageId());
         const frame = getCurrentFrame();
         if (!state || !frame) return;
+        updateLocation(chapterNumbers[toIndex(currentPage)], item.key);
 
         if (state.mode === 'action') {
             pendingTocActivationByPage.set(state.pageId, item.key);
@@ -233,6 +268,7 @@
     };
 
     const renderToc = () => {
+        if (tocRoot) tocRoot.hidden = Boolean(modalStateByPage.get(currentPageId()));
         if (!tocRoot || !tocTitle || !tocNav || !tocEmpty) return;
 
         const state = tocStateByPage.get(currentPageId()) || null;
@@ -268,19 +304,20 @@
         });
     };
 
-    const clampPage = (pageNum) => Math.min(totalPages, Math.max(1, pageNum));
-
     const parseChapterInputPage = () => {
         if (!chapterInput) return null;
-        const parsedPage = Number.parseInt(chapterInput.value, 10);
-        return Number.isFinite(parsedPage) ? clampPage(parsedPage) : null;
+        const chapter = Number.parseInt(chapterInput.value, 10);
+        if (!Number.isFinite(chapter)) return null;
+        const bounded = Math.max(chapterNumbers[0], Math.min(chapterNumbers.at(-1), chapter));
+        // The registry may contain gaps; select the next available chapter.
+        return chapterNumbers.findIndex((number) => number >= bounded) + 1;
     };
 
     const syncChapterJump = () => {
         if (chapterInput) {
-            chapterInput.min = '1';
-            chapterInput.max = String(totalPages);
-            chapterInput.value = String(currentPage);
+            chapterInput.min = String(chapterNumbers[0]);
+            chapterInput.max = String(chapterNumbers.at(-1));
+            chapterInput.value = String(chapterNumbers[toIndex(currentPage)]);
         }
 
         chapterStepButtons.forEach((button) => {
@@ -294,6 +331,8 @@
         sections.forEach((section, index) => {
             section.classList.toggle('active', index === toIndex(currentPage));
         });
+        if (tocRoot) tocRoot.hidden = Boolean(modalStateByPage.get(currentPageId()));
+        frames.forEach(sendFrameActivity);
         navItems.forEach((item) => {
             const pageNum = Number(item.dataset.goPage);
             item.classList.toggle('active', pageNum === currentPage);
@@ -308,6 +347,7 @@
 
     const goToPage = (pageNum) => {
         if (pageNum < 1 || pageNum > totalPages) return;
+        if (pageNum !== currentPage) updateLocation(chapterNumbers[toIndex(pageNum)]);
         currentPage = pageNum;
         ensurePageLoaded(pageNum);
         syncUi();
@@ -315,6 +355,30 @@
     };
 
     window.goToPage = goToPage;
+
+    const searchDialog = document.querySelector('[data-book-search-dialog]');
+    const searchInput = document.querySelector('[data-book-search]');
+    const searchLinks = Array.from(document.querySelectorAll('[data-book-search-result]'));
+    document.querySelector('[data-book-search-open]')?.addEventListener('click', () => {
+        setTocExpanded(false);
+        searchDialog.showModal();
+        searchInput.focus();
+    });
+    searchInput?.addEventListener('input', () => {
+        const terms = searchInput.value.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
+        let count = 0;
+        searchLinks.forEach(link => {
+            link.hidden = !terms.every(term => link.textContent.toLocaleLowerCase().includes(term));
+            count += Number(!link.hidden);
+        });
+        document.querySelector('[data-book-search-status]').textContent = count ? `${count}개 학습 절` : '일치하는 절이 없습니다. 다른 용어로 검색하세요.';
+    });
+    searchInput?.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            searchLinks.find(link => !link.hidden)?.click();
+        }
+    });
 
     const commitChapterInput = () => {
         const pageNum = parseChapterInputPage();
@@ -367,14 +431,6 @@
         setTocExpanded(!isTocExpanded());
     });
 
-    tocRoot?.addEventListener('mouseenter', () => {
-        if (isFinePointer()) setTocExpanded(true);
-    });
-
-    tocRoot?.addEventListener('mouseleave', () => {
-        if (isFinePointer()) setTocExpanded(false);
-    });
-
     document.addEventListener('click', (event) => {
         if (!tocRoot || !isTocExpanded() || !(event.target instanceof Node)) return;
         if (!tocRoot.contains(event.target)) setTocExpanded(false);
@@ -397,6 +453,7 @@
                 frame.style.height = '960px';
             }
             markFrameReady(frame);
+            sendFrameActivity(frame);
             applyPendingTocActivation(frame.dataset.pageId);
             scheduleTocRender();
         });
@@ -404,19 +461,34 @@
 
     window.addEventListener('scroll', scheduleTocRender, { passive: true });
     window.addEventListener('resize', scheduleTocRender);
+    window.addEventListener('scroll', scheduleViewport, { passive: true });
+    window.addEventListener('resize', scheduleViewport);
+    document.addEventListener('visibilitychange', () => frames.forEach(sendFrameActivity));
 
     window.addEventListener('message', (event) => {
         const data = event.data;
         if (!data || typeof data !== 'object') return;
+        const sourceFrame = frames.find((frame) => frame.contentWindow === event.source);
+        if (!sourceFrame || data.pageId !== sourceFrame.dataset.pageId) return;
+        if (data.type === 'adt:page-modal') {
+            modalStateByPage.set(data.pageId, Boolean(data.open));
+            scheduleTocRender();
+            return;
+        }
         if (data.type === 'adt:page-height') {
             resizeFrame(data.pageId, data.height);
         }
         if (data.type === 'adt:navigate' && Number.isFinite(data.delta)) {
             goToPage(currentPage + data.delta);
         }
+        if (data.type === 'adt:page-anchor' && sourceFrame === getCurrentFrame() && Number.isFinite(data.top)) {
+            const top = window.scrollY + sourceFrame.getBoundingClientRect().top + Math.max(0, data.top) - headerOffset;
+            window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+        }
         if (data.type === 'adt:ready') {
             const frame = document.querySelector(`[data-page-id="${data.pageId}"]`);
             if (frame) markFrameReady(frame);
+            sendFrameActivity(sourceFrame);
         }
         if (data.type === 'adt:page-toc' && typeof data.pageId === 'string') {
             const normalizedState = normalizeTocState(data);
@@ -438,6 +510,12 @@
         }
     });
 
-    ensurePageLoaded(1);
+    const locationParams = new URLSearchParams(window.location.search);
+    const requestedChapter = Number(locationParams.get('chapter'));
+    const initialIndex = chapterNumbers.indexOf(requestedChapter);
+    if (initialIndex >= 0) currentPage = initialIndex + 1;
+    const requestedSection = locationParams.get('section');
+    if (requestedSection) pendingTocActivationByPage.set(currentPageId(), requestedSection);
+    ensurePageLoaded(currentPage);
     syncUi();
 })();

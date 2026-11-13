@@ -2,9 +2,33 @@
   "output": "../../page-11-ai-accelerator.html",
   "parts": [
     "00-shell-start.html",
-    "sections/01-accelerator-stack.html",
-    "sections/02-dataflow.html",
-    "sections/03-metric-debug.html",
+    "sections/lesson-11-01.html",
+    "sections/lesson-11-02.html",
+    "sections/lesson-11-03.html",
+    "sections/lesson-11-04.html",
+    "sections/lesson-11-05.html",
+    "sections/lesson-11-06.html",
+    "sections/lesson-11-07.html",
+    "sections/lesson-11-08.html",
+    "sections/lesson-11-09.html",
+    "sections/lesson-11-10.html",
+    "sections/lesson-11-11.html",
+    "sections/lesson-11-12.html",
+    "sections/lesson-11-13.html",
+    "sections/lesson-11-14.html",
+    "sections/lesson-11-15.html",
     "99-shell-end.html"
-  ]
+  ],
+  "title": "AI Accelerator Architecture",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/technical-pages/technical-pages.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/technical-pages/technical-pages.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": []
 }

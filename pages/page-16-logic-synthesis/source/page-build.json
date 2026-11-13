@@ -1,0 +1,27 @@
+{
+  "output": "../../page-16-logic-synthesis.html",
+  "parts": [
+    "00-shell-start.html",
+    "sections/lesson-16-01.html",
+    "sections/lesson-16-02.html",
+    "sections/lesson-16-03.html",
+    "sections/lesson-16-04.html",
+    "sections/lesson-16-05.html",
+    "sections/lesson-16-06.html",
+    "99-shell-end.html"
+  ],
+  "title": "Logic Synthesis와 제약",
+  "styles": [
+    "../assets/features/curriculum/curriculum.css",
+    "../assets/features/visual-atlas/visual-atlas.css"
+  ],
+  "headScripts": [],
+  "scripts": [
+    "../assets/guidebook-page-common.js",
+    "../assets/features/visual-atlas/visual-atlas.js",
+    "../assets/features/curriculum/curriculum.js"
+  ],
+  "runtimeAssets": [
+    "../assets/features/visual-atlas/visual-atlas-3d.js"
+  ]
+}

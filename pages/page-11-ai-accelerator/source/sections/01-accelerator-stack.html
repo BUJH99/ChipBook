@@ -1,4 +1,4 @@
-<div class="tab-content active space-y-8" data-part11-panel="accelerator-stack" data-guidebook-toc-title="Accelerator Stack">
+<div class="tab-content active space-y-8" data-part11-panel="accelerator-stack" data-guidebook-toc-title="{{section:accelerator-stack:toc}}">
                 <div class="card !rounded-lg border border-blue-100 bg-white">
                     <div class="mb-5 flex flex-col gap-3 border-b-2 border-blue-600 pb-4 xl:flex-row xl:items-end xl:justify-between">
                         <div>
@@ -83,7 +83,7 @@
                         <svg viewBox="0 0 1350 900" class="block w-full min-w-[1100px] md:min-w-0 h-auto" role="img" aria-labelledby="aiDataflowTitle aiDataflowDesc">
                             <title id="aiDataflowTitle">AI Accelerator Systolic Dataflow Blueprint</title>
                             <desc id="aiDataflowDesc">High-fidelity microarchitectural blueprint of a compact 2x2 weight-stationary systolic array compute die with massively expanded surrounding memory buffers and post-processing pipelines.</desc>
-                            
+
                             <defs>
                                 <!-- Gradients -->
                                 <linearGradient id="blueprintBg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -110,7 +110,7 @@
                                     <stop offset="0%" stop-color="#ea580c" stop-opacity="0.15"/>
                                     <stop offset="100%" stop-color="#ea580c" stop-opacity="0.01"/>
                                 </linearGradient>
-                                
+
                                 <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
                                     <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.06"/>
                                 </filter>
@@ -120,7 +120,7 @@
                                     <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
                                     <path d="M 10 0 L 10 40 M 20 0 L 20 40 M 30 0 L 30 40 M 0 10 L 40 10 M 0 20 L 40 20 M 0 30 L 40 30" fill="none" stroke="#f1f5f9" stroke-width="0.4"/>
                                 </pattern>
-                                
+
                                 <!-- High-tech Arrow Markers -->
                                 <marker id="mGreen" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
                                     <path d="M 0 1.5 L 8 5 L 0 8.5 Z" fill="#059669"/>
@@ -142,7 +142,7 @@
                             <!-- Blueprint CAD Style Frame -->
                             <rect x="15" y="15" width="1320" height="870" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
                             <rect x="19" y="19" width="1312" height="862" fill="none" stroke="#f1f5f9" stroke-width="1"/>
-                            
+
                             <!-- CAD Corner Marks -->
                             <path d="M 10 15 H 25 M 15 10 V 25" stroke="#94a3b8" stroke-width="1"/>
                             <path d="M 1325 15 H 1340 M 1335 10 V 25" stroke="#94a3b8" stroke-width="1"/>
@@ -154,11 +154,11 @@
                                 <rect width="290" height="55" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
                                 <line x1="180" y1="0" x2="180" y2="55" stroke="#cbd5e1" stroke-width="1"/>
                                 <line x1="0" y1="28" x2="180" y2="28" stroke="#cbd5e1" stroke-width="1"/>
-                                
+
                                 <text x="10" y="12" fill="#0284c7" font-family="Pretendard, Arial, sans-serif" font-size="7.2" font-weight="900" letter-spacing="0.9">SYSTEM DRAWING</text>
                                 <text x="10" y="24" fill="#0f172a" font-family="Pretendard, Arial, sans-serif" font-size="7.8" font-weight="900">NPU SYSTOLIC DATAFLOW BLUEPRINT</text>
                                 <text x="10" y="44" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8" font-weight="800">DOC NO: NPU-WSDF-V4.2</text>
-                                
+
                                 <text x="190" y="20" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="7.5" font-weight="800">SCALE: N/A</text>
                                 <text x="190" y="34" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="7.5" font-weight="800">REV: 2.0</text>
                                 <text x="190" y="47" fill="#059669" font-family="Pretendard, Arial, sans-serif" font-size="8" font-weight="900">VERIFIED [OK]</text>
@@ -441,10 +441,10 @@
                                 <!-- Silicon Die Base Substrate Shape (Completely contracted: W: 460, H: 430, X: 445, Y: 180) -->
                                 <rect x="445" y="180" width="460" height="430" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" filter="url(#cardShadow)"/>
                                 <rect x="450" y="185" width="450" height="420" rx="12" fill="none" stroke="#e2e8f0" stroke-width="1"/>
-                                
+
                                 <!-- Silicon Die Outer Title -->
                                 <text x="465" y="202" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8" font-weight="900" letter-spacing="1">SILICON COMPUTE DIE (20nm TENSOR ASIC)</text>
-                                
+
                                 <!-- Section Header Area -->
                                 <g transform="translate(550, 75)">
                                     <rect width="250" height="22" rx="4" fill="#f1f5f9" stroke="#3b82f6" stroke-width="1"/>
@@ -518,10 +518,10 @@
                             <!-- ========================================== -->
                             <!-- CONNECTIONS & COMPACT HIGH-CONTRAST LINKS  -->
                             <!-- ========================================== -->
-                            
+
                             <!-- 1. ACTIVATION FLOW PATHS (Green) -->
                             <!-- Starts at compact A-SRAM right edge. Row 0 direct, Row 1 delayed by 1 cycle -->
-                            
+
                             <!-- Row 0: Center Y is 297. Direct connection -->
                             <path d="M 430,300 H 445 V 297 H 485" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#mGreen)"/>
                             <text x="448" y="290" fill="#047857" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">A_STREAM [0]</text>
@@ -539,7 +539,7 @@
                             <!-- Horizontal Inter-PE Activation Routing Links -->
                             <path d="M 605,297 H 695" stroke="#059669" stroke-width="3" marker-end="url(#mGreen)"/>
                             <path d="M 815,297 H 895" stroke="#059669" stroke-width="2" stroke-dasharray="3 3"/>
-                            
+
                             <path d="M 605,477 H 695" stroke="#059669" stroke-width="3" marker-end="url(#mGreen)"/>
                             <path d="M 815,477 H 895" stroke="#059669" stroke-width="2" stroke-dasharray="3 3"/>
 
@@ -570,7 +570,7 @@
                             <!-- Output Collection Bus at bottom of columns -->
                             <path d="M 545,530 V 580" stroke="#7c3aed" stroke-width="3" marker-end="url(#mPurple)"/>
                             <path d="M 755,530 V 580" stroke="#7c3aed" stroke-width="3" marker-end="url(#mPurple)"/>
-                            
+
                             <!-- Bus Trunk Routing to P-SRAM (Enters at X: 950) -->
                             <path d="M 545,580 H 880 V 170 H 950" fill="none" stroke="#7c3aed" stroke-width="3.5" marker-end="url(#mPurple)"/>
                             <text x="865" y="570" text-anchor="end" fill="#6d28d9" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">PSUM COMPUTE BUS (INT32)</text>
@@ -584,7 +584,7 @@
                             <!-- Dotted segments going up into columns -->
                             <path d="M 545,560 V 545" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="2 3" marker-end="url(#mBlue)"/>
                             <path d="M 755,560 V 545" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="2 3" marker-end="url(#mBlue)"/>
-                            
+
                             <text x="440" y="552" fill="#1e4ed8" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">WEIGHT LOAD (STATIC)</text>
 
 
@@ -603,17 +603,17 @@
                                     <rect width="360" height="120" rx="8" fill="url(#panelBg)" stroke="#8b5cf6" stroke-width="1.5"/>
                                     <rect width="360" height="24" rx="4" fill="#f3e8ff"/>
                                     <text x="12" y="15" fill="#581c87" font-family="Pretendard, Arial, sans-serif" font-size="9.5" font-weight="900">PARTIAL-SUM SRAM ACCUMULATOR</text>
-                                    
+
                                     <!-- Slots - Widened to 320 -->
                                     <rect x="15" y="36" width="320" height="15" rx="2" fill="#fdfdfd" stroke="#d8b4fe"/>
                                     <text x="25" y="47" fill="#6b21a8" font-family="monospace" font-size="9" font-weight="800">ACC_BUF[0]: +340.23597  (FP32)</text>
-                                    
+
                                     <rect x="15" y="55" width="320" height="15" rx="2" fill="#fdfdfd" stroke="#d8b4fe"/>
                                     <text x="25" y="66" fill="#6b21a8" font-family="monospace" font-size="9" font-weight="800">ACC_BUF[1]: -12.44102   (FP32)</text>
-                                    
+
                                     <rect x="15" y="74" width="320" height="15" rx="2" fill="#fdfdfd" stroke="#d8b4fe"/>
                                     <text x="25" y="85" fill="#6b21a8" font-family="monospace" font-size="9" font-weight="800">ACC_BUF[2]: +89.70244   (FP32)</text>
-                                    
+
                                     <rect x="15" y="93" width="320" height="15" rx="2" fill="#fdfdfd" stroke="#d8b4fe"/>
                                     <text x="25" y="104" fill="#6b21a8" font-family="monospace" font-size="9" font-weight="800">ACC_BUF[3]: +0.00000    (FP32)</text>
 
@@ -858,7 +858,7 @@
                                         <rect x="284" width="48" height="15" rx="7.5" fill="#fff7ed" stroke="#fed7aa"/>
                                         <text x="308" y="10.5" text-anchor="middle" fill="#c2410c" font-family="monospace" font-size="6.2" font-weight="900">INT8</text>
                                     </g>
-                                    
+
                                 </g>
 
                                 <!-- DRAM Write Controller (Widened to 360) -->
@@ -991,26 +991,26 @@
                                 <rect width="470" height="100" rx="8" fill="url(#panelBg)" stroke="#cbd5e1" stroke-width="1.5"/>
                                 <rect width="470" height="22" rx="4" fill="url(#headerGrad)"/>
                                 <text x="12" y="14" fill="#334155" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900" letter-spacing="0.5">IV. MATRIX EXECUTION TIMELINE &amp; WAVEFRONT PIPELINE</text>
-                                
+
                                 <!-- Timesteps CLK 0..3 (Perfect fit inside 470 width) -->
                                 <g transform="translate(45, 36)">
                                     <!-- Timelines -->
                                     <line x1="0" y1="20" x2="380" y2="20" stroke="#cbd5e1" stroke-width="2"/>
-                                    
+
                                     <!-- CLK 0 -->
                                     <g transform="translate(0, 0)">
                                         <circle cx="0" cy="20" r="7" fill="#f59e0b"/>
                                         <text x="0" y="6" text-anchor="middle" fill="#0f172a" font-family="monospace" font-size="9.5" font-weight="900">CLK0</text>
                                         <text x="0" y="40" text-anchor="middle" fill="#b45309" font-family="monospace" font-size="9.5" font-weight="900">PE(0,0)</text>
                                     </g>
-                                    
+
                                     <!-- CLK 1 -->
                                     <g transform="translate(125, 0)">
                                         <circle cx="0" cy="20" r="6" fill="#f59e0b" opacity="0.8"/>
                                         <text x="0" y="6" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="9.5" font-weight="900">CLK1</text>
                                         <text x="0" y="40" text-anchor="middle" fill="#b45309" font-family="monospace" font-size="9.5" font-weight="900">PE(0,1)+(1,0)</text>
                                     </g>
-                                    
+
                                     <!-- CLK 2 -->
                                     <g transform="translate(250, 0)">
                                         <circle cx="0" cy="20" r="6" fill="#f59e0b" opacity="0.8"/>
@@ -1033,20 +1033,20 @@
                             <!-- ========================================== -->
                             <g transform="translate(40, 825)" font-family="Pretendard, Arial, sans-serif" font-size="9" font-weight="900">
                                 <rect width="980" height="34" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" filter="url(#cardShadow)"/>
-                                
+
                                 <!-- Activation -->
                                 <circle cx="20" cy="17" r="5" fill="#10b981"/>
                                 <text x="30" y="20" fill="#047857">ACTIVATION (INT8) - STAGGERED HORIZONTAL DELAYS</text>
-                                
+
                                 <!-- Weight -->
                                 <circle cx="340" cy="17" r="5" fill="#3b82f6"/>
                                 <text x="350" y="20" fill="#1e4ed8">STATIONARY WEIGHT (INT8) - STATIC LOCAL STORAGE</text>
-                                
+
                                 <!-- Partial-Sum -->
                                 <circle cx="650" cy="17" r="5" fill="#8b5cf6"/>
                                 <text x="660" y="20" fill="#581c87">PARTIAL-SUM (INT32) - VERTICAL SYSTOLIC ACCUMULATION</text>
                             </g>
-                            
+
                             <!-- Detailed footnotes -->
                             <g transform="translate(40, 880)">
                                 <text x="0" y="0" fill="#64748b" font-family="Pretendard, Arial, sans-serif" font-size="8.5" font-weight="800">

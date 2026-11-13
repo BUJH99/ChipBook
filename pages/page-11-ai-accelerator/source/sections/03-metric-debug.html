@@ -1,4 +1,4 @@
-<div class="tab-content card border border-slate-300 bg-[radial-gradient(circle_at_top_right,_rgba(6,182,212,0.06),_transparent_32%),linear-gradient(180deg,_#ffffff_0%,_#fbfdff_100%)] !rounded-none" data-part11-panel="metric-debug" data-guidebook-toc-title="Metric &amp; Debug">
+<div class="tab-content card border border-slate-300 bg-[radial-gradient(circle_at_top_right,_rgba(6,182,212,0.06),_transparent_32%),linear-gradient(180deg,_#ffffff_0%,_#fbfdff_100%)] !rounded-none" data-part11-panel="metric-debug" data-guidebook-toc-title="{{section:metric-debug:toc}}">
                         <!-- Monospace Telemetry Monitoring Console -->
                         <div class="border-b border-slate-200 bg-slate-900 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] text-slate-400 select-none !rounded-none">
                             <div class="flex items-center gap-2.5">
@@ -36,7 +36,7 @@
                                     <svg viewBox="0 0 1000 640" class="block w-full min-w-[880px] xl:min-w-0 h-auto" role="img" aria-labelledby="aiRooflineTitle aiRooflineDesc">
                                         <title id="aiRooflineTitle">AI accelerator roofline debug map</title>
                                         <desc id="aiRooflineDesc">A high-fidelity logarithmic scale roofline chart mapping arithmetic intensity to achieved throughput with real-world AI workloads and performance loss vectors.</desc>
-                                        
+
                                         <defs>
                                             <!-- Advanced Filters & Glows -->
                                             <filter id="neonGlowRoofline" x="-10%" y="-10%" width="120%" height="120%">
@@ -49,11 +49,11 @@
                                                     <feMergeNode in="SourceGraphic" />
                                                 </feMerge>
                                             </filter>
-                                            
+
                                             <filter id="nodeShadow" x="-30%" y="-30%" width="160%" height="160%">
                                                 <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.15"/>
                                             </filter>
-                                            
+
                                             <!-- Sophisticated Gradients -->
                                             <linearGradient id="rooflineGradient" x1="0%" y1="100%" x2="100%" y2="0%">
                                                 <stop offset="0%" stop-color="#06b6d4" />
@@ -75,7 +75,7 @@
                                             <pattern id="diagonalHatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45 0 0)">
                                                 <line x1="0" y1="0" x2="0" y2="10" stroke="#e2e8f0" stroke-width="0.8" />
                                             </pattern>
-                                            
+
                                             <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
                                                 <line x1="0" y1="0" x2="40" y2="0" stroke="#f1f5f9" stroke-width="1" />
                                                 <line x1="0" y1="0" x2="0" y2="40" stroke="#f1f5f9" stroke-width="1" />
@@ -93,7 +93,7 @@
                                         <rect width="1000" height="640" fill="#f8fafc" />
                                         <rect width="1000" height="640" fill="url(#gridPattern)" />
                                         <rect x="2" y="2" width="996" height="636" fill="none" stroke="#cbd5e1" stroke-width="1" />
-                                        
+
                                         <!-- Corner Blueprint Decals (+) -->
                                         <g stroke="#94a3b8" stroke-width="1" opacity="0.6" fill="none">
                                             <!-- Top Left -->
@@ -112,7 +112,7 @@
                                             <!-- Inner Graph Plate -->
                                             <g transform="translate(100, 100)">
                                                 <rect width="820" height="440" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
-                                                
+
                                                 <!-- Shaded Bound Zones -->
                                                 <!-- Memory Bound Shading -->
                                                 <path d="M 60 380 V 310 L 480 100 V 380 Z" fill="url(#memoryZoneGrad)" />
@@ -128,7 +128,7 @@
                                                     <line x1="480" y1="40" x2="480" y2="380" />
                                                     <line x1="620" y1="40" x2="620" y2="380" />
                                                     <line x1="760" y1="40" x2="760" y2="380" />
-                                                    
+
                                                     <!-- Y-Axis horizontal lines -->
                                                     <line x1="60" y1="380" x2="760" y2="380" />
                                                     <line x1="60" y1="310" x2="760" y2="310" />
@@ -142,7 +142,7 @@
                                                 <line x1="60" y1="380" x2="780" y2="380" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" />
                                                 <path d="M 777 377 L 785 380 L 777 383 Z" fill="#0f172a" />
                                                 <text x="410" y="420" text-anchor="middle" fill="#475569" font-size="12" font-weight="900" letter-spacing="0.05em">Arithmetic Intensity (산술 강도 : FLOPs / Byte) [log₂ scale]</text>
-                                                
+
                                                 <!-- Y-Axis -->
                                                 <line x1="60" y1="380" x2="60" y2="30" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" />
                                                 <path d="M 57 33 L 60 25 L 63 33 Z" fill="#0f172a" />
@@ -180,7 +180,7 @@
                                                     <circle cx="480" cy="100" r="14" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3 3" />
                                                     <line x1="480" y1="78" x2="480" y2="122" stroke="#6366f1" stroke-width="1.2" />
                                                     <line x1="458" y1="100" x2="502" y2="100" stroke="#6366f1" stroke-width="1.2" />
-                                                    
+
                                                     <rect x="495" y="112" width="138" height="24" fill="#ffffff" stroke="#6366f1" stroke-width="0.8" opacity="0.9" />
                                                     <text x="502" y="128" fill="#4f46e5" font-size="9" font-weight="900" font-family="monospace">KNEE-POINT: 2.0 FLOPs/B</text>
                                                 </g>
@@ -190,13 +190,13 @@
                                                 <text x="640" y="350" fill="#6d28d9" opacity="0.6" font-size="16" font-weight="900" text-anchor="middle" letter-spacing="0.05em">COMPUTE-BOUND ZONE</text>
 
                                                 <!-- Active Hardware Workload Nodes & Annotations -->
-                                                
+
                                                 <!-- Node 1: LLM Generative Phase (Token Decode) -->
                                                 <g filter="url(#nodeShadow)">
                                                     <circle cx="88" cy="298" r="9" fill="#ef4444" stroke="#ffffff" stroke-width="2.5" />
                                                     <!-- Blinking Warning Halo -->
                                                     <circle cx="88" cy="298" r="15" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.6" />
-                                                    
+
                                                     <text x="102" y="293" fill="#ef4444" font-size="11" font-weight="900">LLM Gen (Decode)</text>
                                                     <text x="102" y="305" fill="#64748b" font-size="8.5" font-weight="800" font-family="monospace">AI=0.04 FLOP/B | Peak: 5.1%</text>
                                                 </g>
@@ -204,7 +204,7 @@
                                                 <!-- Node 2: Depthwise Separable Conv -->
                                                 <g filter="url(#nodeShadow)">
                                                     <circle cx="270" cy="235" r="9" fill="#f97316" stroke="#ffffff" stroke-width="2.5" />
-                                                    
+
                                                     <text x="284" y="231" fill="#c2410c" font-size="11" font-weight="900">Depthwise Conv</text>
                                                     <text x="284" y="243" fill="#64748b" font-size="8.5" font-weight="800" font-family="monospace">AI=0.25 FLOP/B | Peak: 14%</text>
                                                 </g>
@@ -213,7 +213,7 @@
                                                 <g>
                                                     <!-- Loss vector (vertical red arrow from ceiling to actual) -->
                                                     <line x1="480" y1="112" x2="480" y2="225" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#redArrowHead)" />
-                                                    
+
                                                     <!-- Highlighting the utilization drop area -->
                                                     <rect x="364" y="135" width="110" height="42" rx="4" fill="#fef2f2" stroke="#fecaca" stroke-width="0.8" />
                                                     <text x="419" y="151" text-anchor="middle" fill="#dc2626" font-size="8" font-weight="900">UTILIZATION LOSS</text>
@@ -228,7 +228,7 @@
                                                 <!-- Node 4: LLM Prefill Phase (Prompt) -->
                                                 <g filter="url(#nodeShadow)">
                                                     <circle cx="585" cy="115" r="9" fill="#3b82f6" stroke="#ffffff" stroke-width="2.5" />
-                                                    
+
                                                     <text x="599" y="111" fill="#1d4ed8" font-size="11" font-weight="900">LLM Prefill (Prompt)</text>
                                                     <text x="599" y="123" fill="#64748b" font-size="8.5" font-weight="800" font-family="monospace">AI=5.6 FLOP/B | Peak: 78%</text>
                                                 </g>
@@ -236,7 +236,7 @@
                                                 <!-- Node 5: Standard INT8 CNN Convolution -->
                                                 <g filter="url(#nodeShadow)">
                                                     <circle cx="710" cy="103" r="9" fill="#10b981" stroke="#ffffff" stroke-width="2.5" />
-                                                    
+
                                                     <text x="724" y="99" fill="#047857" font-size="11" font-weight="900">INT8 Conv (Optimal)</text>
                                                     <text x="724" y="111" fill="#64748b" font-size="8.5" font-weight="800" font-family="monospace">AI=32.0 FLOP/B | Peak: 96%</text>
                                                 </g>
@@ -246,7 +246,7 @@
                                             <g transform="translate(160, 565)">
                                                 <!-- Glassmorphic panel background -->
                                                 <rect x="0" y="0" width="700" height="42" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" !rounded-none />
-                                                
+
                                                 <!-- Items -->
                                                 <g transform="translate(20, 21)">
                                                     <circle cx="10" cy="0" r="6" fill="#ef4444" />
@@ -274,7 +274,7 @@
                                             <span class="text-xs font-black text-slate-500 uppercase tracking-[0.2em] font-mono">DEBUG CAUSALITY MATRIX</span>
                                         </div>
                                         <h4 class="text-[18px] leading-tight font-black text-slate-900 mb-5">실리콘 성능 미달 시 엔지니어가 추적하는 4대 원인 체인</h4>
-                                        
+
                                         <div class="space-y-4">
                                             <!-- Diagnostic Card 1: Util -->
                                             <div class="border-l-4 border-cyan-500 bg-slate-50 p-4 !rounded-none">

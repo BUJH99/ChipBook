@@ -1,0 +1,252 @@
+/* Body composition follows the individual section mockups. Original book shell is retained. */
+.technical-curriculum .page-shell{max-width:1720px;padding:2rem var(--page-gutter) 3rem}
+.technical-curriculum .section-title{font-size:clamp(1.6rem,3vw,2rem);font-weight:800;margin-bottom:1.5rem;line-height:1.25;letter-spacing:-.03em}
+.technical-curriculum .chapter-lesson h2.guidebook-section-kicker{font-family:'IBM Plex Sans','Pretendard',sans-serif;font-size:clamp(1.6rem,2.3vw,1.68rem);font-weight:700;letter-spacing:-.025em;color:var(--color-blue);line-height:1.3;margin:0}
+.technical-section{--tech-blue:#0879ff;--tech-green:#00a987;--tech-purple:#7753cb;--tech-ink:#102748;--tech-line:#dce6f2;color:#42516a;font-size:15px;line-height:1.65}
+.technical-section .tech-panel{border:1px solid var(--tech-line);border-radius:8px;background:#fff;box-shadow:none;padding:16px;margin:0;min-width:0;overflow:hidden}
+.technical-section .tech-section{margin:18px 0}
+.technical-section .tech-grid{display:grid;gap:12px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch}
+.technical-section .tech-grid.tech-split{grid-template-columns:minmax(0,1.48fr) minmax(0,1fr)}
+.technical-section .tech-grid.tech-thirds{grid-template-columns:repeat(3,minmax(0,1fr))}
+.technical-section .tech-grid.tech-fourths{grid-template-columns:repeat(4,minmax(0,1fr))}
+.technical-section .tech-analog-signal-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,1fr) minmax(0,1.3fr);gap:16px;align-items:center}
+.technical-section .tech-analog-signal-row>section{min-width:0}
+.technical-section .tech-analog-signal-row h4{font-size:14px;min-height:42px}
+.technical-section .tech-grid.tech-analog-dac-overview{grid-template-columns:minmax(0,1.8fr) minmax(0,.8fr);align-items:center}
+.technical-section .tech-sensor-overview{display:grid;grid-template-columns:minmax(160px,.45fr) minmax(0,1.55fr);align-items:center;gap:18px}
+.technical-section .tech-sensor-overview>*{min-width:0}
+.technical-section .tech-dac-bit-controls{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.technical-section .tech-dac-bit-controls button{display:grid;gap:3px;min-width:47px;padding:9px 11px;border:1px solid #b7cde5;border-radius:5px;background:#fff;color:#486582;font:600 19px 'IBM Plex Mono',monospace;cursor:pointer}
+.technical-section .tech-dac-bit-controls button[aria-pressed=true]{border-color:#72aff8;background:#e8f3ff;color:#0879ff}
+.technical-section .tech-dac-bit-controls button:focus-visible{outline:3px solid #b6d8ff;outline-offset:2px}
+.technical-section .tech-dac-bit-controls small{font:11px 'IBM Plex Sans',sans-serif;color:#5d7c9e}
+.technical-section details.tech-details{border:1px solid #dce7f5;border-radius:5px;padding:11px 13px;background:#fbfdff}
+.technical-section .tech-details summary{cursor:pointer;color:#1769c3;font-weight:650;font-size:14px}
+.technical-section .tech-details[open] summary{margin-bottom:12px}
+.technical-section [data-analog-spec-stage] .tech-svg{max-height:270px}
+.technical-section [data-analog-mirror-circuit] .tech-svg,.technical-section [data-analog-diff-circuit] .tech-svg{max-height:420px}
+.technical-section [data-analog-sar-circuit] .tech-svg{max-height:370px}
+.technical-section [data-analog-sar-table]{max-height:390px;overflow:auto}
+.technical-section [data-analog-sar-table] th{position:sticky;top:0;z-index:1}
+.technical-section [data-analog-dac-inputs],.technical-section [data-analog-amplifier-inputs],.technical-section [data-analog-loop-inputs],.technical-section [data-analog-spec-inputs],.technical-section [data-analog-noise-inputs]{grid-template-columns:1fr 1fr}
+.technical-section [data-analog-offset-inputs]{display:grid;grid-template-columns:1fr}
+.technical-section [data-analog-mixed-results] .modern-table{font-size:12px}
+.technical-section .tech-grid.tech-cmos-gate-row{grid-template-columns:minmax(0,1.25fr) minmax(0,.8fr) minmax(140px,.75fr);align-items:center;gap:22px}
+.technical-section .tech-cmos-gate-row>section{align-self:stretch;border:1px solid #e3ebf5;border-radius:6px;padding:14px;min-width:0}
+.technical-section .tech-cmos-gate-row>section:nth-child(2),.technical-section .tech-cmos-gate-row>section:nth-child(3){display:flex;flex-direction:column;justify-content:center}
+.technical-section .tech-cmos-gate-row h4{margin-bottom:18px}
+.technical-section .tech-matrix .cmos-selected-row td{background:#e8f3ff;color:#0873eb;font-weight:700;box-shadow:inset 0 1px 0 #c2defb,inset 0 -1px 0 #c2defb}
+.technical-section .tech-grid.tech-cmos-layout-pair{grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr);align-items:center}
+.technical-section .tech-cmos-layout-pair>section{min-width:0}
+.technical-section[data-technical-section="cmos-power"] .tech-grid.tech-thirds{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(0,1fr)}
+.technical-section .tech-cmos-power-pair{gap:4px}.technical-section .tech-cmos-power-pair p{font-size:12px;min-height:40px}
+.technical-section [data-cmos-gating-result],.technical-section [data-cmos-gate-result]{align-self:center}
+.technical-section [data-cmos-inverter-layout] .tech-svg{max-height:480px}.technical-section [data-cmos-inverter-circuit] .tech-svg{max-height:420px}
+.technical-section [data-cmos-buffer-stages],.technical-section [data-cmos-buffer-comparison]{margin-top:12px}
+.technical-section [data-cmos-buffer-chain] .tech-svg{max-height:300px}
+.technical-section [data-cmos-power-inputs]{grid-template-columns:1fr 1fr}
+.technical-section[data-technical-section="cmos-custom"] .tech-thirds .tech-svg{max-height:390px}
+.technical-section .tech-grid>*{min-width:0}
+.technical-section .tech-panel>h3.tech-title{font-size:18px;line-height:1.4;color:#112b50;font-weight:750;margin:0 0 12px;letter-spacing:-.025em}
+.technical-section .tech-panel>h3.tech-title::before{content:'';display:inline-block;width:8px;height:8px;margin:0 8px 2px 0;background:#0879ff;border-radius:50%}
+.technical-section [hidden]{display:none!important}
+.technical-section h4,.technical-section .tech-panel>h3{font-size:16px;line-height:1.45;color:var(--tech-blue);font-weight:730;margin:0 0 6px;letter-spacing:-.02em}
+.technical-section p{font-size:14px;line-height:1.7;margin:5px 0 12px;max-width:none;color:#5a6c84;word-break:keep-all;overflow-wrap:anywhere}
+.technical-section .tech-caption{font-size:12px;line-height:1.65;color:#64768c;margin:7px 0 0}
+.technical-section .tech-figure{margin:0;min-width:0}
+.technical-section .tech-figure>img{display:block;width:100%;height:auto;object-fit:contain;margin:auto}
+.technical-section .tech-art{display:flex;flex-direction:column}
+.technical-section .tech-art .tech-figure{display:flex;flex:1;align-items:center}
+.technical-section .tech-svg{display:block;width:100%;height:auto;overflow:visible;font-family:'IBM Plex Sans','Pretendard',sans-serif;color:#1b3150}
+.technical-section .tech-svg text{font-family:inherit;fill:currentColor;font-size:16px}
+.technical-section .tech-svg .small{font-size:14px}
+.technical-section .tech-svg.tech-circuit .small{font-size:14px}
+.technical-section [data-i2c-wave] .tech-svg .small{font-size:14px}
+.technical-section .tech-svg .label{font-weight:650}
+.technical-section .tech-svg .blue{fill:var(--tech-blue);color:var(--tech-blue)}
+.technical-section .tech-svg .green{fill:var(--tech-green);color:var(--tech-green)}
+.technical-section .tech-svg .purple{fill:var(--tech-purple);color:var(--tech-purple)}
+.technical-section .tech-svg .wire{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.technical-section .tech-svg .signal{stroke:var(--tech-blue);fill:none;stroke-width:1.8;stroke-linejoin:round}
+.technical-section .tech-svg .clock{stroke:var(--tech-green);fill:none;stroke-width:1.8;stroke-linejoin:round}
+.technical-section .tech-scroll{overflow:auto;max-width:100%;scrollbar-width:thin}
+.technical-section .modern-table{width:100%;font-size:13px;line-height:1.55;border:1px solid #d4dfed;border-collapse:separate;border-spacing:0;border-radius:6px;overflow:hidden;margin:0}
+.technical-section .modern-table th{background:#eef3fa;color:#183558;font-weight:650;text-align:left}
+.technical-section .modern-table th,.technical-section .modern-table td{padding:8px 11px;border-bottom:1px solid #dbe4ef;border-right:1px solid #dbe4ef;vertical-align:top}
+.technical-section .modern-table th:last-child,.technical-section .modern-table td:last-child{border-right:0}
+.technical-section .modern-table tr:last-child td{border-bottom:0}
+.technical-section .modern-table td:first-child{color:#154677;font-weight:550}
+.technical-section .guidebook-scroll-region{margin:0;max-width:100%}
+.technical-section .tech-fields{display:flex;flex-wrap:wrap;gap:14px;padding:12px;background:#fbfdff;border:1px solid #e3ebf5;border-radius:6px;margin:12px 0}
+.technical-section .tech-fields label{display:grid;gap:5px;font-size:13px;font-weight:650;color:#294565;flex:1;min-width:100px}
+.technical-section input,.technical-section select{font:14px/1.4 'IBM Plex Sans','Pretendard',sans-serif;border:1px solid #bdcde1;border-radius:5px;background:#fff;color:#19314f;min-height:38px;padding:6px 9px;width:100%;min-width:0;box-sizing:border-box}
+.technical-section input:focus-visible,.technical-section select:focus-visible{outline:3px solid #b8d9ff;outline-offset:1px}
+.technical-section input[aria-invalid=true]{border-color:#cf4259;background:#fff7f8}
+.technical-section .tech-fields input[type=radio]{width:15px;min-height:15px;accent-color:#0879ff;margin:0 5px 0 0}
+.technical-section .tech-radio{display:flex;align-items:center;font-size:13px;font-weight:400;margin:5px 0}
+.technical-section .tech-output{background:#f0f7ff;border-radius:6px;padding:12px 15px;color:#066ef1;font-size:20px;font-weight:700;line-height:1.4}
+.technical-section .tech-output small{display:block;color:#637b98;font-size:12px;font-weight:500;margin-bottom:4px}
+.technical-section .tech-bits{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin:10px 0 8px}
+.technical-section .tech-bits span{display:grid;text-align:center;gap:5px;color:#123e70;font:18px 'IBM Plex Mono',monospace;border:1px solid #c6d6e9;padding:8px 0;border-radius:3px}
+.technical-section .tech-bits small{font:11px 'IBM Plex Sans',sans-serif;color:#798ba5}
+.technical-section .tech-bits span:last-child{background:#edf6ff;color:#0879ff;border-color:#69b1ff}
+.technical-section .tech-control-pair{display:grid;grid-template-columns:1fr 1.15fr;gap:10px;align-items:center}
+.technical-section .tech-control-stack{display:grid;gap:8px}
+.technical-section .tech-control-stack fieldset{border:1px solid #e1e9f3;border-radius:6px;padding:10px;margin:0;min-width:0}
+.technical-section .tech-control-stack legend{font-size:13px;color:#0671f4;font-weight:700;padding:0 4px}
+.technical-section .tech-control-stack label{display:grid;grid-template-columns:55px minmax(0,1fr);gap:6px;align-items:center;font-size:12px;margin:6px 0}
+.technical-section .tech-control-stack select{font-size:12px;padding:4px;min-height:32px}
+.technical-section .tech-form-error{color:#ac2938;font-size:13px;margin:8px 0}
+.technical-section .lesson-sources,.technical-section .lesson-related,.technical-section .lesson-progress{margin-top:20px}
+.technical-section .lesson-sources p,.technical-section .lesson-sources a{font-size:12px}
+.technical-section .tech-terms th:first-child{width:18%}
+.technical-section .tech-terms td:first-child{font-weight:650;color:#0879ff;white-space:nowrap}
+.technical-section .tech-io-analysis{display:grid;grid-template-columns:minmax(150px,.65fr) minmax(0,1.6fr) minmax(210px,1fr);gap:10px;align-items:stretch}
+.technical-section .tech-vertical-fields{padding:0;background:none;border:0;display:grid;gap:12px}
+.technical-section .tech-vertical-fields label{min-width:0}
+.technical-section .tech-diagnosis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.technical-section .tech-diagnosis>section{border:1px solid #d9e7f8;border-radius:6px;background:#f5f9ff;padding:13px;min-width:0}
+.technical-section .tech-diagnosis>section:nth-child(2){background:#f1f7ff}.technical-section .tech-diagnosis>section:nth-child(3){background:#f0fbf6}.technical-section .tech-diagnosis>section:nth-child(4){background:#f8f4ff}.technical-section .tech-diagnosis>section:nth-child(5){background:#fff9ef}
+.technical-section .tech-diagnosis span{color:#7490b3;font:600 12px 'IBM Plex Mono',monospace}
+.technical-section .tech-diagnosis img{display:block;opacity:.8;margin:15px auto;width:36px;height:36px}
+.technical-section .tech-diagnosis p{font-size:13px;margin:8px 0 0}
+.technical-section .tech-observation{padding:12px 16px;background:#eff6ff;border:1px solid #d4e5fa;border-radius:6px;margin-top:12px;font-size:14px;color:#294e7d}
+.technical-section .tech-observation ul{padding-left:18px;margin:0}.technical-section .tech-observation li{margin:5px 0}
+@media(max-width:900px){.technical-section .tech-diagnosis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:680px){.technical-section .tech-diagnosis{grid-template-columns:1fr 1fr}}
+.technical-section .tech-grid.tech-input-figure{grid-template-columns:minmax(160px,.45fr) minmax(0,1.55fr)}
+.technical-section .tech-uart-comparison{display:grid;gap:12px}
+.technical-section .tech-uart-row{display:grid;grid-template-columns:130px minmax(0,1fr) 190px;gap:12px;align-items:center;border-bottom:1px solid #e5edf6;padding:8px 0 14px}
+.technical-section .tech-uart-row:last-child{border:0;padding-bottom:0}
+.technical-section .tech-row-name{background:#f0f7ff;border:1px solid #dbe9fa;border-radius:6px;padding:14px 10px;font-size:14px;font-weight:650;color:#0879ff}
+.technical-section .tech-row-name small{display:block;font-size:12px;font-weight:500;margin-top:4px}
+.technical-section .tech-row-name.is-alert{background:#fff3f6;border-color:#f7dbe2;color:#ca4070}
+.technical-section .tech-row-note{background:#f5f9ff;padding:12px;border-radius:6px;font-size:13px;color:#1667ca}
+.technical-section .tech-row-note p{font-size:12px;margin:6px 0 0}
+.technical-section .tech-budget-stack{display:grid;gap:10px;align-content:stretch}
+.technical-section .tech-budget-stack>section{padding:15px 17px;border:1px solid #9ecbff;background:linear-gradient(100deg,#f6fbff,#eef6ff);border-radius:7px;display:grid;grid-template-columns:1fr auto;column-gap:12px;align-items:center}
+.technical-section .tech-budget-stack>section:nth-child(2){border-color:#a2ddcd;background:linear-gradient(100deg,#f8fffc,#eefaF5)}
+.technical-section .tech-budget-stack>section:nth-child(3){border-color:#d0bbef;background:linear-gradient(100deg,#fdfbff,#f5efff)}
+.technical-section .tech-budget-stack>section:nth-child(4){border-color:#efce9f;background:linear-gradient(100deg,#fffcf7,#fff5e6)}
+.technical-section .tech-budget-stack h4{grid-column:1;font-size:15px;margin:0}
+.technical-section .tech-budget-stack p{grid-column:1;font-size:12px;margin:4px 0 0;max-width:220px}
+.technical-section .tech-budget-stack strong{grid-column:2;grid-row:1/3;font-size:17px;color:#0879ff;text-align:right;max-width:180px;word-break:keep-all}
+.technical-section .tech-budget-stack>section:nth-child(2) strong{color:#00a987}.technical-section .tech-budget-stack>section:nth-child(3) strong{color:#7951c8}.technical-section .tech-budget-stack>section:nth-child(4) strong{color:#ca801d;font-size:14px}
+.technical-section .tech-process-columns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px;margin:16px 0}
+.technical-section .tech-process-columns>section{position:relative;padding:16px 13px;border:1px solid #a7d0fc;border-radius:6px;background:#f3f9ff;min-width:0}
+.technical-section .tech-process-columns>section:nth-child(2){background:#f1fbf7;border-color:#a4dfcd}.technical-section .tech-process-columns>section:nth-child(3){background:#f8f4ff;border-color:#d3c0ee}.technical-section .tech-process-columns>section:nth-child(4){background:#fff9ef;border-color:#efcfa3}
+.technical-section .tech-process-columns>section:not(:last-child)::after{content:'→';position:absolute;right:-24px;top:calc(50% - 15px);font-size:23px;color:#6d9ec9}
+.technical-section .tech-process-columns h4{text-align:center;margin-bottom:11px}
+.technical-section .tech-process-columns ul{margin:0;padding:10px 10px 10px 25px;border-radius:4px;background:#fff;font-size:13px;line-height:1.8;color:#3f5571}
+.technical-section .tech-process-columns p{font-size:13px;margin:0}
+.technical-section .tech-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}
+.technical-section .tech-actions button{border:1px solid #b6d1f1;background:#f5f9ff;color:#1264bd;border-radius:5px;padding:8px 12px;font:600 13px 'Pretendard',sans-serif;cursor:pointer}
+.technical-section .tech-actions button:hover{background:#e8f3ff}.technical-section .tech-actions button:focus-visible{outline:3px solid #b8d9ff;outline-offset:2px}
+.technical-section .tech-tint-red{border-color:#f4c4d1;background:#fff8fa}.technical-section .tech-tint-green{border-color:#b5e4d5;background:#f6fdfa}
+.technical-section .tech-ledger{max-height:360px;overflow:auto;scrollbar-width:thin}
+.technical-section .tech-ledger th{position:sticky;top:0;z-index:1}
+.technical-section .tech-boot-steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;margin:17px 0 0}
+.technical-section .tech-boot-steps section{position:relative;min-width:0}
+.technical-section .tech-boot-steps span{display:inline-grid;width:28px;height:28px;place-items:center;border-radius:50%;background:#0879ff;color:#fff;font:600 12px 'IBM Plex Mono',monospace;margin-bottom:12px}
+.technical-section .tech-boot-steps section:not(:last-child)::before{content:'';position:absolute;left:34px;right:-12px;top:13px;height:1px;background:#9cc9fc}
+.technical-section .tech-boot-steps h4{font-size:14px;color:#19385c}
+.technical-section .tech-boot-steps p{font-size:12px;line-height:1.8}
+.technical-section .lesson-code{margin:0;padding:16px;border:1px solid #dbe5f1;border-radius:6px;background:#f7faff;color:#16345c;font-size:12px;line-height:1.8;overflow:auto;max-width:100%}
+.technical-section .lesson-code code{font-family:'IBM Plex Mono','Consolas',monospace;white-space:pre}
+.technical-section .tech-product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:16px 0}
+.technical-section .tech-product-grid>section{border:1px solid #d7e5f5;border-radius:5px;overflow:hidden;min-width:0}
+.technical-section .tech-product-grid h4{padding:10px 6px;margin:0;text-align:center;font-size:14px;background:#edf6ff;color:#17395f}
+.technical-section .tech-product-grid>section:nth-child(1) h4{background:#e9faf3}.technical-section .tech-product-grid>section:nth-child(3) h4{background:#fff4e7}.technical-section .tech-product-grid>section:nth-child(4) h4{background:#f1eafb}
+.technical-section .tech-product-grid .tech-scroll{padding:8px}
+.technical-section [data-soc-selected-product] .tech-svg{max-height:420px;margin:auto}
+.technical-section [data-soc-dma-status],.technical-section [data-soc-verification-status]{margin-top:12px}
+.technical-section [data-system-budget-inputs],.technical-section [data-soc-dma-inputs],.technical-section [data-soc-power-inputs],.technical-section [data-soc-clock-inputs]{grid-template-columns:1fr 1fr}
+.technical-section [data-system-budget-inputs] label,.technical-section [data-soc-dma-inputs] label,.technical-section [data-soc-clock-inputs] label{font-size:12px}
+.technical-section[data-technical-section="soc-requirements"] .tech-input-figure,.technical-section[data-technical-section="soc-clock"] .tech-input-figure{grid-template-columns:minmax(260px,.85fr) minmax(0,1.5fr)}
+.technical-section [data-soc-memory-compare]{max-height:360px;overflow:auto;scrollbar-width:thin}
+.technical-section [data-soc-memory-compare] th{position:sticky;top:0;z-index:1}
+.technical-section .tech-legend{display:flex;gap:14px;flex-wrap:wrap;color:#526c89;font-size:12px;margin:6px 0}
+.technical-section .tech-legend span::before{content:'';display:inline-block;width:18px;height:3px;background:var(--legend);margin:0 5px 3px 0}
+.technical-section .tech-equation{background:#f5f8ff;border:1px solid #dfe7f5;border-radius:5px;padding:15px 13px;font-family:'Cambria Math','Times New Roman',serif;font-size:18px;line-height:1.65;color:#16345a;margin:10px 0;overflow:auto;max-width:100%}
+.technical-section .tech-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.technical-section .tech-model-error{padding:9px 12px;color:#b22c44;background:#fff4f7;border:1px solid #efc6d1;border-radius:5px}
+.technical-section textarea{width:100%;min-width:0;resize:vertical;box-sizing:border-box;border:1px solid #bdcde1;border-radius:5px;padding:9px;color:#19314f;background:#fff;font:13px/1.8 'IBM Plex Mono',Consolas,monospace}
+.technical-section textarea:focus-visible{outline:3px solid #b8d9ff;outline-offset:1px}
+.technical-section .tech-matrix{border-collapse:separate;border-spacing:0;width:100%;margin:4px 0;font:13px/1.5 'IBM Plex Mono',monospace;border:1px solid #cfdbeb;border-radius:5px;overflow:hidden}
+.technical-section .tech-matrix th,.technical-section .tech-matrix td{text-align:center;padding:7px 9px;border-right:1px solid #dce5f1;border-bottom:1px solid #dce5f1;min-width:28px}
+.technical-section .tech-matrix th{font-family:'IBM Plex Sans','Pretendard',sans-serif;font-weight:600;color:#426590;background:#f0f6fd}
+.technical-section .tech-matrix td{background:#fff;color:#213e64}
+.technical-section .tech-matrix tr:last-child td,.technical-section .tech-matrix tr:last-child th{border-bottom:0}
+.technical-section .tech-matrix tr>:last-child{border-right:0}
+.technical-section .tech-matrix-purple th{background:#f4effb;color:#6b4f9e}.technical-section .tech-matrix-green th{background:#edf8f3;color:#237d66}
+.technical-section .tech-matrix .is-selected{background:#fff2d9;box-shadow:inset 0 0 0 1px #e6ac47}
+.technical-section .tech-matrix .is-error{background:#ffe0e8;color:#b12147;font-weight:700}
+.technical-section .tech-matrix .is-zero{color:#9aafc8;background:#fafcfe}
+.technical-section .tech-matrix .is-active{background:#dfedff;color:#0873ea}
+.technical-section .tech-matrix input{font:13px 'IBM Plex Mono',monospace;padding:3px;min-height:30px;min-width:40px;text-align:center;border-color:transparent;background:transparent}
+.technical-section .tech-tensor-flow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:22px;margin:16px 0}
+.technical-section .tech-tensor-flow>section{position:relative;display:flex;flex-direction:column;align-items:stretch;min-width:0;text-align:center}
+.technical-section .tech-tensor-flow>section:not(:last-child)::after{content:'→';position:absolute;right:-20px;top:125px;color:#0879ff;font-size:23px}
+.technical-section .tech-tensor-flow h4{font-size:14px;color:#123661;margin:0 0 6px}.technical-section .tech-tensor-flow p{font-size:11px;min-height:35px;margin:0 0 4px}
+.technical-section .tech-tensor-flow strong{font:500 11px/1.6 'IBM Plex Mono',monospace;color:#1c416f;margin-top:9px;word-break:keep-all}
+.technical-section .tech-tensor-crop{position:relative;width:100%;aspect-ratio:.85;overflow:hidden;background:#fff}
+.technical-section .tech-tensor-crop img{position:absolute;width:450%;height:auto;max-width:none;top:0;left:-12%}
+.technical-section .tech-tensor-crop.conv img,.technical-section .tech-tensor-crop.relu img{left:-127%}
+.technical-section .tech-tensor-crop.pool img{left:-262%}
+.technical-section .tech-vector{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;aspect-ratio:.85;min-height:100px}
+.technical-section .tech-vector i{display:block;width:15px;height:13px;background:#e3d2f9;border:1px solid #b79ae0;box-shadow:3px -2px 0 #f0e7fc}.technical-section .tech-vector.flat i{background:#cde5ff;border-color:#80b3ec;box-shadow:3px -2px 0 #e9f5ff}
+.technical-section .tech-grid.tech-array-hero{grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr) minmax(0,.9fr)}
+.technical-section .tech-array-hero .tech-panel{padding:15px}.technical-section .tech-array-hero .tech-equation{font-size:16px;padding:10px}.technical-section .tech-array-hero p{font-size:13px}
+.technical-section .tech-array-fields{display:grid;grid-template-columns:repeat(10,minmax(0,1fr))}.technical-section .tech-array-fields>label{grid-column:span 2}.technical-section .tech-array-fields>label:has(textarea){grid-column:span 5}
+.technical-section [data-ai-dot-matrices]{align-self:start}
+.technical-section [data-ai-array-occupancy] .tech-svg{min-width:480px}
+.technical-section [data-ai-format-32] .tech-svg,.technical-section [data-ai-format-16] .tech-svg,.technical-section [data-ai-format-8] .tech-svg{min-width:300px}
+.technical-section h4.tech-subtitle{margin-top:18px}
+.technical-section .tech-sparse-form{display:block}.technical-section .tech-sparse-form>label{max-width:240px;margin-top:12px}
+.technical-section .tech-sparse-form .tech-matrix td{padding:2px}.technical-section .tech-sparse-form .tech-matrix{font-size:12px}
+.technical-section .tech-check-list{margin:10px 0 12px;padding-left:21px;font-size:14px;line-height:1.8;color:#506b89}.technical-section .tech-check-list li{padding-left:4px;margin:7px 0}
+.technical-section .tech-compiler-source{grid-template-columns:1fr 1fr;align-items:center}.technical-section .tech-compiler-source img{max-height:300px}
+.technical-section [data-ai-tile-status],.technical-section [data-ai-kv-result],.technical-section [data-ai-power-total],.technical-section [data-ai-project-status]{margin:12px 0}
+.technical-section [data-ai-kv-details]{margin-top:12px}
+.technical-section [data-ai-sparse-storage] td:first-child{white-space:nowrap}
+.technical-section .tech-process-strip{overflow:auto;max-width:100%}
+.technical-section .tech-process-strip-head,.technical-section .tech-process-strip-notes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:13px;min-width:960px}
+.technical-section .tech-process-strip-head section{padding:13px 8px;text-align:center;border:1px solid #dfE8f4;border-radius:6px;background:#fbfdff}
+.technical-section .tech-process-strip-head span{display:inline-grid;place-items:center;width:25px;height:25px;margin:0 0 8px;border-radius:7px;background:#0879ff;color:white;font:600 13px 'IBM Plex Mono',monospace}
+.technical-section .tech-process-strip-head h4{font-size:14px;color:#19385c}.technical-section .tech-process-strip-head p{font-size:12px;margin:4px 0 0}
+.technical-section .tech-process-panorama{min-width:960px}.technical-section .tech-process-panorama>img{width:100%;aspect-ratio:4.2;object-fit:cover;object-position:center}
+.technical-section .tech-process-strip-notes p{font-size:13px;line-height:1.7;padding:5px 8px 0;margin:0}
+.technical-section .tech-rc-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(190px,.65fr) minmax(0,1.5fr);gap:16px;align-items:center}
+.technical-section .tech-rc-layout>*{min-width:0}.technical-section .tech-rc-layout .tech-output{font-size:17px}
+.technical-section .tech-device-triptych .tech-panel{padding:15px}.technical-section .tech-device-triptych h3{font-size:16px}.technical-section .tech-device-triptych p{font-size:13px}
+.technical-section .tech-device-selected{align-items:center}.technical-section .tech-device-selected img{max-height:410px}
+.technical-section .tech-device-callouts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:15px 0 0}.technical-section .tech-device-callouts section{padding:12px;border:1px solid #bbd7f5;border-radius:5px;background:#f4f9ff;min-width:0}.technical-section .tech-device-callouts h4{font-size:13px}.technical-section .tech-device-callouts p{font-size:12px;margin:7px 0 0}
+.technical-section .tech-special-devices .tech-panel{display:flex;flex-direction:column}.technical-section .tech-special-devices .tech-figure{margin:auto 0}.technical-section .tech-special-devices img{height:260px;object-fit:contain}
+.technical-section [data-device-pn-result]{margin:10px 0}.technical-section [data-device-mos-result]{align-self:start}
+@media(max-width:1050px){.technical-section .tech-rc-layout{grid-template-columns:1fr 1fr}.technical-section .tech-rc-layout>:last-child{grid-column:1/-1}.technical-section .tech-device-callouts{grid-template-columns:1fr}.technical-section .tech-special-devices img{height:220px}}
+@media(max-width:680px){.technical-section .tech-rc-layout{grid-template-columns:1fr}.technical-section .tech-process-strip::before{content:'좌우로 밀어 여섯 공정 단계 비교';display:block;margin-bottom:10px;color:#647a94;font-size:12px}.technical-section .tech-special-devices img{height:auto;max-height:400px}.technical-section .tech-device-selected img{max-height:400px}}
+.technical-section .tech-flow-control{display:grid;grid-template-columns:minmax(140px,.7fr) minmax(0,1fr) minmax(0,1.1fr);gap:18px;align-items:start;margin-top:15px}.technical-section .tech-flow-control>*{min-width:0}
+.technical-section .tech-flow-control .tech-output{font-size:17px;margin-bottom:12px}
+.technical-section[data-technical-section="ai-tiling"] .tech-input-figure{grid-template-columns:minmax(260px,.8fr) minmax(0,1.2fr)}
+.technical-section [data-ai-array-pe] .tech-svg{min-width:0}
+@media(max-width:900px){.technical-section .tech-flow-control{grid-template-columns:1fr 1fr}.technical-section .tech-flow-control>:first-child{grid-column:1/-1}.technical-section .tech-flow-control .tech-vertical-fields{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:680px){.technical-section .tech-flow-control{grid-template-columns:1fr}.technical-section .tech-flow-control .tech-vertical-fields{grid-template-columns:1fr 1fr}.technical-section[data-technical-section="ai-tiling"] .tech-input-figure{grid-template-columns:1fr}}
+@media(max-width:680px){.technical-section .tech-sparse-form .tech-matrix{min-width:490px}.technical-section .tech-compiler-source{grid-template-columns:1fr}.technical-section .tech-compiler-source img{max-height:360px}}
+@media(max-width:1050px){.technical-section .tech-tensor-flow{gap:12px}.technical-section .tech-tensor-flow>section:not(:last-child)::after{right:-13px;font-size:17px;top:105px}.technical-section .tech-grid.tech-array-hero{grid-template-columns:1.2fr 1fr}.technical-section .tech-array-hero>.tech-panel:last-child{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.4fr;column-gap:20px}.technical-section .tech-array-hero>.tech-panel:last-child h3{grid-column:1}.technical-section .tech-array-hero>.tech-panel:last-child figure{grid-column:2;grid-row:1/3;max-height:300px}.technical-section .tech-array-hero>.tech-panel:last-child img{height:300px}}
+@media(max-width:680px){.technical-section .tech-tensor-flow{min-width:990px;gap:20px}.technical-section [data-ai-workload-graph]{overflow:auto}.technical-section .tech-tensor-flow>section:not(:last-child)::after{top:125px;right:-20px;font-size:23px}.technical-section .tech-form-grid,.technical-section .tech-array-fields{grid-template-columns:1fr 1fr}.technical-section .tech-array-fields>label{grid-column:span 1}.technical-section .tech-array-fields>label:has(textarea){grid-column:1/-1}.technical-section .tech-grid.tech-array-hero{grid-template-columns:1fr}.technical-section .tech-array-hero>.tech-panel:last-child{display:block}.technical-section .tech-array-hero>.tech-panel:last-child img{height:auto}.technical-section .tech-matrix th,.technical-section .tech-matrix td{padding:5px}.technical-section .tech-equation{font-size:16px}}
+@media(max-width:1050px){.technical-section .tech-budget-stack>section{display:block}.technical-section .tech-budget-stack strong{display:block;max-width:none;text-align:left;margin-top:8px;font-size:16px}.technical-section .tech-boot-steps{grid-template-columns:repeat(3,minmax(0,1fr))}.technical-section .tech-boot-steps section:nth-child(3)::before{display:none}}
+@media(max-width:900px){.technical-section .tech-product-grid{grid-template-columns:1fr 1fr}.technical-section .tech-process-columns{grid-template-columns:1fr 1fr}.technical-section .tech-process-columns>section:nth-child(2)::after{display:none}}
+@media(max-width:680px){.technical-section .tech-process-columns{gap:12px}.technical-section .tech-process-columns>section::after{display:none}.technical-section .tech-process-columns>section{padding:12px 8px}.technical-section .tech-boot-steps{grid-template-columns:1fr 1fr}.technical-section .tech-boot-steps section:nth-child(even)::before{display:none}.technical-section .tech-boot-steps section:nth-child(3)::before{display:block}.technical-section .tech-product-grid{grid-template-columns:1fr}.technical-section .tech-product-grid .tech-svg,.technical-section [data-soc-selected-product] .tech-svg{min-width:0}.technical-section .tech-product-grid .tech-scroll::before,.technical-section [data-soc-selected-product]::before{display:none}.technical-section [data-soc-memory-compare]{max-height:390px;overflow:auto}}
+@media(max-width:680px){.technical-section[data-technical-section="soc-requirements"] .tech-input-figure,.technical-section[data-technical-section="soc-clock"] .tech-input-figure{grid-template-columns:1fr}}
+@media(max-width:900px){.technical-section .tech-uart-row{grid-template-columns:110px minmax(0,1fr)}.technical-section .tech-row-note{grid-column:1/-1}}
+@media(max-width:680px){.technical-section .tech-uart-row{grid-template-columns:1fr}.technical-section .tech-uart-row .tech-row-name{padding:8px 10px}}
+@media(max-width:680px){.technical-section .tech-scroll:has(>.tech-svg)::before{content:'좌우로 밀어 전체 도식 보기';display:block;font-size:12px;color:#647a94;margin-bottom:8px}.technical-section [data-i2c-wave] .tech-svg{min-width:1000px}}
+@media(max-width:680px){.technical-section .tech-grid.tech-input-figure{grid-template-columns:1fr}}
+@media(max-width:1050px){.technical-section .tech-io-analysis{grid-template-columns:minmax(150px,.6fr) minmax(0,1.4fr)}.technical-section .tech-io-analysis>:last-child{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;column-gap:15px;align-items:center}.technical-section .tech-io-analysis>:last-child>h3{grid-column:1/-1}}
+@media(max-width:680px){.technical-section .tech-io-analysis{grid-template-columns:1fr}.technical-section .tech-io-analysis>:last-child{display:block}}
+@media(max-width:900px){.technical-section .tech-grid.tech-split{grid-template-columns:1fr 1fr}.technical-section .tech-control-pair{grid-template-columns:1fr}.technical-section .tech-control-stack{grid-template-columns:1fr 1fr}.technical-section .tech-control-stack label{grid-template-columns:1fr}}
+@media(max-width:900px){.technical-section .tech-grid.tech-cmos-gate-row{grid-template-columns:1.1fr 1fr}.technical-section .tech-cmos-gate-row>section:last-child{grid-column:1/-1}.technical-section[data-technical-section="cmos-power"] .tech-grid.tech-thirds{grid-template-columns:1fr 1fr}.technical-section[data-technical-section="cmos-power"] .tech-grid.tech-thirds>section:first-child{grid-column:1/-1}}
+@media(max-width:1050px){.technical-section .tech-analog-signal-row,.technical-section .tech-grid.tech-fourths{grid-template-columns:1fr 1fr}.technical-section .tech-grid.tech-analog-dac-overview{grid-template-columns:1fr}.technical-section [data-analog-dac-transfer] .tech-svg{max-height:320px}.technical-section .tech-analog-signal-row h4{min-height:0}}
+@media(max-width:680px){.technical-section .tech-grid,.technical-section .tech-grid.tech-split,.technical-section .tech-grid.tech-thirds{grid-template-columns:1fr}.technical-section .tech-panel{padding:13px}.technical-section .tech-section{margin:14px 0}.technical-section .tech-scroll .tech-svg{min-width:640px}.technical-section .tech-svg.tech-circuit{min-width:540px}.technical-section .tech-control-pair{grid-template-columns:1fr}.technical-section .tech-terms td:first-child{white-space:normal}.technical-section .modern-table{font-size:12px}.technical-section .modern-table th,.technical-section .modern-table td{padding:7px 8px}}
+@media(max-width:680px){.technical-section .tech-grid.tech-cmos-gate-row,.technical-section .tech-grid.tech-cmos-layout-pair,.technical-section[data-technical-section="cmos-power"] .tech-grid.tech-thirds{grid-template-columns:1fr}.technical-section .tech-cmos-gate-row>section:last-child{grid-column:auto}.technical-section .tech-grid.tech-cmos-power-pair{grid-template-columns:1fr}.technical-section .tech-cmos-power-pair p{min-height:0}.technical-section [data-cmos-inverter-circuit] .tech-svg,.technical-section [data-cmos-custom-schematic] .tech-svg{min-width:360px}}
+@media(max-width:680px){.technical-section .tech-analog-signal-row,.technical-section .tech-grid.tech-fourths,.technical-section .tech-sensor-overview{grid-template-columns:1fr}.technical-section .tech-sensor-overview>div:first-child img{max-height:260px}.technical-section .tech-analog-signal-row .tech-scroll .tech-svg{min-width:340px}.technical-section [data-analog-r2r] .tech-svg{min-width:980px}}

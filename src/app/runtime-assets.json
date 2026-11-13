@@ -1,0 +1,32 @@
+{
+  "include": [
+    "assets/examples/*.py",
+    "assets/examples/*.sdc",
+    "assets/examples/*.txt",
+    "assets/examples/src/*.sv",
+    "assets/examples/tb/*.sv",
+    "assets/examples/tb/*.svh",
+    "assets/guidebook-*.js",
+    "assets/guidebook-*.css",
+    "assets/fonts.css",
+    "assets/fonts/*",
+    "assets/icons/**/*.svg",
+    "assets/icons/**/LICENSE",
+    "assets/components/*.css",
+    "assets/components/*.js",
+    "assets/features/**/*.js",
+    "assets/features/**/*.css",
+    "assets/features/**/*.svg",
+    "assets/features/**/*.png",
+    "assets/features/**/*LICENSE*",
+    "assets/pages/**/*.js",
+    "assets/pages/**/*.css",
+    "assets/pages/**/images/*.png",
+    "assets/pages/**/images/*.webp",
+    "assets/pages/**/images/*.svg"
+  ],
+  "exclude": [
+    "**/source/**",
+    "**/styles/**"
+  ]
+}

@@ -1,0 +1,15 @@
+<article class="chapter-lesson" data-lesson-panel="section-06" data-lesson-id="26.06" data-guidebook-toc-title="{{section:section-06:toc}}">
+<header class="guidebook-section-head"><div class="guidebook-section-shell"><h2 class="guidebook-section-kicker">{{section:section-06:label}}</h2></div></header>
+<section class="visual-atlas" data-visual-scene="{&quot;id&quot;:&quot;26.06&quot;,&quot;kind&quot;:&quot;graph&quot;,&quot;variant&quot;:&quot;implementation&quot;,&quot;title&quot;:&quot;동일한 RTL에서 구현 결과까지 추적하기&quot;,&quot;steps&quot;:[[&quot;입력&quot;,&quot;Source와 제약·환경을 함께 고정합니다.&quot;],[&quot;변환&quot;,&quot;중간 표현과 연결을 생성합니다.&quot;],[&quot;검증&quot;,&quot;변환 전후의 계약과 결과를 확인합니다.&quot;],[&quot;산출물&quot;,&quot;재현 가능한 결과와 근거를 남깁니다.&quot;]],&quot;three&quot;:&quot;fpga&quot;,&quot;subtitle&quot;:&quot;프로젝트의 마지막 산출물은 실행 가능한 source와 설정, 검증 결과, 구현 리포트와 설계 의도다.&quot;,&quot;scope&quot;:&quot;구조·연결·동작 순서를 표현한 개념도입니다. 3D의 치수와 층 수는 제품 규격을 뜻하지 않습니다.&quot;,&quot;labels&quot;:[&quot;RTL / tests&quot;,&quot;Synthesis&quot;,&quot;Constraints&quot;,&quot;Place / route&quot;,&quot;Reports&quot;,&quot;Reproducible build&quot;]}" aria-label="동일한 RTL에서 구현 결과까지 추적하기"></section>
+<p>FPGA와 ASIC physical 경로는 서로 다른 제약과 완료 조건을 갖는다. 재현 방법과 남은 제한을 결과에 붙인다.</p>
+<section class="lesson-lab" data-lesson-lab="{&quot;type&quot;: &quot;timing&quot;, &quot;title&quot;: &quot;최종 구현의 timing 예산&quot;}" aria-label="최종 구현의 timing 예산"></section>
+<div class="lesson-example"><strong>계산·동작 예</strong><p>동일 RTL을 합성하고 timing·resource를 검토한 뒤 hardware 또는 layout 경로에서 관측한 결과를 정리한다. 사용하지 않은 실제 signoff 단계를 완료로 표시하지 않는다.</p></div>
+<h3>코드와 동작</h3><pre class="lesson-code"><code>python run_examples.py reference
+python run_examples.py lint
+python run_examples.py simulate --output .artifacts/hdl
+# Required tools and checked scope are recorded in README.txt.</code></pre>
+<div class="lesson-downloads"><h3>실행 가능한 예제</h3><a download href="../assets/examples/example.sdc">100 MHz SDC 예제</a><a download href="../assets/examples/run_examples.py">Reference / lint / simulation 실행</a><a download href="../assets/examples/README.txt">실행·구조·가정 안내</a></div>
+<div class="lesson-columns"><section><p>좋은 최종 그림만 남기고 실행 명령·revision·실패 이력을 버리지 않는다.</p></section><section><p>실행 파일·로그·리포트·설계 의도를 함께 인계한다.</p></section></div>
+{{example-download}}
+<nav class="lesson-related" aria-label="연결 학습"><a target="_top" href="../index.html?chapter=3">03장 · 디지털 논리와 RTL 설계</a><a target="_top" href="../index.html?chapter=7">07장 · SystemVerilog 검증과 UVM</a><a target="_top" href="../index.html?chapter=8">08장 · On-Chip Bus와 Interconnect</a><a target="_top" href="../index.html?chapter=9">09장 · Off-Chip Interface</a></nav>
+<footer class="lesson-progress"><button type="button" data-lesson-complete="26.06" aria-pressed="false">이 절 학습 완료</button></footer></article>
