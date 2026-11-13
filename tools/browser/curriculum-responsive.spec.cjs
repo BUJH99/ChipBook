@@ -43,10 +43,10 @@ test('fault, parameter and reset paths update protocol and circuit results',asyn
     const ddr=io.locator('[data-lesson-id="09.06"]');
     await ddr.getByLabel('DQS delay tap',{exact:true}).fill('0');await expect(ddr).toContainText('FAIL');
     await ddr.getByLabel('DQS delay tap',{exact:true}).fill('16');await expect(ddr).toContainText('PASS');
-    const analog=await openChapter(page,14),adc=analog.locator('[data-lesson-id="14.06"] .lesson-lab').first();
+    const analog=await openChapter(page,14),adc=analog.locator('[data-lesson-id="14.06"]');
     await openSection(page,registry.pages.find(p=>p.number===14).sections[5].key);
-    await adc.getByLabel('Vin (V)',{exact:true}).fill('6');await expect(adc).toContainText('Overrange');
-    await adc.getByLabel('Vin (V)',{exact:true}).fill('1.8');await expect(adc).toContainText('유효');
+    await adc.getByLabel('ADC Vin (V)',{exact:true}).fill('6');await expect(adc.locator('[data-analog-adc-results]')).toContainText('OVERRANGE');
+    await adc.getByLabel('ADC Vin (V)',{exact:true}).fill('0.72');await expect(adc.locator('[data-analog-adc-results]')).toContainText('0 ≤ Vin < VREF');
     expect(errors).toEqual([]);
 });
 

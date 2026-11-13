@@ -4,6 +4,7 @@ import re
 import unittest
 import io
 import zipfile
+from unittest.mock import patch
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qs, unquote
 from site_common import REPO_ROOT, load_registry, load_text
@@ -19,7 +20,17 @@ class CurriculumContracts(unittest.TestCase):
             self.assertIn('tb/GemmScoreboard.svh',archive.namelist())
             self.assertIn('mini_soc.py',archive.namelist())
             self.assertFalse(any('__pycache__' in name for name in archive.namelist()))
-            self.assertEqual(archive.read('src/SystolicCore.sv'),(REPO_ROOT/'assets/examples/src/SystolicCore.sv').read_bytes())
+            self.assertEqual(archive.read('src/SystolicCore.sv'),load_text(REPO_ROOT/'assets/examples/src/SystolicCore.sv').encode('utf-8'))
+            self.assertEqual(archive.namelist(),sorted(archive.namelist()))
+            for info in archive.infolist():
+                self.assertEqual(info.create_system,3)
+                self.assertEqual(info.external_attr,0o100644 << 16)
+        class WindowsZipInfo(zipfile.ZipInfo):
+            def __init__(self,*args,**kwargs):
+                super().__init__(*args,**kwargs)
+                self.create_system=0
+        with patch('curriculum_content.zipfile.ZipInfo',WindowsZipInfo):
+            self.assertEqual(first,example_archive_bytes())
     def test_unique_lessons_and_legacy_practice_identity(self):
         registry=load_registry()
         self.assertEqual([p['number'] for p in registry['pages']],list(range(1,29)))

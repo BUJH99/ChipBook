@@ -14,11 +14,13 @@ def example_archive_bytes():
     root=REPO_ROOT/'assets/examples'
     output=io.BytesIO()
     with zipfile.ZipFile(output,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
-        for path in sorted(root.rglob('*')):
+        for path in sorted(root.rglob('*'), key=lambda item: item.relative_to(root).as_posix()):
             if not path.is_file() or path.suffix not in {'.py','.sv','.svh','.sdc','.txt'}:continue
             info=zipfile.ZipInfo(path.relative_to(root).as_posix(),date_time=(2026,10,18,0,0,0))
+            info.create_system=3
+            info.external_attr=0o100644 << 16
             info.compress_type=zipfile.ZIP_DEFLATED
-            archive.writestr(info,path.read_bytes())
+            archive.writestr(info,load_text(path).encode('utf-8'))
     return output.getvalue()
 
 def render_example_download():

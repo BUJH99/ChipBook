@@ -11,3 +11,4 @@
 *.py text eol=lf
 *.md text eol=lf
 *.yml text eol=lf
+assets/examples/** text eol=lf
